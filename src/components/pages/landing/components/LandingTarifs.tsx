@@ -1,24 +1,58 @@
 import React from 'react';
 import { GiCheckMark } from 'react-icons/gi';
 
+import clsxm from '@/lib/clsxm';
+
 import Logo from '@/assets/logo/logo_only.svg';
 
 function LandingTarifs() {
   return (
     <div className='flex w-full justify-center py-28'>
       <div className='layout flex items-start justify-between'>
-        <Tarif
-          title='Free'
-          price='0 So`m'
-          features={[
-            'Ichki Analitika',
-            'Tashqi Analitika',
-            'Studio',
-            'Taqqoslash',
-          ]}
-          color='primary'
-          buttonTitle='Hoziroq boshlang'
-        />
+        <div className='flex items-center justify-start gap-10'>
+          <Tarif
+            title='Bepul'
+            price='0 So`m/Oy'
+            features={[
+              '3 kunlik obuna',
+              'Ichki Analitika',
+              'Tashqi Analitika',
+              'Studio',
+              'Taqqoslash',
+            ]}
+            color='primary'
+            buttonTitle='Hoziroq boshlang'
+          />
+          <Tarif
+            title='Premium'
+            price='500 000 So`m/Oy'
+            features={[
+              'Ichki Analitika',
+              'Tashqi Analitika',
+              'Studio',
+              'Taqqoslash',
+            ]}
+            color='primary'
+            buttonTitle='Hoziroq boshlang'
+            isPro
+          />
+        </div>
+        <div className='bg-linear-dark m-4 flex-1 rounded-md p-5 shadow-xl'>
+          <p className='font-primary text-center text-2xl text-white'>
+            <span className='text-4xl'>🎉</span> Har bir taklif qilgan
+            do'stingiz uchun 50 000 so'm chegirmaga ega bo'ling
+          </p>
+          <p className='mt-5 text-[#000]'>
+            Agar siz bizning xizmatimizni yoqtirgan bo'lsangiz va uni
+            boshqalarga ham tavsiya qilmoqchi bo'lsangiz, siz uchun ajoyib
+            mukofotimiz bor.
+          </p>
+          <p className='mt-5 text-[#000]'>
+            Ha bu shunday oson! Do'stingiz Premium tarifiga obuna bo'lgandan
+            so'ng, sizga 50 000 so'm chegirma beriladi. Siz bu chegirmalarni
+            kelgusi oylarning obunasi uchun ishlatishingiz mumkin.
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -30,21 +64,28 @@ function Tarif({
   features,
   color,
   buttonTitle,
+  isPro,
 }: {
   title: string;
   price: string;
   features: string[];
   color: string;
   buttonTitle?: string;
+  isPro?: boolean;
 }) {
   return (
-    <div className='m-4 flex h-[400px] w-[250px] max-w-sm flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white px-3 py-6'>
+    <div
+      className={clsxm(
+        'm-4 flex h-[400px] w-[250px] max-w-sm flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white px-3 py-6',
+        isPro && 'bg-gradient'
+      )}
+    >
       <div className='w-full'>
         <div className='mb-2 flex items-center justify-start gap-3 text-center text-xl font-bold'>
           <Logo className='inline-block h-6 w-6' />
-          {title}
+          <p>{title}</p>
         </div>
-        <div className='mb-2 border-b border-slate-300 py-2 text-left text-xl font-bold'>
+        <div className='mb-2 border-b border-slate-300 py-2 text-left text-2xl font-bold'>
           {price}
         </div>
         <ul className='mt-6 flex flex-col gap-2 pl-0'>
@@ -58,7 +99,10 @@ function Tarif({
       </div>
       <div className='w-full'>
         <button
-          className={`bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`}
+          className={clsxm(
+            `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`
+            // !isPro && 'bg-blue-500'
+          )}
         >
           {buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}
         </button>
