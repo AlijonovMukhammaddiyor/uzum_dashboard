@@ -1,0 +1,115 @@
+0. Main Page: Overall Analytics
+    1.1 Top Cards: total orders, total products, total sellers, total categories
+    1.2 daily orders line chart
+    1.3 new categories list
+
+
+1. Categories Dashboard:
+    1.1 Categories Overview:
+        Type: Products Table
+        Columns: Photo, Name, Category, Position, Seller, SKUs, orders, rating, reviews, available amount, current price, min price, max, price, badges
+    
+    1.2 Category Analytics:
+        Type: Line Chart and Table
+        Legends (Chart): Number of Orders, Number of Products, Number of Sellers
+        Columns (Table): Date, Number of Orders, Number of Products, Number of Sellers, Number of Sellers with Sales on the Day, Number of Products with Sales on the Day, Average Price, Average Product Rating, number of reviews. Summary at the end.
+      
+    1.3 Subcategories Comparison:
+        Detailed analysis between different subcategories.
+        Type: pie chart: Number of Products, Number of Orders, Number of Sellers
+        Type: Table
+        Columns: Subcategory, Number of Products, Number of Orders, Number of Sellers, Number of Sellers with Sales on the Day, Number of Products with Sales on the Day, Average Price, Average Product Rating. Summary at the end.
+
+        Note: I have to add number of brends
+
+    1.4 Price Segmentation:
+        Type: Bar Graph (with overlaid Line Graph) and Table
+        Legends (Graph): Number of Products, Number of Orders, Number of Sellers
+        Columns (Table): Price Range, Number of Products, Number of Orders, Number of Sellers, Amount of Sales, Number of Sellers with Sales on the Day, Number of Products with Sales on the Day, Average Price, Average Product Rating. Summary at the end.
+    
+    1.5 sellers on this category
+        Type: Table
+        Columns: Seller Name, Number of Products, Number of Orders, Average Price, Average Product Rating. Summary at the end.
+
+    1.6 Daily Report
+        Container: Date, Number of Orders, Number of Products, Number of Sellers, Number of Sellers with Sales on the Day, Number of Products with Sales on the Day, Average Price, Average Product Rating. Summary at the end.
+        Type: Table
+        Columns: Products with Sales
+        type: Table
+        Columns: Sellers with Sales
+
+2. Products Dashboard:
+    2.1 Products Overview:
+        Type: Detailed Table
+        Columns: All relevant product details(Refer to MpStats video)
+
+    2.2 Product Detail Page:
+        Type: Detail View
+        Sections: Similar Products, Products with Similar Names, Keywords (tags), Number of Sellers Selling This Product, Price Comparison.
+
+    2.3 Trend Identification:
+        Type: Graphs/Charts
+        Legends: Changes in sales, reviews, or other relevant metrics over time for popular products.
+
+    3.1 Product Performance:
+          You can analyze how a product's reviews, rating, and orders are changing over time.
+
+
+3. Sellers Dashboard:
+    3.1 Position:
+        Type: chart
+        Explanation: show how the position of shop changed over time.
+
+        Type: Radar Chart
+        Explanation: show the position of shop in different aspects and categories.
+
+        Type: Table for competitors
+        Columns: Seller Name, Number of Products, Number of Orders, Average Price, Average Product Rating.
+
+        Type: Chart for competitors
+        Explanation: Grouped bar chart comparing the current shop with top 5 competitors in terms of number of products, number of orders, average price, and average product rating over time.
+
+        Type: Table - reviews
+
+    3.2 Products
+        Type: Table
+        Columns: Product Name, Category, Position, Seller, SKUs, orders, rating, reviews, available amount, current price, min price, max, price, badges
+
+        Also show how fast certain products are selling out.
+    
+    3.3 Sales Overview:
+        Sales Overview: Total sales, number of orders, and average order value. You could display these as key numbers at the top of your dashboard.
+        Sales Trends: A line chart showing sales over time can help identify trends, seasonality, or significant events.
+
+    3.2 Shop Recent reviews:
+
+    3.3 Market Share Analysis: Comparing sellers' sales with overall sales in their category
+
+    3.4 Shop Comparison:
+        Type: Graphs/Charts
+        Legends: Comparison of various metrics for any two selected shops.
+
+    3.5 ABC analysis
+        Determine the products which is responsible for the majority of the sales. 
+        Determine the products which are not selling well and are not profitable.
+        Determine SKU which are not selling well and are not profitable.
+
+4. Badges and Campaigns Dashboard:
+    4.1 Badge Impact Analysis:
+        Type: Graphs/Charts
+        Legends: Comparison of sales for products with and without badges.
+
+    4.2 Campaign Effectiveness:
+        Type: Graphs/Charts
+        Legends: Increase in sales or other metrics for products associated with campaigns.
+
+5. Popular Suggestion Words Dashboard:
+    A feature to display the most popular words or phrases suggested by the platform's suggestion feature.
+
+
+
+  
+6. Compare:
+    6.1 Compare Shops:
+        Biderectional bar
+

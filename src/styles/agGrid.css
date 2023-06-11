@@ -1,0 +1,12 @@
+/* change the font style of a single UI component */
+.ag-theme-alpine input[class^='ag-'] {
+  height: 25px !important;
+}
+
+.ag-theme-alpine .ag-header-cell-text {
+  color: rgba(119, 67, 219, 1) !important;
+}
+
+.ag-theme-alpine .ag-root-wrapper {
+  border-radius: 8px !important;
+}
