@@ -30,6 +30,7 @@ function LandingHeader() {
             <div className='flex w-[240px] cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-6 py-2 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500'>
               <BsTelegram className='text-3xl' />
               <p>Kanalga Qo'shilish</p>
+              
             </div>
           </ul>
         </div>
