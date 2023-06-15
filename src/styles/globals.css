@@ -75,7 +75,9 @@
   .h4 {
     @apply font-primary text-base font-bold md:text-lg;
   }
-
+  body {
+    scroll-behavior: smooth;
+  }
   body,
   .p {
     @apply font-primary text-sm md:text-base;
@@ -193,4 +195,31 @@
   .animated-underline:focus-visible {
     background-size: 0 2px, 100% 2px;
   }
+}
+@keyframes pulse {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(0.5rem);
+  }
+}
+
+.arrow_pulse {
+  animation: pulse 3s infinite alternate;
+}
+
+.bg_gradient {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(254, 240, 255, 1) 100%
+  );
 }

@@ -51,9 +51,9 @@ const demoShops = [
 
 function Tops() {
   return (
-    <div className='relative w-full bg-[#F3F5F7] py-32'>
-      <div className='layout flex justify-start gap-10'>
-        <div className='flex w-1/2 flex-col items-start justify-start'>
+    <div className='relative w-full bg-[#F3F5F7] py-16 md:py-32'>
+      <div className='layout flex flex-col justify-start gap-10 md:flex-row'>
+        <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
           <h3 className='mb-8'>Eng Ko'p sotilgan mahsulotlar</h3>
           <div className='w-full'>
             <ul className='flex w-full flex-col gap-5'>
@@ -68,7 +68,7 @@ function Tops() {
             </ul>
           </div>
         </div>
-        <div className='flex w-1/2 flex-col items-start justify-start'>
+        <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
           <h3 className='mb-8'>Eng Ko'p sotgan Do`konlar</h3>
           <div className='w-full'>
             <ul className='flex w-full flex-col gap-5'>

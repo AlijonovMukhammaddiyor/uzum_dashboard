@@ -2,19 +2,19 @@ import React from 'react';
 
 function SectionOverview() {
   return (
-    <div className='mt-6 w-full py-28'>
+    <div className='mt-6  w-full py-16 md:py-28'>
       <div className='layout flex h-full flex-col items-center justify-center gap-10'>
         <div className='flex w-full flex-col items-center justify-center'>
-          <h2 className='font-primary mb-4 w-[80%] text-center text-[40px] font-normal'>
+          <h2 className='font-primary text-center text-3xl font-normal md:mb-4 md:w-[80%] md:text-[40px]'>
             Sizning savdoingizni{' '}
             <span className='text-primary'>rivojlantirish</span>
           </h2>
-          <h2 className=' w-[80%] text-center text-[40px] font-normal'>
+          <h2 className=' text-center text-3xl font-normal md:w-[80%] md:text-[40px]'>
             uchun mo'ljallangan
           </h2>
         </div>
-        <div className='mt-10 flex w-full flex-row items-center justify-center gap-10 xl:flex-row xl:justify-center'>
-          <div className='flex justify-evenly gap-10 xl:w-1/2'>
+        <div className='mt-10 flex w-full flex-col  items-center justify-center gap-10 xl:flex-row xl:justify-center'>
+          <div className='flex flex-col justify-evenly gap-10 md:flex-row xl:w-1/2'>
             <div className='flex h-[200px] w-[250px] flex-col gap-4 rounded-lg border-2 border-blue-500 p-3 shadow-md'>
               <p className='bg-linear w-max rounded-lg px-2 py-1'>
                 Ichki analitika
@@ -34,7 +34,7 @@ function SectionOverview() {
               </p>
             </div>
           </div>
-          <div className='flex justify-evenly gap-10 xl:w-1/2'>
+          <div className='flex flex-col justify-evenly gap-10 md:flex-row xl:w-1/2'>
             <div className='flex h-[200px] w-[250px] flex-col gap-4 rounded-lg border-2 border-blue-500 p-3 shadow-md'>
               <p className='bg-linear w-max rounded-lg px-2 py-1'>Trendlar</p>
               <p className=''>

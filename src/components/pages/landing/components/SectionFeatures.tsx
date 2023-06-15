@@ -1,5 +1,6 @@
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
+import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
 import clsxm from '@/lib/clsxm';
 
@@ -33,6 +34,7 @@ const externalAnalytics: {
   {
     title: 'Nish tanlash',
     image: demoImage,
+    description: 'Bozorga kirishdan oldin eng istiqbolli nishlarni aniqlash',
   },
   {
     title: 'Mahsulotlar analitikasi',
@@ -122,13 +124,25 @@ function SectionFeatures() {
   const [activeTab, setActiveTab] = React.useState<string>('Nish tanlash');
   const [currentImage, setCurrentImage] =
     React.useState<StaticImageData>(demoImage);
-
+  const [isShown, setIsShown] = React.useState<boolean>(false);
   return (
-    <div className='w-full py-28'>
+    <div className='relative w-full py-14 md:py-28'>
       <div className='layout'>
+        {!isShown && (
+          <div
+            onClick={() => setIsShown(true)}
+            className=' absolute left-5 top-5 flex items-center justify-center  p-2 md:hidden'
+          >
+            <MdKeyboardDoubleArrowRight className='arrow_pulse z-10 text-3xl' />
+          </div>
+        )}
         {/* <h1 className='text-[40px]'>Imkoniyatlar</h1> */}
         <div className='relative flex w-full items-start justify-start gap-20'>
-          <div className='w-[300px]'>
+          <div
+            className={`${
+              isShown ? '' : '-ml-[100%] md:ml-0'
+            } four-sided-shadow z-10  w-full rounded-xl  bg-white  py-10 pl-4 transition-all sm:w-[300px] md:bg-transparent md:shadow-none`}
+          >
             <div className='flex flex-col items-start justify-start gap-6'>
               <ul className='flex flex-col'>
                 <li>
@@ -140,6 +154,7 @@ function SectionFeatures() {
                     key={index}
                     setActiveTab={setActiveTab}
                     setCurrentImage={setCurrentImage}
+                    setIsShown={setIsShown}
                     activeTab={activeTab}
                   />
                 ))}
@@ -154,6 +169,7 @@ function SectionFeatures() {
                     key={index}
                     setActiveTab={setActiveTab}
                     setCurrentImage={setCurrentImage}
+                    setIsShown={setIsShown}
                     activeTab={activeTab}
                   />
                 ))}
@@ -169,6 +185,7 @@ function SectionFeatures() {
                     key={index}
                     setActiveTab={setActiveTab}
                     setCurrentImage={setCurrentImage}
+                    setIsShown={setIsShown}
                     activeTab={activeTab}
                   />
                 ))}
@@ -184,14 +201,18 @@ function SectionFeatures() {
                     key={index}
                     setActiveTab={setActiveTab}
                     setCurrentImage={setCurrentImage}
+                    setIsShown={setIsShown}
                     activeTab={activeTab}
                   />
                 ))}
               </ul>
             </div>
           </div>
-          <div className='four-sided-shadow flex flex-1 flex-col items-start justify-start rounded-lg px-6 py-16'>
-            <h2 className='mb-4'>Bu xizmat nima qilishi mumkin?</h2>
+          <div className='four-sided-shadow absolute top-10   flex-1  flex-col items-start justify-start rounded-lg px-6 py-16 md:static md:flex'>
+            <h2 className='mb-4'>
+              {/* Bu xizmat nima qilishi mumkin? */}
+              {activeTab}
+            </h2>
             <div className='flex w-full flex-col gap-3'>
               <p className='mb-2'>
                 Bozorga kirishdan oldin eng istiqbolli nishlarni aniqlash
@@ -214,12 +235,14 @@ function ListItem({
   image,
   setCurrentImage,
   setActiveTab,
+  setIsShown,
   activeTab,
 }: {
   title: string;
   image: StaticImageData;
   setCurrentImage: React.Dispatch<React.SetStateAction<StaticImageData>>;
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
+  setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
   activeTab: string;
 }) {
   return (
@@ -231,6 +254,7 @@ function ListItem({
       onClick={() => {
         setCurrentImage(image);
         setActiveTab(title);
+        setIsShown(false);
       }}
     >
       <span>{title}</span>
