@@ -4,10 +4,14 @@ import { BsTelegram } from 'react-icons/bs';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { GrClose } from 'react-icons/gr';
 
+import clsxm from '@/lib/clsxm';
+
 import Logo from '@/assets/logo/logo.svg';
 
 function LandingHeader() {
   const [isMobile, setIsMobile] = React.useState(false);
+  const [lang, setLang] = React.useState('uz');
+
   const headerItems = {
     Xizmatlar: '#services',
     Tariflar: '#rates',
@@ -31,6 +35,41 @@ function LandingHeader() {
                 {key}
               </li>
             ))}
+
+            <div className='border-primary flex h-9 items-center justify-center overflow-hidden rounded-md border bg-purple-200 bg-opacity-25'>
+              <div
+                className={clsxm(
+                  'relative flex h-full w-10 cursor-pointer items-center justify-center p-2 text-sm',
+                  lang === 'uz' && 'bg-primary text-white'
+                )}
+                onClick={() => setLang('uz')}
+              >
+                Uz
+                {/* <Image
+                  src={uzbFlag}
+                  alt='Uzbekistan flag'
+                  width={50}
+                  height={50}
+                  className='absolute left-0 top-0 h-full w-full object-cover'
+                /> */}
+              </div>
+              <div
+                className={clsxm(
+                  'relative flex h-full w-10 cursor-pointer items-center justify-center p-2 text-sm',
+                  lang === 'ru' && 'bg-primary text-white'
+                )}
+                onClick={() => setLang('ru')}
+              >
+                Рус
+                {/* <Image
+                  src={ruFlag}
+                  alt='Russia flag'
+                  width={50}
+                  height={50}
+                  className='absolute left-0 top-0 h-full w-full object-cover'
+                /> */}
+              </div>
+            </div>
 
             <a href="#ta'riflar">
               <div className='bg-primary flex cursor-pointer items-center justify-end gap-4 rounded-md px-4 py-2 text-white transition-all duration-200 hover:border-none hover:bg-purple-300'>

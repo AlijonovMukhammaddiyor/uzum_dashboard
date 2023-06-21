@@ -1,6 +1,7 @@
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
+import Zoom from 'react-medium-image-zoom';
 
 import clsxm from '@/lib/clsxm';
 
@@ -217,11 +218,15 @@ function SectionFeatures() {
               <p className='mb-2'>
                 Bozorga kirishdan oldin eng istiqbolli nishlarni aniqlash
               </p>
-              <Image
-                src={currentImage}
-                alt='demo'
-                className='w-full object-contain'
-              />
+              <div className='h-full w-full'>
+                <Zoom>
+                  <Image
+                    src={currentImage}
+                    alt='demo'
+                    className='h-full w-full object-contain'
+                  />
+                </Zoom>
+              </div>
             </div>
           </div>
         </div>

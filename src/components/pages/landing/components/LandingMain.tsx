@@ -5,15 +5,15 @@ import dashboard from '@/assets/dashboard.png';
 
 function LandingMain() {
   return (
-    <div className='bg-gradient relative h-[80vh] w-full'>
+    <div className='bg-gradient relative h-[100vh] w-full'>
       <div className='layout flex h-full items-center  justify-between gap-16'>
-        <div className=' flex h-full flex-col justify-between  py-5 md:justify-around 2xl:justify-center 2xl:gap-20 '>
+        <div className=' flex h-full flex-col justify-between  py-5 md:justify-center md:gap-20 2xl:justify-center '>
           <div className=''>
             <h1 className=' font-primary text-4xl font-semibold tracking-wider md:text-5xl lg:text-6xl'>
               Kam <span className='text-primary'>vaqtda</span>
             </h1>
             <h1 className='font-primary text-4xl font-semibold tracking-wider md:mb-6 md:text-5xl lg:text-6xl '>
-              katta <span className='text-[#0085FF]'>natijalar</span>!
+              Katta <span className='text-[#0085FF]'>natijalar</span>!
             </h1>
             <p className='trackin-wide text-base md:text-xl lg:text-2xl'>
               Ma'lumotlarni daromadga aylantiring.
@@ -22,7 +22,7 @@ function LandingMain() {
               Hoziroq o'z muvaffaqiyatingizni boshlang!
             </p>
           </div>
-          <div className=' '>
+          <div className=''>
             <div className=' flex items-center justify-start gap-6'>
               <a href="#ta'riflar">
                 {' '}
