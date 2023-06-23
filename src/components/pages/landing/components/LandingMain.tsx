@@ -7,7 +7,7 @@ function LandingMain() {
   return (
     <div className='bg-gradient relative h-[100vh] w-full'>
       <div className='layout flex h-full items-center  justify-between gap-16'>
-        <div className=' flex h-full flex-col justify-between  py-5 md:justify-center md:gap-20 2xl:justify-center '>
+        <div className=' flex h-full flex-col justify-around  py-5 md:justify-center md:gap-20 2xl:justify-center '>
           <div className=''>
             <h1 className=' font-primary text-4xl font-semibold tracking-wider md:text-5xl lg:text-6xl'>
               Kam <span className='text-primary'>vaqtda</span>
@@ -34,9 +34,9 @@ function LandingMain() {
               <p>Kirish</p>
             </div> */}
             </div>
-            <p className='ml-2 mt-2 text-slate-500 md:mt-1'>
+            {/* <p className='ml-2 mt-2 text-slate-500 md:mt-1'>
               3 kun davomida bepul sinab ko'ring
-            </p>
+            </p> */}
           </div>
         </div>
         <div className='absolute right-0 max-h-[calc(100%-250px)] w-11/12 overflow-hidden  md:max-h-[calc(100%-200px)] md:w-2/5'>

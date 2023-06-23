@@ -1,3 +1,5 @@
+import { GetServerSidePropsContext } from 'next/types';
+import nookies from 'nookies';
 import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
@@ -24,4 +26,22 @@ export default function HomePage() {
       <HomeComponent />
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookies = nookies.get(context);
+
+  // If the user is not authenticated
+  if (!cookies.access_token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login', // redirect the user to the login page
+      },
+      props: {}, // add your own props here if needed
+    };
+  }
+
+  // If the user is authenticated, return the usual props
+  return { props: {} };
 }

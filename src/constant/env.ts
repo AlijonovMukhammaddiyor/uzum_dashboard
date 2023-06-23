@@ -5,6 +5,6 @@ export const showLogger = isLocal
   ? true
   : process.env.NEXT_PUBLIC_SHOW_LOGGER === 'true' ?? false;
 
-export const serverUrl = isLocal
+export const SERVER_URL = isLocal
   ? 'http://localhost:8000/api'
-  : 'https://api.alijonov.com';
+  : 'https://api.alijonov.com/api';

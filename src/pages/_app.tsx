@@ -9,6 +9,8 @@ import '@/styles/globals.css';
 import '@/styles/agGrid.css';
 import '@/styles/smiley.css';
 import 'react-medium-image-zoom/dist/styles.css';
+import 'react-phone-input-2/lib/style.css';
+
 /**
  * !STARTERCONF info
  * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too

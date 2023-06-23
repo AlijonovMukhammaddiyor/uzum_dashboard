@@ -30,13 +30,13 @@ function LandingHeader() {
             {Object.entries(headerItems).map(([key, value]) => (
               <li
                 key={value}
-                className='link link-underline link-underline-black hidden cursor-pointer px-2 text-lg font-semibold text-black md:inline'
+                className='link link-underline link-underline-black hidden cursor-pointer px-2 text-base font-semibold text-black md:inline xl:text-lg'
               >
                 {key}
               </li>
             ))}
 
-            <div className='border-primary flex h-9 items-center justify-center overflow-hidden rounded-md border bg-purple-200 bg-opacity-25'>
+            <div className='border-primary flex hidden h-9 items-center justify-center overflow-hidden rounded-md border bg-purple-200 bg-opacity-25'>
               <div
                 className={clsxm(
                   'relative flex h-full w-10 cursor-pointer items-center justify-center p-2 text-sm',
@@ -45,13 +45,6 @@ function LandingHeader() {
                 onClick={() => setLang('uz')}
               >
                 Uz
-                {/* <Image
-                  src={uzbFlag}
-                  alt='Uzbekistan flag'
-                  width={50}
-                  height={50}
-                  className='absolute left-0 top-0 h-full w-full object-cover'
-                /> */}
               </div>
               <div
                 className={clsxm(
@@ -61,13 +54,6 @@ function LandingHeader() {
                 onClick={() => setLang('ru')}
               >
                 Рус
-                {/* <Image
-                  src={ruFlag}
-                  alt='Russia flag'
-                  width={50}
-                  height={50}
-                  className='absolute left-0 top-0 h-full w-full object-cover'
-                /> */}
               </div>
             </div>
 
@@ -76,9 +62,9 @@ function LandingHeader() {
                 <p className='text-sm '>Kirish</p>
               </div>
             </a>
-            <div className='hidden cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500 md:flex lg:px-6'>
+            <div className='hidden shrink-0 cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500 md:flex lg:px-6'>
               <BsTelegram className='text-xl' />
-              <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
+              <p className='hidden text-sm lg:inline'>Kanalga Qo'shilish</p>
             </div>
 
             {/* Mobile navigation */}
@@ -114,9 +100,9 @@ function LandingHeader() {
                       {key}
                     </li>
                   ))}
-                  <div className='flex cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500'>
+                  <div className='flex cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2  text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500'>
                     <BsTelegram className='text-xl' />
-                    <p className=''>Kanalga Qo'shilish</p>
+                    <p className='text-xs'>Kanalga Qo'shilish</p>
                   </div>
                 </ul>
               </div>
