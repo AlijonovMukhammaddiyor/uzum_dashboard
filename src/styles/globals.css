@@ -228,7 +228,7 @@
     background-size: 0 2px, 100% 2px;
   }
 }
-@keyframes pulse {
+@keyframes pulse-right {
   0% {
     transform: translateX(0);
   }
@@ -259,7 +259,7 @@
 }
 
 .arrow_pulse {
-  animation: pulse 2s infinite alternate 0s;
+  animation: pulse-right 2s infinite alternate 0s;
 }
 
 .arrow_pulse_reverse {

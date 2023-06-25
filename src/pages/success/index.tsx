@@ -55,30 +55,32 @@ const SuccessPage = () => {
                 <p>
                   Ushbu kod orqali siz do'stlaringizni taklif qilsangiz, har bir
                   obuna bo'lgan do'stingiz uchun{' '}
-                  <span className='font-bold'>50 000 so'm</span> miqdorda
-                  chegirmaga ega bo'lasiz.
+                  <span className='font-bold'>$3</span> miqdorda chegirmaga ega
+                  bo'lasiz.
                 </p>
                 <p>
                   Kodni ko'chirib olish esingizdan chiqmasin. Xizmatimiz ishga
                   tushgunga qadar, bu kodni qayta ko'ra olmaysiz.
                 </p>
               </div>
-              <div className='flex w-full items-center justify-start gap-6'>
-                <p className='font-bold'>Sizning Taklif Kodingiz</p>
-                <p className='flex h-full flex-1 items-center justify-between rounded-md border-2 border-slate-400 py-2 pl-4 pr-2 shadow-inner'>
-                  <span>4resc32</span>
-                  {!copied ? (
-                    <FiCopy
-                      className='cursor-pointer text-xl'
-                      onClick={() => {
-                        handleCopy();
-                      }}
-                    />
-                  ) : (
-                    <IoCheckmarkDoneOutline className='text-xl text-green-500' />
-                  )}
-                </p>
-              </div>
+              {window.localStorage.getItem('referral_code') && (
+                <div className='flex w-full items-center justify-start gap-6'>
+                  <p className='font-bold'>Sizning Taklif Kodingiz</p>
+                  <p className='flex h-full min-w-[120px] flex-1 items-center justify-between rounded-md border-2 border-slate-400 py-2 pl-4 pr-2 shadow-inner'>
+                    <span>{window.localStorage.getItem('referral_code')}</span>
+                    {!copied ? (
+                      <FiCopy
+                        className='cursor-pointer text-xl'
+                        onClick={() => {
+                          handleCopy();
+                        }}
+                      />
+                    ) : (
+                      <IoCheckmarkDoneOutline className='text-xl text-green-500' />
+                    )}
+                  </p>
+                </div>
+              )}
             </div>
             <p>
               Yangiliklardan xabardor bo'lish uchun bizni ijtimoiy tarmoqlarda

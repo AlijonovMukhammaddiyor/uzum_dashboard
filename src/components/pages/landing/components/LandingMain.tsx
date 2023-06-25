@@ -9,10 +9,10 @@ function LandingMain() {
       <div className='layout relative flex h-full items-center  justify-between gap-16'>
         <div className='base:justify-center base:gap-20 flex h-full w-full flex-col justify-center gap-10 py-5 2xl:justify-center '>
           <div className=''>
-            <h1 className='font-primary text-4xl font-semibold tracking-wider md:text-5xl lg:text-6xl'>
+            <h1 className='font-primary text-3xl font-semibold tracking-wider sm:text-4xl md:text-5xl lg:text-6xl'>
               Kam <span className='text-primary'>vaqtda</span>
             </h1>
-            <h1 className='font-primary text-4xl font-semibold tracking-wider md:mb-6 md:text-5xl lg:text-6xl '>
+            <h1 className='font-primary text-3xl font-semibold tracking-wider sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl '>
               Katta <span className='text-[#0085FF]'>natijalar</span>!
             </h1>
             <p className='mt-4 text-base md:mt-0 md:text-xl lg:text-2xl'>

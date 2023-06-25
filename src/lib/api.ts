@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
-import { NextApiRequest } from 'next/types';
+import { GetServerSidePropsContext } from 'next/types';
+
+import logger from '@/lib/logger';
 
 import { SERVER_URL } from '@/constant/env';
 
@@ -13,6 +15,7 @@ export class API {
   static TOP_PRODUCTS = '/product/top';
   static TOP_SHOPS = '/shop/top';
   static USER_LOGIN = '/token/';
+  static USER_REFRESH_TOKEN = '/token/refresh/';
   static USER_LOGOUT = '/logout/';
   static USERNAME_NUMBER_CHECK = '/username_phone_match/';
   static USER_AUTH_CHECK = '/auth';
@@ -100,27 +103,36 @@ export class API {
     return clientApi;
   }
 
-  static getServerApi(req: NextApiRequest) {
-    const serverApi = axios.create({
-      baseURL: SERVER_URL,
-      headers: {
-        cookie: req.headers.cookie, // forward cookies
-        'X-CSRFTOKEN': req.cookies['csrftoken'],
-      },
-    });
+  static createServerApi(context: GetServerSidePropsContext) {
+    axios.defaults.baseURL = SERVER_URL;
+    if (context.req.cookies['csrftoken'])
+      axios.defaults.headers['X-CSRFTOKEN'] = context.req.cookies['csrftoken'];
+    // forwards cookies in header
+    if (context.req.headers.cookie)
+      axios.defaults.headers.cookie = context.req.headers.cookie;
+
+    if (context.req.headers.authorization) {
+      axios.defaults.headers.authorization = context.req.headers.authorization;
+    }
+    // set access token in Authorization header
+    const accessToken = context.req.cookies['access_token'];
+    axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+
+    const serverApi = axios.create();
 
     serverApi.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      async function (error) {
+      (response) => response,
+      async (error) => {
         const originalRequest = error.config;
+        console.log('error', error.response);
+        console.log("Can't refresh token 0");
 
         // Prevent infinite loops
         if (
           error.response.status === 401 &&
           originalRequest.url === '/api/token/refresh/'
         ) {
+          console.log("Can't refresh token 1");
           return Promise.reject(error);
         }
 
@@ -129,45 +141,48 @@ export class API {
           error.response.status === 401 &&
           error.response.statusText === 'Unauthorized'
         ) {
-          const refreshToken = req.cookies['refresh_token'];
-
-          if (refreshToken) {
-            const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
-
-            // Check if token is expired
-            const now = Math.ceil(Date.now() / 1000);
-            if (tokenParts.exp > now) {
-              return serverApi
-                .post('/api/token/refresh/', { refresh: refreshToken })
-                .then((response) => {
-                  req.cookies['access_token'] = response.data.access;
-                  req.cookies['refresh_token'] = response.data.refresh;
-
-                  serverApi.defaults.headers['Authorization'] =
-                    'Bearer ' + response.data.access;
-                  originalRequest.headers['Authorization'] =
-                    'Bearer ' + response.data.access;
-
-                  return serverApi(originalRequest);
-                })
-                .catch((_) => {
-                  //
-                });
-            } else {
-              return Promise.reject(error);
-            }
-          } else {
+          try {
+            if (!context.req.cookies['refresh_token'])
+              return Promise.reject("Can't refresh token 2");
+            const newAccessToken = await API.refreshAccessToken(
+              context.req.cookies['refresh_token']
+            );
+            axios.defaults.headers[
+              'Authorization'
+            ] = `Bearer ${newAccessToken}`;
+            originalRequest.headers[
+              'Authorization'
+            ] = `Bearer ${newAccessToken}`;
+            console.log('newAccessToken', newAccessToken);
+            return serverApi(originalRequest);
+          } catch (error) {
+            logger(error, "Can't decode refresh token");
             return Promise.reject(error);
           }
         }
 
         // Handle specific error codes/messages here
 
+        console.log('error', error.response.data);
+        console.log();
+
         return Promise.reject(error);
       }
     );
 
     return serverApi;
+  }
+
+  static async refreshAccessToken(refreshToken: string) {
+    try {
+      const res = await axios.post(`${SERVER_URL}${API.USER_REFRESH_TOKEN}`, {
+        refresh: refreshToken,
+      });
+      return res.data.access;
+    } catch (error) {
+      logger(error, "Can't refresh token");
+      throw error;
+    }
   }
 
   static async callServerClientSide(
@@ -200,25 +215,38 @@ export class API {
     } else clientApi = this.getClientAPI();
 
     try {
-      let response: AxiosResponse;
       if (method.toLowerCase() === 'post') {
-        response = await clientApi.request({
-          url: endpoint,
-          method: method,
-          data: data,
-        });
-
-        onResponse(response);
+        clientApi
+          .request({
+            url: endpoint,
+            method: method,
+            data: data,
+          })
+          .then((res) => {
+            // console.log('got response');
+          })
+          .catch((err) => {
+            // console.log('got error');
+            onError(err);
+          });
       } else if (method.toLowerCase() === 'get') {
-        response = await clientApi.request({
-          url: endpoint,
-          method: method,
-          params: data,
-        });
-        onResponse(response);
+        // console.log('sending request 2');
+        clientApi
+          .request({
+            url: endpoint,
+            method: method,
+            params: data,
+          })
+          .then((res) => {
+            onResponse(res);
+          })
+          .catch((err) => {
+            onError(err);
+          });
       }
     } catch (err) {
-      // alert(err);
+      alert(err);
+      onError(err as AxiosError);
     } finally {
       afterRequest();
     }

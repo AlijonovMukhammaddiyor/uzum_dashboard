@@ -139,7 +139,7 @@ function SectionFeatures() {
           Nima qilishi mumkin?
         </h1>
         {/* <h1 className='text-[40px]'>Imkoniyatlar</h1> */}
-        <div className='relative flex w-full flex-col items-start justify-start gap-20 md:flex-row'>
+        <div className='mg:gap-16 relative flex w-full flex-col items-start justify-start gap-10 md:flex-row'>
           <div
             className={clsxm(
               'md:four-sided-shadow relative w-full bg-white pl-4 pt-7 transition-all md:z-10 md:w-[300px] md:rounded-xl  md:bg-transparent md:py-10 md:pt-10 md:shadow-none'

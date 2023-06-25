@@ -143,6 +143,11 @@ const NamesAndEmailComponent = ({
           inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm'
           placeholder='Parol kiriting (majburiy)'
           name='password'
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              handleRegister();
+            }
+          }}
           value={user.password}
           onChange={(e) => {
             handleInputChange(e);
@@ -179,6 +184,11 @@ const NamesAndEmailComponent = ({
         value={user?.email || ''}
         onChange={handleInputChange}
         required={false}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') {
+            handleRegister();
+          }
+        }}
       />
       <span className='my-5 h-px w-full bg-slate-300'></span>
       <div className='flex h-10 items-center justify-start gap-2'>
@@ -186,6 +196,11 @@ const NamesAndEmailComponent = ({
           Taklif kodi
         </p>
         <CustomInput
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') {
+              handleRegister();
+            }
+          }}
           containerStyle='rounded-md flex-1'
           labelStyle='text-primary'
           inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md border border-primary placeholder:text-sm'

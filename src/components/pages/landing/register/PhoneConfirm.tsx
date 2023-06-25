@@ -37,10 +37,16 @@ function PhoneConfirm({
         if (res.status === 200) {
           onNext();
         }
+        {
+          setErrorMessage(
+            'Xatolik yuz berdi. Agar bu yana takrorlansa, bizga xabar bering!'
+          );
+        }
         setSendingRequest(false);
       },
       (err: AxiosError) => {
         setSendingRequest(false);
+        console.log('err: ', err);
         setErrorMessage((err.response?.data as { message: string }).message);
       },
       () => {
@@ -71,6 +77,11 @@ function PhoneConfirm({
         onWheel={(e) => {
           (e.target as HTMLInputElement)?.blur();
           (document.activeElement as HTMLInputElement)?.blur();
+        }}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') {
+            handleSendCode();
+          }
         }}
         containerStyle='rounded-md'
         inputStyle={clsxm(

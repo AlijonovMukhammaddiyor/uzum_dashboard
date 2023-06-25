@@ -1,13 +1,15 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-import { API } from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import LoginFooter from '@/components/pages/login/LoginFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
+
+import { SERVER_URL } from '@/constant/env';
 
 export interface NamesAndEmailComponentProps {
   activeTab: number;
@@ -51,51 +53,34 @@ const UserNameAndPassword = ({
 
   const onLogin = () => {
     setSendingRequest(true);
-    API.callServerClientSide(
-      API.USER_LOGIN,
-      {
-        username: user.username,
-        password: user.password,
-      },
-      (res) => {
-        if (res.status === 201 || res.status === 200) {
-          setSuccess(true);
-          if ((window as any).PasswordCredential) {
-            const credentials = new (window as any).PasswordCredential({
-              id: user.username, // User's username
-              name: user.username, // User's full name
-              password: user.password, // User's password
-            });
+    const url = SERVER_URL + '/token/';
+    axios.post(url, user).then((res) => {
+      if (res.status === 200) {
+        setSuccess(true);
+        if ((window as any).PasswordCredential) {
+          const credentials = new (window as any).PasswordCredential({
+            id: user.username, // User's username
+            name: user.username, // User's full name
+            password: user.password, // User's password
+          });
 
-            navigator.credentials
-              .store(credentials)
-              .then((result) => {
-                // Credentials stored successfully
-                console.log('Credentials stored successfully', result);
-              })
-              .catch((error) => {
-                // Error occurred while storing credentials
-                console.log('Error occurred while storing credentials', error);
-              });
-          }
-          router.push('/home');
-        } else {
-          setSuccess(false);
+          navigator.credentials
+            .store(credentials)
+            .then((result) => {
+              // Credentials stored successfully
+              console.log('Credentials stored successfully', result);
+            })
+            .catch((error) => {
+              // Error occurred while storing credentials
+              console.log('Error occurred while storing credentials', error);
+            });
         }
-        setSendingRequest(false);
-      },
-      (err) => {
+        router.push('/home');
+      } else {
         setSuccess(false);
-        setSendingRequest(false);
-      },
-      () => {
-        setSendingRequest(true);
-      },
-      () => {
-        setSendingRequest(false);
-      },
-      'POST'
-    );
+      }
+      setSendingRequest(false);
+    });
   };
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from 'next/types';
-import nookies from 'nookies';
 import * as React from 'react';
+
+import { API } from '@/lib/api';
 
 import Layout from '@/components/layout/Layout';
 import HomeComponent from '@/components/pages/home/HomeComponent';
@@ -29,10 +30,32 @@ export default function HomePage() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const cookies = nookies.get(context);
+  try {
+    const api = API.createServerApi(context);
+    // const res = await api.get('/api/user');
 
-  // If the user is not authenticated
-  if (!cookies.access_token) {
+    // Return the data that was fetched from the API
+    return {
+      props: {
+        // data: res.data,
+      },
+    };
+  } catch (error: any) {
+    // Handle specific error codes or conditions
+    if (error.response && error.response.status === 401) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login', // redirect the user to the login page
+        },
+        props: {}, // add your own props here if needed
+      };
+    }
+
+    // Handle other errors
+    // console.error('Error:', error);
+
+    // Return an error message or other data as props
     return {
       redirect: {
         permanent: false,
@@ -41,7 +64,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {}, // add your own props here if needed
     };
   }
-
-  // If the user is authenticated, return the usual props
-  return { props: {} };
 }

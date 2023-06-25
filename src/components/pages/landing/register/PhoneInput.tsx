@@ -57,11 +57,13 @@ const PhoneInputComponent = ({
         if (res.status === 200) {
           setCodeSent(true);
           onNext();
+        } else {
+          setError((res.data as { message: string }).message);
         }
         setSendingRequest(false);
       },
       (err) => {
-        console.log(err);
+        console.log(err, 'err');
         setCodeSent(false);
         setSendingRequest(false);
         setError((err.response?.data as { message: string }).message);

@@ -43,7 +43,7 @@ const Register = () => {
         </Link>
         <div
           className={clsxm(
-            'relative -mt-[200px] flex w-full max-w-full flex-col items-center justify-center gap-6 px-2',
+            'relative -mt-[200px] flex max-w-full flex-col items-center justify-center gap-6 px-2',
             activeTab === 3 && '-mt-[400px]',
             'bg-gradient base:bg-none'
           )}
