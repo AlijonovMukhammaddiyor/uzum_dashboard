@@ -105,9 +105,6 @@
 
 5. Popular Suggestion Words Dashboard:
     A feature to display the most popular words or phrases suggested by the platform's suggestion feature.
-
-
-
   
 6. Compare:
     6.1 Compare Shops:

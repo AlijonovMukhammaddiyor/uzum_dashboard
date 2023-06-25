@@ -37,6 +37,10 @@ const nextConfig = {
 
     return config;
   },
+  i18n: {
+    locales: ["uz", 'ru'],
+    defaultLocale: "uz",
+  },
 };
 
 module.exports = nextConfig;

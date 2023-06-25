@@ -1,0 +1,37 @@
+{
+  "landingPage": {
+    "main": {
+      "subtitle": {
+        "uz": [
+          "Ma'lumotlarni daromadga aylantiring.",
+          "Hoziroq o'z muvaffaqiyatingizni boshlang!"
+        ],
+        "ru": ["Превратите данные в доход.", "Начни свой успех прямо сейчас!"]
+      },
+      "register": {
+        "uz": "Ro'yxatdan o'tish",
+        "ru": "попробовать сейчас"
+      }
+    },
+    "navbar": {
+      "items": {
+        "uz": ["Xizmatlar", "Tariflar"],
+        "ru": ["Инструменты", "Тарифы"]
+      },
+      "login": {
+        "uz": "Kirish",
+        "ru": "Войти"
+      },
+      "telegram": {
+        "uz": "Telegram",
+        "ru": "Telegram"
+      }
+    },
+    "overview": {
+      "title": {
+        "uz": "Sizning savdoingizni rivojlantirish uchun mo'ljallangan",
+        "ru": "Увеличьте свои продажи предназначен для"
+      }
+    }
+  }
+}

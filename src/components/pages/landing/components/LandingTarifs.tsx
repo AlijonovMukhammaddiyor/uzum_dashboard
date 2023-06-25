@@ -4,53 +4,57 @@ import { GiCheckMark } from 'react-icons/gi';
 
 import clsxm from '@/lib/clsxm';
 
+import Button from '@/components/shared/buttons/Button';
+
 import Logo from '@/assets/logo/logo_only.svg';
 
 function LandingTarifs() {
+  const [plan, setPlan] = React.useState('Bepul');
+
   const sendToRegister = (plan: string) => {
     Router.push({
       pathname: '/register',
-      query: { plan: plan },
+      query: {
+        plan:
+          plan === 'Bepul' ? 'free' : plan === 'Premium' ? 'premium' : 'basic',
+      },
     });
   };
 
   return (
     <div id="ta'riflar" className='flex w-full justify-center py-28'>
       <div className='layout '>
-        <div className='flex flex-wrap-reverse   items-center justify-around  gap-10 '>
-          <div className='flex flex-col gap-10 md:flex-row'>
-            <Tarif
-              title='Bepul'
-              price='0 So`m/Oy'
-              features={[
-                '3 kunlik obuna',
-                'Ichki Analitika',
-                'Tashqi Analitika',
-                'Studio',
-                'Taqqoslash',
-              ]}
-              color='primary'
-              buttonTitle='Hoziroq boshlang'
-              sendToRegister={sendToRegister}
-            />
+        <div className='flex flex-wrap items-center justify-around gap-10 '>
+          <Tarif
+            title='Bepul'
+            price='0 So`m/Oy'
+            features={[
+              '3 kunlik obuna',
+              'Ichki Analitika',
+              'Tashqi Analitika',
+              'Studio',
+              'Taqqoslash',
+            ]}
+            color='primary'
+            buttonTitle='Hoziroq boshlang'
+            sendToRegister={sendToRegister}
+          />
 
-            <Tarif
-              title='Premium'
-              price='500 000 So`m/Oy'
-              features={[
-                'Ichki Analitika',
-                'Tashqi Analitika',
-                'Studio',
-                'Taqqoslash',
-              ]}
-              color='primary'
-              buttonTitle='Hoziroq boshlang'
-              isPro
-              sendToRegister={sendToRegister}
-            />
-          </div>
-
-          <div className='bg-linear-dark m-4 rounded-md p-5 text-center shadow-xl sm:w-4/5 lg:w-[400px]'>
+          <Tarif
+            title='Premium'
+            price='500 000 So`m/Oy'
+            features={[
+              'Ichki Analitika',
+              'Tashqi Analitika',
+              'Studio',
+              'Taqqoslash',
+            ]}
+            color='primary'
+            buttonTitle='Hoziroq boshlang'
+            isPro
+            sendToRegister={sendToRegister}
+          />
+          <div className='bg-linear-dark m-4 w-[400px] rounded-md p-5 text-center shadow-xl'>
             <p className='font-primary text-center text-2xl text-white'>
               <span className='text-4xl'>🎉</span> Har bir taklif qilgan
               do'stingiz uchun 50 000 so'm chegirmaga ega bo'ling
@@ -80,6 +84,7 @@ function Tarif({
   buttonTitle,
   isPro,
   sendToRegister,
+  isProPlus,
 }: {
   title: string;
   price: string;
@@ -88,23 +93,25 @@ function Tarif({
   buttonTitle?: string;
   isPro?: boolean;
   sendToRegister: (plan: string) => void;
+  isProPlus?: boolean;
 }) {
   return (
     <div
       className={clsxm(
-        'm-4 flex h-[400px] w-[300px] max-w-sm flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white px-5 py-6',
-        isPro && 'bg-gradient'
+        'flex h-[500px] max-h-[500px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        isPro && 'bg-gradient',
+        'border-2 border-blue-500'
       )}
     >
       <div className='w-full'>
-        <div className='mb-2 flex items-center justify-start gap-3 text-center text-xl font-bold'>
-          <Logo className='inline-block h-6 w-6' />
-          <p>{title}</p>
+        <div className='mb-2 flex items-center justify-between gap-3 border-b-2 border-blue-500 bg-blue-100 px-6 py-5 text-center text-xl font-bold'>
+          <div className='flex items-center justify-start gap-3'>
+            <Logo className='inline-block h-6 w-6' />
+            <p>{title}</p>
+          </div>
+          <div className='text-2xl font-bold'>{price}</div>
         </div>
-        <div className='mb-2 border-b border-slate-300 py-2 text-left text-2xl font-bold'>
-          {price}
-        </div>
-        <ul className='mt-6 flex flex-col gap-2 pl-0'>
+        <ul className='mt-6 flex flex-col gap-2 pl-6'>
           {features.map((feature: string) => (
             <li key={feature} className='flex items-start justify-start'>
               <GiCheckMark className='text-primary mr-2 inline-block h-5 w-5' />
@@ -113,16 +120,17 @@ function Tarif({
           ))}
         </ul>
       </div>
-      <div className='w-full'>
-        <button
+      <div className='w-full px-6 py-3'>
+        <Button
+          onClick={() => sendToRegister(title)}
           className={clsxm(
             `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`
             // !isPro && 'bg-blue-500'
           )}
-          onClick={() => sendToRegister(title)}
+          disabled={isProPlus}
         >
           {buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ export default {
     screens: {
       sm: '640px',
       md: '768px',
+      base: '992px',
       lg: '1300px', // Change this value
       xl: '1380px',
       '2xl': '1536px',

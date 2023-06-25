@@ -1,9 +1,13 @@
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineBell,
   HiOutlineUserCircle,
 } from 'react-icons/hi2';
+
+import { API } from '@/lib/api';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
 import UnstyledLink from '@/components/shared/links/UnstyledLink';
@@ -14,6 +18,30 @@ export interface HeaderProps {
 }
 
 export default function Header({ className, path }: HeaderProps) {
+  const router = useRouter();
+
+  const handleUserLogout = () => {
+    API.callServerClientSide(
+      API.USER_LOGOUT,
+      {},
+      (res) => {
+        if (res.status === 200) {
+          router.push('/');
+        }
+      },
+      (err: AxiosError) => {
+        console.log(err);
+      },
+      () => {
+        // before request
+      },
+      () => {
+        // after request
+      },
+      'POST'
+    );
+  };
+
   return (
     <header className='w-full bg-transparent'>
       <div className='flex h-14 items-center justify-between p-3'>
@@ -52,7 +80,11 @@ export default function Header({ className, path }: HeaderProps) {
                 // logout
               }}
             >
-              <UnstyledLink href='/' className='hover:text-gray-600'>
+              <UnstyledLink
+                href='/'
+                className='hover:text-gray-600'
+                onClick={() => handleUserLogout()}
+              >
                 <HiOutlineArrowRightOnRectangle className='hover:text-primary h-6 w-6 flex-shrink-0 text-black' />
               </UnstyledLink>
             </li>

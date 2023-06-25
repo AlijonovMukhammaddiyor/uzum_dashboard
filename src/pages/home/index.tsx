@@ -1,4 +1,7 @@
+import { GetServerSidePropsContext } from 'next/types';
 import * as React from 'react';
+
+import { API } from '@/lib/api';
 
 import Layout from '@/components/layout/Layout';
 import HomeComponent from '@/components/pages/home/HomeComponent';
@@ -24,4 +27,41 @@ export default function HomePage() {
       <HomeComponent />
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  try {
+    const api = API.createServerApi(context);
+    // const res = await api.get('/api/user');
+
+    // Return the data that was fetched from the API
+    return {
+      props: {
+        // data: res.data,
+      },
+    };
+  } catch (error: any) {
+    // Handle specific error codes or conditions
+    if (error.response && error.response.status === 401) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login', // redirect the user to the login page
+        },
+        props: {}, // add your own props here if needed
+      };
+    }
+
+    // Handle other errors
+    // console.error('Error:', error);
+
+    // Return an error message or other data as props
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login', // redirect the user to the login page
+      },
+      props: {}, // add your own props here if needed
+    };
+  }
 }

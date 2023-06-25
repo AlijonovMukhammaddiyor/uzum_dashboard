@@ -1,30 +1,10 @@
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
-import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
+import Zoom from 'react-medium-image-zoom';
 
 import clsxm from '@/lib/clsxm';
 
-import demoImage from '@/assets/feature.png';
-
-// Niche selection
-// Product analysis
-// Trends and seasonality
-// Category Analysis
-// Price segmentation
-// Seller and brand analysis
-// Sales Tops
-// Lost revenue
-// Filter New
-// Daily reporting
-// Card Product
-// History of card changes
-// Period Comparison
-// Search for similar products
-// Ad bid check
-// Rating of brands and suppliers
-// Group reports
-// Plugin for Chrome
-// History of ad campaigns and competitor bids
+import demoImage from '@/assets/landing/picture.png';
 
 const externalAnalytics: {
   title: string;
@@ -34,14 +14,17 @@ const externalAnalytics: {
   {
     title: 'Nish tanlash',
     image: demoImage,
-    description: 'Bozorga kirishdan oldin eng istiqbolli nishlarni aniqlash',
+    description:
+      "Eng istiqbolli va daromadli bozor segmentini kashf qiling va o'rganing. Bu o'z kuchingiz va mablag'ingizni muvaffaqiyat uchun yuqori salohiyatga ega bo'lgan ixtisoslashgan sohalarga yo'naltirish imkonini beradi.",
   },
   {
     title: 'Mahsulotlar analitikasi',
     image: demoImage,
+    description:
+      'Mahuslotlarni analiz qilish va eng istiqbolli mahsulotlarni aniqlash.',
   },
   {
-    title: 'So`nggi trendlar',
+    title: "So'nggi trendlar",
     image: demoImage,
   },
   {
@@ -57,16 +40,16 @@ const externalAnalytics: {
     image: demoImage,
   },
   {
-    title: 'Kunlik hisobotlar',
-    image: demoImage,
-  },
-  {
     // period comparison
     title: 'Davrlarni solishtirish',
     image: demoImage,
   },
   {
     title: 'O`xshash mahsulotlar',
+    image: demoImage,
+  },
+  {
+    title: "Do'konlar va masulotlar pozitsiyasi",
     image: demoImage,
   },
 ];
@@ -81,11 +64,7 @@ const internalAnalytics: {
     image: demoImage,
   },
   {
-    title: 'Do`kon tahlili',
-    image: demoImage,
-  },
-  {
-    title: 'Reklama tahlili',
+    title: "Do'kon tahlili",
     image: demoImage,
   },
 ];
@@ -104,10 +83,36 @@ const compareAnalytics: {
     image: demoImage,
   },
   {
-    title: 'Do`konlarni Taqqoslash',
+    title: "Do'konlarni Taqqoslash",
     image: demoImage,
   },
 ];
+
+const descriptions_uz: {
+  [key: string]: string;
+} = {
+  'Nish tanlash': `Eng istiqbolli va daromadli bozor segmentini kashf qiling va o'rganing. Bu o'z kuchingiz va mablag'ingizni muvaffaqiyat uchun yuqori salohiyatga ega bo'lgan ixtisoslashgan sohalarga yo'naltirish imkonini beradi.`,
+  'Mahsulotlar analitikasi': `Keng qamrovli ma'lumotlarni tahlil qilish orqali eng istiqbolli mahsulotlarni aniqlang. Savdo ko'rsatkichlari, mijozlarning izohlari va paydo bo'layotgan tendentsiyalar haqida qimmatli ma'lumotlarga ega bo'ling. Bu sizga mahsulotlaringiz miqdorini va narxini optimallashtirishga yordam beradi.`,
+  "So'nggi trendlar": `Eng so'nggi trendlar sizni doimiy ravishda o'zgarib turadigan bozor landshaftidan, rivojlanayotgan bozor tendentsiyalari xabardor qiladi. Biznes strategiyalaringizni moslashtirish, yangi imkoniyatlardan foydalanish va bozoringizning oʻzgaruvchan talablarini qondirish uchun ushbu maʼlumotlardan foydalanib, raqobatchilardan oldinda turing.`,
+  'Kategoriyalar analitikasi': `Bozordagi turli xil mahsulot kategoriyalarning tendentsiyalarini o'rganish imkonini beradi. Har bir Kategoriyaning ichki strukturasi va mahsulotlarning narxlari, miqdori va boshqa ko'rsatkichlari haqida ma'lumotlarga ega bo'ling.`,
+  'Narx segmentatsiyasi': `Daromadi eng yuqori bo'lgan va kam bo'lgan narx oraliqlarini aniqlang.`,
+  "Do'konlar analitikasi": `Har bir doʻkonning savdo, mijozlarni jalb qilish, mahsulot turlari kabi asosiy koʻrsatkichlarni tushunib oling, bu sizga yuqori samarali doʻkonlarni aniqlash, marketing harakatlarini optimallashtirishda yordam beradi.`,
+  'Davrlarni solishtirish':
+    'Mahsulotlarning turli davrlardagi koʻrsatkichlarini solishtiring.',
+  'O`xshash mahsulotlar': `O'xshash mahsulotlarni aniqlang va ularning solishtiring. Potensial savdo imkoniyatlarini aniqlang.`,
+  "Do'konlar va masulotlar pozitsiyasi": `Bozordagi pozitsiya o'zgarishlarini kuzatib boring.`,
+  'Mahsulotlar tahlili': 'Do`koningizdagi mahsulotlarni tahlil qiling.',
+  "Do'kon tahlili":
+    "ABC tahlil tizimidan foydalangan holda yuqori samarali mahsulotlaringizni aniqlang, ularni daromadga qo'shgan hissasi asosida strategik toifalarga ajrating va inventarizatsiya, narxlash va marketing strategiyalaringizni optimallashtirish uchun ongli qarorlar qabul qiling. Bizning keng qamrovli tahlilimiz bilan siz yuqori qiymatli mahsulotlarga e'tibor qaratishingiz mumkin.",
+  'Mahsulotlar Taqqoslash':
+    'Intuitiv taqqoslash vositamizdan foydalanib, ixtiyoriy ikkita mahsulotlarni osongina solishtiring. Asosli qarorlar qabul qilish uchun asosiy xususiyatlarni, narxlarni, reytingini va boshqalarni yonma-yon tahlil qiling.',
+  "Do'konlarni Taqqoslash":
+    "Istalgan ikkita do'konni osongina solishtiring. Mahsulot, narxlar, mijozlar sharhlari, va shu kabi asosiy ko'rsatkichlarni baholang.",
+  'Kategoriyalarni Taqqoslash':
+    "Keng qamrovli taqqoslash vositamizdan foydalanib, har qanday ikkita kategoriyalarni solishtiring. Mahsulot turlari, soni, narx oralig'i, savdo miqdori va shu kabi asosiy omillarni baholang.",
+  'Banner dizayn':
+    'Mahsulotlaringiz uchun ajoyib bannerlar yarating. Mahsulotlaringizning jozibadorligini oshiring.',
+};
 
 const studio: {
   title: string;
@@ -124,104 +129,108 @@ function SectionFeatures() {
   const [activeTab, setActiveTab] = React.useState<string>('Nish tanlash');
   const [currentImage, setCurrentImage] =
     React.useState<StaticImageData>(demoImage);
+
   const [isShown, setIsShown] = React.useState<boolean>(false);
+
   return (
-    <div className='relative w-full py-14 md:py-28'>
+    <div className='relative w-full py-8 md:py-28' id='services'>
       <div className='layout'>
-        {!isShown && (
-          <div
-            onClick={() => setIsShown(true)}
-            className=' absolute left-5 top-5 flex items-center justify-center  p-2 md:hidden'
-          >
-            <MdKeyboardDoubleArrowRight className='arrow_pulse z-10 text-3xl' />
-          </div>
-        )}
+        <h1 className='font-primary text-2xl font-semibold leading-8 tracking-wider md:mb-6 md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
+          Nima qilishi mumkin?
+        </h1>
         {/* <h1 className='text-[40px]'>Imkoniyatlar</h1> */}
-        <div className='relative flex w-full items-start justify-start gap-20'>
+        <div className='mg:gap-16 relative flex w-full flex-col items-start justify-start gap-10 md:flex-row'>
           <div
-            className={`${
-              isShown ? '' : '-ml-[100%] md:ml-0'
-            } four-sided-shadow z-10  w-full rounded-xl  bg-white  py-10 pl-4 transition-all sm:w-[300px] md:bg-transparent md:shadow-none`}
+            className={clsxm(
+              'md:four-sided-shadow relative w-full bg-white pl-4 pt-7 transition-all md:z-10 md:w-[300px] md:rounded-xl  md:bg-transparent md:py-10 md:pt-10 md:shadow-none'
+            )}
           >
-            <div className='flex flex-col items-start justify-start gap-6'>
-              <ul className='flex flex-col'>
+            <div className='flex w-full flex-col items-start justify-start gap-6'>
+              <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className=''>Tashqi analitika</h3>
+                  <h3 className='mb-2'>Tashqi analitika</h3>
                 </li>
-                {externalAnalytics.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {externalAnalytics.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
               </ul>
-              <ul>
+              <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className=''>Inchki analitika</h3>
+                  <h3 className='mb-2'>Inchki analitika</h3>
                 </li>
-                {internalAnalytics.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
-              </ul>
-
-              <ul>
-                <li>
-                  <h3 className=''>Taqqoslash</h3>
-                </li>
-                {compareAnalytics.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {internalAnalytics.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
               </ul>
 
-              <ul>
+              <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className=''>Studio</h3>
+                  <h3 className='mb-2'>Taqqoslash</h3>
                 </li>
-                {studio.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {compareAnalytics.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
+              </ul>
+
+              <ul className='flex w-full flex-col'>
+                <li>
+                  <h3 className='mb-2'>Studio</h3>
+                </li>
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {studio.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
               </ul>
             </div>
           </div>
-          <div className='four-sided-shadow absolute top-10   flex-1  flex-col items-start justify-start rounded-lg px-6 py-16 md:static md:flex'>
-            <h2 className='mb-4'>
-              {/* Bu xizmat nima qilishi mumkin? */}
-              {activeTab}
-            </h2>
+          <div className='four-sided-shadow flex-1 flex-col items-start justify-start rounded-lg px-6 py-10 pb-16 md:static md:mt-6 md:flex'>
+            <h2 className='mb-4 text-[18px] lg:text-3xl'>{activeTab}</h2>
             <div className='flex w-full flex-col gap-3'>
-              <p className='mb-2'>
-                Bozorga kirishdan oldin eng istiqbolli nishlarni aniqlash
-              </p>
-              <Image
-                src={currentImage}
-                alt='demo'
-                className='w-full object-contain'
-              />
+              <p className='mb-2'>{descriptions_uz[activeTab]}</p>
+              <div className='h-full w-full'>
+                <Zoom>
+                  <Image
+                    src={currentImage}
+                    alt='demo'
+                    className='h-full w-full object-cover'
+                  />
+                </Zoom>
+              </div>
             </div>
           </div>
         </div>
@@ -248,8 +257,10 @@ function ListItem({
   return (
     <li
       className={clsxm(
-        'relative flex w-[270px] cursor-pointer items-center gap-4 bg-transparent px-6 py-2',
-        activeTab === title && 'bg-primary list_link rounded-l-md text-white'
+        'px-4 py-2 md:relative md:flex md:w-[270px] md:cursor-pointer md:items-center md:gap-4',
+        'min-w-max cursor-pointer rounded-3xl bg-slate-200 md:min-w-0 md:bg-transparent',
+        activeTab === title &&
+          'bg-primary md:bg-primary md:list_link text-white md:rounded-l-md md:rounded-r-none'
       )}
       onClick={() => {
         setCurrentImage(image);
@@ -257,7 +268,7 @@ function ListItem({
         setIsShown(false);
       }}
     >
-      <span>{title}</span>
+      <span className='text-xs sm:text-base'>{title}</span>
     </li>
   );
 }
