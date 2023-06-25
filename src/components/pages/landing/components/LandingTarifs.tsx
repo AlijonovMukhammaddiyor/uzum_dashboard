@@ -17,37 +17,40 @@ function LandingTarifs() {
   return (
     <div id="ta'riflar" className='flex w-full justify-center py-28'>
       <div className='layout '>
-        <div className='flex flex-wrap items-center justify-around gap-10 '>
-          <Tarif
-            title='Bepul'
-            price='0 So`m/Oy'
-            features={[
-              '3 kunlik obuna',
-              'Ichki Analitika',
-              'Tashqi Analitika',
-              'Studio',
-              'Taqqoslash',
-            ]}
-            color='primary'
-            buttonTitle='Hoziroq boshlang'
-            sendToRegister={sendToRegister}
-          />
+        <div className='flex flex-wrap-reverse   items-center justify-around  gap-10 '>
+          <div className='flex flex-col gap-10 md:flex-row'>
+            <Tarif
+              title='Bepul'
+              price='0 So`m/Oy'
+              features={[
+                '3 kunlik obuna',
+                'Ichki Analitika',
+                'Tashqi Analitika',
+                'Studio',
+                'Taqqoslash',
+              ]}
+              color='primary'
+              buttonTitle='Hoziroq boshlang'
+              sendToRegister={sendToRegister}
+            />
 
-          <Tarif
-            title='Premium'
-            price='500 000 So`m/Oy'
-            features={[
-              'Ichki Analitika',
-              'Tashqi Analitika',
-              'Studio',
-              'Taqqoslash',
-            ]}
-            color='primary'
-            buttonTitle='Hoziroq boshlang'
-            isPro
-            sendToRegister={sendToRegister}
-          />
-          <div className='bg-linear-dark m-4 w-[400px] rounded-md p-5 text-center shadow-xl'>
+            <Tarif
+              title='Premium'
+              price='500 000 So`m/Oy'
+              features={[
+                'Ichki Analitika',
+                'Tashqi Analitika',
+                'Studio',
+                'Taqqoslash',
+              ]}
+              color='primary'
+              buttonTitle='Hoziroq boshlang'
+              isPro
+              sendToRegister={sendToRegister}
+            />
+          </div>
+
+          <div className='bg-linear-dark m-4 rounded-md p-5 text-center shadow-xl sm:w-4/5 lg:w-[400px]'>
             <p className='font-primary text-center text-2xl text-white'>
               <span className='text-4xl'>🎉</span> Har bir taklif qilgan
               do'stingiz uchun 50 000 so'm chegirmaga ega bo'ling

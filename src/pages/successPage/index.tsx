@@ -18,7 +18,7 @@ const SuccessPage = () => {
             <GrClose />
           </span>
         </div>
-        <div className='mx-auto mt-32 flex w-11/12 flex-col gap-16 md:w-4/5 lg:w-1/2'>
+        <div className=' mx-auto mt-32 flex w-11/12 flex-col gap-16  pb-10 lg:w-1/2'>
           <div>
             <h1>🎉 Jamoamizga a`zo bo`lganligingiz uchun tashakkur!</h1>
             <p className='mt-3'>
@@ -32,17 +32,17 @@ const SuccessPage = () => {
               ham kuzatib boring:
             </p>
             <div className='mt-3 flex gap-3'>
-              <div className='flex  cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500 lg:px-6'>
+              <div className='flex  cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500 '>
                 <BsTelegram className='text-2xl' />
-                <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
+                <p className='hidden text-sm md:inline'>Kanalga Qo'shilish</p>
               </div>
-              <div className='flex  cursor-pointer items-center justify-end gap-4 rounded-md bg-red-600 px-3 py-2 text-white transition-all duration-200 hover:bg-red-200 hover:text-red-500 lg:px-6'>
+              <div className='flex  cursor-pointer items-center justify-end gap-4 rounded-md bg-red-600 px-3 py-2 text-white transition-all duration-200 hover:bg-red-200 hover:text-red-500 '>
                 <AiFillYoutube className='text-2xl' />
-                <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
+                <p className='hidden text-sm md:inline'>Kanalga Qo'shilish</p>
               </div>
-              <div className='flex  cursor-pointer items-center justify-end gap-4 rounded-md bg-pink-700 px-3 py-2 text-white transition-all duration-200 hover:bg-pink-200 hover:text-pink-500 lg:px-6'>
+              <div className='flex  cursor-pointer items-center justify-end gap-4 rounded-md bg-pink-700 px-3 py-2 text-white transition-all duration-200 hover:bg-pink-200 hover:text-pink-500 '>
                 <AiFillInstagram className='text-2xl' />
-                <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
+                <p className='hidden text-sm md:inline'>Kanalga Qo'shilish</p>
               </div>
             </div>
           </div>
