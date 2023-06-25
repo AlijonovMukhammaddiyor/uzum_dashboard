@@ -11,6 +11,7 @@ import PhoneInputComponent from '@/components/pages/landing/register/PhoneInput'
 
 import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
+import starter from '@/assets/landing/starter.png';
 import Logo from '@/assets/logo/logo.svg';
 
 const Register = () => {
@@ -24,7 +25,7 @@ const Register = () => {
     password: string;
     phone_number: string;
     referred_by?: string;
-    fingerprint: string;
+    fingerprint?: string;
   }>({
     username: '',
     email: '',
@@ -35,53 +36,52 @@ const Register = () => {
   });
 
   return (
-    <div className='relative flex min-h-screen w-screen'>
-      <Link href='/' className='absolute left-6 top-3'>
-        <Logo className='h-[40px] w-[110px]' />
-      </Link>
-      <div className='flex w-1/2 items-center justify-center'>
+    <div className='flex h-screen w-screen'>
+      <div className='base:w-1/2 bg-gradient base:bg-none relative flex w-full items-center justify-center overflow-hidden px-5'>
+        <Link href='/' className='absolute left-6 top-3 z-10'>
+          <Logo className='h-[40px] w-[110px]' />
+        </Link>
         <div
           className={clsxm(
-            'max-h-sm relative -mt-[200px] flex max-w-sm flex-col items-center justify-center gap-6 px-2',
-            activeTab === 3 && '-mt-[400px]'
+            'relative -mt-[200px] flex w-full max-w-full flex-col items-center justify-center gap-6 px-2',
+            activeTab === 3 && '-mt-[400px]',
+            'bg-gradient base:bg-none'
           )}
         >
           <RegisterHeader plan={plan as string} />
-          <div className='relative flex w-[400px] items-start justify-start'>
-            <PhoneInputComponent
-              user={user}
-              activeTab={activeTab}
-              currentTab={1}
-              onNext={() => {
-                setactiveTab(2);
-              }}
-              setUser={setUser}
-            />
-            <PhoneConfirm
-              activeTab={activeTab}
-              currentTab={2}
-              onNext={() => {
-                setactiveTab(3);
-              }}
-              onPrevious={() => {
-                setactiveTab(1);
-              }}
-              phone={user.phone_number}
-            />
-            <NamesAndEmailComponent
-              activeTab={activeTab}
-              currentTab={3}
-              onPrevious={() => {
-                setactiveTab(2);
-              }}
-              user={user}
-              setUser={setUser}
-            />
-          </div>
+          <PhoneInputComponent
+            user={user}
+            activeTab={activeTab}
+            currentTab={1}
+            onNext={() => {
+              setactiveTab(2);
+            }}
+            setUser={setUser}
+          />
+          <PhoneConfirm
+            activeTab={activeTab}
+            currentTab={2}
+            onNext={() => {
+              setactiveTab(3);
+            }}
+            onPrevious={() => {
+              setactiveTab(1);
+            }}
+            phone={user.phone_number}
+          />
+          <NamesAndEmailComponent
+            activeTab={activeTab}
+            currentTab={3}
+            onPrevious={() => {
+              setactiveTab(2);
+            }}
+            user={user}
+            setUser={setUser}
+          />
         </div>
       </div>
 
-      <div className='bg-gradient hidden w-1/2 flex-1 bg-opacity-10 md:flex'></div>
+      <div className='bg-gradient base:flex hidden w-1/2 flex-1 bg-opacity-10'></div>
     </div>
   );
 };
@@ -105,27 +105,45 @@ function RegisterHeader({ plan }: { plan: string }) {
         <span
           className={clsxm(
             'h-px flex-1 bg-slate-300',
-            plan === 'premium' ? 'bg-primary' : 'bg-blue-500'
+            plan === 'premium'
+              ? 'bg-primary'
+              : plan === 'basic'
+              ? 'bg-blue-500'
+              : 'bg-green-500'
           )}
         ></span>
         <p
           className={clsxm(
             'mx-3 flex items-center justify-start gap-2',
-            plan === 'premium' ? 'text-primary' : 'text-blue-500'
+            plan === 'premium'
+              ? 'text-primary'
+              : plan === 'basic'
+              ? 'text-blue-500'
+              : 'text-green-500'
           )}
         >
           {plan === 'premium' ? (
             <Image src={star} alt='premium-star' className='h-5 w-5' />
+          ) : plan === 'basic' ? (
+            <Image src={starter} alt='premium-star' className='h-5 w-5' />
           ) : (
             <Image src={free} alt='premium-star' className='h-5 w-5' />
           )}
-          {plan === 'premium' ? 'Premium' : 'Bepul'}
+          {plan === 'premium'
+            ? 'Premium'
+            : plan === 'basic'
+            ? "Boshlang'ich"
+            : 'Bepul'}
         </p>
 
         <span
           className={clsxm(
             'h-px flex-1 bg-slate-300',
-            plan === 'premium' ? 'bg-primary' : 'bg-blue-500'
+            plan === 'premium'
+              ? 'bg-primary'
+              : plan === 'basic'
+              ? 'bg-blue-500'
+              : 'bg-green-500'
           )}
         ></span>
       </div>

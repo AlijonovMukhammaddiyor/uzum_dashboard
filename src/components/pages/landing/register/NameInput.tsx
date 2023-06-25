@@ -19,7 +19,7 @@ export interface NamesAndEmailComponentProps {
     password: string;
     phone_number: string;
     referred_by?: string;
-    fingerprint: string;
+    fingerprint?: string;
   };
   setUser: React.Dispatch<
     React.SetStateAction<{
@@ -28,7 +28,7 @@ export interface NamesAndEmailComponentProps {
       password: string;
       phone_number: string;
       referred_by?: string;
-      fingerprint: string;
+      fingerprint?: string;
     }>
   >;
 }
@@ -45,7 +45,8 @@ const NamesAndEmailComponent = ({
   const [sendingRequest, setSendingRequest] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
-  const handleInputChange = (event: { target: { name: any; value: any } }) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setErrors([]);
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
@@ -59,10 +60,18 @@ const NamesAndEmailComponent = ({
       return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
 
     if (!user.phone_number) return alert('Telefon raqamingizni kiriting!');
-
+    if (!user.username) return alert('Foydalanuvchi nomini kiriting!');
+    setSendingRequest(true);
     API.callServerClientSide(
       API.USER_CREATE,
-      { ...user, phone_number: '+' + user.phone_number },
+      {
+        phone_number: '+' + user.phone_number,
+        username: user.username,
+        password: user.password,
+        fingerprint: user.fingerprint,
+        email: user.email,
+        referred_by_code: user.referred_by,
+      },
       (res) => {
         if (res.status === 201 || res.status === 200) {
           const { data } = res;
@@ -72,8 +81,7 @@ const NamesAndEmailComponent = ({
         setSendingRequest(false);
       },
       (err) => {
-        console.log(err);
-        const { data } = err.response;
+        const { data } = err.response as { data: { [key: string]: string[] } };
         if (data) {
           setErrors(Object.keys(data));
         }
@@ -104,8 +112,10 @@ const NamesAndEmailComponent = ({
   return (
     <div
       className={clsxm(
-        'absolute flex w-[400px] flex-col gap-2 transition-all duration-500',
-        activeTab === currentTab ? 'left-0 opacity-100' : 'left-full opacity-0'
+        'absolute top-full mt-7 flex w-full max-w-[400px] flex-col gap-2 transition-all duration-500',
+        activeTab === currentTab
+          ? 'left-0 opacity-100'
+          : 'left-full hidden opacity-0'
       )}
     >
       <CustomInput
@@ -113,7 +123,7 @@ const NamesAndEmailComponent = ({
         label='Foydalanuvchi nomi'
         containerStyle={clsxm('rounded-md')}
         inputStyle={clsxm(
-          'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md',
+          'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm',
           errors.includes('username') ? 'border-2 border-red-500' : ''
         )}
         placeholder='Foydalanuvchi nomini kiriting (majburiy)'
@@ -130,7 +140,7 @@ const NamesAndEmailComponent = ({
         <CustomInput
           label='Parol'
           containerStyle='rounded-md'
-          inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md'
+          inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm'
           placeholder='Parol kiriting (majburiy)'
           name='password'
           value={user.password}
@@ -162,7 +172,7 @@ const NamesAndEmailComponent = ({
       <CustomInput
         label='Email'
         containerStyle='rounded-md'
-        inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md'
+        inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm'
         placeholder='Emailingizni kiriting (ixtiyoriy)'
         name='email'
         type='email'
@@ -178,7 +188,7 @@ const NamesAndEmailComponent = ({
         <CustomInput
           containerStyle='rounded-md flex-1'
           labelStyle='text-primary'
-          inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md border border-primary'
+          inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md border border-primary placeholder:text-sm'
           placeholder='Taklif kodini kiriting (ixtiyoriy)'
           name='referred_by'
           type='text'
@@ -192,13 +202,8 @@ const NamesAndEmailComponent = ({
         className='bg-primary mt-6 w-full text-white hover:bg-purple-700'
         onClick={handleRegister}
         isLoading={sendingRequest}
-        spinnerColor='white'
-        disabled={
-          !isPasswordValid ||
-          sendingRequest ||
-          !user.username ||
-          errors.length > 0
-        }
+        spinnerColor='black'
+        disabled={!isPasswordValid || sendingRequest || errors.length > 0}
       >
         Ro'yxatdan o'tish
       </Button>
@@ -211,6 +216,11 @@ const NamesAndEmailComponent = ({
         {errors.includes('username') && (
           <p className='text-xs text-red-500'>
             Bunday nomli foydalanuvchi allaqachon mavjud!
+          </p>
+        )}
+        {!errors.includes('username') && !errors.includes('phone_number') && (
+          <p className='text-xs text-slate-400'>
+            Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring
           </p>
         )}
       </div>

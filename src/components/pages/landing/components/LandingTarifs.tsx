@@ -14,17 +14,21 @@ function LandingTarifs() {
   const sendToRegister = (plan: string) => {
     Router.push({
       pathname: '/register',
-      query: { plan: plan === 'Bepul' ? 'free' : 'premium' },
+      query: {
+        plan:
+          plan === 'Bepul' ? 'free' : plan === 'Premium' ? 'premium' : 'basic',
+      },
     });
   };
 
   return (
     <div id="ta'riflar" className='flex w-full justify-center  py-28'>
-      <div className='layout overflow-hidden'>
-        <div className='bg-linear-dark mb-6 w-full rounded-md p-5 text-center shadow-xl'>
+      <div className='md:layout w-full overflow-hidden'>
+        <div className='bg-linear-dark layout mb-6 rounded-md p-5 text-center shadow-xl md:w-full'>
           <p className='font-primary text-center text-2xl text-white'>
             <span className='text-4xl'>🎉</span> Har bir taklif qilgan
-            do'stingiz uchun 30 000 so'm chegirmaga ega bo'ling
+            do'stingiz uchun <span className='text-3xl'>$3</span> chegirmaga ega
+            bo'ling
           </p>
           <p className='mt-5  text-[#fff]'>
             Agar siz bizning xizmatimizni yoqtirgan bo'lsangiz va uni
@@ -33,9 +37,9 @@ function LandingTarifs() {
           </p>
           <p className='mt-5 w-full text-left text-[#fff]'>
             Ha bu shunday oson! Do'stlaringizni taklif qiling va har bir premium
-            tarifiga obuna bo'lgan do'stingiz uchun, sizga 30 000 so'm chegirma
-            beriladi. Siz bu chegirmalarni kelgusi oylarning obunasi uchun
-            ishlatishingiz mumkin.
+            tarifiga obuna bo'lgan do'stingiz uchun, sizga $3 chegirma beriladi.
+            Siz bu chegirmalarni kelgusi oylarning obunasi uchun ishlatishingiz
+            mumkin.
           </p>
 
           <p className='mt-3 w-full text-left text-white'>
@@ -64,12 +68,14 @@ function LandingTarifs() {
           />
           <div className='flex-1'></div>
           <Tarif
-            title='Bazoviy'
+            title="Boshlang'ich"
             price='$25'
             features={[
               'Oxirgi 15 kunlik',
               'Ichki Analitika ',
               'Tashqi Analitika',
+              '24/7 doimiy yordam',
+              'Checksiz tovarlar',
             ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'
@@ -77,13 +83,16 @@ function LandingTarifs() {
           />
           <div className='flex-1'></div>
           <Tarif
-            title='Pro'
+            title='Premium'
             price='$40'
             features={[
+              'Oxirgi 30 kunlik',
               'Ichki Analitika',
               'Tashqi Analitika',
               'Studio',
               'Taqqoslash',
+              // "Yo'qotishlarni hisoblash",
+              '24/7 doimiy yordam',
             ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'

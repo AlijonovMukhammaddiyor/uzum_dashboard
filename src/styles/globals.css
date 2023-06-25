@@ -161,6 +161,14 @@
     background-image: linear-gradient(90deg, white 0%, lightblue 100%);
   }
 
+  input::-webkit-contacts-auto-fill-button {
+    visibility: hidden;
+    display: none !important;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+  }
+
   .list_link:after {
     content: '';
     position: absolute;

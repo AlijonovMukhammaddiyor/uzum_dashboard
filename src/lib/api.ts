@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 import { NextApiRequest } from 'next/types';
 
@@ -7,11 +7,16 @@ import { SERVER_URL } from '@/constant/env';
 export class API {
   // here, declare all endpoints of server
   static CURRENT_USER = '/api/users/me';
-  static PHONE_CODE_SEND = '/users/phone/send/';
-  static PHONE_CODE_VERIFY = '/users/phone/verify/';
+  static PHONE_CODE_SEND = '/code/';
+  static PHONE_CODE_VERIFY = '/verify/';
   static USER_CREATE = '/users/';
   static TOP_PRODUCTS = '/product/top';
   static TOP_SHOPS = '/shop/top';
+  static USER_LOGIN = '/token/';
+  static USER_LOGOUT = '/logout/';
+  static USERNAME_NUMBER_CHECK = '/username_phone_match/';
+  static USER_AUTH_CHECK = '/auth';
+  static NEWPASSWORD = '/newpassword/';
 
   static getClientAPI() {
     // Create Axios instance
@@ -36,7 +41,8 @@ export class API {
           error.response?.status === 401 &&
           originalRequest.url === '/api/token/refresh/'
         ) {
-          window.location.href = '/login/';
+          if (!window.location.href.includes('/login'))
+            window.location.href = '/login';
           return Promise.reject(error);
         }
 
@@ -66,24 +72,27 @@ export class API {
 
                   return clientApi(originalRequest);
                 })
-                .catch((err) => {
+                .catch((_) => {
                   window.localStorage.clear();
-                  window.location.href = '/login/';
-                  console.log(err);
+                  if (!window.location.href.includes('/login'))
+                    window.location.href = '/login/';
                 });
             } else {
               window.localStorage.clear();
-              window.location.href = '/login/';
+              if (!window.location.href.includes('/login'))
+                window.location.href = '/login/';
             }
           } else {
             window.localStorage.clear();
-            window.location.href = '/login/';
+            if (!window.location.href.includes('/login'))
+              window.location.href = '/login/';
           }
         }
 
         // Handle specific error codes/messages here
         window.localStorage.clear();
-        window.location.href = '/login/';
+        if (!window.location.href.includes('/login'))
+          window.location.href = '/login/';
         return Promise.reject(error);
       }
     );
@@ -141,8 +150,8 @@ export class API {
 
                   return serverApi(originalRequest);
                 })
-                .catch((err) => {
-                  console.log(err);
+                .catch((_) => {
+                  //
                 });
             } else {
               return Promise.reject(error);
@@ -163,49 +172,79 @@ export class API {
 
   static async callServerClientSide(
     endpoint: string,
-    data: any,
+    data: { [key: string]: string | number | boolean | null | undefined },
     onResponse: (res: AxiosResponse) => void,
-    onError: (err: any) => void,
+    onError: (err: AxiosError) => void,
     beforeRequest: () => void,
     afterRequest: () => void,
     method = 'get'
   ) {
-    beforeRequest();
+    // beforeRequest();
+    axios.defaults.withCredentials = true;
     let clientApi: AxiosInstance;
     if (
       endpoint === API.PHONE_CODE_SEND ||
       endpoint === API.PHONE_CODE_VERIFY ||
-      API.USER_CREATE ||
-      API.TOP_PRODUCTS ||
-      API.TOP_SHOPS
+      endpoint === API.USER_CREATE ||
+      endpoint === API.TOP_PRODUCTS ||
+      endpoint === API.TOP_SHOPS ||
+      endpoint === API.USERNAME_NUMBER_CHECK
     ) {
       clientApi = axios.create({
         baseURL: SERVER_URL,
         withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
     } else clientApi = this.getClientAPI();
 
     try {
-      const response = await clientApi.request({
-        url: endpoint,
-        method: method,
-        data: data,
-      });
+      let response: AxiosResponse;
+      if (method.toLowerCase() === 'post') {
+        response = await clientApi.request({
+          url: endpoint,
+          method: method,
+          data: data,
+        });
 
-      onResponse(response);
+        onResponse(response);
+      } else if (method.toLowerCase() === 'get') {
+        response = await clientApi.request({
+          url: endpoint,
+          method: method,
+          params: data,
+        });
+        onResponse(response);
+      }
     } catch (err) {
       // alert(err);
-      onError(err);
     } finally {
       afterRequest();
     }
   }
 
+  static async checkClientAuthenticated() {
+    try {
+      const client = this.getClientAPI();
+      try {
+        const response = await client.post(API.USER_AUTH_CHECK);
+        if (response.status === 200) return true;
+        else return false;
+      } catch (err) {
+        return false;
+      }
+    } catch (err) {
+      // console.log('err', err);
+      return false;
+    }
+  }
+
   static async callServerServerSide(
     endpoint: string,
-    data: any,
+    data: { [key: string]: string | number | boolean | null | undefined },
     onResponse: (res: AxiosResponse) => void,
-    onError: (err: any) => void,
+    onError: (err: AxiosError) => void,
     beforeRequest: () => void,
     afterRequest: () => void,
     method = 'get'
@@ -215,13 +254,17 @@ export class API {
     if (
       endpoint === API.PHONE_CODE_SEND ||
       endpoint === API.PHONE_CODE_VERIFY ||
-      API.USER_CREATE ||
-      API.TOP_PRODUCTS ||
-      API.TOP_SHOPS
+      endpoint === API.USER_CREATE ||
+      endpoint === API.TOP_PRODUCTS ||
+      endpoint === API.TOP_SHOPS ||
+      endpoint === API.USERNAME_NUMBER_CHECK
     ) {
       clientApi = axios.create({
         baseURL: SERVER_URL,
         withCredentials: true,
+        headers: {
+          'X-CSRFTOKEN': Cookies.get('csrftoken'),
+        },
       });
     } else clientApi = this.getClientAPI();
 
@@ -235,7 +278,7 @@ export class API {
       onResponse(response);
     } catch (err) {
       // alert(err);
-      onError(err);
+      onError(err as AxiosError);
     } finally {
       afterRequest();
     }

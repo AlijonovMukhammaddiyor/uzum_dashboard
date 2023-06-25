@@ -1,6 +1,5 @@
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
-import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
 import Zoom from 'react-medium-image-zoom';
 
 import clsxm from '@/lib/clsxm';
@@ -134,97 +133,93 @@ function SectionFeatures() {
   const [isShown, setIsShown] = React.useState<boolean>(false);
 
   return (
-    <div className='relative w-full py-14 md:py-28'>
+    <div className='relative w-full py-8 md:py-28' id='services'>
       <div className='layout'>
-        <h1 className='font-primary mb-6 text-3xl font-semibold leading-8 tracking-wider md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
+        <h1 className='font-primary text-2xl font-semibold leading-8 tracking-wider md:mb-6 md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
           Nima qilishi mumkin?
         </h1>
-        {!isShown && (
-          <div
-            onClick={() => setIsShown(true)}
-            className='bg-linear-light absolute left-5 top-32 flex w-[calc(100%-20px)] items-center justify-start p-2  sm:top-24 md:hidden'
-          >
-            <MdKeyboardDoubleArrowRight className='arrow_pulse z-10 cursor-pointer text-3xl' />
-          </div>
-        )}
         {/* <h1 className='text-[40px]'>Imkoniyatlar</h1> */}
-        <div className='relative flex w-full items-start justify-start gap-20'>
+        <div className='relative flex w-full flex-col items-start justify-start gap-20 md:flex-row'>
           <div
             className={clsxm(
-              isShown ? '' : '-ml-[100%] md:ml-0',
-              'four-sided-shadow relative z-10 w-full rounded-xl bg-white  py-10 pl-4 pt-16  transition-all sm:w-[300px] md:bg-transparent md:pt-10 md:shadow-none'
+              'md:four-sided-shadow relative w-full bg-white pl-4 pt-7 transition-all md:z-10 md:w-[300px] md:rounded-xl  md:bg-transparent md:py-10 md:pt-10 md:shadow-none'
             )}
           >
-            <div className='flex flex-col items-start justify-start gap-6'>
-              <ul className='flex flex-col'>
+            <div className='flex w-full flex-col items-start justify-start gap-6'>
+              <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className=''>Tashqi analitika</h3>
+                  <h3 className='mb-2'>Tashqi analitika</h3>
                 </li>
-                {externalAnalytics.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {externalAnalytics.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
               </ul>
-              <ul>
+              <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className=''>Inchki analitika</h3>
+                  <h3 className='mb-2'>Inchki analitika</h3>
                 </li>
-                {internalAnalytics.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
-              </ul>
-
-              <ul>
-                <li>
-                  <h3 className=''>Taqqoslash</h3>
-                </li>
-                {compareAnalytics.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {internalAnalytics.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
               </ul>
 
-              <ul>
+              <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className=''>Studio</h3>
+                  <h3 className='mb-2'>Taqqoslash</h3>
                 </li>
-                {studio.map((item, index) => (
-                  <ListItem
-                    {...item}
-                    key={index}
-                    setActiveTab={setActiveTab}
-                    setCurrentImage={setCurrentImage}
-                    setIsShown={setIsShown}
-                    activeTab={activeTab}
-                  />
-                ))}
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {compareAnalytics.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
+              </ul>
+
+              <ul className='flex w-full flex-col'>
+                <li>
+                  <h3 className='mb-2'>Studio</h3>
+                </li>
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {studio.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
               </ul>
             </div>
           </div>
-          <div className='four-sided-shadow absolute top-16 flex-1 flex-col items-start justify-start rounded-lg px-6 py-16 md:static md:mt-6 md:flex'>
-            <h2 className='mb-4'>
-              {/* Bu xizmat nima qilishi mumkin? */}
-              {activeTab}
-            </h2>
+          <div className='four-sided-shadow flex-1 flex-col items-start justify-start rounded-lg px-6 py-10 pb-16 md:static md:mt-6 md:flex'>
+            <h2 className='mb-4 text-[18px] lg:text-3xl'>{activeTab}</h2>
             <div className='flex w-full flex-col gap-3'>
               <p className='mb-2'>{descriptions_uz[activeTab]}</p>
               <div className='h-full w-full'>
@@ -262,10 +257,10 @@ function ListItem({
   return (
     <li
       className={clsxm(
-        'px-6 py-2 md:relative md:flex md:w-[270px] md:cursor-pointer md:items-center md:gap-4 md:bg-transparent',
+        'px-4 py-2 md:relative md:flex md:w-[270px] md:cursor-pointer md:items-center md:gap-4',
+        'min-w-max cursor-pointer rounded-3xl bg-slate-200 md:min-w-0 md:bg-transparent',
         activeTab === title &&
-          'md:bg-primary md:list_link md:rounded-l-md md:text-white',
-        'rounded-xl bg-slate-200'
+          'bg-primary md:bg-primary md:list_link text-white md:rounded-l-md md:rounded-r-none'
       )}
       onClick={() => {
         setCurrentImage(image);
@@ -273,7 +268,7 @@ function ListItem({
         setIsShown(false);
       }}
     >
-      <span>{title}</span>
+      <span className='text-xs sm:text-base'>{title}</span>
     </li>
   );
 }

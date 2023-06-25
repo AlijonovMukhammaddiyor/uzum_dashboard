@@ -1,14 +1,14 @@
 import { AxiosError } from 'axios';
 import React from 'react';
+import { HiOutlineArrowLeft } from 'react-icons/hi';
 
 import { API } from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
-import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
 
-export interface PhoneConfirmComponentProps {
+export interface LoginPhoneConfirmComponentProps {
   onNext: () => void;
   onPrevious: () => void;
   activeTab: number;
@@ -16,19 +16,20 @@ export interface PhoneConfirmComponentProps {
   phone: string;
 }
 
-function PhoneConfirm({
+function LoginPhoneConfirm({
   onNext,
   activeTab,
   currentTab,
   phone,
   onPrevious,
-}: PhoneConfirmComponentProps) {
+}: LoginPhoneConfirmComponentProps) {
   const [sendingRequest, setSendingRequest] = React.useState(false);
   const [code, setCode] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const handleSendCode = () => {
     setErrorMessage(null);
+
     setSendingRequest(true);
     API.callServerClientSide(
       API.PHONE_CODE_VERIFY,
@@ -36,10 +37,12 @@ function PhoneConfirm({
       (res) => {
         if (res.status === 200) {
           onNext();
+          setCode('');
         }
         setSendingRequest(false);
       },
       (err: AxiosError) => {
+        console.log(err);
         setSendingRequest(false);
         setErrorMessage((err.response?.data as { message: string }).message);
       },
@@ -59,20 +62,22 @@ function PhoneConfirm({
     <div
       className={clsxm(
         'absolute top-full mt-7 flex w-full max-w-[400px] flex-col gap-2 transition-all duration-500',
-        activeTab === currentTab && 'left-0 opacity-100',
-        activeTab === currentTab - 1 && 'left-full opacity-0',
-        activeTab === currentTab + 1 && '-left-full opacity-0',
-        activeTab !== currentTab && 'hidden'
+        activeTab === currentTab ? 'left-0 opacity-100' : '-left-full opacity-0'
       )}
     >
       <CustomInput
         label='Kod'
-        autoFocus={activeTab === currentTab}
+        autoFocus
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') {
+            handleSendCode();
+          }
+        }}
         onWheel={(e) => {
           (e.target as HTMLInputElement)?.blur();
           (document.activeElement as HTMLInputElement)?.blur();
         }}
-        containerStyle='rounded-md'
+        containerStyle='rounded-md w-full'
         inputStyle={clsxm(
           'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md',
           '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
@@ -99,22 +104,27 @@ function PhoneConfirm({
         onClick={() => {
           handleSendCode();
         }}
-        spinnerColor='black'
+        spinnerColor='white'
         isLoading={sendingRequest}
         disabled={code.length < 4 || sendingRequest}
       >
         Tasdiqlash
       </Button>
 
-      <RegisterFooter
-        onPrevious={() => {
-          onPrevious();
-          setErrorMessage(null);
+      <div
+        className='group flex w-full items-center justify-start gap-2'
+        onClick={() => {
           setCode('');
+          onPrevious && onPrevious();
         }}
-      />
+      >
+        <HiOutlineArrowLeft className='text-slate-500 group-hover:text-black' />
+        <p className='cursor-pointer text-sm text-slate-500 group-hover:text-black'>
+          Orqaga qaytish
+        </p>
+      </div>
     </div>
   );
 }
 
-export default PhoneConfirm;
+export default LoginPhoneConfirm;

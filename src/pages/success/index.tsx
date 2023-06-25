@@ -7,6 +7,8 @@ import { FiCopy } from 'react-icons/fi';
 import { GrClose } from 'react-icons/gr';
 import { IoCheckmarkDoneOutline } from 'react-icons/io5';
 
+import clsxm from '@/lib/clsxm';
+
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 
 const SuccessPage = () => {
@@ -23,10 +25,10 @@ const SuccessPage = () => {
         return;
       }
       await navigator.clipboard.writeText(
-        window.localStorage.getItem('referral_code')!
+        window.localStorage.getItem('referral_code') as string
       );
     } catch (error) {
-      console.error('Copy failed:', error);
+      // console.error('Copy failed:', error);
     }
   };
 
@@ -78,12 +80,6 @@ const SuccessPage = () => {
                 </p>
               </div>
             </div>
-            <p className='mt-3'>
-              Tez orada siz barcha xizmatlardan foydalanishingiz mumkin bo`ladi.
-              {/* Ungagacha har qanday savol va takliflaringizni quyidagi manzilga
-            yuboring:
-            <a href='mailto:ulughbek4real.w@gmail.com'>ulughbek4real.com</a> */}
-            </p>
             <p>
               Yangiliklardan xabardor bo'lish uchun bizni ijtimoiy tarmoqlarda
               ham kuzatib boring:
@@ -93,17 +89,27 @@ const SuccessPage = () => {
                 <BsTelegram className='text-2xl' />
                 <p className='lg:inline'>Kanalga Qo'shilish</p>
               </div>
-              <div className='flex hidden cursor-pointer items-center justify-end gap-4 rounded-md bg-red-600 px-3 py-2 text-white transition-all duration-100 hover:bg-red-200 hover:text-red-500 lg:px-6'>
+              <div
+                className={clsxm(
+                  'flex cursor-pointer items-center justify-end gap-4 rounded-md bg-red-600 px-3 py-2 text-white transition-all duration-100 hover:bg-red-200 hover:text-red-500 lg:px-6',
+                  'hidden'
+                )}
+              >
                 <AiFillYoutube className='text-2xl' />
                 <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
               </div>
-              <div className='flex hidden cursor-pointer items-center justify-end gap-4 rounded-md bg-pink-700 px-3 py-2 text-white transition-all duration-100 hover:bg-pink-200 hover:text-pink-500 lg:px-6'>
+              <div
+                className={clsxm(
+                  'flex cursor-pointer items-center justify-end gap-4 rounded-md bg-pink-700 px-3 py-2 text-white transition-all duration-100 hover:bg-pink-200 hover:text-pink-500 lg:px-6',
+                  'hidden'
+                )}
+              >
                 <AiFillInstagram className='text-2xl' />
                 <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
               </div>
             </div>
           </div>
-          <div className='flex hidden flex-col gap-8'>
+          <div className={clsxm('flex flex-col gap-8', 'hidden')}>
             <div className='flex flex-col gap-3 rounded-lg border border-black p-5 '>
               <div className='flex justify-between'>
                 <p className='flex items-center gap-2 text-green-800'>
