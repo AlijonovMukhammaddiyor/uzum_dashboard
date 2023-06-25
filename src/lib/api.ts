@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next/types';
+import nookies from 'nookies';
 
 import logger from '@/lib/logger';
 
@@ -144,27 +145,28 @@ export class API {
           try {
             if (!context.req.cookies['refresh_token'])
               return Promise.reject("Can't refresh token 2");
-            const newAccessToken = await API.refreshAccessToken(
+            const tokens = await API.refreshAccessToken(
               context.req.cookies['refresh_token']
             );
-            axios.defaults.headers[
-              'Authorization'
-            ] = `Bearer ${newAccessToken}`;
+            // update cookies with new access token and refresh token in the browser as httpOnly cookie
+            //
+            nookies.set(context, 'access_token', tokens.access, {
+              httpOnly: true,
+            });
+            nookies.set(context, 'refresh_token', tokens.refresh, {
+              httpOnly: true,
+            });
+            // set access token in Authorization header
+            axios.defaults.headers['Authorization'] = `Bearer ${tokens.access}`;
             originalRequest.headers[
               'Authorization'
-            ] = `Bearer ${newAccessToken}`;
-            console.log('newAccessToken', newAccessToken);
+            ] = `Bearer ${tokens.access}`;
             return serverApi(originalRequest);
           } catch (error) {
             logger(error, "Can't decode refresh token");
             return Promise.reject(error);
           }
         }
-
-        // Handle specific error codes/messages here
-
-        console.log('error', error.response.data);
-        console.log();
 
         return Promise.reject(error);
       }
@@ -178,7 +180,7 @@ export class API {
       const res = await axios.post(`${SERVER_URL}${API.USER_REFRESH_TOKEN}`, {
         refresh: refreshToken,
       });
-      return res.data.access;
+      return res.data;
     } catch (error) {
       logger(error, "Can't refresh token");
       throw error;

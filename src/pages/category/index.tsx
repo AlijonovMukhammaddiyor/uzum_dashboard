@@ -35,7 +35,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       },
     };
   } catch (error: any) {
-    console.log(error);
     // Handle specific error codes or conditions
     if (error.response && error.response.status === 401) {
       return {

@@ -34,7 +34,7 @@ function LoginComponent() {
             <Logo className='h-[40px] w-[140px]' />
           </Link>
           <div className='flex items-center justify-end gap-2'>
-            <p className='hidden sm:block'>Hali akkauntingiz yo'qmi?</p>
+            <p className='hidden text-xs lg:block'>Hali akkauntingiz yo'qmi?</p>
             <p>
               <Link
                 href='/register'
