@@ -1,32 +1,47 @@
-import { Area, Column } from '@ant-design/plots';
+// import { Area, Column } from '@ant-design/plots';
+import dynamic from 'next/dynamic';
+
+const Area = dynamic(
+  () => import('@ant-design/plots').then((item) => item.Area),
+  {
+    ssr: false,
+  }
+);
+
+const Column = dynamic(
+  () => import('@ant-design/plots').then((item) => item.Column),
+  {
+    ssr: false,
+  }
+);
 import { faker } from '@faker-js/faker';
-import {
-  CategoryScale,
-  Chart as ChartJS,
-  Filler,
-  Legend,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
-} from 'chart.js';
-import annotationPlugin from 'chartjs-plugin-annotation';
+// import {
+//   CategoryScale,
+//   Chart as ChartJS,
+//   Filler,
+//   Legend,
+//   LinearScale,
+//   LineElement,
+//   PointElement,
+//   Title,
+//   Tooltip,
+// } from 'chart.js';
+// import annotationPlugin from 'chartjs-plugin-annotation';
 import React from 'react';
 
 import Tabs from '@/components/shared/Tabs';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-  annotationPlugin
-);
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   Title,
+//   Tooltip,
+//   Filler,
+//   Legend,
+//   annotationPlugin
+// );
 
 function AreaChartComponent() {
   const [activeTab, setActiveTab] = React.useState<string>('Chiziq');

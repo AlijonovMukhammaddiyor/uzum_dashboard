@@ -1,6 +1,11 @@
-import { Scatter } from '@ant-design/plots';
+import dynamic from 'next/dynamic';
 import React from 'react';
-
+const Scatter = dynamic(
+  () => import('@ant-design/plots').then((item) => item.Scatter),
+  {
+    ssr: false,
+  }
+);
 import clsxm from '@/lib/clsxm';
 
 export interface ScatterPlotProps {

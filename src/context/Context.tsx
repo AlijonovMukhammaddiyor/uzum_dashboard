@@ -3,6 +3,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 
 import { API } from '@/lib/api';
+import logger from '@/lib/logger';
 
 import { SERVER_URL } from '@/constant/env';
 import Reducer from '@/context/reducer';
@@ -33,12 +34,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     dispatch({ type: 'LOADING', payload: { fetching: true } });
 
-    client.get(`${SERVER_URL}${API.CURRENT_USER}`).then((res) => {
-      dispatch({
-        type: 'LOGIN',
-        payload: { user: res.data },
+    client
+      .get(`${SERVER_URL}${API.CURRENT_USER}`)
+      .then((res) => {
+        dispatch({
+          type: 'LOGIN',
+          payload: { user: res.data },
+        });
+      })
+      .catch((err) => {
+        logger(err, 'Error in AuthProvider');
       });
-    });
   }, []);
 
   const contextData = {

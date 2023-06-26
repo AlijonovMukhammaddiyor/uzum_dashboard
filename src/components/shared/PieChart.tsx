@@ -1,4 +1,13 @@
-import { Pie } from '@ant-design/plots';
+// import { Pie } from '@ant-design/plots';
+import dynamic from 'next/dynamic';
+
+const Pie = dynamic(
+  () => import('@ant-design/plots').then((item) => item.Pie),
+  {
+    ssr: false,
+  }
+);
+
 import React from 'react';
 
 const DemoPie = () => {

@@ -22,7 +22,7 @@ function LandingMain() {
               Hoziroq o'z muvaffaqiyatingizni boshlang!
             </p>
           </div>
-          <div className='base:bottom-[370px] base:left-[500px] base:w-[900px] base:absolute bottom-[290px] right-0 w-full overflow-hidden lg:-right-40  lg:left-[700px]'>
+          <div className='base:bottom-[370px] base:top-[300px] base:left-[500px] base:w-[900px] base:absolute bottom-[290px] right-0 w-full overflow-hidden lg:-right-40  lg:left-[700px]'>
             <Image
               src={dashboard}
               alt='dashboard'

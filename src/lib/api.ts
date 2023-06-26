@@ -125,15 +125,12 @@ export class API {
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
-        console.log('error', error.response);
-        console.log("Can't refresh token 0");
 
         // Prevent infinite loops
         if (
           error.response.status === 401 &&
           originalRequest.url === '/api/token/refresh/'
         ) {
-          console.log("Can't refresh token 1");
           return Promise.reject(error);
         }
 
@@ -150,6 +147,7 @@ export class API {
             );
             // update cookies with new access token and refresh token in the browser as httpOnly cookie
             //
+            console.log('setting cookies');
             nookies.set(context, 'access_token', tokens.access, {
               httpOnly: true,
             });
@@ -254,11 +252,11 @@ export class API {
     }
   }
 
-  static async checkClientAuthenticated() {
+  static async checkClientAuthenticated(context: GetServerSidePropsContext) {
     try {
-      const client = this.getClientAPI();
+      const api = this.createServerApi(context);
       try {
-        const response = await client.post(API.USER_AUTH_CHECK);
+        const response = await api.post(API.USER_AUTH_CHECK);
         if (response.status === 200) return true;
         else return false;
       } catch (err) {

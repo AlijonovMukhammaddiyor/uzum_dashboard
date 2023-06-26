@@ -7,8 +7,16 @@ import Layout from '@/components/layout/Layout';
 import CategoryComponent from '@/components/pages/category/CategoryComponent';
 import Seo from '@/components/Seo';
 
+import { CategoryInTree } from '@/types/category';
+
 export default function Category({ data }: any) {
-  console.log(data);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <Layout
@@ -18,7 +26,7 @@ export default function Category({ data }: any) {
     >
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
-      <CategoryComponent />
+      <CategoryComponent data={data.children as CategoryInTree[]} />
     </Layout>
   );
 }
