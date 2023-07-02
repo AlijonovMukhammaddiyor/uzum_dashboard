@@ -7,6 +7,67 @@
   "resolved" "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.0.1.tgz"
   "version" "4.0.1"
 
+"@ag-grid-community/client-side-row-model@^30.0.2":
+  "integrity" "sha512-4d4jZKGanUfEFKnRIrOSHGrg/sMMLfKwZqtys4IBWYNxNHP8M68u99g6FxlcmsbfwarRhYjH00O46wfwFVVjKQ=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-community/client-side-row-model/-/client-side-row-model-30.0.2.tgz"
+  "version" "30.0.2"
+  dependencies:
+    "@ag-grid-community/core" "~30.0.2"
+
+"@ag-grid-community/core@~30.0.2":
+  "integrity" "sha512-ezGogK/aHwkrT4birLTK3CgxjcmbaxwO5EHIWl6gHuQ3S0r2AVzDCZ0+jWuOQw8+7+P36R1rMJe8xJyvZrtKRw=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-community/core/-/core-30.0.2.tgz"
+  "version" "30.0.2"
+
+"@ag-grid-community/infinite-row-model@^30.0.2":
+  "integrity" "sha512-EZSHxnoT90/yu08r5iEjyHTsS6B9vcdsEkvBAd1tIN7TXG/22M2qQlR9LidmqfVr7gpoUClHQxY8hnD983GA0A=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-community/infinite-row-model/-/infinite-row-model-30.0.2.tgz"
+  "version" "30.0.2"
+  dependencies:
+    "@ag-grid-community/core" "~30.0.2"
+
+"@ag-grid-enterprise/column-tool-panel@^30.0.2", "@ag-grid-enterprise/column-tool-panel@~30.0.2":
+  "integrity" "sha512-yZqj5/5E7IVe/sZg0o1z6p0f1FVmZKLjzPrKo5hCruOuNCwR/UdAethxa1SqGATh9PgOlnGuo6u2+oNjnbyt4A=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-enterprise/column-tool-panel/-/column-tool-panel-30.0.2.tgz"
+  "version" "30.0.2"
+  dependencies:
+    "@ag-grid-community/core" "~30.0.2"
+    "@ag-grid-enterprise/core" "~30.0.2"
+    "@ag-grid-enterprise/row-grouping" "~30.0.2"
+    "@ag-grid-enterprise/side-bar" "~30.0.2"
+
+"@ag-grid-enterprise/core@~30.0.2":
+  "integrity" "sha512-02PxxeNL2sBzpjcXIeeKoY1ivwraI6bdLduRAztic7T0rhIhbS+gFmVAMDjVm+TH/MkP90M0U69PIQMxhj4+HA=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-enterprise/core/-/core-30.0.2.tgz"
+  "version" "30.0.2"
+  dependencies:
+    "@ag-grid-community/core" "~30.0.2"
+
+"@ag-grid-enterprise/menu@^30.0.2":
+  "integrity" "sha512-FpuW7RlYvLhJIsVSQIsYk5moTS7M+V+jlF3VNq1LxyH8a0hiEx9FJgfNUUX4J/hPaTnPkdqQZFnglGfPTnC2FA=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-enterprise/menu/-/menu-30.0.2.tgz"
+  "version" "30.0.2"
+  dependencies:
+    "@ag-grid-community/core" "~30.0.2"
+    "@ag-grid-enterprise/column-tool-panel" "~30.0.2"
+    "@ag-grid-enterprise/core" "~30.0.2"
+
+"@ag-grid-enterprise/row-grouping@~30.0.2":
+  "integrity" "sha512-NJEKu+CTKvpc/yPvwF2I4fFQvAgfj1Ar49vyJ/EIl//mc8epHIipfIg1z/BDmScvvKRakQQvUIj1o6K8Rbw+Fw=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-enterprise/row-grouping/-/row-grouping-30.0.2.tgz"
+  "version" "30.0.2"
+  dependencies:
+    "@ag-grid-community/core" "~30.0.2"
+    "@ag-grid-enterprise/core" "~30.0.2"
+
+"@ag-grid-enterprise/side-bar@~30.0.2":
+  "integrity" "sha512-8WKWPnGwwaNb1Hv824xqymzv2aeuR0U7ObfEnNy9HOvFd+7VhMojEmNc27bGNxfaBnSxUepbclqi8GjQy9/6xg=="
+  "resolved" "https://registry.npmjs.org/@ag-grid-enterprise/side-bar/-/side-bar-30.0.2.tgz"
+  "version" "30.0.2"
+  dependencies:
+    "@ag-grid-community/core" "~30.0.2"
+    "@ag-grid-enterprise/core" "~30.0.2"
+
 "@alloc/quick-lru@^5.2.0":
   "integrity" "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="
   "resolved" "https://registry.npmjs.org/@alloc/quick-lru/-/quick-lru-5.2.0.tgz"

@@ -1,13 +1,15 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-import { API } from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
+
+import { useContextState } from '@/context/Context';
 
 export interface NamesAndEmailComponentProps {
   activeTab: number;
@@ -49,6 +51,7 @@ const NamesAndEmailComponent = ({
     setErrors([]);
     setUser({ ...user, [event.target.name]: event.target.value });
   };
+  const { dispatch } = useContextState();
 
   const handleRegister = () => {
     // Perform registration logic
@@ -61,40 +64,41 @@ const NamesAndEmailComponent = ({
 
     if (!user.phone_number) return alert('Telefon raqamingizni kiriting!');
     if (!user.username) return alert('Foydalanuvchi nomini kiriting!');
+
     setSendingRequest(true);
-    API.callServerClientSide(
-      API.USER_CREATE,
-      {
-        phone_number: '+' + user.phone_number,
-        username: user.username,
-        password: user.password,
-        fingerprint: user.fingerprint,
-        email: user.email,
-        referred_by_code: user.referred_by,
-      },
-      (res) => {
+
+    axios
+      .post(
+        '/api/register/',
+        {
+          phone_number: '+' + user.phone_number,
+          username: user.username,
+          password: user.password,
+          fingerprint: user.fingerprint,
+          email: user.email,
+          referred_by_code: user.referred_by,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
         if (res.status === 201 || res.status === 200) {
           const { data } = res;
-          window.localStorage.setItem('referral_code', data.referral_code);
+          dispatch({ type: 'USER', payload: { user: data } });
           router.push('/success');
         }
         setSendingRequest(false);
-      },
-      (err) => {
+      })
+      .catch((err) => {
         const { data } = err.response as { data: { [key: string]: string[] } };
         if (data) {
           setErrors(Object.keys(data));
         }
         setSendingRequest(false);
-      },
-      () => {
-        setSendingRequest(true);
-      },
-      () => {
-        setSendingRequest(false);
-      },
-      'POST'
-    );
+      });
   };
 
   useEffect(() => {

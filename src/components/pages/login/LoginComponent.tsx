@@ -10,7 +10,6 @@ import NewPassword from '@/components/pages/login/NewPassword';
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
 
 import Logo from '@/assets/logo/logo.svg';
-import { withAuthRedirect } from '@/auth/WithAuth';
 
 function LoginComponent() {
   const router = useRouter();
@@ -100,7 +99,7 @@ function LoginComponent() {
   );
 }
 
-export default withAuthRedirect(LoginComponent);
+export default LoginComponent;
 
 function LoginHeader({ activeTab }: { activeTab: number }) {
   return (

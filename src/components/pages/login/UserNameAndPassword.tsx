@@ -1,16 +1,14 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import LoginFooter from '@/components/pages/login/LoginFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
-
-import { SERVER_URL } from '@/constant/env';
 
 export interface NamesAndEmailComponentProps {
   activeTab: number;
@@ -43,46 +41,21 @@ const UserNameAndPassword = ({
   const [sendingRequest, setSendingRequest] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
-  const handleInputChange = (event: { target: { name: any; value: any } }) => {
+  const handleInputChange = (event: {
+    target: { name: string; value: string };
+  }) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
-  const handleLogin = () => {
-    // Perform registration logic
-    onLogin();
-  };
-
   const onLogin = () => {
+    const api = new API(null);
     setSendingRequest(true);
-    const url = SERVER_URL + '/token/';
-    axios
-      .post(url, user, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      })
+    api
+      .login(user)
       .then((res) => {
-        if (res.status === 200) {
+        console.log(res, 'res');
+        if (res) {
           setSuccess(true);
-          if ((window as any).PasswordCredential) {
-            const credentials = new (window as any).PasswordCredential({
-              id: user.username, // User's username
-              name: user.username, // User's full name
-              password: user.password, // User's password
-            });
-
-            navigator.credentials
-              .store(credentials)
-              .then((result) => {
-                // Credentials stored successfully
-                console.log('Credentials stored successfully', result);
-              })
-              .catch((error) => {
-                // Error occurred while storing credentials
-                console.log('Error occurred while storing credentials', error);
-              });
-          }
           router.push('/home');
         } else {
           setSuccess(false);
@@ -91,6 +64,7 @@ const UserNameAndPassword = ({
       })
       .catch((err) => {
         logger(err, 'Error in onLogin');
+        alert(err);
         setSuccess(false);
         setSendingRequest(false);
       });
@@ -104,7 +78,6 @@ const UserNameAndPassword = ({
     if (password.length < 8) {
       return setIsPasswordValid(false);
     }
-
     setIsPasswordValid(true);
   };
 
@@ -147,7 +120,7 @@ const UserNameAndPassword = ({
           value={user.password}
           onKeyUp={(e) => {
             if (e.key === 'Enter') {
-              handleLogin();
+              onLogin();
             }
           }}
           onChange={(e) => {
@@ -188,7 +161,7 @@ const UserNameAndPassword = ({
 
       <Button
         className='bg-primary mt-6 w-full text-white hover:bg-purple-700'
-        onClick={handleLogin}
+        onClick={onLogin}
         isLoading={sendingRequest}
         spinnerColor='white'
         disabled={

@@ -1,8 +1,10 @@
+import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import NamesAndEmailComponent from '@/components/pages/landing/register/NameInput';
@@ -13,6 +15,7 @@ import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
 import Logo from '@/assets/logo/logo.svg';
+import { SERVER_URL } from '@/constant/env';
 
 const Register = () => {
   const router = useRouter();
@@ -152,3 +155,34 @@ function RegisterHeader({ plan }: { plan: string }) {
 }
 
 export default Register;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  try {
+    try {
+      const api = new API(SERVER_URL, context);
+      // check if user is logged in
+      const res = await api.getCurrentUser();
+
+      if (res) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/home',
+          },
+          props: {},
+        };
+      }
+      return {
+        props: {},
+      };
+    } catch (e) {
+      return {
+        props: {},
+      };
+    }
+  } catch (e) {
+    return {
+      props: {},
+    };
+  }
+}

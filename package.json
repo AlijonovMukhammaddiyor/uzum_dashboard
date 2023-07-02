@@ -1,5 +1,5 @@
 {
-  "name": "ts-nextjs-tailwind-starter",
+  "name": "analitika_uzum",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -18,6 +18,10 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@ag-grid-community/client-side-row-model": "^30.0.2",
+    "@ag-grid-community/infinite-row-model": "^30.0.2",
+    "@ag-grid-enterprise/column-tool-panel": "^30.0.2",
+    "@ag-grid-enterprise/menu": "^30.0.2",
     "@ant-design/charts": "^1.4.2",
     "ag-grid-community": "^29.3.5",
     "ag-grid-react": "^29.3.5",

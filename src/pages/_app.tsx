@@ -8,9 +8,11 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import '@/styles/globals.css';
 import '@/styles/agGrid.css';
-import '@/styles/smiley.css';
+import '@/styles/loading.css';
 import 'react-medium-image-zoom/dist/styles.css';
 import 'react-phone-input-2/lib/style.css';
+
+import { AuthProvider } from '@/context/Context';
 
 /**
  * !STARTERCONF info
@@ -26,10 +28,12 @@ const roboto = Poppins({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={roboto.className}>
-      <NextNProgress color='rgb(119, 67, 219)' />
-      <Component {...pageProps} />
-    </main>
+    <AuthProvider>
+      <main className={roboto.className}>
+        <NextNProgress color='rgb(119, 67, 219)' />
+        <Component {...pageProps} />
+      </main>
+    </AuthProvider>
   );
 }
 

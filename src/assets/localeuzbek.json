@@ -1,0 +1,98 @@
+{
+  "selectAll": "(Hammasini tanlash)",
+  "selectAllSearchResults": "(Qidiruv natijalarini tanlash)",
+  "searchOoo": "Qidiruv...",
+  "blanks": "(Bo'sh)",
+  "noMatches": "Mos keladiganlar topilmadi",
+
+  "page": "Sahifa",
+
+  "filterOoo": "Filtrlash...",
+  "equals": "Teng",
+  "notEqual": "Teng emas",
+  "blank": "Bo'sh",
+  "notBlank": "Bo'sh emas",
+  "empty": "Bittasini tanlang",
+
+  "lessThan": "Kamroq",
+  "greaterThan": "Ko'proq",
+  "lessThanOrEqual": "Kam yoki teng",
+  "greaterThanOrEqual": "Ko'proq yoki teng",
+  "inRange": "Diapazonda",
+  "inRangeStart": "dan",
+  "inRangeEnd": "gacha",
+
+  "contains": "O'z ichiga oladi",
+  "notContains": "O'z ichiga olmaydi",
+  "startsWith": "Bilan boshlanadi",
+  "endsWith": "Bilan tugaydi",
+
+  "dateFormatOoo": "yyyy-mm-dd",
+
+  "andCondition": "VA",
+  "orCondition": "YOKI",
+
+  "applyFilter": "Qo'llash",
+  "resetFilter": "Qayta o'rnatish",
+  "clearFilter": "Tozalash",
+  "cancelFilter": "Bekor qilish",
+
+  "textFilter": "Matn filtri",
+  "numberFilter": "Raqam filtri",
+  "dateFilter": "Sana filtri",
+  "setFilter": "Filtrni o'rnatish",
+
+  "groupFilterSelect": "Maydonni tanlang:",
+
+  "columns": "Ustunlar",
+  "filters": "Filtrlar",
+
+  "loadingOoo": "Yuklanmoqda...",
+  "loadingError": "XATO",
+  "noRowsToShow": "Ko'rsatish uchun qatorlar yo'q",
+  "enabled": "Yoqilgan",
+
+  "pinColumn": "Ustunni qo'yish",
+  "pinLeft": "Chapga qo'yish",
+  "pinRight": "O'ngga qo'yish",
+  "noPin": "Yo'q",
+  "valueAggregation": "Qiymat agregatsiyasi",
+  "noAggregation": "Yo'q",
+
+  "thousandSeparator": ",",
+  "decimalSeparator": ".",
+
+  "true": "Rost",
+  "false": "Noto'g'ri",
+  "invalidDate": "Noto'g'ri sana",
+  "invalidNumber": "Noto'g'ri raqam",
+  "january": "Yanvar",
+  "february": "Fevral",
+  "march": "Mart",
+  "april": "Aprel",
+  "may": "May",
+  "june": "Iyun",
+  "july": "Iyul",
+  "august": "Avgust",
+  "september": "Sentabr",
+  "october": "Oktabr",
+  "november": "Noyabr",
+  "december": "Dekabr",
+  "monday": "Dushanba",
+  "tuesday": "Seshanba",
+  "wednesday": "Chorshanba",
+  "thursday": "Payshanba",
+  "friday": "Juma",
+  "saturday": "Shanba",
+  "sunday": "Yakshanba",
+
+  "copy": "Nusxalash",
+  "copyWithHeaders": "Sarlavhalari bilan nusxalash",
+  "ctrlC": "Ctrl + C",
+  "paste": "Qo'shib qo'yish",
+  "ctrlV": "Ctrl + V",
+
+  "to": "-",
+  "toAndFrom": "dan gacha",
+  "of": "Jami"
+}

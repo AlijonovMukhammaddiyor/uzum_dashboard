@@ -5,7 +5,7 @@ import Layout from '@/components/layout/Layout';
 import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
 import Seo from '@/components/Seo';
 import HistogramPlot from '@/components/shared/Histogram';
-import Table from '@/components/shared/Table';
+import Table from '@/components/shared/PaginatedTable';
 
 export default function Sellers() {
   return (

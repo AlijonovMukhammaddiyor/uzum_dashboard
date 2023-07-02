@@ -1,11 +1,10 @@
+import { UserType } from '@/types/user';
+
 export interface State {
-  user: {
-    first_name: string;
-    last_name: string;
-    email: string;
-  } | null;
+  user: UserType | null;
   fetching: boolean;
   lang: string;
+  access_token?: string;
 }
 
 export const INITIAL_STATE: State = {

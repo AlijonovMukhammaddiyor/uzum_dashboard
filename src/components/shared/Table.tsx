@@ -1,56 +1,55 @@
-import { GridApi } from 'ag-grid-community';
-import { AgGridReact } from 'ag-grid-react';
-import Link from 'next/link';
-import React, { useState } from 'react';
-
+import { GridReadyEvent } from 'ag-grid-community';
+import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
+import { AxiosResponse } from 'axios';
+import React from 'react';
+import Uzlocale from '@/assets/localeuzbek.json';
 import clsxm from '@/lib/clsxm';
 
-export interface TableProps {
+interface TableProps<T> extends AgGridReactProps {
   className?: string;
-  columnDefs: Record<string, any>[];
-  data: any[];
+  fetchData: () => Promise<AxiosResponse<T[]>>;
+  setLoading?: (loading: boolean) => void;
 }
 
-const Table = ({ className, columnDefs, data }: TableProps) => {
-  const [gridApi, setGridApi] = useState<GridApi | null>(null);
+const Table = <T,>({
+  className,
+  fetchData,
+  setLoading,
+  ...props
+}: TableProps<T>) => {
+  const [rowData, setRowData] = React.useState<T[]>([]);
 
-  const onGridReady = (params: any) => {
-    setGridApi(params.api);
+  React.useEffect(() => {
+    const getData = async () => {
+      if (!fetchData) return;
+      const response = await fetchData();
+      if (setLoading) setLoading(false);
+      setRowData(response.data);
+    };
+
+    getData();
+  }, [fetchData, setLoading]);
+
+  const onGridReady = (params: GridReadyEvent) => {
+    params.api.sizeColumnsToFit();
   };
 
   return (
     <div className={clsxm('ag-theme-alpine h-[800px] w-full', className)}>
       <AgGridReact
-        columnDefs={columnDefs}
-        rowData={data}
         defaultColDef={{
           resizable: true,
           sortable: true,
           filter: true,
+          flex: 1,
+          minWidth: 100,
         }}
         suppressColumnMoveAnimation={true}
         allowDragFromColumnsToolPanel={true}
-        onGridReady={onGridReady}
-        // getRowHeight={() => 35}
-        pagination={true}
-        headerHeight={30}
         rowSelection='multiple'
         floatingFiltersHeight={35}
         suppressMenuHide={true}
         enableCharts={true}
-        // onCellClicked={(e) => {
-        //   console.log('e', e);
-        // }}
-        // onCellDoubleClicked={(e) => {
-        //   console.log('e', e);
-        // }}
-        // loadingCellRenderer={CustomLoadingCellRenderer}
-        // loadingCellRendererParams={{
-        //   loadingMessage: 'Iltimos kuting...',
-        // }}
-        localeText={{}}
-        paginationPageSize={20}
-        // paginationAutoPageSize={true}
         animateRows={true}
         enableCellChangeFlash={true}
         alwaysShowVerticalScroll={true}
@@ -60,24 +59,12 @@ const Table = ({ className, columnDefs, data }: TableProps) => {
         enableFillHandle={true}
         rowHeight={45}
         tooltipShowDelay={0}
+        rowData={rowData}
+        onGridReady={onGridReady}
+        localeText={Uzlocale}
+        {...props}
       />
     </div>
-  );
-};
-
-const CategoryNameCellRenderer: React.FC<any> = ({ value }) => {
-  return (
-    <Link href={`/category/${value}`}>
-      <p className='text-blue-500 hover:underline'>{value}</p>
-    </Link>
-  );
-};
-
-const SellerNameCellRenderer: React.FC<any> = ({ value }) => {
-  return (
-    <Link href={`/seller/${value}`}>
-      <p className='text-blue-500 hover:underline'>{value}</p>
-    </Link>
   );
 };
 

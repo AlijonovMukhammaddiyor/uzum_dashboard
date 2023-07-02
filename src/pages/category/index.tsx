@@ -1,20 +1,29 @@
 import { GetServerSidePropsContext } from 'next';
 import * as React from 'react';
 
-import { API } from '@/lib/api';
+import API from '@/lib/api';
 
 import Layout from '@/components/layout/Layout';
-import CategoryComponent from '@/components/pages/category/CategoryComponent';
+import CategoryTreeComponent from '@/components/pages/category/CategoryTreeComponent';
 import Seo from '@/components/Seo';
 
-import { CategoryInTree } from '@/types/category';
+import { useContextState } from '@/context/Context';
 
-export default function Category({ data }: any) {
+import { UserType } from '@/types/user';
+
+export interface CategoryProps {
+  user: UserType;
+}
+
+export default function Category({ user }: CategoryProps) {
   const [mounted, setMounted] = React.useState(false);
+  const { dispatch } = useContextState();
 
   React.useEffect(() => {
     setMounted(true);
-  }, []);
+    dispatch({ type: 'USER', payload: { user } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   if (!mounted) return null;
 
@@ -26,44 +35,34 @@ export default function Category({ data }: any) {
     >
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
-      <CategoryComponent data={data.children as CategoryInTree[]} />
+      <CategoryTreeComponent />
     </Layout>
   );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
-    const api = API.createServerApi(context);
-    const res = await api.get('/category');
+    const api = new API(context);
+    // check if user is logged in
+    const res = await api.getCurrentUser();
 
-    // Return the data that was fetched from the API
-    return {
-      props: {
-        data: res.data,
-      },
-    };
-  } catch (error: any) {
-    // Handle specific error codes or conditions
-    if (error.response && error.response.status === 401) {
+    if (!res) {
       return {
         redirect: {
           permanent: false,
-          destination: '/login', // redirect the user to the login page
+          destination: '/login',
         },
-        props: {}, // add your own props here if needed
+        props: {},
       };
     }
-
-    // Handle other errors
-    // console.error('Error:', error);
-
-    // Return an error message or other data as props
     return {
-      redirect: {
-        permanent: false,
-        destination: '/login', // redirect the user to the login page
+      props: {
+        user: res,
       },
-      props: {}, // add your own props here if needed
+    };
+  } catch (e) {
+    return {
+      props: {},
     };
   }
 }

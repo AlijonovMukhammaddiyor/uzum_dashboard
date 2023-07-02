@@ -19,7 +19,7 @@ import ImagesCarousel from '@/components/pages/products/components/ImagesCarouse
 import ProductAnalyticsChart from '@/components/pages/products/components/ProductAnalyticsChart';
 import ProductPerformanceRadarChart from '@/components/pages/products/components/ProductPerformanceRadarChart';
 import Seo from '@/components/Seo';
-import Table from '@/components/shared/Table';
+import Table from '@/components/shared/PaginatedTable';
 
 function Product() {
   const [rendered, setRendered] = React.useState(false);

@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import {
@@ -7,39 +6,36 @@ import {
   HiOutlineUserCircle,
 } from 'react-icons/hi2';
 
-import { API } from '@/lib/api';
+import API from '@/lib/api';
+import logger from '@/lib/logger';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
 import UnstyledLink from '@/components/shared/links/UnstyledLink';
 
+import { SERVER_URL } from '@/constant/env';
+import { useContextState } from '@/context/Context';
+
 export interface HeaderProps {
   className?: string;
   path: Record<string, string>;
+  setUpdatePath: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Header({ className, path }: HeaderProps) {
+export default function Header({ path, setUpdatePath }: HeaderProps) {
   const router = useRouter();
+  const { state, dispatch } = useContextState();
 
   const handleUserLogout = () => {
-    API.callServerClientSide(
-      API.USER_LOGOUT,
-      {},
-      (res) => {
-        if (res.status === 200) {
-          router.push('/');
-        }
-      },
-      (err: AxiosError) => {
-        console.log(err);
-      },
-      () => {
-        // before request
-      },
-      () => {
-        // after request
-      },
-      'POST'
-    );
+    try {
+      const api = new API(SERVER_URL, null, dispatch, state);
+      api.logout().then((_) => {
+        router.push('/');
+        dispatch({ type: 'LOGOUT' });
+      });
+    } catch (e) {
+      logger(e, 'Error in Header');
+      alert(e);
+    }
   };
 
   return (
@@ -49,6 +45,7 @@ export default function Header({ className, path }: HeaderProps) {
           <Breadcrumb
             className='flex items-center justify-start gap-2'
             path={path}
+            setUpdatePath={setUpdatePath}
           />
         ) : (
           <div></div>
@@ -63,7 +60,7 @@ export default function Header({ className, path }: HeaderProps) {
               >
                 <HiOutlineUserCircle className='h-6 w-6 flex-shrink-0 rounded-full text-black' />
                 <div className='ml-1 flex flex-col items-start justify-start'>
-                  <span className='m-0 text-xs'>Mukhammaddiyor</span>
+                  <span className='m-0 text-xs'>{state.user?.username}</span>
                 </div>
               </UnstyledLink>
             </li>
@@ -80,13 +77,12 @@ export default function Header({ className, path }: HeaderProps) {
                 // logout
               }}
             >
-              <UnstyledLink
-                href='/'
+              <div
                 className='hover:text-gray-600'
                 onClick={() => handleUserLogout()}
               >
                 <HiOutlineArrowRightOnRectangle className='hover:text-primary h-6 w-6 flex-shrink-0 text-black' />
-              </UnstyledLink>
+              </div>
             </li>
           </ul>
         </nav>

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { CSSProperties, useEffect } from 'react';
 
-import { API } from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import { SERVER_URL } from '@/constant/env';
@@ -29,17 +28,18 @@ function Tops() {
 
   useEffect(() => {
     axios
-      .get(SERVER_URL + API.TOP_SHOPS)
+      .get(SERVER_URL + '/product/top/')
       .then((res) => {
+        console.log(res.data);
         setShops(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-
     axios
-      .get(SERVER_URL + API.TOP_PRODUCTS)
+      .get(SERVER_URL + '/shop/top/')
       .then((res) => {
+        console.log(res.data);
         setProducts(res.data);
       })
       .catch((err) => {
@@ -50,7 +50,7 @@ function Tops() {
   return (
     <div className='relative w-full bg-[#E8F0F2] py-16 md:py-32'>
       <div className='layout flex flex-col justify-start gap-10 md:flex-row'>
-        <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
+        <div className='md:w-1/2 mx-auto flex w-11/12 flex-col items-start justify-start'>
           <h3 className='mb-8'>Eng Ko'p sotilgan mahsulotlar</h3>
           <div className='w-full'>
             <ul
@@ -74,7 +74,7 @@ function Tops() {
             </ul>
           </div>
         </div>
-        <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
+        <div className='md:w-1/2 mx-auto flex w-11/12 flex-col items-start justify-start'>
           <h3 className='mb-8'>Eng Ko'p sotgan Do'konlar</h3>
           <div className='w-full'>
             <ul className='flex min-h-[300px] w-full flex-col gap-5'>
@@ -113,7 +113,9 @@ function ListItem({
         <p className='w-[30px] text-2xl text-blue-500'>0{index}</p>
         <div className='line-clamp-2 overflow-hidden text-sm'>{title}</div>
       </div>
-      <div className='shrink-0 text-sm font-bold'>{count.toLocaleString()}</div>
+      <div className='shrink-0 text-sm font-bold'>
+        {count?.toLocaleString()}
+      </div>
     </li>
   );
 }

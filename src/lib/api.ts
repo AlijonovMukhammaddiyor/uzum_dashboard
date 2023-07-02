@@ -1,314 +1,401 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
-import { GetServerSidePropsContext } from 'next/types';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { GetServerSidePropsContext } from 'next';
 import nookies from 'nookies';
 
 import logger from '@/lib/logger';
 
 import { SERVER_URL } from '@/constant/env';
 
-export class API {
-  // here, declare all endpoints of server
-  static CURRENT_USER = '/api/users/me';
-  static PHONE_CODE_SEND = '/code/';
-  static PHONE_CODE_VERIFY = '/verify/';
-  static USER_CREATE = '/users/';
-  static TOP_PRODUCTS = '/product/top';
-  static TOP_SHOPS = '/shop/top';
-  static USER_LOGIN = '/token/';
-  static USER_REFRESH_TOKEN = '/token/refresh/';
-  static USER_LOGOUT = '/logout/';
-  static USERNAME_NUMBER_CHECK = '/username_phone_match/';
-  static USER_AUTH_CHECK = '/auth';
-  static NEWPASSWORD = '/newpassword/';
+class API {
+  public instance: AxiosInstance;
+  private context: GetServerSidePropsContext | null;
+  private refreshTokenAge: number = 7 * 24 * 60 * 60; // 14 days
+  private accessTokenAge: number = 1 * 60; // 15 minutes
+  private proxy = '/api/external';
+  private isApi = false;
 
-  static getClientAPI() {
-    // Create Axios instance
-    const clientApi = axios.create({
-      baseURL: SERVER_URL,
-      withCredentials: true,
+  constructor(context: GetServerSidePropsContext | null = null, isApi = false) {
+    const baseURL = SERVER_URL;
+    if (!baseURL) {
+      throw new Error('No SERVER_URL provided');
+    }
+    this.isApi = isApi;
+    this.context = context;
+    this.instance = axios.create({
+      baseURL,
+      timeout: 180_000, // sets the request timeout to  3 minutes
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFTOKEN': Cookies.get('csrftoken'),
       },
+      withCredentials: true,
     });
 
-    clientApi.interceptors.response.use(
+    // Add a request interceptor
+    this.instance.interceptors.request.use(
+      async (config) => {
+        const token = this.getAccessToken();
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        } else {
+          if (this.context) {
+            // check if there is a refresh token. If not, redirect to login
+            const access = await this.refreshTokens();
+            if (access) {
+              config.headers['Authorization'] = `Bearer ${access}`;
+            } else {
+              // no access token means user is not logged in
+              // so we redirect to login page if not already there
+              logger('No access token', 'Can not refresh token 1');
+              this.redirectToLogin();
+              // we can reject the request here as it won't be authorized anyway
+              return Promise.reject(new Error('Not logged in'));
+            }
+          }
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    // Add a response interceptor
+    this.instance.interceptors.response.use(
       (response) => {
         return response;
       },
-      async function (error) {
-        const originalRequest = error.config;
-
-        // Prevent infinite loops
-        if (
-          error.response?.status === 401 &&
-          originalRequest.url === '/api/token/refresh/'
-        ) {
-          if (!window.location.href.includes('/login'))
-            window.location.href = '/login';
-          return Promise.reject(error);
-        }
-
-        if (
-          error?.response?.data?.code === 'token_not_valid' &&
-          error?.response?.status === 401 &&
-          error?.response?.statusText === 'Unauthorized'
-        ) {
-          const refreshToken = Cookies.get('refresh_token');
-
-          if (refreshToken) {
-            const tokenParts = JSON.parse(atob(refreshToken.split('.')[1]));
-
-            // Check if token is expired
-            const now = Math.ceil(Date.now() / 1000);
-            if (tokenParts.exp > now) {
-              return clientApi
-                .post('/api/token/refresh/', { refresh: refreshToken })
-                .then((response) => {
-                  Cookies.set('access_token', response.data.access);
-                  Cookies.set('refresh_token', response.data.refresh);
-
-                  clientApi.defaults.headers['Authorization'] =
-                    'Bearer ' + response.data.access;
-                  originalRequest.headers['Authorization'] =
-                    'Bearer ' + response.data.access;
-
-                  return clientApi(originalRequest);
-                })
-                .catch((_) => {
-                  window.localStorage.clear();
-                  if (!window.location.href.includes('/login'))
-                    window.location.href = '/login/';
-                });
-            } else {
-              window.localStorage.clear();
-              if (!window.location.href.includes('/login'))
-                window.location.href = '/login/';
-            }
-          } else {
-            window.localStorage.clear();
-            if (!window.location.href.includes('/login'))
-              window.location.href = '/login/';
-          }
-        }
-
-        // Handle specific error codes/messages here
-        window.localStorage.clear();
-        if (!window.location.href.includes('/login'))
-          window.location.href = '/login/';
-        return Promise.reject(error);
-      }
-    );
-
-    return clientApi;
-  }
-
-  static createServerApi(context: GetServerSidePropsContext) {
-    axios.defaults.baseURL = SERVER_URL;
-    if (context.req.cookies['csrftoken'])
-      axios.defaults.headers['X-CSRFTOKEN'] = context.req.cookies['csrftoken'];
-    // forwards cookies in header
-    if (context.req.headers.cookie)
-      axios.defaults.headers.cookie = context.req.headers.cookie;
-
-    if (context.req.headers.authorization) {
-      axios.defaults.headers.authorization = context.req.headers.authorization;
-    }
-    // set access token in Authorization header
-    const accessToken = context.req.cookies['access_token'];
-    axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-
-    const serverApi = axios.create();
-
-    serverApi.interceptors.response.use(
-      (response) => response,
       async (error) => {
-        const originalRequest = error.config;
-
-        // Prevent infinite loops
         if (
+          error.response &&
           error.response.status === 401 &&
-          originalRequest.url === '/api/token/refresh/'
-        ) {
-          return Promise.reject(error);
-        }
-
-        if (
-          error.response.data.code === 'token_not_valid' &&
-          error.response.status === 401 &&
-          error.response.statusText === 'Unauthorized'
+          !(
+            error.config.url?.endsWith('/refresh/') ||
+            error.config.url?.endsWith('/refresh')
+          )
         ) {
           try {
-            if (!context.req.cookies['refresh_token'])
-              return Promise.reject("Can't refresh token 2");
-            const tokens = await API.refreshAccessToken(
-              context.req.cookies['refresh_token']
-            );
-            // update cookies with new access token and refresh token in the browser as httpOnly cookie
-            //
-            console.log('setting cookies');
-            nookies.set(context, 'access_token', tokens.access, {
-              httpOnly: true,
-            });
-            nookies.set(context, 'refresh_token', tokens.refresh, {
-              httpOnly: true,
-            });
-            // set access token in Authorization header
-            axios.defaults.headers['Authorization'] = `Bearer ${tokens.access}`;
-            originalRequest.headers[
-              'Authorization'
-            ] = `Bearer ${tokens.access}`;
-            return serverApi(originalRequest);
-          } catch (error) {
-            logger(error, "Can't decode refresh token");
-            return Promise.reject(error);
+            const access = await this.refreshTokens();
+            // Retry the original request
+            const config = error.config;
+            // const token = this.getAccessToken();
+            if (access) {
+              config.headers['Authorization'] = `Bearer ${access}`;
+            } else {
+              // no access token means user is not logged in
+              // so we redirect to login page if not already there
+              logger('No access token', 'Can not refresh token 2');
+              this.redirectToLogin();
+
+              // we can reject the request here as it won't be authorized anyway
+              return Promise.reject(new Error('Not logged in'));
+            }
+            console.log('resending request with new token');
+            return this.instance(config);
+          } catch (refreshError) {
+            // If refreshing fails, redirect to login
+            logger(refreshError, 'Can not refresh token 3');
+            this.redirectToLogin();
+            return Promise.reject(refreshError);
           }
         }
-
+        // If the error is not 401 or it was a refresh request, reject the promise
         return Promise.reject(error);
       }
     );
-
-    return serverApi;
   }
 
-  static async refreshAccessToken(refreshToken: string) {
+  private async refreshTokens() {
     try {
-      const res = await axios.post(`${SERVER_URL}${API.USER_REFRESH_TOKEN}`, {
-        refresh: refreshToken,
-      });
-      return res.data;
-    } catch (error) {
-      logger(error, "Can't refresh token");
-      throw error;
+      if (this.context) {
+        console.log('Inside refresh token');
+        // server side -> make direct request to server
+        const refreshToken = this.getRefreshToken();
+        if (!refreshToken) {
+          // if not refresh token, redirect to login
+          throw new Error('getRefreshToken did not return a token');
+        }
+        // console.log('Refresh ', refreshToken);
+        const tokens = await this._refreshTokens(refreshToken);
+        if (!tokens) {
+          // if no tokens, redirect to login
+          throw new Error('No tokens returned from _refreshTokens');
+        }
+        // set the new tokens
+
+        this.setTokens(tokens.accessToken, tokens.refreshToken);
+
+        return tokens.accessToken;
+      } else {
+        logger('No context', 'Can not refresh token');
+      }
+    } catch (error: any) {
+      logger(error.message, "Can't refresh token");
+      throw new Error("Can't refresh token");
     }
   }
 
-  static async callServerClientSide(
-    endpoint: string,
-    data: { [key: string]: string | number | boolean | null | undefined },
-    onResponse: (res: AxiosResponse) => void,
-    onError: (err: AxiosError) => void,
-    beforeRequest: () => void,
-    afterRequest: () => void,
-    method = 'get'
-  ) {
-    // beforeRequest();
-    axios.defaults.withCredentials = true;
-    let clientApi: AxiosInstance;
-    if (
-      endpoint === API.PHONE_CODE_SEND ||
-      endpoint === API.PHONE_CODE_VERIFY ||
-      endpoint === API.USER_CREATE ||
-      endpoint === API.TOP_PRODUCTS ||
-      endpoint === API.TOP_SHOPS ||
-      endpoint === API.USERNAME_NUMBER_CHECK
-    ) {
-      clientApi = axios.create({
-        baseURL: SERVER_URL,
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
+  private async _refreshTokens(
+    refreshToken: string
+  ): Promise<{ accessToken: string; refreshToken: string } | null> {
+    try {
+      const response = await axios.post(
+        `${SERVER_URL}/token/civuiaubcyvsdcibhsvus/refresh/`,
+        {
+          refresh: refreshToken,
         },
-      });
-    } else clientApi = this.getClientAPI();
-
-    try {
-      if (method.toLowerCase() === 'post') {
-        clientApi
-          .request({
-            url: endpoint,
-            method: method,
-            data: data,
-          })
-          .then((res) => {
-            // console.log('got response');
-          })
-          .catch((err) => {
-            // console.log('got error');
-            onError(err);
-          });
-      } else if (method.toLowerCase() === 'get') {
-        // console.log('sending request 2');
-        clientApi
-          .request({
-            url: endpoint,
-            method: method,
-            params: data,
-          })
-          .then((res) => {
-            onResponse(res);
-          })
-          .catch((err) => {
-            onError(err);
-          });
-      }
-    } catch (err) {
-      alert(err);
-      onError(err as AxiosError);
-    } finally {
-      afterRequest();
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
+      const newAccessToken = response.data.access;
+      const newRefreshToken = response.data.refresh;
+      return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+    } catch (error: any) {
+      logger(error.response.data, "Can't refresh token");
+      return null;
     }
   }
 
-  static async checkClientAuthenticated(context: GetServerSidePropsContext) {
-    try {
-      const api = this.createServerApi(context);
-      try {
-        const response = await api.post(API.USER_AUTH_CHECK);
-        if (response.status === 200) return true;
-        else return false;
-      } catch (err) {
-        return false;
+  private getAccessToken() {
+    let token = '';
+    // On the server, use the context to read cookies, on the client use js-cookie
+    if (this.context) {
+      const cookie = this.context.req.cookies.access_token;
+      if (cookie) {
+        token = cookie;
       }
-    } catch (err) {
-      // console.log('err', err);
+    }
+    return token;
+  }
+
+  private clearCookies() {
+    if (this.context) {
+      const isSecure = process.env.NODE_ENV === 'production';
+      this.context.res.setHeader('Set-Cookie', [
+        `access_token=; HttpOnly; Path=/; SameSite=Lax; ${
+          isSecure ? 'Secure' : ''
+        }; Max-Age=0`,
+        `refresh_token=; HttpOnly; Path=/; SameSite=Lax; ${
+          isSecure ? 'Secure' : ''
+        }; Max-Age=0`,
+      ]);
+    }
+  }
+
+  public async login(user: { username: string; password: string }) {
+    try {
+      if (!user.username || !user.password)
+        throw new Error('Foydalanuvchi nomi yoki paroli kiritilmadi');
+      const res = await axios.post('/api/auth/login/', { user });
+      if (res.status === 200) {
+        return true;
+      }
       return false;
+    } catch (err) {
+      logger(err, "Can't login");
+      throw new Error('Xatolik yuz berdi');
     }
   }
 
-  static async callServerServerSide(
-    endpoint: string,
-    data: { [key: string]: string | number | boolean | null | undefined },
-    onResponse: (res: AxiosResponse) => void,
-    onError: (err: AxiosError) => void,
-    beforeRequest: () => void,
-    afterRequest: () => void,
-    method = 'get'
-  ) {
-    beforeRequest();
-    let clientApi: AxiosInstance;
-    if (
-      endpoint === API.PHONE_CODE_SEND ||
-      endpoint === API.PHONE_CODE_VERIFY ||
-      endpoint === API.USER_CREATE ||
-      endpoint === API.TOP_PRODUCTS ||
-      endpoint === API.TOP_SHOPS ||
-      endpoint === API.USERNAME_NUMBER_CHECK
-    ) {
-      clientApi = axios.create({
-        baseURL: SERVER_URL,
-        withCredentials: true,
-        headers: {
-          'X-CSRFTOKEN': Cookies.get('csrftoken'),
-        },
-      });
-    } else clientApi = this.getClientAPI();
-
+  public async logout() {
     try {
-      const response = await clientApi.request({
-        url: endpoint,
-        method: method,
-        data: data,
+      await axios.post('/api/auth/logout/');
+    } catch (err) {
+      logger(err, 'Xatolik yuz berdi');
+    }
+  }
+
+  public async register(user: {
+    username: string;
+    email?: string;
+    phone_number: string;
+    referred_by?: string;
+    fingerprint?: string;
+    password: string;
+  }) {
+    try {
+      const data = {
+        username: user.username,
+        email: user.email,
+        phone_number: '+' + user.phone_number,
+        referred_by_code: user.referred_by,
+        fingerprint: user.fingerprint,
+        password: user.password,
+      };
+
+      if (!data.username || !data.phone_number || !data.password)
+        throw new Error(
+          'Foydalanuvchi nomi, telefon raqami yoki paroli kiritilmadi'
+        );
+
+      const res = await axios.post('/api/register/', { user: data });
+      if (res.status === 200) return true;
+      return false;
+    } catch (err) {
+      logger(err, "Can't register");
+      throw new Error('Xatolik yuz berdi');
+    }
+  }
+
+  private getRefreshToken() {
+    // this is only used on the server side
+    if (this.context) {
+      // console.log(this.context.req.cookies);
+      const cookie = this.context.req.cookies.refresh_token;
+      if (cookie) {
+        return cookie;
+      }
+    }
+    throw new Error('No refresh token');
+  }
+  // JUst note: booth.ai
+  private setTokens(access: string, refresh: string) {
+    // only used on the server side
+    const isSecure = process.env.NODE_ENV === 'production';
+    if (this.isApi) {
+      // set using res
+      const isSecure = process.env.NODE_ENV === 'production';
+      if (this.context?.res) {
+        this.context.res.setHeader('Set-Cookie', [
+          `access_token=${access}; HttpOnly; Path=/; SameSite=Lax; ${
+            isSecure ? 'Secure' : ''
+          }; Max-Age=${this.accessTokenAge}; Domain=${
+            // 15 minutes
+            process.env.NODE_ENV === 'production'
+              ? '.alijonov.com'
+              : 'localhost'
+          }`,
+          `refresh_token=${refresh}; HttpOnly; Path=/; SameSite=Lax; ${
+            isSecure ? 'Secure' : ''
+          }; Max-Age=${this.refreshTokenAge}; Domain=${
+            // 14 days
+            process.env.NODE_ENV === 'production'
+              ? '.alijonov.com'
+              : 'localhost'
+          }`,
+        ]);
+      } else {
+        logger('No res in context');
+      }
+    } else {
+      nookies.set(this.context, 'access_token', access, {
+        httpOnly: true,
+        path: '/',
+        sameSite: 'lax',
+        secure: isSecure,
+        maxAge: this.accessTokenAge,
+        domain:
+          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost',
       });
 
-      onResponse(response);
-    } catch (err) {
-      // alert(err);
-      onError(err as AxiosError);
-    } finally {
-      afterRequest();
+      nookies.set(this.context, 'refresh_token', refresh, {
+        httpOnly: true,
+        path: '/',
+        sameSite: 'lax',
+        secure: isSecure,
+        maxAge: this.refreshTokenAge,
+        domain:
+          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost',
+      });
     }
+  }
+
+  public async getCurrentUser() {
+    try {
+      const response = await this.get('/users/me/');
+      return response.data;
+    } catch (error: any) {
+      logger(error, 'Error getting current user');
+      return null;
+    }
+  }
+
+  private redirectToLogin() {
+    if (typeof window !== 'undefined') {
+      if (
+        window.location.pathname !== '/login' &&
+        window.location.pathname !== '/register'
+      ) {
+        this.clearCookies();
+        window.location.href = '/login';
+      }
+    } else if (this.context) {
+      if (
+        this.context.req.url !== '/login' &&
+        this.context.req.url !== '/register'
+      )
+        if (this.context.res) {
+          this.clearCookies();
+          this.context.res.writeHead(302, { Location: '/login' }).end();
+        }
+    }
+  }
+
+  get<T = any, R = AxiosResponse<T>>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    if (typeof window !== 'undefined') {
+      url = `${this.proxy}${url}`;
+      return axios.get<T, R>(url, config);
+    }
+    return this.instance.get<T, R>(url, config);
+  }
+
+  post<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    if (typeof window !== 'undefined') {
+      url = `${this.proxy}${url}`;
+      return axios.post<T, R>(url, data, config);
+    }
+    return this.instance.post<T, R>(url, data, config);
+  }
+
+  put<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    const isClient = typeof window !== 'undefined';
+    if (isClient) {
+      url = `${this.proxy}${url}`;
+      return axios.put<T, R>(url, data, config);
+    }
+
+    return this.instance.put<T, R>(url, data, config);
+  }
+
+  patch<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    if (typeof window !== 'undefined') {
+      url = `${this.proxy}${url}`;
+      return axios.patch<T, R>(url, data, config);
+    }
+
+    return this.instance.patch<T, R>(url, data, config);
+  }
+
+  delete<T = any, R = AxiosResponse<T>>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    if (typeof window !== 'undefined') {
+      url = `${this.proxy}${url}`;
+      return axios.delete<T, R>(url, config);
+    }
+
+    return this.instance.delete<T, R>(url, config);
   }
 }
+
+export default API;

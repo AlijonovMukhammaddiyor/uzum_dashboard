@@ -2,16 +2,12 @@
 /* eslint-disable no-nested-ternary */
 import React, { createContext, useEffect, useReducer } from 'react';
 
-import { API } from '@/lib/api';
-import logger from '@/lib/logger';
-
-import { SERVER_URL } from '@/constant/env';
 import Reducer from '@/context/reducer';
 
 import { Actions } from '@/types/actions';
 import { INITIAL_STATE, State } from '@/types/state';
 
-export const AuthContext = createContext<{
+export const Context = createContext<{
   state: State;
   dispatch: React.Dispatch<Actions>;
 }>({
@@ -29,32 +25,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, 200);
   }, []);
 
-  useEffect(() => {
-    const client = API.getClientAPI();
-
-    dispatch({ type: 'LOADING', payload: { fetching: true } });
-
-    client
-      .get(`${SERVER_URL}${API.CURRENT_USER}`)
-      .then((res) => {
-        dispatch({
-          type: 'LOGIN',
-          payload: { user: res.data },
-        });
-      })
-      .catch((err) => {
-        logger(err, 'Error in AuthProvider');
-      });
-  }, []);
-
   const contextData = {
     state,
     dispatch,
   };
 
   return (
-    <AuthContext.Provider value={contextData}>
+    <Context.Provider value={contextData}>
       {mounted && children}
-    </AuthContext.Provider>
+    </Context.Provider>
   );
 };
+
+export const useContextState = () => React.useContext(Context);

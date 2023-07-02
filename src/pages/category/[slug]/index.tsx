@@ -1,55 +1,47 @@
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import {
-  categoryAnalyticsColumnDefs,
-  productTableColumnDefs,
-  subCategoryAnalyticsColumnDefs,
-} from '@/components/columnDefs';
+import API from '@/lib/api';
+
 import Layout from '@/components/layout/Layout';
-import CategoryAreaChart from '@/components/pages/home/components/CategoryAreaChart';
-import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
+import CategoryComponent from '@/components/pages/category/slug/CategoryComponent';
+import { reverseSlug } from '@/components/pages/category/utils';
 import Seo from '@/components/Seo';
-import SubCategoriesPieChart from '@/components/shared/PieChart';
-import ScatterPlot from '@/components/shared/Scatter';
-import Table from '@/components/shared/Table';
 import Tabs from '@/components/shared/Tabs';
 
 function Category() {
   const [rendered, setRendered] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string>('Tovarlar');
+  const [path, setPath] = React.useState<{ [key: string]: string }>({});
 
   React.useEffect(() => {
     setRendered(true);
+    window.localStorage.getItem('path') &&
+      setPath(JSON.parse(window.localStorage.getItem('path') as string));
+
+    return () => {
+      window.localStorage.removeItem('path');
+    };
   }, []);
 
   const router = useRouter();
-  const { slug } = router.query;
-
-  const slugToName = (slug: string) => {
-    const name = slug.replace(/-/g, ' ');
-    return name.charAt(0).toUpperCase() + name.slice(1);
-  };
-
-  const reverseSlug = slugToName(slug as string);
+  const { slug } = router.query as { slug: string };
 
   if (!rendered) return <></>;
 
+  const { title, id } = reverseSlug(slug);
+
   return (
-    <Layout
-      path={{
-        Kategoriyalar: '/category',
-        [reverseSlug as string]: `/category/${slug}`,
-      }}
-    >
+    <Layout path={path}>
       <Seo />
       <div className='flex w-full items-center justify-start gap-3'>
         <p>URL:</p>
         <a
-          href={`https://uzum.uz/uz/category/${slug}-23232`}
+          href={`https://uzum.uz/uz/category/${title}-${id}`}
           className='text-sm text-blue-500 hover:underline'
         >
-          https://uzum.uz/uz/category/{slug}-23232
+          https://uzum.uz/uz/category/{title}-{id}
         </a>
       </div>
 
@@ -66,100 +58,36 @@ function Category() {
         setActiveTab={setActiveTab}
         className='mb-6 mt-4'
       />
-      {rendered && activeTab === 'Tovarlar' && (
-        <Table
-          columnDefs={productTableColumnDefs}
-          data={[]}
-          className='h-[1016px]'
-        />
-      )}
-      {rendered && activeTab === 'Trend' && (
-        <div className='flex flex-col gap-6'>
-          <DropDown
-            values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-            activeTab={0}
-            setActiveTab={() => {
-              //sdc
-            }}
-            className='-mb-3'
-          />
-          <CategoryAreaChart />
-          <Table
-            columnDefs={categoryAnalyticsColumnDefs}
-            data={[]}
-            className=''
-          />
-        </div>
-      )}
-      {rendered && activeTab === 'SubKategoriyalar' && (
-        <div className='flex flex-col gap-6'>
-          <SubCategoriesPieChart />
-          <DropDown
-            values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-            activeTab={0}
-            setActiveTab={() => {
-              //sdc
-            }}
-            className='-mb-3'
-          />
-          <Table
-            className='h-[600px]'
-            columnDefs={subCategoryAnalyticsColumnDefs}
-            data={[]}
-          />
-        </div>
-      )}
-      {rendered && activeTab === 'Narxlar' && (
-        <div className='flex flex-col gap-6'>
-          <DropDown
-            values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-            activeTab={0}
-            setActiveTab={() => {
-              //sdc
-            }}
-            className='-mb-3'
-          />
-          <CategoryAreaChart />
-          <Table
-            columnDefs={categoryAnalyticsColumnDefs}
-            data={[]}
-            className=''
-          />
-        </div>
-      )}
-      {rendered && activeTab === 'Do`konlar' && (
-        <div className='flex flex-col gap-6'>
-          <DropDown
-            values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-            activeTab={0}
-            setActiveTab={() => {
-              //sdc
-            }}
-            className='-mb-3'
-          />
-          <ScatterPlot className='' data={[]} />
-          <Table
-            columnDefs={categoryAnalyticsColumnDefs}
-            data={[]}
-            className=''
-          />
-        </div>
-      )}
+      <CategoryComponent activeTab={activeTab} categoryId={id} title={title} />
     </Layout>
   );
 }
 
 export default Category;
 
-export async function getServerSideProps({ params }: any) {
-  const { slug } = params;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  try {
+    const api = new API(context);
+    // check if user is logged in
+    const res = await api.getCurrentUser();
 
-  // Fetch your post data here
-
-  return {
-    props: {
-      slug,
-      // Pass your post data here
-    },
-  };
+    if (!res) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+        props: {},
+      };
+    }
+    return {
+      props: {
+        user: res,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {},
+    };
+  }
 }

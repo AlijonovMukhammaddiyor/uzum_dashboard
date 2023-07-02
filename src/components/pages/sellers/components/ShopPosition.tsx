@@ -3,7 +3,7 @@ import React from 'react';
 import { shopCompetitorsTableColumnDefs } from '@/components/columnDefs';
 import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
 import PositionAreaChartComponent from '@/components/pages/sellers/components/PositionAreaChartComponent';
-import Table from '@/components/shared/Table';
+import Table from '@/components/shared/PaginatedTable';
 
 function ShopPosition() {
   return (

@@ -154,7 +154,7 @@ function Tarif({
         <div className='mb-2 flex items-center justify-between gap-3 border-b-2 border-blue-500 bg-blue-100 px-6 py-5 text-center text-xl font-bold'>
           <div className='flex items-center justify-start gap-3'>
             <Logo className='inline-block h-6 w-6' />
-            <p>{title}</p>
+            <p className='font-primary font-bold'>{title}</p>
           </div>
           <div className='text-2xl font-bold'>{price}</div>
         </div>

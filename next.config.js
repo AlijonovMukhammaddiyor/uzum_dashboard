@@ -1,13 +1,12 @@
 /** @type {import('next').NextConfig} */
+
+
 const nextConfig = {
-  // server: {
-  //   port: 5000,
-  // },
   eslint: {
     dirs: ['src'],
   },
 
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
 
   // Uncoment to add domain whitelist

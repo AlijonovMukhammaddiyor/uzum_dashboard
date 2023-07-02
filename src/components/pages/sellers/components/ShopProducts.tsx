@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { shopProductsTableColumnDefs } from '@/components/columnDefs';
-import Table from '@/components/shared/Table';
+import Table from '@/components/shared/PaginatedTable';
 
 function ShopProducts() {
   return (

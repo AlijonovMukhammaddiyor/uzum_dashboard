@@ -11,8 +11,6 @@ export interface TabsProps {
 }
 
 function Tabs({ tabs, activeTab, setActiveTab, className }: TabsProps) {
-  console.log(activeTab === 'Do`konlar');
-
   return (
     <div
       className={clsxm(

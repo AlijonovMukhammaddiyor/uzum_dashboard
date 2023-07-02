@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import {
   HiArrowPath,
@@ -239,18 +240,22 @@ function SidebarItem({
   className?: string;
   onClick?: () => void;
 }) {
+  const router = useRouter();
+
   return (
     <li className={clsxm(className)} onClick={onClick}>
-      <a
-        href={href}
+      <p
+        onClick={() => {
+          router.push(href);
+        }}
         className={clsxm(
-          'group flex items-center rounded-lg p-2 text-black hover:bg-slate-400 hover:text-white',
+          'group flex cursor-pointer items-center rounded-lg p-2 text-black hover:bg-slate-400 hover:text-white',
           activeTab === label && 'bg-primary hover:bg-primary text-white'
         )}
       >
         {icon}
         {isSidebarOpen && <span className='ml-3 text-base'>{label}</span>}
-      </a>
+      </p>
     </li>
   );
 }
