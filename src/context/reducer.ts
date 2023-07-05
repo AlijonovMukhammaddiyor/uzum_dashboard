@@ -23,6 +23,12 @@ const Reducer = (state: State, action: Actions): State => {
         ...state,
         user: null,
       };
+    case 'PATH':
+      return {
+        ...state,
+        path: action.payload.path,
+      };
+
     default:
       return state;
   }

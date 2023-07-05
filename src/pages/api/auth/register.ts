@@ -40,13 +40,13 @@ export default async function handler(
       res.setHeader('Set-Cookie', [
         `access_token=${accessToken}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${1 * 60}; Domain=${
+        }; Max-Age=${15 * 60}; Domain=${
           // 1 minute
           process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost'
         }`,
         `refresh_token=${refreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${7 * 24 * 60 * 60}; Domain=${
+        }; Max-Age=${14 * 24 * 60 * 60}; Domain=${
           // 7 days
           process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost'
         }`,

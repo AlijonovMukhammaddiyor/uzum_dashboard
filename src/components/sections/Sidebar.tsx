@@ -16,6 +16,7 @@ import clsxm from '@/lib/clsxm';
 
 import Logo from '@/assets/logo/logo.svg';
 import LogoOnly from '@/assets/logo/logo_only.svg';
+import { useContextState } from '@/context/Context';
 export interface SidebarProps {
   className?: string;
   activeTab: string;
@@ -240,12 +241,17 @@ function SidebarItem({
   className?: string;
   onClick?: () => void;
 }) {
+  const { dispatch } = useContextState();
   const router = useRouter();
 
   return (
     <li className={clsxm(className)} onClick={onClick}>
       <p
         onClick={() => {
+          dispatch({
+            type: 'PATH',
+            payload: { path: null },
+          });
           router.push(href);
         }}
         className={clsxm(

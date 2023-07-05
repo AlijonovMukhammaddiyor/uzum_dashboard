@@ -12,26 +12,21 @@ import logger from '@/lib/logger';
 import Breadcrumb from '@/components/shared/Breadcrumb';
 import UnstyledLink from '@/components/shared/links/UnstyledLink';
 
-import { SERVER_URL } from '@/constant/env';
 import { useContextState } from '@/context/Context';
 
 export interface HeaderProps {
   className?: string;
-  path: Record<string, string>;
-  setUpdatePath: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Header({ path, setUpdatePath }: HeaderProps) {
+export default function Header() {
   const router = useRouter();
-  const { state, dispatch } = useContextState();
+  const { state } = useContextState();
 
   const handleUserLogout = () => {
     try {
-      const api = new API(SERVER_URL, null, dispatch, state);
-      api.logout().then((_) => {
-        router.push('/');
-        dispatch({ type: 'LOGOUT' });
-      });
+      const api = new API(null);
+      api.logout();
+      router.push('/login');
     } catch (e) {
       logger(e, 'Error in Header');
       alert(e);
@@ -41,12 +36,8 @@ export default function Header({ path, setUpdatePath }: HeaderProps) {
   return (
     <header className='w-full bg-transparent'>
       <div className='flex h-14 items-center justify-between p-3'>
-        {path && Object.keys(path).length >= 2 ? (
-          <Breadcrumb
-            className='flex items-center justify-start gap-2'
-            path={path}
-            setUpdatePath={setUpdatePath}
-          />
+        {state.path && Object.keys(state.path).length >= 2 ? (
+          <Breadcrumb className='flex items-center justify-start gap-2' />
         ) : (
           <div></div>
         )}

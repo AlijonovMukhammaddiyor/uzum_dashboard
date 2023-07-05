@@ -25,6 +25,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, 200);
   }, []);
 
+  // save the state to local storage when it changes
+  useEffect(() => {
+    localStorage.setItem(
+      'state',
+      JSON.stringify({
+        ...state,
+        user: null,
+      })
+    );
+  }, [state]);
+
   const contextData = {
     state,
     dispatch,

@@ -24,7 +24,8 @@ const PieChart = ({ data, title, labelType }: PieChartProps) => {
     date: data,
     angleField: 'value',
     colorField: 'type',
-    radius: 0.8,
+    radius: 1,
+    innerRadius: 0.6,
     title: {
       text: title || 'Ulushlar',
       style: {
@@ -52,8 +53,8 @@ const PieChart = ({ data, title, labelType }: PieChartProps) => {
     ],
   };
   return (
-    <div className='h-full w-full'>
-      {title && <h3 className='text-primary text-center text-base'>{title}</h3>}
+    <div className='h-[calc(100%-40px)] w-full'>
+      {title && <h3 className='text-primary text-center'>{title}</h3>}
       <Pie
         data={data}
         {...config}

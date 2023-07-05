@@ -1,17 +1,12 @@
 import React from 'react';
 
-import {
-  categoryAnalyticsColumnDefs,
-  subCategoryAnalyticsColumnDefs,
-} from '@/components/columnDefs';
-import CategoryProductsTable from '@/components/pages/category/slug/components/CategoryProductsTable';
-import CategoryAreaChart from '@/components/pages/home/components/CategoryAreaChart';
-import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
-import SubCategoriesPieChart from '@/components/shared/PieChart';
-import ScatterPlot from '@/components/shared/Scatter';
-import Table from '@/components/shared/Table';
 import clsxm from '@/lib/clsxm';
-import API from '@/lib/api';
+
+import CategoryProductsTable from '@/components/pages/category/slug/components/CategoryProductsTable';
+import CategoryShops from '@/components/pages/category/slug/components/CategoryShops';
+import CategoryTrends from '@/components/pages/category/slug/components/CategoryTrends';
+import Segmentation from '@/components/pages/category/slug/components/Segmentation';
+import Subcategories from '@/components/pages/category/slug/components/Subcategories';
 
 export interface Props {
   activeTab: string;
@@ -20,6 +15,16 @@ export interface Props {
 }
 
 function CategoryComponent({ activeTab, categoryId }: Props) {
+  const [mounted, setMounted] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setMounted(true);
+    }, 200);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <div>
       <CategoryProductsTable
@@ -27,30 +32,26 @@ function CategoryComponent({ activeTab, categoryId }: Props) {
         className={clsxm(activeTab !== 'Tovarlar' && 'hidden')}
       />
 
-      <div
-        className={clsxm(
-          'flex flex-col gap-6',
-          activeTab !== 'Trend' && 'hidden'
-        )}
-      >
-        <DropDown
-          values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-          activeTab={0}
-          setActiveTab={() => {
-            //sdc
-          }}
-          className='-mb-3'
-        />
-        <CategoryAreaChart />
-        {/* <Table
-          columnDefs={categoryAnalyticsColumnDefs}
-          className=''
-          fetchData={() => {
-            const api = new API(null);
-            return api.get(`/category/analytics/` + categoryId + '/');
-          }}
-        /> */}
-      </div>
+      <CategoryTrends
+        className={clsxm(activeTab !== 'Trend' && 'hidden')}
+        categoryId={categoryId}
+      />
+
+      <Subcategories
+        className={clsxm(activeTab !== 'Ichki Kategoriyalar' && 'hidden')}
+        categoryId={categoryId}
+      />
+
+      <Segmentation
+        className={clsxm(activeTab !== 'Segmentatsiya' && 'hidden')}
+        categoryId={categoryId}
+      />
+
+      <CategoryShops
+        className={clsxm(activeTab !== 'Sotuvchilar' && 'hidden')}
+        categoryId={categoryId}
+      />
+
       {/* 
       <div
         className={clsxm(

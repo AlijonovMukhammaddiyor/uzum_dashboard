@@ -5,10 +5,19 @@ export interface State {
   fetching: boolean;
   lang: string;
   access_token?: string;
+  path: Record<string, string> | null;
 }
 
-export const INITIAL_STATE: State = {
-  user: null,
-  fetching: false,
-  lang: 'uz',
-};
+let state = null;
+if (typeof window !== 'undefined') {
+  state = window.localStorage.getItem('state');
+}
+
+export const INITIAL_STATE: State = state
+  ? JSON.parse(state)
+  : {
+      user: null,
+      fetching: false,
+      lang: 'uz',
+      path: null,
+    };

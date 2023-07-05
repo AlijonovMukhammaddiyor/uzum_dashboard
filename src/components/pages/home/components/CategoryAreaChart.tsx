@@ -14,124 +14,126 @@ const Column = dynamic(
     ssr: false,
   }
 );
-import { faker } from '@faker-js/faker';
-// import {
-//   CategoryScale,
-//   Chart as ChartJS,
-//   Filler,
-//   Legend,
-//   LinearScale,
-//   LineElement,
-//   PointElement,
-//   Title,
-//   Tooltip,
-// } from 'chart.js';
-// import annotationPlugin from 'chartjs-plugin-annotation';
 import React from 'react';
 
+import { CategoryTrendDataType } from '@/components/pages/category/slug/components/CategoryTrends';
 import Tabs from '@/components/shared/Tabs';
 
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   LineElement,
-//   Title,
-//   Tooltip,
-//   Filler,
-//   Legend,
-//   annotationPlugin
-// );
-
-function AreaChartComponent() {
+function AreaChartComponent({
+  data,
+  labels,
+}: {
+  data: CategoryTrendDataType[];
+  labels: string[];
+}) {
   const [activeTab, setActiveTab] = React.useState<string>('Chiziq');
-  const labels = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '12',
-    '12.5',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23',
-    '23.5',
-    '24',
-    '25',
-    '26',
-    '27',
-    '28',
-    '29',
-    '30',
-  ];
 
-  const dataValues_totalOrders = labels
-    .map(() => faker.number.int({ min: 5000, max: 15000 }))
-    .sort((a, b) => a - b);
+  function sortDates(dates: string[]): string[] {
+    return dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+  }
 
-  const data_totalOrders = dataValues_totalOrders.map((value, index) => {
+  function constructSortedArrays(
+    data: CategoryTrendDataType[],
+    sortedLabels: string[]
+  ): {
+    totalOrdersSorted: number[];
+    totalReviewsSorted: number[];
+    totalShopsSorted: number[];
+    totalProductsSorted: number[];
+    totalProductsWithSalesSorted: number[];
+    totalShopsWithSalesSorted: number[];
+  } {
+    // Initialize empty arrays for the sorted data
+    const totalOrdersSorted: number[] = [];
+    const totalReviewsSorted: number[] = [];
+    const totalShopsSorted: number[] = [];
+    const totalProductsSorted: number[] = [];
+    const totalProductsWithSalesSorted: number[] = [];
+    const totalShopsWithSalesSorted: number[] = [];
+
+    // For each label in the sorted labels array...
+    sortedLabels.forEach((label) => {
+      // Find the corresponding data object
+      const dataObj = data.find((d) => d.date_pretty === label);
+      if (dataObj) {
+        // If found, push the corresponding values into the sorted arrays
+        totalOrdersSorted.push(dataObj.total_orders);
+        totalReviewsSorted.push(dataObj.total_reviews);
+        totalShopsSorted.push(dataObj.total_shops);
+        totalProductsSorted.push(dataObj.total_products);
+        totalProductsWithSalesSorted.push(dataObj.total_products_with_sales);
+        totalShopsWithSalesSorted.push(dataObj.total_shops_with_sales);
+      }
+    });
+
+    // Return the sorted arrays
     return {
-      label: labels[index],
-      value,
-      type: 'total orders',
+      totalOrdersSorted,
+      totalReviewsSorted,
+      totalShopsSorted,
+      totalProductsSorted,
+      totalProductsWithSalesSorted,
+      totalShopsWithSalesSorted,
     };
-  });
+  }
 
-  const dataValues_orders = labels.map(() =>
-    faker.number.int({ min: 500, max: 2000 })
+  const labelsSorted = sortDates(labels);
+  const {
+    totalOrdersSorted,
+    totalReviewsSorted,
+    totalShopsSorted,
+    totalProductsSorted,
+    totalProductsWithSalesSorted,
+    totalShopsWithSalesSorted,
+  } = constructSortedArrays(data, labelsSorted);
+
+  const data_sellers = totalShopsSorted.map((value, index) => ({
+    label: labelsSorted[index],
+    value,
+    type: 'Sotuvchilar',
+  }));
+
+  const data_orders = totalOrdersSorted.map((value, index) => ({
+    label: labelsSorted[index],
+    value,
+    type: 'Buyurtmalar',
+  }));
+
+  const data_products = totalProductsSorted.map((value, index) => ({
+    label: labelsSorted[index],
+    value,
+    type: 'Mahsulotlar',
+  }));
+
+  const data_totalReviews = totalReviewsSorted.map((value, index) => ({
+    label: labelsSorted[index],
+    value,
+    type: 'Izohlar',
+  }));
+
+  const data_totalShopsWithSales = totalShopsWithSalesSorted.map(
+    (value, index) => ({
+      label: labelsSorted[index],
+      value,
+      type: 'Faol sotuvchilar',
+    })
   );
 
-  const data_orders = dataValues_orders.map((value, index) => {
-    return {
-      label: labels[index],
+  const data_totalProductsWithSales = totalProductsWithSalesSorted.map(
+    (value, index) => ({
+      label: labelsSorted[index],
       value,
-      type: 'orders',
-    };
-  });
-
-  const dataValues_products = labels
-    .map(() => faker.number.int({ min: 8000, max: 10000 }))
-    .sort((a, b) => a - b);
-
-  const data_products = dataValues_products.map((value, index) => {
-    return {
-      label: labels[index],
-      value,
-      type: 'products',
-    };
-  });
-
-  const dataValues_sellers = labels.map(() =>
-    faker.number.int({ min: 100, max: 500 })
+      type: 'Faol mahsulotlar',
+    })
   );
-
-  const data_sellers = dataValues_sellers.map((value, index) => {
-    return {
-      label: labels[index],
-      value,
-      type: 'sellers',
-    };
-  });
 
   const data_ = [
     ...data_sellers,
     ...data_orders,
     ...data_products,
-    ...data_totalOrders,
+    ...data_totalReviews,
+    ...data_totalShopsWithSales,
+    ...data_totalProductsWithSales,
   ];
   // const minValue = Math.min(...dataValues);
   // const maxValue = Math.max(...dataValues);
@@ -147,25 +149,36 @@ function AreaChartComponent() {
     isGroup: true,
     dodgePadding: 2,
     color: (type: { type: string }) => {
-      if (type.type === 'orders') {
+      if (type.type === 'Buyurtmalar') {
         return '#00DFA2';
-      } else if (type.type === 'products') {
+      } else if (type.type === 'Mahsulotlar') {
         return '#E893CF';
-      } else if (type.type === 'sellers') {
+      } else if (type.type === 'Izohlar') {
         return '#FF6D60';
+      } else if (type.type === 'Sotuvchilar') {
+        return '#E823CF';
+      } else if (type.type === 'Faol sotuvchilar') {
+        return '#126D60';
       } else {
-        return '#AFD3E2';
+        return '#A233E2';
       }
     },
     slider: {
       start: 0,
       end: 0.99,
     },
+    xAxis: {
+      label: {
+        autoRotate: true, // auto rotate labels
+        autoHide: false, // do not hide labels automatically
+        autoEllipsis: false, // do not ellipsis labels automatically
+      },
+    },
   };
 
   if (activeTab === 'Ustun') {
     return (
-      <div className='w-full max-w-full rounded-md bg-white p-3'>
+      <div className='h-[650px] w-full max-w-full rounded-md bg-white p-3'>
         <Tabs
           tabs={['Chiziq', 'Ustun']}
           activeTab={activeTab}
@@ -175,6 +188,7 @@ function AreaChartComponent() {
         <Column
           style={{
             width: '100%',
+            height: '550px',
           }}
           {...(config as any)}
         />
@@ -183,7 +197,7 @@ function AreaChartComponent() {
   }
 
   return (
-    <div className='w-full max-w-full rounded-md bg-white p-3'>
+    <div className='h-[650px] w-full max-w-full rounded-md bg-white p-3'>
       <Tabs
         tabs={['Chiziq', 'Ustun']}
         activeTab={activeTab}
@@ -194,6 +208,7 @@ function AreaChartComponent() {
       <Area
         style={{
           width: '100%',
+          height: '550px',
         }}
         {...(config as any)}
         point={{

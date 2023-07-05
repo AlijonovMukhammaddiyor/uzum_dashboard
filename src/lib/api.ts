@@ -10,8 +10,8 @@ import { SERVER_URL } from '@/constant/env';
 class API {
   public instance: AxiosInstance;
   private context: GetServerSidePropsContext | null;
-  private refreshTokenAge: number = 7 * 24 * 60 * 60; // 14 days
-  private accessTokenAge: number = 1 * 60; // 15 minutes
+  private refreshTokenAge: number = 14 * 24 * 60 * 60; // 14 days
+  private accessTokenAge: number = 15 * 60; // 15 minutes
   private proxy = '/api/external';
   private isApi = false;
 
@@ -78,6 +78,7 @@ class API {
             const access = await this.refreshTokens();
             // Retry the original request
             const config = error.config;
+            // log old authorization header
             // const token = this.getAccessToken();
             if (access) {
               config.headers['Authorization'] = `Bearer ${access}`;
@@ -90,7 +91,14 @@ class API {
               // we can reject the request here as it won't be authorized anyway
               return Promise.reject(new Error('Not logged in'));
             }
-            console.log('resending request with new token');
+            console.log(
+              error.config.url,
+              'rrrrresending request with new token',
+              access,
+              ' \naccess '
+            );
+            // console.log('resending request with new token');
+            console.log('config', config);
             return this.instance(config);
           } catch (refreshError) {
             // If refreshing fails, redirect to login
@@ -117,6 +125,7 @@ class API {
         }
         // console.log('Refresh ', refreshToken);
         const tokens = await this._refreshTokens(refreshToken);
+        console.log('Tokens ', tokens);
         if (!tokens) {
           // if no tokens, redirect to login
           throw new Error('No tokens returned from _refreshTokens');

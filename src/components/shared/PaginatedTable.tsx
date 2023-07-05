@@ -2,16 +2,26 @@ import { GridReadyEvent } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { AxiosResponse } from 'axios';
 import React from 'react';
-import Uzlocale from '@/assets/localeuzbek.json';
+
 import clsxm from '@/lib/clsxm';
+
+import Uzlocale from '@/assets/localeuzbek.json';
 
 interface TableProps<T> extends AgGridReactProps {
   className?: string;
-  fetchData: (page: number) => Promise<
+  categoryId?: string;
+  fetchData: (
+    page: number,
+    sortModel: {
+      colId: string;
+      sort: string;
+    } | null
+  ) => Promise<
     AxiosResponse<{
       results: T[];
       count: number;
-      links: { next: string | null; previous: string | null };
+      next?: string;
+      previous?: string;
     }>
   >;
   setLoading?: (loading: boolean) => void;
@@ -23,6 +33,7 @@ const PaginatedTable = <T,>({
   className,
   fetchData,
   setLoading,
+  categoryId,
   ...props
 }: TableProps<T>) => {
   const [modules, setModules] = React.useState<any[]>([]);
@@ -32,29 +43,24 @@ const PaginatedTable = <T,>({
       const [
         { default: ClientSideRowModelModule },
         { default: InfiniteRowModelModule },
-        { default: MenuModule },
-        { default: ColumnsToolPanelModule },
       ] = await Promise.all([
         import('@ag-grid-community/client-side-row-model'),
         import('@ag-grid-community/infinite-row-model'),
-        import('@ag-grid-enterprise/menu'),
-        import('@ag-grid-enterprise/column-tool-panel'),
       ]);
-      setModules([
-        ClientSideRowModelModule,
-        InfiniteRowModelModule,
-        MenuModule,
-        ColumnsToolPanelModule,
-      ]);
+      setModules([ClientSideRowModelModule, InfiniteRowModelModule]);
     }
     loadModules();
   }, []);
 
   const onGridReady = (params: GridReadyEvent) => {
+    let sortColumn: {
+      colId: string;
+      sort: string;
+    } | null = null;
+
     const dataSource = {
       getRows: async function ({
         startRow,
-        endRow,
         successCallback,
       }: {
         startRow: number;
@@ -63,16 +69,33 @@ const PaginatedTable = <T,>({
       }) {
         const pageNum = Math.floor(startRow / PAGE_SIZE) + 1;
         if (!fetchData) return;
-        const response = await fetchData(pageNum);
+        const response = await fetchData(pageNum, sortColumn);
         if (setLoading) setLoading(false);
         successCallback(response.data.results, response.data.count);
       },
     };
+
     params.api.setDatasource(dataSource);
+
+    params.api.addEventListener('sortChanged', () => {
+      const colState = params.columnApi.getColumnState();
+      const sortState = colState.filter(function (s) {
+        return s.sort != null;
+      });
+
+      if (sortState.length > 0) {
+        const sortModel = sortState[0];
+        sortColumn = {
+          colId: sortModel.colId,
+          sort: sortModel.sort ?? 'asc',
+        };
+        params.api.refreshServerSide({ purge: true });
+      }
+    });
   };
 
   return (
-    <div className={clsxm('ag-theme-alpine h-[800px] w-full', className)}>
+    <div className={clsxm('ag-theme-alpine h-[800px] min-w-full', className)}>
       <AgGridReact
         defaultColDef={{
           resizable: true,
@@ -88,14 +111,14 @@ const PaginatedTable = <T,>({
         rowSelection='multiple'
         floatingFiltersHeight={35}
         suppressMenuHide={true}
-        enableCharts={true}
+        // enableCharts={true}
         paginationPageSize={PAGE_SIZE}
         animateRows={true}
         enableCellChangeFlash={true}
         alwaysShowVerticalScroll={true}
         alwaysShowHorizontalScroll={true}
         debounceVerticalScrollbar={true}
-        enableRangeSelection={true}
+        // enableRangeSelection={true}
         enableFillHandle={true}
         rowHeight={45}
         rowModelType='infinite'

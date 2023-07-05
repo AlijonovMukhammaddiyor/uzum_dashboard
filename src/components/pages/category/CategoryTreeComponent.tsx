@@ -1,16 +1,15 @@
 import { NextRouter, useRouter } from 'next/router';
 import React from 'react';
-import { HiChevronRight } from 'react-icons/hi';
+import { HiChevronRight, HiMinusSm, HiPlusSm } from 'react-icons/hi';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import Container from '@/components/layout/Container';
-import {
-  goToCategory,
-  setPathToLocalStorage,
-} from '@/components/pages/category/utils';
+import { goToCategory } from '@/components/pages/category/utils';
+
+import { useContextState } from '@/context/Context';
 
 import { CategoryInTree } from '@/types/category';
 
@@ -18,6 +17,8 @@ function CategoryTreeComponent() {
   const [activeTab, setActiveTab] = React.useState<string>('Elektronika');
   const [data, setData] = React.useState<CategoryInTree[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const { dispatch } = useContextState();
+
   const router = useRouter();
 
   React.useEffect(() => {
@@ -25,7 +26,7 @@ function CategoryTreeComponent() {
     const api = new API(null);
     setLoading(true);
     api
-      .get('/category/')
+      .get('/category')
       .then((res) => {
         if (res.data) {
           setData(res.data.children);
@@ -44,9 +45,9 @@ function CategoryTreeComponent() {
   return (
     <Container
       loading={loading}
-      className='items-centerjustify-start flex min-h-full w-full gap-4 overflow-hidden rounded-md bg-white'
+      className='flex h-[calc(100vh-89px)] max-h-full items-start justify-start gap-4 overflow-hidden rounded-md bg-white'
     >
-      <div className='relative flex w-[250px] flex-col items-start justify-start gap-1 border-r border-gray-300 bg-slate-50 p-2'>
+      <div className='relative flex h-full w-[300px] flex-col items-start justify-start gap-1 overflow-y-scroll border-b border-gray-300 bg-slate-50 p-6'>
         {parents?.map((parent, index) => (
           <ParentCategory
             name={parent}
@@ -56,48 +57,23 @@ function CategoryTreeComponent() {
           />
         ))}
       </div>
-      <div className='flex flex-1 flex-col flex-wrap gap-6'>
+      <div className='flex h-full flex-1 flex-col gap-6 overflow-y-scroll p-6'>
         {data?.map((category) => {
           if (category.title === activeTab) {
             return (
-              <div
-                key={category.categoryId}
-                className='flex flex-col gap-3 p-3'
-              >
-                <p
-                  onClick={() => {
-                    goToCategory(category.categoryId, category.title, router);
-                    setPathToLocalStorage({
-                      Kategoriyalar: '/category',
-                      [category.title]: `/category/${category.categoryId}--${category.title}`,
-                    });
+              <div key={category.categoryId} className='flex flex-col gap-3'>
+                <RenderChildren
+                  category={category}
+                  parent={category}
+                  className=''
+                  goToCategory={goToCategory}
+                  router={router}
+                  dispatch={dispatch}
+                  depth={0}
+                  parentPath={{
+                    Kategoriyalar: '/category',
                   }}
-                  className='hover:text-primary inline-flex max-w-max cursor-pointer items-center justify-start gap-3 font-semibold'
-                >
-                  <span>{category.title}</span>
-                  <HiChevronRight className='h-4 w-4 shrink-0' />
-                </p>
-                <div className='flex flex-wrap items-start justify-start space-x-2'>
-                  {category.children
-                    ?.sort(
-                      // based on number of children
-                      (a, b) => {
-                        if (!a.children) return -1;
-                        if (!b.children) return 1;
-                        return -b.children?.length + a.children?.length;
-                      }
-                    )
-                    .map((subcategory) => {
-                      return renderChildren(
-                        category,
-                        subcategory,
-                        '',
-                        goToCategory,
-                        setPathToLocalStorage,
-                        router
-                      );
-                    })}
-                </div>
+                />
               </div>
             );
           }
@@ -107,58 +83,97 @@ function CategoryTreeComponent() {
   );
 }
 
-function renderChildren(
-  parent: CategoryInTree,
-  subcategory: CategoryInTree,
-  className: string,
-  goToCategory: (id: number, title: string, router: NextRouter) => void,
-  setPathToLocalStorage: (path: any) => void,
-  router: NextRouter
-) {
+function RenderChildren({
+  category,
+  parent,
+  className,
+  goToCategory,
+  router,
+  dispatch,
+  depth = 0,
+  parentPath = {},
+}: {
+  category: CategoryInTree;
+  parent: CategoryInTree;
+  className: string;
+  goToCategory: (id: number, title: string, router: NextRouter) => void;
+  router: NextRouter;
+  dispatch: React.Dispatch<any>;
+  depth?: number;
+  parentPath: Record<string, string>;
+}) {
+  const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
+  const hasChildren = category.children && category.children.length > 0;
+
+  const categoryPath = {
+    ...parentPath,
+    [category.title]: `/category/${category.categoryId}--${category.title}`,
+  };
+
   return (
     <div
       className={clsxm(
-        'mx-2 my-2 flex h-max w-[280px] flex-col items-start justify-start gap-3 px-4',
+        'my-2 flex flex-col items-start justify-start gap-1',
         className
       )}
-      key={subcategory.categoryId}
+      key={category.categoryId}
     >
-      <p
-        onClick={() => {
-          goToCategory(subcategory.categoryId, subcategory.title, router);
-          setPathToLocalStorage({
-            Kategoriyalar: '/category',
-            [parent.title]: `/category/${parent.categoryId}--${parent.title}`,
-            [subcategory.title]: `/category/${subcategory.categoryId}--${subcategory.title}`,
-          });
-        }}
-        className='hover:text-primary flex cursor-pointer items-center justify-between gap-2 rounded-md p-1 font-semibold'
+      <div
+        className='flex items-center gap-2'
+        style={{ paddingLeft: `${depth * 20}px` }} // Indent children
       >
-        <span>{subcategory.title}</span>
-        <HiChevronRight className='h-4 w-4 shrink-0' />
-      </p>
-      <div className='flex h-max w-full cursor-pointer flex-col items-start justify-start gap-2'>
-        {subcategory.children?.map((child) => {
+        {hasChildren && (
+          <div
+            className='bg-primary flex h-7 w-7 cursor-pointer items-center justify-center rounded-md text-white hover:bg-purple-600'
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? (
+              <HiMinusSm className='cursor-pointer' />
+            ) : (
+              <HiPlusSm className='cursor-pointer' />
+            )}
+          </div>
+        )}
+        <p
+          className={clsxm(
+            'hover:text-primary group flex cursor-pointer items-center justify-start gap-2 rounded-md p-1 text-sm font-medium',
+            hasChildren && 'font-semibold',
+            depth === 0 && 'text-lg',
+            !hasChildren && 'ml-9'
+          )}
+          onClick={() => {
+            goToCategory(category.categoryId, category.title, router);
+            dispatch({
+              type: 'PATH',
+              payload: { path: categoryPath },
+            });
+          }}
+        >
+          {category.title}
+          <HiChevronRight
+            className={clsxm(
+              'group-hover:text-primary',
+              depth === 0 && 'text-lg'
+            )}
+          />
+        </p>
+      </div>
+      {isExpanded &&
+        category.children?.map((child) => {
           return (
-            <p
+            <RenderChildren
               key={child.categoryId}
-              className='flex w-full items-center justify-between text-sm hover:text-purple-700'
-              onClick={() => {
-                goToCategory(child.categoryId, child.title, router);
-                setPathToLocalStorage({
-                  Kategoriyalar: '/category',
-                  [parent.title]: `/category/${parent.categoryId}--${parent.title}`,
-                  [subcategory.title]: `/category/${subcategory.categoryId}--${subcategory.title}`,
-                  [child.title]: `/category/${child.categoryId}--${child.title}`,
-                });
-              }}
-            >
-              <span>{child.title}</span>
-              <HiChevronRight className='h-4 w-4 shrink-0' />
-            </p>
+              category={child}
+              parent={category}
+              className=''
+              goToCategory={goToCategory}
+              router={router}
+              dispatch={dispatch}
+              depth={depth + 1}
+              parentPath={categoryPath}
+            />
           );
         })}
-      </div>
     </div>
   );
 }
@@ -172,18 +187,11 @@ function ParentCategory({
   isActive: boolean;
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const makeSlug = (name: string) => {
-    return name
-      .toLowerCase()
-      .replace(/ /g, '-')
-      .replace(/[^\w-]+/g, '');
-  };
-
   return (
     <div
       key={name}
       className={clsxm(
-        'flex h-10 w-full cursor-pointer items-center justify-start gap-4 overflow-hidden rounded-md p-3',
+        'min-h-8 flex h-10 w-full shrink-0 cursor-pointer items-center justify-start gap-4 overflow-hidden rounded-md p-3',
         isActive && 'bg-primary text-white',
         !isActive && 'hover:bg-gray-200'
       )}

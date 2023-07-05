@@ -5,10 +5,6 @@ export const goToCategory = (id: number, title: string, router: NextRouter) => {
   router.push(`/category/${id}--${title}`);
 };
 
-export const setPathToLocalStorage = (path: any) => {
-  localStorage.setItem('path', JSON.stringify(path));
-};
-
 export const slugToName = (slug: string) => {
   const arr = slug.split('--');
   const title = arr[1];

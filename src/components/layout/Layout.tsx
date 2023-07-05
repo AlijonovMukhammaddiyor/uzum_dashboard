@@ -14,13 +14,6 @@ export default function Layout({
 }) {
   const [activeTab, setActiveTab] = React.useState('');
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
-  const [paths, setPaths] = React.useState<Record<string, string>>(path);
-  const [updatePath, setUpdatePath] = React.useState(false);
-
-  React.useEffect(() => {
-    window.localStorage.getItem('path') &&
-      setPaths(JSON.parse(window.localStorage.getItem('path') as string));
-  }, [updatePath]);
 
   return (
     <div className='flex h-screen w-screen items-start justify-start overflow-hidden bg-slate-200'>
@@ -36,7 +29,7 @@ export default function Layout({
           'flex h-full flex-1 flex-col items-start justify-start overflow-scroll'
         )}
       >
-        <Header path={paths} setUpdatePath={setUpdatePath} />
+        <Header />
         <div className='w-full flex-1 p-4'>{children}</div>
       </div>
     </div>

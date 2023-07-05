@@ -14,7 +14,8 @@ const nextConfig = {
     domains: [
       'images.unsplash.com',
       'plus.unsplash.com',
-      'images.uzum.uz'
+      'images.uzum.uz',
+      'images.umarket.uz'
     ],
   },
 

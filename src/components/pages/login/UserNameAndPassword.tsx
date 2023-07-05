@@ -155,7 +155,7 @@ const UserNameAndPassword = ({
       )}
       {success === true && (
         <div className='w-full text-sm text-green-500'>
-          Siz muvaffaqiyatli tizimga kirdingiz.
+          Siz tizimga muvaffaqiyatli kirdingiz.
         </div>
       )}
 
@@ -163,7 +163,7 @@ const UserNameAndPassword = ({
         className='bg-primary mt-6 w-full text-white hover:bg-purple-700'
         onClick={onLogin}
         isLoading={sendingRequest}
-        spinnerColor='white'
+        spinnerColor='rgb(126 34 206)'
         disabled={
           !isPasswordValid ||
           sendingRequest ||

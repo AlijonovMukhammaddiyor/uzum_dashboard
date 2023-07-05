@@ -30,6 +30,7 @@ export default async function handler(
   }
 
   try {
+    console.log('urlString', urlString);
     const response = await api.instance({
       method,
       url: urlString,

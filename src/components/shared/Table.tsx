@@ -2,12 +2,14 @@ import { GridReadyEvent } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { AxiosResponse } from 'axios';
 import React from 'react';
-import Uzlocale from '@/assets/localeuzbek.json';
+
 import clsxm from '@/lib/clsxm';
+
+import Uzlocale from '@/assets/localeuzbek.json';
 
 interface TableProps<T> extends AgGridReactProps {
   className?: string;
-  fetchData: () => Promise<AxiosResponse<T[]>>;
+  fetchData?: () => Promise<AxiosResponse<T[]>>;
   setLoading?: (loading: boolean) => void;
 }
 
@@ -49,17 +51,15 @@ const Table = <T,>({
         rowSelection='multiple'
         floatingFiltersHeight={35}
         suppressMenuHide={true}
-        enableCharts={true}
         animateRows={true}
         enableCellChangeFlash={true}
         alwaysShowVerticalScroll={true}
         alwaysShowHorizontalScroll={true}
         debounceVerticalScrollbar={true}
-        enableRangeSelection={true}
-        enableFillHandle={true}
+        // enableFillHandle={true}
         rowHeight={45}
         tooltipShowDelay={0}
-        rowData={rowData}
+        rowData={rowData ?? []}
         onGridReady={onGridReady}
         localeText={Uzlocale}
         {...props}
