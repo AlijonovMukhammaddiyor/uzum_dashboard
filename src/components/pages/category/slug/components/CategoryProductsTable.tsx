@@ -35,7 +35,6 @@ interface ProductType {
 
 function CategoryProductsTable({ categoryId, className }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [mounted, setMounted] = React.useState<boolean>(false);
   const [topProductsData, setTopProductsData] = React.useState<
     {
       type: string;
@@ -49,10 +48,6 @@ function CategoryProductsTable({ categoryId, className }: Props) {
   const [childrenCount, setChildrenCount] = React.useState<number>(0);
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-    }, 200);
-
     const api = new API(null);
     setLoadingTopProducts(true);
     api
@@ -102,8 +97,6 @@ function CategoryProductsTable({ categoryId, className }: Props) {
         setLoadingTopProducts(false);
       });
   }, [categoryId]);
-
-  if (!mounted) return null;
 
   const loadData = (
     page: number,

@@ -17,14 +17,6 @@ export interface Props {
 function CategoryComponent({ activeTab, categoryId }: Props) {
   const [mounted, setMounted] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-    }, 200);
-  }, []);
-
-  if (!mounted) return null;
-
   return (
     <div>
       <CategoryProductsTable

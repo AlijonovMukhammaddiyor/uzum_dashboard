@@ -102,7 +102,7 @@ function RenderChildren({
   depth?: number;
   parentPath: Record<string, string>;
 }) {
-  const [isExpanded, setIsExpanded] = React.useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = React.useState<boolean>(depth === 0);
   const hasChildren = category.children && category.children.length > 0;
 
   const categoryPath = {
@@ -124,7 +124,10 @@ function RenderChildren({
       >
         {hasChildren && (
           <div
-            className='bg-primary flex h-7 w-7 cursor-pointer items-center justify-center rounded-md text-white hover:bg-purple-600'
+            className={clsxm(
+              'bg-primary flex h-7 w-7 cursor-pointer items-center justify-center rounded-md text-white hover:bg-purple-600',
+              isExpanded && 'bg-purple-500'
+            )}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (
