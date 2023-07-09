@@ -181,7 +181,7 @@ const SubCategoriesPieChartData = ({
       <Container
         loading={loading}
         className={clsxm(
-          'h-[600px] min-w-[1200px] overflow-scroll rounded-md bg-white p-6'
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
         <PieChart data={orders_data} title='Buyurtmalar' labelType='outer' />
@@ -189,7 +189,7 @@ const SubCategoriesPieChartData = ({
       <Container
         loading={loading}
         className={clsxm(
-          'h-[600px] min-w-[1200px] overflow-scroll rounded-md bg-white p-6'
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
         <PieChart data={products_data} title='Mahsulotlar' labelType='outer' />
@@ -197,7 +197,7 @@ const SubCategoriesPieChartData = ({
       <Container
         loading={loading}
         className={clsxm(
-          'h-[600px] min-w-[1200px] overflow-scroll rounded-md bg-white p-6'
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
         <PieChart data={reviews_data} title='Izohlar' labelType='outer' />

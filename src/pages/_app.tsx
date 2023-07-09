@@ -13,6 +13,7 @@ import 'react-medium-image-zoom/dist/styles.css';
 import 'react-phone-input-2/lib/style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import 'reactjs-popup/dist/index.css';
+import 'rc-slider/assets/index.css';
 
 import { AuthProvider } from '@/context/Context';
 

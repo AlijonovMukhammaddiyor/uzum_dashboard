@@ -3213,6 +3213,18 @@
   dependencies:
     "object-assign" "4.x"
 
+"ag-charts-community@^8.0.3", "ag-charts-community@~8.0.3":
+  "integrity" "sha512-saho5TKEB2aLvPI+lH8uNNGzAYj5ZkgKp6aS0jFrhMY+1ikNwURkyoqflPRITU0TD0xjxHzXAtVM9kSpuxRexA=="
+  "resolved" "https://registry.npmjs.org/ag-charts-community/-/ag-charts-community-8.0.3.tgz"
+  "version" "8.0.3"
+
+"ag-charts-react@^8.0.3":
+  "integrity" "sha512-UMn2yyno4u2oV8qO1EkJw4pcy8tj6LwazET2WCJqiwILCghjq39v4tbEuMQXcM8ggVHOPmcrqvesrjaMy23k1A=="
+  "resolved" "https://registry.npmjs.org/ag-charts-react/-/ag-charts-react-8.0.3.tgz"
+  "version" "8.0.3"
+  dependencies:
+    "prop-types" "^15.6.2"
+
 "ag-grid-community@^29.3.5", "ag-grid-community@~29.3.5":
   "integrity" "sha512-LxUo21f2/CH31ACEs1C7Q/ggGGI1fQPSTB4aY5OThmM+lBkygZ7QszBE8jpfgWOIjvjdtcdIeQbmbjkHeMsA7A=="
   "resolved" "https://registry.npmjs.org/ag-grid-community/-/ag-grid-community-29.3.5.tgz"
@@ -7695,7 +7707,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@^15.5.10", "prop-types@^15.5.8", "prop-types@^15.7.2", "prop-types@^15.8.1":
+"prop-types@^15.5.10", "prop-types@^15.5.8", "prop-types@^15.6.2", "prop-types@^15.7.2", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -7998,6 +8010,15 @@
     "rc-trigger" "^5.0.4"
     "rc-util" "^5.16.1"
     "rc-virtual-list" "^3.2.0"
+
+"rc-slider@^10.2.1":
+  "integrity" "sha512-l355C/65iV4UFp7mXq5xBTNX2/tF2g74VWiTVlTpNp+6vjE/xaHHNiQq5Af+Uu28uUiqCuH/QXs5HfADL9KJ/A=="
+  "resolved" "https://registry.npmjs.org/rc-slider/-/rc-slider-10.2.1.tgz"
+  "version" "10.2.1"
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    "classnames" "^2.2.5"
+    "rc-util" "^5.27.0"
 
 "rc-slider@~10.0.0":
   "integrity" "sha512-igTKF3zBet7oS/3yNiIlmU8KnZ45npmrmHlUUio8PNbIhzMcsh+oE/r2UD42Y6YD2D/s+kzCQkzQrPD6RY435Q=="

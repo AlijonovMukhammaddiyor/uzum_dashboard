@@ -3,8 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useState } from 'react';
+import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
+import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi';
 import { Carousel } from 'react-responsive-carousel';
 import Popup from 'reactjs-popup';
+
+import clsxm from '@/lib/clsxm';
 
 export const categoryAnalyticsColumnDefs = [
   {
@@ -192,10 +196,14 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
           <div
             key={index}
             className='absolute left-0 top-0'
-            style={{ zIndex: index, left: `${index * 20}px` }}
+            style={{ zIndex: index, left: `${index * 30}px` }}
             onClick={openModal}
           >
-            <Image src={src} width={30} height={40} alt='' />
+            <img
+              className='h-[40px] w-[40px] w-auto object-contain'
+              src={src}
+              alt=''
+            />
           </div>
         );
       })}
@@ -203,18 +211,10 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
         <Carousel>
           {Array.from(srcs_no_duplicates).map((src, index) => (
             <div key={index}>
-              <Image
+              <img
                 src={src}
                 alt='sdsd'
-                width={100}
-                height={150}
-                style={{
-                  objectFit: 'contain',
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  width: '300px',
-                  height: '500px',
-                }}
+                className='h-full max-h-[800px] w-full object-contain'
               />
             </div>
           ))}
@@ -225,8 +225,9 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
 };
 
 const AvatarCellRenderer = ({ value }: { value: string }) => {
+  if (!value) return '';
   return (
-    <Image src={value} width={30} height={30} alt='' className='rounded-full' />
+    <Image src={value} width={30} height={40} alt='' className='rounded-full' />
   );
 };
 
@@ -255,38 +256,21 @@ const CategoryNameCellRenderer = ({ value }: { value: string }) => {
 };
 
 const SellerNameCellRenderer = ({ value }: { value: string }) => {
+  // get seller link from value = "title (link)""
+  if (!value) return '';
+  // try{
+  const seller_link = value?.split('(')[1]?.split(')')[0];
+  const seller_title = value?.split('(')[0];
+
   return (
-    <Link href={`/seller/${value}`}>
-      <p className='text-blue-500 hover:underline'>{value}</p>
+    <Link href={`/sellers/${seller_title}--${seller_link}`}>
+      <p className='text-blue-500 hover:underline'>{seller_title}</p>
     </Link>
   );
 };
 
-const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
-  if (!value) return null;
-  const skus: {
-    sku_id: number;
-    purchase_price: number;
-    full_price: number;
-    orders_amount: number;
-    available_amount: number;
-  }[] = JSON.parse(value);
-
-  const average_purchase_price =
-    skus.reduce((acc, curr) => acc + curr.purchase_price, 0) / skus.length;
-
-  // return <p className=''>{value?.toLocaleString()} so'm</p>;
-  return (
-    <div className='flex flex-col gap-1'>
-      <p className=''>
-        {Math.floor(average_purchase_price)?.toLocaleString()} so'm
-      </p>
-    </div>
-  );
-};
-
 const TrendPriceCellRenderer = ({ value }: { value: string }) => {
-  if (!value) return null;
+  if (value === null) return <p>Chegirma yo'q</p>;
   const value_number = Number(Number(value).toFixed(0));
   return (
     <div className=''>
@@ -296,7 +280,7 @@ const TrendPriceCellRenderer = ({ value }: { value: string }) => {
 };
 
 const FullPriceCellRenderer = ({ value }: { value: string }) => {
-  if (!value) return null;
+  if (!value) return '';
   const skus: {
     sku_id: number;
     purchase_price: number;
@@ -328,13 +312,34 @@ const FullPriceCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
+const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
+  if (!value) return '';
+  const skus: {
+    sku_id: number;
+    purchase_price: number;
+    full_price: number;
+    orders_amount: number;
+    available_amount: number;
+  }[] = JSON.parse(value);
+
+  const count = skus.filter(
+    (sku) => sku.purchase_price && sku.purchase_price > 0
+  ).length;
+
+  const average_purchase_price: number =
+    skus.reduce((acc, curr) => acc + curr.purchase_price, 0) / count;
+
+  return (
+    <div className='flex flex-col gap-1'>
+      <p className=''>
+        {Math.floor(average_purchase_price)?.toLocaleString()} so'm
+      </p>
+    </div>
+  );
+};
+
 const RatingCellRenderer = ({ value }: { value: string }) => {
-  if (!value)
-    return (
-      <div>
-        <p className='text-center'>Reyting Yo'q</p>
-      </div>
-    );
+  if (!value) return '';
   const value_number = Number(value);
   return (
     <div className='flex items-center justify-center'>
@@ -348,7 +353,7 @@ const RatingCellRenderer = ({ value }: { value: string }) => {
 };
 
 const SkusCountCellRenderer = ({ value }: { value: string }) => {
-  if (!value) return null;
+  if (!value) return '';
   const skus: {
     sku_id: number;
     purchase_price: number;
@@ -367,7 +372,7 @@ const SkusCountCellRenderer = ({ value }: { value: string }) => {
 };
 
 const BadgesCellRenderer = ({ value }: { value: string }) => {
-  if (!value) return null;
+  if (!value) return '';
 
   const badges: {
     badge_text: string;
@@ -395,7 +400,388 @@ const BadgesCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
+const LocaleNumberCellRenderer = ({ value }: { value: string }) => {
+  if (value === null) return '';
+  const value_number = Number(value);
+  return (
+    <div className='flex flex-col gap-1'>
+      <p className=''>{value_number?.toLocaleString()}</p>
+    </div>
+  );
+};
+
+function DailyOrdersCellRenderer(props: { value: any }) {
+  const { value } = props;
+
+  const color = value?.change < 0 ? 'red' : 'green';
+  const ChangeIcon = value?.change < 0 ? HiMinusSm : HiOutlinePlusSm;
+
+  return (
+    <div className='flex items-center justify-center'>
+      <p className='text-center'>{value?.target?.toLocaleString()}</p>
+      {value?.change !== 0 && (
+        <div className='flex items-center justify-start'>
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            (
+          </p>
+          <ChangeIcon
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          />
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            {Math.abs(value?.change)?.toLocaleString()}
+          </p>
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            )
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+function DailyRatingCellRenderer(props: { value: any }) {
+  const { value } = props;
+
+  const color = value?.change < 0 ? 'red' : 'green';
+  const ChangeIcon = value?.change < 0 ? HiMinusSm : HiOutlinePlusSm;
+
+  return (
+    <div className='flex items-center justify-center'>
+      <p className='text-center'>{value?.target}</p>
+      {value?.change !== 0 && (
+        <div className='flex items-center justify-start'>
+          <ChangeIcon
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          />
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            {Math.abs(value?.change)?.toLocaleString()}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DailyPositionCellRenderer(props: { value: any }) {
+  const { value } = props;
+
+  const color = value?.change > 0 ? 'red' : 'green';
+  const ChangeIcon = value?.change < 0 ? BsArrowUpShort : BsArrowDownShort;
+  const ss = value?.change !== 0 && value?.before;
+
+  return (
+    <div className='flex items-center justify-center'>
+      <p className='text-center'>{value?.target}</p>
+      {ss && (
+        <div className='flex items-center justify-start'>
+          <ChangeIcon
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          />
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            {Math.abs(value?.change)?.toLocaleString()}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PriceChangeCellRenderer(props: { value: any }) {
+  const { value } = props;
+
+  const color = value?.change < 0 ? 'red' : 'green';
+  const ChangeIcon = value?.change < 0 ? HiMinusSm : HiOutlinePlusSm;
+  const sss = value?.before && value?.change !== 0;
+  return (
+    <div className='flex items-center justify-start gap-1'>
+      <p className='text-center'>
+        {Math.round(value?.target)?.toLocaleString()} so'm
+      </p>
+      {sss && (
+        <div className='flex items-center justify-start'>
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            (
+          </p>
+          <ChangeIcon
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          />
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            {Math.abs(Math.round(value?.change))?.toLocaleString()} so'm
+          </p>
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            )
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export const CategoryProductsColDefs = [
+  {
+    headerName: 'Mahsulot ID',
+    field: 'product_id',
+    minWidth: 150,
+    maxWidth: 200,
+    headerTooltip: 'Ushbu mahsulotning ID raqami.',
+    sortable: false,
+  },
+  {
+    headerName: 'Rasm',
+    field: 'photos',
+    cellRenderer: ProductImageCellRenderer,
+    sortable: false,
+    minWidth: 150,
+    maxWidth: 200,
+  },
+  {
+    headerName: 'Nomi',
+    field: 'title',
+    cellRenderer: ProductNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: "So'ngi Aktiv sana",
+    field: 'latest_product_analytics_date',
+    sortable: false,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: '#f3f4f6',
+    } as CellStyle,
+  },
+];
+
 export const CategoryProductTableColumnDefs = [
+  {
+    headerName: 'Mahsulot ID',
+    field: 'product_id',
+    flex: 1,
+    sortable: false,
+    minWidth: 150,
+    headerTooltip: 'Ushbu mahsulotning ID raqami.',
+  },
+  {
+    headerName: 'Rasm',
+    field: 'photos',
+    cellRenderer: ProductImageCellRenderer,
+    sortable: false,
+    minWidth: 150,
+    maxWidth: 200,
+  },
+  {
+    headerName: 'Nomi',
+    field: 'product_title',
+    cellRenderer: ProductNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    filterParams: {
+      alwaysShowBothConditions: true,
+    },
+    sortable: false,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Ichki kategoriyasi',
+    field: 'category_title',
+    cellRenderer: SubcategoryCellRenderer,
+    filter: true,
+    sortable: false,
+    floatingFilter: true,
+    filterParams: {
+      alwaysShowBothConditions: true,
+    },
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+    headerTooltip: 'Ushbu mahsulotning asosiy ichki kategoriyasi.',
+  },
+  {
+    headerName: 'Pozitsiya',
+    field: 'position_in_category',
+    // floatingFilter: true,
+    // filter: 'agNumberColumnFilter',
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Ichki kategoriyadagi pozitsiyasi.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Sotuvchi',
+    field: 'shop_title',
+    filter: true,
+    sortable: false,
+    floatingFilter: true,
+    cellRenderer: SellerNameCellRenderer,
+    filterParams: {
+      alwaysShowBothConditions: true,
+    },
+    flex: 1,
+    minWidth: 200,
+    tooltipField: 'Sotuvchi nomi',
+  },
+  {
+    headerName: 'Sotuv miqdori',
+    field: 'orders_amount',
+    sortable: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulotning shu kungacha sotilgan miqdori.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: `Turlari soni`,
+    field: 'sku_analytics',
+    cellRenderer: SkusCountCellRenderer,
+    flex: 1,
+    sortable: false,
+    minWidth: 150,
+    headerTooltip:
+      'Ushbu mahsulot turlarining soni. Misol uchun, rangi, hajmi, modeli, va hokazo.',
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: `O'rtacha Sotuv Narxi`,
+    field: 'sku_analytics',
+    cellRenderer: PurchasePriceCellRenderer,
+    flex: 1,
+    sortable: false,
+    minWidth: 200,
+    headerTooltip: "Ushbu mahsulot turlarining o'rtacha sotuv narxi.",
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Haqiqiy Narxi',
+    field: 'sku_analytics',
+    cellRenderer: FullPriceCellRenderer,
+    flex: 1,
+    sortable: false,
+    minWidth: 150,
+    headerTooltip: `Ushbu mahsulot turlarining o'rtacha haqiqiy narxi.`,
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Aksiya',
+    field: 'badges',
+    cellRenderer: BadgesCellRenderer,
+    flex: 1,
+    minWidth: 200,
+    sortable: false,
+    headerTooltip: 'Ushbu mahsulot uchun mavjud aksiyalar.',
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mavjud miqdori',
+    field: 'product_available_amount',
+    sortable: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: "Mahsulotning hozirda mavjud bo'lgan miqdori.",
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Izohlar soni',
+    field: 'reviews_amount',
+    // filter: 'agNumberColumnFilter',
+    // floatingFilter: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulot izohlarining umumiy soni.',
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Reyting',
+    field: 'rating',
+    cellRenderer: RatingCellRenderer,
+    sortable: false,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulot reytingi.',
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+];
+
+export const ShopProductTableColumnDefs = [
   {
     headerName: 'Mahsulot ID',
     field: 'product_id',
@@ -422,7 +808,7 @@ export const CategoryProductTableColumnDefs = [
     minWidth: 300,
   },
   {
-    headerName: 'Ichki kategoriyasi',
+    headerName: 'Kategoriya',
     field: 'category_title',
     cellRenderer: SubcategoryCellRenderer,
     filter: true,
@@ -444,16 +830,6 @@ export const CategoryProductTableColumnDefs = [
       textAlign: 'center',
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
     } as CellStyle,
-  },
-  {
-    headerName: 'Sotuvchi',
-    field: 'shop_title',
-    filter: true,
-    floatingFilter: true,
-    cellRenderer: SellerNameCellRenderer,
-    flex: 1,
-    minWidth: 200,
-    tooltipField: 'Sotuvchi nomi',
   },
   {
     headerName: 'Sotuv miqdori',
@@ -519,6 +895,258 @@ export const CategoryProductTableColumnDefs = [
   {
     headerName: 'Mavjud miqdori',
     field: 'product_available_amount',
+    sortable: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: "Mahsulotning hozirda mavjud bo'lgan miqdori.",
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Izohlar soni',
+    field: 'reviews_amount',
+    // filter: 'agNumberColumnFilter',
+    // floatingFilter: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulot izohlarining umumiy soni.',
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Reyting',
+    field: 'rating',
+    cellRenderer: RatingCellRenderer,
+    sortable: false,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulot reytingi.',
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+];
+
+export const ShopDailySaleColumnDefs = [
+  {
+    headerName: 'Mahsulot ID',
+    field: 'product__product_id',
+    flex: 1,
+    sortable: false,
+    minWidth: 150,
+    maxWidth: 150,
+  },
+  {
+    headerName: 'Rasm',
+    field: 'product__photos',
+    cellRenderer: ProductImageCellRenderer,
+    sortable: false,
+    minWidth: 150,
+    maxWidth: 200,
+  },
+  {
+    headerName: 'Nomi',
+    field: 'product__title',
+    cellRenderer: ProductNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Kategoriya',
+    field: 'product__category__title',
+    cellRenderer: SubcategoryCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    minWidth: 150,
+    maxWidth: 300,
+  },
+  {
+    headerName: 'Sotuv miqdori',
+    field: 'orders',
+    cellRenderer: DailyOrdersCellRenderer,
+    sortable: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulotning shu kuni sotilgan miqdori.',
+  },
+  {
+    headerName: "O'rtacha sotuv narxi",
+    field: 'average_purchase_price',
+    cellRenderer: PriceChangeCellRenderer,
+    sortable: false,
+    flex: 1,
+    minWidth: 200,
+    maxWidth: 400,
+    headerTooltip:
+      "Mahsulotning o'rtacha sotuv narxi. Bu narx ushbu mahsulotning barcha turlari narxlarini qo'shib turlari soniga bo'lib hisoblangan. Misol uchun, bir mahsulotning rangiga ko'ra 3 ta turlari mavjud bo'lsa, va ularning narxlari 1500, 2000, 3000 bo'lsa, ushbu mahsulotning o'rtacha sotuv narxi 2166 bo'ladi.",
+  },
+  {
+    headerName: 'Izohlar soni',
+    field: 'reviews',
+    // filter: 'agNumberColumnFilter',
+    // floatingFilter: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulot izohlarining umumiy soni.',
+    cellRenderer: DailyOrdersCellRenderer,
+  },
+  {
+    headerName: 'Mavjud soni',
+    field: 'available_amount',
+    // filter: 'agNumberColumnFilter',
+    // floatingFilter: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulot izohlarining umumiy soni.',
+    cellRenderer: DailyOrdersCellRenderer,
+  },
+  {
+    headerName: 'Reyting',
+    field: 'rating',
+    // filter: 'agNumberColumnFilter',
+    // floatingFilter: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulot izohlarining umumiy soni.',
+    cellRenderer: DailyRatingCellRenderer,
+  },
+  {
+    headerName: 'Pozitsiya',
+    field: 'position',
+    cellRenderer: DailyPositionCellRenderer,
+    sortable: false,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulotning uzumdagi pozitsiyasi.',
+  },
+  {
+    headerName: 'Kategoriyadagi Pozitsiya',
+    field: 'position_in_category',
+    cellRenderer: DailyPositionCellRenderer,
+    sortable: false,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulotning kategoriyadagi pozitsiyasi.',
+  },
+  {
+    headerName: "Do'kondagi Pozitsiya",
+    field: 'position_in_shop',
+    cellRenderer: DailyPositionCellRenderer,
+    sortable: false,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: "Mahsulotning do'kondagi pozitsiyasi.",
+  },
+];
+
+export const ShopStoppedProductTableColumnDefs = [
+  {
+    headerName: 'Mahsulot ID',
+    field: 'product_id',
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Ushbu mahsulotning ID raqami.',
+  },
+  {
+    headerName: 'Rasm',
+    field: 'photos',
+    cellRenderer: ProductImageCellRenderer,
+    sortable: false,
+    minWidth: 150,
+    maxWidth: 200,
+  },
+  {
+    headerName: 'Nomi',
+    field: 'title',
+    cellRenderer: ProductNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Kategoriya',
+    field: 'category_title',
+    cellRenderer: SubcategoryCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+    headerTooltip: 'Ushbu mahsulotning asosiy ichki kategoriyasi.',
+  },
+  {
+    headerName: 'Oxirgi Sotuv sanasi',
+    field: 'date_pretty',
+    flex: 1,
+    minWidth: 200,
+    headerTooltip: 'Ushbu mahsulot oxirgi marta sotilgan sanasi.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: '#f5f5f580',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Pozitsiya',
+    field: 'position_in_category',
+    floatingFilter: true,
+    filter: 'agNumberColumnFilter',
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Kategoriyadagi pozitsiyasi.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Sotuv miqdori',
+    field: 'orders_amount',
+    sortable: true,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulotning shu kungacha sotilgan miqdori.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: `O'rtacha Sotuv Narxi`,
+    field: 'avg_purchase_price',
+    cellRenderer: TrendPriceCellRenderer,
+    flex: 1,
+    sortable: false,
+    minWidth: 200,
+    headerTooltip: "Ushbu mahsulot turlarining o'rtacha sotuv narxi.",
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Haqiqiy Narxi',
+    field: 'avg_full_price',
+    cellRenderer: TrendPriceCellRenderer,
+    flex: 1,
+    sortable: false,
+    minWidth: 150,
+    headerTooltip: `Ushbu mahsulot turlarining o'rtacha haqiqiy narxi.`,
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mavjud miqdori',
+    field: 'available_amount',
     sortable: true,
     flex: 1,
     minWidth: 150,
@@ -703,8 +1331,10 @@ export const CategoryShopsTableColumnDefs = [
     headerName: 'Kategoriyadagi pozitsiyasi',
     field: 'position',
     sortable: false,
-    minWidth: 100,
-    maxWidth: 200,
+    minWidth: 200,
+    maxWidth: 500,
+    headerTooltip:
+      'Sotuvchi ushbu kategoriyada qaysi pozitsiyada joylashganligi.',
     cellStyle: {
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
     } as CellStyle,
@@ -723,7 +1353,7 @@ export const CategoryShopsTableColumnDefs = [
   },
 
   {
-    headerName: 'Sotuvlar soni',
+    headerName: 'Buyurtmalar soni',
     field: 'total_orders',
     flex: 1,
     minWidth: 100,
@@ -763,7 +1393,7 @@ export const SubcategoriesTableColumnDefs = [
     headerName: 'Sana',
     field: 'date_pretty',
     sortable: false,
-    minWidth: 100,
+    minWidth: 150,
     maxWidth: 200,
     cellStyle: {
       backgroundColor: '#efefef80',
@@ -840,62 +1470,156 @@ export const SubcategoriesTableColumnDefs = [
   },
 ];
 
-export const shopsTableColumnDefs = [
+export const ShopOverallColumnDefs = [
   {
-    headerName: 'Avatar',
-    field: 'avatar',
-    cellRendererFramework: AvatarCellRenderer,
+    headerName: 'Sana',
+    field: 'date_pretty',
     sortable: false,
-    minWidth: 50,
-    maxWidth: 100,
+    minWidth: 150,
+    cellStyle: {
+      backgroundColor: '#efefef80',
+    } as CellStyle,
   },
   {
-    headerName: 'Name',
-    field: 'name',
-    filter: true,
-    floatingFilter: true,
-    flex: 1,
-    minWidth: 200,
+    headerName: 'Buyurtmalar soni',
+
+    field: 'total_orders',
+    sortable: false,
+    cellRenderer: LocaleNumberCellRenderer,
+    minWidth: 150,
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+    headerClass: 'bg-purple-100',
   },
   {
-    headerName: 'Description',
-    field: 'description',
-    filter: true,
-    floatingFilter: true,
-    flex: 1,
-    minWidth: 200,
+    headerName: 'Mahsulotlar soni',
+    field: 'total_products',
+    sortable: false,
+    cellRenderer: LocaleNumberCellRenderer,
+    minWidth: 150,
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+    headerClass: 'bg-purple-100',
   },
   {
-    headerName: 'Products Count',
-    field: 'productsCount',
-    filter: 'agNumberColumnFilter',
-    floatingFilter: true,
-    flex: 1,
-    minWidth: 200,
+    headerName: 'Kategoriyalar soni',
+    field: 'category_count',
+    sortable: false,
+    cellRenderer: LocaleNumberCellRenderer,
+    minWidth: 150,
+    headerTooltip: 'Sotuvchining nechta kategoriyada mahsulotlari borligi.',
+    cellStyle: {} as CellStyle,
   },
   {
-    headerName: 'Rating',
+    headerName: 'Izohlar soni',
+    field: 'total_reviews',
+    sortable: false,
+    cellRenderer: LocaleNumberCellRenderer,
+    minWidth: 150,
+    cellStyle: {} as CellStyle,
+  },
+  {
+    headerName: 'Reytingi',
     field: 'rating',
-    filter: 'agNumberColumnFilter',
-    floatingFilter: true,
-    flex: 1,
-    minWidth: 200,
+    sortable: false,
+    minWidth: 150,
+    headerTooltip: "Sotuvchi mahsulotlarining o'rtacha reytingi.",
+    cellStyle: {} as CellStyle,
+    cellRenderer: RatingCellRenderer,
   },
   {
-    headerName: 'Reviews',
-    field: 'reviews',
-    filter: 'agNumberColumnFilter',
-    floatingFilter: true,
-    flex: 1,
-    minWidth: 200,
+    headerName: "O'rtacha narx",
+    field: 'average_purchase_price',
+    cellRenderer: TrendPriceCellRenderer,
+    sortable: false,
+    minWidth: 150,
+    headerTooltip: "Sotuvchi mahsulotlarining o'rtacha sotish narxi.",
+    cellStyle: {} as CellStyle,
+  },
+];
+
+export const ShopsTableColumnDefs = [
+  {
+    headerName: 'Pozitsiyasi',
+    field: 'position',
+    sortable: true,
+    minWidth: 100,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
   },
   {
-    headerName: 'Orders',
-    field: 'orders',
-    filter: 'agNumberColumnFilter',
+    headerName: 'Sotuvchi nomi',
+    field: 'shop_title',
+    filter: 'agTextColumnFilter',
     floatingFilter: true,
+    sortable: false,
+    cellRenderer: SellerNameCellRenderer,
+    flex: 1,
+    minWidth: 320,
+    maxWidth: 400,
+  },
+
+  {
+    headerName: 'Buyurtmalar soni',
+    field: 'total_orders',
+    sortable: true,
+    cellRenderer: LocaleNumberCellRenderer,
+
+    flex: 1,
+    filter: false,
+    minWidth: 200,
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      textAlign: 'center',
+    } as CellStyle,
+    headerClass: 'bg-purple-100',
+  },
+  {
+    headerName: 'Mahsulotlar soni',
+    field: 'total_products',
+    cellRenderer: LocaleNumberCellRenderer,
+    sortable: true,
     flex: 1,
     minWidth: 200,
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      textAlign: 'center',
+    } as CellStyle,
+    headerClass: 'bg-purple-100',
+  },
+  {
+    headerName: 'Kategoriyalar soni',
+    field: 'num_categories',
+    cellRenderer: LocaleNumberCellRenderer,
+    sortable: true,
+    flex: 1,
+    minWidth: 200,
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      textAlign: 'center',
+    } as CellStyle,
+    headerClass: 'bg-purple-100',
+    headerTooltip: 'Sotuvchining nechta kategoriyada mahsulotlari borligi.',
+  },
+  {
+    headerName: 'Reytingi',
+    field: 'rating',
+    cellRenderer: RatingCellRenderer,
+    flex: 1,
+    minWidth: 150,
+  },
+  {
+    headerName: 'Izohlar soni',
+    field: 'total_reviews',
+    cellRenderer: LocaleNumberCellRenderer,
+    filter: false,
+    sortable: true,
+    flex: 1,
+    minWidth: 150,
   },
 ];
 

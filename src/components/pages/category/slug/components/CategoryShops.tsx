@@ -114,7 +114,7 @@ function preparePieChartData(data: CategoryShopsType[]) {
   const pieChartData = data.slice(0, 10).map((item) => {
     current_orders += item.total_orders;
     return {
-      type: item.shop_title + ' (' + item.shop_link + ')',
+      type: item.shop_title + ' ( ID: ' + item.shop_link + ')',
       value: item.total_orders,
     };
   });

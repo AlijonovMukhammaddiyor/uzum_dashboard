@@ -5,20 +5,14 @@ import clsxm from '@/lib/clsxm';
 import Header from '@/components/sections/Header';
 import Sidebar from '@/components/sections/Sidebar';
 
-export default function Layout({
-  children,
-  path,
-}: {
-  children: React.ReactNode;
-  path: Record<string, string>;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = React.useState('');
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   return (
     <div className='flex h-screen w-screen items-start justify-start overflow-hidden bg-slate-200'>
       <Sidebar
-        className=''
+        className='h-screen'
         activeTab={activeTab}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}

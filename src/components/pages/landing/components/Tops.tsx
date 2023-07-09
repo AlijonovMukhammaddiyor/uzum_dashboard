@@ -1,7 +1,8 @@
 import axios from 'axios';
-import React, { CSSProperties, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
 import { SERVER_URL } from '@/constant/env';
 
@@ -20,37 +21,29 @@ function Tops() {
     }[]
   >([]);
 
-  const override: CSSProperties = {
-    display: 'block',
-    margin: '0 auto',
-    borderColor: 'red',
-  };
-
   useEffect(() => {
     axios
       .get(SERVER_URL + '/product/top/')
       .then((res) => {
-        console.log(res.data);
         setShops(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        logger(err, 'Error in getting top products');
       });
     axios
-      .get(SERVER_URL + '/shop/top/')
+      .get(SERVER_URL + '/shop/top5/')
       .then((res) => {
-        console.log(res.data);
         setProducts(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        logger(err, 'Error in getting top products');
       });
   }, []);
 
   return (
     <div className='relative w-full bg-[#E8F0F2] py-16 md:py-32'>
       <div className='layout flex flex-col justify-start gap-10 md:flex-row'>
-        <div className='md:w-1/2 mx-auto flex w-11/12 flex-col items-start justify-start'>
+        <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
           <h3 className='mb-8'>Eng Ko'p sotilgan mahsulotlar</h3>
           <div className='w-full'>
             <ul
@@ -74,7 +67,7 @@ function Tops() {
             </ul>
           </div>
         </div>
-        <div className='md:w-1/2 mx-auto flex w-11/12 flex-col items-start justify-start'>
+        <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
           <h3 className='mb-8'>Eng Ko'p sotgan Do'konlar</h3>
           <div className='w-full'>
             <ul className='flex min-h-[300px] w-full flex-col gap-5'>

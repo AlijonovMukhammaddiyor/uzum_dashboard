@@ -1,37 +1,78 @@
+import { GetServerSidePropsContext } from 'next';
 import * as React from 'react';
 
-import { shopsTableColumnDefs } from '@/components/columnDefs';
-import Layout from '@/components/layout/Layout';
-import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
-import Seo from '@/components/Seo';
-import HistogramPlot from '@/components/shared/Histogram';
-import Table from '@/components/shared/PaginatedTable';
+import API from '@/lib/api';
+import clsxm from '@/lib/clsxm';
 
-export default function Sellers() {
+import Layout from '@/components/layout/Layout';
+import SellersTable from '@/components/pages/sellers/SellersContainer';
+import Tabs from '@/components/shared/Tabs';
+
+import { useContextState } from '@/context/Context';
+
+import { UserType } from '@/types/user';
+export interface ShopsProps {
+  user: UserType;
+}
+export default function Sellers({ user }: ShopsProps) {
+  const [activeTab, setActiveTab] = React.useState<string>('Sotuvchilar');
+  const { dispatch } = useContextState();
+
+  React.useEffect(() => {
+    dispatch({ type: 'USER', payload: { user } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
   return (
-    <Layout
-      path={{
-        'Do`konlar': '/sellers',
-      }}
-    >
-      {/* <Seo templateTitle='Home' /> */}
-      <Seo />
-      <div className='w-full rounded-md bg-white p-3'>
-        <DropDown
-          values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-          activeTab={0}
-          setActiveTab={() => {
-            //sdc
-          }}
-          className='-mb-3'
-        />
+    <Layout>
+      {/* <div className='w-full rounded-md bg-white p-3'>
         <p className='font-primary w-full text-center text-lg text-black'>
           Sotuv miqdoriga ko`ra do`konlar segmentatsiyasi
         </p>
         <HistogramPlot />
-      </div>
+      </div> */}
 
-      <Table columnDefs={shopsTableColumnDefs} data={[]} className='mt-6' />
+      <Tabs
+        tabs={['Sotuvchilar', 'Umumiy']}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        className='mb-4'
+      />
+      <div className='h-[calc(100vh-150px)]'>
+        <SellersTable
+          className={clsxm(activeTab === 'Sotuvchilar' ? '' : 'hidden')}
+        />
+
+        {/* <MainAnalytics
+          className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}
+        /> */}
+      </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  try {
+    const api = new API(context);
+    // check if user is logged in
+    const res = await api.getCurrentUser();
+
+    if (!res) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+        props: {},
+      };
+    }
+    return {
+      props: {
+        user: res,
+      },
+    };
+  } catch (e) {
+    return {
+      props: {},
+    };
+  }
 }

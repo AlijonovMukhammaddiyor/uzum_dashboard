@@ -16,9 +16,10 @@ export interface PieChartProps {
   }[];
   title?: string;
   labelType?: 'spider' | 'inner' | 'outer';
+  style?: React.CSSProperties;
 }
 
-const PieChart = ({ data, title, labelType }: PieChartProps) => {
+const PieChart = ({ data, title, labelType, style }: PieChartProps) => {
   const config = {
     appendPadding: 10,
     date: data,
@@ -63,6 +64,7 @@ const PieChart = ({ data, title, labelType }: PieChartProps) => {
           flexGrow: '1',
           maxWidth: '100%',
           justifyContent: 'center',
+          ...style,
         }}
       />
     </div>

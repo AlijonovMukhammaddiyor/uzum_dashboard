@@ -57,28 +57,44 @@ export const options: any = {
 
 export interface AreaChartProps {
   data: {
-    data: number[];
+    data:
+      | number[]
+      | {
+          x: number | string;
+          y: number;
+        }[];
     fill?: boolean;
     borderColor?: string;
     backgroundColor?: string;
     label?: string;
+    pointRadius?: number;
+    pointBackgroundColor?: string;
   }[];
   labels: string[];
+  options?: any;
+  style?: React.CSSProperties;
 }
 
-function AreaChart({ data, labels }: AreaChartProps) {
+function AreaChart({
+  data,
+  labels,
+  options: customOptions,
+  style,
+}: AreaChartProps) {
   return (
     <Line
-      options={options}
+      options={{ ...options, ...customOptions }}
       data={{
         labels,
         datasets: data,
       }}
       style={{
         width: '100%',
+        maxWidth: '100%',
         maxHeight: '100%',
         // height: '535px',
         // maxHeight: '440px',
+        ...style,
       }}
     />
   );

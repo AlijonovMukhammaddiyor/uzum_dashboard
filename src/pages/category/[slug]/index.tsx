@@ -13,16 +13,9 @@ import Tabs from '@/components/shared/Tabs';
 function Category() {
   const [rendered, setRendered] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string>('Tovarlar');
-  const [path, setPath] = React.useState<{ [key: string]: string }>({});
 
   React.useEffect(() => {
     setRendered(true);
-    window.localStorage.getItem('path') &&
-      setPath(JSON.parse(window.localStorage.getItem('path') as string));
-
-    return () => {
-      window.localStorage.removeItem('path');
-    };
   }, []);
 
   const router = useRouter();
@@ -33,7 +26,7 @@ function Category() {
   const { title, id } = reverseSlug(slug);
 
   return (
-    <Layout path={path}>
+    <Layout>
       <Seo />
       <div className='flex w-full items-center justify-start gap-3'>
         <p>URL:</p>

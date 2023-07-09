@@ -20,11 +20,12 @@ export default function HomePage({ user }: HomeProps) {
 
   React.useEffect(() => {
     dispatch({ type: 'LOGIN', payload: { user } });
+    dispatch({ type: 'PATH', payload: { path: {} } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
-    <Layout path={{ Umumiy: '/' }}>
+    <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <HomeComponent />

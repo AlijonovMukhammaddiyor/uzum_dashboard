@@ -7,7 +7,7 @@ import logger from '@/lib/logger';
 
 import { SegmentationTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import RangeChart from '@/components/shared/RangeChart';
+import RangeChart from '@/components/pages/category/slug/components/RangeChart';
 import Table from '@/components/shared/Table';
 
 interface Props {
@@ -43,7 +43,7 @@ function Segmentation({ className, categoryId }: Props) {
       .then((res) => {
         setData(res.data.data.sort((a, b) => a.from - b.from));
         // setLabels(res.data.labels);
-        logger(res.data.data, 'segmentation');
+        // logger(res.data.data, 'segmentation');
         setLoading(false);
       })
       .catch((err) => {

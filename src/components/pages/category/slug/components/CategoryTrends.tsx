@@ -100,7 +100,7 @@ const prepareDataset = (data: CategoryAnalyticsDataType[]) => {
   let prevOrders = data[0]?.total_orders || 0;
   let prevReviews = data[0]?.total_reviews || 0;
 
-  data.slice(1).forEach((item) => {
+  data.slice(1, data.length - 1).forEach((item) => {
     orders.push(item.total_orders - prevOrders);
     products.push(item.total_products);
     shops.push(item.total_shops);

@@ -1,4 +1,4 @@
-import { GridReadyEvent } from 'ag-grid-community';
+import { GridApi, GridReadyEvent } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { AxiosResponse } from 'axios';
 import React from 'react';
@@ -9,12 +9,18 @@ import Uzlocale from '@/assets/localeuzbek.json';
 
 interface TableProps<T> extends AgGridReactProps {
   className?: string;
-  categoryId?: string;
   fetchData: (
     page: number,
     sortModel: {
       colId: string;
       sort: string;
+    } | null,
+    filterModel: {
+      [key: string]: {
+        filterType: string;
+        type: string;
+        filter: string;
+      };
     } | null
   ) => Promise<
     AxiosResponse<{
@@ -25,6 +31,7 @@ interface TableProps<T> extends AgGridReactProps {
     }>
   >;
   setLoading?: (loading: boolean) => void;
+  id?: any;
 }
 
 const PAGE_SIZE = 20;
@@ -32,11 +39,12 @@ const PAGE_SIZE = 20;
 const PaginatedTable = <T,>({
   className,
   fetchData,
+  id,
   setLoading,
-  categoryId,
   ...props
 }: TableProps<T>) => {
   const [modules, setModules] = React.useState<any[]>([]);
+  const gridApiRef = React.useRef<GridApi | null>(null);
 
   React.useEffect(() => {
     async function loadModules() {
@@ -52,10 +60,25 @@ const PaginatedTable = <T,>({
     loadModules();
   }, []);
 
+  React.useEffect(() => {
+    if (gridApiRef.current) {
+      // Reload data when sellerId changes
+      gridApiRef.current.refreshServerSide({ purge: true });
+    }
+  }, [id]);
+
   const onGridReady = (params: GridReadyEvent) => {
     let sortColumn: {
       colId: string;
       sort: string;
+    } | null = null;
+
+    let searchColumn: {
+      [key: string]: {
+        filterType: string;
+        type: string;
+        filter: string;
+      };
     } | null = null;
 
     const dataSource = {
@@ -67,14 +90,19 @@ const PaginatedTable = <T,>({
         endRow: number;
         successCallback: <T>(data: T[], totalCount: number) => void;
       }) {
-        const pageNum = Math.floor(startRow / PAGE_SIZE) + 1;
-        if (!fetchData) return;
-        const response = await fetchData(pageNum, sortColumn);
-        if (setLoading) setLoading(false);
-        successCallback(response.data.results, response.data.count);
+        try {
+          const pageNum = Math.floor(startRow / PAGE_SIZE) + 1;
+          if (!fetchData) return;
+          const response = await fetchData(pageNum, sortColumn, searchColumn);
+          if (setLoading) setLoading(false);
+          successCallback(response.data.results, response.data.count);
+          // params.api.setRowCount(response.data.results.length);
+        } catch (err) {
+          setLoading && setLoading(false);
+        }
       },
     };
-
+    gridApiRef.current = params.api;
     params.api.setDatasource(dataSource);
 
     params.api.addEventListener('sortChanged', () => {
@@ -89,8 +117,33 @@ const PaginatedTable = <T,>({
           colId: sortModel.colId,
           sort: sortModel.sort ?? 'asc',
         };
-        params.api.refreshServerSide({ purge: true });
+        // params.api.refreshServerSide({ purge: true });
       }
+    });
+
+    params.api.addEventListener('filterChanged', async () => {
+      const filterModel = params.api.getFilterModel();
+      console.log('filterModel', filterModel, 'params');
+      // if (filterModel) {
+      // here, you may need to implement your own function to
+      // convert the filterModel to your API's query format
+      // const searchParams = convertFilterModelToSearchParams(filterModel);
+      // if (fetchData) {
+      //   const response = await fetchData(1, sortColumn, searchParams);
+      //   if (setLoading) setLoading(false);
+      //   successCallback(response.data.results, response.data.count);
+      // }
+      // only one filterType is text
+      if (
+        Object.values(filterModel).length > 0 &&
+        Object.values(filterModel)[0].filterType === 'text'
+      ) {
+        searchColumn = filterModel;
+      } else {
+        searchColumn = null;
+      }
+      // params.api.refreshServerSide({ purge: true });
+      // }
     });
   };
 
@@ -103,6 +156,9 @@ const PaginatedTable = <T,>({
           filter: true,
           flex: 1,
           minWidth: 100,
+          filterParams: {
+            alwaysShowBothConditions: true,
+          },
         }}
         suppressColumnMoveAnimation={true}
         allowDragFromColumnsToolPanel={true}
@@ -119,7 +175,7 @@ const PaginatedTable = <T,>({
         alwaysShowHorizontalScroll={true}
         debounceVerticalScrollbar={true}
         // enableRangeSelection={true}
-        enableFillHandle={true}
+        // enableFillHandle={true}
         rowHeight={45}
         rowModelType='infinite'
         tooltipShowDelay={0}

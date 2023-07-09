@@ -103,6 +103,13 @@ function CategoryProductsTable({ categoryId, className }: Props) {
     sortModel: {
       colId: string;
       sort: string;
+    } | null,
+    filterModel: {
+      [key: string]: {
+        filterType: string;
+        type: string;
+        filter: string;
+      };
     } | null
   ) => {
     const api = new API(null);
@@ -111,6 +118,17 @@ function CategoryProductsTable({ categoryId, className }: Props) {
     if (sortModel) {
       url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
     }
+
+    if (filterModel) {
+      const columns = Object.keys(filterModel);
+      const filters = Object.values(filterModel);
+
+      url += `&searches=${columns.join(',')}&filters=${filters
+        .map((filter) => filter.filter)
+        .join(',')}`;
+    }
+
+    console.log('filterModel', filterModel, new Date().getTime());
 
     return api.get<
       unknown,
@@ -143,20 +161,20 @@ function CategoryProductsTable({ categoryId, className }: Props) {
           <div className='flex items-center justify-between gap-4'>
             <p className='font-semibold'>Mahsulotlar Soni:</p>
             <p className='text-primary font-semibold'>
-              {totalProducts.toLocaleString()}
+              {totalProducts?.toLocaleString()}
             </p>
           </div>
           <div className='flex items-center justify-between gap-4'>
             <p className='font-semibold'>Buyurtmalar Soni:</p>
             <p className='text-primary font-semibold'>
-              {totalOrders.toLocaleString()}
+              {totalOrders?.toLocaleString()}
             </p>
           </div>
           {childrenCount > 0 && (
             <div className='flex items-center justify-between gap-4'>
               <p className='font-semibold'>Ichki Kategoriyalar Soni:</p>
               <p className='text-primary font-semibold'>
-                {childrenCount.toLocaleString()}
+                {childrenCount?.toLocaleString()}
               </p>
             </div>
           )}
@@ -171,7 +189,6 @@ function CategoryProductsTable({ categoryId, className }: Props) {
           className='h-[1016px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}
-          categoryId={categoryId}
         />
       </Container>
     </div>

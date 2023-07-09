@@ -195,7 +195,7 @@ export function DropDown({
         <button
           id='dropdownDefaultButton'
           data-dropdown-toggle='dropdown'
-          className='bg-primary flex w-[140px] items-center justify-between rounded-md px-3 py-1 text-center text-sm font-medium text-white focus:outline-none focus:ring-0'
+          className='bg-primary flex w-[140px] items-center justify-between rounded-md px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-0'
           type='button'
           aria-haspopup='true'
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -207,7 +207,7 @@ export function DropDown({
         <div
           id='dropdown'
           className={clsxm(
-            'absolute right-0 top-8 z-10 w-44 divide-y divide-gray-100 rounded-lg bg-slate-700 shadow',
+            'absolute right-0 top-8 z-10 max-h-[500px] w-44 divide-y divide-gray-100 overflow-y-scroll rounded-lg bg-slate-700 shadow',
             isDropdownOpen ? 'block' : 'hidden'
           )}
         >
@@ -221,8 +221,8 @@ export function DropDown({
                   className={clsxm(
                     'flex w-full justify-between px-4 py-2 text-left text-sm leading-5',
                     activeTab === index
-                      ? 'text-gray-800 dark:text-gray-100'
-                      : 'text-gray-600 dark:text-gray-400',
+                      ? 'text-primary'
+                      : 'text-slate-500 hover:bg-slate-300',
                     index === 0 && 'rounded-t-lg',
                     index === values.length - 1 && 'rounded-b-lg'
                   )}
