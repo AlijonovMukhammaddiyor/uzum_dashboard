@@ -19,7 +19,7 @@ export default function HomePage({ user }: HomeProps) {
   const { dispatch } = useContextState();
 
   React.useEffect(() => {
-    dispatch({ type: 'LOGIN', payload: { user } });
+    dispatch({ type: 'USER', payload: { user } });
     dispatch({ type: 'PATH', payload: { path: {} } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

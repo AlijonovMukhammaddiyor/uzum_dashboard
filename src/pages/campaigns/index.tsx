@@ -6,7 +6,7 @@ import BadgeContainer from '@/components/pages/campaigns/BadgeContainer';
 import CampaignProductsDropdown from '@/components/pages/campaigns/CampaignProductsDropdown';
 import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
 import Seo from '@/components/Seo';
-import AreaChartComponent from '@/components/shared/AreaChartComponent';
+import AreaChartComponent from '@/components/shared/MultiAreaChart';
 
 export default function Campaigns() {
   return (

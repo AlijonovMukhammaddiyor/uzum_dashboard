@@ -10,8 +10,8 @@ import { SERVER_URL } from '@/constant/env';
 class API {
   public instance: AxiosInstance;
   private context: GetServerSidePropsContext | null;
-  private refreshTokenAge: number = 14 * 24 * 60 * 60; // 14 days
-  private accessTokenAge: number = 15 * 60; // 15 minutes
+  private refreshTokenAge: number = 7 * 24 * 60 * 60; // 14 days
+  private accessTokenAge: number = 10 * 60; // 15 minutes
   private proxy = '/api/external';
   private isApi = false;
 
@@ -315,6 +315,7 @@ class API {
 
   public async getCurrentUser() {
     try {
+      console.log('Getting current user');
       const response = await this.get('/users/me/');
       return response.data;
     } catch (error: any) {
@@ -352,6 +353,7 @@ class API {
       url = `${this.proxy}${url}`;
       return axios.get<T, R>(url, config);
     }
+    console.log('Getting from server');
     return this.instance.get<T, R>(url, config);
   }
 

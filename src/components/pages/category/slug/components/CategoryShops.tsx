@@ -95,7 +95,7 @@ function CategoryShops({ className, categoryId }: Props) {
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <Table
           className='max-h-[800px] min-h-max'
-          columnDefs={CategoryShopsTableColumnDefs}
+          columnDefs={CategoryShopsTableColumnDefs as any}
           rowData={data}
         />
       </Container>

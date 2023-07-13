@@ -10,6 +10,8 @@ import Popup from 'reactjs-popup';
 
 import clsxm from '@/lib/clsxm';
 
+import TinyColumnGraph from '@/components/shared/TinyColumnGraph';
+
 export const categoryAnalyticsColumnDefs = [
   {
     headerName: 'Sana',
@@ -214,7 +216,7 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
               <img
                 src={src}
                 alt='sdsd'
-                className='h-full max-h-[800px] w-full object-contain'
+                className='h-full max-h-[60vh] w-full object-contain'
               />
             </div>
           ))}
@@ -232,9 +234,18 @@ const AvatarCellRenderer = ({ value }: { value: string }) => {
 };
 
 const ProductNameCellRenderer = ({ value }: { value: string }) => {
+  if (!value) return '';
+
+  // replace / with dash
+  const title = value?.split('((')[0];
+  const product_title = value
+    ?.split('((')[0]
+    .replace(/\//g, '-')
+    .replace(/ /g, '-');
+  const product_id = value?.split('((')[1]?.split('))')[0];
   return (
-    <Link href={`/product/${value}`}>
-      <p className='text-blue-500 hover:underline'>{value}</p>
+    <Link href={`/products/${product_title}--${product_id}`}>
+      <p className='text-blue-500 hover:underline'>{title}</p>
     </Link>
   );
 };
@@ -270,7 +281,19 @@ const SellerNameCellRenderer = ({ value }: { value: string }) => {
 };
 
 const TrendPriceCellRenderer = ({ value }: { value: string }) => {
-  if (value === null) return <p>Chegirma yo'q</p>;
+  if (value === null) return <p>-</p>;
+
+  const value_number = Number(Number(value).toFixed(0));
+  return (
+    <div className=''>
+      <p className=''>{value_number?.toLocaleString()} so'm</p>
+    </div>
+  );
+};
+
+const PriceRenderer = ({ value }: { value: number }) => {
+  if (value === null || value === 0) return <p>-</p>;
+
   const value_number = Number(Number(value).toFixed(0));
   return (
     <div className=''>
@@ -568,6 +591,574 @@ function PriceChangeCellRenderer(props: { value: any }) {
   );
 }
 
+const ProductDateCellRenderer = (props: { value: any }) => {
+  if (!props.value) return '';
+
+  const date = new Date(props.value);
+  // check if it is after may 20 2023. if not, return empty string
+  if (date.getTime() < 1684540800000) return '-';
+
+  return (
+    <div className='flex items-center justify-center'>
+      <p className='text-center'>
+        {date.toISOString().split('T')[0].split('-').reverse().join('/')}
+      </p>
+    </div>
+  );
+};
+
+const OrdersAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
+  value.sort((a: any, b: any) => {
+    const a_date = new Date(a.x);
+    const b_date = new Date(b.x);
+    return a_date.getTime() - b_date.getTime();
+  });
+  const smallest = value[0]?.x;
+  const biggest = value[value.length - 1]?.x;
+
+  // from smallest day to biggest day (given in YYYY-MM-DD format), check if is entry for every day, if not, add entry with 0 value
+  const days = [];
+
+  const smallest_date = new Date(smallest);
+  const biggest_date = new Date(biggest);
+
+  for (
+    let i = smallest_date.getTime();
+    i <= biggest_date.getTime();
+    i += 24 * 60 * 60 * 1000
+  ) {
+    const date = new Date(i);
+    const date_string = date.toISOString().split('T')[0];
+    days.push(date_string);
+  }
+
+  const data: number[] = [];
+
+  // for each day, get entry from value, if not found, set 0
+  for (let i = 0; i < days.length; i++) {
+    const day = days[i];
+    const entry = value.find((e: any) => e.x === day);
+    data.push(entry ? entry.y : 0);
+  }
+
+  return (
+    <div className=''>
+      <TinyColumnGraph
+        data={data}
+        labels={days}
+        bgColor='rgba(75, 192, 192, 1)'
+        borderColor='rgba(75, 192, 192, 1)'
+        width='300px'
+      />
+    </div>
+  );
+};
+
+const ReviewsAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
+  value.sort((a: any, b: any) => {
+    const a_date = new Date(a.x);
+    const b_date = new Date(b.x);
+    return a_date.getTime() - b_date.getTime();
+  });
+  const smallest = value[0]?.x;
+  const biggest = value[value.length - 1]?.x;
+
+  // from smallest day to biggest day (given in YYYY-MM-DD format), check if is entry for every day, if not, add entry with 0 value
+  const days = [];
+
+  const smallest_date = new Date(smallest);
+  const biggest_date = new Date(biggest);
+
+  for (
+    let i = smallest_date.getTime();
+    i <= biggest_date.getTime();
+    i += 24 * 60 * 60 * 1000
+  ) {
+    const date = new Date(i);
+    const date_string = date.toISOString().split('T')[0];
+    days.push(date_string);
+  }
+
+  const data: number[] = [];
+
+  // for each day, get entry from value, if not found, set 0
+  for (let i = 0; i < days.length; i++) {
+    const day = days[i];
+    const entry = value.find((e: any) => e.x === day);
+    data.push(entry ? entry.y : 0);
+  }
+
+  return (
+    <div className=''>
+      <TinyColumnGraph
+        data={data}
+        labels={days}
+        bgColor='rgba(153, 102, 255, 1)'
+        borderColor='rgba(153, 102, 255, 1)'
+        width='300px'
+      />
+    </div>
+  );
+};
+
+const AvailableAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
+  value.sort((a: any, b: any) => {
+    const a_date = new Date(a.x);
+    const b_date = new Date(b.x);
+    return a_date.getTime() - b_date.getTime();
+  });
+  const smallest = value[0]?.x;
+  const biggest = value[value.length - 1]?.x;
+
+  // from smallest day to biggest day (given in YYYY-MM-DD format), check if is entry for every day, if not, add entry with 0 value
+  const days = [];
+
+  const smallest_date = new Date(smallest);
+  const biggest_date = new Date(biggest);
+
+  for (
+    let i = smallest_date.getTime();
+    i <= biggest_date.getTime();
+    i += 24 * 60 * 60 * 1000
+  ) {
+    const date = new Date(i);
+    const date_string = date.toISOString().split('T')[0];
+    days.push(date_string);
+  }
+
+  const data: number[] = [];
+
+  // for each day, get entry from value, if not found, set 0
+  for (let i = 0; i < days.length; i++) {
+    const day = days[i];
+    const entry = value.find((e: any) => e.x === day);
+    data.push(entry ? entry.y : 0);
+  }
+  return (
+    <div className=''>
+      <TinyColumnGraph
+        data={data}
+        labels={days}
+        bgColor='rgba(70, 130, 180, 1)'
+        borderColor='rgba(70, 130, 180, 1)'
+        width='300px'
+      />
+    </div>
+  );
+};
+
+export const GrowingProductsColDefs = [
+  {
+    headerName: 'ID',
+    field: 'product_id',
+    minWidth: 100,
+    maxWidth: 100,
+    // pinned: 'left',
+    sortable: false,
+    headerTooltip: 'Ushbu mahsulotning ID raqami.',
+    cellStyle: {
+      textAlign: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  },
+  {
+    headerName: 'Rasm',
+    field: 'photos',
+    sortable: false,
+    cellRenderer: ProductImageCellRenderer,
+    // pinned: 'left',
+    minWidth: 150,
+    maxWidth: 150,
+  },
+  {
+    headerName: 'Nomi',
+    field: 'title',
+    // pinned: 'left',
+    sortable: false,
+    cellRenderer: ProductNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Kategoriya',
+    field: 'category',
+    sortable: true,
+    cellRenderer: CategoryNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 200,
+  },
+  {
+    headerName: 'Sotuvchi',
+    field: 'shop',
+    sortable: true,
+    cellRenderer: SellerNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 200,
+  },
+  {
+    headerName: 'Kategoriyadagi pozitsiyasi',
+    field: 'position_in_category',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 200,
+    headerTooltip: "Mahsulotning o'z kategoriyasidagi pozitsiyasi.",
+  },
+  {
+    headerName: "Qo'shilgan sana",
+    field: 'created_at',
+    sortable: true,
+    cellRenderer: ProductDateCellRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Buyurtmalar',
+    field: 'orders',
+    cellRenderer: OrdersAmountTinyChartCellRenderer,
+    sortable: true,
+    minWidth: 300,
+    maxWidth: 600,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mavjud miqdori',
+    field: 'available_amount',
+    sortable: true,
+    cellRenderer: AvailableAmountTinyChartCellRenderer,
+    minWidth: 300,
+    maxWidth: 600,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: "O'rtacha Sotish narxi",
+    field: 'average_purchase_price',
+    sortable: true,
+    cellRenderer: PriceRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Jami izohlar soni',
+    field: 'reviews_amount',
+    sortable: true,
+    cellRenderer: ReviewsAmountTinyChartCellRenderer,
+    minWidth: 300,
+    maxWidth: 600,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Reyting',
+    field: 'rating',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 150,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+];
+
+export const NewProductsColDefs = [
+  {
+    headerName: 'ID',
+    field: 'product__product_id',
+    minWidth: 100,
+    maxWidth: 100,
+    // pinned: 'left',
+    sortable: false,
+    headerTooltip: 'Ushbu mahsulotning ID raqami.',
+  },
+  {
+    headerName: 'Rasm',
+    field: 'product__photos',
+    sortable: false,
+    cellRenderer: ProductImageCellRenderer,
+    // pinned: 'left',
+    minWidth: 150,
+    maxWidth: 150,
+  },
+  {
+    headerName: 'Nomi',
+    field: 'product__title',
+    // pinned: 'left',
+    sortable: false,
+    cellRenderer: ProductNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Kategoriya',
+    field: 'product__category__title',
+    sortable: true,
+    cellRenderer: CategoryNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 200,
+  },
+  {
+    headerName: 'Sotuvchi',
+    field: 'product__shop__title',
+    sortable: true,
+    cellRenderer: SellerNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 200,
+  },
+  {
+    headerName: 'Kategoriyadagi pozitsiyasi',
+    field: 'position_in_category',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 200,
+    headerTooltip: "Mahsulotning o'z kategoriyasidagi pozitsiyasi.",
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: "Qo'shilgan sana",
+    field: 'product__created_at',
+    sortable: true,
+    cellRenderer: ProductDateCellRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Buyurtmalar',
+    field: 'orders_amount',
+    // cellRenderer: OrdersAmountTinyChartCellRenderer,
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 300,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mavjud miqdori',
+    field: 'available_amount',
+    sortable: true,
+    // cellRenderer: AvailableAmountTinyChartCellRenderer,
+    minWidth: 150,
+    maxWidth: 300,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: "O'rtacha Sotish narxi",
+    field: 'average_purchase_price',
+    sortable: true,
+    cellRenderer: PriceRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Izohlar soni',
+    field: 'reviews_amount',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Reyting',
+    field: 'rating',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 150,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+];
+
+export const SimilarProductsColDefs = [
+  {
+    headerName: 'ID',
+    field: 'product_id',
+    minWidth: 100,
+    maxWidth: 100,
+    pinned: 'left',
+    sortable: false,
+    headerTooltip: 'Ushbu mahsulotning ID raqami.',
+  },
+  {
+    headerName: 'Rasm',
+    field: 'photos',
+    sortable: false,
+    cellRenderer: ProductImageCellRenderer,
+    pinned: 'left',
+    minWidth: 150,
+    maxWidth: 200,
+  },
+  {
+    headerName: 'Nomi',
+    field: 'title',
+    // pinned: 'left',
+    sortable: false,
+    cellRenderer: ProductNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Kategoriya',
+    field: 'category',
+    sortable: true,
+    cellRenderer: CategoryNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Sotuvchi',
+    field: 'shop',
+    sortable: true,
+    cellRenderer: SellerNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Kategoriyadagi pozitsiyasi',
+    field: 'position_in_category',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 200,
+    headerTooltip: "Mahsulotning o'z kategoriyasidagi pozitsiyasi.",
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: "Qo'shilgan sana",
+    field: 'created_at',
+    sortable: true,
+    cellRenderer: ProductDateCellRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Buyurtmalar soni',
+    field: 'orders_amount',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Izohlar soni',
+    field: 'reviews_amount',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mavjud miqdori',
+    field: 'available_amount',
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: "O'rtacha Sotish narxi",
+    field: 'average_purchase_price',
+    sortable: true,
+    cellRenderer: PriceRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Oxirgi aktiv sana',
+    field: 'date_pretty',
+    minWidth: 200,
+    maxWidth: 200,
+    sortable: false,
+    headerTooltip: 'Ushbu mahsulotning ID raqami.',
+  },
+];
+
 export const CategoryProductsColDefs = [
   {
     headerName: 'Mahsulot ID',
@@ -610,11 +1201,13 @@ export const CategoryProductsColDefs = [
 
 export const CategoryProductTableColumnDefs = [
   {
-    headerName: 'Mahsulot ID',
+    headerName: 'ID',
     field: 'product_id',
     flex: 1,
     sortable: false,
-    minWidth: 150,
+    minWidth: 100,
+    maxWidth: 120,
+    pinned: 'left',
     headerTooltip: 'Ushbu mahsulotning ID raqami.',
   },
   {
@@ -623,6 +1216,7 @@ export const CategoryProductTableColumnDefs = [
     cellRenderer: ProductImageCellRenderer,
     sortable: false,
     minWidth: 150,
+    pinned: 'left',
     maxWidth: 200,
   },
   {
@@ -630,6 +1224,7 @@ export const CategoryProductTableColumnDefs = [
     field: 'product_title',
     cellRenderer: ProductNameCellRenderer,
     filter: true,
+    pinned: 'left',
     floatingFilter: true,
     filterParams: {
       alwaysShowBothConditions: true,
@@ -637,7 +1232,7 @@ export const CategoryProductTableColumnDefs = [
     sortable: false,
     flex: 1,
     maxWidth: 500,
-    minWidth: 300,
+    minWidth: 400,
   },
   {
     headerName: 'Ichki kategoriyasi',
@@ -1188,9 +1783,10 @@ export const CategoryTrendstableColumnDefs = [
     field: 'date_pretty',
     sortable: false,
     minWidth: 100,
+    pinned: 'left',
     maxWidth: 200,
     cellStyle: {
-      backgroundColor: '#efefef80',
+      backgroundColor: 'rgba(46, 139, 87, 0.1)',
     } as CellStyle,
   },
   {
@@ -1269,9 +1865,10 @@ export const SegmentationTableColumnDefs = [
     cellRenderer: TrendPriceCellRenderer,
     sortable: true,
     minWidth: 100,
+    pinned: 'left',
     maxWidth: 200,
     cellStyle: {
-      backgroundColor: '#efefef80',
+      backgroundColor: 'rgba(46, 139, 87, 0.1)',
     } as CellStyle,
   },
   {
@@ -1280,9 +1877,10 @@ export const SegmentationTableColumnDefs = [
     cellRenderer: TrendPriceCellRenderer,
     sortable: false,
     minWidth: 100,
+    pinned: 'left',
     maxWidth: 200,
     cellStyle: {
-      backgroundColor: '#efefef80',
+      backgroundColor: 'rgba(46, 139, 87, 0.1)',
     } as CellStyle,
   },
 
@@ -1325,7 +1923,11 @@ export const CategoryShopsTableColumnDefs = [
     cellRenderer: SellerNameCellRenderer,
     sortable: false,
     minWidth: 200,
+    pinned: 'left',
     maxWidth: 400,
+    cellStyle: {
+      // backgroundColor: 'rgba(46, 139, 87, 0.1)',
+    } as CellStyle,
   },
   {
     headerName: 'Kategoriyadagi pozitsiyasi',
@@ -1395,8 +1997,9 @@ export const SubcategoriesTableColumnDefs = [
     sortable: false,
     minWidth: 150,
     maxWidth: 200,
+    pinned: 'left',
     cellStyle: {
-      backgroundColor: '#efefef80',
+      backgroundColor: 'rgba(46, 139, 87, 0.1)',
     } as CellStyle,
   },
   {

@@ -1,7 +1,7 @@
 import { GridReadyEvent } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { AxiosResponse } from 'axios';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import clsxm from '@/lib/clsxm';
 
@@ -11,15 +11,27 @@ interface TableProps<T> extends AgGridReactProps {
   className?: string;
   fetchData?: () => Promise<AxiosResponse<T[]>>;
   setLoading?: (loading: boolean) => void;
+  withCheckbox?: boolean;
+  columnDefs: any[];
+  rowHeight?: number;
 }
 
 const Table = <T,>({
   className,
   fetchData,
   setLoading,
+  rowHeight = 45,
+  withCheckbox = false,
+  columnDefs,
   ...props
 }: TableProps<T>) => {
-  const [rowData, setRowData] = React.useState<T[]>([]);
+  const [rowData, setRowData] = React.useState<T[]>(props.rowData || []);
+  const selectedRowsRef = React.useRef<T[]>([]);
+  const onSelectionChanged = useCallback((event: any) => {
+    if (!withCheckbox) return;
+    selectedRowsRef.current = event.api.getSelectedRows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     const getData = async () => {
@@ -34,6 +46,15 @@ const Table = <T,>({
 
   const onGridReady = (params: GridReadyEvent) => {
     params.api.sizeColumnsToFit();
+
+    // if (withCheckbox) {
+    //   params.api.forEachNode((node) => {
+    //     const selectedRows = state.similarProductsSelected || [];
+    //     const selected = selectedRows.some(
+    //       (row: any) => row.product_id === node.data.product_id
+    //     );
+    //   });
+    // }
   };
 
   return (
@@ -56,16 +77,17 @@ const Table = <T,>({
         alwaysShowVerticalScroll={true}
         alwaysShowHorizontalScroll={true}
         debounceVerticalScrollbar={true}
-        // enableFillHandle={true}
-        rowHeight={45}
+        rowHeight={rowHeight}
         tooltipShowDelay={0}
         rowData={rowData ?? []}
         onGridReady={onGridReady}
         localeText={Uzlocale}
+        onSelectionChanged={onSelectionChanged}
+        columnDefs={columnDefs}
         {...props}
       />
     </div>
   );
 };
 
-export default Table;
+export default React.memo(Table);

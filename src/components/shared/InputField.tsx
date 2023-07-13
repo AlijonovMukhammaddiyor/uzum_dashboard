@@ -14,7 +14,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;
   type?: string;
   placeholderTextColor?: string;
-  value?: string;
+  value?: string | number;
   required?: boolean;
   explanation?: string;
 }
@@ -72,7 +72,9 @@ const CustomInput: React.FC<
           placeholder={placeholder}
           disabled={disabled}
           onChange={onChange}
-          // onClick={onClick}
+          onClick={() => {
+            console.log('input clicked');
+          }}
           value={value}
           {...rest}
         />

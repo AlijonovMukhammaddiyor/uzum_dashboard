@@ -239,7 +239,7 @@ function CommonCategories({
         {common_categories_titles.map((title) => (
           <span
             key={title}
-            className='min-w-max flex-1 rounded-md bg-white px-3 py-2 text-xs text-slate-500'
+            className='min-w-max rounded-md bg-white px-3 py-2 text-xs text-slate-500'
           >
             {title}
           </span>

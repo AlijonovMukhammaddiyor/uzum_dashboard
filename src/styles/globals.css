@@ -188,6 +188,18 @@
     border-bottom: 20.5px solid transparent;
   }
 
+  @keyframes moveIcon {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -205,6 +217,33 @@
   .sc-gEvEer {
     display: flex;
     align-items: center !important;
+  }
+
+  .custom-slider .rc-slider-rail {
+    height: 5px;
+    background: #ccc;
+  }
+
+  .custom-slider .rc-slider-track {
+    height: 5px;
+    background: #4caf50; /* Bright color for the track */
+  }
+
+  .custom-slider .rc-slider-handle {
+    border: solid 2px #4caf50; /* Same color as the track */
+    background: #fff;
+  }
+
+  .custom-slider .rc-slider-handle:hover {
+    border-color: #66bb6a; /* Slightly different color on hover */
+  }
+
+  .custom-slider .rc-slider-handle:active {
+    border-color: #66bb6a; /* Same as hover color */
+  }
+
+  .custom-slider .rc-slider-mark-text {
+    fontsize: 16px;
   }
 }
 
@@ -245,6 +284,10 @@
   100% {
     transform: translateX(0.9rem);
   }
+}
+
+.animated-icon {
+  animation: pulse-reverse 3s infinite alternate 0s;
 }
 
 @keyframes pulse-reverse {

@@ -74,15 +74,15 @@ function Sidebar({
       )}
     >
       <div
-        className='group absolute -right-4 bottom-[40px] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-slate-100 shadow-sm'
+        className='bg-primary group absolute -right-4 bottom-[40px] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow-sm'
         onClick={() => {
           setIsSidebarOpen(!isSidebarOpen);
         }}
       >
         {isSidebarOpen ? (
-          <HiChevronDoubleLeft className='group-hover:text-primary h-6 w-6 flex-shrink-0 font-bold' />
+          <HiChevronDoubleLeft className='animated-icon duration-3000 repeat-infinite h-6 w-6 flex-shrink-0 font-bold text-white' />
         ) : (
-          <HiChevronDoubleRight className='group-hover:text-primary h-6 w-6 flex-shrink-0 font-bold' />
+          <HiChevronDoubleRight className='h-6 w-6 flex-shrink-0 font-bold text-white' />
         )}
       </div>
 

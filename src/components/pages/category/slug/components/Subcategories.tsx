@@ -98,7 +98,7 @@ function Subcategories({ className, categoryId }: Props) {
         >
           <Table
             className=''
-            columnDefs={SubcategoriesTableColumnDefs}
+            columnDefs={SubcategoriesTableColumnDefs as any}
             rowData={[...(data.data ?? []), data.main]}
           />
         </Container>

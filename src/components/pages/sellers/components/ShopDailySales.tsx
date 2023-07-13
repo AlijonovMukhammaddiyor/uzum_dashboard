@@ -50,7 +50,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
         date.setDate(date.getDate() - i);
         return date.toISOString().split('T')[0];
       })
-      .slice(1)
+      .slice()
   );
   // get list of past 30 days as yyyy-mm-dd in string. do not add today
   const [date, setDate] = useState<number>(0);

@@ -9,9 +9,10 @@ import React from 'react';
 
 export interface RangeChartProps {
   data: any[];
+  style?: React.CSSProperties;
 }
 
-const RangeChart = ({ data }: RangeChartProps) => {
+const RangeChart = ({ data, style }: RangeChartProps) => {
   const transformedData = data.flatMap((item, index) => [
     {
       range: `${(item.from / 1000).toLocaleString()}k so'm-${(
@@ -62,6 +63,62 @@ const RangeChart = ({ data }: RangeChartProps) => {
         },
       ],
     },
+    // yAxis: {
+    //   grid: {
+    //     line: {
+    //       style: {
+    //         stroke: '#ddd',
+    //         lineDash: [4, 2],
+    //       },
+    //     },
+    //     alternateColor: 'rgba(0,0,0,0.05)',
+    //   },
+
+    //   nice: true,
+    //   label: {
+    //     autoRotate: false,
+    //     style: {
+    //       fill: '#aaa',
+    //       fontSize: 12,
+    //     },
+    //     formatter: (v: any) =>
+    //       `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
+    //   },
+    //   title: {
+    //     style: {
+    //       fontSize: 13,
+    //       fontWeight: 600,
+    //     },
+    //   },
+    //   line: {
+    //     style: {
+    //       stroke: '#aaa',
+    //     },
+    //   },
+    //   tickLine: {
+    //     style: {
+    //       lineWidth: 2,
+    //       stroke: '#aaa',
+    //     },
+    //     length: 5,
+    //   },
+    // },
+    // theme: {
+    //   geometries: {
+    //     point: {
+    //       circle: {
+    //         active: {
+    //           style: {
+    //             shadowColor: '#FCEBB9',
+    //             shadowBlur: 2,
+    //             stroke: '#F6BD16',
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
+    // interactions: [{ type: 'marker-active' }],
     slider: {
       start: 0,
       end: 0.9,
@@ -81,6 +138,7 @@ const RangeChart = ({ data }: RangeChartProps) => {
         height: '100%',
         maxHeight: '100%',
         maxWidth: '100%',
+        ...style,
       }}
       {...(config as any)}
     />

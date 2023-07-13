@@ -28,11 +28,7 @@ export default function Category({ user }: CategoryProps) {
   if (!mounted) return null;
 
   return (
-    <Layout
-      path={{
-        Kategoriyalar: '/category',
-      }}
-    >
+    <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <CategoryTreeComponent />

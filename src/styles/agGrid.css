@@ -10,3 +10,19 @@
 .ag-theme-alpine .ag-root-wrapper {
   border-radius: 8px !important;
 }
+
+/* .ag-theme-alpine {
+  --ag-background-color: rgba(243, 255, 229, 0.2);
+} */
+
+.ag-header-cell {
+  background-color: #f1e9fd !important;
+}
+
+.ag-header-cell-resize:after {
+  background-color: #285430 !important;
+}
+
+.ag-paging-panel {
+  background-color: #f1e9fd !important;
+}

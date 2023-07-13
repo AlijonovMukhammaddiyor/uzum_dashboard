@@ -2,33 +2,14 @@ import { AxiosResponse } from 'axios';
 import React from 'react';
 
 import API from '@/lib/api';
-import clsxm from '@/lib/clsxm';
 
-import { ShopsTableColumnDefs } from '@/components/columnDefs';
+import { CategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import { ProductAnalyticsViewType } from '@/components/pages/category/slug/components/CategoryProductsTable';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 
-export interface Props {
-  className?: string;
-}
-
-interface SellerType {
-  average_order_price: number;
-  average_purchase_price: number;
-  date_pretty: string;
-  id: string;
-  num_categories: number;
-  position: number;
-  rating: number;
-  shop_link: string;
-  shop_title: string;
-  total_orders: number;
-  total_products: number;
-  total_reviews: number;
-}
-
-function SellersTable({ className }: Props) {
-  const [loading, setLoading] = React.useState<boolean>(false);
+function ProductsComponent() {
+  const [loading, setLoading] = React.useState(false);
 
   const loadData = (
     page: number,
@@ -46,23 +27,24 @@ function SellersTable({ className }: Props) {
   ) => {
     const api = new API(null);
     setLoading(true);
-    let url = `/shop` + `?page=${page}`;
+    let url = `/product/` + `?page=${page}`;
     if (sortModel) {
-      url += `&sort=${sortModel.colId}&order=${sortModel.sort}`;
+      url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
     }
+
     if (filterModel) {
       const columns = Object.keys(filterModel);
       const filters = Object.values(filterModel);
 
       url += `&searches=${columns.join(',')}&filters=${filters
         .map((filter) => filter.filter)
-        .join(',')}`;
+        .join('#####')}`;
     }
 
     return api.get<
       unknown,
       AxiosResponse<{
-        results: SellerType[];
+        results: ProductAnalyticsViewType[];
         count: number;
         next?: string;
         previous?: string;
@@ -71,22 +53,17 @@ function SellersTable({ className }: Props) {
   };
 
   return (
-    <div
-      className={clsxm(
-        'flex h-full w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll',
-        className
-      )}
-    >
-      <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
+    <div className='h-[calc(100vh-150px)] w-full'>
+      <Container loading={loading} className='h-full w-full'>
         <PaginatedTable
-          columnDefs={ShopsTableColumnDefs}
-          className='h-[1016px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}
+          columnDefs={CategoryProductTableColumnDefs as any}
+          className='h-[1016px] w-full'
         />
       </Container>
     </div>
   );
 }
 
-export default SellersTable;
+export default ProductsComponent;

@@ -1,5 +1,13 @@
-import { Radar } from '@ant-design/plots';
+// import { Radar } from '@ant-design/plots';
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
+
+const Radar = dynamic(
+  () => import('@ant-design/plots').then((mod) => mod.Radar),
+  {
+    ssr: false,
+  }
+);
 
 const data_ = [
   {

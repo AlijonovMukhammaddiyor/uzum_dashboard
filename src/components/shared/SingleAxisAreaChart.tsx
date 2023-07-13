@@ -45,10 +45,9 @@ export interface AreaChartProps {
   options?: any;
   style?: React.CSSProperties;
   title?: string;
-  isSeparate?: boolean;
 }
 
-function AreaChart({
+function SingAxisAreaChart({
   data,
   labels,
   options: customOptions,
@@ -64,30 +63,6 @@ function AreaChart({
   const onSliderChange = (values: number[]) => {
     setSliderValues(values);
   };
-
-  const yAxis: {
-    [key: string]: any;
-  } = {};
-
-  for (let i = 0; i < data.length; i++) {
-    yAxis[`y-axis-${i}`] = {
-      type: 'linear',
-      display: true,
-      position: i % 2 === 0 ? 'left' : 'right',
-      id: `y-axis-${i}`,
-      stacked: true,
-      beginAtZero: true,
-      // offset: true, // offset means that the axis will not overlap the data
-      grace: '10%',
-      grid: {
-        borderColor: data[i].borderColor,
-      },
-      ticks: {
-        color: data[i].borderColor,
-        borderColor: data[i].borderColor,
-      },
-    };
-  }
 
   const options: any = {
     maintainAspectRatio: false,
@@ -106,7 +81,14 @@ function AreaChart({
       },
     },
     scales: {
-      ...yAxis,
+      y: {
+        type: 'linear',
+        display: true,
+        stacked: false,
+        beginAtZero: true,
+        // offset: true, // offset means that the axis will not overlap the data
+        grace: '10%',
+      },
     },
     tension: 0.3,
   };
@@ -119,7 +101,6 @@ function AreaChart({
           labels: labels?.slice(sliderValues[0], sliderValues[1]),
           datasets: data?.map((dataset, index) => ({
             ...dataset,
-            yAxisID: `y-axis-${index}`,
             data: dataset.data.filter(
               (data_) =>
                 !labels.slice(0, sliderValues[0]).includes(data_.x) &&
@@ -153,4 +134,4 @@ function AreaChart({
   );
 }
 
-export default AreaChart;
+export default SingAxisAreaChart;

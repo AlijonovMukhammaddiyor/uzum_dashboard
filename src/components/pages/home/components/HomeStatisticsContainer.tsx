@@ -1,175 +1,246 @@
+import { AxiosResponse } from 'axios';
 import React from 'react';
-import {
-  HiChevronDown,
-  HiOutlineBuildingStorefront,
-  HiOutlineClipboardDocumentCheck,
-  HiOutlineShoppingBag,
-} from 'react-icons/hi2';
-import { RiArrowLeftDownFill, RiArrowRightUpFill } from 'react-icons/ri';
+import { HiChevronDown } from 'react-icons/hi2';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
-import AreaChartComponent from '@/components/shared/AreaChartComponent';
+import Container from '@/components/layout/Container';
+import AreaChart from '@/components/shared/AreaChart';
 
 export interface HomeStatisticsContainerProps {
   className?: string;
-  statistics: {
-    orders: number;
-    pastOrders: number;
-    products: number;
-    pastProducts: number;
-    shops: number;
-    pastShops: number;
-  };
 }
 
-function HomeStatisticsContainer({
-  className,
-  statistics,
-}: HomeStatisticsContainerProps) {
-  const [activeTab, setActiveTab] = React.useState<
-    'orders' | 'products' | 'sellers'
-  >('orders');
-  const [activeDaysTab, setActiveDaysTab] = React.useState<number>(0);
+function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
+  const [orders, setOrders] = React.useState<any[]>([]);
+  const [products, setProducts] = React.useState<any[]>([]);
+  const [shops, setShops] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
-  const calculatePercentage = (current: number, before: number) => {
-    const percentage = Math.round(((current - before) / before) * 100);
-    // convert to string
-    const percentageString = percentage.toString() + '%';
-    if (percentage < 0) {
-      return (
-        <div className='flex items-center'>
-          <RiArrowLeftDownFill className='text-red-500' />
-          <div className='text-sm text-red-500'>
-            {percentageString.replace('-', '')}
-          </div>
-        </div>
-      );
-    }
-    if (percentage === 0) {
-      return (
-        <div className='flex items-center'>
-          <div className='text-slate-400'>{percentageString}</div>
-        </div>
-      );
-    }
-    return (
-      <div className='flex items-center'>
-        <RiArrowRightUpFill className='text-green-500' />
-        <div className='text-sm text-green-500'>{percentageString}</div>
-      </div>
-    );
-  };
+  React.useEffect(() => {
+    const api = new API(null);
+    setLoading(true);
+    api
+      .get<unknown, AxiosResponse<any>>('/uzum/orders/')
+      .then((res) => {
+        // logger(res.data, 'Orders');
+        setOrders(res.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in orders');
+        setLoading(false);
+      });
+    setLoading(true);
+    api
+      .get<unknown, AxiosResponse<any>>('/uzum/products/')
+      .then((res) => {
+        // logger(res.data, 'Products');
+        setProducts(res.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in products');
+        setLoading(false);
+      });
+    setLoading(true);
+    api
+      .get<unknown, AxiosResponse<any>>('/uzum/sellers/')
+      .then((res) => {
+        // logger(res.data, 'Sellers');
+        setShops(res.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in sellers');
+        setLoading(false);
+      });
+  }, []);
 
   return (
-    <div
-      className={clsxm(
-        'flex h-[500px] w-full items-start justify-start overflow-x-scroll',
-        className
-      )}
-    >
-      <div className='relative flex h-full w-[320px] flex-shrink-0 flex-col items-start justify-start bg-white'>
-        <div
-          className={clsxm(
-            'bg-primary absolute left-0 top-0 h-[150px] w-1 transition-transform',
-            activeTab === 'orders' && 'translate-y-0 transform',
-            activeTab === 'products' && 'translate-y-[150px] transform',
-            activeTab === 'sellers' && 'translate-y-[300px] transform'
-          )}
-        ></div>
-        <TabItem
-          title='Buyurtmalar'
-          icon={
-            <HiOutlineClipboardDocumentCheck className='h-6 w-6 flex-shrink-0 font-bold text-white' />
-          }
-          isActive={activeTab === 'orders'}
-          subtitle='Kechagi buyurtmalar'
-          onClick={() => setActiveTab('orders')}
-          number={statistics.orders}
-          tag={calculatePercentage(statistics.orders, statistics.pastOrders)}
-        />
-        <TabItem
-          title='Mahsulotlar'
-          icon={
-            <HiOutlineShoppingBag className='h-6 w-6 flex-shrink-0 font-bold text-white' />
-          }
-          isActive={activeTab === 'products'}
-          subtitle='Kechagi yangi mahsulotlar'
-          onClick={() => setActiveTab('products')}
-          number={statistics.products}
-          tag={calculatePercentage(
-            statistics.products,
-            statistics.pastProducts
-          )}
-        />
-        <TabItem
-          title='Do`konlar'
-          icon={
-            <HiOutlineBuildingStorefront className='h-6 w-6 flex-shrink-0 font-bold text-white' />
-          }
-          isActive={activeTab === 'sellers'}
-          subtitle='Kecha ochilgan do`konlar'
-          onClick={() => setActiveTab('sellers')}
-          number={statistics.shops}
-          tag={calculatePercentage(statistics.shops, statistics.pastShops)}
-        />
-      </div>
-      <div className='h-[calc(100%-20px)] w-[calc(100%-320px)] flex-1 bg-white pl-3'>
-        <DropDown
-          values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-          activeTab={activeDaysTab}
-          setActiveTab={setActiveDaysTab}
-          className=''
-        />
-        <div className='h-[calc(100%-18px)] w-full'>
-          <AreaChartComponent />
-        </div>
-      </div>
+    <div className='flex h-full w-full flex-col gap-5'>
+      <Container
+        className={clsxm(
+          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md bg-white px-5',
+          className
+        )}
+        loading={loading}
+      >
+        {orders.length > 0 && products.length > 0 && shops.length > 0 && (
+          <AreaChart
+            labels={getLabels(orders, products, shops) ?? []}
+            data={prepareData(orders, products, shops) ?? []}
+            style={{
+              width: '100%',
+              height: '500px',
+              // maxHeight: '500px',
+            }}
+            title='Uzumdagi jami buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
+          />
+        )}
+      </Container>
+      <Container
+        className={clsxm(
+          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md bg-white px-2',
+          className
+        )}
+        loading={loading}
+      >
+        {orders.length > 0 && products.length > 0 && shops.length > 0 && (
+          <AreaChart
+            labels={getLabels(orders, products, shops).slice(1) ?? []}
+            data={prepareDailyData(orders, products, shops) ?? []}
+            style={{
+              width: '100%',
+              height: '500px',
+              // maxHeight: '500px',
+            }}
+            title='Uzumdagi kunlik yangi buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
+          />
+        )}
+      </Container>
     </div>
   );
 }
 
-function TabItem({
-  title,
-  icon,
-  isActive,
-  onClick,
-  subtitle,
-  number,
-  tag,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  isActive: boolean;
-  onClick: () => void;
-  subtitle?: string;
-  number: number;
-  tag?: React.ReactNode;
-}) {
-  return (
-    <div
-      className={clsxm(
-        'flex h-[150px] w-full shrink-0 cursor-pointer flex-col items-start justify-start gap-2 p-3',
-        isActive && 'bg-slate-300 bg-opacity-25',
-        !isActive && 'hover:bg-gray-50'
-      )}
-      onClick={onClick}
-    >
-      <p className='font-primary text-base font-bold'>{title}</p>
-      <div className='flex items-center justify-start gap-3'>
-        <div className='bg-primary flex h-10 w-10 items-center justify-center rounded-full'>
-          {icon}
-        </div>
-        <div className='flex flex-col items-start justify-between'>
-          <p className='font-primary text-sm text-slate-400'>{subtitle}</p>
-          <div className='flex items-center justify-start gap-3'>
-            <p className='text-primary text-lg font-bold'>{number}</p>
-            {tag}
-          </div>
-        </div>
-      </div>
-    </div>
+function getLabels(orders: any[], products: any[], shops: any[]) {
+  const labels = new Set<string>();
+
+  for (let i = 0; i < orders.length; i++) {
+    const item = orders[i];
+    labels.add(item.date_pretty);
+  }
+
+  for (let i = 0; i < products.length; i++) {
+    const item = products[i];
+    labels.add(item.date_pretty);
+  }
+
+  for (let i = 0; i < shops.length; i++) {
+    const item = shops[i];
+    labels.add(item.date_pretty);
+  }
+
+  return Array.from(labels).sort(
+    (a, b) => new Date(a).getTime() - new Date(b).getTime()
   );
+}
+
+function prepareData(orders: any[], products: any[], shops: any[]) {
+  const dataset = [];
+
+  const orders_data = [];
+  const products_data = [];
+  const shops_data = [];
+
+  for (let i = 0; i < orders.length; i++) {
+    const item = orders[i];
+    orders_data.push({
+      x: item.date_pretty,
+      y: item.total_orders,
+    });
+  }
+
+  dataset.push({
+    data: orders_data,
+    fill: true,
+
+    borderColor: 'rgba(70, 130, 180, 1)', // Steel Blue
+    backgroundColor: 'rgba(70, 130, 180, 0.2)',
+    pointBackgroundColor: 'rgba(70, 130, 180, 1)',
+    label: 'Jami buyurtmalar soni',
+    pointRadius: 3,
+  });
+
+  for (let i = 0; i < products.length; i++) {
+    const item = products[i];
+    products_data.push({
+      x: item.date_pretty,
+      y: item.total_products,
+    });
+  }
+
+  dataset.push({
+    data: products_data,
+    fill: true,
+    // hidden: true,
+    borderColor: 'rgba(60, 179, 113, 1)', // Medium Sea Green
+    backgroundColor: 'rgba(60, 179, 113, 0.2)',
+    pointBackgroundColor: 'rgba(60, 179, 113, 1)',
+    label: 'Jami mahsulotlar soni',
+    pointRadius: 3,
+  });
+
+  for (let i = 0; i < shops.length; i++) {
+    const item = shops[i];
+    shops_data.push({
+      x: item.date_pretty,
+      y: item.total_shops,
+    });
+  }
+
+  dataset.push({
+    data: shops_data,
+    fill: true,
+    borderColor: 'rgba(255, 165, 0, 1)', // Orange
+    backgroundColor: 'rgba(255, 165, 0, 0.2)',
+    pointBackgroundColor: 'rgba(255, 165, 0, 1)',
+    label: 'Jami sotuvchilar soni',
+    pointRadius: 3,
+  });
+
+  return dataset;
+}
+
+function prepareDailyData(orders: any[], products: any[], shops: any[]) {
+  const dataset = [];
+
+  const orders_data = [];
+  const shops_data = [];
+
+  let prev = orders[0].total_orders;
+  for (let i = 1; i < orders.length; i++) {
+    const item = orders[i];
+    orders_data.push({
+      x: item.date_pretty,
+      y: item.total_orders - prev,
+    });
+    prev = item.total_orders;
+  }
+
+  dataset.push({
+    data: orders_data,
+    fill: true,
+    borderColor: 'rgba(70, 130, 180, 1)', // Steel Blue
+    backgroundColor: 'rgba(70, 130, 180, 0.2)',
+    pointBackgroundColor: 'rgba(70, 130, 180, 1)',
+    label: 'Kunlik buyurtmalar',
+    pointRadius: 3,
+  });
+
+  // prev = shops[0].total_shops;
+  // for (let i = 1; i < shops.length; i++) {
+  //   const item = shops[i];
+  //   shops_data.push({
+  //     x: item.date_pretty,
+  //     y: item.total_shops - prev,
+  //   });
+
+  //   prev = item.total_shops;
+  // }
+
+  return dataset;
 }
 
 export default HomeStatisticsContainer;

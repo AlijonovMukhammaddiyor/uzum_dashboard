@@ -16,7 +16,7 @@ export interface Props {
   className?: string;
 }
 
-interface ProductType {
+export interface ProductAnalyticsViewType {
   badges: string;
   date_pretty: string;
   orders_amount: number;
@@ -30,7 +30,8 @@ interface ProductType {
   shop_link: string;
   shop_title: string;
   sku_analytics: string;
-  categiry_title: string;
+  category_title: string;
+  avg_purchase_price: number;
 }
 
 function CategoryProductsTable({ categoryId, className }: Props) {
@@ -128,12 +129,10 @@ function CategoryProductsTable({ categoryId, className }: Props) {
         .join(',')}`;
     }
 
-    console.log('filterModel', filterModel, new Date().getTime());
-
     return api.get<
       unknown,
       AxiosResponse<{
-        results: ProductType[];
+        results: ProductAnalyticsViewType[];
         count: number;
         next?: string;
         previous?: string;
@@ -185,7 +184,7 @@ function CategoryProductsTable({ categoryId, className }: Props) {
       </Container>
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <PaginatedTable
-          columnDefs={CategoryProductTableColumnDefs}
+          columnDefs={CategoryProductTableColumnDefs as any}
           className='h-[1016px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}

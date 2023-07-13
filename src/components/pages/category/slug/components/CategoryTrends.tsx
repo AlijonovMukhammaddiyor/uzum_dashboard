@@ -79,7 +79,7 @@ function CategoryTrends({ className, categoryId }: Props) {
         <AreaChart data={prepareDataset(data) ?? []} labels={labels.slice(1)} />
       </Container>
       <Table
-        columnDefs={CategoryTrendstableColumnDefs}
+        columnDefs={CategoryTrendstableColumnDefs as any}
         className=''
         rowData={data || []}
       />
@@ -91,6 +91,7 @@ export default CategoryTrends;
 
 const prepareDataset = (data: CategoryAnalyticsDataType[]) => {
   const orders: number[] = [];
+  const allOrders: number[] = [];
   const products: number[] = [];
   const shops: number[] = [];
   const reviews: number[] = [];
@@ -107,6 +108,7 @@ const prepareDataset = (data: CategoryAnalyticsDataType[]) => {
     reviews.push(item.total_reviews - prevReviews);
     shopsWithSales.push(item.total_shops_with_sales);
     productsWithSales.push(item.total_products_with_sales);
+    allOrders.push(item.total_orders);
 
     prevOrders = item.total_orders;
     prevReviews = item.total_reviews;
@@ -118,10 +120,20 @@ const prepareDataset = (data: CategoryAnalyticsDataType[]) => {
       fill: true,
       borderColor: '#1f77b4',
       backgroundColor: 'rgba(31, 119, 180, 0.15)',
-      label: 'Buyurtmalar',
+      label: 'Kunlik buyurtmalar',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#1f77b4',
+    },
+    {
+      data: allOrders,
+      fill: true,
+      borderColor: '#1f2214',
+      backgroundColor: 'rgba(0, 19, 80, 0.15)',
+      label: 'Jami buyurtmalar',
+      hidden: true,
+      pointRadius: 3,
+      pointBackgroundColor: '#1f2214',
     },
     {
       data: products,
