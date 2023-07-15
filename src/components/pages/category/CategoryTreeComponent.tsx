@@ -64,7 +64,6 @@ function CategoryTreeComponent() {
               <div key={category.categoryId} className='flex flex-col gap-3'>
                 <RenderChildren
                   category={category}
-                  parent={category}
                   className=''
                   goToCategory={goToCategory}
                   router={router}
@@ -85,7 +84,6 @@ function CategoryTreeComponent() {
 
 function RenderChildren({
   category,
-  parent,
   className,
   goToCategory,
   router,
@@ -94,7 +92,6 @@ function RenderChildren({
   parentPath = {},
 }: {
   category: CategoryInTree;
-  parent: CategoryInTree;
   className: string;
   goToCategory: (id: number, title: string, router: NextRouter) => void;
   router: NextRouter;
@@ -167,7 +164,6 @@ function RenderChildren({
             <RenderChildren
               key={child.categoryId}
               category={child}
-              parent={category}
               className=''
               goToCategory={goToCategory}
               router={router}
