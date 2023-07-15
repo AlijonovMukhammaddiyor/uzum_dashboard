@@ -3430,7 +3430,7 @@
   "resolved" "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.2.1.tgz"
   "version" "6.2.1"
 
-"antd@^4.6.3", "antd@>=4.4.2 || >=5.0.0-beta.0":
+"antd@^4.24.12", "antd@^4.6.3", "antd@>=4.4.2 || >=5.0.0-beta.0":
   "integrity" "sha512-VOW9+ekutTuov2NxH9ReDoUmEtfyGPoXSVplUrP7jkYIvPREQsLi+825/nwf1WRBxagWZgJxzJwtl2i9fbvh9A=="
   "resolved" "https://registry.npmjs.org/antd/-/antd-4.24.12.tgz"
   "version" "4.24.12"
