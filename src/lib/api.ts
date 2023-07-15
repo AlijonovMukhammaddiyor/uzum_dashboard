@@ -275,7 +275,7 @@ class API {
           }; Max-Age=${this.accessTokenAge}; Domain=${
             // 15 minutes
             process.env.NODE_ENV === 'production'
-              ? '.alijonov.com'
+              ? '.uzanalitika.uz'
               : 'localhost'
           }`,
           `refresh_token=${refresh}; HttpOnly; Path=/; SameSite=Lax; ${
@@ -283,7 +283,7 @@ class API {
           }; Max-Age=${this.refreshTokenAge}; Domain=${
             // 14 days
             process.env.NODE_ENV === 'production'
-              ? '.alijonov.com'
+              ? '.uzanalitika.uz'
               : 'localhost'
           }`,
         ]);
@@ -298,7 +298,9 @@ class API {
         secure: isSecure,
         maxAge: this.accessTokenAge,
         domain:
-          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost',
+          process.env.NODE_ENV === 'production'
+            ? '.uzanalitika.uz'
+            : 'localhost',
       });
 
       nookies.set(this.context, 'refresh_token', refresh, {
@@ -308,7 +310,9 @@ class API {
         secure: isSecure,
         maxAge: this.refreshTokenAge,
         domain:
-          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost',
+          process.env.NODE_ENV === 'production'
+            ? '.uzanalitika.uz'
+            : 'localhost',
       });
     }
   }

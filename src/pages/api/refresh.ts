@@ -44,13 +44,17 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
           isSecure ? 'Secure' : ''
         }; Max-Age=${1 * 60}; Domain=${
           // 15 minutes
-          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost'
+          process.env.NODE_ENV === 'production'
+            ? '.uzanalitika.uz'
+            : 'localhost'
         }`,
         `refresh_token=${newRefreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
         }; Max-Age=${7 * 24 * 60 * 60}; Domain=${
           // 30 days
-          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost'
+          process.env.NODE_ENV === 'production'
+            ? '.uzanalitika.uz'
+            : 'localhost'
         }`,
       ]);
 

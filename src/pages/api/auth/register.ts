@@ -42,13 +42,17 @@ export default async function handler(
           isSecure ? 'Secure' : ''
         }; Max-Age=${15 * 60}; Domain=${
           // 1 minute
-          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost'
+          process.env.NODE_ENV === 'production'
+            ? '.uzanalitika.uz'
+            : 'localhost'
         }`,
         `refresh_token=${refreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
         }; Max-Age=${14 * 24 * 60 * 60}; Domain=${
           // 7 days
-          process.env.NODE_ENV === 'production' ? '.alijonov.com' : 'localhost'
+          process.env.NODE_ENV === 'production'
+            ? '.uzanalitika.uz'
+            : 'localhost'
         }`,
       ]);
 
