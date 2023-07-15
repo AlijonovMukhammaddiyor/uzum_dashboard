@@ -106,7 +106,6 @@ const PaginatedTable = <T,>({
     };
     gridApiRef.current = params.api;
     params.api.setDatasource(dataSource);
-
     params.api.addEventListener('sortChanged', () => {
       const colState = params.columnApi.getColumnState();
       const sortState = colState.filter(function (s) {
@@ -125,7 +124,6 @@ const PaginatedTable = <T,>({
 
     params.api.addEventListener('filterChanged', async () => {
       const filterModel = params.api.getFilterModel();
-      console.log('filterModel', filterModel, 'params');
       // if (filterModel) {
       // here, you may need to implement your own function to
       // convert the filterModel to your API's query format

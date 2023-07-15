@@ -107,7 +107,7 @@ function RenderChildren({
 
   const categoryPath = {
     ...parentPath,
-    [category.title]: `/category/${category.categoryId}--${category.title}`,
+    [category.title]: `/category/${category.title}--${category.categoryId}`,
   };
 
   return (

@@ -146,6 +146,13 @@ function ShopProducts({ sellerId, className }: Props) {
     sortModel: {
       colId: string;
       sort: string;
+    } | null,
+    filterModel: {
+      [key: string]: {
+        filterType: string;
+        type: string;
+        filter: string;
+      };
     } | null
   ) => {
     const api = new API(null);
@@ -153,6 +160,15 @@ function ShopProducts({ sellerId, className }: Props) {
     let url = `/shop/products/` + sellerId + `?page=${page}`;
     if (sortModel) {
       url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
+    }
+
+    if (filterModel) {
+      const columns = Object.keys(filterModel);
+      const filters = Object.values(filterModel);
+
+      url += `&searches=${columns.join(',')}&filters=${filters
+        .map((filter) => filter.filter)
+        .join('---')}`;
     }
 
     return api.get<

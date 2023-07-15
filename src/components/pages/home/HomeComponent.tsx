@@ -35,17 +35,21 @@ function HomeComponent() {
         )}
       />
 
-      <GrowingProducts
-        className={clsxm(
-          activeTab === "O'sayotgan mahsulotlar" ? '-mt-12' : 'hidden'
-        )}
-      />
+      {activeTab === "O'sayotgan mahsulotlar" && (
+        <GrowingProducts
+          className={clsxm(
+            activeTab === "O'sayotgan mahsulotlar" ? '-mt-12' : 'hidden'
+          )}
+        />
+      )}
 
-      <GrowingCategories
-        className={clsxm(
-          activeTab === "O'sayotgan kategoriyalar" ? '-mt-16' : 'hidden'
-        )}
-      />
+      {activeTab === "O'sayotgan kategoriyalar" && (
+        <GrowingCategories
+          className={clsxm(
+            activeTab === "O'sayotgan kategoriyalar" ? '-mt-16' : 'hidden'
+          )}
+        />
+      )}
 
       {/* <MainCategories
         className={clsxm(

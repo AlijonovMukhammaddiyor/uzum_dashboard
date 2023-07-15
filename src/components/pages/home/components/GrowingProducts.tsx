@@ -64,10 +64,10 @@ function GrowingProducts({ className }: HomeStatisticsContainerProps) {
     if (filterModel) {
       const columns = Object.keys(filterModel);
       const filters = Object.values(filterModel);
-
+      console.log(filters);
       url += `&searches=${columns.join(',')}&filters=${filters
         .map((filter) => filter.filter)
-        .join(',')}`;
+        .join('---')}`;
     }
 
     return api.get<

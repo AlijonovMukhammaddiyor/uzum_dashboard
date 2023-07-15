@@ -36,7 +36,7 @@ const externalAnalytics: {
     image: demoImage,
   },
   {
-    title: 'Do`konlar analitikasi',
+    title: "Do'konlar analitikasi",
     image: demoImage,
   },
   {

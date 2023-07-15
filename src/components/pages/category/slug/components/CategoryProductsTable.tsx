@@ -126,7 +126,7 @@ function CategoryProductsTable({ categoryId, className }: Props) {
 
       url += `&searches=${columns.join(',')}&filters=${filters
         .map((filter) => filter.filter)
-        .join(',')}`;
+        .join('---')}`;
     }
 
     return api.get<

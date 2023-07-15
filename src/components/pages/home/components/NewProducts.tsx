@@ -58,10 +58,8 @@ function NewProducts({ className }: HomeStatisticsContainerProps) {
     if (filterModel) {
       const columns = Object.keys(filterModel);
       const filters = Object.values(filterModel);
-
-      url += `&searches=${columns.join(',')}&filters=${filters
-        .map((filter) => filter.filter)
-        .join(',')}`;
+      const joined = filters.map((filter) => filter.filter).join('---');
+      url += `&searches=${columns.join(',')}&filters=${joined}`;
     }
 
     return api.get<

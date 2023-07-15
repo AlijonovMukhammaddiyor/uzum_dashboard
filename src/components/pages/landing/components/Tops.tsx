@@ -25,7 +25,7 @@ function Tops() {
     axios
       .get(SERVER_URL + '/product/top/')
       .then((res) => {
-        setShops(res.data);
+        setProducts(res.data);
       })
       .catch((err) => {
         logger(err, 'Error in getting top products');
@@ -33,7 +33,7 @@ function Tops() {
     axios
       .get(SERVER_URL + '/shop/top5/')
       .then((res) => {
-        setProducts(res.data);
+        setShops(res.data);
       })
       .catch((err) => {
         logger(err, 'Error in getting top products');
@@ -53,14 +53,16 @@ function Tops() {
               )}
             >
               {products.length > 0 ? (
-                products?.map((item, index) => (
-                  <ListItem
-                    key={index}
-                    title={item.product__title}
-                    count={item.orders_amount}
-                    index={index + 1}
-                  />
-                ))
+                products?.map((item, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      title={item.product__title}
+                      count={item.orders_amount}
+                      index={index + 1}
+                    />
+                  );
+                })
               ) : (
                 <SkeletonLoader />
               )}
