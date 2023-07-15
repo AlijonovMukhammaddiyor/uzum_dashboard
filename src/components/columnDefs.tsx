@@ -12,6 +12,8 @@ import clsxm from '@/lib/clsxm';
 
 import TinyColumnGraph from '@/components/shared/TinyColumnGraph';
 
+import { useContextState } from '@/context/Context';
+
 export const categoryAnalyticsColumnDefs = [
   {
     headerName: 'Sana',
@@ -201,22 +203,40 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
             style={{ zIndex: index, left: `${index * 30}px` }}
             onClick={openModal}
           >
-            <img
-              className='h-[40px] w-[40px] w-auto object-contain'
+            <Image
+              className='h-[40px] w-[40px] object-contain'
               src={src}
               alt=''
+              width={40}
+              height={40}
             />
           </div>
         );
       })}
       <Popup open={modalIsOpen} closeOnDocumentClick onClose={closeModal}>
-        <Carousel>
+        <Carousel
+          showArrows={true}
+          showThumbs={true}
+          renderThumbs={() =>
+            Array.from(srcs_no_duplicates).map((thumbnail) => (
+              <Image
+                src={thumbnail}
+                alt={thumbnail}
+                key={thumbnail}
+                width={100}
+                height={120}
+              />
+            ))
+          }
+        >
           {Array.from(srcs_no_duplicates).map((src, index) => (
             <div key={index}>
-              <img
+              <Image
                 src={src}
-                alt='sdsd'
+                alt='mahsulot_rasmi'
                 className='h-full max-h-[60vh] w-full object-contain'
+                width={500}
+                height={500}
               />
             </div>
           ))}
@@ -234,47 +254,105 @@ const AvatarCellRenderer = ({ value }: { value: string }) => {
 };
 
 const ProductNameCellRenderer = ({ value }: { value: string }) => {
+  const { dispatch } = useContextState();
   if (!value) return '';
 
   // replace / with dash
   const title = value?.split('((')[0];
-  const product_title = value
-    ?.split('((')[0]
-    .replace(/\//g, '-')
-    .replace(/ /g, '-');
+  // const product_title = value
+  //   ?.split('((')[0]
+  //   .replace(/\//g, '-')
+  //   .replace(/ /g, '-');
   const product_id = value?.split('((')[1]?.split('))')[0];
   return (
-    <Link href={`/products/${product_title}--${product_id}`}>
+    <Link
+      href={`/products/${product_id}`}
+      onClick={() => {
+        dispatch({
+          type: 'PATH',
+          payload: {
+            path: null,
+          },
+        });
+      }}
+    >
       <p className='text-blue-500 hover:underline'>{title}</p>
     </Link>
   );
 };
 
 const SubcategoryCellRenderer = ({ value }: { value: string }) => {
+  const { dispatch } = useContextState();
+  if (!value) return '';
+
+  const title = value?.split('((')[0].trim();
+  const category_id = value?.split('((')[1]?.split('))')[0];
+
   return (
-    <Link href={`/product/${value}`}>
-      <p className='text-blue-500 hover:underline'>{value}</p>
+    <Link
+      href={`/category/${title}--${category_id}`}
+      onClick={() => {
+        dispatch({
+          type: 'PATH',
+          payload: {
+            path: null,
+          },
+        });
+      }}
+    >
+      <p className='text-blue-500 hover:underline'>{title}</p>
     </Link>
   );
 };
 
 const CategoryNameCellRenderer = ({ value }: { value: string }) => {
+  const { dispatch } = useContextState();
+
+  if (!value) return '';
+
+  const title = value?.split('((')[0].trim();
+  const category_id = value?.split('((')[1]?.trim().split('))')[0];
+
   return (
-    <Link href={`/category/${value}`}>
-      <p className='text-blue-500 hover:underline'>{value}</p>
+    <Link
+      href={`/category/${title}--${category_id}`}
+      onClick={() => {
+        dispatch({
+          type: 'PATH',
+          payload: {
+            path: null,
+          },
+        });
+      }}
+    >
+      <p className='text-blue-500 hover:underline'>{title}</p>
     </Link>
   );
 };
 
 const SellerNameCellRenderer = ({ value }: { value: string }) => {
+  const { dispatch } = useContextState();
   // get seller link from value = "title (link)""
   if (!value) return '';
   // try{
-  const seller_link = value?.split('(')[1]?.split(')')[0];
-  const seller_title = value?.split('(')[0];
+  const seller_link = value?.split('((')[1]?.trim().split('))')[0];
+  const seller_title = value?.split('((')[0].trim();
+
+  if (!seller_link || !seller_title)
+    return <p className='text-black'>{seller_title}</p>;
 
   return (
-    <Link href={`/sellers/${seller_title}--${seller_link}`}>
+    <Link
+      href={`/sellers/${seller_link}`}
+      onClick={() => {
+        dispatch({
+          type: 'PATH',
+          payload: {
+            path: null,
+          },
+        });
+      }}
+    >
       <p className='text-blue-500 hover:underline'>{seller_title}</p>
     </Link>
   );
@@ -596,7 +674,7 @@ const ProductDateCellRenderer = (props: { value: any }) => {
 
   const date = new Date(props.value);
   // check if it is after may 20 2023. if not, return empty string
-  if (date.getTime() < 1684540800000) return '-';
+  if (date.getTime() < 1684540800000) return '';
 
   return (
     <div className='flex items-center justify-center'>
@@ -608,6 +686,7 @@ const ProductDateCellRenderer = (props: { value: any }) => {
 };
 
 const OrdersAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
+  if (!value) return '';
   value.sort((a: any, b: any) => {
     const a_date = new Date(a.x);
     const b_date = new Date(b.x);
@@ -655,6 +734,8 @@ const OrdersAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
 };
 
 const ReviewsAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
+  if (!value) return '';
+
   value.sort((a: any, b: any) => {
     const a_date = new Date(a.x);
     const b_date = new Date(b.x);
@@ -702,6 +783,7 @@ const ReviewsAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
 };
 
 const AvailableAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
+  if (!value) return '';
   value.sort((a: any, b: any) => {
     const a_date = new Date(a.x);
     const b_date = new Date(b.x);
@@ -746,6 +828,163 @@ const AvailableAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
     </div>
   );
 };
+
+const WithSalesTinyChartCellRenderer = ({ value }: { value: any }) => {
+  value.sort((a: any, b: any) => {
+    const a_date = new Date(a.x);
+    const b_date = new Date(b.x);
+    return a_date.getTime() - b_date.getTime();
+  });
+  const smallest = value[0]?.x;
+  const biggest = value[value.length - 1]?.x;
+
+  // from smallest day to biggest day (given in YYYY-MM-DD format), check if is entry for every day, if not, add entry with 0 value
+  const days = [];
+
+  const smallest_date = new Date(smallest);
+  const biggest_date = new Date(biggest);
+
+  for (
+    let i = smallest_date.getTime();
+    i <= biggest_date.getTime();
+    i += 24 * 60 * 60 * 1000
+  ) {
+    const date = new Date(i);
+    const date_string = date.toISOString().split('T')[0];
+    days.push(date_string);
+  }
+
+  const data: number[] = [];
+
+  // for each day, get entry from value, if not found, set 0
+  for (let i = 0; i < days.length; i++) {
+    const day = days[i];
+    const entry = value.find((e: any) => e.x === day);
+    data.push(entry ? entry.y : 0);
+  }
+  return (
+    <div className=''>
+      <TinyColumnGraph
+        data={data}
+        labels={days}
+        bgColor='rgba(170, 30, 180, 1)'
+        borderColor='rgba(170, 30, 180, 1)'
+        width='300px'
+      />
+    </div>
+  );
+};
+
+export const GrowingCategoriesColDefs = [
+  {
+    headerName: 'Kategoriya',
+    field: 'title',
+    sortable: true,
+    cellRenderer: CategoryNameCellRenderer,
+    filter: true,
+    floatingFilter: true,
+    flex: 1,
+    maxWidth: 500,
+    minWidth: 300,
+  },
+  {
+    headerName: 'Kunlik buyurtmalar soni',
+    field: 'orders',
+    cellRenderer: OrdersAmountTinyChartCellRenderer,
+    sortable: true,
+    minWidth: 350,
+    maxWidth: 600,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mahsulotlar soni',
+    field: 'total_products',
+    sortable: true,
+    cellRenderer: AvailableAmountTinyChartCellRenderer,
+    minWidth: 350,
+    maxWidth: 500,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Sotuvchilar soni',
+    field: 'total_shops',
+    sortable: true,
+    cellRenderer: AvailableAmountTinyChartCellRenderer,
+    minWidth: 350,
+    maxWidth: 500,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Kunlik Faol sotuvchilar soni',
+    field: 'total_shop_with_sales',
+    sortable: true,
+    cellRenderer: WithSalesTinyChartCellRenderer,
+    minWidth: 350,
+    maxWidth: 500,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Kunlik Faol mahsulotlar soni',
+    field: 'total_products_with_sales',
+    sortable: true,
+    cellRenderer: WithSalesTinyChartCellRenderer,
+    minWidth: 350,
+    maxWidth: 500,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: "O'rtacha Sotish narxi",
+    field: 'average_purchase_price',
+    sortable: true,
+    cellRenderer: PriceRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Jami izohlar soni',
+    field: 'reviews_amount',
+    sortable: true,
+    // cellRenderer: ReviewsAmountTinyChartCellRenderer,
+    minWidth: 300,
+    maxWidth: 600,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Reyting',
+    field: 'average_product_rating',
+    cellRenderer: RatingCellRenderer,
+    sortable: true,
+    minWidth: 150,
+    maxWidth: 150,
+    headerTooltip: 'Kategoriyadagi mahsulotlarning o`rtacha reytingi',
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+];
 
 export const GrowingProductsColDefs = [
   {
@@ -807,6 +1046,30 @@ export const GrowingProductsColDefs = [
     minWidth: 200,
   },
   {
+    headerName: 'Kunlik buyurtmalar',
+    field: 'orders',
+    cellRenderer: OrdersAmountTinyChartCellRenderer,
+    sortable: true,
+    minWidth: 400,
+    maxWidth: 600,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mavjud miqdori',
+    field: 'available_amount',
+    sortable: true,
+    cellRenderer: AvailableAmountTinyChartCellRenderer,
+    minWidth: 400,
+    maxWidth: 600,
+    cellStyle: {
+      textAlign: 'center',
+      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
     headerName: 'Kategoriyadagi pozitsiyasi',
     field: 'position_in_category',
     sortable: true,
@@ -829,30 +1092,7 @@ export const GrowingProductsColDefs = [
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
     } as CellStyle,
   },
-  {
-    headerName: 'Buyurtmalar',
-    field: 'orders',
-    cellRenderer: OrdersAmountTinyChartCellRenderer,
-    sortable: true,
-    minWidth: 300,
-    maxWidth: 600,
-    cellStyle: {
-      textAlign: 'center',
-      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
-    } as CellStyle,
-  },
-  {
-    headerName: 'Mavjud miqdori',
-    field: 'available_amount',
-    sortable: true,
-    cellRenderer: AvailableAmountTinyChartCellRenderer,
-    minWidth: 300,
-    maxWidth: 600,
-    cellStyle: {
-      textAlign: 'center',
-      // backgroundColor: 'rgba(43, 215, 229, 0.1)',
-    } as CellStyle,
-  },
+
   {
     headerName: "O'rtacha Sotish narxi",
     field: 'average_purchase_price',
@@ -867,10 +1107,10 @@ export const GrowingProductsColDefs = [
   },
   {
     headerName: 'Jami izohlar soni',
-    field: 'reviews_amount',
+    field: 'reviews',
     sortable: true,
     cellRenderer: ReviewsAmountTinyChartCellRenderer,
-    minWidth: 300,
+    minWidth: 400,
     maxWidth: 600,
     cellStyle: {
       textAlign: 'center',
@@ -1191,10 +1431,37 @@ export const CategoryProductsColDefs = [
     field: 'latest_product_analytics_date',
     sortable: false,
     minWidth: 150,
-    maxWidth: 200,
     cellStyle: {
       textAlign: 'center',
-      backgroundColor: '#f3f4f6',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'buyurtmalar soni',
+    field: 'latest_product_analytics_orders_amount',
+    sortable: false,
+    minWidth: 150,
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Izohlar soni',
+    field: 'latest_product_analytics_reviews_amount',
+    sortable: false,
+    minWidth: 150,
+    cellStyle: {
+      textAlign: 'center',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Mavjud miqdori',
+    field: 'latest_product_analytics_available_amount',
+    sortable: false,
+    minWidth: 150,
+    headerTooltip: "So'ngi aktiv sanadagi mahsulotning mavjud miqdori.",
+    cellStyle: {
+      textAlign: 'center',
     } as CellStyle,
   },
 ];
@@ -1919,11 +2186,13 @@ export const SegmentationTableColumnDefs = [
 export const CategoryShopsTableColumnDefs = [
   {
     headerName: 'Sotuvchi nomi',
-    field: 'shop_title',
+    field: 'title',
     cellRenderer: SellerNameCellRenderer,
     sortable: false,
-    minWidth: 200,
-    pinned: 'left',
+    filter: 'agTextColumnFilter',
+    floatingFilter: true,
+    minWidth: 300,
+    // pinned: 'left',
     maxWidth: 400,
     cellStyle: {
       // backgroundColor: 'rgba(46, 139, 87, 0.1)',

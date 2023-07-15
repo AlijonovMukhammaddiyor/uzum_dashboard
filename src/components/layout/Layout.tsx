@@ -7,7 +7,7 @@ import Sidebar from '@/components/sections/Sidebar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = React.useState('');
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
   return (
     <div className='flex h-screen w-screen items-start justify-start overflow-hidden bg-slate-200'>

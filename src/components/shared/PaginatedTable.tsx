@@ -32,6 +32,7 @@ interface TableProps<T> extends AgGridReactProps {
   >;
   setLoading?: (loading: boolean) => void;
   id?: any;
+  rowHeight?: number;
 }
 
 const PAGE_SIZE = 20;
@@ -39,6 +40,7 @@ const PAGE_SIZE = 20;
 const PaginatedTable = <T,>({
   className,
   fetchData,
+  rowHeight,
   id,
   setLoading,
   ...props
@@ -60,12 +62,12 @@ const PaginatedTable = <T,>({
     loadModules();
   }, []);
 
-  React.useEffect(() => {
-    if (gridApiRef.current) {
-      // Reload data when sellerId changes
-      gridApiRef.current.refreshServerSide({ purge: true });
-    }
-  }, [id]);
+  // React.useEffect(() => {
+  //   if (gridApiRef.current) {
+  //     // Reload data when sellerId changes
+  //     gridApiRef.current.refreshServerSide({ purge: true });
+  //   }
+  // }, [id]);
 
   const onGridReady = (params: GridReadyEvent) => {
     let sortColumn: {
@@ -176,7 +178,7 @@ const PaginatedTable = <T,>({
         debounceVerticalScrollbar={true}
         // enableRangeSelection={true}
         // enableFillHandle={true}
-        rowHeight={45}
+        rowHeight={rowHeight ?? 45}
         rowModelType='infinite'
         tooltipShowDelay={0}
         modules={modules}

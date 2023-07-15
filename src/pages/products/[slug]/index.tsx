@@ -23,7 +23,7 @@ function Product({ user, product_id, product_title }: ProductProps) {
   const [rendered, setRendered] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string>('Mahsulot haqida');
   const { dispatch } = useContextState();
-  console.log('product_id', product_id, 'product_title', product_title);
+
   React.useEffect(() => {
     setRendered(true);
     dispatch({ type: 'USER', payload: { user } });
@@ -87,12 +87,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    let product_id = (slug as string).split('--')[1];
-    if (product_id[0] === '-') {
-      product_id = product_id.slice(1);
+    const product_id = slug as string;
+
+    if (!product_id) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/products',
+        },
+        props: {},
+      };
     }
 
-    const product = await api.get('/product/' + product_id);
+    const product = await api.get('/product/' + product_id + '/');
 
     if (!res) {
       return {
@@ -112,6 +119,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   } catch (e) {
     return {
+      redirect: {
+        permanent: false,
+        destination: '/products',
+      },
       props: {},
     };
   }

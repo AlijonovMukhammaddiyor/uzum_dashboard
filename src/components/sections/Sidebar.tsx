@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import {
-  HiArrowPath,
+  // HiArrowPath,
   HiChevronDoubleLeft,
   HiChevronDoubleRight,
   HiLanguage,
@@ -11,6 +11,7 @@ import {
   HiOutlineSquares2X2,
   HiOutlineTag,
 } from 'react-icons/hi2';
+import { MdOutlineCompare } from 'react-icons/md';
 
 import clsxm from '@/lib/clsxm';
 
@@ -68,8 +69,8 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        'bg-font-primary relative z-10 h-screen w-[240px] -translate-x-full transition-all duration-300 ease-in-out sm:translate-x-0',
-        isSidebarOpen ? 'w-[240px]' : 'w-[80px]',
+        'bg-font-primary relative z-10 h-screen max-h-screen w-[240px] -translate-x-full transition-all duration-300 ease-in-out sm:translate-x-0',
+        isSidebarOpen ? 'w-[240px]' : 'w-[70px]',
         className
       )}
     >
@@ -171,7 +172,7 @@ function Sidebar({
             icon={
               <HiOutlineTag
                 className={clsxm(
-                  'text-primary h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  ' h-6 w-6 flex-shrink-0 ',
                   activeTab === 'Aksiyalar' && 'text-white'
                 )}
               />
@@ -181,6 +182,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Aksiyalar');
             }}
+            disabled
           />
 
           <SidebarItem
@@ -189,7 +191,7 @@ function Sidebar({
             icon={
               <HiLanguage
                 className={clsxm(
-                  'text-primary h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  'h-6 w-6 flex-shrink-0 ',
                   activeTab === 'So`zlar' && 'text-white'
                 )}
               />
@@ -199,15 +201,16 @@ function Sidebar({
             onClick={() => {
               setActiveTab('So`zlar');
             }}
+            disabled
           />
           <div className='mt-5 h-[1px] w-full bg-slate-300'></div>
           <SidebarItem
             href='/compare'
             label='Taqqoslash'
             icon={
-              <HiArrowPath
+              <MdOutlineCompare
                 className={clsxm(
-                  'text-primary h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  'h-6 w-6 flex-shrink-0 ',
                   activeTab === 'Taqqoslash' && 'text-white'
                 )}
               />
@@ -217,6 +220,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Taqqoslash');
             }}
+            disabled
           />
         </ul>
       </div>
@@ -232,6 +236,7 @@ function SidebarItem({
   isSidebarOpen,
   className,
   onClick,
+  disabled,
 }: {
   href: string;
   label: string;
@@ -240,6 +245,7 @@ function SidebarItem({
   isSidebarOpen?: boolean;
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }) {
   const { dispatch } = useContextState();
   const router = useRouter();
@@ -248,6 +254,7 @@ function SidebarItem({
     <li className={clsxm(className)} onClick={onClick}>
       <p
         onClick={() => {
+          if (disabled) return;
           dispatch({
             type: 'PATH',
             payload: { path: null },
@@ -256,7 +263,9 @@ function SidebarItem({
         }}
         className={clsxm(
           'group flex cursor-pointer items-center rounded-lg p-2 text-black hover:bg-slate-400 hover:text-white',
-          activeTab === label && 'bg-primary hover:bg-primary text-white'
+          activeTab === label && 'bg-primary hover:bg-primary text-white',
+          disabled &&
+            'cursor-not-allowed bg-slate-100 text-slate-300 hover:bg-slate-100 hover:text-slate-300'
         )}
       >
         {icon}

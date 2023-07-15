@@ -14,6 +14,7 @@ import Table from '@/components/shared/Table';
 interface Props {
   className?: string;
   sellerId: number;
+  isActive?: boolean;
 }
 
 interface SellerType {
@@ -28,7 +29,7 @@ interface SellerType {
   total_reviews: number;
 }
 
-function ShopOverall({ className, sellerId }: Props) {
+function ShopOverall({ className, sellerId, isActive }: Props) {
   const [data, setData] = React.useState<SellerType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -66,11 +67,14 @@ function ShopOverall({ className, sellerId }: Props) {
             Sotuvchining buyurtmalari, izohlari, va mahsulotlari soni
           </p>
         </div>
-        <AreaChart
-          labels={data.slice(1).map((item) => item.date_pretty)}
-          data={prepareDataset(data)}
-          style={{ height: '440px', maxHeight: '440px' }}
-        />
+        {isActive && (
+          <AreaChart
+            labels={data.slice(1).map((item) => item.date_pretty)}
+            data={prepareDataset(data)}
+            style={{ height: '440px', maxHeight: '440px' }}
+            className='h-[440px] max-h-[440px]'
+          />
+        )}
       </Container>
       <Container
         className='mt-4 flex h-[450px] w-full flex-col rounded-md bg-slate-100 p-5'
@@ -81,48 +85,26 @@ function ShopOverall({ className, sellerId }: Props) {
             Sotuvchining pozitsiyasi (sotuv miqdori bo`yicha)
           </p>
         </div>
-        {/* <AreaChart
-          labels={data.map((item) => item.date_pretty)}
-          data={[
-            {
-              data: data.map((item) => item.position),
-              fill: false,
-              borderColor: '#1f77b4',
-              label: 'Pozitsiya',
-              pointRadius: 3,
-              pointBackgroundColor: 'rgb(62, 199, 11)',
-            },
-          ]}
-          style={{ height: '440px', maxHeight: '440px' }}
-          options={{
-            scales: {
-              y: {
-                reverse: true,
-                min: 1,
-                ticks: {
-                  stepSize: 1,
-                  precision: 0,
-                },
-              },
-            },
-          }}
-        /> */}
-        <LineChart
-          data={data.map((item) => {
-            return {
-              y: item.position,
-              x: item.date_pretty,
-              label: 'Pozitsiya',
-            };
-          })}
-          style={{
-            height: '380px',
-            maxHeight: '380px',
-          }}
-          isStep
-          xAxisTitle='Sana'
-          yAxisTitle='Pozitsiya'
-        />
+        {isActive && (
+          <LineChart
+            data={data.map((item) => {
+              return {
+                y: item.position,
+                x: item.date_pretty,
+                label: 'Pozitsiya',
+              };
+            })}
+            style={{
+              height: '380px',
+              maxHeight: '380px',
+              minHeight: '380px',
+              width: '100%',
+            }}
+            isStep
+            xAxisTitle='Sana'
+            yAxisTitle='Pozitsiya'
+          />
+        )}
       </Container>
       <Container
         className='mt-10 flex h-[1000px] w-full flex-col gap-6 rounded-md bg-white'

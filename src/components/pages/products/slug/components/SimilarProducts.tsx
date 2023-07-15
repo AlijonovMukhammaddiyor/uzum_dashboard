@@ -18,6 +18,7 @@ import Table from '@/components/shared/Table';
 interface AboutProductProps {
   product_id: string;
   className?: string;
+  isActive?: boolean;
 }
 
 interface ProductType {
@@ -39,7 +40,7 @@ interface ProductType {
   product__photos: string;
 }
 
-function AboutProduct({ product_id, className }: AboutProductProps) {
+function AboutProduct({ product_id, className, isActive }: AboutProductProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [products, setProducts] = React.useState<
     {
@@ -85,7 +86,6 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
         setLoading(false);
       })
       .catch((err) => {
-        // console.log(err);
         logger(err, 'Error in similar products');
         setLoading(false);
       });
@@ -98,6 +98,15 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
     }));
   }, [products]);
 
+  const shouldRender = React.useMemo(() => {
+    const target = products.find(
+      (product) => product.product_id === Number(product_id)
+    );
+    if (!target) return false;
+
+    return target?.analytics?.length > 1 ? true : false;
+  }, [products, product_id]);
+
   return (
     <div
       className={clsxm(
@@ -105,109 +114,125 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
         className
       )}
     >
-      <Container
-        loading={loading}
-        className={clsxm(
-          'flex w-full flex-col items-start justify-start gap-5 overflow-hidden rounded-md bg-white p-3',
-          open ? 'h-[2000px]' : 'h-[700px] overflow-hidden'
-        )}
-      >
-        <p className='w-full text-center font-semibold'>
-          Ushbu mahsulotni quyida berilgan jadvaldagi mahsulotlar bilan
-          solishtiring (3 tagacha)
-        </p>
+      {shouldRender && (
+        <Container
+          loading={loading}
+          className={clsxm(
+            'flex w-full flex-col items-start justify-start gap-5 overflow-hidden rounded-md bg-white p-3',
+            open ? 'h-[2000px]' : 'h-[700px] overflow-hidden'
+          )}
+        >
+          <p className='w-full text-center font-semibold'>
+            Ushbu mahsulotni quyida berilgan jadvaldagi mahsulotlar bilan
+            solishtiring (3 tagacha)
+          </p>
 
-        <div className='mb-2 flex w-full justify-end'>
-          <Select
-            value={selectedRows}
-            onChange={(selectedRows) => {
-              setSelectedRows(selectedRows as any);
-            }}
-            isMulti
-            options={options}
-            className='w-full max-w-full'
-            isOptionDisabled={() => selectedRows.length >= 3}
-            name='products'
-          />
-        </div>
-
-        {products && products.length && (
-          <GroupedColumnChart
-            data={prepareDailyChartData(products, selectedRows, product_id)}
-            style={{
-              width: '100%',
-              height: '400px',
-              maxHeight: '400px',
-              marginBottom: '40px',
-              minHeight: '400px',
-            }}
-            title='Kunlik sotuvlar'
-            // yAxisTitle='Kunlik sotuvlar'
-            // xAxisTitle='Sana'
-          />
-        )}
-        {!open && (
-          <div
-            className='mb-16 flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'
-            onClick={() => setOpen(true)}
-          >
-            <button className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'>
-              <p>Barcha ma'lumotlarni ko'rish</p>
-              <HiOutlineChevronDoubleDown className='text-base' />
-            </button>
+          <div className='mb-2 flex w-full justify-end'>
+            <Select
+              value={selectedRows}
+              onChange={(selectedRows) => {
+                setSelectedRows(selectedRows as any);
+              }}
+              isMulti
+              options={options}
+              className='w-full max-w-full'
+              isOptionDisabled={() => selectedRows.length >= 3}
+              name='products'
+            />
           </div>
-        )}
 
-        <SingleAxisAreaChart
-          data={prepareAllChartData(products, selectedRows, product_id) ?? []}
-          style={{
-            width: '100%',
-            height: '400px',
-            maxHeight: '400px',
-            marginBottom: '40px',
-          }}
-          labels={getLabels(products, selectedRows, product_id)}
-          title='Jami sotuvlar'
-        />
-
-        <SingleAxisAreaChart
-          data={
-            preparePricesChartData(products, selectedRows, product_id) ?? []
-          }
-          style={{
-            width: '100%',
-            height: '400px',
-            maxHeight: '400px',
-            marginBottom: '40px',
-          }}
-          labels={getLabels(products, selectedRows, product_id)}
-          title='Narxlar'
-        />
-
-        <LineChart
-          data={preparePositionChartData(products, selectedRows, product_id)}
-          style={{
-            width: '100%',
-            height: '400px',
-            maxHeight: '400px',
-          }}
-          isStep
-          yAxisTitle='Kategoriyadagi pozitsiya'
-          xAxisTitle='Sana'
-        />
-
-        {open && (
-          <div className='flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'>
-            <button
-              className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'
-              onClick={() => setOpen(false)}
+          {isActive && products && products.length && (
+            <GroupedColumnChart
+              data={prepareDailyChartData(products, selectedRows, product_id)}
+              style={{
+                width: '100%',
+                height: '400px',
+                maxHeight: '400px',
+                marginBottom: '40px',
+                minHeight: '400px',
+              }}
+              title='Kunlik sotuvlar'
+              // yAxisTitle='Kunlik sotuvlar'
+              // xAxisTitle='Sana'
+            />
+          )}
+          {!open && (
+            <div
+              className='mb-16 flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'
+              onClick={() => setOpen(true)}
             >
-              <LiaAngleDoubleUpSolid className='text-base' />
-              <p>Qisqartirish</p>
-            </button>
-          </div>
-        )}
-      </Container>
+              <button className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'>
+                <p>Barcha ma'lumotlarni ko'rish</p>
+                <HiOutlineChevronDoubleDown className='text-base' />
+              </button>
+            </div>
+          )}
+
+          {isActive && (
+            <SingleAxisAreaChart
+              data={
+                prepareAllChartData(products, selectedRows, product_id) ?? []
+              }
+              style={{
+                width: '100%',
+                height: '400px',
+                maxHeight: '400px',
+                marginBottom: '40px',
+              }}
+              labels={getLabels(products, selectedRows, product_id)}
+              title='Jami sotuvlar'
+              className='h-[400px] max-h-[400px] w-full'
+            />
+          )}
+
+          {isActive && (
+            <SingleAxisAreaChart
+              data={
+                preparePricesChartData(products, selectedRows, product_id) ?? []
+              }
+              style={{
+                width: '100%',
+                height: '400px',
+                maxHeight: '400px',
+                marginBottom: '40px',
+              }}
+              labels={getLabels(products, selectedRows, product_id)}
+              title='Narxlar'
+              className='h-[400px] max-h-[400px] w-full'
+            />
+          )}
+
+          {isActive && (
+            <LineChart
+              data={preparePositionChartData(
+                products,
+                selectedRows,
+                product_id
+              )}
+              style={{
+                width: '100%',
+                height: '400px',
+                maxHeight: '400px',
+              }}
+              isStep
+              yAxisTitle='Kategoriyadagi pozitsiya'
+              xAxisTitle='Sana'
+            />
+          )}
+
+          {open && (
+            <div className='flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'>
+              <button
+                className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'
+                onClick={() => setOpen(false)}
+              >
+                <LiaAngleDoubleUpSolid className='text-base' />
+                <p>Qisqartirish</p>
+              </button>
+            </div>
+          )}
+        </Container>
+      )}
       <Container loading={loading} className='h-full w-full bg-transparent p-5'>
         {products.length > 0 && (
           <Table
@@ -506,7 +531,7 @@ function prepareTableData(
     const latest = analytics[analytics.length - 1];
     data.push({
       product_id: product.product_id,
-      title: latest.product__title,
+      title: latest.product__title + ' ((' + latest.product__product_id + '))',
       category:
         latest.product__category__title +
         ' (' +

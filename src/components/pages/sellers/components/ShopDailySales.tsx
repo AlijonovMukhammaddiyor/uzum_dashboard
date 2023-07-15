@@ -46,8 +46,15 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   const [dates, setDates] = useState<string[]>(
     Array.from(Array(46).keys())
       .map((i) => {
-        const date = new Date();
-        date.setDate(date.getDate() - i);
+        let j = i + 1;
+        // check if it is after 9 am in Tashkent
+        const date_in_tashkent = new Date().getUTCHours() + 5;
+        const after = date_in_tashkent > 9;
+
+        if (!after) j++;
+        // in Asia/Tashkent timezone it is 5 hours ahead of UTC
+        const date = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
+        date.setDate(date.getDate() - j);
         return date.toISOString().split('T')[0];
       })
       .slice()

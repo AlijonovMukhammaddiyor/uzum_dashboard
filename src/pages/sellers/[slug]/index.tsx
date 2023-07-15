@@ -84,9 +84,9 @@ function Category({ user, seller }: ShopsProps) {
         tabs={[
           'Umumiy',
           'Tovarlar',
+          'Kunlik Sotuv',
           'Raqobatchilar',
           'Kategoriyalar',
-          'Kunlik Sotuv',
         ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -95,6 +95,7 @@ function Category({ user, seller }: ShopsProps) {
       <ShopOverall
         className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}
         sellerId={seller.seller_id}
+        isActive={activeTab === 'Umumiy' ? true : false}
       />
 
       <ShopProducts
@@ -106,6 +107,7 @@ function Category({ user, seller }: ShopsProps) {
         className={clsxm(activeTab === 'Raqobatchilar' ? '' : 'hidden')}
         sellerId={seller.seller_id}
         title={seller.title}
+        isActive={activeTab === 'Raqobatchilar' ? true : false}
       />
 
       <ShopDailySales
@@ -129,7 +131,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     // check if user is logged in
     const res = await api.getCurrentUser();
     const { slug } = context.query;
-    if (!slug) {
+
+    const seller_link = slug as string;
+
+    if (!seller_link) {
       return {
         redirect: {
           permanent: false,
@@ -138,8 +143,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {},
       };
     }
-
-    const seller_link = (slug as string).split('--')[1];
 
     const seller = await api.get<
       unknown,

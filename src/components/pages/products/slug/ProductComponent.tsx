@@ -19,10 +19,12 @@ function ProductComponent({ product_id, activeTab }: ProductComponentProps) {
       <ProductAnalytics
         product_id={product_id}
         className={activeTab !== 'Grafik Analiz' ? 'hidden' : ''}
+        isActive={activeTab === 'Grafik Analiz' ? true : false}
       />
       <SimilarProducts
         product_id={product_id}
         className={activeTab !== "O'xshash Mahsulotlar" ? 'hidden' : ''}
+        isActive={activeTab === "O'xshash Mahsulotlar" ? true : false}
       />
     </div>
   );

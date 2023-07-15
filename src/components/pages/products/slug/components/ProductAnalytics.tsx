@@ -12,6 +12,7 @@ import LineChart from '@/components/shared/LineChart';
 interface AboutProductProps {
   product_id: string;
   className?: string;
+  isActive?: boolean;
 }
 
 interface ProductAnalyticsType {
@@ -45,25 +46,22 @@ interface ProductAnalyticsType {
       full_price: number;
     }[];
   }[];
-  // characteristics: {
-  //   id: number;
-  //   title: string;
-  //   value: {
-  //     id: number;
-  //     title: string;
-  //     value: string;
-  //   }[];
-  // }[];
   description: string;
   product_id: number;
   title: string;
+  created_at: string;
 }
 
-function ProductAnalytics({ product_id, className }: AboutProductProps) {
+function ProductAnalytics({
+  product_id,
+  className,
+  isActive,
+}: AboutProductProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [product, setProduct] = React.useState<ProductAnalyticsType | null>(
     null
   );
+  const [iscreatedAfter, setIscreatedAfter] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -73,7 +71,11 @@ function ProductAnalytics({ product_id, className }: AboutProductProps) {
         '/product/analytics/' + product_id + '/'
       )
       .then((res) => {
-        // setTopProducts(res.data.products);
+        // check if it is created less than 2 days ago
+        const created_at_gt =
+          new Date(res.data.created_at).getTime() + 172800000 >
+          new Date().getTime();
+        setIscreatedAfter(created_at_gt);
         setProduct(res.data);
         setLoading(false);
       })
@@ -95,23 +97,21 @@ function ProductAnalytics({ product_id, className }: AboutProductProps) {
         className='flex w-full flex-col items-start justify-start gap-5 rounded-md bg-white p-4'
         loading={loading}
       >
-        {product && product.recent_analytics && (
+        {/* {product && product.recent_analytics && ( */}
+        {isActive && (
           <AreaChart
-            data={prepareAllOrdersDataset(product)}
+            data={prepareAllOrdersDataset(product, iscreatedAfter) || []}
             title="Mahsulotning barcha sotuv va mavjud miqdorlarining quyidagi davr
             davomida o'zgarishi"
-            labels={
-              product?.recent_analytics
-                .map((item) => item.date_pretty)
-                .sort(
-                  (a, b) => new Date(a).getTime() - new Date(b).getTime()
-                ) ?? []
-            }
+            labels={getLabels(product, iscreatedAfter) || []}
             style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+            className='h-[460px] max-h-[460px] w-full'
           />
         )}
+        {/* )} */}
 
-        {product && product.recent_analytics && (
+        {/* {product && product.recent_analytics && ( */}
+        {isActive && (
           <AreaChart
             labels={
               product?.recent_analytics
@@ -120,9 +120,10 @@ function ProductAnalytics({ product_id, className }: AboutProductProps) {
                   (a, b) => new Date(a).getTime() - new Date(b).getTime()
                 ) ?? []
             }
-            data={prepareDailyOrdersDataset(product) || []}
+            data={prepareDailyOrdersDataset(product, iscreatedAfter) || []}
             title="Kunlik ma'lumotlar"
             style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+            className='h-[460px] max-h-[460px] w-full'
           />
         )}
 
@@ -133,7 +134,7 @@ function ProductAnalytics({ product_id, className }: AboutProductProps) {
           </p>
           <p></p>
         </div>
-        {product && product.recent_analytics && (
+        {product && product.recent_analytics && isActive && (
           <LineChart
             data={
               product.recent_analytics.map((item) => ({
@@ -160,7 +161,7 @@ function ProductAnalytics({ product_id, className }: AboutProductProps) {
           </p>
           <p></p>
         </div>
-        {product && (
+        {product && isActive && (
           <LineChart
             data={
               product.recent_analytics.map((item) => ({
@@ -187,7 +188,7 @@ function ProductAnalytics({ product_id, className }: AboutProductProps) {
           </p>
           <p></p>
         </div>
-        {product && (
+        {product && isActive && (
           <LineChart
             data={
               product.recent_analytics.map((item) => ({
@@ -212,6 +213,25 @@ function ProductAnalytics({ product_id, className }: AboutProductProps) {
   );
 }
 
+function getLabels(data: ProductAnalyticsType | null, iscreatedAfter: boolean) {
+  if (!data) return [];
+  const labels =
+    data?.recent_analytics
+      .map((item) => item.date_pretty)
+      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) ?? [];
+
+  if (iscreatedAfter) {
+    // add day before as label
+    labels.push(
+      new Date(new Date(data.created_at).getTime() - 86400000)
+        .toISOString()
+        .split('T')[0]
+    );
+  }
+
+  return labels.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+}
+
 function fillLabels(labels: string[]) {
   const start_date = new Date(labels[0]);
   const end_date = new Date(labels[labels.length - 1]);
@@ -229,12 +249,24 @@ function fillLabels(labels: string[]) {
   return labels.sort();
 }
 
-function prepareDailyOrdersDataset(data: ProductAnalyticsType) {
+function prepareDailyOrdersDataset(
+  data: ProductAnalyticsType | null,
+  iscreatedAfter = false
+) {
+  if (!data) return [];
+
   const dataset = [];
   let prev = data.recent_analytics[0].orders_amount;
   let prev_rev = data.recent_analytics[0].reviews_amount;
 
-  const analytics = data.recent_analytics.slice(1);
+  let analytics = data.recent_analytics.slice(1);
+
+  if (iscreatedAfter) {
+    prev = 0;
+    prev_rev = 0;
+    analytics = data.recent_analytics;
+  }
+
   const orders = [];
   const reviews = [];
   const prices = [];
@@ -293,11 +325,25 @@ function prepareDailyOrdersDataset(data: ProductAnalyticsType) {
   return dataset;
 }
 
-function prepareAllOrdersDataset(data: ProductAnalyticsType) {
+function prepareAllOrdersDataset(
+  data: ProductAnalyticsType | null,
+  iscreatedAfter: boolean
+) {
+  if (!data) return [];
+
   const dataset = [];
 
   const analytics = data.recent_analytics;
   const orders = [];
+  if (iscreatedAfter) {
+    orders.push({
+      // for x, get day before in YYYY-MM-DD format
+      x: new Date(new Date(data.created_at).getTime() - 86400000)
+        .toISOString()
+        .split('T')[0],
+      y: 0,
+    });
+  }
   const reviews = [];
   const available = [];
   // const prices = [];

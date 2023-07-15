@@ -3,19 +3,20 @@ import { useRouter } from 'next/router';
 
 // !STARTERCONF Change these default meta
 const defaultMeta = {
-  title: 'Next.js + Tailwind CSS + TypeScript Starter',
-  siteName: 'Next.js + Tailwind CSS + TypeScript Starter',
+  title:
+    'Analitika.Uz - Biznesingiz uchun mukammal tahlil xizmati. Raqobatchilarni chuqur tahlil qilish, istiqbolli bozor nishlarini aniqlash va mahsulot sotish jarayonini samarali boshqarish imkoniyatini beradi',
+  siteName: 'Analitika xizmatlari',
   description:
-    'A starter for Next.js, Tailwind CSS, and TypeScript with Absolute Import, Seo, Link component, pre-configured with Husky',
+    "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, eng ko'p so'raladigan va o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika hamda reklama kampaniyalarining savdo hajmini qanday ta'sir qilishini kuzatib boramiz",
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: 'https://tsnext-tw.thcl.dev',
+  url: 'https://uzanalitka.uz/',
   type: 'website',
   robots: 'follow, index',
   /**
    * No need to be filled, will be populated with openGraph function
    * If you wish to use a normal image, just specify the path below
    */
-  image: 'https://tsnext-tw.thcl.dev/images/large-og.png',
+  image: '/public/images/og.png',
 };
 
 type SeoProps = {

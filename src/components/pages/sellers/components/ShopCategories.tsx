@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
 
@@ -344,14 +345,16 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         categoryId === category.categoryId ? 'bg-primary' : 'bg-white'
       )}
     >
-      <h2
-        className={clsxm(
-          'mb-4 text-base font-bold',
-          categoryId === category.categoryId ? 'text-white' : 'text-primary'
-        )}
-      >
-        {category.title}
-      </h2>
+      <Link href={`/category/${category.title}--${category.categoryId}`}>
+        <h2
+          className={clsxm(
+            'mb-4 text-base font-bold text-blue-500 hover:underline',
+            categoryId === category.categoryId ? 'text-white' : ''
+          )}
+        >
+          {category.title}
+        </h2>
+      </Link>
       <p
         className={clsxm(
           categoryId === category.categoryId ? 'text-white' : 'text-black'

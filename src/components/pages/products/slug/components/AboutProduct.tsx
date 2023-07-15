@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
@@ -126,9 +127,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
   }, [product_id]);
 
   const isNew =
-    product &&
-    new Date(product?.created_at).getTime() >
-      new Date('2023-05-020T00:00:00.000000Z').getTime();
+    product && new Date(product?.created_at).getTime() > 1684627200000;
 
   const handleTypeSelect = (title: string, value: string) => {
     // Update selectedTypes with the new value first
@@ -149,6 +148,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
       setSelectedSku(0);
     }
   };
+  console.log(selectedTypes, selectedSku);
 
   return (
     <div
@@ -164,10 +164,25 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
         {product && (
           <div className='flex items-start justify-start gap-10 lg:grid-cols-2'>
             <div className='h-[600px] w-[500px]'>
-              <Carousel className='h-full w-full'>
+              <Carousel
+                className='h-full w-full'
+                showArrows={true}
+                showThumbs={true}
+                renderThumbs={() =>
+                  JSON.parse(product?.photos).map((thumbnail: string) => (
+                    <Image
+                      src={thumbnail}
+                      alt={thumbnail}
+                      key={thumbnail}
+                      width={100}
+                      height={120}
+                    />
+                  ))
+                }
+              >
                 {JSON.parse(product?.photos)?.map((image: any) => (
                   <div key={image} className='h-full w-full'>
-                    <img src={image} alt='' />
+                    <Image src={image} alt='' width={500} height={600} />
                   </div>
                 ))}
               </Carousel>
@@ -254,12 +269,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                     <div className='flex items-center justify-start gap-5'>
                       <p className='w-[120px] font-semibold'>Sotuvchi</p>
                       <Link
-                        href={
-                          '/sellers/' +
-                          product.shop_title +
-                          '--' +
-                          product.shop_link
-                        }
+                        href={'/sellers/' + product.shop_link}
                         className='font-semibold text-blue-500 hover:underline'
                       >
                         {product.shop_title}
@@ -283,26 +293,32 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                 </div>
 
                 {selectedSku > 0 ? (
-                  product.sku_analytics
-                    .filter((sku) => sku.sku === selectedSku)
-                    ?.map((sku) => (
-                      <div
-                        key={sku.sku}
-                        className='flex items-baseline space-x-2'
-                      >
-                        <p className='text-2xl font-semibold'>
-                          {sku.purchase_price.toLocaleString()} so'm
-                        </p>
-                        {sku.full_price && (
-                          <p className='text-xl text-gray-500 line-through'>
-                            {sku.full_price.toLocaleString()} so'm
-                          </p>
-                        )}
-                        <p className='text-primary text-base font-semibold'>
-                          - SKU: {sku.sku}
-                        </p>
-                      </div>
-                    ))
+                  <div className='flex items-baseline space-x-2'>
+                    <p className='text-2xl font-semibold'>
+                      {product.sku_analytics
+                        .find((sku) => sku.sku === selectedSku)
+                        ?.purchase_price.toLocaleString()}{' '}
+                      so'm
+                    </p>
+                    {product.sku_analytics.find(
+                      (sku) => sku.sku === selectedSku
+                    )?.full_price && (
+                      <p className='text-xl text-gray-500 line-through'>
+                        {product.sku_analytics
+                          .find((sku) => sku.sku === selectedSku)
+                          ?.full_price.toLocaleString()}{' '}
+                        so'm
+                      </p>
+                    )}
+                    <p className='text-primary text-base font-semibold'>
+                      - SKU:{' '}
+                      {
+                        product.sku_analytics.find(
+                          (sku) => sku.sku === selectedSku
+                        )?.sku
+                      }
+                    </p>
+                  </div>
                 ) : (
                   <div>Iltimos mahsulot turini tanlang.</div>
                 )}

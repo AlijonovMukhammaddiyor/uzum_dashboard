@@ -66,10 +66,14 @@ const Table = <T,>({
           filter: true,
           flex: 1,
           minWidth: 100,
+          filterParams: {
+            alwaysShowBothConditions: true,
+          },
         }}
         suppressColumnMoveAnimation={true}
         allowDragFromColumnsToolPanel={true}
         rowSelection='multiple'
+        headerHeight={30}
         floatingFiltersHeight={35}
         suppressMenuHide={true}
         animateRows={true}

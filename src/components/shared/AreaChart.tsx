@@ -15,6 +15,8 @@ import Slider from 'rc-slider';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 
+import clsxm from '@/lib/clsxm';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -45,7 +47,7 @@ export interface AreaChartProps {
   options?: any;
   style?: React.CSSProperties;
   title?: string;
-  isSeparate?: boolean;
+  className?: string;
 }
 
 function AreaChart({
@@ -54,12 +56,18 @@ function AreaChart({
   options: customOptions,
   style,
   title,
+  className,
 }: AreaChartProps) {
-  const [sliderValues, setSliderValues] = useState([0, 15]);
+  const [data_, setData] = useState(data);
+  const [sliderValues, setSliderValues] = useState([0, labels.length]);
 
   useEffect(() => {
     setSliderValues([0, labels.length]);
   }, [labels]);
+
+  useEffect(() => {
+    setData(data);
+  }, [data]);
 
   const onSliderChange = (values: number[]) => {
     setSliderValues(values);
@@ -69,7 +77,7 @@ function AreaChart({
     [key: string]: any;
   } = {};
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < data_.length; i++) {
     yAxis[`y-axis-${i}`] = {
       type: 'linear',
       display: true,
@@ -80,11 +88,11 @@ function AreaChart({
       // offset: true, // offset means that the axis will not overlap the data
       grace: '10%',
       grid: {
-        borderColor: data[i].borderColor,
+        borderColor: data_[i].borderColor,
       },
       ticks: {
-        color: data[i].borderColor,
-        borderColor: data[i].borderColor,
+        color: data_[i].borderColor,
+        borderColor: data_[i].borderColor,
       },
     };
   }
@@ -112,28 +120,33 @@ function AreaChart({
   };
 
   return (
-    <div style={{ ...style }}>
+    <div
+      className={clsxm(
+        'flex h-[500px] flex-col items-start justify-start',
+        className
+      )}
+    >
       <Line
         options={{ ...options, ...customOptions }}
         data={{
           labels: labels?.slice(sliderValues[0], sliderValues[1]),
-          datasets: data?.map((dataset, index) => ({
+          datasets: data_?.map((dataset, index) => ({
             ...dataset,
             yAxisID: `y-axis-${index}`,
             data: dataset.data.filter(
-              (data_) =>
-                !labels.slice(0, sliderValues[0]).includes(data_.x) &&
-                !labels.slice(sliderValues[1]).includes(data_.x)
+              (data_q) =>
+                !labels.slice(0, sliderValues[0]).includes(data_q.x) &&
+                !labels.slice(sliderValues[1]).includes(data_q.x)
             ),
           })),
         }}
         style={{
           width: '100%',
           maxWidth: '100%',
-          maxHeight: '100%',
-          // height: '535px',
+          maxHeight: 'calc(100% - 30px)',
+          height: 'calc(100% - 30px)',
           minHeight: '400px',
-          // ...style,
+          ...style,
         }}
       />
       <Slider

@@ -27,9 +27,6 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       .then((res) => {
         // logger(res.data, 'Orders');
         setOrders(res.data);
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
       })
       .catch((err) => {
         // console.log(err);
@@ -42,12 +39,9 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       .then((res) => {
         // logger(res.data, 'Products');
         setProducts(res.data);
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
+        setLoading(false);
       })
       .catch((err) => {
-        // console.log(err);
         logger(err, 'Error in products');
         setLoading(false);
       });
@@ -55,14 +49,9 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
     api
       .get<unknown, AxiosResponse<any>>('/uzum/sellers/')
       .then((res) => {
-        // logger(res.data, 'Sellers');
         setShops(res.data);
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
       })
       .catch((err) => {
-        // console.log(err);
         logger(err, 'Error in sellers');
         setLoading(false);
       });
@@ -77,18 +66,17 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         loading={loading}
       >
-        {orders.length > 0 && products.length > 0 && shops.length > 0 && (
-          <AreaChart
-            labels={getLabels(orders, products, shops) ?? []}
-            data={prepareData(orders, products, shops) ?? []}
-            style={{
-              width: '100%',
-              height: '500px',
-              // maxHeight: '500px',
-            }}
-            title='Uzumdagi jami buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
-          />
-        )}
+        <AreaChart
+          labels={getLabels(orders, products, shops) ?? []}
+          data={prepareData(orders, products, shops) ?? []}
+          style={{
+            width: '100%',
+            height: '500px',
+            // maxHeight: '500px',
+          }}
+          className='h-[500px] max-h-[500px] w-full'
+          title='Uzumdagi jami buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
+        />
       </Container>
       <Container
         className={clsxm(
@@ -97,18 +85,17 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         loading={loading}
       >
-        {orders.length > 0 && products.length > 0 && shops.length > 0 && (
-          <AreaChart
-            labels={getLabels(orders, products, shops).slice(1) ?? []}
-            data={prepareDailyData(orders, products, shops) ?? []}
-            style={{
-              width: '100%',
-              height: '500px',
-              // maxHeight: '500px',
-            }}
-            title='Uzumdagi kunlik yangi buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
-          />
-        )}
+        <AreaChart
+          labels={getLabels(orders, products, shops).slice(1) ?? []}
+          data={prepareDailyData(orders) ?? []}
+          style={{
+            width: '100%',
+            height: '500px',
+            // maxHeight: '500px',
+          }}
+          className='h-[500px] max-h-[500px] w-full'
+          title='Uzumdagi kunlik yangi buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
+        />
       </Container>
     </div>
   );
@@ -139,6 +126,7 @@ function getLabels(orders: any[], products: any[], shops: any[]) {
 
 function prepareData(orders: any[], products: any[], shops: any[]) {
   const dataset = [];
+  if (orders.length === 0) return [];
 
   const orders_data = [];
   const products_data = [];
@@ -203,11 +191,11 @@ function prepareData(orders: any[], products: any[], shops: any[]) {
   return dataset;
 }
 
-function prepareDailyData(orders: any[], products: any[], shops: any[]) {
+function prepareDailyData(orders: any[]) {
+  if (orders.length === 0) return [];
   const dataset = [];
 
   const orders_data = [];
-  const shops_data = [];
 
   let prev = orders[0].total_orders;
   for (let i = 1; i < orders.length; i++) {

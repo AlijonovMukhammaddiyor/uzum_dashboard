@@ -20,6 +20,7 @@ export default function Sellers({ user }: ShopsProps) {
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
+    dispatch({ type: 'PATH', payload: { path: null } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
@@ -32,7 +33,7 @@ export default function Sellers({ user }: ShopsProps) {
       </div> */}
 
       <Tabs
-        tabs={['Sotuvchilar', 'Umumiy']}
+        tabs={['Sotuvchilar']}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-4'

@@ -7,13 +7,14 @@ import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import Container from '@/components/layout/Container';
-import AreaChart from '@/components/shared/AreaChart';
 import LineChart from '@/components/shared/LineChart';
+import SingleAxisAreaChart from '@/components/shared/SingleAxisAreaChart';
 
 interface Props {
   className?: string;
   sellerId: number;
   title: string;
+  isActive?: boolean;
 }
 
 interface CompetitorsType {
@@ -34,7 +35,7 @@ interface CompetitorsType {
   }[];
 }
 
-function ShopCompetitors({ className, sellerId, title }: Props) {
+function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [competitors, setCompetitors] = React.useState<CompetitorsType[]>([]);
 
@@ -191,25 +192,28 @@ function ShopCompetitors({ className, sellerId, title }: Props) {
         {/* )} */}
       </Container>
       <Container
-        className='flex h-[600px] w-full flex-col gap-6 rounded-md bg-slate-100 p-5'
+        className='flex h-[550px] w-full flex-col rounded-md bg-slate-100 p-5'
         loading={loading}
       >
         {/* {competitors.length > 0 && ( */}
         <p className='text-primary w-full text-center'>
           Top 10 raqobatchilar mahsulotlaring o'rtacha mahsulot sotuv narxi
         </p>
-        <p className='-mt-5 mb-4 text-center text-xs text-gray-400'>
+        <p className='text-center text-xs text-gray-400'>
           * Do'konning o'rtacha mahsulot narxini hisoblash uchun har bir
           mahsulot sotuv narxlarini qo'shib mahsulotlar soniga bo'lingan.
         </p>
-        <AreaChart
-          labels={prepareLabels(competitors)}
-          data={preparePriceDataset(competitors)}
-          style={{
-            height: '470px',
-            maxHeight: '470px',
-          }}
-        />
+        {isActive && (
+          <SingleAxisAreaChart
+            labels={prepareLabels(competitors)}
+            data={preparePriceDataset(competitors)}
+            style={{
+              height: '470px',
+              maxHeight: '470px',
+            }}
+            className='h-[470px] max-h-[470px] w-full'
+          />
+        )}
         {/* )} */}
       </Container>
     </div>
@@ -230,7 +234,7 @@ function CommonCategories({
   return (
     <div className='flex h-10 w-full gap-2'>
       <a
-        href={`/sellers/${title}--${link}`}
+        href={`/sellers/${link}`}
         className='font-primary w-[200px] text-sm font-semibold text-blue-400 hover:underline'
       >
         {title} ({common_categories_titles.length})

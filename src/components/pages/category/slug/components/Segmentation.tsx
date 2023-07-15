@@ -85,38 +85,48 @@ function Segmentation({ className, categoryId }: Props) {
           'relative h-[600px] w-full min-w-[1200px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <div className='mb-2 flex items-center justify-end'>
-          <InputField
-            placeholder='Segmentatsiya soni'
-            containerStyle='gap-2 flex justify-start items-center flex-row h-10'
-            label='Segmentatsiya soni'
-            type='number'
-            min={1}
-            max={100}
-            value={segmentationCount}
-            disabled={loading}
-            inputStyle='w-[100px] h-full mb-1 rounded-l-md px-4 py-2 bg-gray-300'
-            onChange={(e) => {
-              if (e.target.valueAsNumber > 100) {
-                setSegmentationCount(100);
-                return;
-              }
-              if (e.target.valueAsNumber < 1) {
-                setSegmentationCount(1);
-                return;
-              }
-              setSegmentationCount(+e.target.valueAsNumber);
-            }}
-          />
-          <Button
-            className='bg-primary h-10 rounded-r-md px-2 py-2 text-white'
-            title='Yangilash'
-            onClick={() => {
-              setNewFetch(!newFetch);
-            }}
-          >
-            Yangilash
-          </Button>
+        <div className='mb-2 flex items-center justify-between'>
+          <div className=''>
+            <h4 className='text-primary m-0 font-bold'>
+              Kategoriyadagi mahsulotlar narxlari bo'yicha segmentatsiya
+            </h4>
+            <p className='m-0 text-sm text-slate-500'>
+              Ushbu narx oraliqlariga kiruvchi mahsulotlar va buyurtmalar soni
+            </p>
+          </div>
+          <div className='flex items-center justify-end'>
+            <InputField
+              placeholder='Segmentatsiya soni'
+              containerStyle='gap-2 flex justify-start items-center flex-row h-10'
+              label='Segmentatsiya soni'
+              type='number'
+              min={1}
+              max={100}
+              value={segmentationCount}
+              disabled={loading}
+              inputStyle='w-[100px] h-full mb-1 rounded-l-md px-4 py-2 bg-gray-300'
+              onChange={(e) => {
+                if (e.target.valueAsNumber > 100) {
+                  setSegmentationCount(100);
+                  return;
+                }
+                if (e.target.valueAsNumber < 1) {
+                  setSegmentationCount(1);
+                  return;
+                }
+                setSegmentationCount(+e.target.valueAsNumber);
+              }}
+            />
+            <Button
+              className='bg-primary h-10 rounded-r-md px-2 py-2 text-white'
+              title='Yangilash'
+              onClick={() => {
+                setNewFetch(!newFetch);
+              }}
+            >
+              Yangilash
+            </Button>
+          </div>
         </div>
 
         <RangeChart
@@ -128,8 +138,8 @@ function Segmentation({ className, categoryId }: Props) {
           }))}
           style={{
             width: '100%',
-            height: 'calc(100% - 30px)',
-            maxHeight: 'calc(100% - 30px)',
+            height: 'calc(100% - 60px)',
+            maxHeight: 'calc(100% - 60px)',
           }}
         />
       </Container>

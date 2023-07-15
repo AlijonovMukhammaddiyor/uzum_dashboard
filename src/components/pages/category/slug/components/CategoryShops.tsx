@@ -16,8 +16,7 @@ interface Props {
 }
 
 interface CategoryShopsType {
-  shop_title: string;
-  shop_link: string;
+  title: string;
   total_orders: number;
   total_products: number;
   total_reviews: number;
@@ -66,15 +65,6 @@ function CategoryShops({ className, categoryId }: Props) {
         className
       )}
     >
-      {/* <SubCategoriesPieChart /> */}
-      {/* <DropDown
-        values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-        activeTab={0}
-        setActiveTab={() => {
-          //sdc
-        }}
-        className='-mb-3'
-      /> */}
       <Container
         loading={loading}
         className={clsxm(
@@ -83,7 +73,8 @@ function CategoryShops({ className, categoryId }: Props) {
       >
         <div className='flex w-full items-center justify-between'>
           <h3 className='text-primary text-base'>
-            Kategoriyadagi Sotuvchilarning ulushlari
+            Kategoriyadagi Sotuvchilarning ulushlari - Top sotuvchilar (10
+            tagacha)
           </h3>
           <div className='flex items-center justify-start gap-6'>
             <p className='font-bold'>Jami Sotuvchilar Soni:</p>
@@ -114,7 +105,7 @@ function preparePieChartData(data: CategoryShopsType[]) {
   const pieChartData = data.slice(0, 10).map((item) => {
     current_orders += item.total_orders;
     return {
-      type: item.shop_title + ' ( ID: ' + item.shop_link + ')',
+      type: item.title,
       value: item.total_orders,
     };
   });

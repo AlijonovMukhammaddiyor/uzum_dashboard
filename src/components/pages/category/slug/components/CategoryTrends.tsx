@@ -7,12 +7,13 @@ import logger from '@/lib/logger';
 
 import { CategoryTrendstableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import AreaChart from '@/components/shared/AreaChart';
+import SingleAxisAreaChart from '@/components/shared/SingleAxisAreaChart';
 import Table from '@/components/shared/Table';
 
 interface Props {
   className?: string;
   categoryId: string;
+  isActive?: boolean;
 }
 
 export interface CategoryAnalyticsDataType {
@@ -28,7 +29,7 @@ export interface CategoryAnalyticsDataType {
   category_title: string;
 }
 
-function CategoryTrends({ className, categoryId }: Props) {
+function CategoryTrends({ className, categoryId, isActive }: Props) {
   const [data, setData] = React.useState<CategoryAnalyticsDataType[]>([]);
   const [labels, setLabels] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -64,19 +65,22 @@ function CategoryTrends({ className, categoryId }: Props) {
         className
       )}
     >
-      {/* <DropDown
-        values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-        activeTab={0}
-        setActiveTab={() => {
-          //sdc
-        }}
-        className='-mb-3'
-      /> */}
       <Container
-        className='flex h-[400px] w-full flex-col gap-6 rounded-md bg-white p-5'
+        className='flex h-[500px] w-full flex-col gap-6 rounded-md bg-white px-5'
         loading={loading}
       >
-        <AreaChart data={prepareDataset(data) ?? []} labels={labels.slice(1)} />
+        {isActive && (
+          <SingleAxisAreaChart
+            data={prepareDataset(data) ?? []}
+            labels={labels.slice(1)}
+            style={{
+              width: '100%',
+              // height: '400px',
+              // minHeight: '400px',
+            }}
+            className='h-450px max-h-[470px] w-full'
+          />
+        )}
       </Container>
       <Table
         columnDefs={CategoryTrendstableColumnDefs as any}
@@ -90,25 +94,55 @@ function CategoryTrends({ className, categoryId }: Props) {
 export default CategoryTrends;
 
 const prepareDataset = (data: CategoryAnalyticsDataType[]) => {
-  const orders: number[] = [];
-  const allOrders: number[] = [];
-  const products: number[] = [];
-  const shops: number[] = [];
-  const reviews: number[] = [];
-  const shopsWithSales: number[] = [];
-  const productsWithSales: number[] = [];
+  const orders: {
+    x: string;
+    y: number;
+  }[] = [];
+  const allOrders: {
+    x: string;
+    y: number;
+  }[] = [];
+  const products: {
+    x: string;
+    y: number;
+  }[] = [];
+  const shops: {
+    x: string;
+    y: number;
+  }[] = [];
+  const reviews: {
+    x: string;
+    y: number;
+  }[] = [];
+  const shopsWithSales: {
+    x: string;
+    y: number;
+  }[] = [];
+  const productsWithSales: {
+    x: string;
+    y: number;
+  }[] = [];
 
   let prevOrders = data[0]?.total_orders || 0;
   let prevReviews = data[0]?.total_reviews || 0;
 
-  data.slice(1, data.length - 1).forEach((item) => {
-    orders.push(item.total_orders - prevOrders);
-    products.push(item.total_products);
-    shops.push(item.total_shops);
-    reviews.push(item.total_reviews - prevReviews);
-    shopsWithSales.push(item.total_shops_with_sales);
-    productsWithSales.push(item.total_products_with_sales);
-    allOrders.push(item.total_orders);
+  data.slice(1).forEach((item) => {
+    orders.push({
+      y: item.total_orders - prevOrders,
+      x: item.date_pretty,
+    });
+    products.push({ y: item.total_products, x: item.date_pretty });
+    shops.push({ y: item.total_shops, x: item.date_pretty });
+    reviews.push({ y: item.total_reviews - prevReviews, x: item.date_pretty });
+    shopsWithSales.push({
+      y: item.total_shops_with_sales,
+      x: item.date_pretty,
+    });
+    productsWithSales.push({
+      y: item.total_products_with_sales,
+      x: item.date_pretty,
+    });
+    allOrders.push({ y: item.total_orders, x: item.date_pretty });
 
     prevOrders = item.total_orders;
     prevReviews = item.total_reviews;

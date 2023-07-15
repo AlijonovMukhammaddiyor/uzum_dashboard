@@ -13,6 +13,7 @@ import Container from '@/components/layout/Container';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 import PieChart from '@/components/shared/PieChart';
 import Table from '@/components/shared/Table';
+import Tabs from '@/components/shared/Tabs';
 
 export interface Props {
   activeTab?: string;
@@ -41,6 +42,9 @@ interface ProductType {
 
 function ShopProducts({ sellerId, className }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [activeProducts, setActiveProducts] = React.useState<string>(
+    'Sotuvchining hozirdagi mahsulotlari'
+  );
   const [productsData, setProductsData] = React.useState<
     {
       type: string;
@@ -178,7 +182,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={productsData}
-            title="Eng ko'p sotilgan mahsulotlar (10 tagacha)"
+            title="Eng ko'p sotilgan mahsulotlar (20 tagacha)"
             labelType='outer'
             style={{
               width: '100%',
@@ -195,7 +199,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={reviewsData}
-            title="Eng ko'p izoh yoizlgan mahsulotlar (10 tagacha)"
+            title="Eng ko'p izoh yoizlgan mahsulotlar (20 tagacha)"
             labelType='outer'
             style={{
               width: '100%',
@@ -207,29 +211,36 @@ function ShopProducts({ sellerId, className }: Props) {
       </div>
 
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
-        <div className='h-[50px] w-full'>
-          <p className='text-primary'>Sotuvchining hozirdagi mahsulotlari</p>
-        </div>
+        <Tabs
+          tabs={[
+            'Sotuvchining hozirdagi mahsulotlari',
+            'Sotuvchining sotuvdan chiqqan mahsulotlari',
+          ]}
+          activeTab={activeProducts}
+          setActiveTab={setActiveProducts}
+          className='my-4'
+        />
+
         <PaginatedTable
           columnDefs={ShopProductTableColumnDefs}
-          className='h-[1016px] min-w-full'
+          className={clsxm(
+            'h-[1016px] min-w-full',
+            activeProducts === 'Sotuvchining hozirdagi mahsulotlari'
+              ? ''
+              : 'hidden'
+          )}
           fetchData={loadData}
           setLoading={setLoading}
           id={sellerId}
         />
-      </Container>
-      <Container
-        loading={stoopedProductsLoading}
-        className={clsxm('w-full overflow-scroll')}
-      >
-        <div className='h-[50px] w-full'>
-          <p className='text-primary'>
-            Sotuvchining sotuvdan chiqqan mahsulotlari
-          </p>
-        </div>
         <Table
           columnDefs={ShopStoppedProductTableColumnDefs}
-          className='h-[1016px] min-w-full'
+          className={clsxm(
+            'h-[1016px] min-w-full',
+            activeProducts === 'Sotuvchining sotuvdan chiqqan mahsulotlari'
+              ? ''
+              : 'hidden'
+          )}
           rowData={stoppedProductsData}
         />
       </Container>

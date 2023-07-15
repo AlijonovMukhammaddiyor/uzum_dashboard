@@ -65,6 +65,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     // check if user is logged in
     const res = await api.getCurrentUser();
 
+    const slug = context.query.slug as string;
+
+    const id = slug.split('--')[1].trim();
+
+    if (!id) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/category',
+        },
+        props: {},
+      };
+    }
+
     if (!res) {
       return {
         redirect: {
@@ -81,6 +95,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   } catch (e) {
     return {
+      redirect: {
+        permanent: false,
+        destination: '/category',
+      },
       props: {},
     };
   }

@@ -15,6 +15,9 @@ import Slider from 'rc-slider';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 
+import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -45,6 +48,8 @@ export interface AreaChartProps {
   options?: any;
   style?: React.CSSProperties;
   title?: string;
+  className?: string;
+  tension?: number;
 }
 
 function SingAxisAreaChart({
@@ -52,13 +57,22 @@ function SingAxisAreaChart({
   labels,
   options: customOptions,
   style,
+  className,
+  tension = 0.3,
   title,
 }: AreaChartProps) {
-  const [sliderValues, setSliderValues] = useState([0, 15]);
+  const [data_, setData] = useState(data);
+  const [sliderValues, setSliderValues] = useState([0, labels.length]);
 
   useEffect(() => {
     setSliderValues([0, labels.length]);
   }, [labels]);
+
+  useEffect(() => {
+    logger('data changed');
+    setData(data);
+    setSliderValues([0, labels.length - 1]);
+  }, [data, labels.length]);
 
   const onSliderChange = (values: number[]) => {
     setSliderValues(values);
@@ -71,6 +85,7 @@ function SingAxisAreaChart({
       tooltip: {
         enabled: true,
         intersect: false,
+        // mode: 'index',
       },
       legend: {
         position: 'top',
@@ -78,6 +93,11 @@ function SingAxisAreaChart({
       title: {
         display: true,
         text: title,
+        // change font size and color
+        font: {
+          size: 16,
+          color: 'purple',
+        },
       },
     },
     scales: {
@@ -90,16 +110,25 @@ function SingAxisAreaChart({
         grace: '10%',
       },
     },
-    tension: 0.3,
+    tension: tension,
   };
 
+  if (!data_ || data_.length == 0 || !labels || labels.length == 0) {
+    return null;
+  }
+
   return (
-    <div style={{ ...style }}>
+    <div
+      className={clsxm(
+        'flex h-[500px] flex-col items-start justify-start',
+        className
+      )}
+    >
       <Line
         options={{ ...options, ...customOptions }}
         data={{
           labels: labels?.slice(sliderValues[0], sliderValues[1]),
-          datasets: data?.map((dataset, index) => ({
+          datasets: data_?.map((dataset) => ({
             ...dataset,
             data: dataset.data.filter(
               (data_) =>
@@ -111,12 +140,13 @@ function SingAxisAreaChart({
         style={{
           width: '100%',
           maxWidth: '100%',
-          maxHeight: '100%',
-          // height: '535px',
+          maxHeight: 'calc(100% - 30px)',
+          height: 'calc(100% - 30px)',
           minHeight: '400px',
-          // ...style,
+          ...style,
         }}
       />
+
       <Slider
         range
         min={0}

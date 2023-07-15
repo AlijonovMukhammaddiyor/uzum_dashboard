@@ -25,6 +25,7 @@ function CategoryComponent({ activeTab, categoryId }: Props) {
       <CategoryTrends
         className={clsxm(activeTab !== 'Trend' && 'hidden')}
         categoryId={categoryId}
+        isActive={activeTab === 'Trend' ? true : false}
       />
 
       <Subcategories
