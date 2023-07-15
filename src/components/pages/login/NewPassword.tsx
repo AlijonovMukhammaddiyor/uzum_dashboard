@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
@@ -36,7 +35,6 @@ const NewPassword = ({
   setUser,
 }: NewPasswordProps) => {
   const [passwordShow, setPasswordShow] = useState(false);
-  const router = useRouter();
   const [sendingRequest, setSendingRequest] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
@@ -51,7 +49,6 @@ const NewPassword = ({
       return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
     setSendingRequest(true);
     try {
-      console.log(user);
       const res = await axios.post(SERVER_URL + '/newpassword/', {
         ...user,
         phone_number: '+' + user.phone_number,

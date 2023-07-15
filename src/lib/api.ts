@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
+import Cookies from 'js-cookie';
 import { GetServerSidePropsContext } from 'next';
-import nookies from 'nookies';
 
 import logger from '@/lib/logger';
 
@@ -9,49 +14,46 @@ import { SERVER_URL } from '@/constant/env';
 
 class API {
   public instance: AxiosInstance;
-  private context: GetServerSidePropsContext | null;
-  private refreshTokenAge: number = 7 * 24 * 60 * 60; // 14 days
-  private accessTokenAge: number = 10 * 60; // 15 minutes
-  private proxy = '/api/external';
-  private isApi = false;
+  private isRefreshing = false;
+  private refreshSubscribers: ((accessToken: string) => void)[] = [];
+  private context: GetServerSidePropsContext | null = null;
 
-  constructor(context: GetServerSidePropsContext | null = null, isApi = false) {
+  constructor(context: GetServerSidePropsContext | null = null) {
     const baseURL = SERVER_URL;
     if (!baseURL) {
       throw new Error('No SERVER_URL provided');
     }
-    this.isApi = isApi;
-    this.context = context;
+    if (context) this.context = context;
     this.instance = axios.create({
       baseURL,
       timeout: 180_000, // sets the request timeout to  3 minutes
       headers: {
         'Content-Type': 'application/json',
+        // set cookies in the request
+        Cookie: this.context?.req?.headers.cookie ?? '',
       },
       withCredentials: true,
     });
 
     // Add a request interceptor
     this.instance.interceptors.request.use(
-      async (config) => {
-        const token = this.getAccessToken();
-        if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
-        } else {
-          if (this.context) {
-            // check if there is a refresh token. If not, redirect to login
-            const access = await this.refreshTokens();
-            if (access) {
-              config.headers['Authorization'] = `Bearer ${access}`;
-            } else {
-              // no access token means user is not logged in
-              // so we redirect to login page if not already there
-              logger('No access token', 'Can not refresh token 1');
-              this.redirectToLogin();
-              // we can reject the request here as it won't be authorized anyway
-              return Promise.reject(new Error('Not logged in'));
-            }
+      (config) => {
+        // get he access token from the cookies and add it to the request header
+        if (this.context) {
+          if (!this.context.req.cookies['refresh']) {
+            this.redirectToLogin();
+            return Promise.reject('No access token found');
           }
+        }
+        let access = '';
+        if (typeof window !== 'undefined') {
+          access = Cookies.get('access') ?? '';
+        } else {
+          access = this.context?.req.cookies['access'] ?? '';
+        }
+
+        if (access) {
+          config.headers.Authorization = `Bearer ${access}`;
         }
         return config;
       },
@@ -77,32 +79,12 @@ class API {
           try {
             const access = await this.refreshTokens();
             // Retry the original request
-            const config = error.config;
-            // log old authorization header
-            // const token = this.getAccessToken();
-            if (access) {
-              config.headers['Authorization'] = `Bearer ${access}`;
-            } else {
-              // no access token means user is not logged in
-              // so we redirect to login page if not already there
-              logger('No access token', 'Can not refresh token 2');
-              this.redirectToLogin();
 
-              // we can reject the request here as it won't be authorized anyway
-              return Promise.reject(new Error('Not logged in'));
-            }
-            console.log(
-              error.config.url,
-              'rrrrresending request with new token',
-              access,
-              ' \naccess '
-            );
-            // console.log('resending request with new token');
-            console.log('config', config);
-            return this.instance(config);
+            error.config.headers.Authorization = `Bearer ${access}`;
+            return this.instance(error.config);
           } catch (refreshError) {
             // If refreshing fails, redirect to login
-            logger(refreshError, 'Can not refresh token 3');
+            logger(refreshError, 'Can not refresh token');
             this.redirectToLogin();
             return Promise.reject(refreshError);
           }
@@ -115,91 +97,61 @@ class API {
 
   private async refreshTokens() {
     try {
+      if (this.isRefreshing) {
+        // If refresh tokens request is already in progress,
+        // wait for it to complete and return the new access token
+        return new Promise<string>((resolve) => {
+          this.refreshSubscribers.push(resolve);
+        });
+      }
+
+      this.isRefreshing = true;
+
+      // check if there is refresh token in the cookies
       if (this.context) {
-        console.log('Inside refresh token');
-        // server side -> make direct request to server
-        const refreshToken = this.getRefreshToken();
-        if (!refreshToken) {
-          // if not refresh token, redirect to login
-          throw new Error('getRefreshToken did not return a token');
+        if (!this.context.req.cookies['refresh']) {
+          this.redirectToLogin();
+          return Promise.reject('No refresh token found');
         }
-        // console.log('Refresh ', refreshToken);
-        const tokens = await this._refreshTokens(refreshToken);
-        console.log('Tokens ', tokens);
-        if (!tokens) {
-          // if no tokens, redirect to login
-          throw new Error('No tokens returned from _refreshTokens');
-        }
-        // set the new tokens
-
-        this.setTokens(tokens.accessToken, tokens.refreshToken);
-
-        return tokens.accessToken;
-      } else {
-        logger('No context', 'Can not refresh token');
       }
-    } catch (error: any) {
-      logger(error.message, "Can't refresh token");
-      throw new Error("Can't refresh token");
-    }
-  }
-
-  private async _refreshTokens(
-    refreshToken: string
-  ): Promise<{ accessToken: string; refreshToken: string } | null> {
-    try {
-      const response = await axios.post(
-        `${SERVER_URL}/token/civuiaubcyvsdcibhsvus/refresh/`,
-        {
-          refresh: refreshToken,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
+      // server side -> make direct request to server
+      // This request includes the refresh token as a HttpOnly cookie
+      const response = await this.instance.post(
+        '/token/civuiaubcyvsdcibhsvus/refresh/'
       );
+
+      // If the response is successful, the new access token is automatically
+      // included in the Set-Cookie header of the response, and axios will
+      // automatically store it as a HttpOnly cookie because withCredentials
+      // is true.
+
       const newAccessToken = response.data.access;
-      const newRefreshToken = response.data.refresh;
-      return { accessToken: newAccessToken, refreshToken: newRefreshToken };
-    } catch (error: any) {
-      logger(error.response.data, "Can't refresh token");
-      return null;
+
+      // Notify all subscribers that the new access token is available
+      this.refreshSubscribers.forEach((resolve) => resolve(newAccessToken));
+      this.refreshSubscribers = [];
+
+      this.isRefreshing = false;
+
+      return newAccessToken;
+    } catch (error) {
+      // If the request fails, it means the refresh token is expired or invalid.
+      // In this case, log the error and throw it so the response interceptor
+      // can handle it.
+      logger((error as AxiosError).cause, "Can't refresh token");
+      throw error;
     }
   }
 
-  private getAccessToken() {
-    let token = '';
-    // On the server, use the context to read cookies, on the client use js-cookie
-    if (this.context) {
-      const cookie = this.context.req.cookies.access_token;
-      if (cookie) {
-        token = cookie;
-      }
-    }
-    return token;
-  }
-
-  private clearCookies() {
-    if (this.context) {
-      const isSecure = process.env.NODE_ENV === 'production';
-      this.context.res.setHeader('Set-Cookie', [
-        `access_token=; HttpOnly; Path=/; SameSite=Lax; ${
-          isSecure ? 'Secure' : ''
-        }; Max-Age=0`,
-        `refresh_token=; HttpOnly; Path=/; SameSite=Lax; ${
-          isSecure ? 'Secure' : ''
-        }; Max-Age=0`,
-      ]);
-    }
+  private addRefreshSubscriber(subscriber: (accessToken: string) => void) {
+    this.refreshSubscribers.push(subscriber);
   }
 
   public async login(user: { username: string; password: string }) {
     try {
       if (!user.username || !user.password)
         throw new Error('Foydalanuvchi nomi yoki paroli kiritilmadi');
-      const res = await axios.post('/api/auth/login/', { user });
+      const res = await this.instance.post('/token/', { ...user });
       if (res.status === 200) {
         return true;
       }
@@ -212,7 +164,8 @@ class API {
 
   public async logout() {
     try {
-      await axios.post('/api/auth/logout/');
+      await this.instance.post('/logout/');
+      this.redirectToLogin();
     } catch (err) {
       logger(err, 'Xatolik yuz berdi');
     }
@@ -241,7 +194,7 @@ class API {
           'Foydalanuvchi nomi, telefon raqami yoki paroli kiritilmadi'
         );
 
-      const res = await axios.post('/api/register/', { user: data });
+      const res = await this.instance.post('/users/', { user: data });
       if (res.status === 200) return true;
       return false;
     } catch (err) {
@@ -250,77 +203,9 @@ class API {
     }
   }
 
-  private getRefreshToken() {
-    // this is only used on the server side
-    if (this.context) {
-      // console.log(this.context.req.cookies);
-      const cookie = this.context.req.cookies.refresh_token;
-      if (cookie) {
-        return cookie;
-      }
-    }
-    throw new Error('No refresh token');
-  }
-  // JUst note: booth.ai
-  private setTokens(access: string, refresh: string) {
-    // only used on the server side
-    const isSecure = process.env.NODE_ENV === 'production';
-    if (this.isApi) {
-      // set using res
-      const isSecure = process.env.NODE_ENV === 'production';
-      if (this.context?.res) {
-        this.context.res.setHeader('Set-Cookie', [
-          `access_token=${access}; HttpOnly; Path=/; SameSite=Lax; ${
-            isSecure ? 'Secure' : ''
-          }; Max-Age=${this.accessTokenAge}; Domain=${
-            // 15 minutes
-            process.env.NODE_ENV === 'production'
-              ? '.uzanalitika.uz'
-              : 'localhost'
-          }`,
-          `refresh_token=${refresh}; HttpOnly; Path=/; SameSite=Lax; ${
-            isSecure ? 'Secure' : ''
-          }; Max-Age=${this.refreshTokenAge}; Domain=${
-            // 14 days
-            process.env.NODE_ENV === 'production'
-              ? '.uzanalitika.uz'
-              : 'localhost'
-          }`,
-        ]);
-      } else {
-        logger('No res in context');
-      }
-    } else {
-      nookies.set(this.context, 'access_token', access, {
-        httpOnly: true,
-        path: '/',
-        sameSite: 'lax',
-        secure: isSecure,
-        maxAge: this.accessTokenAge,
-        domain:
-          process.env.NODE_ENV === 'production'
-            ? '.uzanalitika.uz'
-            : 'localhost',
-      });
-
-      nookies.set(this.context, 'refresh_token', refresh, {
-        httpOnly: true,
-        path: '/',
-        sameSite: 'lax',
-        secure: isSecure,
-        maxAge: this.refreshTokenAge,
-        domain:
-          process.env.NODE_ENV === 'production'
-            ? '.uzanalitika.uz'
-            : 'localhost',
-      });
-    }
-  }
-
   public async getCurrentUser() {
     try {
-      console.log('Getting current user');
-      const response = await this.get('/users/me/');
+      const response = await this.instance.get('/users/me/');
       return response.data;
     } catch (error: any) {
       logger(error, 'Error getting current user');
@@ -334,16 +219,27 @@ class API {
         window.location.pathname !== '/login' &&
         window.location.pathname !== '/register'
       ) {
-        this.clearCookies();
-        window.location.href = '/login';
+        window.location.replace('/login');
       }
-    } else if (this.context) {
+    } else {
       if (
-        this.context.req.url !== '/login' &&
-        this.context.req.url !== '/register'
+        this.context?.req.url !== '/login' &&
+        this.context?.req.url !== '/register'
       )
-        if (this.context.res) {
-          this.clearCookies();
+        if (this.context?.res) {
+          // clear the cookies
+          this.context.res.setHeader('Set-Cookie', [
+            `access_token=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0; Domain=${
+              process.env.NODE_ENV === 'production'
+                ? '.uzanalitika.uz'
+                : 'localhost'
+            }`,
+            `refresh_token=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0; Domain=${
+              process.env.NODE_ENV === 'production'
+                ? '.uzanalitika.uz'
+                : 'localhost'
+            }`,
+          ]);
           this.context.res.writeHead(302, { Location: '/login' }).end();
         }
     }
@@ -353,11 +249,6 @@ class API {
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    if (typeof window !== 'undefined') {
-      url = `${this.proxy}${url}`;
-      return axios.get<T, R>(url, config);
-    }
-    // console.log('Getting from server');
     return this.instance.get<T, R>(url, config);
   }
 
@@ -366,10 +257,6 @@ class API {
     data?: any,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    if (typeof window !== 'undefined') {
-      url = `${this.proxy}${url}`;
-      return axios.post<T, R>(url, data, config);
-    }
     return this.instance.post<T, R>(url, data, config);
   }
 
@@ -378,12 +265,6 @@ class API {
     data?: any,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    const isClient = typeof window !== 'undefined';
-    if (isClient) {
-      url = `${this.proxy}${url}`;
-      return axios.put<T, R>(url, data, config);
-    }
-
     return this.instance.put<T, R>(url, data, config);
   }
 
@@ -392,11 +273,6 @@ class API {
     data?: any,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    if (typeof window !== 'undefined') {
-      url = `${this.proxy}${url}`;
-      return axios.patch<T, R>(url, data, config);
-    }
-
     return this.instance.patch<T, R>(url, data, config);
   }
 
@@ -404,11 +280,6 @@ class API {
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    if (typeof window !== 'undefined') {
-      url = `${this.proxy}${url}`;
-      return axios.delete<T, R>(url, config);
-    }
-
     return this.instance.delete<T, R>(url, config);
   }
 }

@@ -48,12 +48,11 @@ const UserNameAndPassword = ({
   };
 
   const onLogin = () => {
-    const api = new API(null);
+    const api = new API();
     setSendingRequest(true);
     api
       .login(user)
       .then((res) => {
-        console.log(res, 'res');
         if (res) {
           setSuccess(true);
           router.push('/home');
