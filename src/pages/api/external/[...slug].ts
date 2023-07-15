@@ -13,13 +13,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { method, body, headers } = req;
-  const api = new API(
-    {
-      req,
-      res,
-    } as unknown as GetServerSidePropsContext,
-    true
-  );
+  const api = new API({
+    req,
+    res,
+  } as unknown as GetServerSidePropsContext);
 
   const { slug, ...otherQueries } = req.query;
   const params = new URLSearchParams(otherQueries as Record<string, string>);
