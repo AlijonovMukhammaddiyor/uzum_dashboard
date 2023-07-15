@@ -42,7 +42,7 @@ class API {
         if (this.context) {
           if (!this.context.req.cookies['refresh']) {
             this.redirectToLogin();
-            return Promise.reject('No access token found');
+            return Promise.reject('No refresh token found');
           }
         }
         let access = '';
@@ -80,8 +80,18 @@ class API {
             const access = await this.refreshTokens();
             // Retry the original request
 
-            error.config.headers.Authorization = `Bearer ${access}`;
-            return this.instance(error.config);
+            const axiosInstance = axios.create({
+              baseURL: SERVER_URL,
+              timeout: 180_000,
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${access}`,
+              },
+              withCredentials: true,
+            });
+
+            // Retry the original request using the new Axios instance
+            return axiosInstance(error.config);
           } catch (refreshError) {
             // If refreshing fails, redirect to login
             logger(refreshError, 'Can not refresh token');
