@@ -15,7 +15,6 @@ import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
 import Logo from '@/assets/logo/logo.svg';
-import { SERVER_URL } from '@/constant/env';
 
 const Register = () => {
   const router = useRouter();
@@ -159,7 +158,7 @@ export default Register;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     try {
-      const api = new API(SERVER_URL, context);
+      const api = new API(context);
       // check if user is logged in
       const res = await api.getCurrentUser();
 

@@ -15,11 +15,7 @@ export default function Compare() {
   const [activeTab, setActiveTab] = React.useState('sellers');
 
   return (
-    <Layout
-      path={{
-        'Do`konlar': '/sellers',
-      }}
-    >
+    <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <div className='flex w-full items-center justify-start gap-6'>

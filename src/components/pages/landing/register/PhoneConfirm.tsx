@@ -1,12 +1,13 @@
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import React from 'react';
 
-import { API } from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
+
+import { SERVER_URL } from '@/constant/env';
 
 export interface PhoneConfirmComponentProps {
   onNext: () => void;
@@ -27,38 +28,30 @@ function PhoneConfirm({
   const [code, setCode] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     setErrorMessage(null);
     setSendingRequest(true);
-    API.callServerClientSide(
-      API.PHONE_CODE_VERIFY,
-      { phone_number: '+' + phone, code },
-      (res) => {
-        if (res.status === 200) {
-          onNext();
-        }
-        {
-          setErrorMessage(
-            'Xatolik yuz berdi. Agar bu yana takrorlansa, bizga xabar bering!'
-          );
-        }
+
+    try {
+      const res = await axios.post(SERVER_URL + '/verify/', {
+        phone_number: '+' + phone,
+      });
+
+      if (res.status === 200) {
         setSendingRequest(false);
-      },
-      (err: AxiosError) => {
-        setSendingRequest(false);
-        console.log('err: ', err);
-        setErrorMessage((err.response?.data as { message: string }).message);
-      },
-      () => {
-        // before request
-        setSendingRequest(true);
-      },
-      () => {
-        // after request
-        setSendingRequest(false);
-      },
-      'POST'
-    );
+        onNext();
+        return;
+      } else {
+        setErrorMessage(
+          'Xatolik yuz berdi. Agar bu yana takrorlansa, bizga xabar bering!'
+        );
+      }
+    } catch (err) {
+      setSendingRequest(false);
+      setErrorMessage(
+        ((err as AxiosError).response?.data as { message: string }).message
+      );
+    }
   };
 
   return (

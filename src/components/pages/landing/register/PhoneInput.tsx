@@ -1,11 +1,13 @@
+import axios, { AxiosError } from 'axios';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 
-import { API } from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import Button from '@/components/shared/buttons/Button';
+
+import { SERVER_URL } from '@/constant/env';
 
 export interface PhoneInputComponentProps {
   onNext: () => void;
@@ -46,36 +48,31 @@ const PhoneInputComponent = ({
     setUser((prev) => ({ ...prev, phone_number: phone }));
   };
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     if (user.phone_number.length < 10)
       return alert("Raqamingizni to'liq kiriting!");
     setSendingRequest(true);
-    API.callServerClientSide(
-      API.PHONE_CODE_SEND,
-      { phone_number: '+' + user.phone_number, is_register: true },
-      (res) => {
-        if (res.status === 200) {
-          setCodeSent(true);
-          onNext();
-        } else {
-          setError((res.data as { message: string }).message);
-        }
-        setSendingRequest(false);
-      },
-      (err) => {
-        console.log(err, 'err');
-        setCodeSent(false);
-        setSendingRequest(false);
-        setError((err.response?.data as { message: string }).message);
-      },
-      () => {
-        setSendingRequest(true);
-      },
-      () => {
-        setSendingRequest(false);
-      },
-      'POST'
-    );
+
+    try {
+      const res = await axios.post(SERVER_URL + '/code/', {
+        phone_number: '+' + user.phone_number,
+        is_register: true,
+      });
+
+      if (res.status === 200) {
+        setCodeSent(true);
+        onNext();
+      } else {
+        setError((res.data as { message: string }).message);
+      }
+      setSendingRequest(false);
+    } catch (err) {
+      setCodeSent(false);
+      setSendingRequest(false);
+      setError(
+        ((err as AxiosError).response?.data as { message: string }).message
+      );
+    }
   };
 
   return (

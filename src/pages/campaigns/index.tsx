@@ -6,15 +6,10 @@ import BadgeContainer from '@/components/pages/campaigns/BadgeContainer';
 import CampaignProductsDropdown from '@/components/pages/campaigns/CampaignProductsDropdown';
 import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
 import Seo from '@/components/Seo';
-import AreaChartComponent from '@/components/shared/MultiAreaChart';
 
 export default function Campaigns() {
   return (
-    <Layout
-      path={{
-        'Do`konlar': '/sellers',
-      }}
-    >
+    <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <div className='mb-6 flex w-full flex-wrap items-center justify-start gap-4'>
@@ -92,7 +87,7 @@ export default function Campaigns() {
       </div>
 
       <div className='relative h-[600px] w-full rounded-md bg-white p-3'>
-        <AreaChartComponent />
+        {/* <AreaChartComponent /> */}
       </div>
     </Layout>
   );

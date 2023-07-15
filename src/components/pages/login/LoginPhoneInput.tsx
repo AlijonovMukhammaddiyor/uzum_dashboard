@@ -47,7 +47,7 @@ const LoginPhoneInputComponent = ({
   const [sendingRequest, setSendingRequest] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const [match, setMatch] = useState<boolean | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
 
   const handlePhoneChange = (phone: string) => {
     setMatch(null);
@@ -66,7 +66,6 @@ const LoginPhoneInputComponent = ({
       .then((res) => {
         if (res.status === 200) {
           setMatch(true);
-          console.log('Sending code');
           axios
             .post(SERVER_URL + '/code/', {
               phone_number: '+' + user.phone_number,
@@ -78,8 +77,7 @@ const LoginPhoneInputComponent = ({
               }
               setSendingRequest(false);
             })
-            .catch((err) => {
-              console.log(err);
+            .catch((_) => {
               setCodeSent(false);
               setSendingRequest(false);
             });
@@ -88,9 +86,8 @@ const LoginPhoneInputComponent = ({
           setSendingRequest(false);
         }
       })
-      .catch((err) => {
+      .catch((_) => {
         setMatch(false);
-        console.log(err);
         setSendingRequest(false);
       });
   };

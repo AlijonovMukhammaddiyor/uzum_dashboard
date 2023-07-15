@@ -1,12 +1,14 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-import { API } from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
+
+import { SERVER_URL } from '@/constant/env';
 
 export interface NewPasswordProps {
   activeTab: number;
@@ -44,35 +46,30 @@ const NewPassword = ({
     setNewPassword(event.target.value);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!isPasswordValid)
       return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
     setSendingRequest(true);
-    API.callServerClientSide(
-      API.NEWPASSWORD,
-      { ...user, phone_number: '+' + user.phone_number, password: newPassword },
-      (res) => {
-        if (res.status === 201 || res.status === 200) {
-          setSuccess(true);
-          setTimeout(() => {
-            setSendingRequest(false);
-            setSuccess(null);
-            onNext();
-          }, 2000);
-        }
-      },
-      (err) => {
-        setSuccess(false);
-        setSendingRequest(false);
-      },
-      () => {
-        setSendingRequest(true);
-      },
-      () => {
-        // setSendingRequest(false);
-      },
-      'POST'
-    );
+    try {
+      console.log(user);
+      const res = await axios.post(SERVER_URL + '/newpassword/', {
+        ...user,
+        phone_number: '+' + user.phone_number,
+        password: newPassword,
+      });
+
+      if (res.status === 201 || res.status === 200) {
+        setSuccess(true);
+        setTimeout(() => {
+          setSendingRequest(false);
+          setSuccess(null);
+          onNext();
+        }, 2000);
+      } else setSendingRequest(false);
+    } catch (err) {
+      setSuccess(false);
+      setSendingRequest(false);
+    }
   };
 
   useEffect(() => {
