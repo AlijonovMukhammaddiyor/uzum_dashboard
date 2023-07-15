@@ -357,7 +357,7 @@ class API {
       url = `${this.proxy}${url}`;
       return axios.get<T, R>(url, config);
     }
-    console.log('Getting from server');
+    // console.log('Getting from server');
     return this.instance.get<T, R>(url, config);
   }
 

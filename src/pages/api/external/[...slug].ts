@@ -42,6 +42,7 @@ export default async function handler(
 
     res.status(response.status).json(response.data);
   } catch (error) {
+    console.log('error', error, 'Error in api/external/[...slug].ts');
     logger(error, 'Error in api/external/[...slug].ts');
     const { response } = error as AxiosError;
     res.status(response?.status || 500).json(response?.data);
