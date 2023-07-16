@@ -161,15 +161,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       }>
     >(`/shop/current/${seller_link}`);
 
-    if (!res) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/login',
-        },
-        props: {},
-      };
-    }
     return {
       props: {
         user: res,

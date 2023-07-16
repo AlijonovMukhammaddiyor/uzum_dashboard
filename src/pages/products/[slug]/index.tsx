@@ -101,15 +101,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     const product = await api.get('/product/' + product_id + '/');
 
-    if (!res) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/login',
-        },
-        props: {},
-      };
-    }
     return {
       props: {
         user: res,

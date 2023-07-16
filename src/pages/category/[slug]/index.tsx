@@ -79,15 +79,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    if (!res) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/login',
-        },
-        props: {},
-      };
-    }
     return {
       props: {
         user: res,
