@@ -96,16 +96,6 @@ class API {
 
   private async refreshTokens() {
     try {
-      if (this.isRefreshing) {
-        // If refresh tokens request is already in progress,
-        // wait for it to complete and return the new access token
-        return new Promise<string>((resolve) => {
-          this.refreshSubscribers.push(resolve);
-        });
-      }
-
-      this.isRefreshing = true;
-
       // check if there is refresh token in the cookies
       if (this.context) {
         if (!this.context.req.cookies['refresh']) {
@@ -122,12 +112,6 @@ class API {
       // is true.
 
       const newAccessToken = response.data.access;
-
-      // Notify all subscribers that the new access token is available
-      this.refreshSubscribers.forEach((resolve) => resolve(newAccessToken));
-      this.refreshSubscribers = [];
-
-      this.isRefreshing = false;
 
       return newAccessToken;
     } catch (error) {
