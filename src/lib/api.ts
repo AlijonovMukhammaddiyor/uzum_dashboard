@@ -14,8 +14,6 @@ import { SERVER_URL } from '@/constant/env';
 
 class API {
   public instance: AxiosInstance;
-  private isRefreshing = false;
-  private refreshSubscribers: ((accessToken: string) => void)[] = [];
   private context: GetServerSidePropsContext | null = null;
 
   constructor(context: GetServerSidePropsContext | null = null) {
@@ -108,7 +106,10 @@ class API {
       // included in the Set-Cookie header of the response, and axios will
       // automatically store it as a HttpOnly cookie because withCredentials
       // is true.
-
+      if (response.status !== 200) {
+        this.redirectToLogin();
+        throw new Error('Xatolik yuz berdi');
+      }
       const newAccessToken = response.data.access;
 
       return newAccessToken;
@@ -117,6 +118,7 @@ class API {
       // In this case, log the error and throw it so the response interceptor
       // can handle it.
       logger((error as AxiosError).cause, "Can't refresh token");
+      this.redirectToLogin();
       throw error;
     }
   }
