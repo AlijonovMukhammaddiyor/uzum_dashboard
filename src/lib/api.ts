@@ -38,7 +38,7 @@ class API {
     // Add a request interceptor
     this.instance.interceptors.request.use(
       (config) => {
-        // get he access token from the cookies and add it to the request header
+        // get the access token from the cookies and add it to the request header
         const access =
           this.context?.req.cookies['access'] ?? Cookies.get('access') ?? '';
 
@@ -181,6 +181,7 @@ class API {
   public async getCurrentUser() {
     try {
       const response = await this.get('/users/me/');
+      console.log('Current user', response.data);
       return response.data;
     } catch (error: any) {
       logger(error, 'Error getting current user');
