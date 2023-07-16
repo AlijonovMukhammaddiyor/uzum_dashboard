@@ -41,7 +41,6 @@ class API {
         // get he access token from the cookies and add it to the request header
         if (this.context) {
           if (!this.context.req.cookies['refresh']) {
-            this.redirectToLogin();
             return Promise.reject('No refresh token found');
           }
         }
@@ -95,7 +94,6 @@ class API {
           } catch (refreshError) {
             // If refreshing fails, redirect to login
             logger(refreshError, 'Can not refresh token');
-            this.redirectToLogin();
             return Promise.reject(refreshError);
           }
         }
@@ -120,15 +118,12 @@ class API {
       // check if there is refresh token in the cookies
       if (this.context) {
         if (!this.context.req.cookies['refresh']) {
-          this.redirectToLogin();
           return Promise.reject('No refresh token found');
         }
       }
       // server side -> make direct request to server
       // This request includes the refresh token as a HttpOnly cookie
-      const response = await this.instance.post(
-        '/token/civuiaubcyvsdcibhsvus/refresh/'
-      );
+      const response = await this.post('/token/civuiaubcyvsdcibhsvus/refresh/');
 
       // If the response is successful, the new access token is automatically
       // included in the Set-Cookie header of the response, and axios will
@@ -153,15 +148,11 @@ class API {
     }
   }
 
-  private addRefreshSubscriber(subscriber: (accessToken: string) => void) {
-    this.refreshSubscribers.push(subscriber);
-  }
-
   public async login(user: { username: string; password: string }) {
     try {
       if (!user.username || !user.password)
         throw new Error('Foydalanuvchi nomi yoki paroli kiritilmadi');
-      const res = await this.instance.post('/token/', { ...user });
+      const res = await this.post('/token/', { ...user });
       if (res.status === 200) {
         return true;
       }
@@ -174,7 +165,7 @@ class API {
 
   public async logout() {
     try {
-      await this.instance.post('/logout/');
+      await this.post('/logout/');
       this.redirectToLogin();
     } catch (err) {
       logger(err, 'Xatolik yuz berdi');
@@ -204,7 +195,7 @@ class API {
           'Foydalanuvchi nomi, telefon raqami yoki paroli kiritilmadi'
         );
 
-      const res = await this.instance.post('/users/', { user: data });
+      const res = await this.post('/users/', { user: data });
       if (res.status === 200) return true;
       return false;
     } catch (err) {
@@ -215,10 +206,11 @@ class API {
 
   public async getCurrentUser() {
     try {
-      const response = await this.instance.get('/users/me/');
+      const response = await this.get('/users/me/');
       return response.data;
     } catch (error: any) {
       logger(error, 'Error getting current user');
+      this.redirectToLogin();
       return null;
     }
   }
@@ -259,7 +251,19 @@ class API {
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    return this.instance.get<T, R>(url, config);
+    try {
+      return this.instance.get<T, R>(url, config);
+    } catch (err) {
+      const error = err as AxiosError;
+      if (
+        error.message === 'No refresh token found' ||
+        error.message === "Can't refresh token"
+      ) {
+        this.redirectToLogin();
+        return Promise.reject(err);
+      }
+      return Promise.reject(err);
+    }
   }
 
   post<T = any, R = AxiosResponse<T>>(
@@ -267,7 +271,19 @@ class API {
     data?: any,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    return this.instance.post<T, R>(url, data, config);
+    try {
+      return this.instance.post<T, R>(url, data, config);
+    } catch (err) {
+      const error = err as AxiosError;
+      if (
+        error.message === 'No refresh token found' ||
+        error.message === "Can't refresh token"
+      ) {
+        this.redirectToLogin();
+        return Promise.reject(err);
+      }
+      return Promise.reject(err);
+    }
   }
 
   put<T = any, R = AxiosResponse<T>>(
