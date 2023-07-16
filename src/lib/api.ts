@@ -29,8 +29,6 @@ class API {
       timeout: 180_000, // sets the request timeout to  3 minutes
       headers: {
         'Content-Type': 'application/json',
-        // set cookies in the request
-        Cookie: this.context?.req?.headers.cookie ?? '',
       },
       withCredentials: true,
     });
