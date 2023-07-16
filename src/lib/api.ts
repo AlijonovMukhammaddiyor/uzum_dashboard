@@ -247,6 +247,8 @@ class API {
     try {
       return this.instance.post<T, R>(url, data, config);
     } catch (err) {
+      console.log('There is an error', err);
+
       const error = err as AxiosError;
       if (
         error.message === 'No refresh token found' ||
