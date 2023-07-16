@@ -78,19 +78,10 @@ class API {
           try {
             const access = await this.refreshTokens();
             // Retry the original request
-
-            const axiosInstance = axios.create({
-              baseURL: SERVER_URL,
-              timeout: 180_000,
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${access}`,
-              },
-              withCredentials: true,
-            });
+            error.config.headers.Authorization = `Bearer ${access}`;
 
             // Retry the original request using the new Axios instance
-            return axiosInstance(error.config);
+            return this.instance.request(error.config);
           } catch (refreshError) {
             // If refreshing fails, redirect to login
             logger(refreshError, 'Can not refresh token');
