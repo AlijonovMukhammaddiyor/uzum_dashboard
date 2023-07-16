@@ -27,6 +27,10 @@ class API {
       timeout: 180_000, // sets the request timeout to  3 minutes
       headers: {
         'Content-Type': 'application/json',
+        // Authorization:
+        //   'Bearer ' + Cookies.get('access') ??
+        //   this.context?.req.cookies['access'] ??
+        //   '',
       },
       withCredentials: true,
     });
@@ -35,24 +39,19 @@ class API {
     this.instance.interceptors.request.use(
       (config) => {
         // get he access token from the cookies and add it to the request header
-        if (this.context) {
-          if (!this.context.req.cookies['refresh']) {
-            return Promise.reject('No refresh token found');
-          }
-        }
-        let access = '';
-        if (typeof window !== 'undefined') {
-          access = Cookies.get('access') ?? '';
-        } else {
-          access = this.context?.req.cookies['access'] ?? '';
-        }
+        const access =
+          this.context?.req.cookies['access'] ?? Cookies.get('access') ?? '';
+
+        console.log('Access token from cookies', access);
 
         if (access) {
           config.headers.Authorization = `Bearer ${access}`;
         }
+
         return config;
       },
       (error) => {
+        console.log("Can't get access token from cookies", error);
         return Promise.reject(error);
       }
     );
@@ -185,7 +184,6 @@ class API {
       return response.data;
     } catch (error: any) {
       logger(error, 'Error getting current user');
-      this.redirectToLogin();
       return null;
     }
   }
