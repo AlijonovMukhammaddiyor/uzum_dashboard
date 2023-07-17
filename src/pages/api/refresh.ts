@@ -5,11 +5,9 @@ import logger from '@/lib/logger';
 
 import { SERVER_URL } from '@/constant/env';
 
-import { UserType } from '@/types/user';
-
 const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const refreshToken = req.cookies['refresh_token'];
+    const refreshToken = req.cookies['refresh'];
 
     if (!refreshToken) {
       return res.status(401).json({ error: 'No refresh token found' });
@@ -37,18 +35,17 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const newAccessToken = tokens.access;
       const newRefreshToken = tokens.refresh;
-      const user = tokens.user as UserType;
 
       res.setHeader('Set-Cookie', [
-        `access_token=${newAccessToken}; HttpOnly; Path=/; SameSite=Lax; ${
+        `access=${newAccessToken}; Path=/; SameSite=None; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${1 * 60}; Domain=${
+        }; Max-Age=${14 * 60}; Domain=${
           // 15 minutes
           process.env.NODE_ENV === 'production'
             ? '.uzanalitika.uz'
             : 'localhost'
         }`,
-        `refresh_token=${newRefreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
+        `refresh=${newRefreshToken}; HttpOnly; Path=/; SameSite=None; ${
           isSecure ? 'Secure' : ''
         }; Max-Age=${7 * 24 * 60 * 60}; Domain=${
           // 30 days
@@ -58,13 +55,17 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
         }`,
       ]);
 
-      res.status(200).json({ access: newAccessToken, user });
+      res.status(200).json({ access: newAccessToken });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       logger(error, "Can't refresh token");
-      res
-        .status(error.response ? error.response.status : 500)
-        .json({ error: 'Error refreshing token' });
+      // res
+      //   .status(error.response ? error.response.status : 500)
+      //   .json({ error: 'Error refreshing token' });
+      res.writeHead(302, {
+        Location: '/',
+      });
+      res.end();
     }
   } else {
     // Handle any other HTTP method

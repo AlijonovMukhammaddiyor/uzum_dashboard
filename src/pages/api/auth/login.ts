@@ -23,7 +23,6 @@ export default async function handler(
   }
 
   try {
-    console.log('user', user);
     const response = await axios.post(SERVER_URL + '/token/', user, {
       headers: {
         'Content-Type': 'application/json',
@@ -32,12 +31,23 @@ export default async function handler(
     });
 
     if (response.status === 200) {
-      return res.status(200).json({});
+      // set tokens to cookies  and redirect to /home
+      const isSecure = process.env.NODE_ENV === 'production';
+      const tokens = response.data;
+      res.setHeader('Set-Cookie', [
+        `access=${tokens.access}; Path=/; SameSite=Lax; ${
+          isSecure ? 'Secure' : ''
+        }; Max-Age=${14 * 60};`,
+        `refresh=${tokens.refresh}; HttpOnly; Path=/; SameSite=Lax; ${
+          isSecure ? 'Secure' : ''
+        }; Max-Age=${7 * 24 * 60 * 60};`,
+      ]);
+
+      return res.status(200).json({ detail: 'Success' });
     } else {
       return res.status(400).json({ detail: 'Error in setting cookies.' });
     }
   } catch (error) {
-    // Log error
     logger(error, 'Error in /api/login');
     return res.status(500).json({ detail: 'Error in /api/login.', error });
   }

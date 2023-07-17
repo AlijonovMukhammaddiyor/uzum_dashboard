@@ -19,9 +19,10 @@ export default Login;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
+    console.log('Login getServerSideProps');
     const api = new API(context);
-    // check if user is logged in
     const res = await api.getCurrentUser();
+
     if (res) {
       return {
         redirect: {

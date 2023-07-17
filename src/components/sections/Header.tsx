@@ -22,11 +22,11 @@ export default function Header() {
   const router = useRouter();
   const { state } = useContextState();
 
-  const handleUserLogout = () => {
+  const handleUserLogout = async () => {
     try {
       const api = new API(null);
-      api.logout();
-      router.push('/login');
+      const res = await api.logout();
+      if (res) router.push('/login');
     } catch (e) {
       logger(e, 'Error in Header');
       alert(e);

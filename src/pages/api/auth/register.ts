@@ -33,30 +33,19 @@ export default async function handler(
     if (response.status === 200) {
       const refreshToken = response.data.refresh;
       const accessToken = response.data.access;
-      const user = response.data.user;
 
       const isSecure = process.env.NODE_ENV === 'production';
 
       res.setHeader('Set-Cookie', [
-        `access_token=${accessToken}; HttpOnly; Path=/; SameSite=Lax; ${
+        `access=${accessToken}; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${15 * 60}; Domain=${
-          // 1 minute
-          process.env.NODE_ENV === 'production'
-            ? '.uzanalitika.uz'
-            : 'localhost'
-        }`,
-        `refresh_token=${refreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
+        }; Max-Age=${14 * 60};`,
+        `refresh=${refreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${14 * 24 * 60 * 60}; Domain=${
-          // 7 days
-          process.env.NODE_ENV === 'production'
-            ? '.uzanalitika.uz'
-            : 'localhost'
-        }`,
+        }; Max-Age=${7 * 24 * 60 * 60};`,
       ]);
 
-      return res.status(200).json({ access: accessToken, user });
+      return res.status(200).json({ detail: 'Success' });
     } else {
       return res.status(400).json({ detail: 'Error in setting cookies.' });
     }

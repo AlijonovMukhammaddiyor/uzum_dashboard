@@ -19,19 +19,13 @@ export default async function handler(
     const isSecure = process.env.NODE_ENV === 'production';
 
     res.setHeader('Set-Cookie', [
-      `access_token=; HttpOnly; Path=/; SameSite=Lax; ${
-        isSecure ? 'Secure' : ''
-      }; Max-Age=0`,
-      `refresh_token=; HttpOnly; Path=/; SameSite=Lax; ${
+      `access=; Path=/; SameSite=Lax; ${isSecure ? 'Secure' : ''}; Max-Age=0`,
+      `refresh=; HttpOnly; Path=/; SameSite=Lax; ${
         isSecure ? 'Secure' : ''
       }; Max-Age=0`,
     ]);
 
-    // Redirect to home page
-    res.writeHead(302, {
-      Location: '/',
-    });
-    res.end();
+    return res.status(200).json({ detail: 'Success' });
   } catch (error) {
     // Log error
     logger(error, 'Error in /api/logout');

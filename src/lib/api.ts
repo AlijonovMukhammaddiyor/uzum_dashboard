@@ -27,31 +27,32 @@ class API {
       timeout: 180_000, // sets the request timeout to  3 minutes
       headers: {
         'Content-Type': 'application/json',
-        // Authorization:
-        //   'Bearer ' + Cookies.get('access') ??
-        //   this.context?.req.cookies['access'] ??
-        //   '',
       },
       withCredentials: true,
     });
 
     // Add a request interceptor
     this.instance.interceptors.request.use(
-      (config) => {
+      async (config) => {
         // get the access token from the cookies and add it to the request header
         const access =
-          this.context?.req.cookies['access'] ?? Cookies.get('access') ?? '';
-
-        console.log('Access token from cookies', access);
-
+          this.context?.req.cookies['access'] ?? Cookies.get('access') ?? null;
         if (access) {
           config.headers.Authorization = `Bearer ${access}`;
+        } else {
+          try {
+            const newAccess = await this.refreshTokens();
+            config.headers.Authorization = `Bearer ${newAccess}`;
+          } catch (err) {
+            logger(err, 'Error in request interceptor');
+            return Promise.reject(err);
+          }
         }
 
         return config;
       },
       (error) => {
-        console.log("Can't get access token from cookies", error);
+        logger(error, 'Error in request interceptor');
         return Promise.reject(error);
       }
     );
@@ -62,28 +63,23 @@ class API {
         return response;
       },
       async (error) => {
+        const originalRequest = error.config;
+
         if (
           error.response &&
           error.response.status === 401 &&
-          !(
-            error.config.url?.endsWith('/refresh/') ||
-            error.config.url?.endsWith('/refresh')
-          )
+          !originalRequest._retry
         ) {
+          originalRequest._retry = true;
           try {
             const access = await this.refreshTokens();
-            // Retry the original request
             error.config.headers.Authorization = `Bearer ${access}`;
-
-            // Retry the original request using the new Axios instance
-            return this.instance.request(error.config);
+            return this.instance(originalRequest);
           } catch (refreshError) {
-            // If refreshing fails, redirect to login
             logger(refreshError, 'Can not refresh token');
             return Promise.reject(refreshError);
           }
         }
-        // If the error is not 401 or it was a refresh request, reject the promise
         return Promise.reject(error);
       }
     );
@@ -91,34 +87,14 @@ class API {
 
   private async refreshTokens() {
     try {
-      // check if there is refresh token in the cookies
-      if (this.context) {
-        if (!this.context.req.cookies['refresh']) {
-          return Promise.reject('No refresh token found');
-        }
-      }
-      // server side -> make direct request to server
-      // This request includes the refresh token as a HttpOnly cookie
-      const response = await this.post('/token/civuiaubcyvsdcibhsvus/refresh/');
+      const response = await axios.post('/api/refresh');
 
-      // If the response is successful, the new access token is automatically
-      // included in the Set-Cookie header of the response, and axios will
-      // automatically store it as a HttpOnly cookie because withCredentials
-      // is true.
-      if (response.status !== 200) {
-        this.redirectToLogin();
-        throw new Error('Xatolik yuz berdi');
-      }
       const newAccessToken = response.data.access;
 
       return newAccessToken;
     } catch (error) {
-      // If the request fails, it means the refresh token is expired or invalid.
-      // In this case, log the error and throw it so the response interceptor
-      // can handle it.
-      logger((error as AxiosError).cause, "Can't refresh token");
-      this.redirectToLogin();
-      throw error;
+      logger((error as AxiosError).cause, "Can't refresh token in api");
+      throw new Error("Can't refresh token");
     }
   }
 
@@ -126,7 +102,7 @@ class API {
     try {
       if (!user.username || !user.password)
         throw new Error('Foydalanuvchi nomi yoki paroli kiritilmadi');
-      const res = await this.post('/token/', { ...user });
+      const res = await axios.post('/api/auth/login', { user });
       if (res.status === 200) {
         return true;
       }
@@ -139,8 +115,8 @@ class API {
 
   public async logout() {
     try {
-      await this.post('/logout/');
-      this.redirectToLogin();
+      await axios.post('/api/auth/logout');
+      return true;
     } catch (err) {
       logger(err, 'Xatolik yuz berdi');
     }
@@ -169,7 +145,7 @@ class API {
           'Foydalanuvchi nomi, telefon raqami yoki paroli kiritilmadi'
         );
 
-      const res = await this.post('/users/', { user: data });
+      const res = await axios.post('/api/auth/register', { user: data });
       if (res.status === 200) return true;
       return false;
     } catch (err) {
@@ -181,43 +157,15 @@ class API {
   public async getCurrentUser() {
     try {
       const response = await this.get('/users/me/');
-      console.log('Current user', response.data);
+
+      if (!response || response.status !== 200) {
+        return null;
+      }
+
       return response.data;
     } catch (error: any) {
       logger(error, 'Error getting current user');
       return null;
-    }
-  }
-
-  private redirectToLogin() {
-    if (typeof window !== 'undefined') {
-      if (
-        window.location.pathname !== '/login' &&
-        window.location.pathname !== '/register'
-      ) {
-        window.location.replace('/login');
-      }
-    } else {
-      if (
-        this.context?.req.url !== '/login' &&
-        this.context?.req.url !== '/register'
-      )
-        if (this.context?.res) {
-          // clear the cookies
-          this.context.res.setHeader('Set-Cookie', [
-            `access_token=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0; Domain=${
-              process.env.NODE_ENV === 'production'
-                ? '.uzanalitika.uz'
-                : 'localhost'
-            }`,
-            `refresh_token=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0; Domain=${
-              process.env.NODE_ENV === 'production'
-                ? '.uzanalitika.uz'
-                : 'localhost'
-            }`,
-          ]);
-          this.context.res.writeHead(302, { Location: '/login' }).end();
-        }
     }
   }
 
@@ -233,7 +181,6 @@ class API {
         error.message === 'No refresh token found' ||
         error.message === "Can't refresh token"
       ) {
-        this.redirectToLogin();
         return Promise.reject(err);
       }
       return Promise.reject(err);
@@ -248,14 +195,11 @@ class API {
     try {
       return this.instance.post<T, R>(url, data, config);
     } catch (err) {
-      console.log('There is an error', err);
-
       const error = err as AxiosError;
       if (
         error.message === 'No refresh token found' ||
         error.message === "Can't refresh token"
       ) {
-        this.redirectToLogin();
         return Promise.reject(err);
       }
       return Promise.reject(err);
