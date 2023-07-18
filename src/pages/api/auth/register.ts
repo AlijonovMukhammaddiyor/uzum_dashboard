@@ -24,27 +24,24 @@ export default async function handler(
   }
 
   try {
-    const response = await axios.post(SERVER_URL + '/users/', body, {
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await axios.post(
+      SERVER_URL + '/users/',
+      {
+        ...user,
       },
-      withCredentials: true,
-    });
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
 
     if (response.status === 200) {
       const refreshToken = response.data.refresh;
       const accessToken = response.data.access;
 
       const isSecure = process.env.NODE_ENV === 'production';
-
-      // res.setHeader('Set-Cookie', [
-      //   `access=${accessToken}; Path=/; SameSite=Lax; ${
-      //     isSecure ? 'Secure' : ''
-      //   }; Max-Age=${14 * 60};`,
-      //   `refresh=${refreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
-      //     isSecure ? 'Secure' : ''
-      //   }; Max-Age=${7 * 24 * 60 * 60};`,
-      // ]);
 
       setCookie({ res }, 'access', accessToken, {
         path: '/',
@@ -67,7 +64,7 @@ export default async function handler(
     }
   } catch (error) {
     // Log error
-    logger(error, 'Error in /api/register');
+    logger(error, 'Error in /api/auth/register');
     return res.status(500).json({ detail: 'Error in /api/register.' });
   }
 }
