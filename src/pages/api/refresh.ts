@@ -32,6 +32,7 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
       const isSecure = process.env.NODE_ENV === 'production';
       const tokens = response.data;
 
+      console.log('tokens from server', tokens, response.status);
       if (!tokens) {
         return res.status(401).json({ error: 'No refresh token found' });
       }
