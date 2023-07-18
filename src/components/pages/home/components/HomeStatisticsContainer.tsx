@@ -239,7 +239,8 @@ function prepareDailyData(
     accounts: any[];
   }
 ) {
-  if (orders.length === 0) return [];
+  if (orders.length === 0 || products.length === 0) return [];
+
   const dataset = [];
 
   const orders_data = [];
@@ -248,7 +249,7 @@ function prepareDailyData(
   const accounts_data = [];
 
   let prev = orders[0].total_orders;
-  let prev_shops = products[0].total_shops;
+  let prev_shops = products[0].total_products;
   let prev_products = shops.shops[0].total_products;
   let prev_accounts = shops.accounts[0].total_accounts;
 
