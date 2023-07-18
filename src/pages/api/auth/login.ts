@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { setCookie } from 'nookies';
 
 import logger from '@/lib/logger';
 
@@ -34,14 +35,21 @@ export default async function handler(
       // set tokens to cookies  and redirect to /home
       const isSecure = process.env.NODE_ENV === 'production';
       const tokens = response.data;
-      res.setHeader('Set-Cookie', [
-        `access=${tokens.access}; Path=/; SameSite=Lax; ${
-          isSecure ? 'Secure' : ''
-        }; Max-Age=${14 * 60};`,
-        `refresh=${tokens.refresh}; HttpOnly; Path=/; SameSite=Lax; ${
-          isSecure ? 'Secure' : ''
-        }; Max-Age=${7 * 24 * 60 * 60};`,
-      ]);
+
+      setCookie({ res }, 'access', tokens.access, {
+        path: '/',
+        sameSite: 'lax',
+        secure: isSecure,
+        maxAge: 14 * 60,
+      });
+
+      setCookie({ res }, 'refresh', tokens.refresh, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: isSecure,
+        maxAge: 7 * 24 * 60 * 60,
+      });
 
       return res.status(200).json({ detail: 'Success' });
     } else {

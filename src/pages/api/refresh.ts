@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { parseCookies } from 'nookies';
 
 import logger from '@/lib/logger';
 
@@ -8,8 +9,11 @@ import { SERVER_URL } from '@/constant/env';
 const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log('REFRESH');
 
+  const cookies = parseCookies({ req });
+
+  console.log(cookies);
+
   if (req.method === 'POST') {
-    console.log(req.cookies['refresh']);
     const refreshToken = req.cookies['refresh'];
 
     if (!refreshToken) {
