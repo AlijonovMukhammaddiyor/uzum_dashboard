@@ -91,6 +91,7 @@ class API {
       const url = isProd ? '/api/refresh' : 'http://localhost:3000/api/refresh';
 
       const refreshToken = this.context?.req.cookies['refresh'] ?? null;
+      console.log('refreshToken to api/refresh', refreshToken);
       const response = await axios.post(url, { refreshToken });
 
       const newAccessToken = response.data.access;

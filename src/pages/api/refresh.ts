@@ -6,14 +6,11 @@ import { SERVER_URL } from '@/constant/env';
 
 const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    // if (!refreshToken) {
-    //   return res.status(401).json({ error: 'No refresh token found' });
-    // }
-
     let refresh = req.body.refreshToken ?? null;
 
     if (!refresh) {
       const cookies = nookies.get({ req });
+      console.log('headers', req.headers);
       refresh = cookies.refresh ?? null;
     }
 
