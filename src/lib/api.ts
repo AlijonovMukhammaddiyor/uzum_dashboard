@@ -95,7 +95,7 @@ class API {
       const response = await axios.post(url, { refreshToken });
 
       const newAccessToken = response.data.access;
-
+      console.log('tokens from api/refresh', response.data);
       if (this.context) {
         // set refresh token as it is not set in api route on server-side
         this.context.res.setHeader('Set-Cookie', [

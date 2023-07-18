@@ -14,9 +14,9 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
       refresh = cookies.refresh ?? null;
     }
 
-    if (!refresh) {
-      return res.status(401).json({ error: 'No refresh token found' });
-    }
+    // if (!refresh) {
+    //   return res.status(401).json({ error: 'No refresh token found' });
+    // }
 
     try {
       const response = await axios.post(
