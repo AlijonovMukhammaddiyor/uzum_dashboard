@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
@@ -58,7 +58,7 @@ const NamesAndEmailComponent = ({
     onRegister();
   };
 
-  const onRegister = () => {
+  const onRegister = async () => {
     if (!isPasswordValid)
       return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
 
@@ -66,39 +66,26 @@ const NamesAndEmailComponent = ({
     if (!user.username) return alert('Foydalanuvchi nomini kiriting!');
 
     setSendingRequest(true);
-
-    axios
-      .post(
-        '/api/register/',
-        {
-          phone_number: '+' + user.phone_number,
-          username: user.username,
-          password: user.password,
-          fingerprint: user.fingerprint,
-          email: user.email,
-          referred_by_code: user.referred_by,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      .then((res) => {
-        if (res.status === 201 || res.status === 200) {
-          const { data } = res;
-          dispatch({ type: 'USER', payload: { user: data } });
-          router.push('/success');
-        }
-        setSendingRequest(false);
-      })
-      .catch((err) => {
-        const { data } = err.response as { data: { [key: string]: string[] } };
-        if (data) {
-          setErrors(Object.keys(data));
-        }
-        setSendingRequest(false);
+    const api = new API(null);
+    try {
+      const res = await api.register({
+        phone_number: '+' + user.phone_number,
+        username: user.username,
+        password: user.password,
+        fingerprint: user.fingerprint,
+        email: user.email,
+        referred_by: user.referred_by,
       });
+
+      if (res) {
+        router.push('/home');
+        setSendingRequest(false);
+      } else {
+        setSendingRequest(false);
+      }
+    } catch (e) {
+      setSendingRequest(false);
+    }
   };
 
   useEffect(() => {
