@@ -249,8 +249,8 @@ function prepareDailyData(
   const accounts_data = [];
 
   let prev = orders[0].total_orders;
-  let prev_shops = products[0].total_products;
-  let prev_products = shops.shops[0].total_products;
+  let prev_shops = shops.shops[0].total_shops;
+  let prev_products = products[0].total_products;
   let prev_accounts = shops.accounts[0].total_accounts;
 
   for (let i = 1; i < orders.length; i++) {
