@@ -204,12 +204,12 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
             style={{ zIndex: index, left: `${index * 30}px` }}
             onClick={openModal}
           >
-            <Image
+            <img
               className='h-[40px] w-[40px] object-contain'
               src={src}
               alt=''
-              width={40}
-              height={40}
+              // width={40}
+              // height={40}
             />
           </div>
         );
@@ -220,12 +220,13 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
           showThumbs={true}
           renderThumbs={() =>
             Array.from(srcs_no_duplicates).map((thumbnail) => (
-              <Image
+              <img
                 src={thumbnail}
                 alt={thumbnail}
                 key={thumbnail}
-                width={100}
-                height={120}
+                // width={100}
+                // height={120}
+                className='h-[100px] w-[100px] object-contain'
               />
             ))
           }

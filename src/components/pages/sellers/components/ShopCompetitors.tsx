@@ -269,7 +269,11 @@ function prepareProductsCountDataset(data: CompetitorsType[]) {
       });
     }
   }
-
+  dataset.sort((a, b) => {
+    const a_date = new Date(a.x);
+    const b_date = new Date(b.x);
+    return a_date.getTime() - b_date.getTime();
+  });
   return dataset;
 }
 
@@ -279,23 +283,9 @@ function prepareOrdersDataset(data: CompetitorsType[]) {
 
   for (const competitor of data) {
     const analytics = sortAnalytics(competitor.analytics);
-    let prev_orders = analytics[0].total_orders;
-    // datasets.push({
-    //   label: competitor.title,
-    //   data: analytics.slice(1).map((item) => {
-    //     const res = item.total_orders - prev_orders;
-    //     prev_orders = item.total_orders;
-    //     return {
-    //       x: item.date_pretty,
-    //       y: res,
-    //     };
-    //   }),
-    //   hidden: i % 2 === 0 ? false : true,
 
-    //   fill: false,
-    //   backgroundColor: colors[i].background,
-    //   borderColor: colors[i].border,
-    // });
+    let prev_orders = analytics[0].total_orders;
+
     for (let j = 1; j < analytics.length; j++) {
       dataset.push({
         x: analytics[j].date_pretty,
@@ -306,6 +296,13 @@ function prepareOrdersDataset(data: CompetitorsType[]) {
       prev_orders = analytics[j].total_orders;
     }
   }
+  dataset.sort((a, b) => {
+    const a_date = new Date(a.x);
+    const b_date = new Date(b.x);
+    return a_date.getTime() - b_date.getTime();
+  });
+
+  console.log(dataset);
   return dataset;
 }
 
@@ -385,7 +382,11 @@ function preparePositionsDataset(data: CompetitorsType[]) {
       });
     }
   }
-
+  datasets.sort((a, b) => {
+    const a_date = new Date(a.x);
+    const b_date = new Date(b.x);
+    return a_date.getTime() - b_date.getTime();
+  });
   return datasets;
 }
 
@@ -425,5 +426,10 @@ function preparePriceDataset(data: CompetitorsType[]) {
     });
     i++;
   }
+  datasets.sort((a, b) => {
+    const a_date = new Date(a.data[0].x);
+    const b_date = new Date(b.data[0].x);
+    return a_date.getTime() - b_date.getTime();
+  });
   return datasets;
 }
