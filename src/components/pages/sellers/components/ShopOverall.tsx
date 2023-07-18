@@ -38,7 +38,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
     setLoading(true);
     api
       .get<unknown, AxiosResponse<SellerType[]>>(
-        `/shop/analytics/` + sellerId + '?range=45'
+        `/shop/analytics/` + sellerId + '?range=60'
       )
       .then((res) => {
         setData(res.data);

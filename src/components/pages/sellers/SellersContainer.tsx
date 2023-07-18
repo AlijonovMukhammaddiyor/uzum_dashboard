@@ -3,6 +3,7 @@ import React from 'react';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
 import { ShopsTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
@@ -27,8 +28,36 @@ interface SellerType {
   total_reviews: number;
 }
 
+interface TopsType {
+  seller_id: string;
+  shop_title: string;
+  diff_orders: number;
+  todiff_reviewstal_products: number;
+}
+
 function SellersTable({ className }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [loadingTops, setLoadingTops] = React.useState<boolean>(false);
+  const [tops, setTops] = React.useState<TopsType[]>([]);
+
+  React.useEffect(() => {
+    const api = new API(null);
+    setLoadingTops(true);
+    api
+      .get<unknown, AxiosResponse<{ top_20_shops: TopsType[] }>>(
+        '/shop/yesterday-tops/'
+      )
+      .then((res) => {
+        setLoadingTops(false);
+        logger(res, 'Top 20 shops');
+        setTops(res.data.top_20_shops);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in top 20 shops');
+        setLoadingTops(false);
+      });
+  }, []);
 
   const loadData = (
     page: number,

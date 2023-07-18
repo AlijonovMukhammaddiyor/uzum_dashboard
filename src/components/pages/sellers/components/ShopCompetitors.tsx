@@ -106,7 +106,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
       >
         {/* {competitors.length > 0 && ( */}
         <p className='text-primary w-full text-center'>
-          Top 10 raqobatchilar buyurtmalari
+          Top 10 raqobatchilar kunlik buyurtmalari
         </p>
         <p className='-mt-5 text-center text-xs text-gray-400'>
           * Ma'lum bir sotuvchiga tegishli chiziqni ko'rsatish yoki yashirish
@@ -134,28 +134,6 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
           * Ma'lum bir sotuvchiga tegishli chiziqni ko'rsatish yoki yashirish
           uchun, quyidagi tegishli nomning ustiga bosing.
         </p>
-        {/* <AreaChart
-          labels={prepareLabels(competitors)}
-          data={preparePositionsDataset(competitors)}
-          options={{
-            scales: {
-              y: {
-                reverse: true,
-                beginAtZero: true,
-                min: 0,
-                ticks: {
-                  stepSize: 1,
-                  precision: 0,
-                  suggestedMin: 0,
-                },
-              },
-            },
-          }}
-          style={{
-            height: '470px',
-            maxHeight: '470px',
-          }}
-        /> */}
         <LineChart
           data={preparePositionsDataset(competitors)}
           style={{
@@ -288,7 +266,7 @@ function prepareOrdersDataset(data: CompetitorsType[]) {
 
     for (let j = 1; j < analytics.length; j++) {
       dataset.push({
-        x: analytics[j].date_pretty,
+        x: analytics[j - 1].date_pretty,
         y: analytics[j].total_orders - prev_orders,
         label: competitor.title,
       });
@@ -302,7 +280,6 @@ function prepareOrdersDataset(data: CompetitorsType[]) {
     return a_date.getTime() - b_date.getTime();
   });
 
-  console.log(dataset);
   return dataset;
 }
 
@@ -343,20 +320,6 @@ function prepareLabels(data: CompetitorsType[]): string[] {
 function preparePositionsDataset(data: CompetitorsType[]) {
   if (data.length === 0) return [];
   const datasets = [];
-  const colors = [
-    { background: 'rgba(102, 187, 106, 0.2)', border: 'rgb(102, 187, 106)' }, // light green
-    { background: 'rgba(255, 241, 118, 0.2)', border: 'rgb(43, 39, 48)' }, // light yellow
-    { background: 'rgba(129, 212, 250, 0.2)', border: 'rgb(129, 212, 250)' }, // light blue
-    { background: 'rgba(159, 168, 218, 0.2)', border: 'rgb(159, 168, 218)' }, // light indigo
-    { background: 'rgba(206, 147, 216, 0.2)', border: 'rgb(206, 147, 216)' }, // light purple
-    { background: 'rgba(239, 154, 154, 0.2)', border: 'rgb(239, 154, 154)' }, // light red
-    { background: 'rgba(179, 157, 219, 0.2)', border: 'rgb(179, 157, 219)' }, // light deep purple
-    { background: 'rgba(240, 98, 146, 0.2)', border: 'rgb(240, 98, 146)' }, // light pink
-    { background: 'rgba(121, 134, 203, 0.2)', border: 'rgb(121, 134, 203)' }, // light blue grey
-    { background: 'rgba(128, 203, 196, 0.2)', border: 'rgb(128, 203, 196)' }, // light cyan
-    { background: 'rgba(165, 114, 167, 0.2)', border: 'rgb(165, 114, 167)' }, // light teal
-  ];
-  // let i = 0;
 
   for (const competitor of data) {
     const analytics = sortAnalytics(competitor.analytics);

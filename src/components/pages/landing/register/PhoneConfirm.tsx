@@ -35,6 +35,7 @@ function PhoneConfirm({
     try {
       const res = await axios.post(SERVER_URL + '/verify/', {
         phone_number: '+' + phone,
+        code,
       });
 
       if (res.status === 200) {
