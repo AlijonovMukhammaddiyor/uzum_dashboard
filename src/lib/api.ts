@@ -87,13 +87,25 @@ class API {
 
   private async refreshTokens() {
     try {
-      console.log('REQUEST REFRESH');
       const isProd = process.env.NODE_ENV === 'production';
       const url = isProd ? '/api/refresh' : 'http://localhost:3000/api/refresh';
 
-      const response = await axios.post(url);
+      const refreshToken = this.context?.req.cookies['refresh'] ?? null;
+      const response = await axios.post(url, { refreshToken });
 
       const newAccessToken = response.data.access;
+
+      if (this.context) {
+        // set refresh token as it is not set in api route on server-side
+        this.context.res.setHeader('Set-Cookie', [
+          `access=${newAccessToken}; Path=/; SameSite=Lax; ${
+            isProd ? 'Secure' : ''
+          }; Max-Age=${1 * 60};`,
+          `refresh=${response.data.refresh}; HttpOnly; Path=/; SameSite=Lax; ${
+            isProd ? 'Secure' : ''
+          }; Max-Age=${7 * 24 * 60 * 60};`,
+        ]);
+      }
 
       return newAccessToken;
     } catch (error) {

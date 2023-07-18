@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { setCookie } from 'nookies';
 
 import logger from '@/lib/logger';
 
@@ -36,14 +37,29 @@ export default async function handler(
 
       const isSecure = process.env.NODE_ENV === 'production';
 
-      res.setHeader('Set-Cookie', [
-        `access=${accessToken}; Path=/; SameSite=Lax; ${
-          isSecure ? 'Secure' : ''
-        }; Max-Age=${14 * 60};`,
-        `refresh=${refreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
-          isSecure ? 'Secure' : ''
-        }; Max-Age=${7 * 24 * 60 * 60};`,
-      ]);
+      // res.setHeader('Set-Cookie', [
+      //   `access=${accessToken}; Path=/; SameSite=Lax; ${
+      //     isSecure ? 'Secure' : ''
+      //   }; Max-Age=${14 * 60};`,
+      //   `refresh=${refreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
+      //     isSecure ? 'Secure' : ''
+      //   }; Max-Age=${7 * 24 * 60 * 60};`,
+      // ]);
+
+      setCookie({ res }, 'access', accessToken, {
+        path: '/',
+        sameSite: 'lax',
+        secure: isSecure,
+        maxAge: 14 * 60,
+      });
+
+      setCookie({ res }, 'refresh', refreshToken, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: isSecure,
+        maxAge: 7 * 24 * 60 * 60,
+      });
 
       return res.status(200).json({ detail: 'Success' });
     } else {

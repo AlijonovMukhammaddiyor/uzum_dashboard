@@ -1,31 +1,30 @@
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { parseCookies } from 'nookies';
-
-import logger from '@/lib/logger';
+import nookies from 'nookies';
 
 import { SERVER_URL } from '@/constant/env';
 
 const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('REFRESH');
-
-  const cookies = parseCookies({ req });
-
-  console.log(cookies);
-
   if (req.method === 'POST') {
-    const refreshToken = req.cookies['refresh'];
+    // if (!refreshToken) {
+    //   return res.status(401).json({ error: 'No refresh token found' });
+    // }
 
-    if (!refreshToken) {
+    let refresh = req.body.refreshToken ?? null;
+
+    if (!refresh) {
+      const cookies = nookies.get({ req });
+      refresh = cookies.refresh ?? null;
+    }
+
+    if (!refresh) {
       return res.status(401).json({ error: 'No refresh token found' });
     }
 
     try {
       const response = await axios.post(
         `${SERVER_URL}/token/civuiaubcyvsdcibhsvus/refresh/`,
-        {
-          refresh: refreshToken,
-        },
+        { refresh },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -37,29 +36,21 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
       const tokens = response.data;
 
       if (!tokens) {
-        return res.status(401).json({ error: 'Invalid refresh token' });
+        return res.status(401).json({ error: 'No refresh token found' });
       }
 
-      const newAccessToken = tokens.access;
-      const newRefreshToken = tokens.refresh;
-
       res.setHeader('Set-Cookie', [
-        `access=${newAccessToken}; Path=/; SameSite=Lax; ${
+        `access=${tokens.access}; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${14 * 60};
-        ${isSecure ? 'Secure' : ''}
-        `,
-        `refresh=${newRefreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
+        }; Max-Age=${14 * 60};`,
+        `refresh=${tokens.refresh}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${7 * 24 * 60 * 60};
-        ${isSecure ? 'Secure' : ''}
-        `,
+        }; Max-Age=${7 * 24 * 60 * 60};`,
       ]);
 
-      res.status(200).json({ access: newAccessToken });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      res.status(200).json({ access: tokens.access, refresh: tokens.refresh });
     } catch (error: any) {
-      logger(error, "Can't refresh token in /api/refresh");
+      // logger(error, "Can't refresh token in /api/refresh");
       res
         .status(error.response ? error.response.status : 500)
         .json({ error: 'Error refreshing token in api/refresh 2' });
