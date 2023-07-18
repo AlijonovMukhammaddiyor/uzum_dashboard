@@ -2382,6 +2382,7 @@ export const SubcategoriesTableColumnDefs = [
   {
     headerName: 'Kategoriya',
     field: 'category_title',
+    cellRenderer: SubcategoryCellRenderer,
     sortable: false,
     minWidth: 200,
     maxWidth: 500,

@@ -29,6 +29,8 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
       category: 'Buyurtmalar soni',
       value: item.total_orders,
       index: index,
+      // specify color of the column
+      color: 'rgba(255, 82, 162, 0.3)',
     },
   ]);
 
@@ -63,61 +65,7 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         },
       ],
     },
-    // yAxis: {
-    //   grid: {
-    //     line: {
-    //       style: {
-    //         stroke: '#ddd',
-    //         lineDash: [4, 2],
-    //       },
-    //     },
-    //     alternateColor: 'rgba(0,0,0,0.05)',
-    //   },
 
-    //   nice: true,
-    //   label: {
-    //     autoRotate: false,
-    //     style: {
-    //       fill: '#aaa',
-    //       fontSize: 12,
-    //     },
-    //     formatter: (v: any) =>
-    //       `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
-    //   },
-    //   title: {
-    //     style: {
-    //       fontSize: 13,
-    //       fontWeight: 600,
-    //     },
-    //   },
-    //   line: {
-    //     style: {
-    //       stroke: '#aaa',
-    //     },
-    //   },
-    //   tickLine: {
-    //     style: {
-    //       lineWidth: 2,
-    //       stroke: '#aaa',
-    //     },
-    //     length: 5,
-    //   },
-    // },
-    // theme: {
-    //   geometries: {
-    //     point: {
-    //       circle: {
-    //         active: {
-    //           style: {
-    //             shadowColor: '#FCEBB9',
-    //             shadowBlur: 2,
-    //             stroke: '#F6BD16',
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
     // interactions: [{ type: 'marker-active' }],
     slider: {
       start: 0,
@@ -128,6 +76,18 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
           return `${range[0]}k so'm`; // or range[1] depending on which value you want to display
         },
       },
+    },
+    colorField: 'category', // specify which field should be used for the color mapping
+    color: ({ category }: { category: string }) => {
+      // use a function to map categories to colors
+      switch (category) {
+        case 'Mahsulotlar soni':
+          return 'rgb(82, 95, 225)'; // specify color for Mahsulotlar soni
+        case 'Buyurtmalar soni':
+          return 'rgba(248, 111, 3, 0.6)'; // specify color for Buyurtmalar soni
+        default:
+          return '#ccc'; // default color for other categories
+      }
     },
   };
 
