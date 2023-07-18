@@ -6,7 +6,10 @@ import logger from '@/lib/logger';
 import { SERVER_URL } from '@/constant/env';
 
 const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log('REFRESH');
+
   if (req.method === 'POST') {
+    console.log(req.cookies['refresh']);
     const refreshToken = req.cookies['refresh'];
 
     if (!refreshToken) {
@@ -37,35 +40,25 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
       const newRefreshToken = tokens.refresh;
 
       res.setHeader('Set-Cookie', [
-        `access=${newAccessToken}; Path=/; SameSite=None; ${
+        `access=${newAccessToken}; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${14 * 60}; Domain=${
-          // 15 minutes
-          process.env.NODE_ENV === 'production'
-            ? '.uzanalitika.uz'
-            : 'localhost'
-        }`,
-        `refresh=${newRefreshToken}; HttpOnly; Path=/; SameSite=None; ${
+        }; Max-Age=${14 * 60};
+        ${isSecure ? 'Secure' : ''}
+        `,
+        `refresh=${newRefreshToken}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${7 * 24 * 60 * 60}; Domain=${
-          // 30 days
-          process.env.NODE_ENV === 'production'
-            ? '.uzanalitika.uz'
-            : 'localhost'
-        }`,
+        }; Max-Age=${7 * 24 * 60 * 60};
+        ${isSecure ? 'Secure' : ''}
+        `,
       ]);
 
       res.status(200).json({ access: newAccessToken });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      logger(error, "Can't refresh token");
-      // res
-      //   .status(error.response ? error.response.status : 500)
-      //   .json({ error: 'Error refreshing token' });
-      res.writeHead(302, {
-        Location: '/',
-      });
-      res.end();
+      logger(error, "Can't refresh token in /api/refresh");
+      res
+        .status(error.response ? error.response.status : 500)
+        .json({ error: 'Error refreshing token in api/refresh 2' });
     }
   } else {
     // Handle any other HTTP method

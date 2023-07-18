@@ -72,7 +72,7 @@ export default function Header() {
                 className='hover:text-gray-600'
                 onClick={() => handleUserLogout()}
               >
-                <HiOutlineArrowRightOnRectangle className='hover:text-primary h-6 w-6 flex-shrink-0 text-black' />
+                <HiOutlineArrowRightOnRectangle className='hover:text-primary h-6 w-6 flex-shrink-0 cursor-pointer text-black' />
               </div>
             </li>
           </ul>

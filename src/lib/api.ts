@@ -87,13 +87,20 @@ class API {
 
   private async refreshTokens() {
     try {
-      const response = await axios.post('/api/refresh');
+      console.log('REQUEST REFRESH');
+      const isProd = process.env.NODE_ENV === 'production';
+      const url = isProd ? '/api/refresh' : 'http://localhost:3000/api/refresh';
+
+      const response = await axios.post(url);
 
       const newAccessToken = response.data.access;
 
       return newAccessToken;
     } catch (error) {
-      logger((error as AxiosError).cause, "Can't refresh token in api");
+      logger(
+        (error as AxiosError).response?.data ?? error,
+        "Can't refresh token in refreshTokens"
+      );
       throw new Error("Can't refresh token");
     }
   }

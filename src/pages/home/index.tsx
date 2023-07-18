@@ -38,7 +38,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const api = new API(context);
     // check if user is logged in
     const res = await api.getCurrentUser();
-
+    console.log('res', res);
     if (!res) {
       return {
         redirect: {
