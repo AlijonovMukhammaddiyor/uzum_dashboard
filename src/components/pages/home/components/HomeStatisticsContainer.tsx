@@ -16,7 +16,10 @@ export interface HomeStatisticsContainerProps {
 function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   const [orders, setOrders] = React.useState<any[]>([]);
   const [products, setProducts] = React.useState<any[]>([]);
-  const [shops, setShops] = React.useState<any[]>([]);
+  const [shops, setShops] = React.useState<{
+    shops: any[];
+    accounts: any[];
+  }>({ shops: [], accounts: [] });
   const [loading, setLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -87,7 +90,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       >
         <AreaChart
           labels={getLabels(orders, products, shops).slice(1) ?? []}
-          data={prepareDailyData(orders) ?? []}
+          data={prepareDailyData(orders, products, shops) ?? []}
           style={{
             width: '100%',
             height: '500px',
@@ -101,7 +104,14 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   );
 }
 
-function getLabels(orders: any[], products: any[], shops: any[]) {
+function getLabels(
+  orders: any[],
+  products: any[],
+  shops: {
+    shops: any[];
+    accounts: any[];
+  }
+) {
   const labels = new Set<string>();
 
   for (let i = 0; i < orders.length; i++) {
@@ -114,8 +124,8 @@ function getLabels(orders: any[], products: any[], shops: any[]) {
     labels.add(item.date_pretty);
   }
 
-  for (let i = 0; i < shops.length; i++) {
-    const item = shops[i];
+  for (let i = 0; i < shops.shops.length; i++) {
+    const item = shops.shops[i];
     labels.add(item.date_pretty);
   }
 
@@ -124,14 +134,23 @@ function getLabels(orders: any[], products: any[], shops: any[]) {
   );
 }
 
-function prepareData(orders: any[], products: any[], shops: any[]) {
+function prepareData(
+  orders: any[],
+  products: any[],
+  shops: {
+    shops: any[];
+    accounts: any[];
+  }
+) {
   const dataset = [];
   if (orders.length === 0) return [];
 
   const orders_data = [];
   const products_data = [];
   const shops_data = [];
+  const accounts_data = [];
 
+  /// orders
   for (let i = 0; i < orders.length; i++) {
     const item = orders[i];
     orders_data.push({
@@ -151,6 +170,7 @@ function prepareData(orders: any[], products: any[], shops: any[]) {
     pointRadius: 3,
   });
 
+  /// products
   for (let i = 0; i < products.length; i++) {
     const item = products[i];
     products_data.push({
@@ -170,8 +190,9 @@ function prepareData(orders: any[], products: any[], shops: any[]) {
     pointRadius: 3,
   });
 
-  for (let i = 0; i < shops.length; i++) {
-    const item = shops[i];
+  /// shops
+  for (let i = 0; i < shops.shops.length; i++) {
+    const item = shops.shops[i];
     shops_data.push({
       x: item.date_pretty,
       y: item.total_shops,
@@ -184,6 +205,25 @@ function prepareData(orders: any[], products: any[], shops: any[]) {
     borderColor: 'rgba(255, 165, 0, 1)', // Orange
     backgroundColor: 'rgba(255, 165, 0, 0.2)',
     pointBackgroundColor: 'rgba(255, 165, 0, 1)',
+    label: "Jami do'konlar soni",
+    pointRadius: 3,
+  });
+
+  /// accounts
+  for (let i = 0; i < shops.accounts.length; i++) {
+    const item = shops.accounts[i];
+    accounts_data.push({
+      x: item.date_pretty,
+      y: item.total_accounts,
+    });
+  }
+
+  dataset.push({
+    data: accounts_data,
+    fill: true,
+    borderColor: 'rgba(243, 21, 89, 1)', // Orange
+    backgroundColor: 'rgba(243, 21, 89, 0.2)',
+    pointBackgroundColor: 'rgba(243, 21, 89, 1)',
     label: 'Jami sotuvchilar soni',
     pointRadius: 3,
   });
@@ -191,13 +231,27 @@ function prepareData(orders: any[], products: any[], shops: any[]) {
   return dataset;
 }
 
-function prepareDailyData(orders: any[]) {
+function prepareDailyData(
+  orders: any[],
+  products: any[],
+  shops: {
+    shops: any[];
+    accounts: any[];
+  }
+) {
   if (orders.length === 0) return [];
   const dataset = [];
 
   const orders_data = [];
+  const shops_data = [];
+  const products_data = [];
+  const accounts_data = [];
 
   let prev = orders[0].total_orders;
+  let prev_shops = products[0].total_shops;
+  let prev_products = shops.shops[0].total_products;
+  let prev_accounts = shops.accounts[0].total_accounts;
+
   for (let i = 1; i < orders.length; i++) {
     const item = orders[i];
     orders_data.push({
@@ -205,6 +259,33 @@ function prepareDailyData(orders: any[]) {
       y: item.total_orders - prev,
     });
     prev = item.total_orders;
+  }
+
+  for (let i = 1; i < products.length; i++) {
+    const item = products[i];
+    products_data.push({
+      x: item.date_pretty,
+      y: item.total_products - prev_products,
+    });
+    prev_products = item.total_products;
+  }
+
+  for (let i = 1; i < shops.shops.length; i++) {
+    const item = shops.shops[i];
+    const item2 = shops.accounts[i];
+    shops_data.push({
+      x: item.date_pretty,
+      y: item.total_shops - prev_shops,
+    });
+
+    prev_shops = item.total_shops;
+
+    accounts_data.push({
+      x: item2.date_pretty,
+      y: item2.total_accounts - prev_accounts,
+    });
+
+    prev_accounts = item2.total_accounts;
   }
 
   dataset.push({
@@ -217,16 +298,35 @@ function prepareDailyData(orders: any[]) {
     pointRadius: 3,
   });
 
-  // prev = shops[0].total_shops;
-  // for (let i = 1; i < shops.length; i++) {
-  //   const item = shops[i];
-  //   shops_data.push({
-  //     x: item.date_pretty,
-  //     y: item.total_shops - prev,
-  //   });
+  dataset.push({
+    data: accounts_data,
+    fill: true,
+    borderColor: 'rgba(243, 21, 89, 1)', // Orange
+    backgroundColor: 'rgba(243, 21, 89, 0.2)',
+    pointBackgroundColor: 'rgba(243, 21, 89, 1)',
+    label: 'Kunlik yangi sotuvchilar soni',
+    pointRadius: 3,
+  });
 
-  //   prev = item.total_shops;
-  // }
+  dataset.push({
+    data: products_data,
+    fill: true,
+    borderColor: 'rgba(60, 179, 113, 1)', // Medium Sea Green
+    backgroundColor: 'rgba(60, 179, 113, 0.2)',
+    pointBackgroundColor: 'rgba(60, 179, 113, 1)',
+    label: 'Kunlik yangi mahsulotlar',
+    pointRadius: 3,
+  });
+
+  dataset.push({
+    data: shops_data,
+    fill: true,
+    borderColor: 'rgba(255, 165, 0, 1)', // Orange
+    backgroundColor: 'rgba(255, 165, 0, 0.2)',
+    pointBackgroundColor: 'rgba(255, 165, 0, 1)',
+    label: "Kunlik yangi do'konlar",
+    pointRadius: 3,
+  });
 
   return dataset;
 }

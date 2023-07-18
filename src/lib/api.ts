@@ -91,10 +91,9 @@ class API {
       // const url = isProd ? '/api/refresh' : 'http://localhost:3000/api/refresh';
 
       const refreshToken = this.context?.req.cookies['refresh'] ?? null;
-      const response = await axios.post(
-        'https://www.uzanalitika.uz/api/refresh',
-        { refreshToken }
-      );
+      const response = await axios.post('http://localhost:3000/api/refresh', {
+        refreshToken,
+      });
 
       const newAccessToken = response.data.access;
       // console.log('tokens from api/refresh', response.data);

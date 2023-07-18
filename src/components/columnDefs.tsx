@@ -218,22 +218,22 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
         <Carousel
           showArrows={true}
           showThumbs={true}
-          renderThumbs={() =>
-            Array.from(srcs_no_duplicates).map((thumbnail) => (
-              <img
-                src={thumbnail}
-                alt={thumbnail}
-                key={thumbnail}
-                // width={100}
-                // height={120}
-                className='h-[100px] w-[100px] object-contain'
-              />
-            ))
-          }
+          // renderThumbs={() =>
+          //   Array.from(srcs_no_duplicates).map((thumbnail) => (
+          //     <img
+          //       src={thumbnail}
+          //       alt={thumbnail}
+          //       key={thumbnail}
+          //       // width={100}
+          //       // height={120}
+          //       className='h-[100px] w-[100px] object-contain'
+          //     />
+          //   ))
+          // }
         >
           {Array.from(srcs_no_duplicates).map((src, index) => (
             <div key={index}>
-              <Image
+              <img
                 src={src}
                 alt='mahsulot_rasmi'
                 className='h-full max-h-[60vh] w-full object-contain'
