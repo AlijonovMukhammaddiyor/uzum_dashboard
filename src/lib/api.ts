@@ -91,7 +91,7 @@ class API {
       const url = isProd ? '/api/refresh' : 'http://localhost:3000/api/refresh';
 
       const refreshToken = this.context?.req.cookies['refresh'] ?? null;
-      console.log('refreshToken to api/refresh', refreshToken);
+      console.log('rrr', refreshToken);
       const response = await axios.post(url, { refreshToken });
 
       const newAccessToken = response.data.access;
@@ -110,6 +110,7 @@ class API {
 
       return newAccessToken;
     } catch (error) {
+      console.log('error in refreshTokens', error);
       logger(
         (error as AxiosError).response?.data ?? error,
         "Can't refresh token in refreshTokens"
