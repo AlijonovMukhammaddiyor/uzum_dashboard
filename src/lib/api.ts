@@ -88,11 +88,11 @@ class API {
   private async refreshTokens() {
     try {
       const isProd = process.env.NODE_ENV === 'production';
-      const url = isProd ? '/api/refresh' : 'http://localhost:3000/api/refresh';
+      // const url = isProd ? '/api/refresh' : 'http://localhost:3000/api/refresh';
 
       const refreshToken = this.context?.req.cookies['refresh'] ?? null;
       console.log('rrr', refreshToken);
-      const response = await axios.post(url, { refreshToken });
+      const response = await axios.post('/api/refresh', { refreshToken });
 
       const newAccessToken = response.data.access;
       console.log('tokens from api/refresh', response.data);
