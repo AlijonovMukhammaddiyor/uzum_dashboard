@@ -97,7 +97,7 @@ class API {
       );
 
       const newAccessToken = response.data.access;
-      console.log('tokens from api/refresh', response.data);
+      // console.log('tokens from api/refresh', response.data);
       if (this.context) {
         // set refresh token as it is not set in api route on server-side
         this.context.res.setHeader('Set-Cookie', [
@@ -112,8 +112,8 @@ class API {
 
       return newAccessToken;
     } catch (error) {
-      const error_ = error as AxiosError;
-      console.log('error in refreshTokens', error_.cause);
+      // const error_ = error as AxiosError;
+      // console.log('error in refreshTokens', error_.cause);
       logger(
         (error as AxiosError).response?.data ?? error,
         "Can't refresh token in refreshTokens"

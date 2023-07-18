@@ -10,7 +10,7 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (!refresh) {
       const cookies = nookies.get({ req });
-      console.log('headers', req.headers);
+      // console.log('headers', req.headers);
       refresh = cookies.refresh ?? null;
     }
 
@@ -32,7 +32,7 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
       const isSecure = process.env.NODE_ENV === 'production';
       const tokens = response.data;
 
-      console.log('tokens from server', tokens, response.status);
+      // console.log('tokens from server', tokens, response.status);
       if (!tokens) {
         return res.status(401).json({ error: 'No refresh token found' });
       }
