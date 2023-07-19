@@ -838,52 +838,6 @@ const AvailableAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
   );
 };
 
-const WithSalesTinyChartCellRenderer = ({ value }: { value: any }) => {
-  value.sort((a: any, b: any) => {
-    const a_date = new Date(a.x);
-    const b_date = new Date(b.x);
-    return a_date.getTime() - b_date.getTime();
-  });
-  const smallest = value[0]?.x;
-  const biggest = value[value.length - 1]?.x;
-
-  // from smallest day to biggest day (given in YYYY-MM-DD format), check if is entry for every day, if not, add entry with 0 value
-  const days = [];
-
-  const smallest_date = new Date(smallest);
-  const biggest_date = new Date(biggest);
-
-  for (
-    let i = smallest_date.getTime();
-    i <= biggest_date.getTime();
-    i += 24 * 60 * 60 * 1000
-  ) {
-    const date = new Date(i);
-    const date_string = date.toISOString().split('T')[0];
-    days.push(date_string);
-  }
-
-  const data: number[] = [];
-
-  // for each day, get entry from value, if not found, set 0
-  for (let i = 0; i < days.length; i++) {
-    const day = days[i];
-    const entry = value.find((e: any) => e.x === day);
-    data.push(entry ? entry.y : 0);
-  }
-  return (
-    <div className=''>
-      <TinyColumnGraph
-        data={data}
-        labels={days}
-        bgColor='rgba(170, 30, 180, 1)'
-        borderColor='rgba(170, 30, 180, 1)'
-        width='300px'
-      />
-    </div>
-  );
-};
-
 export const GrowingCategoriesColDefs = [
   {
     headerName: 'Kategoriya',

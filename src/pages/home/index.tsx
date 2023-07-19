@@ -26,7 +26,6 @@ export default function HomePage({ user }: HomeProps) {
 
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <HomeComponent />
     </Layout>

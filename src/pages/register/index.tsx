@@ -10,6 +10,7 @@ import clsxm from '@/lib/clsxm';
 import NamesAndEmailComponent from '@/components/pages/landing/register/NameInput';
 import PhoneConfirm from '@/components/pages/landing/register/PhoneConfirm';
 import PhoneInputComponent from '@/components/pages/landing/register/PhoneInput';
+import Seo from '@/components/Seo';
 
 import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
@@ -91,6 +92,7 @@ const Register = () => {
 function RegisterHeader({ plan }: { plan: string }) {
   return (
     <div className='flex w-full max-w-sm flex-col items-center justify-center gap-6 px-2'>
+      <Seo />
       <div className=''>
         <div className='flex w-full flex-col items-start'>
           <h1 className='w-full text-center font-semibold'>

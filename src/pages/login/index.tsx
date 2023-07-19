@@ -5,10 +5,12 @@ import API from '@/lib/api';
 import logger from '@/lib/logger';
 
 import LoginComponent from '@/components/pages/login/LoginComponent';
+import Seo from '@/components/Seo';
 
 const Login = () => {
   return (
     <div className='min-h-screen w-screen'>
+      <Seo />
       <LoginComponent />
     </div>
   );
@@ -19,7 +21,6 @@ export default Login;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
-    console.log('Login getServerSideProps');
     const api = new API(context);
     const res = await api.getCurrentUser();
 

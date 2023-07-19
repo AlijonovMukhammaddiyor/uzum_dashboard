@@ -16,7 +16,6 @@ export default function Compare() {
 
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <div className='flex w-full items-center justify-start gap-6'>
         <CompareTab

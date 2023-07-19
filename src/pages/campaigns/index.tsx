@@ -10,7 +10,6 @@ import Seo from '@/components/Seo';
 export default function Campaigns() {
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <div className='mb-6 flex w-full flex-wrap items-center justify-start gap-4'>
         <BadgeContainer />

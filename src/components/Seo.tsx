@@ -1,122 +1,66 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
-// !STARTERCONF Change these default meta
-const defaultMeta = {
-  title:
-    'Analitika.Uz - Biznesingiz uchun mukammal tahlil xizmati. Raqobatchilarni chuqur tahlil qilish, istiqbolli bozor nishlarini aniqlash va mahsulot sotish jarayonini samarali boshqarish imkoniyatini beradi',
-  siteName: 'Analitika xizmatlari',
-  description:
-    "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, eng ko'p so'raladigan va o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika hamda reklama kampaniyalarining savdo hajmini qanday ta'sir qilishini kuzatib boramiz",
-  /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: 'https://uzanalitka.uz/',
-  type: 'website',
-  robots: 'follow, index',
-  /**
-   * No need to be filled, will be populated with openGraph function
-   * If you wish to use a normal image, just specify the path below
-   */
-  image: '/public/images/og.png',
-};
+const DOMAIN = 'https://www.uzanalitika.uz';
+const DEFAULT_OG_IMAGE = 'https://www.uzanalitika.uz/images/og.png';
 
-type SeoProps = {
-  date?: string;
-  templateTitle?: string;
-} & Partial<typeof defaultMeta>;
-
-export default function Seo(props: SeoProps) {
-  const router = useRouter();
-  const meta = {
-    ...defaultMeta,
-    ...props,
-  };
-  meta['title'] = props.templateTitle
-    ? `${props.templateTitle} | ${meta.siteName}`
-    : meta.title;
-
-  // Use siteName if there is templateTitle
-  // but show full title if there is none
-  // !STARTERCONF Follow config for opengraph, by deploying one on https://github.com/theodorusclarence/og
-  // ? Uncomment code below if you want to use default open graph
-  // meta['image'] = openGraph({
-  //   description: meta.description,
-  //   siteName: props.templateTitle ? meta.siteName : meta.title,
-  //   templateTitle: props.templateTitle,
-  // });
-
+export default function Seo({
+  title = 'UzAnalitika.Uz - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati. Raqobatchilarni chuqur tahlil qilish, istiqbolli bozor nishlarini aniqlash va mahsulot sotish jarayonini samarali boshqarish imkoniyatini beradi ',
+  description = "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika.",
+  siteName = 'uzum Analitika Xizmatlari',
+  canonical = DOMAIN,
+  ogImage = DEFAULT_OG_IMAGE,
+  ogType = 'website',
+}) {
   return (
     <Head>
-      <title>{meta.title}</title>
-      <meta name='robots' content={meta.robots} />
-      <meta content={meta.description} name='description' />
-      <meta property='og:url' content={`${meta.url}${router.asPath}`} />
-      <link rel='canonical' href={`${meta.url}${router.asPath}`} />
-      {/* Open Graph */}
-      <meta property='og:type' content={meta.type} />
-      <meta property='og:site_name' content={meta.siteName} />
-      <meta property='og:description' content={meta.description} />
-      <meta property='og:title' content={meta.title} />
-      <meta name='image' property='og:image' content={meta.image} />
-      {/* Twitter */}
-      <meta name='twitter:card' content='summary_large_image' />
-      {/* // !STARTERCONF Remove or change to your handle */}
-      {/* <meta name='twitter:site' content='@th_clarence' /> */}
-      <meta name='twitter:title' content={meta.title} />
-      <meta name='twitter:description' content={meta.description} />
-      <meta name='twitter:image' content={meta.image} />
-      {meta.date && (
-        <>
-          <meta property='article:published_time' content={meta.date} />
-          <meta
-            name='publish_date'
-            property='og:publish_date'
-            content={meta.date}
-          />
-          {/* // !STARTERCONF Remove or change to your name */}
-          <meta
-            name='author'
-            property='article:author'
-            content='Theodorus Clarence'
-          />
-        </>
-      )}
+      <title key='title'>{`${title} – ${siteName}`}</title>
+      <meta name='description' content={description} />
+      <meta key='og_type' property='og:type' content={ogType} />
+      <meta key='og_title' property='og:title' content={title} />
+      <meta
+        key='og_description'
+        property='og:description'
+        content={description}
+      />
+      <meta key='og_locale' property='og:locale' content='uz_UZ' />
+      <meta key='og_site_name' property='og:site_name' content={siteName} />
+      <meta key='og_url' property='og:url' content={canonical ?? DOMAIN} />
+      <meta
+        key='og_image'
+        property='og:image'
+        content={ogImage ?? DEFAULT_OG_IMAGE}
+      />
+      <meta
+        key='og_image:alt'
+        property='og:image:alt'
+        content={`${title} | ${siteName}`}
+      />
+      <meta key='og_image:width' property='og:image:width' content='1200' />
+      <meta key='og_image:height' property='og:image:height' content='630' />
 
-      {/* Favicons */}
-      {favicons.map((linkProps) => (
-        <link key={linkProps.href} {...linkProps} />
-      ))}
-      <meta name='msapplication-TileColor' content='#ffffff' />
-      <meta name='msapplication-config' content='/favicon/browserconfig.xml' />
-      <meta name='theme-color' content='#ffffff' />
+      <meta name='robots' content='index,follow' />
+
+      <meta
+        key='twitter:card'
+        name='twitter:card'
+        content='summary_large_image'
+      />
+      {/* <meta key='twitter:site' name='twitter:site' content={twitterHandle} /> */}
+      {/* <meta
+        key='twitter:creator'
+        name='twitter:creator'
+        content={twitterHandle}
+      /> */}
+      <meta key='twitter:title' property='twitter:title' content={title} />
+      <meta
+        key='twitter:description'
+        property='twitter:description'
+        content={description}
+      />
+
+      <link rel='canonical' href={canonical ?? DOMAIN} />
+
+      <link rel='shortcut icon' href='/favicon.ico' />
     </Head>
   );
 }
-
-// !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
-// ! then replace the whole /public/favicon folder and favicon.ico
-const favicons: Array<React.ComponentPropsWithoutRef<'link'>> = [
-  {
-    rel: 'apple-touch-icon',
-    sizes: '180x180',
-    href: '/favicon/apple-touch-icon.png',
-  },
-  {
-    rel: 'icon',
-    type: 'image/png',
-    sizes: '32x32',
-    href: '/favicon/favicon-32x32.png',
-  },
-  {
-    rel: 'icon',
-    type: 'image/png',
-    sizes: '16x16',
-    href: '/favicon/favicon-16x16.png',
-  },
-  { rel: 'manifest', href: '/favicon/site.webmanifest' },
-  {
-    rel: 'mask-icon',
-    href: '/favicon/safari-pinned-tab.svg',
-    color: '#00e887',
-  },
-  { rel: 'shortcut icon', href: '/favicon/favicon.ico' },
-];

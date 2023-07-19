@@ -6,6 +6,7 @@ import clsxm from '@/lib/clsxm';
 
 import Layout from '@/components/layout/Layout';
 import SellersTable from '@/components/pages/sellers/SellersContainer';
+import Seo from '@/components/Seo';
 import Tabs from '@/components/shared/Tabs';
 
 import { useContextState } from '@/context/Context';
@@ -25,12 +26,7 @@ export default function Sellers({ user }: ShopsProps) {
   }, [user]);
   return (
     <Layout>
-      {/* <div className='w-full rounded-md bg-white p-3'>
-        <p className='font-primary w-full text-center text-lg text-black'>
-          Sotuv miqdoriga ko`ra do`konlar segmentatsiyasi
-        </p>
-        <HistogramPlot />
-      </div> */}
+      <Seo />
 
       <Tabs
         tabs={['Sotuvchilar']}
