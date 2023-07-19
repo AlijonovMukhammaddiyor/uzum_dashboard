@@ -24,6 +24,7 @@ function LandingMain() {
           </div>
           <div className='base:bottom-[370px] base:top-[300px] base:left-[500px] base:w-[900px] base:hidden bottom-[290px] right-0 w-full overflow-hidden lg:-right-40  lg:left-[700px]'>
             <Image
+              priority
               src={dashboard}
               alt='dashboard'
               className='h-full w-full object-contain '

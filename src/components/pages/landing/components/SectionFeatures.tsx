@@ -305,6 +305,7 @@ function SectionFeatures() {
               <div className='h-full w-full'>
                 <Zoom>
                   <Image
+                    priority
                     src={currentImage}
                     alt='demo'
                     className='h-full w-full object-cover'
