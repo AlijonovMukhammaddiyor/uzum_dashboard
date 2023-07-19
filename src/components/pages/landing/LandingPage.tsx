@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 
-import clsxm from '@/lib/clsxm';
-
 import Footer from '@/components/pages/landing/components/Footer';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 import LandingMain from '@/components/pages/landing/components/LandingMain';
@@ -23,7 +21,7 @@ function LandingPage() {
         {/* set lang */}
         <html lang={lang} />
       </Head>
-      <div className='border-primary fixed bottom-4 right-0 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
+      {/* <div className='border-primary fixed bottom-4 right-0 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
             'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
@@ -42,7 +40,7 @@ function LandingPage() {
         >
           Рус
         </div>
-      </div>
+      </div> */}
 
       <LandingHeader />
       <LandingMain />
