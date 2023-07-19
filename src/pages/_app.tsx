@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
 import { useEffect, useState } from 'react';
@@ -69,6 +70,50 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <main className={roboto.className}>
+        <Head>
+          <meta
+            name='description'
+            content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+          />
+          <meta
+            property='og:title'
+            content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+          />
+          <meta
+            property='og:description'
+            content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+          />
+          <meta
+            property='og:image'
+            content='https://www.uzanalitika.uz/images/og.png'
+          />
+          <meta property='og:url' content='https://www.uzanalitika.uz/' />
+          <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
+          <meta property='og:type' content='website' />
+          <meta property='og:locale' content='uz_UZ' />
+          <meta property='twitter:card' content='summary_large_image' />
+          <meta
+            property='twitter:title'
+            content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+          />
+          <meta
+            property='twitter:description'
+            content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+          />
+          <meta
+            property='twitter:image'
+            content='https://www.uzanalitika.uz/images/og.png'
+          />
+          <meta property='twitter:site' content='@uzanalitika' />
+          <meta property='twitter:creator' content='@uzanalitika' />
+          <meta property='twitter:domain' content='uzanalitika.uz' />
+          <meta property='og:image:width' content='1200' />
+          <meta property='og:image:height' content='630' />
+          <title>
+            UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil.
+          </title>
+          <link rel='canonical' href='https://www.uzanalitika.uz/' />
+        </Head>
         {/* add og manually */}
 
         {/* <DefaultSeo

@@ -20,14 +20,13 @@ export default function Document() {
               scroll-behavior: smooth;
               }`}
         </style>
-
         <meta
           name='description'
           content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
         />
         <meta
           property='og:title'
-          content='UzAnalitika.Uz - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+          content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati.'
         />
         <meta
           property='og:description'
@@ -44,7 +43,7 @@ export default function Document() {
         <meta property='twitter:card' content='summary_large_image' />
         <meta
           property='twitter:title'
-          content='UzAnalitika.Uz - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+          content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
         />
         <meta
           property='twitter:description'
@@ -57,8 +56,40 @@ export default function Document() {
         <meta property='twitter:site' content='@uzanalitika' />
         <meta property='twitter:creator' content='@uzanalitika' />
         <meta property='twitter:domain' content='uzanalitika.uz' />
-        <meta property='og:image:width' content='500' />
-        <meta property='og:image:height' content='250' />
+        <meta property='og:image:width' content='1200' />
+        <meta property='og:image:height' content='630' />
+        <link rel='canonical' href='https://www.uzanalitika.uz/' />
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'UzAnalitika',
+              url: 'https://www.uzanalitika.uz/',
+              logo: 'https://www.uzanalitika.uz/images/og.png',
+              contactPoint: {
+                '@type': 'ContactPoint',
+                telephone: '+82 10 3268 2066',
+                contactType: 'Xizmatlar',
+                availableLanguage: ['Uzbek', 'Russian'],
+              },
+              sameAs: [
+                'https://www.facebook.com/UzAnalitika',
+                'https://www.instagram.com/UzAnalitika',
+                'https://www.twitter.com/UzAnalitika',
+              ],
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: '123 Main Street',
+                addressLocality: 'Tashkent',
+                addressRegion: 'Tashkent Region',
+                postalCode: '10000',
+                addressCountry: 'UZ',
+              },
+            }),
+          }}
+        />
       </Head>
       <body>
         <Main />
