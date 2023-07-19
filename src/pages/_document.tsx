@@ -57,8 +57,8 @@ export default function Document() {
         <meta property='twitter:site' content='@uzanalitika' />
         <meta property='twitter:creator' content='@uzanalitika' />
         <meta property='twitter:domain' content='uzanalitika.uz' />
-        <meta property='og:image:width' content='800' />
-        <meta property='og:image:height' content='600' />
+        <meta property='og:image:width' content='500' />
+        <meta property='og:image:height' content='250' />
       </Head>
       <body>
         <Main />

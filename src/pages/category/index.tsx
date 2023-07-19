@@ -29,7 +29,6 @@ export default function Category({ user }: CategoryProps) {
 
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <CategoryTreeComponent />
     </Layout>

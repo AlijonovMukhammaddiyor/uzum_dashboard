@@ -4,131 +4,194 @@ import Zoom from 'react-medium-image-zoom';
 
 import clsxm from '@/lib/clsxm';
 
-import demoImage from '@/assets/landing/picture.png';
+import allshops from '@/assets/landing/features/allshops.png';
+import categories from '@/assets/landing/features/categories.png';
+import category_price_seg from '@/assets/landing/features/category_price_seg.png';
+import category_products from '@/assets/landing/features/category_products.png';
+import category_shops from '@/assets/landing/features/category_shops.png';
+import category_subcategories from '@/assets/landing/features/category_subcategories.png';
+import category_trends from '@/assets/landing/features/category_trends.png';
+import growing_categories from '@/assets/landing/features/growing_categories.png';
+import growing_products from '@/assets/landing/features/growing_products.png';
+import home_umumiy from '@/assets/landing/features/home_umumiy.png';
+import new_proucts from '@/assets/landing/features/new_products.png';
+import product from '@/assets/landing/features/product.png';
+import product_analytics from '@/assets/landing/features/product_analytics.png';
+import product_competitors from '@/assets/landing/features/product_competitors.png';
+import products from '@/assets/landing/features/products.png';
+import shop_analytics from '@/assets/landing/features/shop_analytics.png';
+import shop_categories from '@/assets/landing/features/shop_categories.png';
+import shop_competitors from '@/assets/landing/features/shop_competitors.png';
+import shop_daily from '@/assets/landing/features/shop_daily.png';
+import shop_products from '@/assets/landing/features/shop_products.png';
+import similars from '@/assets/landing/features/similars.png';
 
-const externalAnalytics: {
+const UmumiyAnalytics: {
   title: string;
   image: StaticImageData;
   description?: string; // add description to each one later
 }[] = [
   {
-    title: 'Nish tanlash',
-    image: demoImage,
+    title: 'Umumiy',
+    image: home_umumiy,
     description:
       "Eng istiqbolli va daromadli bozor segmentini kashf qiling va o'rganing. Bu o'z kuchingiz va mablag'ingizni muvaffaqiyat uchun yuqori salohiyatga ega bo'lgan ixtisoslashgan sohalarga yo'naltirish imkonini beradi.",
   },
   {
-    title: 'Mahsulotlar analitikasi',
-    image: demoImage,
+    title: 'Yangi mahsulotlar',
+    image: new_proucts,
     description:
       'Mahuslotlarni analiz qilish va eng istiqbolli mahsulotlarni aniqlash.',
   },
   {
-    title: "So'nggi trendlar",
-    image: demoImage,
+    title: "O'sayotgan mahsulotlar",
+    image: growing_products,
   },
   {
-    title: 'Kategoriyalar analitikasi',
-    image: demoImage,
+    title: "O'sayotgan kategoriyalar",
+    image: growing_categories,
+  },
+];
+
+const CategoryAnalytics: {
+  title: string;
+  image: StaticImageData;
+  description?: string; // add description to each one later
+}[] = [
+  {
+    title: 'Barcha kategoriyalar',
+    image: categories,
+    description:
+      "Eng istiqbolli va daromadli bozor segmentini kashf qiling va o'rganing. Bu o'z kuchingiz va mablag'ingizni muvaffaqiyat uchun yuqori salohiyatga ega bo'lgan ixtisoslashgan sohalarga yo'naltirish imkonini beradi.",
+  },
+  {
+    title: 'Kategoriya trendi',
+    image: category_trends,
+    description:
+      'Mahuslotlarni analiz qilish va eng istiqbolli mahsulotlarni aniqlash.',
+  },
+  {
+    title: 'Kategoriya mahsulotlari',
+    image: category_products,
+  },
+  {
+    title: 'Ichki kategoriyalar',
+    image: category_subcategories,
   },
   {
     title: 'Narx segmentatsiyasi',
-    image: demoImage,
+    image: category_price_seg,
   },
   {
-    title: "Do'konlar analitikasi",
-    image: demoImage,
-  },
-  {
-    // period comparison
-    title: 'Davrlarni solishtirish',
-    image: demoImage,
-  },
-  {
-    title: 'O`xshash mahsulotlar',
-    image: demoImage,
-  },
-  {
-    title: "Do'konlar va masulotlar pozitsiyasi",
-    image: demoImage,
+    title: "Kategoriya do'konlari",
+    image: category_shops,
   },
 ];
 
-const internalAnalytics: {
+const ShopAnalytics: {
   title: string;
   image: StaticImageData;
   description?: string; // add description to each one later
 }[] = [
   {
-    title: 'Mahsulotlar tahlili',
-    image: demoImage,
+    title: "Barcha do'konlar",
+    image: allshops,
+    description:
+      "Eng istiqbolli va daromadli bozor segmentini kashf qiling va o'rganing. Bu o'z kuchingiz va mablag'ingizni muvaffaqiyat uchun yuqori salohiyatga ega bo'lgan ixtisoslashgan sohalarga yo'naltirish imkonini beradi.",
   },
   {
     title: "Do'kon tahlili",
-    image: demoImage,
+    image: shop_analytics,
+    description:
+      'Mahuslotlarni analiz qilish va eng istiqbolli mahsulotlarni aniqlash.',
+  },
+  {
+    title: "Do'kon mahsulotlari",
+    image: shop_products,
+  },
+  {
+    title: "Do'kon kategoriyalari",
+    image: shop_categories,
+  },
+  {
+    title: "Do'kon raqobatchilari",
+    image: shop_competitors,
+  },
+  {
+    title: "Do'kon kunlik sotuvlari",
+    image: shop_daily,
   },
 ];
 
-const compareAnalytics: {
+const ProductAnalytics: {
   title: string;
   image: StaticImageData;
   description?: string; // add description to each one later
 }[] = [
   {
-    title: 'Mahsulotlar Taqqoslash',
-    image: demoImage,
+    title: 'Barcha mahsulotlar',
+    image: products,
   },
   {
-    title: 'Kategoriyalarni Taqqoslash',
-    image: demoImage,
+    title: 'Mahsulot haqida',
+    image: product,
   },
   {
-    title: "Do'konlarni Taqqoslash",
-    image: demoImage,
+    title: 'Mahsulot tahlili',
+    image: product_analytics,
+  },
+  {
+    title: 'Mahsulot raqobatchilari',
+    image: similars,
+  },
+  {
+    title: 'Raqobatchilarini taqqoslash',
+    image: product_competitors,
   },
 ];
 
 const descriptions_uz: {
   [key: string]: string;
 } = {
-  'Nish tanlash': `Eng istiqbolli va daromadli bozor segmentini kashf qiling va o'rganing. Bu o'z kuchingiz va mablag'ingizni muvaffaqiyat uchun yuqori salohiyatga ega bo'lgan ixtisoslashgan sohalarga yo'naltirish imkonini beradi.`,
-  'Mahsulotlar analitikasi': `Keng qamrovli ma'lumotlarni tahlil qilish orqali eng istiqbolli mahsulotlarni aniqlang. Savdo ko'rsatkichlari, mijozlarning izohlari va paydo bo'layotgan tendentsiyalar haqida qimmatli ma'lumotlarga ega bo'ling. Bu sizga mahsulotlaringiz miqdorini va narxini optimallashtirishga yordam beradi.`,
-  "So'nggi trendlar": `Eng so'nggi trendlar sizni doimiy ravishda o'zgarib turadigan bozor landshaftidan, rivojlanayotgan bozor tendentsiyalari xabardor qiladi. Biznes strategiyalaringizni moslashtirish, yangi imkoniyatlardan foydalanish va bozoringizning oʻzgaruvchan talablarini qondirish uchun ushbu maʼlumotlardan foydalanib, raqobatchilardan oldinda turing.`,
-  'Kategoriyalar analitikasi': `Bozordagi turli xil mahsulot kategoriyalarning tendentsiyalarini o'rganish imkonini beradi. Har bir Kategoriyaning ichki strukturasi va mahsulotlarning narxlari, miqdori va boshqa ko'rsatkichlari haqida ma'lumotlarga ega bo'ling.`,
-  'Narx segmentatsiyasi': `Daromadi eng yuqori bo'lgan va kam bo'lgan narx oraliqlarini aniqlang.`,
-  "Do'konlar analitikasi": `Har bir doʻkonning savdo, mijozlarni jalb qilish, mahsulot turlari kabi asosiy koʻrsatkichlarni tushunib oling, bu sizga yuqori samarali doʻkonlarni aniqlash, marketing harakatlarini optimallashtirishda yordam beradi.`,
-  'Davrlarni solishtirish':
-    'Mahsulotlarning turli davrlardagi koʻrsatkichlarini solishtiring.',
-  'O`xshash mahsulotlar': `O'xshash mahsulotlarni aniqlang va ularning solishtiring. Potensial savdo imkoniyatlarini aniqlang.`,
-  "Do'konlar va masulotlar pozitsiyasi": `Bozordagi pozitsiya o'zgarishlarini kuzatib boring.`,
-  'Mahsulotlar tahlili': 'Do`koningizdagi mahsulotlarni tahlil qiling.',
+  Umumiy: `Uzum bozorining kunlik yangiliklari, barcha mahsulotlar, do'konlar va buyurtmalar haqida to'liq ma'lumotga ega bo'ling. Bozor o'zgarishlarini osonlik bilan kuzatib boring.`,
+  'Yangi mahsulotlar': `Bozorga yangi sotuvga chiqqan mahsulotlarni va ularning turlarini tahlil qiling.`,
+  "O'sayotgan mahsulotlar": `Bu xizmat orqali eng ko'p o'sib borayotgan mahsulotlar haqida ma'lumot bilib turing, bu esa sizga qaysi mahsulotlar ommalashib borayotganini tushunish imkonini beradi. `,
+  "O'sayotgan kategoriyalar": `Bu qaysi kategoriyalar o'sib borayotganini ko'rsatadi, va sizga trend bo'lgan tarmoqlarni aniqlashga va o'z investitsiyalaringizni shunga mos ravishda yo'naltirishga yordam beradi.`,
+  'Barcha kategoriyalar':
+    "Bu orqali siz barcha mavjud kategoriyalarni hamda ularning ichki kategoriyalarini ko'rishingiz mumkin.",
+  "Kategoriya do'konlari": `Bu xususiyat ma'lum bir ategoriyadagi mahsulotlarni sotadigan barcha do'konlar haqida ma'lumot beradi va sizga potentsial raqobatchilarni aniqlashga yordam beradi.`,
+  'Kategoriya mahsulotlari':
+    "Bu kategoriyadagi barcha mahsulotlarning batafsil ro'yxatini va ular haqidagi analitik ma'limotlarni taqdim etadi, bu inventarizatsiyani yaxshiroq boshqarish va strategiyani shakllantirishnga yordam beradi.",
+  'Kategoriya trendi': `Kategoriyadagi mahsulotlar soni, narxi, daromadi va shu kabi asosiy ko'rsatkichlarni bilib oling. Bu sizga kategoriyalarni solishtirish va kategoriyalarni tanlashda yordam beradi.`,
+  'Ichki kategoriyalar': `Kategoriyadagi ichki kategoriyalarni ko'ring. Bu sizga kategoriya ichidagi mahsulot ierarxiyasi va segmentatsiyasini tushunishda yordam beradi`,
+  'Narx segmentatsiyasi':
+    "Bu har bir toifadagi narxlar va shu narxlar oralig'idagi buyurtmalar segmentatsiyasini ko'rsatadi va sizga raqobatli yoki eng foydali narxl oralig'larini topishga va raqobatbardosh narxlarni belgilashda yordam beradi.",
+  "Barcha do'konlar":
+    "Platformadagi barcha do'konlarning batafsil jadvali, raqobatbardosh landshaftning yaxlit ko'rinishini taklif qiladi.",
   "Do'kon tahlili":
-    "ABC tahlil tizimidan foydalangan holda yuqori samarali mahsulotlaringizni aniqlang, ularni daromadga qo'shgan hissasi asosida strategik toifalarga ajrating va inventarizatsiya, narxlash va marketing strategiyalaringizni optimallashtirish uchun ongli qarorlar qabul qiling. Bizning keng qamrovli tahlilimiz bilan siz yuqori qiymatli mahsulotlarga e'tibor qaratishingiz mumkin.",
-  'Mahsulotlar Taqqoslash':
-    'Intuitiv taqqoslash vositamizdan foydalanib, ixtiyoriy ikkita mahsulotlarni osongina solishtiring. Asosli qarorlar qabul qilish uchun asosiy xususiyatlarni, narxlarni, reytingini va boshqalarni yonma-yon tahlil qiling.',
-  "Do'konlarni Taqqoslash":
-    "Istalgan ikkita do'konni osongina solishtiring. Mahsulot, narxlar, mijozlar sharhlari, va shu kabi asosiy ko'rsatkichlarni baholang.",
-  'Kategoriyalarni Taqqoslash':
-    "Keng qamrovli taqqoslash vositamizdan foydalanib, har qanday ikkita kategoriyalarni solishtiring. Mahsulot turlari, soni, narx oralig'i, savdo miqdori va shu kabi asosiy omillarni baholang.",
-  'Banner dizayn':
-    'Mahsulotlaringiz uchun ajoyib bannerlar yarating. Mahsulotlaringizning jozibadorligini oshiring.',
+    "Bu individual do'konlarning savdo ma'lumotlari va mahsulot assortimentlarini chuqur tahlil qiladi va biznesga muvaffaqiyatli strategiyalarni aniqlashda yordam beradi.",
+  "Do'kon kunlik sotuvlari":
+    "Bu xususiyat do'konning kundalik savdo ma'lumotlarini taqdim etadi, bu esa kundalik savdo tendentsiyalarini tahlil qilishga yordam beradi.",
+  "Do'kon raqobatchilari":
+    "U ma'lum bir do'konning raqobatchilarini ta'kidlab, strategik raqobat va ajralib turish uchun tushuncha beradi.",
+  "Do'kon kategoriyalari":
+    "Bu xususiyat ma'lum bir do'kon tomonidan qaysi toifalar mahsulotlar sotilayotganini ko'rsatadi, sotuvchilarga mahsulot assortimentini diversifikatsiya qilish yoki yo'naltirishda yordam beradi. Shuningdek, do'konning kategoriyalarini solishtirishda va mablag'ni yo'naltirishda yordam beradi.",
+  'Barcha mahsulotlar':
+    "Bu xususiyat platformadagi barcha mahsulotlar haqida to'liq ma'lumot beradi va bozorda mavjud bo'lgan narsalar haqida keng tushuncha beradi.",
+  'Mahsulot haqida':
+    "Bu ma'lum bir mahsulot haqida batafsil ma'lumotni, jumladan uning narxi, reytingi va sotuvchi tafsilotlarini taqdim etadi va iste'molchilar va raqobatchilar uchun qimmatli tushunchalarni beradi.",
+  'Mahsulot tahlili':
+    "Bu mahsulotni chuqur tahlil qilib, sotuvchilarga mahsulotning ishlashi va sotuv tendetsiyalari hamda narx va raqobatning mahsulot sotuviga ta'sirini tushunishda yordam beradi.",
+  'Mahsulot raqobatchilari':
+    "Bu xususiyat ma'lum bir mahsulotning raqobatchilarini ta'kidlab, sizga mahsulotlaringiz raqobatchilarga qanday qarshilik ko'rsatishini tushunishga imkon beradi.",
+  'Raqobatchilarini taqqoslash':
+    "Bu mahsulotni raqobatchilari bilan narx, reyting, sotuv miqdori va boshqalar kabi turli parametrlar bo'yicha taqqoslash imkonini beradi, bu esa sizga o'z takliflaringizni va narx strategiyalaringizni yaxshilashda yordam beradi.",
 };
 
-const studio: {
-  title: string;
-  image: StaticImageData;
-  description?: string; // add description to each one later
-}[] = [
-  {
-    title: 'Banner dizayn',
-    image: demoImage,
-  },
-];
-
 function SectionFeatures() {
-  const [activeTab, setActiveTab] = React.useState<string>('Nish tanlash');
+  const [activeTab, setActiveTab] = React.useState<string>('Umumiy');
   const [currentImage, setCurrentImage] =
-    React.useState<StaticImageData>(demoImage);
+    React.useState<StaticImageData>(home_umumiy);
 
   const [isShown, setIsShown] = React.useState<boolean>(false);
 
@@ -148,10 +211,10 @@ function SectionFeatures() {
             <div className='flex w-full flex-col items-start justify-start gap-6'>
               <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className='mb-2'>Tashqi analitika</h3>
+                  <h3 className='mb-2'>Umumiy analitika</h3>
                 </li>
                 <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
-                  {externalAnalytics.map((item, index) => (
+                  {UmumiyAnalytics.map((item, index) => (
                     <ListItem
                       {...item}
                       key={index}
@@ -165,10 +228,27 @@ function SectionFeatures() {
               </ul>
               <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className='mb-2'>Inchki analitika</h3>
+                  <h3 className='mb-2'>Kategoriyalar</h3>
                 </li>
                 <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
-                  {internalAnalytics.map((item, index) => (
+                  {CategoryAnalytics.map((item, index) => (
+                    <ListItem
+                      {...item}
+                      key={index}
+                      setActiveTab={setActiveTab}
+                      setCurrentImage={setCurrentImage}
+                      setIsShown={setIsShown}
+                      activeTab={activeTab}
+                    />
+                  ))}
+                </div>
+              </ul>
+              <ul className='flex w-full flex-col'>
+                <li>
+                  <h3 className='mb-2'>Do'konlar</h3>
+                </li>
+                <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
+                  {ShopAnalytics.map((item, index) => (
                     <ListItem
                       {...item}
                       key={index}
@@ -183,10 +263,10 @@ function SectionFeatures() {
 
               <ul className='flex w-full flex-col'>
                 <li>
-                  <h3 className='mb-2'>Taqqoslash</h3>
+                  <h3 className='mb-2'>Mahsulotlar</h3>
                 </li>
                 <div className='no-scrollbar flex w-full gap-3 overflow-scroll md:flex-col md:gap-0'>
-                  {compareAnalytics.map((item, index) => (
+                  {ProductAnalytics.map((item, index) => (
                     <ListItem
                       {...item}
                       key={index}
@@ -199,7 +279,7 @@ function SectionFeatures() {
                 </div>
               </ul>
 
-              <ul className='flex w-full flex-col'>
+              {/* <ul className='flex w-full flex-col'>
                 <li>
                   <h3 className='mb-2'>Studio</h3>
                 </li>
@@ -215,10 +295,10 @@ function SectionFeatures() {
                     />
                   ))}
                 </div>
-              </ul>
+              </ul> */}
             </div>
           </div>
-          <div className='four-sided-shadow flex-1 flex-col items-start justify-start rounded-lg px-6 py-10 pb-16 md:static md:mt-6 md:flex'>
+          <div className='four-sided-shadow flex-1 flex-col items-start justify-start rounded-lg  bg-slate-200 px-6 py-6 pb-12 md:static md:mt-6 md:flex'>
             <h2 className='mb-4 text-[18px] lg:text-3xl'>{activeTab}</h2>
             <div className='flex w-full flex-col gap-3'>
               <p className='mb-2'>{descriptions_uz[activeTab]}</p>

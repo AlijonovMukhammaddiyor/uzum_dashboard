@@ -61,7 +61,11 @@ function LandingTarifs() {
           <Tarif
             title='Bepul'
             price='$0'
-            features={['3 kunlik obuna', 'Cheklangan xizmatlar']}
+            features={[
+              "Umumiy ma'lumotlar",
+              'Barcha mahsulotlar jadvali (analitikalar bilan)',
+              "Barcha do'konlar jadvali (Analitikalar bilan)",
+            ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'
             sendToRegister={sendToRegister}
@@ -69,13 +73,26 @@ function LandingTarifs() {
           <div className='flex-1'></div>
           <Tarif
             title="Boshlang'ich"
-            price='$25'
+            price='$30'
             features={[
-              'Oxirgi 15 kunlik',
-              'Ichki Analitika ',
-              'Tashqi Analitika',
+              'Oxirgi 30 kunlik',
+              "Umumiy ma'lumotlar",
+              'Barcha Kategoriyalar',
+              'Kategoriya trendi',
+              'Kategoriya mahsulotlari',
+              'Ichki kategoriyalar',
+              'Kategoriya narx segmentatsiyasi',
+              "Kategoriya do'konlari",
+              "Barcha do'konlar",
+              "Do'kon tahlili",
+              "Do'kon mahsulotlari",
+              "Do'kon kategoriyalari",
+              "Do'kon raqobatchilari",
+              "Do'kon kunlik sotuvlari",
+              'Barcha mahsulotlar',
+              'Mahsulot tahlili',
+              'Mahsulot raqobatchilari',
               '24/7 doimiy yordam',
-              'Checksiz tovarlar',
             ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'
@@ -86,12 +103,11 @@ function LandingTarifs() {
             title='Premium'
             price='$40'
             features={[
-              'Oxirgi 30 kunlik',
-              'Ichki Analitika',
-              'Tashqi Analitika',
-              'Studio',
-              'Taqqoslash',
-              // "Yo'qotishlarni hisoblash",
+              "Boshlang'ich paketdagi barcha xizmatlar",
+              '60 kundan ortiq',
+              'Yangi mahsulotlar',
+              "O'sayotgan mahsulotlar",
+              "O'sayotgan kategoriyalar",
               '24/7 doimiy yordam',
             ]}
             color='primary'
@@ -145,7 +161,7 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        'flex h-[500px] max-h-[500px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        'flex h-[800px] max-h-[800px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
         isPro && 'bg-gradient',
         'border-2 border-blue-500'
       )}
