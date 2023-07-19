@@ -53,7 +53,7 @@ function ProductsComponent() {
   };
 
   return (
-    <div className='h-[calc(100vh-150px)] w-full'>
+    <div className='min-h-full w-full'>
       <Container loading={loading} className='h-full w-full'>
         <PaginatedTable
           fetchData={loadData}
