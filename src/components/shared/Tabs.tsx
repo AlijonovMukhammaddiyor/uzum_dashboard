@@ -23,8 +23,8 @@ function Tabs({ tabs, activeTab, setActiveTab, className }: TabsProps) {
           <li
             key={index}
             className={clsxm(
-              `tab flex min-w-[120px] cursor-pointer justify-center rounded-md px-2 py-1 text-sm ${
-                activeTab === tab ? 'active bg-primary bg-opacity-25' : ''
+              `tab flex min-w-[120px] cursor-pointer justify-center rounded-md px-2 py-1 text-sm font-semibold ${
+                activeTab === tab ? 'active bg-primary bg-opacity-[0.4]' : ''
               }`,
               activeTab !== tab && 'hover:bg-slate-400 hover:bg-opacity-25'
             )}
