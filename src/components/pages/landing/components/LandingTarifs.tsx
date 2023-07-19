@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import React from 'react';
-import { GiCheckMark } from 'react-icons/gi';
+import { IoCheckmarkSharp, IoCloseOutline } from 'react-icons/io5';
 
 import clsxm from '@/lib/clsxm';
 
@@ -63,8 +63,9 @@ function LandingTarifs() {
             price='$0'
             features={[
               "Umumiy ma'lumotlar",
-              'Barcha mahsulotlar jadvali (analitikalar bilan)',
-              "Barcha do'konlar jadvali (Analitikalar bilan)",
+              'Barcha mahsulotlar',
+              "Barcha do'konlar",
+              '24/7 doimiy yordam',
             ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'
@@ -95,6 +96,7 @@ function LandingTarifs() {
               '24/7 doimiy yordam',
             ]}
             color='primary'
+            isPro
             buttonTitle='Hoziroq boshlang'
             sendToRegister={sendToRegister}
           />
@@ -103,8 +105,22 @@ function LandingTarifs() {
             title='Premium'
             price='$40'
             features={[
-              "Boshlang'ich paketdagi barcha xizmatlar",
-              '60 kundan ortiq',
+              "Umumiy ma'lumotlar",
+              'Barcha Kategoriyalar',
+              'Kategoriya trendi',
+              'Kategoriya mahsulotlari',
+              'Ichki kategoriyalar',
+              'Kategoriya narx segmentatsiyasi',
+              "Kategoriya do'konlari",
+              "Barcha do'konlar",
+              "Do'kon tahlili",
+              "Do'kon mahsulotlari",
+              "Do'kon kategoriyalari",
+              "Do'kon raqobatchilari",
+              "Do'kon kunlik sotuvlari",
+              'Barcha mahsulotlar',
+              'Mahsulot tahlili',
+              'Mahsulot raqobatchilari',
               'Yangi mahsulotlar',
               "O'sayotgan mahsulotlar",
               "O'sayotgan kategoriyalar",
@@ -112,27 +128,10 @@ function LandingTarifs() {
             ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'
-            isPro
+            isProPlus
             sendToRegister={sendToRegister}
           />
           <div className='flex-1'></div>
-
-          {/* <Tarif
-            title='Premium +'
-            price='N/A'
-            features={[
-              'Ichki Analitika',
-              'Tashqi Analitika',
-              'Studio',
-              'Taqqoslash',
-              'Suniy Intellekt',
-              'Uzumdagi banner va reklamalar tahlili',
-            ]}
-            color='primary'
-            buttonTitle='Hoziroq boshlang'
-            isProPlus
-            sendToRegister={sendToRegister}
-          /> */}
         </div>
       </div>
     </div>
@@ -158,10 +157,33 @@ function Tarif({
   sendToRegister: (plan: string) => void;
   isProPlus?: boolean;
 }) {
+  const features_ = [
+    "Umumiy ma'lumotlar",
+    'Yangi mahsulotlar',
+    "O'sayotgan mahsulotlar",
+    "O'sayotgan kategoriyalar",
+    'Barcha Kategoriyalar',
+    'Kategoriya trendi',
+    'Kategoriya mahsulotlari',
+    'Ichki kategoriyalar',
+    'Kategoriya narx segmentatsiyasi',
+    "Kategoriya do'konlari",
+    "Barcha do'konlar",
+    "Do'kon tahlili",
+    "Do'kon mahsulotlari",
+    "Do'kon kategoriyalari",
+    "Do'kon raqobatchilari",
+    "Do'kon kunlik sotuvlari",
+    'Barcha mahsulotlar',
+    'Mahsulot tahlili',
+    'Mahsulot raqobatchilari',
+    '24/7 doimiy yordam',
+  ];
+
   return (
     <div
       className={clsxm(
-        'flex h-[800px] max-h-[800px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        'flex h-[900px] max-h-[900px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
         isPro && 'bg-gradient',
         'border-2 border-blue-500'
       )}
@@ -175,10 +197,27 @@ function Tarif({
           <div className='text-2xl font-bold'>{price}</div>
         </div>
         <ul className='mt-6 flex flex-col gap-2 pl-6'>
-          {features.map((feature: string) => (
-            <li key={feature} className='flex items-start justify-start'>
-              <GiCheckMark className='text-primary mr-2 inline-block h-5 w-5' />
-              {feature}
+          {isPro && (
+            <li className='flex items-start justify-start'>
+              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
+              30 kunlik ma'lumotlar
+            </li>
+          )}
+          {isProPlus && (
+            <li className='flex items-start justify-start'>
+              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
+              60+ kunlik ma'lumotlar
+            </li>
+          )}
+          {features_.map((f: string) => (
+            <li key={f} className='flex items-start justify-start'>
+              {/* <GiCheckMark className='text-primary mr-2 inline-block h-5 w-5' /> */}
+              {features.includes(f) ? (
+                <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
+              ) : (
+                <IoCloseOutline className='mr-2 inline-block h-5 w-5 text-red-500' />
+              )}
+              {f}
             </li>
           ))}
         </ul>
@@ -190,7 +229,7 @@ function Tarif({
             `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`
             // !isPro && 'bg-blue-500'
           )}
-          disabled={isProPlus}
+          // disabled={isProPlus}
         >
           {buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}
         </Button>

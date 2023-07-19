@@ -24,7 +24,6 @@
     "@ag-grid-enterprise/menu": "^30.0.2",
     "@ant-design/charts": "^1.4.2",
     "@ant-design/icons": "^4.8.0",
-    "@next/font": "^13.4.10",
     "ag-charts-community": "^8.0.3",
     "ag-charts-react": "^8.0.3",
     "ag-grid-community": "^29.3.5",
