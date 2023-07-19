@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import LandingPage from '@/components/pages/landing/LandingPage';
-import Seo from '@/components/Seo';
 
 /**
  * SVGR Support
@@ -19,7 +18,7 @@ export default function HomePage() {
   return (
     <div>
       {/* <Seo templateTitle='Home' /> */}
-      <Seo />
+      {/* <Seo /> */}
       <LandingPage />
     </div>
   );
