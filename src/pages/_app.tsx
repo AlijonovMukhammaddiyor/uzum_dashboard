@@ -1,7 +1,6 @@
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import { useRouter } from 'next/router';
-import { DefaultSeo } from 'next-seo';
 import NextNProgress from 'nextjs-progressbar';
 import { useEffect, useState } from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
@@ -70,7 +69,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <main className={roboto.className}>
-        <DefaultSeo
+        {/* add og manually */}
+
+        {/* <DefaultSeo
           title='UzAnalitika.Uz - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
           description="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
           openGraph={{
@@ -92,7 +93,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             site: '@site',
             cardType: 'summary_large_image',
           }}
-        />
+        /> */}
         <NextNProgress color='rgb(119, 67, 219)' />
         {isMobile &&
         router.pathname !== '/' &&
