@@ -71,17 +71,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <main className={roboto.className}>
         <DefaultSeo
+          title='UzAnalitika.Uz - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+          description="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
           openGraph={{
             type: 'website',
-            locale: 'en_IE',
+            locale: 'uz_UZ',
             url: 'https://www.uzanalitika.uz/',
-            siteName: 'Uzum Analitka Xizmatlari',
+            site_name: 'Uzum Analitka Xizmatlari',
             images: [
               {
                 url: 'https://www.uzanalitika.uz/images/og.png',
-                width: 1200,
-                height: 630,
-                alt: 'Uzum Analitika Xizmatlari',
+                width: 800,
+                height: 600,
+                alt: 'Og Image Alt',
               },
             ],
           }}
