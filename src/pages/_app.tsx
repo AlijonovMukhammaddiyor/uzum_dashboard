@@ -85,7 +85,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
           <meta
             property='og:image'
-            content='https://www.uzanalitika.uz/images/og.png'
+            content='https://www.uzanalitika.uz/images/og_new.png'
           />
           <meta property='og:url' content='https://www.uzanalitika.uz/' />
           <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
@@ -102,7 +102,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
           <meta
             property='twitter:image'
-            content='https://www.uzanalitika.uz/images/og.png'
+            content='https://www.uzanalitika.uz/images/og_new.png'
           />
           <meta property='twitter:site' content='@uzanalitika' />
           <meta property='twitter:creator' content='@uzanalitika' />

@@ -34,7 +34,7 @@ export default function Document() {
         />
         <meta
           property='og:image'
-          content='https://www.uzanalitika.uz/images/og.png'
+          content='https://www.uzanalitika.uz/images/og_new.png'
         />
         <meta property='og:url' content='https://www.uzanalitika.uz/' />
         <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
@@ -51,7 +51,7 @@ export default function Document() {
         />
         <meta
           property='twitter:image'
-          content='https://www.uzanalitika.uz/images/og.png'
+          content='https://www.uzanalitika.uz/images/og_new.png'
         />
         <meta property='twitter:site' content='@uzanalitika' />
         <meta property='twitter:creator' content='@uzanalitika' />
@@ -67,7 +67,7 @@ export default function Document() {
               '@type': 'Organization',
               name: 'UzAnalitika',
               url: 'https://www.uzanalitika.uz/',
-              logo: 'https://www.uzanalitika.uz/images/og.png',
+              logo: 'https://www.uzanalitika.uz/images/og_new.png',
               contactPoint: {
                 '@type': 'ContactPoint',
                 telephone: '+82 10 3268 2066',
