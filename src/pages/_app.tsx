@@ -73,8 +73,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <DefaultSeo
           openGraph={{
             type: 'website',
-            // uzbek locale
-            locale: 'uz_UZ',
+            locale: 'en_IE',
             url: 'https://www.uzanalitika.uz/',
             siteName: 'Uzum Analitka Xizmatlari',
             images: [
