@@ -187,7 +187,7 @@ function Tarif({
     <div
       className={clsxm(
         'flex h-[920px] max-h-[920px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
-        isPro && 'bg-gradient',
+        isProPlus && 'bg-gradient',
         'border-2 border-blue-500'
       )}
     >
