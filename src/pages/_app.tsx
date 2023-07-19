@@ -18,6 +18,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import 'reactjs-popup/dist/index.css';
 import 'rc-slider/assets/index.css';
 
+import Seo from '@/components/Seo';
 import ArrowLink from '@/components/shared/links/ArrowLink';
 
 import { AuthProvider } from '@/context/Context';
@@ -69,6 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <main className={roboto.className}>
+        <Seo />
         <NextNProgress color='rgb(119, 67, 219)' />
         {isMobile &&
         router.pathname !== '/' &&
