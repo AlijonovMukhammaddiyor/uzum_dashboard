@@ -62,13 +62,6 @@ const PaginatedTable = <T,>({
     loadModules();
   }, []);
 
-  // React.useEffect(() => {
-  //   if (gridApiRef.current) {
-  //     // Reload data when sellerId changes
-  //     gridApiRef.current.refreshServerSide({ purge: true });
-  //   }
-  // }, [id]);
-
   const onGridReady = (params: GridReadyEvent) => {
     let sortColumn: {
       colId: string;
@@ -124,16 +117,6 @@ const PaginatedTable = <T,>({
 
     params.api.addEventListener('filterChanged', async () => {
       const filterModel = params.api.getFilterModel();
-      // if (filterModel) {
-      // here, you may need to implement your own function to
-      // convert the filterModel to your API's query format
-      // const searchParams = convertFilterModelToSearchParams(filterModel);
-      // if (fetchData) {
-      //   const response = await fetchData(1, sortColumn, searchParams);
-      //   if (setLoading) setLoading(false);
-      //   successCallback(response.data.results, response.data.count);
-      // }
-      // only one filterType is text
       if (
         Object.values(filterModel).length > 0 &&
         Object.values(filterModel)[0].filterType === 'text'
@@ -148,7 +131,12 @@ const PaginatedTable = <T,>({
   };
 
   return (
-    <div className={clsxm('ag-theme-alpine h-[800px] min-w-full', className)}>
+    <div
+      className={clsxm(
+        'ag-theme-alpine h-[800px] min-w-full overflow-hidden rounded-lg border border-gray-200 shadow-sm',
+        className
+      )}
+    >
       <AgGridReact
         defaultColDef={{
           resizable: true,

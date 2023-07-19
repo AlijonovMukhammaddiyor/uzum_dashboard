@@ -92,7 +92,11 @@ class API {
 
       const refreshToken = this.context?.req.cookies['refresh'] ?? null;
       const response = await axios.post(
-        'https://www.uzanalitika.uz/api/refresh',
+        `${
+          process.env.NODE_ENV === 'production'
+            ? 'https://www.uzanalitika.uz'
+            : 'http://localhost:3000'
+        }/api/refresh`,
         { refreshToken }
       );
 
@@ -158,7 +162,7 @@ class API {
       const data = {
         username: user.username,
         email: user.email,
-        phone_number: '+' + user.phone_number,
+        phone_number: user.phone_number,
         referred_by_code: user.referred_by,
         fingerprint: user.fingerprint,
         password: user.password,

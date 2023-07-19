@@ -37,7 +37,7 @@ export default async function handler(
       }
     );
 
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       const refreshToken = response.data.refresh;
       const accessToken = response.data.access;
 

@@ -204,9 +204,10 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
             style={{ zIndex: index, left: `${index * 30}px` }}
             onClick={openModal}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className='h-[40px] w-[40px] object-contain'
-              src={src}
+              src={`/api/image?url=${encodeURIComponent(src)}`}
               alt=''
               // width={40}
               // height={40}
@@ -233,8 +234,9 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
         >
           {Array.from(srcs_no_duplicates).map((src, index) => (
             <div key={index}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={src}
+                src={`/api/image?url=${encodeURIComponent(src)}`}
                 alt='mahsulot_rasmi'
                 className='h-full max-h-[60vh] w-full object-contain'
                 width={500}

@@ -9,8 +9,6 @@ import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
 
-import { useContextState } from '@/context/Context';
-
 export interface NamesAndEmailComponentProps {
   activeTab: number;
   currentTab: number;
@@ -51,7 +49,6 @@ const NamesAndEmailComponent = ({
     setErrors([]);
     setUser({ ...user, [event.target.name]: event.target.value });
   };
-  const { dispatch } = useContextState();
 
   const handleRegister = () => {
     // Perform registration logic

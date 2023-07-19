@@ -8,6 +8,7 @@ import logger from '@/lib/logger';
 import { ShopsTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import PaginatedTable from '@/components/shared/PaginatedTable';
+import StateckedColumnChart from '@/components/shared/StackedColumnChart';
 
 export interface Props {
   className?: string;
@@ -30,9 +31,10 @@ interface SellerType {
 
 interface TopsType {
   seller_id: string;
-  shop_title: string;
+  title: string;
   diff_orders: number;
-  todiff_reviewstal_products: number;
+  diff_reviews: number;
+  total_products: number;
 }
 
 function SellersTable({ className }: Props) {
@@ -44,13 +46,10 @@ function SellersTable({ className }: Props) {
     const api = new API(null);
     setLoadingTops(true);
     api
-      .get<unknown, AxiosResponse<{ top_20_shops: TopsType[] }>>(
-        '/shop/yesterday-tops/'
-      )
+      .get<unknown, AxiosResponse<TopsType[]>>('/shop/yesterday-tops/')
       .then((res) => {
         setLoadingTops(false);
-        logger(res, 'Top 20 shops');
-        setTops(res.data.top_20_shops);
+        setTops(res.data);
       })
       .catch((err) => {
         // console.log(err);
@@ -102,10 +101,26 @@ function SellersTable({ className }: Props) {
   return (
     <div
       className={clsxm(
-        'flex h-full w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll',
+        'flex min-h-full w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll',
         className
       )}
     >
+      <Container
+        loading={loadingTops}
+        title='Kecha eng ko`p buyurtmaga ega bo`lgan do`konlar'
+        explanation='Do`konlar soni va buyurtmalar soni o`rtasidagi farq'
+        className={clsxm(
+          'h-[520px] w-full shrink-0 overflow-scroll rounded-md bg-white px-5 py-3'
+        )}
+      >
+        <StateckedColumnChart
+          data={prepareStackedColumnData(tops)}
+          style={{
+            height: '440px',
+            width: '100%',
+          }}
+        />
+      </Container>
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <PaginatedTable
           columnDefs={ShopsTableColumnDefs}
@@ -119,3 +134,23 @@ function SellersTable({ className }: Props) {
 }
 
 export default SellersTable;
+
+function prepareStackedColumnData(tops: TopsType[]) {
+  const data = [];
+
+  for (const top of tops) {
+    data.push({
+      x: top.title,
+      y: top.diff_reviews,
+      type: 'Izohlar soni',
+    });
+
+    data.push({
+      x: top.title,
+      y: top.diff_orders,
+      type: 'Buyurtmalar soni',
+    });
+  }
+
+  return data;
+}
