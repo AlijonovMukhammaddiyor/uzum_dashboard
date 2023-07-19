@@ -93,6 +93,7 @@ function LandingTarifs() {
               'Barcha mahsulotlar',
               'Mahsulot tahlili',
               'Mahsulot raqobatchilari',
+
               '24/7 doimiy yordam',
             ]}
             color='primary'
@@ -121,6 +122,7 @@ function LandingTarifs() {
               'Barcha mahsulotlar',
               'Mahsulot tahlili',
               'Mahsulot raqobatchilari',
+              'Mahsulot raqobatchilari taqqoslash',
               'Yangi mahsulotlar',
               "O'sayotgan mahsulotlar",
               "O'sayotgan kategoriyalar",
@@ -162,6 +164,7 @@ function Tarif({
     'Yangi mahsulotlar',
     "O'sayotgan mahsulotlar",
     "O'sayotgan kategoriyalar",
+    'Mahsulot raqobatchilari taqqoslash',
     'Barcha Kategoriyalar',
     'Kategoriya trendi',
     'Kategoriya mahsulotlari',
@@ -183,7 +186,7 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        'flex h-[900px] max-h-[900px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        'flex h-[920px] max-h-[920px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
         isPro && 'bg-gradient',
         'border-2 border-blue-500'
       )}
