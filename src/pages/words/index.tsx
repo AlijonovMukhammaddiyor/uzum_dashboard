@@ -56,7 +56,7 @@ export default function Words({ user }: WordsProps) {
 
   return (
     <Layout>
-      <Seo templateTitle='Words' />
+      <Seo />
       <div className='w-full rounded-md p-3'>{/* <WordsCloud /> */}</div>
     </Layout>
   );
