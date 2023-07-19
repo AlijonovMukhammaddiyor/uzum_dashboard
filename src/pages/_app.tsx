@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import { useRouter } from 'next/router';
+import { DefaultSeo } from 'next-seo';
 import NextNProgress from 'nextjs-progressbar';
 import { useEffect, useState } from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
@@ -18,7 +19,6 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import 'reactjs-popup/dist/index.css';
 import 'rc-slider/assets/index.css';
 
-import Seo from '@/components/Seo';
 import ArrowLink from '@/components/shared/links/ArrowLink';
 
 import { AuthProvider } from '@/context/Context';
@@ -70,7 +70,28 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
       <main className={roboto.className}>
-        <Seo />
+        <DefaultSeo
+          openGraph={{
+            type: 'website',
+            // uzbek locale
+            locale: 'uz_UZ',
+            url: 'https://www.uzanalitika.uz/',
+            siteName: 'Uzum Analitka Xizmatlari',
+            images: [
+              {
+                url: 'https://www.uzanalitika.uz/images/og.png',
+                width: 1200,
+                height: 630,
+                alt: 'Uzum Analitika Xizmatlari',
+              },
+            ],
+          }}
+          twitter={{
+            handle: '@handle',
+            site: '@site',
+            cardType: 'summary_large_image',
+          }}
+        />
         <NextNProgress color='rgb(119, 67, 219)' />
         {isMobile &&
         router.pathname !== '/' &&

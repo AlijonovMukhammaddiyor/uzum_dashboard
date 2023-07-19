@@ -7353,6 +7353,11 @@
   "resolved" "https://registry.npmjs.org/next-router-mock/-/next-router-mock-0.7.5.tgz"
   "version" "0.7.5"
 
+"next-seo@^6.1.0":
+  "integrity" "sha512-iMBpFoJsR5zWhguHJvsoBDxDSmdYTHtnVPB1ij+CD0NReQCP78ZxxbdL9qkKIf4oEuZEqZkrjAQLB0bkII7RYA=="
+  "resolved" "https://registry.npmjs.org/next-seo/-/next-seo-6.1.0.tgz"
+  "version" "6.1.0"
+
 "next-sitemap@^2.5.28":
   "integrity" "sha512-rDMTa7nLE0ikYnu8JDCrwQufIRm4b4Sg8BK11DGdDAmYpXmcmw4Qvm+oVBR8gUL97E6i2ihTM+cRx8mgENDACA=="
   "resolved" "https://registry.npmjs.org/next-sitemap/-/next-sitemap-2.5.28.tgz"
@@ -7361,7 +7366,7 @@
     "@corex/deepmerge" "^2.6.148"
     "minimist" "^1.2.6"
 
-"next@*", "next@^12.2.5 || ^13", "next@^13.4.10", "next@>= 6.0.0", "next@>=10.0.0":
+"next@*", "next@^12.2.5 || ^13", "next@^13.4.10", "next@^8.1.1-canary.54 || >=9.0.0", "next@>= 6.0.0", "next@>=10.0.0":
   "integrity" "sha512-4ep6aKxVTQ7rkUW2fBLhpBr/5oceCuf4KmlUpvG/aXuDTIf9mexNSpabUD6RWPspu6wiJJvozZREhXhueYO36A=="
   "resolved" "https://registry.npmjs.org/next/-/next-13.4.10.tgz"
   "version" "13.4.10"

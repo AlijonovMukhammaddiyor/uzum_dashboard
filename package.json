@@ -40,6 +40,7 @@
     "next": "^13.4.10",
     "next-auth": "^4.22.1",
     "next-connect": "^1.0.0",
+    "next-seo": "^6.1.0",
     "nextjs-progressbar": "^0.0.16",
     "nookies": "^2.5.2",
     "rc-slider": "^10.2.1",
