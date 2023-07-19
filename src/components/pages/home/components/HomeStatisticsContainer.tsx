@@ -64,29 +64,38 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
     <div className='flex h-full w-full flex-col gap-5'>
       <Container
         className={clsxm(
-          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md bg-white px-5',
+          'h-max min-h-[580px] w-full items-start justify-start overflow-x-scroll rounded-md bg-white px-4 py-3',
           className
         )}
         loading={loading}
+        title="Uzumdagi jami buyurtmalar, mahsulotlar va do'konlar soni statistikasi"
+        titleContainerStyle={{
+          marginBottom: '10px',
+        }}
+        explanation="Bu analiz uchun qo'llanma mabjud emas"
       >
         <AreaChart
           labels={getLabels(orders, products, shops) ?? []}
           data={prepareData(orders, products, shops) ?? []}
           style={{
             width: '100%',
-            height: '500px',
+            height: '530px',
             // maxHeight: '500px',
           }}
           className='h-[500px] max-h-[500px] w-full'
-          title='Uzumdagi jami buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
         />
       </Container>
       <Container
         className={clsxm(
-          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md bg-white px-2',
+          'h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md bg-white px-4 py-3',
           className
         )}
         loading={loading}
+        title="Uzumdagi kunlik yangi buyurtmalar, mahsulotlar va do'konlar soni statistikasi"
+        titleContainerStyle={{
+          marginBottom: '10px',
+        }}
+        explanation="Bu analiz uchun qo'llanma mabjud emas"
       >
         <AreaChart
           labels={getLabels(orders, products, shops).slice(1) ?? []}
@@ -97,7 +106,6 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             // maxHeight: '500px',
           }}
           className='h-[500px] max-h-[500px] w-full'
-          title='Uzumdagi kunlik yangi buyurtmalar, mahsulotlar va do`konlar soni statistikasi'
         />
       </Container>
     </div>

@@ -50,9 +50,9 @@ function Container({
           {explanation && (
             <button
               onClick={toggleSidebar}
-              className='rounded-md bg-purple-200 px-2 py-1 text-xs text-purple-800'
+              className='rounded-md bg-orange-200 px-2 py-1 text-xs text-purple-600'
             >
-              Tushuntirmani {isSidebarOpen ? 'yashirish' : "ko'rsatish"}
+              Qo'llanmani {isSidebarOpen ? 'yashirish' : "ko'rsatish"}
             </button>
           )}
         </div>

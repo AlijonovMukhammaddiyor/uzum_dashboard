@@ -108,9 +108,7 @@ function ProductAnalytics({
             className='h-[460px] max-h-[460px] w-full'
           />
         )}
-        {/* )} */}
 
-        {/* {product && product.recent_analytics && ( */}
         {isActive && (
           <AreaChart
             labels={

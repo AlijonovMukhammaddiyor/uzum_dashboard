@@ -920,7 +920,6 @@ export const GrowingCategoriesColDefs = [
     cellRenderer: PriceRenderer,
     minWidth: 150,
     filter: false,
-    maxWidth: 200,
     cellStyle: {
       textAlign: 'center',
       // backgroundColor: 'rgba(43, 215, 229, 0.1)',
@@ -1051,22 +1050,22 @@ export const GrowingProductsColDefs = [
     maxWidth: 200,
     headerTooltip: "Mahsulotning o'z kategoriyasidagi pozitsiyasi.",
   },
-  {
-    headerName: "Qo'shilgan sana",
-    field: 'created_at',
-    sortable: true,
-    cellRenderer: ProductDateCellRenderer,
-    minWidth: 150,
-    filter: false,
-    maxWidth: 200,
-    cellStyle: {
-      textAlign: 'center',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'rgba(43, 215, 229, 0.1)',
-    } as CellStyle,
-  },
+  // {
+  //   headerName: "Qo'shilgan sana",
+  //   field: 'created_at',
+  //   sortable: true,
+  //   cellRenderer: ProductDateCellRenderer,
+  //   minWidth: 150,
+  //   filter: false,
+  //   maxWidth: 200,
+  //   cellStyle: {
+  //     textAlign: 'center',
+  //     display: 'flex',
+  //     alignItems: 'center',
+  //     justifyContent: 'center',
+  //     backgroundColor: 'rgba(43, 215, 229, 0.1)',
+  //   } as CellStyle,
+  // },
 
   {
     headerName: "O'rtacha Sotish narxi",

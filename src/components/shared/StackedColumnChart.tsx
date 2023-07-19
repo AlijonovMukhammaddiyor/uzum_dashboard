@@ -13,9 +13,14 @@ export interface StateckedColumnChartProps {
     type: string;
   }[];
   style: React.CSSProperties;
+  sliderEnd?: number;
 }
 
-const StateckedColumnChart = ({ data, style }: StateckedColumnChartProps) => {
+const StateckedColumnChart = ({
+  data,
+  style,
+  sliderEnd = 0.04,
+}: StateckedColumnChartProps) => {
   const [data_, setData] = useState(data);
 
   useEffect(() => {
@@ -71,7 +76,7 @@ const StateckedColumnChart = ({ data, style }: StateckedColumnChartProps) => {
     },
     slider: {
       start: 0,
-      end: 0.04,
+      end: sliderEnd,
       slider: {
         formatter: (v: any) => {
           const range = v.split('-');
@@ -87,7 +92,7 @@ const StateckedColumnChart = ({ data, style }: StateckedColumnChartProps) => {
         case 'Izohlar soni':
           return 'rgba(255, 82, 162, 0.5)'; // specify color for Buyurtmalar soni
         default:
-          return '#ccc'; // default color for other categories
+          return 'rgba(120, 193, 243, 0.7)'; // default color for other categories
       }
     },
   };

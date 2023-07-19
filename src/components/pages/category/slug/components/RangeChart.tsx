@@ -57,6 +57,7 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
       },
     },
     yAxis: {
+      tickCount: 20,
       grid: {
         line: {
           style: {

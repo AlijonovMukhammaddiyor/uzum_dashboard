@@ -10,6 +10,7 @@ import logger from '@/lib/logger';
 import { CategoryProductsColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import LineChart from '@/components/shared/LineChart';
+import StateckedColumnChart from '@/components/shared/StackedColumnChart';
 import Table from '@/components/shared/Table';
 
 interface Props {
@@ -171,14 +172,22 @@ function ShopCategories({ className, sellerId }: Props) {
           />
         )}
         {showCategoryData && (
-          <LineChart
+          // <LineChart
+          //   data={getDailyOrdersData(categoryData)}
+          //   yAxisTitle='kunlik buyurtmalar soni'
+          //   xAxisTitle='Sana'
+          //   style={{
+          //     width: '100%',
+          //     height: '250px',
+          //   }}
+          // />
+          <StateckedColumnChart
             data={getDailyOrdersData(categoryData)}
-            yAxisTitle='kunlik buyurtmalar soni'
-            xAxisTitle='Sana'
             style={{
               width: '100%',
               height: '250px',
             }}
+            sliderEnd={1}
           />
         )}
         {showCategoryData && (
@@ -261,7 +270,7 @@ function getDailyOrdersData(data: CategoryDataType[]) {
     dataset.push({
       x: element.date.slice(0, 10),
       y: element.data.orders_amount - prev,
-      label: 'Kunlik buyurtmalar soni',
+      type: 'Kunlik buyurtmalar soni',
     });
     prev = element.data.orders_amount;
   }
