@@ -46,6 +46,26 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         autoRotate: true,
         autoHide: false,
       },
+      grid: {
+        line: {
+          style: {
+            stroke: '#d9d9d9',
+            lineWidth: 1,
+            lineDash: [4, 4],
+          },
+        },
+      },
+    },
+    yAxis: {
+      grid: {
+        line: {
+          style: {
+            stroke: '#d9d9d9',
+            lineWidth: 1,
+            lineDash: [4, 4],
+          },
+        },
+      },
     },
     label: {
       // 可手动配置 label 数据标签位置

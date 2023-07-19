@@ -42,6 +42,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     // check if user is logged in
     const res = await api.getCurrentUser();
 
+    if (!res) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+        props: {},
+      };
+    }
+
     return {
       props: {
         user: res,

@@ -45,7 +45,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
           labels: string[];
           total: number;
         }>
-      >(`/category/analytics/` + categoryId + '?range=40')
+      >(`/category/analytics/` + categoryId + '?range=60')
       .then((res) => {
         setData(res.data.data);
         setLabels(res.data.labels);
@@ -185,7 +185,7 @@ const prepareDataset = (data: CategoryAnalyticsDataType[]) => {
       borderColor: '#2ca02c',
       backgroundColor: 'rgba(44, 160, 44, 0.15)',
       label: "Do'konlar",
-      hidden: true,
+      hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#2ca02c',
     },

@@ -7,6 +7,7 @@ import Loading from '@/components/Loading';
 type ContainerProps = {
   loading?: boolean;
   customStyle?: React.CSSProperties;
+  titleContainerStyle?: React.CSSProperties;
   show?: boolean;
   animation?: 'fade' | 'slide';
   title?: string;
@@ -18,6 +19,7 @@ function Container({
   loading,
   className,
   show = true,
+  titleContainerStyle,
   title,
   explanation,
   ...rest
@@ -40,8 +42,11 @@ function Container({
       {...rest}
     >
       {title && (
-        <div className='flex items-center justify-between bg-purple-100 px-5 py-3 text-purple-700'>
-          <h4>{title}</h4>
+        <div
+          className='flex items-center justify-between bg-purple-100 px-5 py-3 text-purple-700'
+          style={titleContainerStyle}
+        >
+          <h4 className='text-base'>{title}</h4>
           {explanation && (
             <button
               onClick={toggleSidebar}

@@ -100,6 +100,7 @@ function AreaChart({
   const options: any = {
     maintainAspectRatio: false,
     responsive: true,
+
     plugins: {
       tooltip: {
         enabled: true,
@@ -109,11 +110,18 @@ function AreaChart({
         position: 'top',
       },
       title: {
-        display: true,
+        display: title ? true : false,
         text: title,
       },
     },
     scales: {
+      x: {
+        autoSkip: false,
+        ticks: {
+          maxRotation: 90,
+          minRotation: 0,
+        },
+      },
       ...yAxis,
     },
     tension: 0.3,

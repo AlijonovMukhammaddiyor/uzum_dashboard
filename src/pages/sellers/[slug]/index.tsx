@@ -130,6 +130,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const api = new API(context);
     // check if user is logged in
     const res = await api.getCurrentUser();
+    if (!res) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+        props: {},
+      };
+    }
     const { slug } = context.query;
 
     const seller_link = slug as string;

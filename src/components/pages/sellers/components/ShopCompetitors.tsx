@@ -185,6 +185,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
           <SingleAxisAreaChart
             labels={prepareLabels(competitors)}
             data={preparePriceDataset(competitors)}
+            tension={0}
             style={{
               height: '470px',
               maxHeight: '470px',
@@ -357,18 +358,31 @@ function preparePriceDataset(data: CompetitorsType[]) {
   if (data.length === 0) return [];
   const datasets = [];
   const colors = [
-    { background: 'rgba(102, 187, 106, 0.2)', border: 'rgb(102, 187, 106)' }, // light green
-    { background: 'rgba(255, 241, 118, 0.2)', border: 'rgb(43, 39, 48)' }, // light yellow
-    { background: 'rgba(129, 212, 250, 0.2)', border: 'rgb(129, 212, 250)' }, // light blue
-    { background: 'rgba(159, 168, 218, 0.2)', border: 'rgb(159, 168, 218)' }, // light indigo
-    { background: 'rgba(206, 147, 216, 0.2)', border: 'rgb(206, 147, 216)' }, // light purple
-    { background: 'rgba(239, 154, 154, 0.2)', border: 'rgb(239, 154, 154)' }, // light red
-    { background: 'rgba(179, 157, 219, 0.2)', border: 'rgb(179, 157, 219)' }, // light deep purple
-    { background: 'rgba(240, 98, 146, 0.2)', border: 'rgb(240, 98, 146)' }, // light pink
-    { background: 'rgba(121, 134, 203, 0.2)', border: 'rgb(121, 134, 203)' }, // light blue grey
-    { background: 'rgba(128, 203, 196, 0.2)', border: 'rgb(128, 203, 196)' }, // light cyan
-    { background: 'rgba(165, 114, 167, 0.2)', border: 'rgb(165, 114, 167)' }, // light teal
+    { background: 'rgba(102, 187, 106, 0.2)', border: '#d62728' }, // light green
+    { background: 'rgba(255, 241, 118, 0.2)', border: '#9467bd' }, // light yellow
+    { background: 'rgba(129, 212, 250, 0.2)', border: '#8c564b' }, // light blue
+    { background: 'rgba(159, 168, 218, 0.2)', border: '#e377c2' }, // light indigo
+    { background: 'rgba(206, 147, 216, 0.2)', border: '#7f7f7f' }, // light purple
+    { background: 'rgba(239, 154, 154, 0.2)', border: '#bcbd22' }, // light red
+    { background: 'rgba(179, 157, 219, 0.2)', border: '#17becf' }, // light deep purple
+    { background: 'rgba(240, 98, 146, 0.2)', border: '#aec7e8' }, // light pink
+    { background: 'rgba(121, 134, 203, 0.2)', border: '#2ca02c' }, // light blue grey
+    { background: 'rgba(128, 203, 196, 0.2)', border: '#1f77b4' }, // light cyan
+    { background: 'rgba(165, 114, 167, 0.2)', border: '#ff7f0e' }, // light teal
   ];
+  // color: [
+  //     '#d62728',
+  //     '#9467bd',
+  //     '#8c564b',
+  //     '#e377c2',
+  //     '#7f7f7f',
+  //     '#bcbd22',
+  //     '#17becf',
+  //     '#aec7e8',
+  //     '#2ca02c',
+  //     '#1f77b4',
+  //     '#ff7f0e',
+  //   ],
   let i = 0;
 
   for (const competitor of data) {

@@ -59,14 +59,13 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
       )}
     >
       <Container
-        className='flex h-[500px] w-full flex-col rounded-md bg-slate-100 p-5'
+        className='flex h-[520px] w-full flex-col rounded-md bg-slate-100 px-5 py-2'
         loading={loading}
+        title="Sotuvchining buyurtmalari, izohlari, va mahsulotlari soni, hamda o'rtacha mahsulot narxi"
+        titleContainerStyle={{
+          marginBottom: '10px',
+        }}
       >
-        <div className='flex w-full items-center justify-center'>
-          <p className='text-primary'>
-            Sotuvchining buyurtmalari, izohlari, va mahsulotlari soni
-          </p>
-        </div>
         {isActive && (
           <AreaChart
             labels={data.slice(1).map((item) => item.date_pretty)}
@@ -77,7 +76,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
         )}
       </Container>
       <Container
-        className='mt-4 flex h-[450px] w-full flex-col rounded-md bg-slate-100 p-5'
+        className='mt-4 flex h-[350px] w-full flex-col rounded-md bg-slate-100 p-5'
         loading={loading}
       >
         <div className='flex w-full items-center justify-center'>
@@ -95,9 +94,9 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
               };
             })}
             style={{
-              height: '380px',
-              maxHeight: '380px',
-              minHeight: '380px',
+              height: '300px',
+              maxHeight: '300px',
+              minHeight: '300px',
               width: '100%',
             }}
             isStep
@@ -135,6 +134,10 @@ function prepareDataset(data: SellerType[]) {
     y: number;
     x: string;
   }[] = [];
+  const price: {
+    y: number;
+    x: string;
+  }[] = [];
 
   let prevOrders = data[0]?.total_orders || 0;
   let prevReviews = data[0]?.total_reviews || 0;
@@ -143,6 +146,10 @@ function prepareDataset(data: SellerType[]) {
     orders.push({ y: item.total_orders - prevOrders, x: item.date_pretty });
     products.push({ y: item.total_products, x: item.date_pretty });
     reviews.push({ y: item.total_reviews - prevReviews, x: item.date_pretty });
+    price.push({
+      y: item.average_purchase_price,
+      x: item.date_pretty,
+    });
 
     prevOrders = item.total_orders;
     prevReviews = item.total_reviews;
@@ -178,6 +185,16 @@ function prepareDataset(data: SellerType[]) {
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#d62728',
+    },
+    {
+      data: price,
+      fill: true,
+      borderColor: '#9467bd',
+      backgroundColor: 'rgba(148, 103, 189, 0.25)',
+      label: "O'rtacha narx",
+      hidden: true,
+      pointRadius: 3,
+      pointBackgroundColor: '#9467bd',
     },
   ];
 }
