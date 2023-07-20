@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import {
@@ -11,6 +12,9 @@ import logger from '@/lib/logger';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
 
+import free from '@/assets/landing/free.png';
+import star from '@/assets/landing/star.png';
+import starter from '@/assets/landing/starter.png';
 import { useContextState } from '@/context/Context';
 
 export interface HeaderProps {
@@ -51,6 +55,25 @@ export default function Header() {
                 <div className='ml-1 flex flex-col items-start justify-start'>
                   <span className='m-0 text-xs'>{state.user?.username}</span>
                 </div>
+                {state.user?.is_proplus ? (
+                  <Image
+                    src={star}
+                    alt='premium-star'
+                    className='ml-2 h-5 w-5'
+                  />
+                ) : state.user?.is_pro ? (
+                  <Image
+                    src={starter}
+                    alt='premium-star'
+                    className='ml-2 h-5 w-5'
+                  />
+                ) : (
+                  <Image
+                    src={free}
+                    alt='premium-star'
+                    className='ml-2 h-5 w-5'
+                  />
+                )}
               </div>
             </li>
             {is_paid && (

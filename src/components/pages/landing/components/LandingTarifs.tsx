@@ -164,7 +164,6 @@ function Tarif({
     'Yangi mahsulotlar',
     "O'sayotgan mahsulotlar",
     "O'sayotgan kategoriyalar",
-
     'Barcha Kategoriyalar',
     'Kategoriya trendi',
     'Kategoriya mahsulotlari',
