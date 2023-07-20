@@ -65,6 +65,7 @@ function LandingTarifs() {
               "Umumiy ma'lumotlar",
               'Barcha mahsulotlar',
               "Barcha do'konlar",
+              'Barcha Kategoriyalar',
               '24/7 doimiy yordam',
             ]}
             color='primary'
@@ -183,6 +184,35 @@ function Tarif({
     '24/7 doimiy yordam',
   ];
 
+  const features__ = [
+    "Umumiy ma'lumotlar",
+    'Barcha Kategoriyalar',
+    "Barcha do'konlar",
+    'Barcha mahsulotlar',
+    'Yangi mahsulotlar',
+    "O'sayotgan mahsulotlar",
+    "O'sayotgan kategoriyalar",
+
+    'Kategoriya trendi',
+    'Kategoriya mahsulotlari',
+    'Ichki kategoriyalar',
+    'Kategoriya narx segmentatsiyasi',
+    "Kategoriya do'konlari",
+
+    "Do'kon tahlili",
+    "Do'kon mahsulotlari",
+    "Do'kon kategoriyalari",
+    "Do'kon raqobatchilari",
+    "Do'kon kunlik sotuvlari",
+
+    'Mahsulot tahlili',
+    'Mahsulot raqobatchilari',
+    'Mahsulot raqobatchilari taqqoslash',
+    '24/7 doimiy yordam',
+  ];
+
+  const ff = title === 'Bepul' ? features__ : features_;
+
   return (
     <div
       className={clsxm(
@@ -212,7 +242,7 @@ function Tarif({
               60+ kunlik ma'lumotlar
             </li>
           )}
-          {features_.map((f: string) => (
+          {ff.map((f: string) => (
             <li key={f} className='flex items-start justify-start'>
               {/* <GiCheckMark className='text-primary mr-2 inline-block h-5 w-5' /> */}
               {features.includes(f) ? (
