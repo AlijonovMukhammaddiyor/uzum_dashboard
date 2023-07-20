@@ -1,4 +1,6 @@
 import React from 'react';
+// import instagram icon
+import { AiOutlineInstagram } from 'react-icons/ai';
 import { BsTelegram } from 'react-icons/bs';
 // import email icon
 import { HiOutlineMail } from 'react-icons/hi';
@@ -23,12 +25,18 @@ function Footer() {
             </li>
           ))}
         </ul>
-        <div className='flex items-center justify-end'>
-          <a href='https://t.me/uzumanalitika_official' target='_blank'>
+        <div className='flex items-center justify-end gap-3'>
+          <a
+            href='https://instagram.com/uzanalitika?igshid=MzNlNGNkZWQ4Mg=='
+            target='_blank'
+          >
+            <AiOutlineInstagram className='h-10 w-10 cursor-pointer text-white ' />
+          </a>
+          <a href='https://t.me/uzanalitika' target='_blank'>
             <BsTelegram className='h-8 w-8 cursor-pointer text-white ' />
           </a>
           <a href='mailto: uzumanalitika@gmail.com'>
-            <HiOutlineMail className='ml-4 h-8 w-8 cursor-pointer text-white' />
+            <HiOutlineMail className='h-8 w-8 cursor-pointer text-white' />
           </a>
         </div>
       </div>
