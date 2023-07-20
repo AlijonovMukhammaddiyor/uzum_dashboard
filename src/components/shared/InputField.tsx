@@ -72,9 +72,6 @@ const CustomInput: React.FC<
           placeholder={placeholder}
           disabled={disabled}
           onChange={onChange}
-          onClick={() => {
-            console.log('input clicked');
-          }}
           value={value}
           {...rest}
         />

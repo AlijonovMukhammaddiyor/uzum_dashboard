@@ -56,12 +56,23 @@ const NamesAndEmailComponent = ({
     onRegister();
   };
 
+  const validateEmail = (email: string) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const onRegister = async () => {
     if (!isPasswordValid)
       return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
 
     if (!user.phone_number) return alert('Telefon raqamingizni kiriting!');
     if (!user.username) return alert('Foydalanuvchi nomini kiriting!');
+
+    if (!user.email || !validateEmail(user.email))
+      return alert('Iltimos, to`g`ri email kiriting!');
 
     setSendingRequest(true);
     const api = new API(null);

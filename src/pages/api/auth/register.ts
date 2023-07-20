@@ -68,7 +68,7 @@ export default async function handler(
     const data = error_.response?.data as {
       error: string;
     };
-    logger(data.error ?? 'unknown', 'Error in /api/auth/register');
+    logger(error, 'Error in /api/auth/register');
     return res.status(500).json({ detail: data.error ?? 'unknown' });
   }
 }
