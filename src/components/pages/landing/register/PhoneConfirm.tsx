@@ -1,3 +1,4 @@
+import axios, { AxiosError } from 'axios';
 import React from 'react';
 
 import clsxm from '@/lib/clsxm';
@@ -5,6 +6,8 @@ import clsxm from '@/lib/clsxm';
 import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
+
+import { SERVER_URL } from '@/constant/env';
 
 export interface PhoneConfirmComponentProps {
   onNext: () => void;
@@ -27,30 +30,30 @@ function PhoneConfirm({
 
   const handleSendCode = async () => {
     setErrorMessage(null);
-    setSendingRequest(true);
-    onNext();
-    setSendingRequest(false);
-    // try {
-    //   const res = await axios.post(SERVER_URL + '/verify/', {
-    //     phone_number: '+' + phone,
-    //     code,
-    //   });
+    // setSendingRequest(true);
+    // onNext();
+    // setSendingRequest(false);
+    try {
+      const res = await axios.post(SERVER_URL + '/verify/', {
+        phone_number: '+' + phone,
+        code,
+      });
 
-    //   if (res.status === 200) {
-    //     setSendingRequest(false);
-    //     onNext();
-    //     return;
-    //   } else {
-    //     setErrorMessage(
-    //       'Xatolik yuz berdi. Agar bu yana takrorlansa, bizga xabar bering!'
-    //     );
-    //   }
-    // } catch (err) {
-    //   setSendingRequest(false);
-    //   setErrorMessage(
-    //     ((err as AxiosError).response?.data as { message: string }).message
-    //   );
-    // }
+      if (res.status === 200) {
+        setSendingRequest(false);
+        onNext();
+        return;
+      } else {
+        setErrorMessage(
+          'Xatolik yuz berdi. Agar bu yana takrorlansa, bizga xabar bering!'
+        );
+      }
+    } catch (err) {
+      setSendingRequest(false);
+      setErrorMessage(
+        ((err as AxiosError).response?.data as { message: string }).message
+      );
+    }
   };
 
   return (
