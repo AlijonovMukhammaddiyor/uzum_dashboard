@@ -105,7 +105,7 @@ function LandingHeader() {
                     </div>
                   </a>
                   <a
-                    href='https://t.me/uzumanalitika_official'
+                    href='https://t.me/uzanalitika'
                     target='_blank'
                     className='flex shrink-0 cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2  text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500'
                   >
