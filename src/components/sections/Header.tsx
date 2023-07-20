@@ -51,8 +51,9 @@ export default function Header() {
             <div className='relative mt-3 flex  items-center justify-between rounded-md bg-gradient-to-r from-purple-500 to-blue-500 p-2 px-4 py-1 text-white'>
               <div className='flex items-center justify-start gap-3'>
                 <p className='text-sm'>
-                  Hozirda to'lov tizimini ishga tushirish jarayonida ishlaymiz.
-                  To'lov qilish uchun iltimos, biz bilan bog'laning.
+                  Hozirda to'lov tizimini ishga tushirish jarayonida
+                  ishlamoqdamiz. To'lov qilish uchun iltimos, biz bilan
+                  bog'laning.
                 </p>
                 <a
                   href='https://instagram.com/uzanalitika?igshid=MzNlNGNkZWQ4Mg=='
