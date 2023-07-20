@@ -99,6 +99,37 @@
     @apply min-h-[calc(100vh-56px)];
   }
 
+  .instagram-btn {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 30px;
+    background: rgb(253, 29, 29);
+    background: linear-gradient(
+      45deg,
+      rgba(128, 56, 176, 1) 0%,
+      rgba(204, 51, 153, 1) 30%,
+      rgba(255, 102, 102, 1) 60%,
+      rgba(255, 119, 51, 1) 100%
+    );
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    transition: all 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .instagram-btn:hover {
+    opacity: 0.8;
+  }
+
+  .instagram-btn:active {
+    opacity: 0.9;
+  }
+
   .link-underline {
     border-bottom-width: 0;
     background-image: linear-gradient(transparent, transparent),
