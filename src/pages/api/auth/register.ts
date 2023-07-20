@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { setCookie } from 'nookies';
 
@@ -64,7 +64,11 @@ export default async function handler(
     }
   } catch (error) {
     // Log error
-    logger(error, 'Error in /api/auth/register');
-    return res.status(500).json({ detail: 'Error in /api/register.' });
+    const error_ = error as AxiosError;
+    const data = error_.response?.data as {
+      error: string;
+    };
+    logger(data.error ?? 'unknown', 'Error in /api/auth/register');
+    return res.status(500).json({ detail: data.error ?? 'unknown' });
   }
 }

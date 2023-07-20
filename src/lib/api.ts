@@ -178,7 +178,7 @@ class API {
       return false;
     } catch (err) {
       logger(err, "Can't register");
-      throw new Error('Xatolik yuz berdi');
+      throw new Error((err as { response: any }).response?.data.detail);
     }
   }
 

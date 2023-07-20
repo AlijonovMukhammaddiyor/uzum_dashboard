@@ -109,8 +109,8 @@ export default function Header() {
             </li>
             {is_paid && (
               <li>
-                <div className='flex max-w-[200px] items-center justify-start '>
-                  <p>Taklif kod:</p>
+                <div className='flex max-w-[200px] items-center justify-start rounded-md border border-slate-400 bg-purple-100 px-2 py-1 '>
+                  <p className='text-sm'>Taklif kod:</p>
                   <div className='ml-1 flex flex-col items-start justify-start'>
                     <span className='m-0 text-xs'>
                       {state.user?.referral_code}

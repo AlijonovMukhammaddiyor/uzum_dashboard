@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
 import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
@@ -44,9 +45,9 @@ const NamesAndEmailComponent = ({
   const router = useRouter();
   const [sendingRequest, setSendingRequest] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [errors, setErrors] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setErrors([]);
+    setError(null);
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
@@ -81,6 +82,18 @@ const NamesAndEmailComponent = ({
         setSendingRequest(false);
       }
     } catch (e) {
+      const error = e as Error;
+      // get error message
+      const errorMessage = error.message;
+      logger(errorMessage, 'Error in Register');
+      if (errorMessage === 'A user with this phone number already exists.') {
+        setError('Bunday telefon raqamli foydalanuvchi allaqachon mavjud!');
+      }
+      if (errorMessage === 'A user with this username already exists.') {
+        setError(
+          'Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting!'
+        );
+      }
       setSendingRequest(false);
     }
   };
@@ -112,14 +125,23 @@ const NamesAndEmailComponent = ({
         containerStyle={clsxm('rounded-md')}
         inputStyle={clsxm(
           'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm',
-          errors.includes('username') ? 'border-2 border-red-500' : ''
+          error ===
+            'Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting!'
+            ? 'border-2 border-red-500'
+            : ''
         )}
         placeholder='Foydalanuvchi nomini kiriting (majburiy)'
         name='username'
         value={user.username}
         onChange={(e) => {
           // remove username error if exists
-          setErrors(errors.filter((err) => err !== 'username'));
+          // setErrors(errors.filter((err) => err !== 'username'));
+          if (
+            error ===
+            'Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting!'
+          ) {
+            setError(null);
+          }
           handleInputChange(e);
         }}
         required
@@ -206,26 +228,12 @@ const NamesAndEmailComponent = ({
         onClick={handleRegister}
         isLoading={sendingRequest}
         spinnerColor='black'
-        disabled={!isPasswordValid || sendingRequest || errors.length > 0}
+        disabled={!isPasswordValid || sendingRequest || error !== null}
       >
         Ro'yxatdan o'tish
       </Button>
       <div className=''>
-        {errors.includes('phone_number') && (
-          <p className='text-xs text-red-500'>
-            Bunday telefon raqamli foydalanuvchi allaqachon mavjud!
-          </p>
-        )}
-        {errors.includes('username') && (
-          <p className='text-xs text-red-500'>
-            Bunday nomli foydalanuvchi allaqachon mavjud!
-          </p>
-        )}
-        {!errors.includes('username') && !errors.includes('phone_number') && (
-          <p className='text-xs text-slate-400'>
-            Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring
-          </p>
-        )}
+        {error && <p className='text-xs text-red-500'>{error}</p>}
       </div>
 
       <RegisterFooter

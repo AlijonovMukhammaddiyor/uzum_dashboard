@@ -52,9 +52,8 @@ const PhoneInputComponent = ({
     if (user.phone_number.length < 10)
       return alert("Raqamingizni to'liq kiriting!");
     setSendingRequest(true);
-
     try {
-      const res = await axios.post(SERVER_URL + '/code/', {
+      const res = await axios.post(SERVER_URL + '/code/?is_register=True', {
         phone_number: '+' + user.phone_number,
         is_register: true,
       });
