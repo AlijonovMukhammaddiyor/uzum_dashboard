@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
 
-import Footer from '@/components/pages/landing/components/Footer';
+import Footer1 from '@/components/pages/landing/components/Footer1';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 import LandingMain from '@/components/pages/landing/components/LandingMain';
 import LandingTarifs from '@/components/pages/landing/components/LandingTarifs';
@@ -49,7 +49,8 @@ function LandingPage() {
       <SectionFeatures />
       <Tops />
       <LandingTarifs />
-      <Footer />
+      {/* <Footer /> */}
+      <Footer1 />
     </div>
   );
 }
