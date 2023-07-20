@@ -71,7 +71,7 @@ const NamesAndEmailComponent = ({
     if (!user.phone_number) return alert('Telefon raqamingizni kiriting!');
     if (!user.username) return alert('Foydalanuvchi nomini kiriting!');
 
-    if (!user.email || !validateEmail(user.email))
+    if (user.email && !validateEmail(user.email))
       return alert('Iltimos, to`g`ri email kiriting!');
 
     setSendingRequest(true);
