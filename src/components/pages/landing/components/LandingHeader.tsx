@@ -63,13 +63,13 @@ function LandingHeader() {
                 className={clsxm(
                   isMobile ? 'right-0' : '-right-full',
                   'fixed top-0 z-50 h-screen w-full bg-white transition-all md:hidden',
-                  'flex flex-col items-start justify-between px-5 pb-10'
+                  'flex flex-col items-start justify-between  pb-10'
                 )}
               >
                 <div className='w-full'>
                   <div className='layout flex items-center justify-between py-6 '>
                     <Link href='/'>
-                      <Logo className='h-[50px] w-32 md:w-56' />
+                      <Logo className='h-[50px] w-28 sm:w-32 md:w-56' />
                     </Link>
                     <div
                       onClick={() => setIsMobile(false)}
@@ -94,23 +94,23 @@ function LandingHeader() {
                     ))}
                   </ul>
                 </div>
-                <div className='flex w-full justify-between gap-6'>
+                <div className='flex w-full justify-between gap-6 px-1'>
                   <a
                     href="#ta'riflar"
                     className='flex-1 shrink-0'
                     onClick={() => setIsMobile(false)}
                   >
-                    <div className='bg-primary base:mt-0 hover:text-primary flex cursor-pointer items-center justify-center rounded-lg px-3 py-4 text-lg text-white shadow-xl transition-all duration-200 hover:bg-purple-300 md:px-6 md:py-4 md:text-2xl xl:text-2xl'>
+                    <div className='bg-primary base:mt-0 hover:text-primary flex cursor-pointer items-center justify-center rounded-lg px-2 py-4  text-sm text-white shadow-xl transition-all duration-200 hover:bg-purple-300 md:px-6 md:py-4 md:text-2xl xl:text-2xl'>
                       Ro'yxatdan o'ting
                     </div>
                   </a>
                   <a
                     href='https://t.me/uzumanalitika_official'
                     target='_blank'
-                    className='flex shrink-0 cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2  text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500'
+                    className='flex flex-1 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 px-2 py-2 text-sm text-white  transition-all duration-200 hover:bg-blue-200 hover:text-blue-500 sm:gap-4'
                   >
                     <BsTelegram className='text-xl' />
-                    <p className='text-base'>Kanalga Qo'shilish</p>
+                    <p className='text-sm'>Kanalga Qo'shilish</p>
                   </a>
                 </div>
               </div>

@@ -1,47 +1,92 @@
+import Link from 'next/link';
 import React from 'react';
-// import instagram icon
-import { AiOutlineInstagram } from 'react-icons/ai';
-import { BsTelegram } from 'react-icons/bs';
-// import email icon
-import { HiOutlineMail } from 'react-icons/hi';
 
-function Footer() {
-  const headerItems: {
-    [key: string]: string;
-  } = {
-    Xizmatlar: '#services',
-    Tariflar: "#ta'riflar",
-  };
+const footerLinks = [
+  {
+    title: 'About',
+    links: [
+      { title: 'How it works', url: '/' },
+      { title: 'Featured', url: '/' },
+      { title: 'Partnership', url: '/' },
+      { title: 'Bussiness Relation', url: '/' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { title: 'Events', url: '/' },
+      { title: 'Blog', url: '/' },
+      { title: 'Podcast', url: '/' },
+      { title: 'Invite a friend', url: "#ta'riflar" },
+    ],
+  },
+  {
+    title: 'Socials',
+    links: [
+      { title: 'YouTube', url: '/' },
+      {
+        title: 'Instagram',
+        url: 'https://instagram.com/uzanalitika?igshid=MzNlNGNkZWQ4Mg==',
+      },
+      { title: 'Telegram', url: 'https://t.me/uzanalitika' },
+      { title: 'Twitter', url: '/' },
+    ],
+  },
+];
+
+const Footer1 = () => {
   return (
-    <div className='h-[200px] w-full bg-black'>
-      <div className='layout flex h-full items-end justify-between py-6 pb-16'>
-        <ul className='apperance-none flex items-center justify-between gap-5 lg:gap-10'>
-          {Object.entries(headerItems).map(([key, value]) => (
-            <li
-              key={value}
-              className='cursor-pointer px-2 text-base font-semibold text-white md:inline '
+    <footer className='text-black-100 mt-5 flex  flex-col border-t border-gray-100'>
+      <div className='flex flex-wrap justify-between gap-5 px-6 py-10 max-md:flex-col sm:px-16'>
+        <div className='flex flex-col items-start justify-start gap-6'>
+          {/* <Image
+            src={logo}
+            alt='logo'
+            width={118}
+            height={18}
+            className='object-contain'
+          /> */}
+          <p className='text-base text-gray-700'>All Rights Reserved &copy;</p>
+        </div>
+
+        <div className='flex w-full flex-1 flex-wrap gap-20 max-md:mt-10 md:justify-end'>
+          {footerLinks.map((item) => (
+            <div
+              key={item.title}
+              className='flex min-w-[170px] flex-col gap-6 text-base'
             >
-              <a href={headerItems[key]}>{key}</a>
-            </li>
+              <h3 className='font-bold'>{item.title}</h3>
+              <div className='flex flex-col gap-5'>
+                {item.links.map((link) => (
+                  <Link
+                    key={link.title}
+                    href={link.url}
+                    className='text-gray-500'
+                    target='_blank'
+                  >
+                    {link.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
           ))}
-        </ul>
-        <div className='flex items-center justify-end gap-3'>
-          <a
-            href='https://instagram.com/uzanalitika?igshid=MzNlNGNkZWQ4Mg=='
-            target='_blank'
-          >
-            <AiOutlineInstagram className='h-10 w-10 cursor-pointer text-white ' />
-          </a>
-          <a href='https://t.me/uzanalitika' target='_blank'>
-            <BsTelegram className='h-8 w-8 cursor-pointer text-white ' />
-          </a>
-          <a href='mailto: uzumanalitika@gmail.com'>
-            <HiOutlineMail className='h-8 w-8 cursor-pointer text-white' />
-          </a>
         </div>
       </div>
-    </div>
-  );
-}
 
-export default Footer;
+      <div className='mt-10 flex flex-wrap items-center justify-between border-t border-gray-100 px-6 py-10 sm:px-16'>
+        <p>@2023 UzAnalitika. All rights reserved</p>
+
+        <div className='flex flex-1 justify-center gap-10 max-sm:mt-4 sm:justify-end'>
+          <Link href='/' className='text-gray-500'>
+            Privacy & Policy
+          </Link>
+          <Link href='/' className='text-gray-500'>
+            Terms & Condition
+          </Link>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer1;

@@ -197,7 +197,10 @@ function Tarif({
             <Logo className='inline-block h-6 w-6' />
             <p className='font-primary font-bold'>{title}</p>
           </div>
-          <div className='text-2xl font-bold'>{price}</div>
+          <div className='text-2xl font-bold'>
+            {price}
+            <span className='text-sm'>/oy</span>
+          </div>
         </div>
         <ul className='mt-6 flex flex-col gap-2 pl-6'>
           {isPro && (
