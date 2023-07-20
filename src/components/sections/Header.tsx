@@ -32,6 +32,8 @@ export default function Header() {
     }
   };
 
+  const is_paid = state.user?.is_pro || state.user?.is_proplus;
+
   return (
     <header className='w-full bg-transparent'>
       <div className='flex h-14 items-center justify-between p-3'>
@@ -51,6 +53,18 @@ export default function Header() {
                 </div>
               </div>
             </li>
+            {is_paid && (
+              <li>
+                <div className='flex max-w-[200px] items-center justify-start '>
+                  <p>Taklif kod:</p>
+                  <div className='ml-1 flex flex-col items-start justify-start'>
+                    <span className='m-0 text-xs'>
+                      {state.user?.referral_code}
+                    </span>
+                  </div>
+                </div>
+              </li>
+            )}
             <li className='relative'>
               <div className='hover:text-gray-600'>
                 <HiOutlineBell className='hover:text-primary h-5 w-5 flex-shrink-0 text-black' />

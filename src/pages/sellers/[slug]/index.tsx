@@ -139,6 +139,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {},
       };
     }
+
+    if (!res.is_pro && !res.is_proplus) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/sellers',
+        },
+        props: {},
+      };
+    }
+
     const { slug } = context.query;
 
     const seller_link = slug as string;

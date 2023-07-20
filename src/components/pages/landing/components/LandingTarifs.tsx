@@ -73,7 +73,7 @@ function LandingTarifs() {
           />
           <div className='flex-1'></div>
           <Tarif
-            title="Boshlang'ich"
+            title='Pro'
             price='$30'
             features={[
               'Oxirgi 30 kunlik',
@@ -164,7 +164,7 @@ function Tarif({
     'Yangi mahsulotlar',
     "O'sayotgan mahsulotlar",
     "O'sayotgan kategoriyalar",
-    'Mahsulot raqobatchilari taqqoslash',
+
     'Barcha Kategoriyalar',
     'Kategoriya trendi',
     'Kategoriya mahsulotlari',
@@ -180,6 +180,7 @@ function Tarif({
     'Barcha mahsulotlar',
     'Mahsulot tahlili',
     'Mahsulot raqobatchilari',
+    'Mahsulot raqobatchilari taqqoslash',
     '24/7 doimiy yordam',
   ];
 

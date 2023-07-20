@@ -4,12 +4,19 @@ import AboutProduct from '@/components/pages/products/slug/components/AboutProdu
 import ProductAnalytics from '@/components/pages/products/slug/components/ProductAnalytics';
 import SimilarProducts from '@/components/pages/products/slug/components/SimilarProducts';
 
+import { UserType } from '@/types/user';
+
 interface ProductComponentProps {
   product_id: string;
   activeTab: string;
+  user: UserType;
 }
 
-function ProductComponent({ product_id, activeTab }: ProductComponentProps) {
+function ProductComponent({
+  product_id,
+  activeTab,
+  user,
+}: ProductComponentProps) {
   return (
     <div className=''>
       <AboutProduct
@@ -22,6 +29,7 @@ function ProductComponent({ product_id, activeTab }: ProductComponentProps) {
         isActive={activeTab === 'Grafik Analiz' ? true : false}
       />
       <SimilarProducts
+        user={user}
         product_id={product_id}
         className={activeTab !== "O'xshash Mahsulotlar" ? 'hidden' : ''}
         isActive={activeTab === "O'xshash Mahsulotlar" ? true : false}

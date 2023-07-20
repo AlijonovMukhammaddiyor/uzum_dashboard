@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CellStyle } from 'ag-grid-community';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useState } from 'react';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
@@ -258,7 +258,8 @@ const AvatarCellRenderer = ({ value }: { value: string }) => {
 };
 
 const ProductNameCellRenderer = ({ value }: { value: string }) => {
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
+  const router = useRouter();
   if (!value) return '';
 
   // replace / with dash
@@ -269,8 +270,7 @@ const ProductNameCellRenderer = ({ value }: { value: string }) => {
   //   .replace(/ /g, '-');
   const product_id = value?.split('((')[1]?.split('))')[0];
   return (
-    <Link
-      href={`/products/${product_id}`}
+    <div
       onClick={() => {
         dispatch({
           type: 'PATH',
@@ -278,23 +278,31 @@ const ProductNameCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
+        if (state.user?.is_pro || state.user?.is_proplus)
+          router.push(`/products/${product_id}`);
+        else {
+          alert(
+            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+          );
+        }
       }}
     >
       <p className='text-blue-500 hover:underline'>{title}</p>
-    </Link>
+    </div>
   );
 };
 
 const SubcategoryCellRenderer = ({ value }: { value: string }) => {
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
+  const router = useRouter();
   if (!value) return '';
 
   const title = value?.split('((')[0].trim();
   const category_id = value?.split('((')[1]?.split('))')[0];
 
   return (
-    <Link
-      href={`/category/${title}--${category_id}`}
+    <div
+      // href={`/category/${title}--${category_id}`}
       onClick={() => {
         dispatch({
           type: 'PATH',
@@ -302,15 +310,23 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
+        if (state.user?.is_pro || state.user?.is_proplus)
+          router.push(`/category/${title}--${category_id}`);
+        else {
+          alert(
+            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+          );
+        }
       }}
     >
       <p className='text-blue-500 hover:underline'>{title}</p>
-    </Link>
+    </div>
   );
 };
 
 const CategoryNameCellRenderer = ({ value }: { value: string }) => {
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
+  const router = useRouter();
 
   if (!value) return '';
 
@@ -318,8 +334,8 @@ const CategoryNameCellRenderer = ({ value }: { value: string }) => {
   const category_id = value?.split('((')[1]?.trim().split('))')[0];
 
   return (
-    <Link
-      href={`/category/${title}--${category_id}`}
+    <div
+      // href={`/category/${title}--${category_id}`}
       onClick={() => {
         dispatch({
           type: 'PATH',
@@ -327,15 +343,24 @@ const CategoryNameCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
+
+        if (state.user?.is_pro || state.user?.is_proplus)
+          router.push(`/category/${title}--${category_id}`);
+        else {
+          alert(
+            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+          );
+        }
       }}
     >
       <p className='text-blue-500 hover:underline'>{title}</p>
-    </Link>
+    </div>
   );
 };
 
 const SellerNameCellRenderer = ({ value }: { value: string }) => {
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
+  const router = useRouter();
   // get seller link from value = "title (link)""
   if (!value) return '';
   // try{
@@ -346,8 +371,8 @@ const SellerNameCellRenderer = ({ value }: { value: string }) => {
     return <p className='text-black'>{seller_title}</p>;
 
   return (
-    <Link
-      href={`/sellers/${seller_link}`}
+    <div
+      // href={`/sellers/${seller_link}`}
       onClick={() => {
         dispatch({
           type: 'PATH',
@@ -355,10 +380,17 @@ const SellerNameCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
+        if (state.user?.is_pro || state.user?.is_proplus)
+          router.push(`/sellers/${seller_link}`);
+        else {
+          alert(
+            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+          );
+        }
       }}
     >
       <p className='text-blue-500 hover:underline'>{seller_title}</p>
-    </Link>
+    </div>
   );
 };
 

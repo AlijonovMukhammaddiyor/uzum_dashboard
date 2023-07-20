@@ -133,6 +133,10 @@ const ProductAnalytics: {
     image: products,
   },
   {
+    title: 'Mahsulotlar segmentatsiyasi',
+    image: products,
+  },
+  {
     title: 'Mahsulot haqida',
     image: product,
   },
@@ -166,6 +170,8 @@ const descriptions_uz: {
   'Ichki kategoriyalar': `Kategoriyadagi ichki kategoriyalarni ko'ring. Bu sizga kategoriya ichidagi mahsulot ierarxiyasi va segmentatsiyasini tushunishda yordam beradi`,
   'Narx segmentatsiyasi':
     "Bu har bir toifadagi narxlar va shu narxlar oralig'idagi buyurtmalar segmentatsiyasini ko'rsatadi va sizga raqobatli yoki eng foydali narxl oralig'larini topishga va raqobatbardosh narxlarni belgilashda yordam beradi.",
+  'Mahsulotlar segmentatsiyasi':
+    "Bu xizmat orqali siz mahsulotlarni narx, daromad, sotuvlar va shu kabi asosiy ko'rsatkichlar bo'yicha segmentatsiyalash imkoniyatiga ega bo'lasiz. Bu esa sizga mahsulotlaringizni solishtirishda va mahsulotlaringizni narx strategiyalaringizni yaxshilashda yordam beradi.",
   "Barcha do'konlar":
     "Platformadagi barcha do'konlarning batafsil jadvali, raqobatbardosh landshaftning yaxlit ko'rinishini taklif qiladi.",
   "Do'kon tahlili":

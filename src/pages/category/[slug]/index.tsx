@@ -75,6 +75,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
+    if (!res.is_pro && res.is_proplus) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/category',
+        },
+        props: {},
+      };
+    }
+
     const slug = context.query.slug as string;
 
     const id = slug.split('--')[1].trim();

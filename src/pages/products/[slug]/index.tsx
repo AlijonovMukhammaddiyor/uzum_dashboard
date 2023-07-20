@@ -64,7 +64,11 @@ function Product({ user, product_id, product_title }: ProductProps) {
         setActiveTab={setActiveTab}
         className='mb-6 mt-4 min-w-[1200px]'
       />
-      <ProductComponent product_id={product_id} activeTab={activeTab} />
+      <ProductComponent
+        product_id={product_id}
+        activeTab={activeTab}
+        user={user}
+      />
     </Layout>
   );
 }

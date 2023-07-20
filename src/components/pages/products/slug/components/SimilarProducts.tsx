@@ -15,10 +15,13 @@ import LineChart from '@/components/shared/LineChart';
 import SingleAxisAreaChart from '@/components/shared/SingleAxisAreaChart';
 import Table from '@/components/shared/Table';
 
+import { UserType } from '@/types/user';
+
 interface AboutProductProps {
   product_id: string;
   className?: string;
   isActive?: boolean;
+  user: UserType;
 }
 
 interface ProductType {
@@ -40,7 +43,12 @@ interface ProductType {
   product__photos: string;
 }
 
-function AboutProduct({ product_id, className, isActive }: AboutProductProps) {
+function AboutProduct({
+  product_id,
+  className,
+  isActive,
+  user,
+}: AboutProductProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [products, setProducts] = React.useState<
     {
@@ -114,7 +122,7 @@ function AboutProduct({ product_id, className, isActive }: AboutProductProps) {
         className
       )}
     >
-      {shouldRender && (
+      {shouldRender && user.is_proplus && (
         <Container
           loading={loading}
           className={clsxm(

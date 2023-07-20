@@ -8,9 +8,16 @@ export interface TabsProps {
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
   tabWidth?: string;
+  disbaledTabs?: string[];
 }
 
-function Tabs({ tabs, activeTab, setActiveTab, className }: TabsProps) {
+function Tabs({
+  tabs,
+  activeTab,
+  setActiveTab,
+  className,
+  disbaledTabs,
+}: TabsProps) {
   return (
     <div
       className={clsxm(
@@ -26,9 +33,15 @@ function Tabs({ tabs, activeTab, setActiveTab, className }: TabsProps) {
               `tab flex min-w-[120px] cursor-pointer justify-center rounded-md px-2 py-1 text-sm font-semibold ${
                 activeTab === tab ? 'active bg-primary bg-opacity-[0.4]' : ''
               }`,
-              activeTab !== tab && 'hover:bg-slate-400 hover:bg-opacity-25'
+              activeTab !== tab && 'hover:bg-slate-400 hover:bg-opacity-25',
+              disbaledTabs?.includes(tab) &&
+                'cursor-not-allowed bg-slate-400 bg-opacity-25 opacity-50'
             )}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => {
+              if (!disbaledTabs?.includes(tab)) {
+                setActiveTab(tab);
+              }
+            }}
           >
             {tab}
           </li>

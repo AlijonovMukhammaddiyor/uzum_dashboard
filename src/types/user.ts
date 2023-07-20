@@ -5,4 +5,6 @@ export interface UserType {
   referral_code: string;
   email?: string;
   is_staff?: boolean;
+  is_pro?: boolean;
+  is_proplus?: boolean;
 }

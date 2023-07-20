@@ -12,12 +12,13 @@ import { goToCategory } from '@/components/pages/category/utils';
 import { useContextState } from '@/context/Context';
 
 import { CategoryInTree } from '@/types/category';
+import { UserType } from '@/types/user';
 
 function CategoryTreeComponent() {
   const [activeTab, setActiveTab] = React.useState<string>('Elektronika');
   const [data, setData] = React.useState<CategoryInTree[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
 
   const router = useRouter();
 
@@ -93,7 +94,12 @@ function RenderChildren({
 }: {
   category: CategoryInTree;
   className: string;
-  goToCategory: (id: number, title: string, router: NextRouter) => void;
+  goToCategory: (
+    id: number,
+    title: string,
+    router: NextRouter,
+    user: UserType
+  ) => void;
   router: NextRouter;
   dispatch: React.Dispatch<any>;
   depth?: number;
@@ -101,6 +107,7 @@ function RenderChildren({
 }) {
   const [isExpanded, setIsExpanded] = React.useState<boolean>(depth === 0);
   const hasChildren = category.children && category.children.length > 0;
+  const { state } = useContextState();
 
   const categoryPath = {
     ...parentPath,
@@ -142,11 +149,22 @@ function RenderChildren({
             !hasChildren && 'ml-9'
           )}
           onClick={() => {
-            goToCategory(category.categoryId, category.title, router);
-            dispatch({
-              type: 'PATH',
-              payload: { path: categoryPath },
-            });
+            goToCategory(
+              category.categoryId,
+              category.title,
+              router,
+              state.user as UserType
+            );
+            if (state.user?.is_pro || state.user?.is_proplus)
+              dispatch({
+                type: 'PATH',
+                payload: { path: categoryPath },
+              });
+            else {
+              alert(
+                "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+              );
+            }
           }}
         >
           {category.title}

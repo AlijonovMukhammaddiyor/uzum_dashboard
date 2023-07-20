@@ -22,6 +22,7 @@ export default function Category({ user }: CategoryProps) {
   React.useEffect(() => {
     setMounted(true);
     dispatch({ type: 'USER', payload: { user } });
+    dispatch({ type: 'PATH', payload: { path: null } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 

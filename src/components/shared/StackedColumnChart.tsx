@@ -91,6 +91,8 @@ const StateckedColumnChart = ({
           return 'rgba(57, 181, 224, 0.7)'; // specify color for Mahsulotlar soni
         case 'Izohlar soni':
           return 'rgba(255, 82, 162, 0.5)'; // specify color for Buyurtmalar soni
+        case 'Mahsulotlar soni':
+          return 'rgba(255, 82, 162, 0.5)';
         default:
           return 'rgba(120, 193, 243, 0.7)'; // default color for other categories
       }

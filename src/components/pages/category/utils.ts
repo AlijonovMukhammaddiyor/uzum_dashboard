@@ -1,7 +1,16 @@
 import { NextRouter } from 'next/router';
 
-export const goToCategory = (id: number, title: string, router: NextRouter) => {
+import { UserType } from '@/types/user';
+
+export const goToCategory = (
+  id: number,
+  title: string,
+  router: NextRouter,
+  user: UserType
+) => {
+  if (!user) return;
   // ther might be both dash and space in the title
+  if (!user.is_pro && !user.is_proplus) return;
   router.push(`/category/${title}--${id}`);
 };
 
