@@ -57,7 +57,7 @@ function LandingHeader() {
               </div>
             </Link>
             <a
-              href='https://t.me/uzanalitika'
+              href='https://t.me/uzum_uzanalitika'
               target='_blank'
               className='hidden shrink-0 cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500 md:flex lg:px-6'
             >
@@ -123,7 +123,7 @@ function LandingHeader() {
                     </div>
                   </a>
                   <a
-                    href='https://t.me/uzanalitika'
+                    href='https://t.me/uzum_uzanalitika'
                     target='_blank'
                     className='flex shrink-0 cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2  text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500'
                   >
