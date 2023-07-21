@@ -200,10 +200,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   } catch (e) {
     return {
       props: {
-        ...(await serverSideTranslations(context.locale || 'uz', [
-          'common',
-          'register',
-        ])),
+        ...(await serverSideTranslations(
+          context.locale || 'uz',
+          ['common', 'register'],
+          null,
+          ['uz', 'ru']
+        )),
       },
     };
   }
