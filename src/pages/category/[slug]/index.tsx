@@ -76,7 +76,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    if (!res.is_pro && res.is_proplus) {
+    if (!res.is_pro && !res.is_proplus) {
       return {
         redirect: {
           permanent: false,
@@ -89,7 +89,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const slug = context.query.slug as string;
 
     const id = slug.split('--')[1].trim();
-    const { locale } = context;
     if (!id) {
       return {
         redirect: {
