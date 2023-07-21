@@ -17,7 +17,11 @@ function LandingTarifs() {
       pathname: '/register',
       query: {
         plan:
-          plan === 'Bepul' ? 'free' : plan === 'Premium' ? 'premium' : 'basic',
+          plan === t('tariffs.free')
+            ? 'free'
+            : plan === t('tariffs.premium')
+            ? 'premium'
+            : 'basic',
       },
     });
   };
