@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { MdOutlineNavigateBefore } from 'react-icons/md';
 
@@ -7,6 +8,8 @@ export interface RegisterFooterComponentProps {
 }
 
 function RegisterFooter({ onPrevious }: RegisterFooterComponentProps) {
+  const { t } = useTranslation('register');
+
   return (
     <div className='mt-6 flex max-w-sm items-center justify-between'>
       <div className='flex items-center justify-start'>
@@ -18,14 +21,14 @@ function RegisterFooter({ onPrevious }: RegisterFooterComponentProps) {
           className='font-primary cursor-pointer text-sm text-slate-500'
           onClick={() => onPrevious()}
         >
-          Orqaga
+          {t('back.title')}
         </p>
       </div>
       <div className=''>
         <p className='text-sm text-slate-500'>
-          Ro'yxatdan o'tgansizmi?{' '}
+          {t('login.ask')}{' '}
           <Link className='text-primary cursor-pointer' href='/login'>
-            Kirish
+            {t('login.title')}
           </Link>
         </p>
       </div>

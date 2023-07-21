@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
@@ -47,6 +48,8 @@ const UserNameAndPassword = ({
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
+  const { t } = useTranslation('login');
+
   const onLogin = () => {
     const api = new API();
     setSendingRequest(true);
@@ -63,7 +66,6 @@ const UserNameAndPassword = ({
       })
       .catch((err) => {
         logger(err, 'Error in onLogin');
-        alert(err);
         setSuccess(false);
         setSendingRequest(false);
       });
@@ -83,21 +85,23 @@ const UserNameAndPassword = ({
   return (
     <div
       className={clsxm(
-        'absolute top-full mt-7 flex w-full max-w-[400px] flex-col gap-2 transition-all duration-500',
-        activeTab === currentTab ? 'left-0 opacity-100' : '-left-full opacity-0'
+        'absolute top-full mt-7 flex min-w-[300px] max-w-[400px] flex-col gap-2 transition-all duration-500',
+        activeTab === currentTab
+          ? '-left-[60px] opacity-100'
+          : '-left-full opacity-0'
       )}
     >
       <CustomInput
         autoFocus
         autoComplete='username'
-        label='Foydalanuvchi nomi'
+        label={t('username.title')}
         containerStyle={clsxm('rounded-md')}
         inputStyle={clsxm(
           'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md',
           errors.includes('username') ? 'border-2 border-red-500' : '',
           'border border-primary base:border-slate-300'
         )}
-        placeholder='Foydalanuvchi nomini kiriting (majburiy)'
+        placeholder={t('username.placeholder')}
         name='username'
         value={user.username}
         onChange={(e) => {
@@ -110,11 +114,11 @@ const UserNameAndPassword = ({
       />
       <div className='w-full flex-col items-start justify-start gap-1'>
         <CustomInput
-          label='Parol'
+          label={t('password.title')}
           autoComplete='current-password'
           containerStyle='rounded-md'
           inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md border border-primary base:border-slate-300'
-          placeholder='Parol kiriting (majburiy)'
+          placeholder={t('password.placeholder')}
           name='password'
           value={user.password}
           onKeyUp={(e) => {
@@ -147,15 +151,10 @@ const UserNameAndPassword = ({
 
       <span className='my-5 h-px w-full bg-slate-300'></span>
       {success === false && (
-        <div className='w-full text-sm text-red-500'>
-          Foydalanuvchi nomi yoki parol noto'g'ri. Agar buni xatolik deb
-          o'ylasangiz, biz bilan bog'laning.
-        </div>
+        <div className='w-full text-sm text-red-500'>{t('error')}</div>
       )}
       {success === true && (
-        <div className='w-full text-sm text-green-500'>
-          Siz tizimga muvaffaqiyatli kirdingiz.
-        </div>
+        <div className='w-full text-sm text-green-500'>{t('success')}</div>
       )}
 
       <Button
@@ -170,7 +169,7 @@ const UserNameAndPassword = ({
           errors.length > 0
         }
       >
-        Kirish
+        {t('title')}
       </Button>
 
       <LoginFooter

@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import PhoneInput from 'react-phone-input-2';
@@ -45,6 +46,7 @@ const NamesAndEmailComponent = ({
     setError(null);
     setUser({ ...user, [event.target.name]: event.target.value });
   };
+  const { t } = useTranslation('register');
 
   const handleRegister = () => {
     // Perform registration logic
@@ -64,17 +66,16 @@ const NamesAndEmailComponent = ({
   };
 
   const onRegister = async () => {
-    if (!isPasswordValid)
-      return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
+    if (!isPasswordValid) return alert(t('nopassword.validate.error'));
 
-    if (!user.phone_number) return alert('Telefon raqamingizni kiriting!');
-    if (!user.username) return alert('Foydalanuvchi nomini kiriting!');
+    if (!user.phone_number) return alert(t('nophone.validate.error'));
+    if (!user.username) return alert(t('nousername.validate.error'));
 
     if (user.email && !validateEmail(user.email))
-      return alert('Iltimos, to`g`ri email kiriting!');
+      return alert(t('email.validate.erorr'));
 
     if (!validate_phones(user.phone_number)) {
-      return alert('Iltimos, to`g`ri telefon raqam kiriting!');
+      return alert(t('phone.validate.error'));
     }
 
     setSendingRequest(true);
@@ -102,12 +103,10 @@ const NamesAndEmailComponent = ({
       const errorMessage = error.message;
       logger(errorMessage, 'Error in Register');
       if (errorMessage === 'A user with this phone number already exists.') {
-        setError('Bunday telefon raqamli foydalanuvchi allaqachon mavjud!');
+        setError(t('phone.error'));
       }
       if (errorMessage === 'A user with this username already exists.') {
-        setError(
-          'Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting!'
-        );
+        setError(t('username.error'));
       }
       setSendingRequest(false);
     }
@@ -145,9 +144,7 @@ const NamesAndEmailComponent = ({
       )}
     >
       <div className='flex w-full flex-col items-start justify-start'>
-        <p className='mb-2 text-sm text-slate-500'>
-          Telefon raqamingizni kiriting.
-        </p>
+        <p className='mb-2 text-sm text-slate-500'>{t('phone.title')}</p>
         <PhoneInput
           country='uz'
           value={user.phone_number}
@@ -166,7 +163,7 @@ const NamesAndEmailComponent = ({
       </div>
       <CustomInput
         autoFocus
-        label='Foydalanuvchi nomi'
+        label={t('username.title')}
         containerStyle={clsxm('rounded-md')}
         inputStyle={clsxm(
           'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm',
@@ -175,16 +172,13 @@ const NamesAndEmailComponent = ({
             ? 'border-2 border-red-500'
             : ''
         )}
-        placeholder='Foydalanuvchi nomini kiriting (majburiy)'
+        placeholder={t('username.placeholder')}
         name='username'
         value={user.username}
         onChange={(e) => {
           // remove username error if exists
           // setErrors(errors.filter((err) => err !== 'username'));
-          if (
-            error ===
-            'Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting!'
-          ) {
+          if (error === t('username.error')) {
             setError(null);
           }
           handleInputChange(e);
@@ -193,10 +187,10 @@ const NamesAndEmailComponent = ({
       />
       <div className='w-full flex-col items-start justify-start gap-1'>
         <CustomInput
-          label='Parol'
+          label={t('password.title')}
           containerStyle='rounded-md'
           inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm'
-          placeholder='Parol kiriting (majburiy)'
+          placeholder={t('password.placeholder')}
           name='password'
           onKeyUp={(e) => {
             if (e.key === 'Enter') {
@@ -225,15 +219,15 @@ const NamesAndEmailComponent = ({
           }
         />
         <p className='text-xs text-slate-400'>
-          Parolda kamida 8 ta belgidan iborat bo'lishi kerak
+          {t('nopassword.validate.error')}
         </p>
       </div>
 
       <CustomInput
-        label='Email'
+        label={t('email.title')}
         containerStyle='rounded-md'
         inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm'
-        placeholder='Emailingizni kiriting (ixtiyoriy)'
+        placeholder={t('email.placeholder')}
         name='email'
         type='email'
         value={user?.email || ''}
@@ -248,7 +242,7 @@ const NamesAndEmailComponent = ({
       <span className='my-5 h-px w-full bg-slate-300'></span>
       <div className='flex h-10 items-center justify-start gap-2'>
         <p className='bg-primary flex h-full items-center justify-center rounded-sm px-2 text-white'>
-          Taklif kodi
+          {t('referral.title')}
         </p>
         <CustomInput
           onKeyUp={(e) => {
@@ -259,7 +253,7 @@ const NamesAndEmailComponent = ({
           containerStyle='rounded-md flex-1'
           labelStyle='text-primary'
           inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md border border-primary placeholder:text-sm'
-          placeholder='Taklif kodini kiriting (ixtiyoriy)'
+          placeholder={t('referral.placeholder')}
           name='referred_by'
           type='text'
           value={user?.referred_by || ''}
@@ -275,7 +269,7 @@ const NamesAndEmailComponent = ({
         spinnerColor='black'
         disabled={!isPasswordValid || sendingRequest || error !== null}
       >
-        Ro'yxatdan o'tish
+        {t('button.register')}
       </Button>
       <div className=''>
         {error && <p className='text-xs text-red-500'>{error}</p>}
