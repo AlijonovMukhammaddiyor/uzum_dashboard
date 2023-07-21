@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import {
@@ -15,8 +16,8 @@ import { MdOutlineCompare } from 'react-icons/md';
 
 import clsxm from '@/lib/clsxm';
 
-import Logo from '@/assets/logo/logo.svg';
 import LogoOnly from '@/assets/logo/logo_only.svg';
+import logo from '@/assets/logo/logo2.png';
 import { useContextState } from '@/context/Context';
 export interface SidebarProps {
   className?: string;
@@ -90,7 +91,8 @@ function Sidebar({
       <div className='h-full w-full overflow-y-auto bg-slate-100 px-3 py-4'>
         <div className='mb-8 flex w-full justify-center'>
           {isSidebarOpen ? (
-            <Logo className='h-10 w-36 object-contain' />
+            // <Logo className='h-10 w-36 object-contain' />
+            <Image src={logo} alt='logo' width={200} height={50} />
           ) : (
             <LogoOnly className='h-10 w-10 object-contain' />
           )}

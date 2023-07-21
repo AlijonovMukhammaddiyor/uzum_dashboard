@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -8,7 +9,7 @@ import { GrClose } from 'react-icons/gr';
 
 import clsxm from '@/lib/clsxm';
 
-import Logo from '@/assets/logo/logo.svg';
+import logo from '@/assets/logo/logo2.png';
 
 function LandingHeader() {
   const [isMobile, setIsMobile] = React.useState(false);
@@ -38,7 +39,8 @@ function LandingHeader() {
     <nav className='bg-gradient  w-full bg-[rgb(232,234,255)]'>
       <div className='layout flex items-center justify-between py-6'>
         <Link href='/' className='md:-ml-6'>
-          <Logo className='h-[50px] w-28 sm:w-32 md:w-56' />
+          {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
+          <Image src={logo} alt='logo' width={200} height={50} />
         </Link>
         <div className=''>
           <ul className='apperance-none flex items-center justify-between gap-5 lg:gap-10'>
@@ -85,7 +87,8 @@ function LandingHeader() {
                 <div className='w-full'>
                   <div className='layout flex items-center justify-between py-6 '>
                     <Link href='/'>
-                      <Logo className='h-[50px] w-28 sm:w-32 md:w-56' />
+                      {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
+                      <Image src={logo} alt='logo' width={200} height={50} />
                     </Link>
                     <div
                       onClick={() => setIsMobile(false)}
