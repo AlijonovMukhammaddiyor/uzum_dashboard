@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
@@ -9,6 +10,8 @@ import LoginComponent from '@/components/pages/login/LoginComponent';
 import Seo from '@/components/Seo';
 
 const Login = () => {
+  const { i18n } = useTranslation('login');
+
   return (
     <div className='min-h-screen w-screen'>
       <Seo />
@@ -47,7 +50,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   } catch (e) {
     logger(e, "Can't get current user");
     return {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(
+          context.locale || 'uz',
+          ['common', 'login'],
+          null,
+          ['uz', 'ru']
+        )),
+      },
     };
   }
 }
