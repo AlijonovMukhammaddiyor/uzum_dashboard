@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import Head from 'next/head';
@@ -164,7 +165,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             </main>
           </div>
         ) : (
-          <Component {...pageProps} />
+          <>
+            <Component {...pageProps} />
+            <Analytics />
+          </>
         )}
       </main>
     </AuthProvider>
