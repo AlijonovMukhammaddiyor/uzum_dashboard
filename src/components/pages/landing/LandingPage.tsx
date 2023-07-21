@@ -64,8 +64,8 @@ function LandingPage() {
       <LandingHeader />
       <LandingMain />
       <SectionOverview />
-      <SectionWhy />
       <SectionFeatures />
+      <SectionWhy />
       <Tops />
       <LandingTarifs />
       {/* <Footer /> */}

@@ -40,7 +40,13 @@ function LandingHeader() {
       <div className='layout flex items-center justify-between py-6'>
         <Link href='/' className='md:-ml-6'>
           {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
-          <Image src={logo} alt='logo' width={200} height={50} />
+          <Image
+            src={logo}
+            alt='logo'
+            width={200}
+            height={50}
+            className='w-28 sm:w-32 md:w-56'
+          />
         </Link>
         <div className=''>
           <ul className='apperance-none flex items-center justify-between gap-5 lg:gap-10'>
@@ -114,17 +120,18 @@ function LandingHeader() {
                   </ul>
                 </div>
                 <div className='mx-auto flex w-full justify-between gap-6 px-1'>
-                  <a
+                  {/* <a
                     href="#ta'riflar"
                     className='flex-1 shrink-0'
                     onClick={() => {
                       setIsMobile(false);
                     }}
-                  >
+                  > */}
+                  <Link href='/register'>
                     <div className='bg-primary base:mt-0 hover:text-primary flex cursor-pointer items-center justify-center rounded-lg px-3 py-4 text-sm text-white shadow-xl transition-all duration-200 hover:bg-purple-300 md:px-6 md:py-4 md:text-2xl xl:text-2xl'>
                       {t('header.button.signup')}
                     </div>
-                  </a>
+                  </Link>
                   <a
                     href='https://t.me/uzum_uzanalitika'
                     target='_blank'

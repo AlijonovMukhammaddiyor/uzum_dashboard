@@ -10,24 +10,22 @@ function SectionFeatures() {
     '/landing/features/home_umumiy.png'
   );
   const [activeDescription, setActiveDescription] = React.useState<string>(
-    t('features.CategoryAnalytics.children.3.description')
+    t('features.UmumiyAnalytics.children.0.description')
   );
   const [activeTab, setActiveTab] = React.useState<string>(
-    t('features.CategoryAnalytics.children.3.title')
+    t('features.UmumiyAnalytics.children.0.title')
   );
 
   useEffect(() => {
-    setActiveDescription(
-      t(`features.CategoryAnalytics.children.3.description`)
-    );
-    setActiveTab(t(`features.CategoryAnalytics.children.3.title`));
-    setCurrentImage(t(`features.CategoryAnalytics.children.3.image`));
+    setActiveDescription(t(`features.UmumiyAnalytics.children.0.description`));
+    setActiveTab(t(`features.UmumiyAnalytics.children.0.title`));
+    setCurrentImage(t(`features.UmumiyAnalytics.children.0.image`));
   }, [i18n.language, t]);
 
   const [isShown, setIsShown] = React.useState<boolean>(false);
 
   return (
-    <div className='relative w-full py-8 md:py-28' id='services'>
+    <div className='relative w-full bg-[#F3F5F7] py-8 md:py-28' id='services'>
       <div className='layout'>
         <h1 className='font-primary text-2xl font-semibold leading-8 tracking-wider md:mb-6 md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
           {t('features.title')}

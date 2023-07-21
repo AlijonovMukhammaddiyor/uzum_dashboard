@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -42,11 +43,11 @@ function LandingMain() {
           </div>
           <div className='w-full'>
             <div className='flex w-full items-center justify-start gap-6'>
-              <a href="#ta'riflar" className='w-full'>
+              <Link href='/register' className='w-full'>
                 <div className='bg-primary base:mt-0 hover:text-primary base:max-w-max flex w-full cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-lg text-white shadow-xl transition-all duration-200 hover:bg-purple-300 md:px-6 md:py-4 md:text-2xl xl:text-2xl'>
                   <p>{t('main.button.signup')}</p>
                 </div>
-              </a>
+              </Link>
               {/* <div className='bg-primary hover:text-primary mt-10 flex cursor-pointer items-center justify-center rounded-lg px-6 py-4 text-3xl text-white transition-all duration-200 hover:bg-purple-300'>
               <p>Kirish</p>
             </div> */}

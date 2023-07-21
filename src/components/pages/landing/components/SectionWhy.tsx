@@ -4,7 +4,7 @@ import React from 'react';
 function SectionWhy() {
   const { t } = useTranslation('landing');
   return (
-    <div className='relative  w-full bg-[#F3F5F7] py-16 md:py-32'>
+    <div className='relative  w-full bg-white py-16 md:py-32'>
       <div className='layout flex h-full flex-col items-center justify-between gap-16 md:gap-32 lg:flex-row'>
         <div className=' flex h-full w-full flex-col justify-center overflow-hidden text-center md:w-11/12  lg:w-1/2  lg:items-start'>
           <h1 className=' font-primary text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
