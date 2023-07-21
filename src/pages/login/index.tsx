@@ -24,7 +24,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
     const res = await api.getCurrentUser();
-    console.log('current locale', context.locale);
     if (res) {
       return {
         redirect: {
@@ -38,7 +37,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         ...(await serverSideTranslations(
           context.locale ?? 'uz',
-          ['common', 'login'],
+          ['login'],
           null,
           ['uz', 'ru']
         )),
@@ -50,7 +49,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         ...(await serverSideTranslations(
           context.locale ?? 'uz',
-          ['common', 'login'],
+          ['login'],
           null,
           ['uz', 'ru']
         )),

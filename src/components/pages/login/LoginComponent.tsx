@@ -39,7 +39,7 @@ function LoginComponent() {
   };
 
   return (
-    <div className='w-sreen min-w-screen relative flex h-screen overflow-hidden '>
+    <div className='w-sreen relative flex h-screen overflow-hidden '>
       <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
@@ -61,7 +61,7 @@ function LoginComponent() {
         </div>
       </div>
       <div className='base:w-1/2 bg-gradient base:bg-none relative flex w-full items-center justify-center px-5'>
-        <div className='absolute top-5 flex w-full items-center justify-between gap-2 px-2 text-sm'>
+        <div className='layout absolute top-5 flex items-center justify-between gap-2 text-sm'>
           <Link href='/' className=''>
             <Logo className='h-[40px] w-[140px]' />
           </Link>
@@ -146,7 +146,7 @@ function LoginHeader({ activeTab }: { activeTab: number }) {
           </h1>
         </div>
         <div className='flex items-center justify-start'>
-          <p className='mt-2 w-full min-w-[300px] text-center text-sm text-slate-500'>
+          <p className='mt-2 w-full min-w-[280px] text-center text-sm text-slate-500'>
             {t('subtitle')}
           </p>
         </div>
