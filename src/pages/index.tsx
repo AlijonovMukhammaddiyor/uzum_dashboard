@@ -15,7 +15,12 @@ export default function HomePage() {
 export async function getStaticProps({ locale }: { locale: any }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale || 'uz', ['landing', 'common'])),
+      ...(await serverSideTranslations(
+        locale || 'uz',
+        ['landing', 'common'],
+        null,
+        ['uz', 'ru']
+      )),
     },
   };
 }

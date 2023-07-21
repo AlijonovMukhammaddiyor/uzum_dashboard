@@ -52,7 +52,7 @@ function LandingTarifs() {
           <div className='flex-1'></div>
 
           <Tarif
-            title='Bepul'
+            title={t('tariffs.free')}
             price='$0'
             features={[
               t('tariffs.Umumiy_malumotlar'),
@@ -62,12 +62,12 @@ function LandingTarifs() {
               t('tariffs.24/7_doimiy_yordam'),
             ]}
             color='primary'
-            buttonTitle='Hoziroq boshlang'
+            buttonTitle={t('tariffs.start')}
             sendToRegister={sendToRegister}
           />
           <div className='flex-1'></div>
           <Tarif
-            title='Pro'
+            title={t('tariffs.pro')}
             price='$30'
             features={[
               t('tariffs.30_kunlik'),
@@ -91,12 +91,12 @@ function LandingTarifs() {
             ]}
             color='primary'
             isPro
-            buttonTitle='Hoziroq boshlang'
+            buttonTitle={t('tariffs.start')}
             sendToRegister={sendToRegister}
           />
           <div className='flex-1'></div>
           <Tarif
-            title='Premium'
+            title={t('tariffs.premium')}
             price='$40'
             features={[
               t('tariffs.Umumiy_malumotlar'),
@@ -122,7 +122,7 @@ function LandingTarifs() {
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
             ]}
             color='primary'
-            buttonTitle='Hoziroq boshlang'
+            buttonTitle={t('tariffs.start')}
             isProPlus
             sendToRegister={sendToRegister}
           />

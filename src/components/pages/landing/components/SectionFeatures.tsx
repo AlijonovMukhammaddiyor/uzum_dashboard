@@ -1,11 +1,11 @@
 import { useTranslation } from 'next-i18next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Zoom from 'react-medium-image-zoom';
 
 import clsxm from '@/lib/clsxm';
 
 function SectionFeatures() {
-  const { t } = useTranslation('landing', {});
+  const { t, i18n } = useTranslation('landing', {});
   const [currentImage, setCurrentImage] = React.useState<string>(
     '/landing/features/home_umumiy.png'
   );
@@ -15,6 +15,14 @@ function SectionFeatures() {
   const [activeTab, setActiveTab] = React.useState<string>(
     t('features.CategoryAnalytics.children.3.title')
   );
+
+  useEffect(() => {
+    setActiveDescription(
+      t(`features.CategoryAnalytics.children.3.description`)
+    );
+    setActiveTab(t(`features.CategoryAnalytics.children.3.title`));
+    setCurrentImage(t(`features.CategoryAnalytics.children.3.image`));
+  }, [i18n.language, t]);
 
   const [isShown, setIsShown] = React.useState<boolean>(false);
 

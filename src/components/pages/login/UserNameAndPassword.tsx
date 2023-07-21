@@ -87,7 +87,7 @@ const UserNameAndPassword = ({
       className={clsxm(
         'absolute top-full mt-7 flex min-w-[300px] max-w-[400px] flex-col gap-2 transition-all duration-500',
         activeTab === currentTab
-          ? '-left-[60px] opacity-100'
+          ? '-left-0 opacity-100'
           : '-left-full opacity-0'
       )}
     >

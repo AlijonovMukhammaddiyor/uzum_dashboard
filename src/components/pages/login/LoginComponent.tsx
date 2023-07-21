@@ -146,7 +146,7 @@ function LoginHeader({ activeTab }: { activeTab: number }) {
           </h1>
         </div>
         <div className='flex items-center justify-start'>
-          <p className='mt-2 w-full text-center text-sm text-slate-500'>
+          <p className='mt-2 w-full min-w-[300px] text-center text-sm text-slate-500'>
             {t('subtitle')}
           </p>
         </div>

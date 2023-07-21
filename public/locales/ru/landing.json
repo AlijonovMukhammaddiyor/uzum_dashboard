@@ -199,5 +199,9 @@
     "24/7_doimiy_yordam": "Постоянная поддержка 24/7",
     "30_kunlik": "30 дней данных",
     "60_kunlik": "60+ дней данных"
-  }
+  },
+  "tariffs.start": "Начать сейчас",
+  "tariffs.free": "Бесплатно",
+  "tariffs.pro": "Pro",
+  "tariffs.premium": "Премиум"
 }

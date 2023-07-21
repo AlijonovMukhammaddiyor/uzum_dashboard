@@ -199,5 +199,10 @@
     "24/7_doimiy_yordam": "24/7 doimiy yordam",
     "30_kunlik": "30 kunlik ma'lumotlar",
     "60_kunlik": "60+ kunlik ma'lumotlar"
-  }
+  },
+
+  "tariffs.start": "Hoziroq boshlang",
+  "tariffs.free": "Bepul",
+  "tariffs.pro": "Pro",
+  "tariffs.premium": "Premium"
 }

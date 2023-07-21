@@ -36,10 +36,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
     return {
       props: {
-        ...(await serverSideTranslations(context.locale || 'uz', [
-          'common',
-          'login',
-        ])),
+        ...(await serverSideTranslations(
+          context.locale || 'uz',
+          ['common', 'login'],
+          null,
+          ['uz', 'ru']
+        )),
       },
     };
   } catch (e) {
