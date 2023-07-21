@@ -17,8 +17,6 @@ import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
 import Logo from '@/assets/logo/logo.svg';
 
-import nextI18NextConfig from '../../../next-i18next.config';
-
 const Register = () => {
   const router = useRouter();
   // plan will later be used to determine which plan the user is registering for
@@ -178,7 +176,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             ...(await serverSideTranslations(
               context.locale || 'uz',
               ['common', 'register'],
-              nextI18NextConfig,
+              null,
               ['uz', 'ru']
             )),
           },
@@ -189,7 +187,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           ...(await serverSideTranslations(
             context.locale || 'uz',
             ['common', 'register'],
-            nextI18NextConfig,
+            null,
             ['uz', 'ru']
           )),
         },
@@ -200,7 +198,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           ...(await serverSideTranslations(
             context.locale || 'uz',
             ['common', 'register'],
-            nextI18NextConfig,
+            null,
             ['uz', 'ru']
           )),
         },

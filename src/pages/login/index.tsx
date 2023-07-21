@@ -8,8 +8,6 @@ import logger from '@/lib/logger';
 import LoginComponent from '@/components/pages/login/LoginComponent';
 import Seo from '@/components/Seo';
 
-import nextI18NextConfig from '../../../next-i18next.config';
-
 const Login = () => {
   return (
     <div className='min-h-screen w-screen'>
@@ -41,7 +39,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         ...(await serverSideTranslations(
           context.locale ?? 'uz',
           ['common', 'login'],
-          nextI18NextConfig,
+          null,
           ['uz', 'ru']
         )),
       },
@@ -53,7 +51,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         ...(await serverSideTranslations(
           context.locale ?? 'uz',
           ['common', 'login'],
-          nextI18NextConfig,
+          null,
           ['uz', 'ru']
         )),
       },
