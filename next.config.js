@@ -1,6 +1,6 @@
-/** @type {import('next-i18next').UserConfig} */
-/** @type {import('next').NextConfig} */
 
+/** @type {import('next').NextConfig} */
+const { i18n } = require('./next-i18next.config');
 
 const nextConfig = {
   eslint: {
@@ -38,10 +38,7 @@ const nextConfig = {
 
     return config;
   },
-  i18n: {
-    locales: ["uz", 'ru'],
-    defaultLocale: "uz",
-  },
+  i18n,
 };
 
 module.exports = nextConfig;

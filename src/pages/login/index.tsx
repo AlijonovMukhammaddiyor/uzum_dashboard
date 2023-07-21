@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
-import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
@@ -10,16 +9,6 @@ import LoginComponent from '@/components/pages/login/LoginComponent';
 import Seo from '@/components/Seo';
 
 const Login = () => {
-  const { i18n } = useTranslation('login');
-
-  useEffect(() => {
-    // check locale, and set it manually here
-    if (i18n.language !== 'uz') {
-      i18n.changeLanguage('uz');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className='min-h-screen w-screen'>
       <Seo />
@@ -35,7 +24,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
     const res = await api.getCurrentUser();
-    const lang = context.locale || 'uz';
 
     if (res) {
       return {
