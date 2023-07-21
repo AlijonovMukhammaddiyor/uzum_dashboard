@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
 import API from '@/lib/api';
@@ -39,6 +40,7 @@ export default function Category({ user }: CategoryProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
+    const { locale } = context;
     // check if user is logged in
     const res = await api.getCurrentUser();
 
@@ -54,6 +56,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
+        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
         user: res,
       },
     };

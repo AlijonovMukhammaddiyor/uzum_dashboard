@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import PhoneInput from 'react-phone-input-2';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -11,9 +13,6 @@ import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
 
 export interface NamesAndEmailComponentProps {
-  activeTab: number;
-  currentTab: number;
-  onPrevious: () => void;
   user: {
     username: string;
     email?: string;
@@ -35,9 +34,6 @@ export interface NamesAndEmailComponentProps {
 }
 
 const NamesAndEmailComponent = ({
-  activeTab,
-  currentTab,
-  onPrevious,
   user,
   setUser,
 }: NamesAndEmailComponentProps) => {
@@ -50,6 +46,7 @@ const NamesAndEmailComponent = ({
     setError(null);
     setUser({ ...user, [event.target.name]: event.target.value });
   };
+  const { t } = useTranslation('register');
 
   const handleRegister = () => {
     // Perform registration logic
@@ -64,21 +61,29 @@ const NamesAndEmailComponent = ({
       );
   };
 
-  const onRegister = async () => {
-    if (!isPasswordValid)
-      return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
+  const handlePhoneChange = (phone: string) => {
+    setUser((prev) => ({ ...prev, phone_number: phone }));
+  };
 
-    if (!user.phone_number) return alert('Telefon raqamingizni kiriting!');
-    if (!user.username) return alert('Foydalanuvchi nomini kiriting!');
+  const onRegister = async () => {
+    if (!isPasswordValid) return alert(t('nopassword.validate.error'));
+
+    if (!user.phone_number) return alert(t('nophone.validate.error'));
+    if (!user.username) return alert(t('nousername.validate.error'));
 
     if (user.email && !validateEmail(user.email))
-      return alert('Iltimos, to`g`ri email kiriting!');
+      return alert(t('email.validate.erorr'));
+
+    if (!validate_phones(user.phone_number)) {
+      return alert(t('phone.validate.error'));
+    }
 
     setSendingRequest(true);
     const api = new API(null);
     try {
       const res = await api.register({
         phone_number: '+' + user.phone_number,
+        // replace any space with underscore
         username: user.username,
         password: user.password,
         fingerprint: user.fingerprint,
@@ -98,12 +103,10 @@ const NamesAndEmailComponent = ({
       const errorMessage = error.message;
       logger(errorMessage, 'Error in Register');
       if (errorMessage === 'A user with this phone number already exists.') {
-        setError('Bunday telefon raqamli foydalanuvchi allaqachon mavjud!');
+        setError(t('phone.error'));
       }
       if (errorMessage === 'A user with this username already exists.') {
-        setError(
-          'Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting!'
-        );
+        setError(t('username.error'));
       }
       setSendingRequest(false);
     }
@@ -121,18 +124,46 @@ const NamesAndEmailComponent = ({
     setIsPasswordValid(true);
   };
 
+  const validate_phones = (phone: string) => {
+    if (phone.startsWith('998')) {
+      // return pattern = re.compile(r"^\+998 \(\d{2}\) \d{3}-\d{2}-\d{2}$")
+      return phone.length === 12;
+    } else if (phone.startsWith('82')) {
+      // return pattern = re.compile(r"^\+82 \d{2} \d{4}-\d{4}$")
+      return phone.length === 12;
+    }
+
+    return false;
+  };
+
   return (
     <div
       className={clsxm(
         'absolute top-full mt-7 flex w-full max-w-[400px] flex-col gap-2 transition-all duration-500',
-        activeTab === currentTab
-          ? 'left-0 opacity-100'
-          : 'left-full hidden opacity-0'
+        'left-0 opacity-100'
       )}
     >
+      <div className='flex w-full flex-col items-start justify-start'>
+        <p className='mb-2 text-sm text-slate-500'>{t('phone.title')}</p>
+        <PhoneInput
+          country='uz'
+          value={user.phone_number}
+          onChange={handlePhoneChange}
+          inputStyle={{
+            width: '100%',
+            height: '40px',
+          }}
+          countryCodeEditable={false}
+          // only enable korea and uzbekistan
+          onlyCountries={['uz', 'kr']}
+          masks={{ uz: '(..) ...-..-..', kr: '(..) ....-....' }}
+          containerClass={clsxm('rounded-none')}
+          inputClass='text-lg'
+        />
+      </div>
       <CustomInput
         autoFocus
-        label='Foydalanuvchi nomi'
+        label={t('username.title')}
         containerStyle={clsxm('rounded-md')}
         inputStyle={clsxm(
           'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm',
@@ -141,16 +172,13 @@ const NamesAndEmailComponent = ({
             ? 'border-2 border-red-500'
             : ''
         )}
-        placeholder='Foydalanuvchi nomini kiriting (majburiy)'
+        placeholder={t('username.placeholder')}
         name='username'
         value={user.username}
         onChange={(e) => {
           // remove username error if exists
           // setErrors(errors.filter((err) => err !== 'username'));
-          if (
-            error ===
-            'Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting!'
-          ) {
+          if (error === t('username.error')) {
             setError(null);
           }
           handleInputChange(e);
@@ -159,10 +187,10 @@ const NamesAndEmailComponent = ({
       />
       <div className='w-full flex-col items-start justify-start gap-1'>
         <CustomInput
-          label='Parol'
+          label={t('password.title')}
           containerStyle='rounded-md'
           inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm'
-          placeholder='Parol kiriting (majburiy)'
+          placeholder={t('password.placeholder')}
           name='password'
           onKeyUp={(e) => {
             if (e.key === 'Enter') {
@@ -191,15 +219,15 @@ const NamesAndEmailComponent = ({
           }
         />
         <p className='text-xs text-slate-400'>
-          Parolda kamida 8 ta belgidan iborat bo'lishi kerak
+          {t('nopassword.validate.error')}
         </p>
       </div>
 
       <CustomInput
-        label='Email'
+        label={t('email.title')}
         containerStyle='rounded-md'
         inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm'
-        placeholder='Emailingizni kiriting (ixtiyoriy)'
+        placeholder={t('email.placeholder')}
         name='email'
         type='email'
         value={user?.email || ''}
@@ -214,7 +242,7 @@ const NamesAndEmailComponent = ({
       <span className='my-5 h-px w-full bg-slate-300'></span>
       <div className='flex h-10 items-center justify-start gap-2'>
         <p className='bg-primary flex h-full items-center justify-center rounded-sm px-2 text-white'>
-          Taklif kodi
+          {t('referral.title')}
         </p>
         <CustomInput
           onKeyUp={(e) => {
@@ -225,7 +253,7 @@ const NamesAndEmailComponent = ({
           containerStyle='rounded-md flex-1'
           labelStyle='text-primary'
           inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md border border-primary placeholder:text-sm'
-          placeholder='Taklif kodini kiriting (ixtiyoriy)'
+          placeholder={t('referral.placeholder')}
           name='referred_by'
           type='text'
           value={user?.referred_by || ''}
@@ -241,7 +269,7 @@ const NamesAndEmailComponent = ({
         spinnerColor='black'
         disabled={!isPasswordValid || sendingRequest || error !== null}
       >
-        Ro'yxatdan o'tish
+        {t('button.register')}
       </Button>
       <div className=''>
         {error && <p className='text-xs text-red-500'>{error}</p>}
@@ -249,7 +277,8 @@ const NamesAndEmailComponent = ({
 
       <RegisterFooter
         onPrevious={() => {
-          onPrevious();
+          // onPrevious();
+          router.back();
         }}
       />
     </div>

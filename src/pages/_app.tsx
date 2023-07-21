@@ -2,6 +2,7 @@ import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { appWithTranslation } from 'next-i18next';
 import NextNProgress from 'nextjs-progressbar';
 import { useEffect, useState } from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
@@ -170,4 +171,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

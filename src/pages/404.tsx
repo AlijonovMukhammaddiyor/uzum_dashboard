@@ -1,3 +1,4 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 
@@ -24,4 +25,12 @@ export default function NotFoundPage() {
       </main>
     </div>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: any }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'uz', ['common'])),
+    },
+  };
 }

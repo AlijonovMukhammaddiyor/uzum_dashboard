@@ -1,5 +1,6 @@
 import axios from 'axios';
 import clsx from 'clsx';
+import { useTranslation } from 'next-i18next';
 import React, { useState } from 'react';
 // back icon
 import { HiOutlineArrowLeft } from 'react-icons/hi';
@@ -47,6 +48,7 @@ const LoginPhoneInputComponent = ({
   const [sendingRequest, setSendingRequest] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const [match, setMatch] = useState<boolean | null>(null);
+  const { t } = useTranslation('login');
   // const [error, setError] = useState<string | null>(null);
 
   const handlePhoneChange = (phone: string) => {
@@ -101,7 +103,7 @@ const LoginPhoneInputComponent = ({
     >
       <div className='flex w-full flex-col items-start justify-start'>
         <p className='mb-2 text-sm text-slate-500'>
-          Yangi parol olish uchun, telefon raqamingizni tasdiqlang.
+          {t('password.reset.subtitle')}
         </p>
         <PhoneInput
           country='uz'
@@ -119,10 +121,7 @@ const LoginPhoneInputComponent = ({
         />
       </div>
       {match === false && (
-        <p className='text-sm text-red-500'>
-          Telefon raqam va foydalanuvchi nomi mos kelmadi. Agar siz buni xato
-          deb o'ylasangiz, iltimos, biz bilan bog'laning.
-        </p>
+        <p className='text-sm text-red-500'>{t('password.reset.error')}</p>
       )}
       <Button
         className={clsx('bg-primary w-full text-white hover:bg-purple-700')}
@@ -133,7 +132,7 @@ const LoginPhoneInputComponent = ({
           handleSendCode();
         }}
       >
-        Kodni Yuborish
+        {t('sendcode')}
       </Button>
       <div
         className='group flex w-full items-center justify-start gap-2'
@@ -144,7 +143,7 @@ const LoginPhoneInputComponent = ({
       >
         <HiOutlineArrowLeft className='text-slate-500 group-hover:text-black' />
         <p className='cursor-pointer text-sm text-slate-500 group-hover:text-black'>
-          Orqaga qaytish
+          {t('back')}
         </p>
       </div>
     </div>

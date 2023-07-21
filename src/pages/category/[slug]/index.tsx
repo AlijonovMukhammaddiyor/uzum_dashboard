@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
 import API from '@/lib/api';
@@ -75,7 +76,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    if (!res.is_pro && res.is_proplus) {
+    if (!res.is_pro && !res.is_proplus) {
       return {
         redirect: {
           permanent: false,
@@ -88,7 +89,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const slug = context.query.slug as string;
 
     const id = slug.split('--')[1].trim();
-
     if (!id) {
       return {
         redirect: {
@@ -101,6 +101,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
+        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
         user: res,
       },
     };

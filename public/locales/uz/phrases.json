@@ -1,0 +1,14 @@
+{
+  "all_shops": "Barcha do'konlar",
+  "all_products": "Barcha mahsulotlar",
+  "all_categories": "Barcha kategoriyalar",
+  "all_sellers": "Barcha sotuvchilar",
+  "all_orders": "Barcha buyurtmalar",
+  "all_shops_count": "Barcha do'konlar soni",
+  "all_products_count": "Barcha mahsulotlar soni",
+  "all_categories_count": "Barcha kategoriyalar soni",
+  "all_orders_count": "Barcha buyurtmalar soni",
+
+  "daily_orders": "Kunlik buyurtmalar",
+  "daily_orders_count": "Kunlik buyurtmalar soni"
+}

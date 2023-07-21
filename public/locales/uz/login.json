@@ -1,0 +1,21 @@
+{
+  "title": "Kirish",
+  "subtitle": "Sizga xizmat ko'rsatishdan mamnunmiz!",
+  "username.title": "Foydalanuvchi nomi",
+  "username.placeholder": "Foydalanuvchi nomini kiriting",
+  "password.title": "Parol",
+  "password.placeholder": "Parolni kiriting",
+  "login": "Kirish",
+  "register.ask": "Hali ro'yxatdan o'tmadingizmi?",
+  "register": "Ro'yxatdan o'tish",
+  "password.reset.title": "Parolni tiklash",
+  "forgot.password": "Parolni unutdingizmi?",
+  "forgot.password.link": "Parolni tiklash",
+  "error": "Foydalanuvchi nomi yoki parol noto'g'ri. Agar buni xatolik deb o'ylasangiz, biz bilan bog'laning.",
+  "success": "Siz tizimga muvaffaqiyatli kirdingiz!",
+  "nousername.validate.error": "Foydalanuvchi nomini kiriting!",
+  "password.reset.subtitle": "Yangi parol olish uchun, telefon raqamingizni tasdiqlang.",
+  "back": "Orqaga",
+  "sendcode": "Kodni yuborish",
+  "password.reset.error": "Telefon raqam va foydalanuvchi nomi mos kelmadi. Agar siz buni xato deb o'ylasangiz, iltimos, biz bilan bog'laning."
+}

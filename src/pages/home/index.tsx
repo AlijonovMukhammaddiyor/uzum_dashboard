@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next/types';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
 import API from '@/lib/api';
@@ -37,7 +38,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const api = new API(context);
     // check if user is logged in
     const res = await api.getCurrentUser();
-    console.log(res);
+    const { locale } = context;
 
     if (!res) {
       return {
@@ -51,6 +52,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
+        ...(await serverSideTranslations(locale ?? '', ['common'])),
         user: res,
       },
     };

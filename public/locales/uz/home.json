@@ -1,0 +1,16 @@
+{
+  "overview": "Umumiy",
+  "new_products": "Yangi mahsulotlar",
+  "promising_products": "O'sayotgan mahsulotlar",
+  "promising_categories": "O'sayotgan kategoriyalar",
+  "all_orders_count": "Barcha buyurtmalar soni",
+  "all_products_count": "Barcha mahsulotlar soni",
+  "all_shops_count": "Barcha do'konlar soni",
+  "all_sellers_count": "Barcha sotuvchilar soni",
+  "all_statistics_title": "Uzumdagi jami buyurtmalar, mahsulotlar va do'konlar soni statistikasi",
+  "daily_statistics_title": "Uzumdagi kunlik yangi buyurtmalar, mahsulotlar va do'konlar soni statistikasi",
+  "daily_orders": "Kunlik buyurtmalar",
+  "daily_products": "Kunlik yangi mahsulotlar",
+  "daily_shops": "Kunlik yangi do'konlar",
+  "daily_sellers": "Kunlik yangi sotuvchilar"
+}

@@ -1,0 +1,209 @@
+{
+  "main.title.line1.part1": "Kam",
+  "main.title.line1.part2": "vaqtda",
+  "main.title.line2.part1": "katta",
+  "main.title.line2.part2": "natijalar",
+  "main.subtitle.line1": "Ma'lumotlarni daromadga aylantiring.",
+  "main.subtitle.line2": "Hoziroq o'z muvaffaqiyatingizni boshlang!",
+  "main.button.signup": "Ro'yxatdan o'tish",
+
+  "header.xizmatlar": "Xizmatlar",
+  "header.tariflar": "Tariflar",
+  "header.button.kirish": "Kirish",
+  "header.button.telegram": "Kanalga Qo'shilish",
+  "header.button.signup": "Ro'yxatdan o'tish",
+
+  "overview.title.line1.part1": "Sizning savdoingizni",
+  "overview.title.line1.part2": "rivojlantirish",
+  "overview.title.line2": "uchun mo'ljallangan",
+  "overview.internal.title": "Ichki analitika",
+  "overview.internal.description": "Tezkor va samarali savdo boshqaruv tizimini yaratish uchun ma'lumotlaringizni tahlil qiling.",
+  "overview.external.title": "Tashqi analitika",
+  "overview.external.description": "O'zingizni ishonchli his qilish uchun bozor va raqobatchilarning o'zaro ta'sirini yaxshilab ko'rib chiqing.",
+  "overview.trends.title": "Trendlar",
+  "overview.trends.description": "Istiqbolli nish va joriy trendlarni aniqlang va o'z biznesingizga ularga moslashtiring.",
+  "overview.studio.title": "Studio",
+  "overview.studio.description": "Mahsulotlar uchun ajoyib, jozibali banner va rasmlarni yaratish imkoniyati.",
+
+  "why.title.line1": "Nima uchun analitikasiz",
+  "why.title.line2": "bozorga kirish juda xavfli?",
+  "why.subtitle": "Aniq va so'nggi analitika ma'lumotlari shunchaki foyda emas, ular zaruratdir.",
+  "why.reason1": "Yagona sotilmay qolgan mahsulotingiz analitika xizmati narxidan sezilarli darajada oshib ketishi mumkin.",
+  "why.reason2": "Bizning xizmatlar bilan atiga bir necha minutlarda to`g`ri qarorlarni qbul qiling.",
+  "why.reason3": "So'nggi trendlar, bozordagi o`zgarishlar haqida tezkor yangiliklar bilan hammadan oldinda turing!",
+  "why.reason4": "Chegirmalar va reklamalar mahsulotlar sotuviga qanday ta`sir qilayotgani haqida ma`lumotlarni oling.",
+  "features.title": "Nima qilish mumkin?",
+
+  "features": {
+    "UmumiyAnalytics": {
+      "title": "Umumiy analitika",
+      "children": [
+        {
+          "title": "Umumiy",
+          "description": "Uzum bozorining kunlik yangiliklari, barcha mahsulotlar, do'konlar va buyurtmalar haqida to'liq ma'lumotga ega bo'ling. Bozor o'zgarishlarini osonlik bilan kuzatib boring.",
+          "image": "/landing/features/home_umumiy.png"
+        },
+        {
+          "title": "Yangi mahsulotlar",
+          "description": "Bozorga yangi sotuvga chiqqan mahsulotlarni va ularning turlarini tahlil qiling.",
+          "image": "/landing/features/new_products.png"
+        },
+        {
+          "title": "O'sayotgan mahsulotlar",
+          "description": "Bu xizmat orqali eng ko'p o'sib borayotgan mahsulotlar haqida ma'lumot bilib turing, bu esa sizga qaysi mahsulotlar ommalashib borayotganini tushunish imkonini beradi.",
+          "image": "/landing/features/growing_products.png"
+        },
+        {
+          "title": "O'sayotgan kategoriyalar",
+          "description": "Bu qaysi kategoriyalar o'sib borayotganini ko'rsatadi, va sizga trend bo'lgan tarmoqlarni aniqlashga va o'z investitsiyalaringizni shunga mos ravishda yo'naltirishga yordam beradi.",
+          "image": "/landing/features/growing_categories.png"
+        }
+      ]
+    },
+    "CategoryAnalytics": {
+      "title": "Kategoriyalar",
+      "children": [
+        {
+          "title": "Barcha kategoriyalar",
+          "description": "Bu orqali siz barcha mavjud kategoriyalarni hamda ularning ichki kategoriyalarini ko'rishingiz mumkin.",
+          "image": "/landing/features/categories.png"
+        },
+        {
+          "title": "Kategoriya do'konlari",
+          "description": "Bu xususiyat ma'lum bir kategoriyadagi mahsulotlarni sotadigan barcha do'konlar haqida ma'lumot beradi va sizga potentsial raqobatchilarni aniqlashga yordam beradi.",
+          "image": "/landing/features/category_shops.png"
+        },
+        {
+          "title": "Kategoriya mahsulotlari",
+          "description": "Bu kategoriyadagi barcha mahsulotlarning batafsil ro'yxatini va ular haqidagi analitik ma'limotlarni taqdim etadi, bu inventarizatsiyani yaxshiroq boshqarish va strategiyani shakllantirishnga yordam beradi.",
+          "image": "/landing/features/category_products.png"
+        },
+        {
+          "title": "Kategoriya trendi",
+          "description": "Kategoriyadagi mahsulotlar soni, narxi, daromadi va shu kabi asosiy ko'rsatkichlarni bilib oling. Bu sizga kategoriyalarni solishtirish va kategoriyalarni tanlashda yordam beradi.",
+          "image": "/landing/features/category_trends.png"
+        },
+        {
+          "title": "Ichki kategoriyalar",
+          "description": "Kategoriyadagi ichki kategoriyalarni ko'ring. Bu sizga kategoriya ichidagi mahsulot ierarxiyasi va segmentatsiyasini tushunishda yordam beradi.",
+          "image": "/landing/features/category_subcategories.png"
+        },
+        {
+          "title": "Narx segmentatsiyasi",
+          "description": "Bu har bir toifadagi narxlar va shu narxlar oralig'idagi buyurtmalar segmentatsiyasini ko'rsatadi va sizga raqobatli yoki eng foydali narxl oralig'larini topishga va raqobatbardosh narxlarni belgilashda yordam beradi.",
+          "image": "/landing/features/category_price_seg.png"
+        }
+      ]
+    },
+    "ShopAnalytics": {
+      "title": "Do'konlar",
+      "children": [
+        {
+          "title": "Barcha do'konlar",
+          "description": "Platformadagi barcha do'konlarning batafsil jadvali, raqobatbardosh landshaftning yaxlit ko'rinishini taklif qiladi.",
+          "image": "/landing/features/allshops.png"
+        },
+        {
+          "title": "Do'kon tahlili",
+          "description": "Bu individual do'konlarning savdo ma'lumotlari va mahsulot assortimentlarini chuqur tahlil qiladi va biznesga muvaffaqiyatli strategiyalarni aniqlashda yordam beradi.",
+          "image": "/landing/features/shop_analytics.png"
+        },
+        {
+          "title": "Do'kon mahsulotlari",
+          "description": "Bu xususiyat ma'lum bir do'kon tomonidan qaysi toifalar mahsulotlar sotilayotganini ko'rsatadi, sotuvchilarga mahsulot assortimentini diversifikatsiya qilish yoki yo'naltirishda yordam beradi. Shuningdek, do'konning kategoriyalarini solishtirishda va mablag'ni yo'naltirishda yordam beradi.",
+          "image": "/landing/features/shop_products.png"
+        },
+        {
+          "title": "Do'kon kategoriyalari",
+          "description": "Do'konlar tomonidan sotiladigan kategoriyalar haqida ma'lumotni ko'rsatadi, sizga raqobatli kategoriyalarni topish va biznes strategiyalaringizni belgilashda yordam beradi.",
+          "image": "/landing/features/shop_categories.png"
+        },
+        {
+          "title": "Do'kon raqobatchilari",
+          "description": "U ma'lum bir do'konning raqobatchilarini ta'kidlab, strategik raqobat va ajralib turish uchun tushuncha beradi.",
+          "image": "/landing/features/product_competitors.png"
+        },
+        {
+          "title": "Do'kon kunlik sotuvlari",
+          "description": "Bu xususiyat do'konning kundalik savdo ma'lumotlarini taqdim etadi, bu esa kundalik savdo tendentsiyalarini tahlil qilishga yordam beradi.",
+          "image": "/landing/features/shop_daily.png"
+        }
+      ]
+    },
+    "ProductAnalytics": {
+      "title": "Mahsulotlar",
+      "children": [
+        {
+          "title": "Barcha mahsulotlar",
+          "description": "Bu xususiyat platformadagi barcha mahsulotlar haqida to'liq ma'lumot beradi va bozorda mavjud bo'lgan narsalar haqida keng tushuncha beradi.",
+          "image": "/landing/features/products.png"
+        },
+        {
+          "title": "Mahsulotlar segmentatsiyasi",
+          "description": "Bu xizmat orqali siz mahsulotlarni narx, daromad, sotuvlar va shu kabi asosiy ko'rsatkichlar bo'yicha segmentatsiyalash imkoniyatiga ega bo'lasiz. Bu esa sizga mahsulotlaringizni solishtirishda va mahsulotlaringizni narx strategiyalaringizni yaxshilashda yordam beradi.",
+          "image": "/landing/features/products.png"
+        },
+        {
+          "title": "Mahsulot haqida",
+          "description": "Bu ma'lum bir mahsulot haqida batafsil ma'lumotni, jumladan uning narxi, reytingi va sotuvchi tafsilotlarini taqdim etadi va iste'molchilar va raqobatchilar uchun qimmatli tushunchalarni beradi.",
+          "image": "/landing/features/product.png"
+        },
+        {
+          "title": "Mahsulot tahlili",
+          "description": "Bu mahsulotni chuqur tahlil qilib, sotuvchilarga mahsulotning ishlashi va sotuv tendetsiyalari hamda narx va raqobatning mahsulot sotuviga ta'sirini tushunishda yordam beradi.",
+          "image": "/landing/features/product_analytics.png"
+        },
+        {
+          "title": "Mahsulot raqobatchilari",
+          "description": "Bu xususiyat ma'lum bir mahsulotning raqobatchilarini ta'kidlab, sizga mahsulotlaringiz raqobatchilarga qanday qarshilik ko'rsatishini tushunishga imkon beradi.",
+          "image": "/landing/features/similars.png"
+        },
+        {
+          "title": "Raqobatchilarini taqqoslash",
+          "description": "Bu mahsulotni raqobatchilari bilan narx, reyting, sotuv miqdori va boshqalar kabi turli parametrlar bo'yicha taqqoslash imkonini beradi, bu esa sizga o'z takliflaringizni va narx strategiyalaringizni yaxshilashda yordam beradi.",
+          "image": "/landing/features/product_competitors.png"
+        }
+      ]
+    }
+  },
+
+  "tops.products.title": "Eng Ko'p sotilgan mahsulotlar",
+  "tops.shops.title": "Eng Ko'p sotgan Do'konlar",
+
+  "referral.title": "Har bir taklif qilgan do'stingiz uchun $3 chegirmaga ega bo'ling!",
+  "referral.subtitle1": "Agar siz bizning xizmatimizni yoqtirgan bo'lsangiz va uni boshqalarga ham tavsiya qilmoqchi bo'lsangiz, siz uchun ajoyib mukofotimiz bor.",
+  "referral.subtitle2": "Ha bu shunday oson! Do'stlaringizni taklif qiling va har bir premium tarifiga obuna bo'lgan do'stingiz uchun, sizga $3 chegirma beriladi. Siz bu chegirmalarni kelgusi oylarning obunasi uchun ishlatishingiz mumkin.",
+  "referral.subtitle3": "Qanday taklif qilaman deysizmi? Ro'yhatdan o'tgandan so'ng sizga Taklif Kodi beriladi. Siz bu kodni do'stingizga yuboring va ular ro'yhatdan o'tish paytida bu kodni kiritishlari kerak.",
+
+  "tariffs": {
+    "Umumiy_malumotlar": "Umumiy ma'lumotlar",
+    "Barcha_Kategoriyalar": "Barcha Kategoriyalar",
+    "Kategoriya_trendi": "Kategoriya trendi",
+    "Kategoriya_mahsulotlari": "Kategoriya mahsulotlari",
+    "Ichki_kategoriyalar": "Ichki kategoriyalar",
+    "Kategoriya_narx_segmentatsiyasi": "Kategoriya narx segmentatsiyasi",
+    "Kategoriya_dokonlari": "Kategoriya do'konlari",
+    "Barcha_dokonlar": "Barcha do'konlar",
+    "Dokon_tahlili": "Do'kon tahlili",
+    "Dokon_mahsulotlari": "Do'kon mahsulotlari",
+    "Dokon_kategoriyalari": "Do'kon kategoriyalari",
+    "Dokon_raqobatchilari": "Do'kon raqobatchilari",
+    "Dokon_kunlik_sotuvlari": "Do'kon kunlik sotuvlari",
+    "Barcha_mahsulotlar": "Barcha mahsulotlar",
+    "Mahsulot_tahlili": "Mahsulot tahlili",
+    "Mahsulot_raqobatchilari": "Mahsulot raqobatchilari",
+    "Mahsulot_raqobatchilari_taqqoslash": "Mahsulot raqobatchilari to'g'ridan-to'g'ri taqqoslash",
+    "Yangi_mahsulotlar": "Yangi mahsulotlar",
+    "Osayotgan_mahsulotlar": "O'sayotgan mahsulotlar",
+    "Osayotgan kategoriyalar": "O'sayotgan kategoriyalar",
+    "24/7_doimiy_yordam": "24/7 doimiy yordam",
+    "30_kunlik": "30 kunlik ma'lumotlar",
+    "60_kunlik": "60+ kunlik ma'lumotlar"
+  },
+
+  "tariffs.start": "Hoziroq boshlang",
+  "tariffs.free": "Bepul",
+  "tariffs.pro": "Pro",
+  "tariffs.premium": "Premium",
+  "tariffs.trial": "24 soat mutlaqo bepul"
+}

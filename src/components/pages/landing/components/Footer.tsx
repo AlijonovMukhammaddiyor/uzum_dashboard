@@ -32,7 +32,7 @@ function Footer() {
           >
             <AiOutlineInstagram className='h-10 w-10 cursor-pointer text-white ' />
           </a>
-          <a href='https://t.me/uzanalitika' target='_blank'>
+          <a href='https://t.me/uzum_uzanalitika' target='_blank'>
             <BsTelegram className='h-8 w-8 cursor-pointer text-white ' />
           </a>
           <a href='mailto: uzumanalitika@gmail.com'>
