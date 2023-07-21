@@ -40,7 +40,7 @@ function LandingPage() {
           }
         />
       </Head>
-      <div className='border-primary fixed right-0 top-10 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
+      <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
             'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
