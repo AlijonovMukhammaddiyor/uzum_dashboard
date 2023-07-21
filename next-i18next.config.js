@@ -6,4 +6,5 @@ module.exports = {
     locales: ["uz", 'ru'],
     defaultLocale: "uz",
   },
+  localePath: "/public/locales",
 }

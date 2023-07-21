@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -16,6 +16,8 @@ import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
 import Logo from '@/assets/logo/logo.svg';
+
+import nextI18NextConfig from '../../../next-i18next.config';
 
 const Register = () => {
   const router = useRouter();
@@ -43,14 +45,6 @@ const Register = () => {
     i18n.changeLanguage(lng);
     onToggleLanguageClick(lng);
   };
-
-  useEffect(() => {
-    // check locale, and set it manually here
-    if (i18n.language !== 'uz') {
-      i18n.changeLanguage('uz');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onToggleLanguageClick = (newLocale: string) => {
     const { pathname, asPath, query } = router;
@@ -180,7 +174,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             permanent: false,
             destination: '/home',
           },
-          props: {},
+          props: {
+            ...(await serverSideTranslations(
+              context.locale || 'uz',
+              ['common', 'register'],
+              nextI18NextConfig,
+              ['uz', 'ru']
+            )),
+          },
         };
       }
       return {
@@ -188,7 +189,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           ...(await serverSideTranslations(
             context.locale || 'uz',
             ['common', 'register'],
-            null,
+            nextI18NextConfig,
             ['uz', 'ru']
           )),
         },
@@ -199,7 +200,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           ...(await serverSideTranslations(
             context.locale || 'uz',
             ['common', 'register'],
-            null,
+            nextI18NextConfig,
             ['uz', 'ru']
           )),
         },
