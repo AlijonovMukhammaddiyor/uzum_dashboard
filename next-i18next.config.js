@@ -1,4 +1,5 @@
 /** @type {import('next-i18next').UserConfig} */
+const path = require('path')
 
 
 module.exports = {
@@ -6,4 +7,6 @@ module.exports = {
     locales: ["uz", 'ru'],
     defaultLocale: "uz",
   },
+  fallbackLng: { default: ['uz'] },
+  localePath: path.resolve('./public/locales'),
 }

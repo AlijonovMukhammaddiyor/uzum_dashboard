@@ -12,7 +12,7 @@ export default function HomePage() {
   );
 }
 
-export async function getStaticProps({ locale }: { locale: any }) {
+export async function getServerSideProps({ locale }: { locale: any }) {
   return {
     props: {
       ...(await serverSideTranslations(
