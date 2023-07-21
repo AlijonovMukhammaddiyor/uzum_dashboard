@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
@@ -11,6 +11,14 @@ import Seo from '@/components/Seo';
 
 const Login = () => {
   const { i18n } = useTranslation('login');
+
+  useEffect(() => {
+    // check locale, and set it manually here
+    if (i18n.language !== 'uz') {
+      i18n.changeLanguage('uz');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='min-h-screen w-screen'>
@@ -27,6 +35,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
     const res = await api.getCurrentUser();
+    const lang = context.locale || 'uz';
 
     if (res) {
       return {
@@ -40,7 +49,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return {
       props: {
         ...(await serverSideTranslations(
-          context.locale || 'uz',
+          context.locale ?? 'uz',
           ['common', 'login'],
           null,
           ['uz', 'ru']
@@ -52,7 +61,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return {
       props: {
         ...(await serverSideTranslations(
-          context.locale || 'uz',
+          context.locale ?? 'uz',
           ['common', 'login'],
           null,
           ['uz', 'ru']

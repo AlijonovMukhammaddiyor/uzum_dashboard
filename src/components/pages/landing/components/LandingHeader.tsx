@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { BsTelegram } from 'react-icons/bs';
@@ -12,6 +13,18 @@ import Logo from '@/assets/logo/logo.svg';
 function LandingHeader() {
   const [isMobile, setIsMobile] = React.useState(false);
   const { t } = useTranslation('landing');
+  const { i18n } = useTranslation('landing');
+  const router = useRouter();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    onToggleLanguageClick(lng);
+  };
+
+  const onToggleLanguageClick = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  };
 
   const headerItems: {
     [key: string]: string;
@@ -101,7 +114,9 @@ function LandingHeader() {
                   <a
                     href="#ta'riflar"
                     className='flex-1 shrink-0'
-                    onClick={() => setIsMobile(false)}
+                    onClick={() => {
+                      setIsMobile(false);
+                    }}
                   >
                     <div className='bg-primary base:mt-0 hover:text-primary flex cursor-pointer items-center justify-center rounded-lg px-3 py-4 text-sm text-white shadow-xl transition-all duration-200 hover:bg-purple-300 md:px-6 md:py-4 md:text-2xl xl:text-2xl'>
                       {t('header.button.signup')}

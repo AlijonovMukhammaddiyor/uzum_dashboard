@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -43,6 +43,14 @@ const Register = () => {
     i18n.changeLanguage(lng);
     onToggleLanguageClick(lng);
   };
+
+  useEffect(() => {
+    // check locale, and set it manually here
+    if (i18n.language !== 'uz') {
+      i18n.changeLanguage('uz');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onToggleLanguageClick = (newLocale: string) => {
     const { pathname, asPath, query } = router;
