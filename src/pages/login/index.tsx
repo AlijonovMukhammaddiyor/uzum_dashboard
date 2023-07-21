@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
 import API from '@/lib/api';
@@ -34,7 +35,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
     return {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+      },
     };
   } catch (e) {
     logger(e, "Can't get current user");

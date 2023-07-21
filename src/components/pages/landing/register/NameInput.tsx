@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import PhoneInput from 'react-phone-input-2';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -11,9 +12,6 @@ import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
 
 export interface NamesAndEmailComponentProps {
-  activeTab: number;
-  currentTab: number;
-  onPrevious: () => void;
   user: {
     username: string;
     email?: string;
@@ -35,9 +33,6 @@ export interface NamesAndEmailComponentProps {
 }
 
 const NamesAndEmailComponent = ({
-  activeTab,
-  currentTab,
-  onPrevious,
   user,
   setUser,
 }: NamesAndEmailComponentProps) => {
@@ -64,6 +59,10 @@ const NamesAndEmailComponent = ({
       );
   };
 
+  const handlePhoneChange = (phone: string) => {
+    setUser((prev) => ({ ...prev, phone_number: phone }));
+  };
+
   const onRegister = async () => {
     if (!isPasswordValid)
       return alert("Parol kamida 8 ta belgidan iborat bo'lishi kerak!");
@@ -74,11 +73,16 @@ const NamesAndEmailComponent = ({
     if (user.email && !validateEmail(user.email))
       return alert('Iltimos, to`g`ri email kiriting!');
 
+    if (!validate_phones(user.phone_number)) {
+      return alert('Iltimos, to`g`ri telefon raqam kiriting!');
+    }
+
     setSendingRequest(true);
     const api = new API(null);
     try {
       const res = await api.register({
         phone_number: '+' + user.phone_number,
+        // replace any space with underscore
         username: user.username,
         password: user.password,
         fingerprint: user.fingerprint,
@@ -121,15 +125,45 @@ const NamesAndEmailComponent = ({
     setIsPasswordValid(true);
   };
 
+  const validate_phones = (phone: string) => {
+    if (phone.startsWith('998')) {
+      // return pattern = re.compile(r"^\+998 \(\d{2}\) \d{3}-\d{2}-\d{2}$")
+      return phone.length === 12;
+    } else if (phone.startsWith('82')) {
+      // return pattern = re.compile(r"^\+82 \d{2} \d{4}-\d{4}$")
+      return phone.length === 12;
+    }
+
+    return false;
+  };
+
   return (
     <div
       className={clsxm(
         'absolute top-full mt-7 flex w-full max-w-[400px] flex-col gap-2 transition-all duration-500',
-        activeTab === currentTab
-          ? 'left-0 opacity-100'
-          : 'left-full hidden opacity-0'
+        'left-0 opacity-100'
       )}
     >
+      <div className='flex w-full flex-col items-start justify-start'>
+        <p className='mb-2 text-sm text-slate-500'>
+          Telefon raqamingizni kiriting.
+        </p>
+        <PhoneInput
+          country='uz'
+          value={user.phone_number}
+          onChange={handlePhoneChange}
+          inputStyle={{
+            width: '100%',
+            height: '40px',
+          }}
+          countryCodeEditable={false}
+          // only enable korea and uzbekistan
+          onlyCountries={['uz', 'kr']}
+          masks={{ uz: '(..) ...-..-..', kr: '(..) ....-....' }}
+          containerClass={clsxm('rounded-none')}
+          inputClass='text-lg'
+        />
+      </div>
       <CustomInput
         autoFocus
         label='Foydalanuvchi nomi'
@@ -249,7 +283,8 @@ const NamesAndEmailComponent = ({
 
       <RegisterFooter
         onPrevious={() => {
-          onPrevious();
+          // onPrevious();
+          router.back();
         }}
       />
     </div>

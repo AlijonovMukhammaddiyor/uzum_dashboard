@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useTranslation } from 'next-i18next';
 import React, { useEffect } from 'react';
 
 import clsxm from '@/lib/clsxm';
@@ -20,6 +21,7 @@ function Tops() {
       total_orders: number;
     }[]
   >([]);
+  const { t } = useTranslation('landing');
 
   useEffect(() => {
     axios
@@ -44,7 +46,7 @@ function Tops() {
     <div className='relative w-full bg-[#E8F0F2] py-16 md:py-32'>
       <div className='layout flex flex-col justify-start gap-10 md:flex-row'>
         <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
-          <h3 className='mb-8'>Eng Ko'p sotilgan mahsulotlar</h3>
+          <h3 className='mb-8'>{t('tops.products.title')}</h3>
           <div className='w-full'>
             <ul
               className={clsxm(
@@ -70,7 +72,7 @@ function Tops() {
           </div>
         </div>
         <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
-          <h3 className='mb-8'>Eng Ko'p sotgan Do'konlar</h3>
+          <h3 className='mb-8'>{t('tops.shops.title')}</h3>
           <div className='w-full'>
             <ul className='flex min-h-[300px] w-full flex-col gap-5'>
               {shops.length > 0 ? (

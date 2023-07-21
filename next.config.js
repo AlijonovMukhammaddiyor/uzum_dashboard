@@ -1,3 +1,4 @@
+/** @type {import('next-i18next').UserConfig} */
 /** @type {import('next').NextConfig} */
 
 

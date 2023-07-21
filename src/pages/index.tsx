@@ -1,25 +1,21 @@
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
 import LandingPage from '@/components/pages/landing/LandingPage';
 
-/**
- * SVGR Support
- * Caveat: No React Props Type.
- *
- * You can override the next-env if the type is important to you
- * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
- */
-
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
-
 export default function HomePage() {
   return (
     <div>
-      {/* <Seo templateTitle='Home' /> */}
       {/* <Seo /> */}
       <LandingPage />
     </div>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: any }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale || 'uz', ['landing', 'common'])),
+    },
+  };
 }

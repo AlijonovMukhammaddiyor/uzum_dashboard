@@ -2,14 +2,13 @@ import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import NamesAndEmailComponent from '@/components/pages/landing/register/NameInput';
-import PhoneConfirm from '@/components/pages/landing/register/PhoneConfirm';
-import PhoneInputComponent from '@/components/pages/landing/register/PhoneInput';
 import Seo from '@/components/Seo';
 
 import free from '@/assets/landing/free.png';
@@ -21,7 +20,6 @@ const Register = () => {
   const router = useRouter();
   // plan will later be used to determine which plan the user is registering for
   const { plan } = router.query;
-  const [activeTab, setactiveTab] = React.useState(1);
   const [user, setUser] = React.useState<{
     username: string;
     email?: string;
@@ -47,40 +45,12 @@ const Register = () => {
         <div
           className={clsxm(
             'relative -mt-[200px] flex max-w-full flex-col items-center justify-center gap-6 px-2',
-            activeTab === 3 && '-mt-[400px]',
+            '-mt-[400px]',
             'bg-gradient base:bg-none'
           )}
         >
           <RegisterHeader plan={plan as string} />
-          <PhoneInputComponent
-            user={user}
-            activeTab={activeTab}
-            currentTab={1}
-            onNext={() => {
-              setactiveTab(2);
-            }}
-            setUser={setUser}
-          />
-          <PhoneConfirm
-            activeTab={activeTab}
-            currentTab={2}
-            onNext={() => {
-              setactiveTab(3);
-            }}
-            onPrevious={() => {
-              setactiveTab(1);
-            }}
-            phone={user.phone_number}
-          />
-          <NamesAndEmailComponent
-            activeTab={activeTab}
-            currentTab={3}
-            onPrevious={() => {
-              setactiveTab(2);
-            }}
-            user={user}
-            setUser={setUser}
-          />
+          <NamesAndEmailComponent user={user} setUser={setUser} />
         </div>
       </div>
 
@@ -133,11 +103,7 @@ function RegisterHeader({ plan }: { plan: string }) {
           ) : (
             <Image src={free} alt='premium-star' className='h-5 w-5' />
           )}
-          {plan === 'premium'
-            ? 'Premium'
-            : plan === 'basic'
-            ? "Boshlang'ich"
-            : 'Bepul'}
+          {plan === 'premium' ? 'Premium' : plan === 'basic' ? 'Pro' : 'Bepul'}
         </p>
 
         <span
@@ -174,16 +140,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         };
       }
       return {
-        props: {},
+        props: {
+          ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+        },
       };
     } catch (e) {
       return {
-        props: {},
+        props: {
+          ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+        },
       };
     }
   } catch (e) {
     return {
-      props: {},
+      props: {
+        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+      },
     };
   }
 }

@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
 import API from '@/lib/api';
@@ -63,6 +64,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
     return {
       props: {
+        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
         user: res,
       },
     };

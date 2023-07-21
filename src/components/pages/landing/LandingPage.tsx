@@ -1,5 +1,9 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import clsxm from '@/lib/clsxm';
 
 import Footer from '@/components/pages/landing/components/Footer';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
@@ -11,7 +15,18 @@ import SectionWhy from '@/components/pages/landing/components/SectionWhy';
 import Tops from '@/components/pages/landing/components/Tops';
 
 function LandingPage() {
-  const [lang, setLang] = React.useState<'uz' | 'ru'>('uz');
+  const { t, i18n } = useTranslation('landing');
+  const router = useRouter();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    onToggleLanguageClick(lng);
+  };
+
+  const onToggleLanguageClick = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  };
 
   return (
     <div className='relative w-screen'>
@@ -19,28 +34,32 @@ function LandingPage() {
         <title>Analitika Uzum</title>
         <link rel='icon' href='/favicon.ico' />
         {/* set lang */}
-        <html lang={lang} />
+        <html
+          lang={
+            i18n.language === 'uz' ? 'uz' : i18n.language === 'ru' ? 'ru' : 'en'
+          }
+        />
       </Head>
-      {/* <div className='border-primary fixed bottom-4 right-0 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
+      <div className='border-primary fixed right-0 top-10 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
             'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
-            lang === 'uz' && 'bg-primary text-white'
+            i18n.language === 'uz' && 'bg-primary text-white'
           )}
-          onClick={() => setLang('uz')}
+          onClick={() => changeLanguage('uz')}
         >
           Uz
         </div>
         <div
           className={clsxm(
             'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
-            lang === 'ru' && 'bg-primary text-white'
+            i18n.language === 'ru' && 'bg-primary text-white'
           )}
-          onClick={() => setLang('ru')}
+          onClick={() => changeLanguage('ru')}
         >
           Рус
         </div>
-      </div> */}
+      </div>
 
       <LandingHeader />
       <LandingMain />

@@ -1,4 +1,5 @@
 import Router from 'next/router';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { IoCheckmarkSharp, IoCloseOutline } from 'react-icons/io5';
 
@@ -9,7 +10,7 @@ import Button from '@/components/shared/buttons/Button';
 import Logo from '@/assets/logo/logo_only.svg';
 
 function LandingTarifs() {
-  const [plan, setPlan] = React.useState('Bepul');
+  const { t } = useTranslation('landing');
 
   const sendToRegister = (plan: string) => {
     Router.push({
@@ -25,28 +26,20 @@ function LandingTarifs() {
     <div id="ta'riflar" className='flex w-full justify-center  py-28'>
       <div className='md:layout w-full overflow-hidden'>
         <div className='bg-linear-dark layout mb-6 rounded-md p-5 text-center shadow-xl md:w-full'>
-          <p className='font-primary text-center text-2xl text-white'>
+          {/* <p className='font-primary text-center text-2xl text-white'>
             <span className='text-4xl'>🎉</span> Har bir taklif qilgan
             do'stingiz uchun <span className='text-3xl'>$3</span> chegirmaga ega
             bo'ling
+          </p> */}
+          <p className='font-primary text-center text-2xl text-white'>
+            <span className='text-4xl'>🎉</span> {t('referral.title')}
           </p>
-          <p className='mt-5  text-[#fff]'>
-            Agar siz bizning xizmatimizni yoqtirgan bo'lsangiz va uni
-            boshqalarga ham tavsiya qilmoqchi bo'lsangiz, siz uchun ajoyib
-            mukofotimiz bor.
-          </p>
+          <p className='mt-5  text-[#fff]'>{t('referral.subtitle1')}</p>
           <p className='mt-5 w-full text-left text-[#fff]'>
-            Ha bu shunday oson! Do'stlaringizni taklif qiling va har bir premium
-            tarifiga obuna bo'lgan do'stingiz uchun, sizga $3 chegirma beriladi.
-            Siz bu chegirmalarni kelgusi oylarning obunasi uchun ishlatishingiz
-            mumkin.
+            {t('referral.subtitle2')}
           </p>
-
           <p className='mt-3 w-full text-left text-white'>
-            Qanday taklif qilaman deysizmi? Ro'yhatdan o'tgandan so'ng sizga{' '}
-            <span className='font-bold'>Taklif Kodi</span> beriladi. Siz bu
-            kodni do'stingizga yuboring va ular ro'yhatdan o'tish paytida bu
-            kodni kiritishlari kerak.
+            {t('referral.subtitle3')}
           </p>
         </div>
         <div
@@ -62,11 +55,11 @@ function LandingTarifs() {
             title='Bepul'
             price='$0'
             features={[
-              "Umumiy ma'lumotlar",
-              'Barcha mahsulotlar',
-              "Barcha do'konlar",
-              'Barcha Kategoriyalar',
-              '24/7 doimiy yordam',
+              t('tariffs.Umumiy_malumotlar'),
+              t('tariffs.Barcha_Kategoriyalar'),
+              t('tariffs.Barcha_dokonlar'),
+              t('tariffs.Barcha_mahsulotlar'),
+              t('tariffs.24/7_doimiy_yordam'),
             ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'
@@ -77,25 +70,24 @@ function LandingTarifs() {
             title='Pro'
             price='$30'
             features={[
-              'Oxirgi 30 kunlik',
-              "Umumiy ma'lumotlar",
-              'Barcha Kategoriyalar',
-              'Kategoriya trendi',
-              'Kategoriya mahsulotlari',
-              'Ichki kategoriyalar',
-              'Kategoriya narx segmentatsiyasi',
-              "Kategoriya do'konlari",
-              "Barcha do'konlar",
-              "Do'kon tahlili",
-              "Do'kon mahsulotlari",
-              "Do'kon kategoriyalari",
-              "Do'kon raqobatchilari",
-              "Do'kon kunlik sotuvlari",
-              'Barcha mahsulotlar',
-              'Mahsulot tahlili',
-              'Mahsulot raqobatchilari',
-
-              '24/7 doimiy yordam',
+              t('tariffs.30_kunlik'),
+              t('tariffs.Umumiy_malumotlar'),
+              t('tariffs.Barcha_Kategoriyalar'),
+              t('tariffs.Kategoriya_trendi'),
+              t('tariffs.Kategoriya_mahsulotlari'),
+              t('tariffs.Ichki_kategoriyalar'),
+              t('tariffs.Kategoriya_narx_segmentatsiyasi'),
+              t('tariffs.Kategoriya_dokonlari'),
+              t('tariffs.Barcha_dokonlar'),
+              t('tariffs.Dokon_tahlili'),
+              t('tariffs.Dokon_mahsulotlari'),
+              t('tariffs.Dokon_kategoriyalari'),
+              t('tariffs.Dokon_raqobatchilari'),
+              t('tariffs.Dokon_kunlik_sotuvlari'),
+              t('tariffs.Barcha_mahsulotlar'),
+              t('tariffs.Mahsulot_tahlili'),
+              t('tariffs.Mahsulot_raqobatchilari'),
+              t('tariffs.24/7_doimiy_yordam'),
             ]}
             color='primary'
             isPro
@@ -107,27 +99,27 @@ function LandingTarifs() {
             title='Premium'
             price='$40'
             features={[
-              "Umumiy ma'lumotlar",
-              'Barcha Kategoriyalar',
-              'Kategoriya trendi',
-              'Kategoriya mahsulotlari',
-              'Ichki kategoriyalar',
-              'Kategoriya narx segmentatsiyasi',
-              "Kategoriya do'konlari",
-              "Barcha do'konlar",
-              "Do'kon tahlili",
-              "Do'kon mahsulotlari",
-              "Do'kon kategoriyalari",
-              "Do'kon raqobatchilari",
-              "Do'kon kunlik sotuvlari",
-              'Barcha mahsulotlar',
-              'Mahsulot tahlili',
-              'Mahsulot raqobatchilari',
-              'Mahsulot raqobatchilari taqqoslash',
-              'Yangi mahsulotlar',
-              "O'sayotgan mahsulotlar",
-              "O'sayotgan kategoriyalar",
-              '24/7 doimiy yordam',
+              t('tariffs.Umumiy_malumotlar'),
+              t('tariffs.Barcha_Kategoriyalar'),
+              t('tariffs.Kategoriya_trendi'),
+              t('tariffs.Kategoriya_mahsulotlari'),
+              t('tariffs.Ichki_kategoriyalar'),
+              t('tariffs.Kategoriya_narx_segmentatsiyasi'),
+              t('tariffs.Kategoriya_dokonlari'),
+              t('tariffs.Barcha_dokonlar'),
+              t('tariffs.Dokon_tahlili'),
+              t('tariffs.Dokon_mahsulotlari'),
+              t('tariffs.Dokon_kategoriyalari'),
+              t('tariffs.Dokon_raqobatchilari'),
+              t('tariffs.Dokon_kunlik_sotuvlari'),
+              t('tariffs.Barcha_mahsulotlar'),
+              t('tariffs.Mahsulot_tahlili'),
+              t('tariffs.Mahsulot_raqobatchilari'),
+              t('tariffs.24/7_doimiy_yordam'),
+              t('tariffs.Yangi_mahsulotlar'),
+              t('tariffs.Osayotgan_mahsulotlar'),
+              t('tariffs.Osayotgan kategoriyalar'),
+              t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
             ]}
             color='primary'
             buttonTitle='Hoziroq boshlang'
@@ -160,65 +152,41 @@ function Tarif({
   sendToRegister: (plan: string) => void;
   isProPlus?: boolean;
 }) {
+  const { t } = useTranslation('landing');
+  const { i18n } = useTranslation('landing');
   const features_ = [
-    "Umumiy ma'lumotlar",
-    'Yangi mahsulotlar',
-    "O'sayotgan mahsulotlar",
-    "O'sayotgan kategoriyalar",
-    'Barcha Kategoriyalar',
-    'Kategoriya trendi',
-    'Kategoriya mahsulotlari',
-    'Ichki kategoriyalar',
-    'Kategoriya narx segmentatsiyasi',
-    "Kategoriya do'konlari",
-    "Barcha do'konlar",
-    "Do'kon tahlili",
-    "Do'kon mahsulotlari",
-    "Do'kon kategoriyalari",
-    "Do'kon raqobatchilari",
-    "Do'kon kunlik sotuvlari",
-    'Barcha mahsulotlar',
-    'Mahsulot tahlili',
-    'Mahsulot raqobatchilari',
-    'Mahsulot raqobatchilari taqqoslash',
-    '24/7 doimiy yordam',
+    t('tariffs.Umumiy_malumotlar'),
+    t('tariffs.Barcha_Kategoriyalar'),
+    t('tariffs.Kategoriya_trendi'),
+    t('tariffs.Kategoriya_mahsulotlari'),
+    t('tariffs.Ichki_kategoriyalar'),
+    t('tariffs.Kategoriya_narx_segmentatsiyasi'),
+    t('tariffs.Kategoriya_dokonlari'),
+    t('tariffs.Barcha_dokonlar'),
+    t('tariffs.Dokon_tahlili'),
+    t('tariffs.Dokon_mahsulotlari'),
+    t('tariffs.Dokon_kategoriyalari'),
+    t('tariffs.Dokon_raqobatchilari'),
+    t('tariffs.Dokon_kunlik_sotuvlari'),
+    t('tariffs.Barcha_mahsulotlar'),
+    t('tariffs.Mahsulot_tahlili'),
+    t('tariffs.Mahsulot_raqobatchilari'),
+    t('tariffs.24/7_doimiy_yordam'),
+    t('tariffs.Yangi_mahsulotlar'),
+    t('tariffs.Osayotgan_mahsulotlar'),
+    t('tariffs.Osayotgan kategoriyalar'),
+    t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
   ];
 
-  const features__ = [
-    "Umumiy ma'lumotlar",
-    'Barcha Kategoriyalar',
-    "Barcha do'konlar",
-    'Barcha mahsulotlar',
-    'Yangi mahsulotlar',
-    "O'sayotgan mahsulotlar",
-    "O'sayotgan kategoriyalar",
-
-    'Kategoriya trendi',
-    'Kategoriya mahsulotlari',
-    'Ichki kategoriyalar',
-    'Kategoriya narx segmentatsiyasi',
-    "Kategoriya do'konlari",
-
-    "Do'kon tahlili",
-    "Do'kon mahsulotlari",
-    "Do'kon kategoriyalari",
-    "Do'kon raqobatchilari",
-    "Do'kon kunlik sotuvlari",
-
-    'Mahsulot tahlili',
-    'Mahsulot raqobatchilari',
-    'Mahsulot raqobatchilari taqqoslash',
-    '24/7 doimiy yordam',
-  ];
-
-  const ff = title === 'Bepul' ? features__ : features_;
+  const ff = features_;
 
   return (
     <div
       className={clsxm(
         'flex h-[920px] max-h-[920px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
         isProPlus && 'bg-gradient',
-        'border-2 border-blue-500'
+        'border-2 border-blue-500',
+        i18n.language === 'ru' && 'h-[980px] max-h-[980px]'
       )}
     >
       <div className='w-full'>
@@ -233,13 +201,13 @@ function Tarif({
           {isPro && (
             <li className='flex items-start justify-start'>
               <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
-              30 kunlik ma'lumotlar
+              {t('tariffs.30_kunlik')}
             </li>
           )}
           {isProPlus && (
             <li className='flex items-start justify-start'>
               <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
-              60+ kunlik ma'lumotlar
+              {t('tariffs.60_kunlik')}
             </li>
           )}
           {ff.map((f: string) => (
