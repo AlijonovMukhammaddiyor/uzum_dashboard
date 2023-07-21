@@ -79,13 +79,13 @@ function LandingHeader() {
                 className={clsxm(
                   isMobile ? 'right-0' : '-right-full',
                   'fixed top-0 z-50 h-screen w-full bg-white transition-all md:hidden',
-                  'flex flex-col items-start justify-between px-5 pb-10'
+                  'flex flex-col items-start justify-between  pb-10'
                 )}
               >
                 <div className='w-full'>
                   <div className='layout flex items-center justify-between py-6 '>
                     <Link href='/'>
-                      <Logo className='h-[50px] w-32 md:w-56' />
+                      <Logo className='h-[50px] w-28 sm:w-32 md:w-56' />
                     </Link>
                     <div
                       onClick={() => setIsMobile(false)}
@@ -110,7 +110,7 @@ function LandingHeader() {
                     ))}
                   </ul>
                 </div>
-                <div className='flex w-full justify-between gap-6'>
+                <div className='mx-auto flex w-full justify-between gap-6 px-1'>
                   <a
                     href="#ta'riflar"
                     className='flex-1 shrink-0'
@@ -125,7 +125,7 @@ function LandingHeader() {
                   <a
                     href='https://t.me/uzum_uzanalitika'
                     target='_blank'
-                    className='flex shrink-0 cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2  text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500'
+                    className=' flex flex-1 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 px-3 text-white transition-all duration-200 hover:bg-blue-200 hover:text-blue-500 sm:gap-4'
                   >
                     <BsTelegram className='text-xl' />
                     <p className='text-sm'>{t('header.button.telegram')}</p>

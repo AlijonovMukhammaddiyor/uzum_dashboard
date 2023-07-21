@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
-import Footer from '@/components/pages/landing/components/Footer';
+import Footer1 from '@/components/pages/landing/components/Footer1';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 import LandingMain from '@/components/pages/landing/components/LandingMain';
 import LandingTarifs from '@/components/pages/landing/components/LandingTarifs';
@@ -68,7 +68,8 @@ function LandingPage() {
       <SectionFeatures />
       <Tops />
       <LandingTarifs />
-      <Footer />
+      {/* <Footer /> */}
+      <Footer1 />
     </div>
   );
 }
