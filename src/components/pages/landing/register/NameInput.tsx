@@ -131,6 +131,8 @@ const NamesAndEmailComponent = ({
     } else if (phone.startsWith('82')) {
       // return pattern = re.compile(r"^\+82 \d{2} \d{4}-\d{4}$")
       return phone.length === 12;
+    } else if (phone.startsWith('7')) {
+      return phone.length === 11;
     }
 
     return false;
@@ -155,7 +157,7 @@ const NamesAndEmailComponent = ({
           }}
           countryCodeEditable={false}
           // only enable korea and uzbekistan
-          onlyCountries={['uz', 'kr']}
+          onlyCountries={['uz', 'kr', 'ru']}
           masks={{ uz: '(..) ...-..-..', kr: '(..) ....-....' }}
           containerClass={clsxm('rounded-none')}
           inputClass='text-lg'
