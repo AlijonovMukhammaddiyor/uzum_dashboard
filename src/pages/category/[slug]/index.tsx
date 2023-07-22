@@ -11,13 +11,24 @@ import { reverseSlug } from '@/components/pages/category/utils';
 import Seo from '@/components/Seo';
 import Tabs from '@/components/shared/Tabs';
 
-function Category() {
+import { useContextState } from '@/context/Context';
+
+import { UserType } from '@/types/user';
+
+interface Props {
+  user: UserType;
+}
+
+function Category({ user }: Props) {
   const [rendered, setRendered] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string>('Tovarlar');
+  const { dispatch } = useContextState();
 
   React.useEffect(() => {
     setRendered(true);
-  }, []);
+    dispatch({ type: 'USER', payload: { user } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const router = useRouter();
   const { slug } = router.query as { slug: string };
