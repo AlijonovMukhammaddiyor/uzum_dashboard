@@ -21,11 +21,11 @@ function Tabs({
   return (
     <div
       className={clsxm(
-        'relative h-8 w-full overflow-x-scroll border-b border-slate-300',
+        'no-scrollbar relative h-8 w-full border-b border-slate-300',
         className
       )}
     >
-      <ol className='flex w-full items-center justify-start gap-3 overflow-x-scroll'>
+      <ol className='no-scrollbar flex w-full items-center justify-start gap-3'>
         {tabs.map((tab, index) => (
           <li
             key={index}
