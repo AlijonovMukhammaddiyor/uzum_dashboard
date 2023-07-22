@@ -56,7 +56,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [categoryId]);
 
   return (
     <div

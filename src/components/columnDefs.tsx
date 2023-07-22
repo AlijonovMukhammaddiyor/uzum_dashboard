@@ -311,7 +311,11 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
           },
         });
         if (state.user?.is_pro || state.user?.is_proplus)
+          // if (typeof window !== 'undefined')
+          //   // router.push(`/category/${title}--${category_id}`);
+          //   window.location.href = `/category/${title}--${category_id}`;
           router.push(`/category/${title}--${category_id}`);
+        // else router.push(`/category/${title}--${category_id}`);
         else {
           alert(
             "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"

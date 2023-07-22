@@ -33,6 +33,7 @@ function CategoryShops({ className, categoryId }: Props) {
   useEffect(() => {
     const api = new API(null);
     setLoading(true);
+    console.log('categoryId', categoryId);
     api
       .get<
         unknown,
@@ -56,7 +57,7 @@ function CategoryShops({ className, categoryId }: Props) {
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [categoryId]);
 
   return (
     <div

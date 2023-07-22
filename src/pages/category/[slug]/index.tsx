@@ -1,9 +1,11 @@
+import { AxiosResponse } from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
 import API from '@/lib/api';
+import logger from '@/lib/logger';
 
 import Layout from '@/components/layout/Layout';
 import CategoryComponent from '@/components/pages/category/slug/CategoryComponent';
@@ -19,23 +21,45 @@ interface Props {
   user: UserType;
 }
 
+interface CategoryType {
+  categiry_id: number;
+  ancestors: string;
+}
+
 function Category({ user }: Props) {
   const [rendered, setRendered] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string>('Tovarlar');
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
+  const router = useRouter();
+  const { slug } = router.query as { slug: string };
+  const { title, id } = reverseSlug(slug);
 
   React.useEffect(() => {
     setRendered(true);
     dispatch({ type: 'USER', payload: { user } });
+    const api = new API(null);
+    api
+      .get<unknown, AxiosResponse<CategoryType>>(
+        `/category/current/` + id + '/'
+      )
+      .then((res) => {
+        logger(res, 'category');
+        const data = res.data;
+        const categoryPath = buildPathFromAncestors(data.ancestors, title, id);
+        if (data.ancestors) {
+          dispatch({
+            type: 'PATH',
+            payload: { path: categoryPath },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'error in category shops');
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  const router = useRouter();
-  const { slug } = router.query as { slug: string };
+  }, [user, id]);
 
   if (!rendered) return <></>;
-
-  const { title, id } = reverseSlug(slug);
 
   return (
     <Layout>
@@ -67,6 +91,30 @@ function Category({ user }: Props) {
       <CategoryComponent activeTab={activeTab} categoryId={id} title={title} />
     </Layout>
   );
+}
+
+function buildPathFromAncestors(
+  ancestors: string,
+  current_title?: string,
+  current_id?: string
+) {
+  const categoryPath: {
+    [key: string]: string;
+  } = {};
+  const ancestorsArray = ancestors.split('/');
+  ancestorsArray.forEach((ancestor) => {
+    const [title, id] = ancestor.split(':');
+    if (Number(id) === 1) {
+      categoryPath['Kategoriyalar'] = `/category`;
+    } else {
+      categoryPath[title] = `/category/${title}--${id}`;
+    }
+  });
+
+  if (current_title && current_id) {
+    categoryPath[current_title] = `/category/${current_title}--${current_id}`;
+  }
+  return categoryPath;
 }
 
 export default Category;

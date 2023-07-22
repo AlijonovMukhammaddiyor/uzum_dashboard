@@ -61,7 +61,7 @@ function Segmentation({ className, categoryId }: Props) {
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newFetch]);
+  }, [newFetch, categoryId]);
 
   return (
     <div
