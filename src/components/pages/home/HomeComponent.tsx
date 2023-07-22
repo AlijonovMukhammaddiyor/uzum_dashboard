@@ -23,6 +23,11 @@ function HomeComponent({ user }: { user: UserType }) {
           "O'sayotgan kategoriyalar",
           // 'Asosiy kategoriyalar',
         ]}
+        premiumTabs={[
+          'Yangi mahsulotlar',
+          "O'sayotgan mahsulotlar",
+          "O'sayotgan kategoriyalar",
+        ]}
         disbaledTabs={
           isProPlus
             ? []
@@ -34,7 +39,7 @@ function HomeComponent({ user }: { user: UserType }) {
         }
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className='mb-6 mt-4 min-w-[1200px] overflow-scroll'
+        className='mb-6 mt-4 min-w-[1200px] overflow-auto'
       />
       <HomeStatisticsContainer
         className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}

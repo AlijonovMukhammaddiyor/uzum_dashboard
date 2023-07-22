@@ -9,6 +9,7 @@ export interface TabsProps {
   className?: string;
   tabWidth?: string;
   disbaledTabs?: string[];
+  premiumTabs?: string[];
 }
 
 function Tabs({
@@ -17,6 +18,7 @@ function Tabs({
   setActiveTab,
   className,
   disbaledTabs,
+  premiumTabs,
 }: TabsProps) {
   return (
     <div
@@ -30,7 +32,7 @@ function Tabs({
           <li
             key={index}
             className={clsxm(
-              `tab flex min-w-[120px] cursor-pointer justify-center rounded-md px-2 py-1 text-sm font-semibold ${
+              `tab relative flex min-w-[120px] cursor-pointer justify-center rounded-md px-2 py-1 text-sm font-semibold ${
                 activeTab === tab ? 'active bg-primary bg-opacity-[0.4]' : ''
               }`,
               activeTab !== tab && 'hover:bg-slate-400 hover:bg-opacity-25',
@@ -43,6 +45,11 @@ function Tabs({
               }
             }}
           >
+            {premiumTabs?.includes(tab) && (
+              <span className='absolute -right-[20px] bottom-[15px] text-xs font-bold text-red-500'>
+                🌟 Premium
+              </span>
+            )}
             {tab}
           </li>
         ))}
