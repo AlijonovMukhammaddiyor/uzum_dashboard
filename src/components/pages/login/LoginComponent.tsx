@@ -50,6 +50,7 @@ function LoginComponent() {
   }) => {
     const api = new API();
     console.log(user, 'user');
+    alert(JSON.stringify(user));
     setSendingRequest(true);
     api
       .login({
