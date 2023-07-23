@@ -171,15 +171,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           },
         };
       }
-      // get stel_token cookie for oauth.telegram.org and delete it
-      const stel_token = context.req.cookies['stel_token'];
 
-      if (stel_token) {
-        context.res.setHeader(
-          'Set-Cookie',
-          `stel_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
-        );
-      }
       return {
         props: {
           ...(await serverSideTranslations(
@@ -191,15 +183,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
       };
     } catch (e) {
-      // get stel_token cookie for oauth.telegram.org and delete it
-      const stel_token = context.req.cookies['stel_token'];
-
-      if (stel_token) {
-        context.res.setHeader(
-          'Set-Cookie',
-          `stel_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
-        );
-      }
       return {
         props: {
           ...(await serverSideTranslations(
@@ -212,15 +195,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
   } catch (e) {
-    // get stel_token cookie for oauth.telegram.org and delete it
-    const stel_token = context.req.cookies['stel_token'];
-
-    if (stel_token) {
-      context.res.setHeader(
-        'Set-Cookie',
-        `stel_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
-      );
-    }
     return {
       props: {
         ...(await serverSideTranslations(

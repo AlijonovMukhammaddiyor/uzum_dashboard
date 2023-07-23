@@ -157,7 +157,9 @@ const UserNameAndPassword = ({
 
       <span className='my-5 h-px w-full bg-slate-300'></span>
       {success === false && (
-        <div className='w-full text-sm text-red-500'>{t('error')}</div>
+        <div className='w-full max-w-[400px] text-sm text-red-500'>
+          {t('error')}
+        </div>
       )}
       {success === true && (
         <div className='w-full text-sm text-green-500'>{t('success')}</div>

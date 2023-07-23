@@ -128,6 +128,7 @@ class API {
 
   public async login(user: { username: string; password: string }) {
     try {
+      console.log('user', user);
       if (!user.username || !user.password)
         throw new Error('Foydalanuvchi nomi yoki paroli kiritilmadi');
       const res = await axios.post('/api/auth/login', { user });
