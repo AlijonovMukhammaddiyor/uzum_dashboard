@@ -1,17 +1,43 @@
 import { GetServerSidePropsContext } from 'next';
+import Script from 'next/script';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
 
 import LoginComponent from '@/components/pages/login/LoginComponent';
-import Seo from '@/components/Seo';
+declare global {
+  interface Window {
+    onTelegramAuth: (user: any) => void;
+  }
+}
 
 const Login = () => {
+  useEffect(() => {
+    // Attach the onTelegramAuth function to the window object
+    window.onTelegramAuth = (user: any) => {
+      console.log(user);
+      alert(user);
+      // Do something with the user data
+    };
+  }, []);
+
   return (
     <div className='min-h-screen w-screen'>
-      <Seo />
+      {/* <Seo /> */}
+      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
+      <Script
+        src='https://telegram.org/js/telegram-widget.js?9'
+        data-telegram-login='uzanalitikabot'
+        data-size='large'
+        data-request-access='write'
+        data-userpic='true'
+        data-lang='en'
+        data-onauth='onTelegramAuth(user)'
+        strategy='beforeInteractive'
+      />
+
       <LoginComponent />
     </div>
   );
