@@ -103,25 +103,13 @@ function LoginComponent() {
           )}
         >
           <LoginHeader activeTab={activeTab} />
-          <div className='flex h-[40px] w-full items-center justify-center md:top-[38vh]'>
-            <button
-              className='h-full w-[200px] rounded-lg bg-blue-400'
-              onClick={() => {
-                const button = document.querySelector(
-                  '.tgme_widget_login_button'
-                );
 
-                console.log('button', button);
-
-                if (button) {
-                  (button as HTMLButtonElement).click();
-                }
-              }}
-            >
-              Telegram
-            </button>
-          </div>
           <TelegramLogin />
+          <div className='flex w-full items-center justify-between'>
+            <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
+            <p>Yoki</p>
+            <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
+          </div>
           <UserNameAndPassword
             activeTab={activeTab}
             currentTab={1}

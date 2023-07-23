@@ -46,7 +46,12 @@ const TelegramLogin = () => {
     };
   }, []);
 
-  return <div ref={ref} />;
+  return (
+    <div
+      ref={ref}
+      className='flex w-full items-center justify-center bg-transparent'
+    />
+  );
 };
 
 export default TelegramLogin;
