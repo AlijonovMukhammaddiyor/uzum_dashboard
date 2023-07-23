@@ -26,7 +26,6 @@ const Login = () => {
   return (
     <div className='min-h-screen w-screen'>
       {/* <Seo /> */}
-      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
       <Script
         src='https://telegram.org/js/telegram-widget.js?9'
         data-telegram-login='uzanalitikabot'
@@ -35,7 +34,7 @@ const Login = () => {
         data-userpic='true'
         data-lang='en'
         data-onauth='onTelegramAuth(user)'
-        strategy='beforeInteractive'
+        strategy='lazyOnload'
       />
 
       <LoginComponent />
