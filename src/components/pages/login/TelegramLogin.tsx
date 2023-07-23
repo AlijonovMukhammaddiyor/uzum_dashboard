@@ -19,6 +19,8 @@ const TelegramLogin = ({
     script.setAttribute('data-telegram-login', 'uzanalitikabot');
     script.setAttribute('data-size', 'large');
     script.setAttribute('data-request-access', 'write');
+    script.setAttribute('lang', 'ru');
+
     window.onTelegramAuth = onTelegramAuth;
     script.setAttribute('data-onauth', 'onTelegramAuth(user)');
     script.async = true;
