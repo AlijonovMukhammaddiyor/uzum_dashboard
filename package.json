@@ -55,6 +55,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-responsive-carousel": "^3.2.23",
     "react-select": "^5.7.3",
+    "react-telegram-login": "^1.1.2",
     "reactjs-popup": "^2.0.5",
     "tailwind-merge": "^1.12.0"
   },
