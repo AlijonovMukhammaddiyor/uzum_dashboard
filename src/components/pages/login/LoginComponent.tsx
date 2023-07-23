@@ -2,8 +2,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useTranslation } from 'next-i18next';
-import React from 'react';
-
+import React, { useEffect } from 'react';
+declare global {
+  interface Window {
+    onTelegramAuth: (user: any) => void;
+  }
+}
 import clsxm from '@/lib/clsxm';
 
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
@@ -35,6 +39,15 @@ function LoginComponent() {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, router.asPath, { locale: newLocale });
   };
+
+  useEffect(() => {
+    // Attach the onTelegramAuth function to the window object
+    window.onTelegramAuth = (user) => {
+      console.log(user);
+      // Do something with the user data
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typeof window]);
 
   return (
     <div className='w-sreen bg-gradient base:bg-none relative flex h-screen overflow-hidden'>
@@ -93,9 +106,9 @@ function LoginComponent() {
           )}
         >
           <LoginHeader activeTab={activeTab} />
-          <div className='base:w-1/2 top-[35vh] flex h-[50px] w-full items-center justify-center md:top-[38vh]'>
+          <div className='top-[35vh] flex h-[40px] w-full items-center justify-center md:top-[38vh]'>
             <button
-              className='w-[200px] rounded-md bg-blue-400'
+              className='h-full w-[200px] rounded-lg bg-blue-400'
               onClick={() => {
                 if (typeof window !== 'undefined') {
                   const button = window.document.querySelector(
