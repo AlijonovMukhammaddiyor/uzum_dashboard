@@ -9,6 +9,7 @@ import React from 'react';
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
+import Loading from '@/components/Loading';
 import NamesAndEmailComponent from '@/components/pages/landing/register/NameInput';
 import Seo from '@/components/Seo';
 
@@ -21,21 +22,7 @@ const Register = () => {
   const router = useRouter();
   // plan will later be used to determine which plan the user is registering for
   const { plan } = router.query;
-  const [user, setUser] = React.useState<{
-    username: string;
-    email?: string;
-    password: string;
-    phone_number: string;
-    referred_by?: string;
-    fingerprint?: string;
-  }>({
-    username: '',
-    email: '',
-    password: '',
-    phone_number: '',
-    referred_by: '',
-    fingerprint: '',
-  });
+  const [sending, setSending] = React.useState(false);
 
   const { i18n } = useTranslation('landing');
 
@@ -77,16 +64,18 @@ const Register = () => {
         </Link>
         <div
           className={clsxm(
-            'relative -mt-[200px] flex max-w-full flex-col items-center justify-center gap-6 px-2',
-            '-mt-[400px]',
+            'relative  flex max-w-full flex-col items-center justify-center gap-6 px-2',
             'bg-gradient base:bg-none'
           )}
         >
           <RegisterHeader plan={plan as string} />
-          <NamesAndEmailComponent user={user} setUser={setUser} />
+          <NamesAndEmailComponent
+            sendingRequest={sending}
+            setSendingRequest={setSending}
+          />
         </div>
       </div>
-
+      {sending && <Loading />}
       <div className='bg-gradient base:flex hidden w-1/2 flex-1 bg-opacity-10'></div>
     </div>
   );

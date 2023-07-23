@@ -152,23 +152,17 @@ class API {
 
   public async register(user: {
     username: string;
-    email?: string;
-    phone_number: string;
     referred_by?: string;
-    fingerprint?: string;
     password: string;
   }) {
     try {
       const data = {
         username: user.username,
-        email: user.email,
-        phone_number: user.phone_number,
         referred_by_code: user.referred_by,
-        fingerprint: user.fingerprint,
         password: user.password,
       };
 
-      if (!data.username || !data.phone_number || !data.password)
+      if (!data.username || !data.password)
         throw new Error(
           'Foydalanuvchi nomi, telefon raqami yoki paroli kiritilmadi'
         );
