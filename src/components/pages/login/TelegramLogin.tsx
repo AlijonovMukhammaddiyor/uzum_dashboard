@@ -19,10 +19,10 @@ const TelegramLogin = ({
     script.setAttribute('data-telegram-login', 'uzanalitikabot');
     script.setAttribute('data-size', 'large');
     script.setAttribute('data-request-access', 'write');
+    window.onTelegramAuth = onTelegramAuth;
+    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
     script.async = true;
     document.body.appendChild(script);
-
-    window.onTelegramAuth = onTelegramAuth;
 
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
