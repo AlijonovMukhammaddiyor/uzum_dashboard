@@ -28,7 +28,7 @@ function LoginComponent() {
     phone_number: '',
   });
   const [sending, setSendingRequest] = React.useState(false);
-  const [success, setSuccess] = React.useState<boolean | null>(false);
+  const [success, setSuccess] = React.useState<boolean | null>(null);
   const { i18n } = useTranslation('landing');
 
   const changeLanguage = (lng: string) => {
@@ -49,6 +49,7 @@ function LoginComponent() {
     hash: string;
   }) => {
     const api = new API();
+    console.log(user, 'user');
     setSendingRequest(true);
     api
       .login({
