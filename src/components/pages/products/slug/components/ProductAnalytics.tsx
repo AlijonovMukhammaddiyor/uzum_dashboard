@@ -29,6 +29,7 @@ interface ProductAnalyticsType {
     orders_amount: number;
     rating: number;
     reviews_amount: number;
+    orders_money: number;
     average_purchase_price: number;
   }[];
   skus: {
@@ -256,6 +257,7 @@ function prepareDailyOrdersDataset(
   const dataset = [];
   let prev = data.recent_analytics[0].orders_amount;
   let prev_rev = data.recent_analytics[0].reviews_amount;
+  let prev_revenue = data.recent_analytics[0].orders_money;
 
   let analytics = data.recent_analytics.slice(1);
 
@@ -267,6 +269,7 @@ function prepareDailyOrdersDataset(
 
   const orders = [];
   const reviews = [];
+  const revenue = [];
   const prices = [];
   for (let i = 0; i < analytics.length; i++) {
     const item = analytics[i];
@@ -287,6 +290,13 @@ function prepareDailyOrdersDataset(
       y: item.average_purchase_price,
       label: data.skus.length > 1 ? "O'rtacha sotuv narxi" : 'Sotuv narxi',
     });
+
+    revenue.push({
+      x: item.date_pretty,
+      y: (item.orders_money - prev_revenue) * 1000,
+      label: 'Kunlik daromad',
+    });
+    prev_revenue = item.orders_money;
   }
 
   dataset.push({
@@ -320,6 +330,16 @@ function prepareDailyOrdersDataset(
     pointBackgroundColor: 'rgba(255, 165, 0, 1)',
   });
 
+  dataset.push({
+    data: revenue,
+    fill: true,
+    borderColor: 'rgba(248, 111, 3, 1)',
+    backgroundColor: 'rgba(248, 111, 3, 0.1)',
+    label: 'Kunlik daromad',
+    pointRadius: 3,
+    pointBackgroundColor: 'rgba(248, 111, 3, 1)',
+  });
+
   return dataset;
 }
 
@@ -333,6 +353,7 @@ function prepareAllOrdersDataset(
 
   const analytics = data.recent_analytics;
   const orders = [];
+  const revenue = [];
   if (iscreatedAfter) {
     orders.push({
       // for x, get day before in YYYY-MM-DD format
@@ -360,6 +381,12 @@ function prepareAllOrdersDataset(
       x: item.date_pretty,
       y: item.available_amount,
     });
+
+    revenue.push({
+      x: item.date_pretty,
+      y: item.orders_money * 1000,
+    });
+
     // prices.push({
     //   x: item.date_pretty,
     //   y: item.average_purchase_price,
@@ -395,6 +422,16 @@ function prepareAllOrdersDataset(
     label: 'Jami mavjud soni',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(0, 128, 0, 1)',
+  });
+
+  dataset.push({
+    data: revenue,
+    fill: true,
+    borderColor: 'rgba(248, 111, 3, 1)',
+    backgroundColor: 'rgba(248, 111, 3, 0.1)',
+    label: 'Jami daromad',
+    pointRadius: 3,
+    pointBackgroundColor: 'rgba(248, 111, 3, 1)',
   });
 
   // dataset.push({

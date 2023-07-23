@@ -714,8 +714,7 @@ const ProductDateCellRenderer = (props: { value: any }) => {
 
   const date = new Date(props.value);
   // check if it is after may 20 2023. if not, return empty string
-  if (date.getTime() < 1684540800000) return '';
-
+  if (date.getTime() < 1684627200000) return '';
   return (
     <div className='flex items-center justify-center'>
       <p className='text-center'>
@@ -1358,11 +1357,11 @@ export const SimilarProductsColDefs = [
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
     } as CellStyle,
   },
+
   {
-    headerName: "Qo'shilgan sana",
-    field: 'created_at',
+    headerName: 'Buyurtmalar soni',
+    field: 'orders_amount',
     sortable: true,
-    cellRenderer: ProductDateCellRenderer,
     minWidth: 150,
     maxWidth: 200,
     filter: false,
@@ -1372,11 +1371,12 @@ export const SimilarProductsColDefs = [
     } as CellStyle,
   },
   {
-    headerName: 'Buyurtmalar soni',
-    field: 'orders_amount',
+    headerName: 'Jami Daromad',
+    field: 'orders_money',
     sortable: true,
-    minWidth: 150,
-    maxWidth: 200,
+    minWidth: 200,
+    maxWidth: 300,
+    cellRenderer: PriceRenderer,
     filter: false,
     cellStyle: {
       textAlign: 'center',
@@ -1459,6 +1459,19 @@ export const CategoryProductsColDefs = [
     flex: 1,
     maxWidth: 500,
     minWidth: 300,
+  },
+  {
+    headerName: "Qo'shilgan sana",
+    field: 'created_at',
+    sortable: true,
+    cellRenderer: ProductDateCellRenderer,
+    minWidth: 150,
+    maxWidth: 200,
+    filter: false,
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(43, 215, 229, 0.1)',
+    } as CellStyle,
   },
   {
     headerName: "So'ngi Aktiv sana",

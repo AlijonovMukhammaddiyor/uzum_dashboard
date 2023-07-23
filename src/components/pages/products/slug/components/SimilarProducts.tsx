@@ -41,6 +41,7 @@ interface ProductType {
   product__title: string;
   rating: number;
   reviews_amount: number;
+  orders_money: number;
   available_amount: number;
   product__photos: string;
 }
@@ -129,9 +130,11 @@ function AboutProduct({
         <div
           className={clsxm('relative h-full w-full', !user.is_proplus && '')}
         >
-          <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
-            <span className='w-full text-center'>🌟 Premium</span>
-          </div>
+          {!state.user?.is_proplus && (
+            <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
+              <span className='w-full text-center'>🌟 Premium</span>
+            </div>
+          )}
 
           {!state.user?.is_proplus && (
             <p className='absolute top-10 z-50 w-full text-center font-semibold'>
@@ -570,6 +573,7 @@ function prepareTableData(
       position: latest.position,
       position_in_category: latest.position_in_category,
       orders_amount: latest.orders_amount,
+      orders_money: latest.orders_money * 1000,
       reviews_amount: latest.reviews_amount,
       rating: latest.rating,
       average_purchase_price: latest.average_purchase_price,

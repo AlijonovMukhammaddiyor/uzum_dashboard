@@ -137,9 +137,11 @@ function getLabels(
     labels.add(item.date_pretty);
   }
 
-  return Array.from(labels).sort(
+  const res = Array.from(labels).sort(
     (a, b) => new Date(a).getTime() - new Date(b).getTime()
   );
+
+  return res.slice(0, res.length - 1);
 }
 
 function prepareData(
@@ -161,10 +163,11 @@ function prepareData(
   /// orders
   for (let i = 0; i < orders.length; i++) {
     const item = orders[i];
-    orders_data.push({
-      x: item.date_pretty,
-      y: item.total_orders,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      orders_data.push({
+        x: item.date_pretty,
+        y: item.total_orders,
+      });
   }
 
   dataset.push({
@@ -181,10 +184,11 @@ function prepareData(
   /// products
   for (let i = 0; i < products.length; i++) {
     const item = products[i];
-    products_data.push({
-      x: item.date_pretty,
-      y: item.total_products,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      products_data.push({
+        x: item.date_pretty,
+        y: item.total_products,
+      });
   }
 
   dataset.push({
@@ -201,10 +205,11 @@ function prepareData(
   /// shops
   for (let i = 0; i < shops.shops.length; i++) {
     const item = shops.shops[i];
-    shops_data.push({
-      x: item.date_pretty,
-      y: item.total_shops,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      shops_data.push({
+        x: item.date_pretty,
+        y: item.total_shops,
+      });
   }
 
   dataset.push({
@@ -220,10 +225,11 @@ function prepareData(
   /// accounts
   for (let i = 0; i < shops.accounts.length; i++) {
     const item = shops.accounts[i];
-    accounts_data.push({
-      x: item.date_pretty,
-      y: item.total_accounts,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      accounts_data.push({
+        x: item.date_pretty,
+        y: item.total_accounts,
+      });
   }
 
   dataset.push({
@@ -263,36 +269,39 @@ function prepareDailyData(
 
   for (let i = 1; i < orders.length; i++) {
     const item = orders[i];
-    orders_data.push({
-      x: item.date_pretty,
-      y: item.total_orders - prev,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      orders_data.push({
+        x: item.date_pretty,
+        y: item.total_orders - prev,
+      });
     prev = item.total_orders;
   }
 
   for (let i = 1; i < products.length; i++) {
     const item = products[i];
-    products_data.push({
-      x: item.date_pretty,
-      y: item.total_products - prev_products,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      products_data.push({
+        x: item.date_pretty,
+        y: item.total_products - prev_products,
+      });
     prev_products = item.total_products;
   }
 
   for (let i = 1; i < shops.shops.length; i++) {
     const item = shops.shops[i];
     const item2 = shops.accounts[i];
-    shops_data.push({
-      x: item.date_pretty,
-      y: item.total_shops - prev_shops,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      shops_data.push({
+        x: item.date_pretty,
+        y: item.total_shops - prev_shops,
+      });
 
     prev_shops = item.total_shops;
-
-    accounts_data.push({
-      x: item2.date_pretty,
-      y: item2.total_accounts - prev_accounts,
-    });
+    if (item.date_pretty !== '2023-07-23')
+      accounts_data.push({
+        x: item2.date_pretty,
+        y: item2.total_accounts - prev_accounts,
+      });
 
     prev_accounts = item2.total_accounts;
   }
