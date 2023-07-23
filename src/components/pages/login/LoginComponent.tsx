@@ -111,8 +111,8 @@ function LoginComponent() {
               className='h-full w-[200px] rounded-lg bg-blue-400'
               onClick={() => {
                 if (typeof window !== 'undefined') {
-                  const button = window.document.querySelector(
-                    '.btn tgme_widget_login_button'
+                  const button = document.querySelector(
+                    '.tgme_widget_login_button'
                   );
 
                   if (button) {
