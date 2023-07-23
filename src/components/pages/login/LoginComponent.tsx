@@ -110,14 +110,14 @@ function LoginComponent() {
             <button
               className='h-full w-[200px] rounded-lg bg-blue-400'
               onClick={() => {
-                if (typeof window !== 'undefined') {
-                  const button = document.querySelector(
-                    '.tgme_widget_login_button'
-                  );
+                const button = document.querySelector(
+                  '.tgme_widget_login_button'
+                );
 
-                  if (button) {
-                    (button as HTMLButtonElement).click();
-                  }
+                console.log('button', button);
+
+                if (button) {
+                  (button as HTMLButtonElement).click();
                 }
               }}
             >
