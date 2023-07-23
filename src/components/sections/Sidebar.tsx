@@ -133,7 +133,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Kategoriyalar');
             }}
-            disabled
+            // disabled
           />
 
           <SidebarItem
@@ -152,7 +152,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Sotuvchilar');
             }}
-            disabled
+            // disabled
           />
           <SidebarItem
             href='/products'
@@ -170,7 +170,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Mahsulotlar');
             }}
-            disabled
+            // disabled
           />
           <SidebarItem
             href='/ai'
