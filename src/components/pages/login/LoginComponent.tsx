@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
@@ -40,6 +41,16 @@ function LoginComponent() {
 
   return (
     <div className='w-sreen relative flex h-screen overflow-hidden '>
+      <Script
+        src='https://telegram.org/js/telegram-widget.js?9'
+        data-telegram-login='uzanalitikabot'
+        data-size='large'
+        data-request-access='write'
+        data-userpic='true'
+        data-lang='en'
+        data-onauth='onTelegramAuth(user)'
+        strategy='lazyOnload'
+      />
       <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(

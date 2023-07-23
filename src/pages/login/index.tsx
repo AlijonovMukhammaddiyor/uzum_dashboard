@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext } from 'next';
-import Script from 'next/script';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useEffect } from 'react';
 
@@ -26,16 +25,6 @@ const Login = () => {
   return (
     <div className='min-h-screen w-screen'>
       {/* <Seo /> */}
-      <Script
-        src='https://telegram.org/js/telegram-widget.js?9'
-        data-telegram-login='uzanalitikabot'
-        data-size='large'
-        data-request-access='write'
-        data-userpic='true'
-        data-lang='en'
-        data-onauth='onTelegramAuth(user)'
-        strategy='lazyOnload'
-      />
 
       <LoginComponent />
     </div>
