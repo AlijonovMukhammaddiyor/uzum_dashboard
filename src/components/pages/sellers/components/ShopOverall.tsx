@@ -27,6 +27,7 @@ interface SellerType {
   total_orders: number;
   total_products: number;
   total_reviews: number;
+  total_revenue: number;
 }
 
 function ShopOverall({ className, sellerId, isActive }: Props) {
@@ -61,7 +62,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
       <Container
         className='flex h-[520px] w-full flex-col rounded-md bg-slate-100 px-5 py-2'
         loading={loading}
-        title="Sotuvchining buyurtmalari, izohlari, va mahsulotlari soni, hamda o'rtacha mahsulot narxi"
+        title="Sotuvchining kinlik daromadi, buyurtmalari, izohlari, va mahsulotlari soni, hamda o'rtacha mahsulot narxi"
         titleContainerStyle={{
           marginBottom: '10px',
         }}
@@ -139,8 +140,14 @@ function prepareDataset(data: SellerType[]) {
     x: string;
   }[] = [];
 
+  const revenue: {
+    y: number;
+    x: string;
+  }[] = [];
+
   let prevOrders = data[0]?.total_orders || 0;
   let prevReviews = data[0]?.total_reviews || 0;
+  let prevRevenue = data[0]?.total_revenue || 0;
 
   data.slice(1).forEach((item) => {
     orders.push({ y: item.total_orders - prevOrders, x: item.date_pretty });
@@ -150,7 +157,12 @@ function prepareDataset(data: SellerType[]) {
       y: item.average_purchase_price,
       x: item.date_pretty,
     });
+    revenue.push({
+      y: Math.ceil((item.total_revenue - prevRevenue) * 1000),
+      x: item.date_pretty,
+    });
 
+    prevRevenue = item.total_revenue;
     prevOrders = item.total_orders;
     prevReviews = item.total_reviews;
   });
@@ -195,6 +207,16 @@ function prepareDataset(data: SellerType[]) {
       hidden: true,
       pointRadius: 3,
       pointBackgroundColor: '#9467bd',
+    },
+    {
+      data: revenue,
+      fill: true,
+      borderColor: '#8c564b',
+      backgroundColor: 'rgba(140, 86, 75, 0.25)',
+      label: 'Daromad',
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#8c564b',
     },
   ];
 }

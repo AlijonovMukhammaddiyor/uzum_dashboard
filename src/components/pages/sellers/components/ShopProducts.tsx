@@ -25,6 +25,7 @@ interface ProductType {
   badges: string;
   date_pretty: string;
   orders_amount: number;
+  orders_money: number;
   position_in_category: number;
   position_in_shop: number;
   position: number;
@@ -45,7 +46,13 @@ function ShopProducts({ sellerId, className }: Props) {
   const [activeProducts, setActiveProducts] = React.useState<string>(
     'Sotuvchining hozirdagi mahsulotlari'
   );
-  const [productsData, setProductsData] = React.useState<
+  const [ordersData, setOrdersData] = React.useState<
+    {
+      type: string;
+      value: number;
+    }[]
+  >([]);
+  const [revenueData, setRevenueData] = React.useState<
     {
       type: string;
       value: number;
@@ -75,8 +82,10 @@ function ShopProducts({ sellerId, className }: Props) {
         AxiosResponse<{
           orders_products: ProductType[];
           reviews_products: ProductType[];
+          revenue_products: ProductType[];
           total_orders: number;
           total_reviews: number;
+          total_revenue: number;
         }>
       >('/shop/products/tops/' + sellerId)
       .then((res) => {
@@ -99,7 +108,27 @@ function ShopProducts({ sellerId, className }: Props) {
             value: res.data.total_orders - sum,
           });
 
-        setProductsData(data);
+        setOrdersData(data);
+
+        const revenue = res.data.revenue_products;
+        sum = 0;
+        const data2 = revenue
+          .filter((product) => product.orders_money > 0)
+          .map((product) => {
+            sum += product.orders_money;
+            return {
+              type: product.product_title + ' (' + product.product_id + ')',
+              value: Math.round(product.orders_money * 1000),
+            };
+          });
+        console.log(res.data.total_revenue - sum);
+        if (res.data.total_revenue - sum > 0)
+          data2.push({
+            type: 'Boshqa Mahsulotlar',
+            value: Math.round((res.data.total_revenue - sum) * 1000),
+          });
+
+        setRevenueData(data2);
 
         const reviews = res.data.reviews_products;
         let sumReviews = 0;
@@ -197,7 +226,24 @@ function ShopProducts({ sellerId, className }: Props) {
           )}
         >
           <PieChart
-            data={productsData}
+            data={revenueData}
+            title="Eng ko'p daromad keltirgan mahsulotlar (20 tagacha)"
+            labelType='outer'
+            style={{
+              width: '100%',
+              height: '550px',
+              maxHeight: '550px',
+            }}
+          />
+        </Container>
+        <Container
+          loading={loadingTopProducts}
+          className={clsxm(
+            'h-[600px] min-w-[1100px] overflow-scroll rounded-md bg-slate-100 p-6'
+          )}
+        >
+          <PieChart
+            data={ordersData}
             title="Eng ko'p sotilgan mahsulotlar (20 tagacha)"
             labelType='outer'
             style={{

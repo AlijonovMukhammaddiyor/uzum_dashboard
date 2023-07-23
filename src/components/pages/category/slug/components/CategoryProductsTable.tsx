@@ -59,8 +59,10 @@ function CategoryProductsTable({ categoryId, className }: Props) {
             product_id: number;
             product_title: string;
             orders_amount: number;
+            orders_money: number;
           }[];
           total_orders: number;
+          total_revenue: number;
           total_products: number;
           descendants: number;
         }>
@@ -70,18 +72,18 @@ function CategoryProductsTable({ categoryId, className }: Props) {
         const products = res.data.products;
         let sum = 0;
         const data = products
-          .filter((product) => product.orders_amount > 0)
+          .filter((product) => product.orders_money > 0)
           .map((product) => {
-            sum += product.orders_amount;
+            sum += product.orders_money;
             return {
               type: product.product_title + ' (' + product.product_id + ')',
-              value: product.orders_amount,
+              value: Math.round(product.orders_money * 1000),
             };
           });
         if (res.data.total_products > 10)
           data.push({
             type: 'Boshqa Mahsulotlar',
-            value: res.data.total_orders - sum,
+            value: Math.round((res.data.total_revenue - sum) * 1000),
           });
 
         setTopProductsData(data);

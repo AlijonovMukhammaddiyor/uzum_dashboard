@@ -23,6 +23,7 @@ interface SellerType {
   position: number;
   rating: number;
   shop_link: string;
+  total_revenue: number;
   shop_title: string;
   total_orders: number;
   total_products: number;

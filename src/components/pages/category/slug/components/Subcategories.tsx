@@ -135,6 +135,23 @@ const SubCategoriesPieChartData = ({
       });
   });
 
+  const revenue_data = [];
+  let total_revenue = 0;
+  dataSorted.forEach((item) => {
+    total_revenue += item.total_orders_amount;
+    if (item.total_orders_amount !== 0)
+      revenue_data.push({
+        type: item.category_title,
+        value: Math.round(item.total_orders_amount * 1000),
+      });
+  });
+
+  if (main.total_orders_amount - total_revenue !== 0)
+    revenue_data.push({
+      type: 'Boshqa Kategoriyalar',
+      value: Math.round((main.total_orders_amount - total_revenue) * 1000),
+    });
+
   if (main.total_orders - total_orders !== 0)
     orders_data.push({
       type: 'Boshqa Kategoriyalar',
@@ -178,6 +195,14 @@ const SubCategoriesPieChartData = ({
 
   return (
     <div className='flex h-full w-full items-center justify-start gap-5'>
+      <Container
+        loading={loading}
+        className={clsxm(
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
+        )}
+      >
+        <PieChart data={revenue_data} title='Daromad' labelType='outer' />
+      </Container>
       <Container
         loading={loading}
         className={clsxm(

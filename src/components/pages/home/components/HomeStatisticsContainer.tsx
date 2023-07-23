@@ -16,6 +16,7 @@ export interface HomeStatisticsContainerProps {
 function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   const [orders, setOrders] = React.useState<any[]>([]);
   const [products, setProducts] = React.useState<any[]>([]);
+  const [revenue, setRevenue] = React.useState<any[]>([]);
   const [shops, setShops] = React.useState<{
     shops: any[];
     accounts: any[];
@@ -34,6 +35,15 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       .catch((err) => {
         // console.log(err);
         logger(err, 'Error in orders');
+        setLoading(false);
+      });
+    api
+      .get<unknown, AxiosResponse<any>>('/uzum/revenue/')
+      .then((res) => {
+        setRevenue(res.data);
+      })
+      .catch((err) => {
+        logger(err, 'Error in revenue');
         setLoading(false);
       });
     setLoading(true);
@@ -76,7 +86,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       >
         <AreaChart
           labels={getLabels(orders, products, shops) ?? []}
-          data={prepareData(orders, products, shops) ?? []}
+          data={prepareData(orders, products, shops, revenue) ?? []}
           style={{
             width: '100%',
             height: '530px',
@@ -99,7 +109,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       >
         <AreaChart
           labels={getLabels(orders, products, shops).slice(1) ?? []}
-          data={prepareDailyData(orders, products, shops) ?? []}
+          data={prepareDailyData(orders, products, shops, revenue) ?? []}
           style={{
             width: '100%',
             height: '500px',
@@ -150,7 +160,8 @@ function prepareData(
   shops: {
     shops: any[];
     accounts: any[];
-  }
+  },
+  revenue: any[]
 ) {
   const dataset = [];
   if (orders.length === 0) return [];
@@ -159,6 +170,7 @@ function prepareData(
   const products_data = [];
   const shops_data = [];
   const accounts_data = [];
+  const revenue_data = [];
 
   /// orders
   for (let i = 0; i < orders.length; i++) {
@@ -188,6 +200,15 @@ function prepareData(
       products_data.push({
         x: item.date_pretty,
         y: item.total_products,
+      });
+  }
+
+  for (let i = 0; i < revenue.length; i++) {
+    const item = revenue[i];
+    if (item.date_pretty !== '2023-07-23')
+      revenue_data.push({
+        x: item.date_pretty,
+        y: Math.round(item.total_revenue * 1000),
       });
   }
 
@@ -241,7 +262,16 @@ function prepareData(
     label: 'Jami sotuvchilar soni',
     pointRadius: 3,
   });
-
+  // rgb(26, 93, 26);
+  dataset.push({
+    data: revenue_data,
+    fill: true,
+    borderColor: 'rgb(26, 93, 26)', // Orange
+    backgroundColor: 'rgba(26, 93, 26, 0.2)',
+    pointBackgroundColor: 'rgb(26, 93, 26)',
+    label: 'Jami sotuvchilar soni',
+    pointRadius: 3,
+  });
   return dataset;
 }
 
@@ -251,7 +281,8 @@ function prepareDailyData(
   shops: {
     shops: any[];
     accounts: any[];
-  }
+  },
+  revenue: any[]
 ) {
   if (orders.length === 0 || products.length === 0) return [];
 
@@ -261,11 +292,13 @@ function prepareDailyData(
   const shops_data = [];
   const products_data = [];
   const accounts_data = [];
+  const revenue_data = [];
 
   let prev = orders[0].total_orders;
   let prev_shops = shops.shops[0].total_shops;
   let prev_products = products[0].total_products;
   let prev_accounts = shops.accounts[0].total_accounts;
+  let prev_revenue = revenue[0].total_revenue;
 
   for (let i = 1; i < orders.length; i++) {
     const item = orders[i];
@@ -275,6 +308,16 @@ function prepareDailyData(
         y: item.total_orders - prev,
       });
     prev = item.total_orders;
+  }
+
+  for (let i = 1; i < revenue.length; i++) {
+    const item = revenue[i];
+    if (item.date_pretty !== '2023-07-23')
+      revenue_data.push({
+        x: item.date_pretty,
+        y: Math.round((item.total_revenue - prev_revenue) * 1000),
+      });
+    prev_revenue = item.total_revenue;
   }
 
   for (let i = 1; i < products.length; i++) {
@@ -343,6 +386,16 @@ function prepareDailyData(
     backgroundColor: 'rgba(255, 165, 0, 0.2)',
     pointBackgroundColor: 'rgba(255, 165, 0, 1)',
     label: "Kunlik yangi do'konlar",
+    pointRadius: 3,
+  });
+
+  dataset.push({
+    data: revenue_data,
+    fill: true,
+    borderColor: 'rgb(26, 93, 26)',
+    backgroundColor: 'rgba(26, 93, 26, 0.2)',
+    pointBackgroundColor: 'rgb(26, 93, 26)',
+    label: 'Kunlik daromad',
     pointRadius: 3,
   });
 

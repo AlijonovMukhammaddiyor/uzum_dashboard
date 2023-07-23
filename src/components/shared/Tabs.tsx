@@ -5,6 +5,7 @@ import clsxm from '@/lib/clsxm';
 export interface TabsProps {
   tabs: string[];
   activeTab: string;
+  activeColor?: string;
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
   tabWidth?: string;
@@ -19,6 +20,7 @@ function Tabs({
   className,
   disbaledTabs,
   premiumTabs,
+  activeColor = 'bg-primary bg-opacity-[0.4]',
 }: TabsProps) {
   return (
     <div
@@ -32,9 +34,8 @@ function Tabs({
           <li
             key={index}
             className={clsxm(
-              `tab relative flex min-w-[120px] cursor-pointer justify-center rounded-md px-2 py-1 text-sm font-semibold ${
-                activeTab === tab ? 'active bg-primary bg-opacity-[0.4]' : ''
-              }`,
+              `tab relative flex min-w-[120px] cursor-pointer justify-center rounded-md px-2 py-1 text-sm font-semibold`,
+              activeTab === tab ? `active ${activeColor}` : '',
               activeTab !== tab && 'hover:bg-slate-400 hover:bg-opacity-25',
               disbaledTabs?.includes(tab) &&
                 'cursor-not-allowed bg-slate-400 bg-opacity-25 opacity-50'

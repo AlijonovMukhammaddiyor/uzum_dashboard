@@ -573,7 +573,7 @@ function prepareTableData(
       position: latest.position,
       position_in_category: latest.position_in_category,
       orders_amount: latest.orders_amount,
-      orders_money: latest.orders_money * 1000,
+      orders_money: latest.orders_money,
       reviews_amount: latest.reviews_amount,
       rating: latest.rating,
       average_purchase_price: latest.average_purchase_price,

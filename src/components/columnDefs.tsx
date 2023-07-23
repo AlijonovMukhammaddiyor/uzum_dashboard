@@ -479,6 +479,34 @@ const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
+const RevenueCellRenderer = ({ value }: { value: number }) => {
+  if (!value) return '';
+  const value_ = value * 1000;
+  // check if it is int billion
+  if (value_ > 1000000000)
+    return (
+      <div className='flex flex-col gap-1'>
+        <p className=''>
+          {(Math.round(value_) / 1000000000).toFixed(1)} mlrd so'm
+        </p>
+      </div>
+    );
+
+  // check if it is int million
+  if (value_ > 1000000)
+    return (
+      <div className='flex flex-col gap-1'>
+        <p className=''>{(Math.round(value_) / 1000000).toFixed(1)} mln so'm</p>
+      </div>
+    );
+
+  return (
+    <div className='flex flex-col gap-1'>
+      <p className=''>{Math.floor(value_)?.toLocaleString()} so'm</p>
+    </div>
+  );
+};
+
 const RatingCellRenderer = ({ value }: { value: string }) => {
   if (!value) return '';
   const value_number = Number(value);
@@ -1376,7 +1404,7 @@ export const SimilarProductsColDefs = [
     sortable: true,
     minWidth: 200,
     maxWidth: 300,
-    cellRenderer: PriceRenderer,
+    cellRenderer: RevenueCellRenderer,
     filter: false,
     cellStyle: {
       textAlign: 'center',
@@ -1552,7 +1580,7 @@ export const CategoryProductTableColumnDefs = [
     sortable: false,
     flex: 1,
     maxWidth: 500,
-    minWidth: 400,
+    minWidth: 200,
   },
   {
     headerName: 'Ichki kategoriyasi',
@@ -1566,7 +1594,7 @@ export const CategoryProductTableColumnDefs = [
     },
     flex: 1,
     maxWidth: 500,
-    minWidth: 300,
+    minWidth: 200,
     headerTooltip: 'Ushbu mahsulotning asosiy ichki kategoriyasi.',
   },
   {
@@ -1598,13 +1626,27 @@ export const CategoryProductTableColumnDefs = [
     tooltipField: 'Sotuvchi nomi',
   },
   {
-    headerName: 'Sotuv miqdori',
+    headerName: 'Buyurtmalar soni',
     field: 'orders_amount',
     sortable: true,
     filter: false,
     flex: 1,
     minWidth: 150,
     headerTooltip: 'Mahsulotning shu kungacha sotilgan miqdori.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Daromad',
+    field: 'orders_money',
+    cellRenderer: RevenueCellRenderer,
+    sortable: true,
+    filter: false,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulotning shu kungacha sotilgan daromadi.',
     cellStyle: {
       textAlign: 'center',
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
@@ -1764,6 +1806,20 @@ export const ShopProductTableColumnDefs = [
     flex: 1,
     minWidth: 150,
     headerTooltip: 'Mahsulotning shu kungacha sotilgan miqdori.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Daromad',
+    field: 'orders_money',
+    sortable: true,
+    filter: false,
+    cellRenderer: RevenueCellRenderer,
+    flex: 1,
+    minWidth: 150,
+    headerTooltip: 'Mahsulotning jami keltirgan daromadi.',
     cellStyle: {
       textAlign: 'center',
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
@@ -2054,6 +2110,20 @@ export const ShopStoppedProductTableColumnDefs = [
     } as CellStyle,
   },
   {
+    headerName: 'Daromad',
+    field: 'orders_money',
+    sortable: true,
+    flex: 1,
+    minWidth: 150,
+    filter: false,
+    cellRenderer: RevenueCellRenderer,
+    headerTooltip: 'Mahsulotning jami keltirgan daromadi.',
+    cellStyle: {
+      textAlign: 'center',
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
     headerName: 'Sotuv miqdori',
     field: 'orders_amount',
     sortable: true,
@@ -2174,6 +2244,19 @@ export const CategoryTrendstableColumnDefs = [
     minWidth: 100,
     sortable: false,
     headerTooltip: 'Ushbu sanagacha kategoriyada berilgan buyurtmalar soni.',
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Jami daromad',
+    field: 'total_orders_amount',
+    cellRenderer: RevenueCellRenderer,
+    flex: 1,
+    filter: false,
+    minWidth: 100,
+    sortable: false,
+    headerTooltip: 'Ushbu sanagacha kategoriyadagi jami daromad.',
     cellStyle: {
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
     } as CellStyle,
@@ -2328,6 +2411,7 @@ export const CategoryShopsTableColumnDefs = [
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
     } as CellStyle,
     headerClass: 'bg-purple-100',
+    headerTooltip: 'Ushbu kategoriyadagi mahsulotlar soni.',
   },
 
   {
@@ -2341,6 +2425,7 @@ export const CategoryShopsTableColumnDefs = [
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
     } as CellStyle,
     headerClass: 'bg-purple-100',
+    headerTooltip: 'Ushbu kategoriyadagi buyurtmalar soni.',
   },
   {
     headerName: 'Izohlar soni',
@@ -2351,6 +2436,16 @@ export const CategoryShopsTableColumnDefs = [
     sortable: true,
   },
   {
+    headerName: 'Daromad',
+    field: 'total_revenue',
+    cellRenderer: RevenueCellRenderer,
+    flex: 1,
+    minWidth: 150,
+    sortable: true,
+    filter: false,
+    headerTooltip: 'Ushbu kategoriyadagi mahsulotlardan kelgan daromad',
+  },
+  {
     headerName: "O'rtacha reytingi",
     field: 'average_product_rating',
     flex: 1,
@@ -2358,6 +2453,7 @@ export const CategoryShopsTableColumnDefs = [
     sortable: true,
     filter: false,
     cellRenderer: RatingCellRenderer,
+    headerTooltip: "Ushbu kategoriyadagi mahsulotlarining o'rtacha reytingi.",
   },
   {
     headerName: "O'rtacha Sotuv narx",
@@ -2367,6 +2463,8 @@ export const CategoryShopsTableColumnDefs = [
     minWidth: 200,
     sortable: true,
     filter: false,
+    headerTooltip:
+      "Ushbu kategoriyadagi mahsulotlarining o'rtacha sotuv narxi.",
   },
 ];
 
@@ -2418,6 +2516,18 @@ export const SubcategoriesTableColumnDefs = [
     filter: false,
     minWidth: 100,
     headerTooltip: 'Ushbu sanagacha kategoriyada berilgan buyurtmalar soni.',
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+  },
+  {
+    headerName: 'Jami daromad',
+    field: 'total_orders_amount',
+    cellRenderer: RevenueCellRenderer,
+    flex: 1,
+    filter: false,
+    minWidth: 100,
+    headerTooltip: 'Ushbu sanagacha kategoriyadagi jami daromad.',
     cellStyle: {
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
     } as CellStyle,
@@ -2484,6 +2594,20 @@ export const ShopOverallColumnDefs = [
     filter: false,
     cellStyle: {
       backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    } as CellStyle,
+    headerClass: 'bg-purple-100',
+  },
+  {
+    headerName: 'Daromad',
+    field: 'total_revenue',
+    sortable: true,
+    filter: false,
+    cellRenderer: RevenueCellRenderer,
+    flex: 1,
+    minWidth: 200,
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      textAlign: 'center',
     } as CellStyle,
     headerClass: 'bg-purple-100',
   },
@@ -2570,6 +2694,22 @@ export const ShopsTableColumnDefs = [
     sortable: true,
     filter: false,
     cellRenderer: LocaleNumberCellRenderer,
+
+    flex: 1,
+    minWidth: 200,
+    cellStyle: {
+      backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      textAlign: 'center',
+    } as CellStyle,
+    headerClass: 'bg-purple-100',
+  },
+
+  {
+    headerName: 'Daromad',
+    field: 'total_revenue',
+    sortable: true,
+    filter: false,
+    cellRenderer: RevenueCellRenderer,
 
     flex: 1,
     minWidth: 200,

@@ -20,6 +20,7 @@ interface CategoryShopsType {
   total_orders: number;
   total_products: number;
   total_reviews: number;
+  total_revenue: number;
   avg_purchase_price: number;
   average_product_rating: number;
   position: number;
@@ -43,7 +44,7 @@ function CategoryShops({ className, categoryId }: Props) {
       >(`/category/analytics/shops/` + categoryId + '/')
       .then((res) => {
         const data = res.data.data.sort(
-          (a, b) => b.total_orders - a.total_orders
+          (a, b) => b.total_revenue - a.total_revenue
         );
         // give position according to total orders
         data.forEach((item, index) => {
@@ -98,23 +99,23 @@ function CategoryShops({ className, categoryId }: Props) {
 export default CategoryShops;
 
 function preparePieChartData(data: CategoryShopsType[]) {
-  const total_orders = data.reduce((acc, item) => {
-    return acc + item.total_orders;
+  const total_revenue = data.reduce((acc, item) => {
+    return acc + item.total_revenue;
   }, 0);
 
-  let current_orders = 0;
+  let current_revenue = 0;
   const pieChartData = data.slice(0, 10).map((item) => {
-    current_orders += item.total_orders;
+    current_revenue += item.total_revenue;
     return {
       type: item.title,
-      value: item.total_orders,
+      value: Math.round(item.total_revenue * 1000),
     };
   });
 
-  if (total_orders > current_orders) {
+  if (total_revenue > current_revenue) {
     pieChartData.push({
       type: 'Boshqa sotuvchilar',
-      value: total_orders - current_orders,
+      value: Math.round((total_revenue - current_revenue) * 1000),
     });
   }
 

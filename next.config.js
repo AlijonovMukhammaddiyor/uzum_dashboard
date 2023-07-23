@@ -59,8 +59,9 @@ module.exports = nextConfig;
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' https://telegram.org;
-  child-src 'self' https://telegram.org;
-  style-src 'self' 'unsafe-inline' https://telegram.org;
+  child-src 'self' https://telegram.org blob:;
+  style-src 'self' 'unsafe-inline' https://telegram.org https://fonts.googleapis.com;
   font-src 'self' https://telegram.org;
   frame-src https://oauth.telegram.org/;
+  connect-src 'self' https://alijonov.com https://api.telegram.org https://oauth.telegram.org http://localhost:8000;
 `;
