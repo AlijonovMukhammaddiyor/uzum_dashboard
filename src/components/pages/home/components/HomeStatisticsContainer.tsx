@@ -269,7 +269,7 @@ function prepareData(
     borderColor: 'rgb(26, 93, 26)', // Orange
     backgroundColor: 'rgba(26, 93, 26, 0.2)',
     pointBackgroundColor: 'rgb(26, 93, 26)',
-    label: 'Jami sotuvchilar soni',
+    label: 'Jami daromad',
     pointRadius: 3,
   });
   return dataset;
