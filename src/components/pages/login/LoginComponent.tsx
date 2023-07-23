@@ -3,13 +3,10 @@ import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect } from 'react';
-declare global {
-  interface Window {
-    onTelegramAuth: (user: any) => void;
-  }
-}
+
 import clsxm from '@/lib/clsxm';
 
+import TelegramLogin from '@/components/pages/login/TelegramLogin';
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
 
 import Logo from '@/assets/logo/logo.svg';
@@ -106,7 +103,7 @@ function LoginComponent() {
           )}
         >
           <LoginHeader activeTab={activeTab} />
-          <div className='top-[35vh] flex h-[40px] w-full items-center justify-center md:top-[38vh]'>
+          <div className='flex h-[40px] w-full items-center justify-center md:top-[38vh]'>
             <button
               className='h-full w-[200px] rounded-lg bg-blue-400'
               onClick={() => {
@@ -124,6 +121,7 @@ function LoginComponent() {
               Telegram
             </button>
           </div>
+          <TelegramLogin />
           <UserNameAndPassword
             activeTab={activeTab}
             currentTab={1}
