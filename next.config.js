@@ -62,5 +62,5 @@ const ContentSecurityPolicy = `
   child-src 'self' https://telegram.org;
   style-src 'self' 'unsafe-inline' https://telegram.org;
   font-src 'self' https://telegram.org;
-  frame-src https://telegram.org;
+  frame-src https://oauth.telegram.org/;
 `;
