@@ -8,7 +8,7 @@ import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import LoginFooter from '@/components/pages/login/LoginFooter';
-import TelegramLogin from '@/components/pages/login/TelegramLogin';
+import TelegramLoginButton from '@/components/pages/login/TelegramLogin';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
 
@@ -173,7 +173,13 @@ const UserNameAndPassword = ({
         {t('title')}
       </Button>
 
-      <TelegramLogin />
+      <TelegramLoginButton
+        botName='uzanalitikabot'
+        dataOnauth={(user) => {
+          console.log(user);
+        }}
+        className='telegram-login-button'
+      />
 
       <LoginFooter
         username={user.username}
