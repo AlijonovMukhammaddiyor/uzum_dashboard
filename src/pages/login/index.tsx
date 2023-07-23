@@ -1,31 +1,15 @@
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
 
 import LoginComponent from '@/components/pages/login/LoginComponent';
-declare global {
-  interface Window {
-    onTelegramAuth: (user: any) => void;
-  }
-}
 
 const Login = () => {
-  useEffect(() => {
-    // Attach the onTelegramAuth function to the window object
-    window.onTelegramAuth = (user: any) => {
-      console.log(user);
-      alert(user);
-      // Do something with the user data
-    };
-  }, []);
-
   return (
     <div className='min-h-screen w-screen'>
-      {/* <Seo /> */}
-
       <LoginComponent />
     </div>
   );
@@ -38,6 +22,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
     const res = await api.getCurrentUser();
+
     if (res) {
       return {
         redirect: {
@@ -47,6 +32,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {},
       };
     }
+
+    // get stel_token cookie for oauth.telegram.org and delete it
+    const stel_token = context.req.cookies['stel_token'];
+
+    if (stel_token) {
+      context.res.setHeader(
+        'Set-Cookie',
+        `stel_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
+      );
+    }
+
     return {
       props: {
         ...(await serverSideTranslations(

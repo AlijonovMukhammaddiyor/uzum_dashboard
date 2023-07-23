@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
 import { useTranslation } from 'next-i18next';
-import React, { useEffect } from 'react';
+import React from 'react';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
 import TelegramLogin from '@/components/pages/login/TelegramLogin';
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
@@ -25,6 +27,8 @@ function LoginComponent() {
     password: '',
     phone_number: '',
   });
+  const [sending, setSendingRequest] = React.useState(false);
+  const [success, setSuccess] = React.useState<boolean | null>(false);
   const { i18n } = useTranslation('landing');
 
   const changeLanguage = (lng: string) => {
@@ -37,14 +41,35 @@ function LoginComponent() {
     router.push({ pathname, query }, router.asPath, { locale: newLocale });
   };
 
-  useEffect(() => {
-    // Attach the onTelegramAuth function to the window object
-    window.onTelegramAuth = (user) => {
-      console.log(user);
-      // Do something with the user data
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typeof window]);
+  const onTelegramAuth = (user: {
+    first_name: string;
+    last_name: string;
+    username: string;
+    id: number;
+    hash: string;
+  }) => {
+    const api = new API();
+    setSendingRequest(true);
+    api
+      .login({
+        username: user.username,
+        password: user.id.toString(),
+      })
+      .then((res) => {
+        if (res) {
+          setSuccess(true);
+          router.push('/home');
+        } else {
+          setSuccess(false);
+        }
+        setSendingRequest(false);
+      })
+      .catch((err) => {
+        logger(err, 'Error in onLogin');
+        setSuccess(false);
+        setSendingRequest(false);
+      });
+  };
 
   return (
     <div className='w-sreen bg-gradient base:bg-none relative flex h-screen overflow-hidden'>
@@ -104,7 +129,7 @@ function LoginComponent() {
         >
           <LoginHeader activeTab={activeTab} />
 
-          <TelegramLogin />
+          <TelegramLogin onTelegramAuth={onTelegramAuth} />
           <div className='flex w-full items-center justify-between'>
             <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
             <p>Yoki</p>
@@ -118,6 +143,10 @@ function LoginComponent() {
             }}
             user={user}
             setUser={setUser}
+            sending={sending}
+            success={success}
+            setSending={setSendingRequest}
+            setSuccess={setSuccess}
           />
           {/* <LoginPhoneInputComponent
             user={user}

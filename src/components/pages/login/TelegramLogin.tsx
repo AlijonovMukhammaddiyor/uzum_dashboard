@@ -5,7 +5,11 @@ declare global {
   }
 }
 
-const TelegramLogin = () => {
+const TelegramLogin = ({
+  onTelegramAuth,
+}: {
+  onTelegramAuth: (user: any) => void;
+}) => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -17,9 +21,7 @@ const TelegramLogin = () => {
     script.async = true;
     document.body.appendChild(script);
 
-    window.onTelegramAuth = (user) => {
-      console.log(user);
-    };
+    window.onTelegramAuth = onTelegramAuth;
 
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {

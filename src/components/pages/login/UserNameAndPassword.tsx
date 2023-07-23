@@ -26,6 +26,10 @@ export interface NamesAndEmailComponentProps {
       phone_number: string;
     }>
   >;
+  sending: boolean;
+  success: boolean | null;
+  setSuccess: React.Dispatch<React.SetStateAction<boolean | null>>;
+  setSending: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserNameAndPassword = ({
@@ -33,12 +37,14 @@ const UserNameAndPassword = ({
   currentTab,
   onNext,
   user,
+  sending,
+  success,
+  setSuccess,
+  setSending,
   setUser,
 }: NamesAndEmailComponentProps) => {
   const [passwordShow, setPasswordShow] = useState(false);
   const router = useRouter();
-  const [success, setSuccess] = useState<boolean | null>(null);
-  const [sendingRequest, setSendingRequest] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
   const handleInputChange = (event: {
@@ -51,7 +57,8 @@ const UserNameAndPassword = ({
 
   const onLogin = () => {
     const api = new API();
-    setSendingRequest(true);
+    // setSendingRequest(true);
+    setSending(true);
     api
       .login(user)
       .then((res) => {
@@ -61,12 +68,12 @@ const UserNameAndPassword = ({
         } else {
           setSuccess(false);
         }
-        setSendingRequest(false);
+        setSending(false);
       })
       .catch((err) => {
         logger(err, 'Error in onLogin');
         setSuccess(false);
-        setSendingRequest(false);
+        setSending(false);
       });
   };
 
@@ -159,13 +166,10 @@ const UserNameAndPassword = ({
       <Button
         className='bg-primary mt-6 w-full text-white hover:bg-purple-700'
         onClick={onLogin}
-        isLoading={sendingRequest}
+        isLoading={sending}
         spinnerColor='rgb(126 34 206)'
         disabled={
-          !isPasswordValid ||
-          sendingRequest ||
-          !user.username ||
-          errors.length > 0
+          !isPasswordValid || sending || !user.username || errors.length > 0
         }
       >
         {t('title')}
