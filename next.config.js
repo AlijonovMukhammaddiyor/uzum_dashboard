@@ -63,5 +63,5 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline' https://telegram.org https://fonts.googleapis.com;
   font-src 'self' https://telegram.org;
   frame-src https://oauth.telegram.org/;
-  connect-src 'self' https://alijonov.com https://api.telegram.org https://oauth.telegram.org http://localhost:8000;
+  connect-src 'self' https://api.alijonov.com https://api.telegram.org https://oauth.telegram.org http://localhost:8000;
 `;
