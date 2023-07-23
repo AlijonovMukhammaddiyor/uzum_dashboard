@@ -39,28 +39,7 @@ const nextConfig = {
     return config;
   },
   i18n,
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
-          },
-        ],
-      },
-    ]
-  },
 };
 
 module.exports = nextConfig;
 
-const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' 'unsafe-eval' https://telegram.org;
-  child-src 'self' https://telegram.org;
-  style-src 'self' 'unsafe-inline' https://telegram.org;
-  font-src 'self' https://telegram.org;
-  frame-src https://telegram.org;
-`;

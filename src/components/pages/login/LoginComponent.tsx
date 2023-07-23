@@ -1,13 +1,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import clsxm from '@/lib/clsxm';
 
-import LoginPhoneConfirm from '@/components/pages/login/LoginCodeinput';
-import LoginPhoneInputComponent from '@/components/pages/login/LoginPhoneInput';
-import NewPassword from '@/components/pages/login/NewPassword';
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
 
 import Logo from '@/assets/logo/logo.svg';
@@ -39,8 +37,8 @@ function LoginComponent() {
   };
 
   return (
-    <div className='w-sreen relative flex h-screen overflow-hidden '>
-      {/* <Script
+    <div className='w-sreen bg-gradient base:bg-none relative flex h-screen overflow-hidden'>
+      <Script
         src='https://telegram.org/js/telegram-widget.js?9'
         data-telegram-login='uzanalitikabot'
         data-size='large'
@@ -49,7 +47,8 @@ function LoginComponent() {
         data-lang='en'
         data-onauth='onTelegramAuth(user)'
         strategy='lazyOnload'
-      /> */}
+      />
+      {/* <div className='base:w-1/2 absolute top-[35vh] h-[50px] w-full bg-blue-500 md:top-[38vh]'></div> */}
       <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
@@ -70,26 +69,26 @@ function LoginComponent() {
           Рус
         </div>
       </div>
-      <div className='base:w-1/2 bg-gradient base:bg-none relative flex w-full items-center justify-center px-5'>
-        <div className='layout absolute top-5 flex items-center justify-between gap-2 text-sm'>
-          <Link href='/' className=''>
-            <Logo className='h-[40px] w-[140px]' />
-          </Link>
-          <div className='flex items-center justify-end gap-2'>
-            <p className='hidden text-xs lg:block'>{t('register.ask')}</p>
-            <p>
-              <Link
-                href='/register'
-                className='rounded-2xl border border-slate-400 px-2 py-1'
-              >
-                <span className='text-primary'>{t('register')}</span>
-              </Link>
-            </p>
-          </div>
+      <div className='layout base:w-1/2 absolute top-5 flex w-full items-center justify-between gap-2 px-3 text-sm'>
+        <Link href='/' className=''>
+          <Logo className='h-[40px] w-[140px]' />
+        </Link>
+        <div className='flex items-center justify-end gap-2'>
+          <p className='hidden text-xs lg:block'>{t('register.ask')}</p>
+          <p>
+            <Link
+              href='/register'
+              className='rounded-2xl border border-slate-400 px-2 py-1'
+            >
+              <span className='text-primary'>{t('register')}</span>
+            </Link>
+          </p>
         </div>
+      </div>
+      <div className='base:w-1/2  relative mt-[22vh] flex w-full items-start justify-center px-5 md:mt-[30vh]'>
         <div
           className={clsxm(
-            'relative -mt-[200px] flex max-w-full flex-col items-center justify-center gap-6 px-2'
+            'flex max-w-full flex-col items-start justify-start gap-6 px-2'
             // activeTab === 3 && '-mt-[400px]'
           )}
         >
@@ -103,7 +102,7 @@ function LoginComponent() {
             user={user}
             setUser={setUser}
           />
-          <LoginPhoneInputComponent
+          {/* <LoginPhoneInputComponent
             user={user}
             activeTab={activeTab}
             currentTab={2}
@@ -133,7 +132,7 @@ function LoginComponent() {
             }}
             user={user}
             setUser={setUser}
-          />
+          /> */}
         </div>
       </div>
 

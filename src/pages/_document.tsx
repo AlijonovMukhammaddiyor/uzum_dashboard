@@ -4,11 +4,6 @@ export default function Document() {
   return (
     <Html lang='uz'>
       <Head>
-        <meta
-          http-equiv='Content-Security-Policy'
-          content="default-src 'self'; script-src 'self' https://telegram.org/"
-        />
-
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
           rel='preconnect'

@@ -7,8 +7,6 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import LoginFooter from '@/components/pages/login/LoginFooter';
-import TelegramLoginButton from '@/components/pages/login/TelegramLogin';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
 
@@ -86,7 +84,7 @@ const UserNameAndPassword = ({
   return (
     <div
       className={clsxm(
-        'absolute top-full mt-7 flex min-w-[300px] max-w-[400px] flex-col gap-2 transition-all duration-500',
+        'top-full mt-24 flex min-w-[300px] max-w-[400px] flex-col gap-2 transition-all duration-500',
         activeTab === currentTab
           ? '-left-0 opacity-100'
           : '-left-full opacity-0'
@@ -173,20 +171,12 @@ const UserNameAndPassword = ({
         {t('title')}
       </Button>
 
-      <TelegramLoginButton
-        botName='uzanalitikabot'
-        dataOnauth={(user) => {
-          console.log(user);
-        }}
-        className='telegram-login-button'
-      />
-
-      <LoginFooter
+      {/* <LoginFooter
         username={user.username}
         onNext={() => {
           onNext();
         }}
-      />
+      /> */}
     </div>
   );
 };
