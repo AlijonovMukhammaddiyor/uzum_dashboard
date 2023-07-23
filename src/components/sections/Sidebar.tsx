@@ -123,7 +123,7 @@ function Sidebar({
             icon={
               <HiOutlineSquares2X2
                 className={clsxm(
-                  'text-primary h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  ' h-6 w-6 flex-shrink-0 ',
                   activeTab === 'Kategoriyalar' && 'text-white'
                 )}
               />
@@ -133,6 +133,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Kategoriyalar');
             }}
+            disabled
           />
 
           <SidebarItem
@@ -141,7 +142,7 @@ function Sidebar({
             icon={
               <HiOutlineBuildingStorefront
                 className={clsxm(
-                  'text-primary h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  ' h-6 w-6 flex-shrink-0 ',
                   activeTab === 'Sotuvchilar' && 'text-white'
                 )}
               />
@@ -151,6 +152,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Sotuvchilar');
             }}
+            disabled
           />
           <SidebarItem
             href='/products'
@@ -158,7 +160,7 @@ function Sidebar({
             icon={
               <HiOutlineShoppingBag
                 className={clsxm(
-                  'text-primary h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  ' h-6 w-6 flex-shrink-0 ',
                   activeTab === 'Mahsulotlar' && 'text-white'
                 )}
               />
@@ -168,6 +170,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab('Mahsulotlar');
             }}
+            disabled
           />
           <SidebarItem
             href='/ai'
