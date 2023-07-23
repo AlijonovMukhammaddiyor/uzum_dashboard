@@ -13,6 +13,7 @@ const TelegramLogin = ({
   const ref = useRef(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-widget.js?22';
     script.setAttribute('data-telegram-login', 'uzanalitikabot');
@@ -46,7 +47,8 @@ const TelegramLogin = ({
       window.onTelegramAuth = () =>
         console.log('Telegram login script removed');
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onTelegramAuth, typeof window]);
 
   return (
     <div
