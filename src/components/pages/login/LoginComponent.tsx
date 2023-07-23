@@ -48,7 +48,7 @@ function LoginComponent() {
         data-onauth='onTelegramAuth(user)'
         strategy='lazyOnload'
       />
-      {/* <div className='base:w-1/2 absolute top-[35vh] h-[50px] w-full bg-blue-500 md:top-[38vh]'></div> */}
+
       <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
@@ -93,6 +93,24 @@ function LoginComponent() {
           )}
         >
           <LoginHeader activeTab={activeTab} />
+          <div className='base:w-1/2 top-[35vh] flex h-[50px] w-full items-center justify-center md:top-[38vh]'>
+            <button
+              className='w-[200px] rounded-md bg-blue-400'
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  const button = window.document.querySelector(
+                    '.btn tgme_widget_login_button'
+                  );
+
+                  if (button) {
+                    (button as HTMLButtonElement).click();
+                  }
+                }
+              }}
+            >
+              Telegram
+            </button>
+          </div>
           <UserNameAndPassword
             activeTab={activeTab}
             currentTab={1}
