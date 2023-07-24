@@ -21,6 +21,7 @@ export default {
         secondary: 'rgb(var(--tw-color-secondary) / <alpha-value>)',
         accent: 'rgb(var(--tw-color-accent) / <alpha-value>)',
         image: 'rgb(var(--tw-color-image) / <alpha-value>)',
+        border: 'rgb(var(--tw-color-border) / <alpha-value>)',
       },
       keyframes: {
         flicker: {

@@ -13,6 +13,7 @@ import { UserType } from '@/types/user';
 function HomeComponent({ user }: { user: UserType }) {
   const [activeTab, setActiveTab] = React.useState<string>('Umumiy');
   const isProPlus = user.is_proplus;
+
   return (
     <div className='flex w-full min-w-[1200px] flex-col items-start justify-start gap-4 overflow-scroll'>
       <Tabs
@@ -39,22 +40,20 @@ function HomeComponent({ user }: { user: UserType }) {
         }
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className='mb-6 mt-4 min-w-[1200px] overflow-auto'
+        className='w-full min-w-[1200px] overflow-auto'
       />
       <HomeStatisticsContainer
         className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}
       />
 
       <NewProducts
-        className={clsxm(
-          activeTab === 'Yangi mahsulotlar' ? '-mt-8' : 'hidden'
-        )}
+        className={clsxm(activeTab === 'Yangi mahsulotlar' ? 'mt-0' : 'hidden')}
       />
 
       {activeTab === "O'sayotgan mahsulotlar" && (
         <GrowingProducts
           className={clsxm(
-            activeTab === "O'sayotgan mahsulotlar" ? '-mt-12' : 'hidden'
+            activeTab === "O'sayotgan mahsulotlar" ? '' : 'hidden'
           )}
         />
       )}
@@ -62,7 +61,7 @@ function HomeComponent({ user }: { user: UserType }) {
       {activeTab === "O'sayotgan kategoriyalar" && (
         <GrowingCategories
           className={clsxm(
-            activeTab === "O'sayotgan kategoriyalar" ? '-mt-16' : 'hidden'
+            activeTab === "O'sayotgan kategoriyalar" ? '' : 'hidden'
           )}
         />
       )}

@@ -79,7 +79,7 @@ function GrowingProducts({ className }: HomeStatisticsContainerProps) {
     <div className='flex h-full w-full flex-col gap-5'>
       <Container
         className={clsxm(
-          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md px-2',
+          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md border-none',
           className
         )}
         loading={loading}

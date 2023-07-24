@@ -42,6 +42,20 @@ const PieChart = ({ data, title, labelType, style }: PieChartProps) => {
       content: '{percentage} - {name}',
     },
     // legend
+    toolbar: {
+      show: true,
+      items: [
+        {
+          type: 'download',
+        },
+        {
+          type: 'zoom',
+        },
+        {
+          type: 'dataView',
+        },
+      ],
+    },
     legend: {},
     interactions: [
       {

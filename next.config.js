@@ -58,10 +58,10 @@ module.exports = nextConfig;
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' https://telegram.org;
+  script-src 'self' 'unsafe-eval' https://telegram.org https://va.vercel-scripts.com https://vitals.vercel-insights.com;
   child-src 'self' https://telegram.org blob:;
   style-src 'self' 'unsafe-inline' https://telegram.org https://fonts.googleapis.com;
-  font-src 'self' https://telegram.org https://fonts.gstatic.com;
+  font-src 'self' https://telegram.org https://fonts.gstatic.com data:;
   frame-src https://oauth.telegram.org/;
   connect-src 'self' https://api.alijonov.com https://api.telegram.org https://oauth.telegram.org http://localhost:8000 https://vitals.vercel-insights.com;
 `;

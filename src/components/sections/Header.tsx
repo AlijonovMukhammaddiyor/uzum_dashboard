@@ -44,7 +44,7 @@ export default function Header() {
   return (
     <header className='w-full bg-transparent'>
       <div className='flex h-14 items-center justify-between gap-4 p-3'>
-        {state.path && Object.keys(state.path).length >= 2 ? (
+        {state.path && Object.keys(state.path).length >= 1 ? (
           <Breadcrumb className='flex items-center justify-start gap-2' />
         ) : !is_paid ? (
           showPaymentNotification ? (

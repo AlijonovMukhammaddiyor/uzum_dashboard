@@ -69,6 +69,9 @@ function Breadcrumb({ className }: BeradcrumbProps) {
               </UnstyledLink>
             </li>
           ))}
+        {state.path && Object.entries(state.path).length == 1 && (
+          <p className='text-primary m-0 w-[3px]'>/</p>
+        )}
       </ol>
     </nav>
   );

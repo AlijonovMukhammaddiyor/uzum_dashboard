@@ -21,7 +21,14 @@ export default function HomePage({ user }: HomeProps) {
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
-    dispatch({ type: 'PATH', payload: { path: {} } });
+    dispatch({
+      type: 'PATH',
+      payload: {
+        path: {
+          Umumiy: '/home',
+        },
+      },
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
