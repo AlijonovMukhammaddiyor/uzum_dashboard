@@ -222,7 +222,7 @@ function ShopProducts({ sellerId, className }: Props) {
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'h-[600px] min-w-[1100px] overflow-scroll rounded-md bg-slate-100 p-6'
+            'h-[600px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
           )}
         >
           <PieChart
@@ -239,7 +239,7 @@ function ShopProducts({ sellerId, className }: Props) {
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'h-[600px] min-w-[1100px] overflow-scroll rounded-md bg-slate-100 p-6'
+            'white h-[600px] min-w-[1100px] overflow-scroll rounded-md p-6'
           )}
         >
           <PieChart
@@ -256,7 +256,7 @@ function ShopProducts({ sellerId, className }: Props) {
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'h-[600px] min-w-[1100px] overflow-scroll rounded-md bg-slate-100 p-6'
+            'white h-[600px] min-w-[1100px] overflow-scroll rounded-md p-6'
           )}
         >
           <PieChart
@@ -272,7 +272,10 @@ function ShopProducts({ sellerId, className }: Props) {
         </Container>
       </div>
 
-      <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
+      <Container
+        loading={loading}
+        className={clsxm('w-full overflow-scroll border-none px-0')}
+      >
         <Tabs
           tabs={[
             'Sotuvchining hozirdagi mahsulotlari',

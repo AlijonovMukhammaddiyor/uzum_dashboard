@@ -50,8 +50,8 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         }>
       >(`/category/analytics/` + categoryId + '?range=60')
       .then((res) => {
-        setData(res.data.data);
-        setLabels(res.data.labels);
+        setData(res.data.data.slice(0, res.data.data.length - 1));
+        setLabels(res.data.labels.slice(0, res.data.labels.length - 1));
         setLoading(false);
       })
       .catch((err) => {
@@ -69,7 +69,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
       )}
     >
       <Tabs
-        className='ml-10 w-full'
+        className='ml-10'
         activeColor='bg-blue-400 bg-opacity-[0.4]'
         activeTab={tab}
         setActiveTab={setTab}

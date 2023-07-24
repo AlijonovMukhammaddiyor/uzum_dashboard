@@ -222,7 +222,7 @@ function CommonCategories({
         {common_categories_titles.map((title) => (
           <span
             key={title}
-            className='min-w-max rounded-md bg-white px-3 py-2 text-xs text-slate-500'
+            className='min-w-max rounded-md bg-slate-400 px-3 py-2 text-xs text-black'
           >
             {title}
           </span>
@@ -323,7 +323,10 @@ function preparePositionsDataset(data: CompetitorsType[]) {
   const datasets = [];
 
   for (const competitor of data) {
-    const analytics = sortAnalytics(competitor.analytics);
+    const analytics = sortAnalytics(competitor.analytics).slice(
+      0,
+      competitor.analytics.length - 1
+    );
     // datasets.push({
     //   label: competitor.title,
     //   data: analytics.slice(1).map((item) => {

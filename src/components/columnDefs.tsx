@@ -1489,10 +1489,10 @@ export const CategoryProductsColDefs = [
     minWidth: 300,
   },
   {
-    headerName: "Qo'shilgan sana",
-    field: 'created_at',
+    headerName: 'Daromad',
+    field: 'latest_product_analytics_money',
     sortable: true,
-    cellRenderer: ProductDateCellRenderer,
+    cellRenderer: RevenueCellRenderer,
     minWidth: 150,
     maxWidth: 200,
     filter: false,

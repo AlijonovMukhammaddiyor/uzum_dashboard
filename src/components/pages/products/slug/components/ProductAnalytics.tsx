@@ -102,7 +102,7 @@ function ProductAnalytics({
         {isActive && (
           <AreaChart
             data={prepareAllOrdersDataset(product, iscreatedAfter) || []}
-            title="Mahsulotning barcha sotuv va mavjud miqdorlarining quyidagi davr
+            title="Mahsulotning daromadi, sotuv va mavjud miqdorlarining quyidagi davr
             davomida o'zgarishi"
             labels={getLabels(product, iscreatedAfter) || []}
             style={{ width: '100%', height: '100%', maxHeight: '460px' }}
@@ -128,7 +128,7 @@ function ProductAnalytics({
 
         <div className='mt-8 flex w-full items-center justify-start'>
           <p className='w-full text-center text-sm'>
-            * Mahsulotning Uzumdagi barcha mahsulotlar orasida poziytsiyasi
+            * Mahsulotning Uzumdagi barcha mahsulotlar orasida pozitsiyasi
             (buyurtmalar soniga ko`ra)
           </p>
           <p></p>
@@ -291,11 +291,12 @@ function prepareDailyOrdersDataset(
       label: data.skus.length > 1 ? "O'rtacha sotuv narxi" : 'Sotuv narxi',
     });
 
-    revenue.push({
-      x: item.date_pretty,
-      y: (item.orders_money - prev_revenue) * 1000,
-      label: 'Kunlik daromad',
-    });
+    if (item.date_pretty !== '2023-07-24')
+      revenue.push({
+        x: item.date_pretty,
+        y: (item.orders_money - prev_revenue) * 1000,
+        label: 'Kunlik daromad',
+      });
     prev_revenue = item.orders_money;
   }
 
@@ -382,10 +383,11 @@ function prepareAllOrdersDataset(
       y: item.available_amount,
     });
 
-    revenue.push({
-      x: item.date_pretty,
-      y: item.orders_money * 1000,
-    });
+    if (item.date_pretty !== '2023-07-24')
+      revenue.push({
+        x: item.date_pretty,
+        y: item.orders_money * 1000,
+      });
 
     // prices.push({
     //   x: item.date_pretty,
