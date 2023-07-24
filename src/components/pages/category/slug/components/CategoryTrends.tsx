@@ -69,7 +69,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
       )}
     >
       <Tabs
-        className='ml-10 w-full'
+        className='ml-10'
         activeColor='bg-blue-400 bg-opacity-[0.4]'
         activeTab={tab}
         setActiveTab={setTab}

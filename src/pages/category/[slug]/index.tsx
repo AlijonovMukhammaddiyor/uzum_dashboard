@@ -64,7 +64,7 @@ function Category({ user }: Props) {
   return (
     <Layout>
       <Seo />
-      <div className='flex w-full items-center justify-start gap-3'>
+      <div className='flex w-full  items-center justify-start  gap-3'>
         <p>URL:</p>
         <a
           href={`https://uzum.uz/uz/category/${title}-${id}`}
@@ -86,7 +86,7 @@ function Category({ user }: Props) {
         ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className='mb-6 mt-4 min-w-[1200px]'
+        className='mb-6 mt-4 w-max'
       />
       <CategoryComponent activeTab={activeTab} categoryId={id} title={title} />
     </Layout>

@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       />
       <div
         className={clsxm(
-          'flex h-full flex-1 flex-col items-start justify-start overflow-scroll'
+          'flex h-full  flex-1 flex-col items-start justify-start '
         )}
       >
         <Header />

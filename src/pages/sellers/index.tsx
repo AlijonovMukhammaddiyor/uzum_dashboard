@@ -33,7 +33,7 @@ export default function Sellers({ user }: ShopsProps) {
         tabs={['Sotuvchilar']}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className='mb-4'
+        className='mb-6 mt-4 '
       />
       <div className='h-[calc(100vh-150px)]'>
         <SellersTable

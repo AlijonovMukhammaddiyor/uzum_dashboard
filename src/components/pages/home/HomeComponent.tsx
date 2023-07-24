@@ -39,7 +39,7 @@ function HomeComponent({ user }: { user: UserType }) {
         }
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className='mb-6 mt-4 min-w-[1200px] overflow-auto'
+        className='mb-6 mt-4 overflow-auto'
       />
       <HomeStatisticsContainer
         className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}

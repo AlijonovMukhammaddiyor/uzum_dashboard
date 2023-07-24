@@ -63,7 +63,7 @@ function Product({ user, product_id, product_title }: ProductProps) {
         tabs={['Mahsulot haqida', 'Grafik Analiz', "O'xshash Mahsulotlar"]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        className='mb-6 mt-4 min-w-[1200px]'
+        className='mb-6 mt-4 '
       />
       <ProductComponent
         product_id={product_id}
