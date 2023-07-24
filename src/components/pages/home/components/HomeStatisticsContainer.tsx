@@ -175,7 +175,7 @@ function prepareData(
   /// orders
   for (let i = 0; i < orders.length; i++) {
     const item = orders[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       orders_data.push({
         x: item.date_pretty,
         y: item.total_orders,
@@ -196,7 +196,7 @@ function prepareData(
   /// products
   for (let i = 0; i < products.length; i++) {
     const item = products[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       products_data.push({
         x: item.date_pretty,
         y: item.total_products,
@@ -205,7 +205,7 @@ function prepareData(
 
   for (let i = 0; i < revenue.length; i++) {
     const item = revenue[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       revenue_data.push({
         x: item.date_pretty,
         y: Math.round(item.total_revenue * 1000),
@@ -226,7 +226,7 @@ function prepareData(
   /// shops
   for (let i = 0; i < shops.shops.length; i++) {
     const item = shops.shops[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       shops_data.push({
         x: item.date_pretty,
         y: item.total_shops,
@@ -246,7 +246,7 @@ function prepareData(
   /// accounts
   for (let i = 0; i < shops.accounts.length; i++) {
     const item = shops.accounts[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       accounts_data.push({
         x: item.date_pretty,
         y: item.total_accounts,
@@ -302,7 +302,7 @@ function prepareDailyData(
 
   for (let i = 1; i < orders.length; i++) {
     const item = orders[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       orders_data.push({
         x: item.date_pretty,
         y: item.total_orders - prev,
@@ -312,7 +312,7 @@ function prepareDailyData(
 
   for (let i = 1; i < revenue.length; i++) {
     const item = revenue[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       revenue_data.push({
         x: item.date_pretty,
         y: Math.round((item.total_revenue - prev_revenue) * 1000),
@@ -322,7 +322,7 @@ function prepareDailyData(
 
   for (let i = 1; i < products.length; i++) {
     const item = products[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       products_data.push({
         x: item.date_pretty,
         y: item.total_products - prev_products,
@@ -333,14 +333,14 @@ function prepareDailyData(
   for (let i = 1; i < shops.shops.length; i++) {
     const item = shops.shops[i];
     const item2 = shops.accounts[i];
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       shops_data.push({
         x: item.date_pretty,
         y: item.total_shops - prev_shops,
       });
 
     prev_shops = item.total_shops;
-    if (item.date_pretty !== '2023-07-23')
+    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
       accounts_data.push({
         x: item2.date_pretty,
         y: item2.total_accounts - prev_accounts,
