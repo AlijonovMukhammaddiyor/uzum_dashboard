@@ -13,7 +13,7 @@ import {
   HiOutlineSquares2X2,
   HiOutlineTag,
 } from 'react-icons/hi2';
-import { MdOutlineCompare } from 'react-icons/md';
+import { MdChevronRight, MdOutlineCompare } from 'react-icons/md';
 
 import clsxm from '@/lib/clsxm';
 
@@ -58,7 +58,7 @@ function Sidebar({
       } else if (path.startsWith('/products')) {
         setActiveTab('Mahsulotlar');
       } else if (path.startsWith('/words')) {
-        setActiveTab('So`zlar');
+        setActiveTab('Qidiruvlar');
       } else if (path.startsWith('/compare')) {
         setActiveTab('Taqqoslash');
       }
@@ -72,7 +72,7 @@ function Sidebar({
     <div
       className={clsxm(
         'bg-font-primary relative z-10 h-screen max-h-screen w-[240px] -translate-x-full transition-all duration-300 ease-in-out sm:translate-x-0',
-        isSidebarOpen ? 'w-[240px]' : 'w-[70px]',
+        isSidebarOpen ? 'w-[220px]' : 'w-[65px]',
         className
       )}
     >
@@ -88,12 +88,16 @@ function Sidebar({
           <HiChevronDoubleRight className='h-6 w-6 flex-shrink-0 font-bold text-white' />
         )}
       </div>
-
-      <div className='h-full w-full overflow-y-auto bg-slate-100 px-3 py-4'>
+      {/* <div className='absolute right-0 top-0 flex h-full w-4 items-start justify-evenly bg-slate-100'>
+        <div className='h-full w-[1px] bg-slate-400'></div>
+        <div className='h-full w-[1px] bg-slate-400'></div>
+        <div className='h-full w-[1px] bg-slate-400'></div>
+      </div> */}
+      <div className='h-full w-full overflow-auto bg-[#FFD966] px-3 py-4'>
         <div className='mb-8 flex w-full justify-center'>
           {isSidebarOpen ? (
             // <Logo className='h-10 w-36 object-contain' />
-            <Image src={logo} alt='logo' width={200} height={50} />
+            <Image src={logo} alt='logo' width={160} height={50} />
           ) : (
             <LogoOnly className='h-10 w-10 object-contain' />
           )}
@@ -105,7 +109,7 @@ function Sidebar({
             icon={
               <HiOutlineHome
                 className={clsxm(
-                  'text-primary h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  'h-6 w-6 flex-shrink-0 group-hover:text-white',
                   activeTab === 'Umumiy' && 'text-white'
                 )}
               />
@@ -211,7 +215,7 @@ function Sidebar({
 
           <SidebarItem
             href='/words'
-            label='So`zlar'
+            label='Qidiruvlar'
             icon={
               <HiLanguage
                 className={clsxm(
@@ -223,7 +227,7 @@ function Sidebar({
             isSidebarOpen={isSidebarOpen}
             activeTab={activeTab}
             onClick={() => {
-              setActiveTab('So`zlar');
+              setActiveTab('Qidiruvlar');
             }}
             disabled
           />
@@ -275,7 +279,13 @@ function SidebarItem({
   const router = useRouter();
 
   return (
-    <li className={clsxm('relative', className)} onClick={onClick}>
+    <li
+      className={clsxm('relative', className)}
+      onClick={() => {
+        if (disabled) return;
+        onClick;
+      }}
+    >
       <p
         onClick={() => {
           if (disabled) return;
@@ -294,7 +304,21 @@ function SidebarItem({
       >
         {icon}
         {isSidebarOpen && <span className='ml-3 text-base'>{label}</span>}
+        {/* {!isSidebarOpen && !disabled && (
+          <div className='absolute -right-full z-10 hidden bg-white text-black shadow-lg group-hover:inline-block'>
+            {label}
+          </div>
+        )} */}
       </p>
+
+      {isSidebarOpen && (
+        <MdChevronRight
+          className={clsxm(
+            'absolute right-2 top-1/2 -translate-y-1/2 transform text-black',
+            disabled && 'text-slate-300'
+          )}
+        />
+      )}
     </li>
   );
 }

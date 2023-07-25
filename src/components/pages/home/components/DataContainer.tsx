@@ -28,6 +28,8 @@ interface Props {
   }[];
   all_color?: string;
   daily_color?: string;
+  isFullScreen?: string | null;
+  setFullScreen?: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 function DataContainer({
@@ -42,9 +44,12 @@ function DataContainer({
   all_color,
   daily_color,
   isCount = true,
+  isFullScreen = null,
+  setFullScreen,
 }: Props) {
   return (
     <div className='border-border h-[500px] min-h-[500px] w-[750px] min-w-[750px] rounded-xl border px-6 py-4 shadow-md'>
+      {/* {isFullScreen && isFullScreen === title && <FullScreenContainer setFullScreen={setFullScreen} />} */}
       <div className='mb-8 flex items-center justify-between'>
         <h3
           className='font-primary text-base'
@@ -58,6 +63,10 @@ function DataContainer({
           className='flex cursor-not-allowed items-center justify-between gap-3 rounded-lg px-3 py-1 text-white shadow-inner'
           style={{
             backgroundColor: daily_color,
+          }}
+          onClick={() => {
+            setFullScreen &&
+              setFullScreen(isFullScreen === title ? null : title);
           }}
         >
           Batafsil ko'rish

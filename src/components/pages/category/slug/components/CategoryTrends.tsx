@@ -50,8 +50,8 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         }>
       >(`/category/analytics/` + categoryId + '?range=60')
       .then((res) => {
-        setData(res.data.data.slice(0, res.data.data.length - 1));
-        setLabels(res.data.labels.slice(0, res.data.labels.length - 1));
+        setData(res.data.data.slice(0));
+        setLabels(res.data.labels.slice(0));
         setLoading(false);
       })
       .catch((err) => {

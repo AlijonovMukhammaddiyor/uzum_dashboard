@@ -29,6 +29,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
     }[];
   }>({ shops: [], accounts: [] });
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [isFullScreen, setIsFullScreen] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -71,7 +72,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       .get<unknown, AxiosResponse<any>>('/uzum/revenue/')
       .then((res) => {
         setRevenue(
-          res.data.slice(0, res.data.length - 1).map((item: any) => {
+          res.data.slice(0).map((item: any) => {
             if (item.date_pretty !== '2023-07-05') return item;
             return {
               ...item,
@@ -118,6 +119,8 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       <div className='flex w-full items-start justify-start gap-10'>
         {orders.length > 0 && (
           <DataContainer
+            isFullScreen={isFullScreen}
+            setFullScreen={setIsFullScreen}
             title='Buyurtmalar soni'
             all={orders[orders.length - 1]?.total_orders ?? 0}
             all_last={orders[orders.length - 2]?.total_orders ?? 0}
@@ -323,38 +326,6 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   );
 }
 
-function getLabels(
-  orders: any[],
-  products: any[],
-  shops: {
-    shops: any[];
-    accounts: any[];
-  }
-) {
-  const labels = new Set<string>();
-
-  for (let i = 0; i < orders.length; i++) {
-    const item = orders[i];
-    labels.add(item.date_pretty);
-  }
-
-  for (let i = 0; i < products.length; i++) {
-    const item = products[i];
-    labels.add(item.date_pretty);
-  }
-
-  for (let i = 0; i < shops.shops.length; i++) {
-    const item = shops.shops[i];
-    labels.add(item.date_pretty);
-  }
-
-  const res = Array.from(labels).sort(
-    (a, b) => new Date(a).getTime() - new Date(b).getTime()
-  );
-
-  return res.slice(0, res.length - 1);
-}
-
 function getDaily(
   data: {
     x: string;
@@ -374,254 +345,6 @@ function getDaily(
     prev = item.y;
   }
   return res;
-}
-
-function prepareData(
-  orders: any[],
-  products: any[],
-  shops: {
-    shops: any[];
-    accounts: any[];
-  },
-  revenue: any[]
-) {
-  const dataset = [];
-  if (orders.length === 0) return [];
-
-  const orders_data = [];
-  const products_data = [];
-  const shops_data = [];
-  const accounts_data = [];
-  const revenue_data = [];
-
-  /// orders
-  for (let i = 0; i < orders.length; i++) {
-    const item = orders[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      orders_data.push({
-        x: item.date_pretty,
-        y: item.total_orders,
-      });
-  }
-
-  dataset.push({
-    data: orders_data,
-    fill: true,
-
-    borderColor: 'rgba(70, 130, 180, 1)', // Steel Blue
-    backgroundColor: 'rgba(70, 130, 180, 0.2)',
-    pointBackgroundColor: 'rgba(70, 130, 180, 1)',
-    label: 'Jami buyurtmalar soni',
-    pointRadius: 3,
-  });
-
-  /// products
-  for (let i = 0; i < products.length; i++) {
-    const item = products[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      products_data.push({
-        x: item.date_pretty,
-        y: item.total_products,
-      });
-  }
-
-  for (let i = 0; i < revenue.length; i++) {
-    const item = revenue[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      revenue_data.push({
-        x: item.date_pretty,
-        y: Math.round(item.total_revenue * 1000),
-      });
-  }
-
-  dataset.push({
-    data: products_data,
-    fill: true,
-    // hidden: true,
-    borderColor: 'rgba(60, 179, 113, 1)', // Medium Sea Green
-    backgroundColor: 'rgba(60, 179, 113, 0.2)',
-    pointBackgroundColor: 'rgba(60, 179, 113, 1)',
-    label: 'Jami mahsulotlar soni',
-    pointRadius: 3,
-  });
-
-  /// shops
-  for (let i = 0; i < shops.shops.length; i++) {
-    const item = shops.shops[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      shops_data.push({
-        x: item.date_pretty,
-        y: item.total_shops,
-      });
-  }
-
-  dataset.push({
-    data: shops_data,
-    fill: true,
-    borderColor: 'rgba(255, 165, 0, 1)', // Orange
-    backgroundColor: 'rgba(255, 165, 0, 0.2)',
-    pointBackgroundColor: 'rgba(255, 165, 0, 1)',
-    label: "Jami do'konlar soni",
-    pointRadius: 3,
-  });
-
-  /// accounts
-  for (let i = 0; i < shops.accounts.length; i++) {
-    const item = shops.accounts[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      accounts_data.push({
-        x: item.date_pretty,
-        y: item.total_accounts,
-      });
-  }
-
-  dataset.push({
-    data: accounts_data,
-    fill: true,
-    borderColor: 'rgba(243, 21, 89, 1)', // Orange
-    backgroundColor: 'rgba(243, 21, 89, 0.2)',
-    pointBackgroundColor: 'rgba(243, 21, 89, 1)',
-    label: 'Jami sotuvchilar soni',
-    pointRadius: 3,
-  });
-  // rgb(26, 93, 26);
-  dataset.push({
-    data: revenue_data,
-    fill: true,
-    borderColor: 'rgb(26, 93, 26)', // Orange
-    backgroundColor: 'rgba(26, 93, 26, 0.2)',
-    pointBackgroundColor: 'rgb(26, 93, 26)',
-    label: 'Jami daromad',
-    pointRadius: 3,
-  });
-  return dataset;
-}
-
-function prepareDailyData(
-  orders: any[],
-  products: any[],
-  shops: {
-    shops: any[];
-    accounts: any[];
-  },
-  revenue: any[]
-) {
-  if (orders.length === 0 || products.length === 0) return [];
-
-  const dataset = [];
-
-  const orders_data = [];
-  const shops_data = [];
-  const products_data = [];
-  const accounts_data = [];
-  const revenue_data = [];
-
-  let prev = orders[0].total_orders;
-  let prev_shops = shops.shops[0].total_shops;
-  let prev_products = products[0].total_products;
-  let prev_accounts = shops.accounts[0].total_accounts;
-  let prev_revenue = revenue[0].total_revenue;
-
-  for (let i = 1; i < orders.length; i++) {
-    const item = orders[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      orders_data.push({
-        x: item.date_pretty,
-        y: item.total_orders - prev,
-      });
-    prev = item.total_orders;
-  }
-
-  for (let i = 1; i < revenue.length; i++) {
-    const item = revenue[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      revenue_data.push({
-        x: item.date_pretty,
-        y: Math.round((item.total_revenue - prev_revenue) * 1000),
-      });
-    prev_revenue = item.total_revenue;
-  }
-
-  for (let i = 1; i < products.length; i++) {
-    const item = products[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      products_data.push({
-        x: item.date_pretty,
-        y: item.total_products - prev_products,
-      });
-    prev_products = item.total_products;
-  }
-
-  for (let i = 1; i < shops.shops.length; i++) {
-    const item = shops.shops[i];
-    const item2 = shops.accounts[i];
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      shops_data.push({
-        x: item.date_pretty,
-        y: item.total_shops - prev_shops,
-      });
-
-    prev_shops = item.total_shops;
-    if (item.date_pretty !== '2023-07-23' && item.date_pretty !== '2023-07-24')
-      accounts_data.push({
-        x: item2.date_pretty,
-        y: item2.total_accounts - prev_accounts,
-      });
-
-    prev_accounts = item2.total_accounts;
-  }
-
-  dataset.push({
-    data: orders_data,
-    fill: true,
-    borderColor: 'rgba(70, 130, 180, 1)', // Steel Blue
-    backgroundColor: 'rgba(70, 130, 180, 0.2)',
-    pointBackgroundColor: 'rgba(70, 130, 180, 1)',
-    label: 'Kunlik buyurtmalar',
-    pointRadius: 3,
-  });
-
-  dataset.push({
-    data: accounts_data,
-    fill: true,
-    borderColor: 'rgba(243, 21, 89, 1)', // Orange
-    backgroundColor: 'rgba(243, 21, 89, 0.2)',
-    pointBackgroundColor: 'rgba(243, 21, 89, 1)',
-    label: 'Kunlik yangi sotuvchilar soni',
-    pointRadius: 3,
-  });
-
-  dataset.push({
-    data: products_data,
-    fill: true,
-    borderColor: 'rgba(60, 179, 113, 1)', // Medium Sea Green
-    backgroundColor: 'rgba(60, 179, 113, 0.2)',
-    pointBackgroundColor: 'rgba(60, 179, 113, 1)',
-    label: 'Kunlik yangi mahsulotlar',
-    pointRadius: 3,
-  });
-
-  dataset.push({
-    data: shops_data,
-    fill: true,
-    borderColor: 'rgba(255, 165, 0, 1)', // Orange
-    backgroundColor: 'rgba(255, 165, 0, 0.2)',
-    pointBackgroundColor: 'rgba(255, 165, 0, 1)',
-    label: "Kunlik yangi do'konlar",
-    pointRadius: 3,
-  });
-
-  dataset.push({
-    data: revenue_data,
-    fill: true,
-    borderColor: 'rgb(26, 93, 26)',
-    backgroundColor: 'rgba(26, 93, 26, 0.2)',
-    pointBackgroundColor: 'rgb(26, 93, 26)',
-    label: 'Kunlik daromad',
-    pointRadius: 3,
-  });
-
-  return dataset;
 }
 
 export default HomeStatisticsContainer;

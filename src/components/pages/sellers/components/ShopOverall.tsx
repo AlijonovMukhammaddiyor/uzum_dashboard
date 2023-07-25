@@ -42,7 +42,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
         `/shop/analytics/` + sellerId + '?range=60'
       )
       .then((res) => {
-        setData(res.data.slice(0, res.data.length - 1));
+        setData(res.data.slice(0));
         setLoading(false);
       })
       .catch((err) => {

@@ -120,7 +120,7 @@ function prepareTableData(
 
   for (let i = 0; i < data.length; i++) {
     const item = data_sorted[i];
-    const analytics = item.analytics.slice(0, item.analytics.length - 1);
+    const analytics = item.analytics.slice(0);
     let prev_orders = analytics[0].total_orders;
     const category = {
       categoryId: item.categoryId,

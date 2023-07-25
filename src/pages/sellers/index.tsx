@@ -8,7 +8,6 @@ import clsxm from '@/lib/clsxm';
 import Layout from '@/components/layout/Layout';
 import SellersTable from '@/components/pages/sellers/SellersContainer';
 import Seo from '@/components/Seo';
-import Tabs from '@/components/shared/Tabs';
 
 import { useContextState } from '@/context/Context';
 
@@ -29,12 +28,12 @@ export default function Sellers({ user }: ShopsProps) {
     <Layout>
       <Seo />
 
-      <Tabs
+      {/* <Tabs
         tabs={['Sotuvchilar']}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-4'
-      />
+      /> */}
       <div className='h-[calc(100vh-150px)]'>
         <SellersTable
           className={clsxm(activeTab === 'Sotuvchilar' ? '' : 'hidden')}

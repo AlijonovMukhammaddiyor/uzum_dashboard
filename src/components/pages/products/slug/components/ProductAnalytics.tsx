@@ -259,7 +259,7 @@ function prepareDailyOrdersDataset(
   let prev_rev = data.recent_analytics[0].reviews_amount;
   let prev_revenue = data.recent_analytics[0].orders_money;
 
-  let analytics = data.recent_analytics.slice(1);
+  let analytics = data.recent_analytics.slice();
 
   if (iscreatedAfter) {
     prev = 0;

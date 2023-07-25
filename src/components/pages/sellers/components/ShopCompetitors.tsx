@@ -323,10 +323,7 @@ function preparePositionsDataset(data: CompetitorsType[]) {
   const datasets = [];
 
   for (const competitor of data) {
-    const analytics = sortAnalytics(competitor.analytics).slice(
-      0,
-      competitor.analytics.length - 1
-    );
+    const analytics = sortAnalytics(competitor.analytics).slice(0);
     // datasets.push({
     //   label: competitor.title,
     //   data: analytics.slice(1).map((item) => {
