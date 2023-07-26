@@ -1,0 +1,30 @@
+{
+  "home": {
+    "overview": "Umumiy",
+    "new_products": "Yangi mahsulotlar",
+    "promising_products": "O'sayotgan mahsulotlar",
+    "promising_categories": "O'sayotgan kategoriyalar"
+  },
+  "categories": {
+    "goods": "Tovarlar",
+    "trend": "Trend",
+    "inner_categories": "Ichki kategoriyalar",
+    "segmentation": "Segmentatsiya",
+    "sellers": "Sotuvchilar",
+    "revenue": "Daromad",
+    "orders": "Buyurtmalar",
+    "customers": "Mijozlar",
+    "shops": "Do'konlar"
+  },
+  "sellers": {
+    "overview": "Umumiy",
+    "goods": "Tovarlar",
+    "daily_sales": "Kunlik sotuv",
+    "competitors": "Raqobatdoshlar"
+  },
+  "products": {
+    "about_product": "Mahsulot haqida",
+    "graph_analiz": "Grafik analiz",
+    "similar_products": "O'xshash mahsulotlar"
+  }
+}
