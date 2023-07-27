@@ -52,20 +52,20 @@ function DataContainer({
 }: Props) {
   return (
     <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md xl:w-1/2'>
-      {isFullScreen && (
-        <TreeMap
-          data={getData(data, title)}
-          min={getMinMax(data, title)?.min}
-          max={getMinMax(data, title)?.max}
-          open={isFullScreen === title}
-          closeModal={() => {
-            setFullScreen && setFullScreen(null);
-          }}
-          title={title}
-          main_title={getTitles(title)}
-          main_subtitle={getSubtitle(title)}
-        />
-      )}
+      {/* {isFullScreen && ( */}
+      <TreeMap
+        data={getData(data, title)}
+        min={getMinMax(data, title)?.min}
+        max={getMinMax(data, title)?.max}
+        open={isFullScreen === title}
+        closeModal={() => {
+          setFullScreen && setFullScreen(null);
+        }}
+        title={title}
+        main_title={getTitles(title)}
+        main_subtitle={getSubtitle(title)}
+      />
+      {/* )} */}
       <div className='mb-8 flex items-center justify-between'>
         <h3
           className='font-primary text-base'

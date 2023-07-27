@@ -27,24 +27,13 @@ function TreeMap({
   open,
   closeModal,
   title,
-  isRevenue,
   main_title,
   main_subtitle,
   min,
   max,
 }: Props) {
   const [filteredData, setFilteredData] = useState<any[]>(data);
-  const [chart, setChart] = useState<any>(null);
 
-  const handleDownload = () => {
-    console.log('handleDownload -> chart', chart);
-    if (chart) {
-      chart.exportChart({
-        format: 'png',
-        filename: title,
-      });
-    }
-  };
   useEffect(() => {
     setFilteredData(data);
   }, [data]);
@@ -90,13 +79,6 @@ function TreeMap({
           stroke: 'black',
           strokeWidth: 0.5, // reduce border thickness
         }),
-        labels: {
-          value: {
-            formatter: (params: any) => `${params.datum.color.toFixed(2)}%`,
-            color: 'black', // label color
-            fontWeight: 'bold', // label font weight
-          },
-        },
       },
     ],
     title: {
@@ -129,9 +111,6 @@ function TreeMap({
             options={options as any}
             containerStyle={{
               height: '100%',
-            }}
-            onChartReady={(params: any) => {
-              setChart(params.chart);
             }}
           />
         </div>
