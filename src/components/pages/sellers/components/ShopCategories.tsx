@@ -172,15 +172,6 @@ function ShopCategories({ className, sellerId }: Props) {
           />
         )}
         {showCategoryData && (
-          // <LineChart
-          //   data={getDailyOrdersData(categoryData)}
-          //   yAxisTitle='kunlik buyurtmalar soni'
-          //   xAxisTitle='Sana'
-          //   style={{
-          //     width: '100%',
-          //     height: '250px',
-          //   }}
-          // />
           <StateckedColumnChart
             data={getDailyOrdersData(categoryData)}
             style={{
