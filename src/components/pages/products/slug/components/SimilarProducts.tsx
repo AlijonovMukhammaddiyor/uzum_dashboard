@@ -210,7 +210,6 @@ function AboutProduct({
                   maxHeight: '400px',
                   marginBottom: '40px',
                 }}
-                labels={getLabels(products, selectedRows, product_id)}
                 title='Jami sotuvlar'
                 className='h-[400px] max-h-[400px] w-full'
               />
@@ -228,7 +227,6 @@ function AboutProduct({
                   maxHeight: '400px',
                   marginBottom: '40px',
                 }}
-                labels={getLabels(products, selectedRows, product_id)}
                 title='Narxlar'
                 className='h-[400px] max-h-[400px] w-full'
               />
@@ -294,7 +292,7 @@ function prepareDailyChartData(
   const dataset: {
     label: string;
     data: {
-      x: string;
+      x: Date;
       y: number;
     }[];
     backgroundColor: string;
@@ -319,7 +317,7 @@ function prepareDailyChartData(
     for (let j = 0; j < analytics.length; j++) {
       const item = analytics[j];
       chartData.push({
-        x: item.date_pretty,
+        x: new Date(item.date_pretty),
         y: item.orders_amount - prev,
       });
       labels.add(item.date_pretty);
@@ -420,7 +418,7 @@ function prepareAllChartData(
     for (let j = 0; j < analytics.length; j++) {
       const item = analytics[j];
       data.push({
-        x: item.date_pretty,
+        x: new Date(item.date_pretty),
         y: item.orders_amount,
       });
     }
@@ -486,7 +484,7 @@ function preparePricesChartData(
     for (let j = 0; j < analytics.length; j++) {
       const item = analytics[j];
       data.push({
-        x: item.date_pretty,
+        x: new Date(item.date_pretty),
         y: item.average_purchase_price,
       });
     }

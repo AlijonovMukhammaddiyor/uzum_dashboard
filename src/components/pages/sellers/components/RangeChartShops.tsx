@@ -101,7 +101,7 @@ const RangeChartShops = ({ data, style }: RangeChartProps) => {
         tickCount: 10,
         nice: false,
         label: {
-          formatter: (v) => `${v.toLocaleString()} so'm`,
+          formatter: (v: any) => `${v.toLocaleString()} so'm`,
           style: {
             fill: '#7149C6', // color for the first y axis
           },
@@ -120,7 +120,7 @@ const RangeChartShops = ({ data, style }: RangeChartProps) => {
         tickCount: 10, // Adjust this value for the second y-axis
         nice: false,
         label: {
-          formatter: (v) => `${v} ta`,
+          formatter: (v: any) => `${v} ta`,
           style: {
             fill: 'rgba(57, 181, 224, 1)', // color for the second y axis
           },

@@ -113,7 +113,7 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         maxWidth: '100%',
         ...style,
       }}
-      {...config}
+      {...(config as any)}
     />
   );
 };

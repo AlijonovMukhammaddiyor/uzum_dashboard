@@ -21,6 +21,8 @@ function ProductsComponent() {
       total_orders: number;
       total_shops: number;
       total_products: number;
+      total_revenue: number;
+      total_reviews: number;
     }[]
   >([]);
 
