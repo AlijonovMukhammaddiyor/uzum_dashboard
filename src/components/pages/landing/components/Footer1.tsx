@@ -77,11 +77,11 @@ const Footer1 = () => {
         <p>@2023 UzAnalitika. All rights reserved</p>
 
         <div className='flex flex-1 justify-center gap-10 max-sm:mt-4 sm:justify-end'>
-          <Link href='/' className='text-gray-500'>
-            Privacy & Policy
+          <Link href='/privacy_policy' className='text-gray-500'>
+            Mahfiylik siyosati
           </Link>
-          <Link href='/' className='text-gray-500'>
-            Terms & Condition
+          <Link href='/privacy_policy' className='text-gray-500'>
+            Foydalanish shartlari
           </Link>
         </div>
       </div>
