@@ -200,6 +200,81 @@
     "30_kunlik": "30 kunlik ma'lumotlar",
     "60_kunlik": "60+ kunlik ma'lumotlar"
   },
+  "footer": {
+    "footer_links": [
+      {
+        "title": "Biz haqimizda",
+        "links": [
+          {
+            "title": "Qo'llanma",
+            "link": "#footer"
+          },
+          {
+            "title": "Qo'shimcha xizmatlar",
+            "link": "#footer"
+          },
+          {
+            "title": "Hamkorlik",
+            "link": "#footer"
+          },
+          {
+            "title": "Biznes aloqalar",
+            "link": "#footer"
+          }
+        ]
+      },
+      {
+        "title": "Kompaniya",
+        "links": [
+          {
+            "title": "Tadbirlar",
+            "link": "#footer"
+          },
+          {
+            "title": "Podcast",
+            "link": "#footer"
+          },
+          {
+            "title": "Blog",
+            "link": "#footer"
+          },
+          {
+            "title": "Do'stlarni taklif qiling",
+            "link": "#footer"
+          }
+        ]
+      },
+      {
+        "title": "Ijtimoiy tarmoqlar",
+        "links": [
+          {
+            "title": "Telegram",
+            "link": "https://t.me/uzum_uzanalitika"
+          },
+          {
+            "title": "Instagram",
+            "link": "https://www.instagram.com/uzanalitika/?igshid=MzNlNGNkZWQ4Mg%3D%3D"
+          },
+          {
+            "title": "Twitter",
+            "link": "#footer"
+          },
+          {
+            "title": "Youtube",
+            "link": "#footer"
+          }
+        ]
+      }
+    ],
+    "all_rights_reserved": "Barcha huquqlar himoyalangan",
+    "privacy_policy": "Maxfiylik siyosati",
+    "terms_of_use": "Foydalanish shartlari",
+    "footer_message": {
+      "1": "Ushbu web-sayt 'UZUM MARKET' XK MCHJ yoki unga aloqador tashkilot (kompaniya)lar bilan hech qanday bog‘liqligi yo'q.",
+      "2": "Ushbu saytda uchinchi shaxslar tomonidan ro'yxatdan o'tgan savdo belgilari faqat ma‘lumot sifatida beriladi hamda bu kompaniyalar bilan hech qanday tasdiq, sheriklik, homiylik yoki aloqani anglatmaydi.",
+      "3": "Barcha savdo belgilari ularning tegishli egalarining mulki hisoblanadi. UzAnalitika.uz web-saytda va uning tarkibida, unda tasvirlangan mahsulotlar yoki xizmatlarga istalgan vaqtda ogohlantirmasdan o'zgartirish kiritish huquqini o'zida saqlab qoladi."
+    }
+  },
 
   "tariffs.start": "Hoziroq boshlang",
   "tariffs.free": "Bepul",

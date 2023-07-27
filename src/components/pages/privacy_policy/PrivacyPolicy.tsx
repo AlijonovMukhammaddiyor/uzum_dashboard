@@ -1,17 +1,54 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
+
+import clsxm from '@/lib/clsxm';
+
+import Footer1 from '@/components/pages/landing/components/Footer1';
+import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 
 const PrivacyPolicy = () => {
   const contactEmail = 'info@uzanalitika.uz';
   const privacyPolicyLink = 'https://uzanalitika.uz/privacy-policy';
   const wesiteLink = 'https://uzanalitika.uz';
+
+  const router = useRouter();
+  const { t } = useTranslation('login');
+  const { i18n } = useTranslation('landing');
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    onToggleLanguageClick(lng);
+  };
+
+  const onToggleLanguageClick = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  };
   return (
     <>
-      <div className='bg-gradient  w-full overflow-hidden py-20'>
+      <LandingHeader />
+      <div className='bg-gradient  w-full overflow-hidden pb-32 pt-20'>
+        <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
+          <div
+            className={clsxm(
+              'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
+              i18n.language === 'uz' && 'bg-primary text-white'
+            )}
+            onClick={() => changeLanguage('uz')}
+          >
+            Uz
+          </div>
+          <div
+            className={clsxm(
+              'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
+              i18n.language === 'ru' && 'bg-primary text-white'
+            )}
+            onClick={() => changeLanguage('ru')}
+          >
+            Рус
+          </div>
+        </div>
         <div className='layout flex flex-col gap-8  bg-white p-20'>
-          <Link className='text-xl text-blue-500' href='/'>
-            {'<'}Bosh sahifa
-          </Link>
           <h1 className='border-b border-gray-400 pb-4'>Mahfiylik siyosati</h1>
           <ol className='mt-4 list-decimal text-xl'>
             <li className='leading tracking-normal'>
@@ -593,11 +630,9 @@ const PrivacyPolicy = () => {
               </ol>
             </li>
           </ol>
-          <Link className='text-xl text-blue-500' href='/'>
-            {'<'}Bosh sahifa
-          </Link>
         </div>
       </div>
+      <Footer1 />
     </>
   );
 };
