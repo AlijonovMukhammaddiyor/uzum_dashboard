@@ -74,16 +74,17 @@ function Segmentation({ className, categoryId }: Props) {
       <Container
         loading={loading}
         className={clsxm(
-          'relative h-[600px] w-full min-w-[1200px] overflow-scroll rounded-md bg-white p-6'
+          'relative h-[500px] w-full min-w-[1200px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
         <div className='mb-2 flex items-center justify-between'>
           <div className=''>
-            <h4 className='text-primary m-0 font-bold'>
+            <h4 className='m-0 font-bold'>
               Kategoriyadagi mahsulotlar narxlari bo'yicha segmentatsiya
             </h4>
             <p className='m-0 text-sm text-slate-500'>
-              Ushbu narx oraliqlariga kiruvchi mahsulotlar va buyurtmalar soni
+              Ushbu narx oraliqlariga kiruvchi mahsulotlar soni, buyurtmalar
+              soni, va daromad miqdori ko'rsatilgan.
             </p>
           </div>
           <div className='flex items-center justify-end'>
