@@ -67,14 +67,14 @@ function Category({ user, seller }: ShopsProps) {
               https://uzum.uz/uz/{seller.link}
             </a>
           </div>
-          <div className='flex items-center justify-start gap-3 rounded-md border border-gray-400 p-1 px-2'>
+          {/* <div className='flex items-center justify-start gap-3 rounded-md border border-gray-400 p-1 px-2'>
             <p className='text-sm font-semibold'>
               Sotuvchining Ro'yxatdan o'tgan sanasi:
             </p>
             <p className='text-primary text-sm'>
               {new Date(seller.registration_date).toISOString().slice(0, 10)}
             </p>
-          </div>
+          </div> */}
         </div>
         <div className='flex items-start justify-start gap-8'>
           <p></p>

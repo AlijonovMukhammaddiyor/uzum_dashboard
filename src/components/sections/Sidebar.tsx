@@ -71,13 +71,13 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        'bg-font-primary relative z-10 h-screen max-h-screen w-[240px] -translate-x-full transition-all duration-300 ease-in-out sm:translate-x-0',
+        'bg-font-primary relative z-10 h-screen max-h-screen w-[240px] -translate-x-full shadow-md transition-all duration-300 ease-in-out sm:translate-x-0',
         isSidebarOpen ? 'w-[220px]' : 'w-[65px]',
         className
       )}
     >
       <div
-        className='bg-primary group absolute -right-4 bottom-[40px] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow-sm'
+        className='bg-primary group absolute -right-4 bottom-[40px] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow-lg'
         onClick={() => {
           setIsSidebarOpen(!isSidebarOpen);
         }}

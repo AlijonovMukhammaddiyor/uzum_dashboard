@@ -3957,12 +3957,17 @@
   "resolved" "https://registry.npmjs.org/char-regex/-/char-regex-1.0.2.tgz"
   "version" "1.0.2"
 
-"chart.js@^4.1.1", "chart.js@^4.3.0", "chart.js@>=3.0.0", "chart.js@>=4.0.0":
+"chart.js@^4.1.1", "chart.js@^4.3.0", "chart.js@>=2.8.0", "chart.js@>=3.0.0", "chart.js@>=4.0.0":
   "integrity" "sha512-ynG0E79xGfMaV2xAHdbhwiPLczxnNNnasrmPEXriXsPJGjmhOBYzFVEsB65w2qMDz+CaBJJuJD0inE/ab/h36g=="
   "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-4.3.0.tgz"
   "version" "4.3.0"
   dependencies:
     "@kurkle/color" "^0.3.0"
+
+"chartjs-adapter-date-fns@^3.0.0":
+  "integrity" "sha512-Rs3iEB3Q5pJ973J93OBTpnP7qoGwvq3nUnoMdtxO+9aoJof7UFcRbWcIDteXuYd1fgAvct/32T9qaLyLuZVwCg=="
+  "resolved" "https://registry.npmjs.org/chartjs-adapter-date-fns/-/chartjs-adapter-date-fns-3.0.0.tgz"
+  "version" "3.0.0"
 
 "chartjs-chart-treemap@^2.3.0":
   "integrity" "sha512-Q7jyqSXSg1OfmaOUOKtk7+JCu/gsb1AIXhW+JgKnmuYvu0runzgne77HVSVjb+LN93wSKylmR2J4HL2flgEHEw=="
@@ -4507,7 +4512,7 @@
     "whatwg-mimetype" "^2.3.0"
     "whatwg-url" "^8.0.0"
 
-"date-fns@2.x":
+"date-fns@^2.30.0", "date-fns@>=2.0.0", "date-fns@2.x":
   "integrity" "sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw=="
   "resolved" "https://registry.npmjs.org/date-fns/-/date-fns-2.30.0.tgz"
   "version" "2.30.0"

@@ -2210,11 +2210,10 @@ export const CategoryTrendstableColumnDefs = [
     field: 'date_pretty',
     sortable: false,
     filter: false,
-    minWidth: 100,
-    pinned: 'left',
-    maxWidth: 200,
+    minWidth: 120,
+    maxWidth: 120,
     cellStyle: {
-      backgroundColor: 'rgba(46, 139, 87, 0.1)',
+      backgroundColor: 'rgba(239, 231, 235)',
     } as CellStyle,
   },
   {
@@ -2254,7 +2253,7 @@ export const CategoryTrendstableColumnDefs = [
     cellRenderer: RevenueCellRenderer,
     flex: 1,
     filter: false,
-    minWidth: 100,
+    minWidth: 150,
     sortable: false,
     headerTooltip: 'Ushbu sanagacha kategoriyadagi jami daromad.',
     cellStyle: {
@@ -2334,7 +2333,15 @@ export const SegmentationTableColumnDefs = [
       backgroundColor: 'rgba(46, 139, 87, 0.1)',
     } as CellStyle,
   },
-
+  {
+    headerName: 'Daromad',
+    field: 'total_revenue',
+    cellRenderer: RevenueCellRenderer,
+    flex: 1,
+    filter: false,
+    minWidth: 150,
+    sortable: true,
+  },
   {
     headerName: 'Mahsulotlar soni',
     field: 'total_products',
@@ -2670,7 +2677,7 @@ export const ShopsTableColumnDefs = [
     field: 'position',
     sortable: true,
     filter: false,
-    minWidth: 100,
+    minWidth: 109,
     maxWidth: 200,
     cellStyle: {
       textAlign: 'center',

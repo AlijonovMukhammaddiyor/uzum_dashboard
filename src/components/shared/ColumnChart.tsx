@@ -9,8 +9,9 @@ import {
   Tooltip,
 } from 'chart.js';
 import Slider from 'rc-slider';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
   BarController,
@@ -24,11 +25,10 @@ ChartJS.register(
 
 export interface GroupedColumnChartProps {
   data: {
-    labels: string[];
     datasets: {
       label: string;
       data: {
-        x: string;
+        x: Date;
         y: number;
       }[];
       backgroundColor: string;
@@ -45,14 +45,28 @@ const GroupedColumnChart: React.FC<GroupedColumnChartProps> = ({
   style,
   title,
 }) => {
-  const [sliderValues, setSliderValues] = useState([0, 15]);
+  const [sliderValues, setSliderValues] = useState([
+    0,
+    data.datasets[0].data.length,
+  ]);
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
-        beginAtZero: true,
+        type: 'timeseries',
+        time: {
+          unit: 'day',
+          displayFormats: {
+            day: 'yyyy-MM-dd',
+          },
+        },
+        ticks: {
+          source: 'data',
+          autoSkip: true,
+          // maxTicksLimit: 20, // Adjust this value as needed to prevent label overlap
+        },
       },
       y: {
         beginAtZero: true,
@@ -61,7 +75,7 @@ const GroupedColumnChart: React.FC<GroupedColumnChartProps> = ({
     plugins: {
       tooltip: {
         enabled: true,
-        // mode: 'index',
+        mode: 'index',
         intersect: false,
       },
       legend: {
@@ -74,10 +88,6 @@ const GroupedColumnChart: React.FC<GroupedColumnChartProps> = ({
     },
   };
 
-  useEffect(() => {
-    setSliderValues([0, data.labels.length]);
-  }, [data]);
-
   const onSliderChange = (values: number[]) => {
     setSliderValues(values);
   };
@@ -86,14 +96,9 @@ const GroupedColumnChart: React.FC<GroupedColumnChartProps> = ({
     <div style={{ ...style }}>
       <Bar
         data={{
-          labels: data.labels.slice(sliderValues[0], sliderValues[1]),
           datasets: data.datasets.map((dataset) => ({
             ...dataset,
-            data: dataset.data.filter(
-              (data_) =>
-                !data.labels.slice(0, sliderValues[0]).includes(data_.x) &&
-                !data.labels.slice(sliderValues[1]).includes(data_.x)
-            ),
+            data: dataset,
           })),
         }}
         options={{ ...options, ...customOptions }}
@@ -101,7 +106,7 @@ const GroupedColumnChart: React.FC<GroupedColumnChartProps> = ({
       <Slider
         range
         min={0}
-        max={data.labels.length}
+        max={data.datasets[0].data.length}
         value={sliderValues}
         onChange={onSliderChange as any}
         className='custom-slider mx-auto w-[90%]'

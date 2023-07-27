@@ -11,9 +11,9 @@ import {
   Tooltip,
 } from 'chart.js';
 import Annotation from 'chartjs-plugin-annotation';
-import Slider from 'rc-slider';
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import 'chartjs-adapter-date-fns';
 
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
@@ -34,7 +34,7 @@ ChartJS.register(
 export interface AreaChartProps {
   data: {
     data: {
-      x: string;
+      x: Date;
       y: number;
     }[];
     fill?: boolean;
@@ -44,7 +44,6 @@ export interface AreaChartProps {
     pointRadius?: number;
     pointBackgroundColor?: string;
   }[];
-  labels: string[];
   options?: any;
   style?: React.CSSProperties;
   title?: string;
@@ -54,7 +53,6 @@ export interface AreaChartProps {
 
 function SingAxisAreaChart({
   data,
-  labels,
   options: customOptions,
   style,
   className,
@@ -62,21 +60,11 @@ function SingAxisAreaChart({
   title,
 }: AreaChartProps) {
   const [data_, setData] = useState(data);
-  const [sliderValues, setSliderValues] = useState([0, labels.length]);
-
-  useEffect(() => {
-    setSliderValues([0, labels.length]);
-  }, [labels]);
 
   useEffect(() => {
     logger('data changed');
     setData(data);
-    setSliderValues([0, labels.length - 1]);
-  }, [data, labels.length]);
-
-  const onSliderChange = (values: number[]) => {
-    setSliderValues(values);
-  };
+  }, [data]);
 
   const options: any = {
     maintainAspectRatio: false,
@@ -109,13 +97,25 @@ function SingAxisAreaChart({
         // offset: true, // offset means that the axis will not overlap the data
         grace: '10%',
       },
+      x: {
+        type: 'timeseries',
+        time: {
+          unit: 'day',
+          displayFormats: {
+            day: 'yyyy-MM-dd',
+          },
+        },
+        ticks: {
+          source: 'data',
+          autoSkip: true,
+          // maxTicksLimit: 20, // Adjust this value as needed to prevent label overlap
+        },
+      },
     },
     tension: tension,
   };
 
-  if (!data_ || data_.length == 0 || !labels || labels.length == 0) {
-    return null;
-  }
+  if (!data_ || data_.length === 0) return null;
 
   return (
     <div
@@ -127,15 +127,7 @@ function SingAxisAreaChart({
       <Line
         options={{ ...options, ...customOptions }}
         data={{
-          labels: labels?.slice(sliderValues[0], sliderValues[1]),
-          datasets: data_?.map((dataset) => ({
-            ...dataset,
-            data: dataset.data.filter(
-              (data_) =>
-                !labels.slice(0, sliderValues[0]).includes(data_.x) &&
-                !labels.slice(sliderValues[1]).includes(data_.x)
-            ),
-          })),
+          datasets: data_,
         }}
         style={{
           width: '100%',
@@ -144,20 +136,6 @@ function SingAxisAreaChart({
           height: 'calc(100% - 30px)',
           minHeight: '400px',
           ...style,
-        }}
-      />
-
-      <Slider
-        range
-        min={0}
-        max={labels.length}
-        value={sliderValues}
-        onChange={onSliderChange as any}
-        className='custom-slider mx-auto w-[90%]'
-        style={{
-          marginTop: '1rem',
-          maxWidth: '96%',
-          marginInline: 'auto',
         }}
       />
     </div>

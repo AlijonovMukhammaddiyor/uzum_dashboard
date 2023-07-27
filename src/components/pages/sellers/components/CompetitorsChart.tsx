@@ -13,6 +13,7 @@ import {
 import Annotation from 'chartjs-plugin-annotation';
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
   CategoryScale,
@@ -54,7 +55,12 @@ export interface MixedChartProps {
   className?: string;
 }
 
-const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
+const Competitors: React.FC<MixedChartProps> = ({
+  data,
+  labels,
+  options,
+  style,
+}) => {
   const chartData = {
     labels: labels.sort((a, b) => {
       const aDate = new Date(a);
@@ -63,34 +69,8 @@ const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
     }),
     datasets: data.map((dataset, index) => ({
       ...dataset,
-      yAxisID: `y-axis-${index}`,
     })),
   };
-
-  // console.log(chartData);
-
-  const yAxis: {
-    [key: string]: any;
-  } = {};
-
-  for (let i = 0; i < data.length; i++) {
-    yAxis[`y-axis-${i}`] = {
-      type: 'linear', // Fixed the axis type here.
-      display: true,
-      position: i % 2 === 0 ? 'left' : 'right',
-      id: `y-axis-${i}`,
-      stacked: true,
-      beginAtZero: true,
-      grace: '10%',
-      grid: {
-        borderColor: data[i].borderColor ?? data[i].backgroundColor,
-      },
-      ticks: {
-        color: data[i].borderColor ?? data[i].backgroundColor,
-        borderColor: data[i].borderColor ?? data[i].backgroundColor,
-      },
-    };
-  }
 
   const defaultOptions = {
     responsive: true,
@@ -118,7 +98,13 @@ const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
           display: false,
         },
       },
-      ...yAxis,
+      y: {
+        display: true,
+        beginAtZero: true,
+        grace: '10%',
+        grid: {},
+        ticks: {},
+      },
     },
     tension: 0,
   };
@@ -132,10 +118,11 @@ const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
         style={{
           width: '100%',
           height: '90%',
+          ...style,
         }}
       />
     </div>
   );
 };
 
-export default MixedChart;
+export default Competitors;

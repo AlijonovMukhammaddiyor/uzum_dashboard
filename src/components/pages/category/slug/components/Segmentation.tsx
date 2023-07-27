@@ -23,6 +23,7 @@ interface SegmentationType {
   from: number;
   to: number;
   total_products: number;
+  total_revenue: number;
   total_orders: number;
   total_shops: number;
 }
@@ -53,7 +54,7 @@ function Segmentation({ className, categoryId }: Props) {
       .then((res) => {
         setData(res.data.data.sort((a, b) => a.from - b.from));
         // setLabels(res.data.labels);
-        // logger(res.data.data, 'segmentation');
+        logger(res.data.data, 'segmentation');
         setLoading(false);
       })
       .catch((err) => {
@@ -70,15 +71,6 @@ function Segmentation({ className, categoryId }: Props) {
         className
       )}
     >
-      {/* <SubCategoriesPieChart /> */}
-      {/* <DropDown
-        values={['7 Kun', '14 Kun', '30 Kun', '60 Kun', '90 Kun']}
-        activeTab={0}
-        setActiveTab={() => {
-          //sdc
-        }}
-        className='-mb-3'
-      /> */}
       <Container
         loading={loading}
         className={clsxm(
@@ -129,19 +121,22 @@ function Segmentation({ className, categoryId }: Props) {
           </div>
         </div>
 
-        <RangeChart
-          data={data.map((item) => ({
-            from: item.from,
-            to: item.to,
-            total_products: item.total_products,
-            total_orders: item.total_orders,
-          }))}
-          style={{
-            width: '100%',
-            height: 'calc(100% - 60px)',
-            maxHeight: 'calc(100% - 60px)',
-          }}
-        />
+        {data.length > 0 && (
+          <RangeChart
+            data={data.map((item) => ({
+              from: item.from,
+              to: item.to,
+              total_products: item.total_products,
+              total_orders: item.total_orders,
+              total_revenue: item.total_revenue,
+            }))}
+            style={{
+              width: '100%',
+              height: 'calc(100% - 60px)',
+              maxHeight: 'calc(100% - 60px)',
+            }}
+          />
+        )}
       </Container>
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <Table

@@ -47,6 +47,7 @@ function CategoryProductsTable({ categoryId, className }: Props) {
   const [totalOrders, setTotalOrders] = React.useState<number>(0);
   const [totalProducts, setTotalProducts] = React.useState<number>(0);
   const [childrenCount, setChildrenCount] = React.useState<number>(0);
+  const [revenue, setRevenue] = React.useState<number>(0);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -90,6 +91,7 @@ function CategoryProductsTable({ categoryId, className }: Props) {
         setTotalProducts(res.data.total_products);
         setChildrenCount(res.data.descendants);
         setTotalOrders(res.data.total_orders);
+        setRevenue(res.data.total_revenue);
 
         // setTotalOrders(res.data.total_orders);
         setLoadingTopProducts(false);
@@ -157,8 +159,20 @@ function CategoryProductsTable({ categoryId, className }: Props) {
       >
         <div className='flex items-center justify-start gap-3'>
           <h2 className='text-primary flex-1 text-left text-base'>
-            Eng Ko'p sotilgan mahsulotlarning ulushlari
+            Eng daromadli mahsulotlar (Top 10)
           </h2>
+          <div className='flex items-center justify-between gap-4'>
+            <p className='font-semibold'>Daromad:</p>
+            <p className='text-primary font-semibold'>
+              {revenue / 1000000 > 1 ? (
+                <span>{(revenue / 1000000).toFixed(1)} mlrd so'm</span>
+              ) : revenue / 1000 > 1 ? (
+                <span>{(revenue / 1000).toFixed(1)} mln so'm</span>
+              ) : (
+                <span>{Number(revenue.toFixed(1)).toLocaleString()} so'm</span>
+              )}
+            </p>
+          </div>
           <div className='flex items-center justify-between gap-4'>
             <p className='font-semibold'>Mahsulotlar Soni:</p>
             <p className='text-primary font-semibold'>

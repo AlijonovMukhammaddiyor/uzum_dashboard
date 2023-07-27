@@ -12,49 +12,36 @@ export interface RangeChartProps {
   style?: React.CSSProperties;
 }
 
-const RangeChart = ({ data, style }: RangeChartProps) => {
+const RangeChartShops = ({ data, style }: RangeChartProps) => {
   const transformedData = data.flatMap((item, index) => [
     {
-      range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
-        item.to / 1000
-      ).toLocaleString()}k so'm`,
-      category: 'Mahsulotlar soni',
-      value: item.total_products,
-      index: index,
-    },
-    {
-      range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
-        item.to / 1000
-      ).toLocaleString()}k so'm`,
-      category: 'Buyurtmalar soni',
-      value: item.total_orders,
+      x: item.title,
+      category: 'Kunlik daromad',
+      value: item.total_revenue * 1000,
       index: index,
     },
   ]);
-
   const lineData = data.map((item, index) => ({
-    range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
-      item.to / 1000
-    ).toLocaleString()}k so'm`,
-    Daromad: item.total_revenue * 1000,
+    x: item.title,
+    'Buyurtmalar soni': item.total_orders,
     index: index,
   }));
 
   const config = {
     data: [transformedData, lineData],
-    xField: 'range',
-    yField: ['value', 'Daromad'],
+    xField: 'x',
+    yField: ['value', 'Buyurtmalar soni'],
+
     geometryOptions: [
       {
         geometry: 'column',
-        isStack: true,
         seriesField: 'category',
         color: ({ category }: { category: string }) => {
           switch (category) {
-            case 'Mahsulotlar soni':
-              return 'rgb(82, 95, 225)';
+            case 'Kunlik daromad':
+              return '#7149C6';
             case 'Buyurtmalar soni':
-              return 'rgba(248, 111, 3, 0.6)';
+              return 'rgba(255, 82, 162, 0.5)';
             default:
               return '#ccc';
           }
@@ -62,15 +49,14 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
       },
       {
         geometry: 'line',
-        color: '#62CDFF',
+        color: 'rgba(57, 181, 224, 0.7)',
       },
     ],
     tooltip: {
       customContent: (title: string, items: any[]) => {
         // Filtering out the revenue line item
-        const revenueItem = items.find((item) => item.name === 'Daromad');
-        const productsItem = items.find(
-          (item) => item.name === 'Mahsulotlar soni'
+        const revenueItem = items.find(
+          (item) => item.name === 'Kunlik daromad'
         );
         const ordersItem = items.find(
           (item) => item.name === 'Buyurtmalar soni'
@@ -80,8 +66,8 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
 
           <div class="text-base font-bold pb-2 border-b border-blue-400">${title}</div>
           <ul class='pb-2'>
-            <li class="flex justify-between items-center py-1">
-              <span class='mr-2'>Daromad: </span>
+            <li class="flex justify-between items-center py-1 gap-2">
+              <span>Daromad: </span>
               <span class="font-semibold">${
                 revenueItem?.value / 1000000000 > 1
                   ? (revenueItem?.value / 1000000000).toFixed(1) + ' mlrd so`m'
@@ -91,10 +77,6 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
               }</span>
             </li>
             <li class="flex justify-between items-center py-1">
-              <span>Mahsulotlar soni:</span>
-              <span class="font-semibold">${productsItem?.value.toLocaleString()} ta</span>
-            </li>
-            <li class="flex justify-between items-center py-1">
               <span>Buyurtmalar soni:</span>
               <span class="font-semibold">${ordersItem?.value.toLocaleString()} ta</span>
             </li>
@@ -102,6 +84,58 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         `;
       },
     },
+    xAxis: {
+      label: null,
+      grid: {
+        line: {
+          style: {
+            stroke: '#d9d9d9',
+            lineWidth: 1,
+            lineDash: [4, 4],
+          },
+        },
+      },
+    },
+    yAxis: [
+      {
+        tickCount: 10,
+        nice: false,
+        label: {
+          formatter: (v) => `${v.toLocaleString()} so'm`,
+          style: {
+            fill: '#7149C6', // color for the first y axis
+          },
+        },
+        grid: {
+          line: {
+            style: {
+              stroke: '#d9d9d9',
+              lineWidth: 1,
+              lineDash: [4, 4],
+            },
+          },
+        },
+      },
+      {
+        tickCount: 10, // Adjust this value for the second y-axis
+        nice: false,
+        label: {
+          formatter: (v) => `${v} ta`,
+          style: {
+            fill: 'rgba(57, 181, 224, 1)', // color for the second y axis
+          },
+        },
+        grid: {
+          line: {
+            style: {
+              stroke: '#d9d9d9',
+              lineWidth: 1,
+              lineDash: [4, 4],
+            },
+          },
+        },
+      },
+    ],
   };
 
   return (
@@ -113,9 +147,9 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         maxWidth: '100%',
         ...style,
       }}
-      {...config}
+      {...(config as any)}
     />
   );
 };
 
-export default RangeChart;
+export default RangeChartShops;

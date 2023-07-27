@@ -8,9 +8,10 @@ export default {
       sm: '640px',
       md: '768px',
       base: '992px',
+      upper: '1024px',
       lg: '1300px', // Change this value
-      xl: '1380px',
-      '2xl': '1536px',
+      xl: '1480px',
+      '2xl': '1636px',
     },
     extend: {
       fontFamily: {

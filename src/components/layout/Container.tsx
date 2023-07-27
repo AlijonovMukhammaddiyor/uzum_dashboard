@@ -36,7 +36,7 @@ function Container({
   return (
     <div
       className={clsxm(
-        'relative overflow-hidden rounded-lg border border-gray-200 shadow-sm transition-all duration-500',
+        'relative overflow-hidden rounded-lg border border-gray-300 shadow-sm transition-all duration-500',
         className
       )}
       {...rest}

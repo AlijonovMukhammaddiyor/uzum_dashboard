@@ -54,7 +54,12 @@ export interface MixedChartProps {
   className?: string;
 }
 
-const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
+const MixedChartSeller: React.FC<MixedChartProps> = ({
+  data,
+  labels,
+  options,
+  style,
+}) => {
   const chartData = {
     labels: labels.sort((a, b) => {
       const aDate = new Date(a);
@@ -132,10 +137,11 @@ const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
         style={{
           width: '100%',
           height: '90%',
+          ...style,
         }}
       />
     </div>
   );
 };
 
-export default MixedChart;
+export default MixedChartSeller;

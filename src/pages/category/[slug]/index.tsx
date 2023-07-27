@@ -64,8 +64,9 @@ function Category({ user }: Props) {
   return (
     <Layout>
       <Seo />
-      <div className='flex w-full items-center justify-start gap-3'>
-        <p>URL:</p>
+
+      <div className='flex w-max items-center justify-start gap-3 rounded-md border border-slate-400 px-2 py-1'>
+        <p className='text-sm font-semibold'>URL:</p>
         <a
           href={`https://uzum.uz/uz/category/${title}-${id}`}
           className='text-sm text-blue-500 hover:underline'

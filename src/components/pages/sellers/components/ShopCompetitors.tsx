@@ -1,13 +1,14 @@
 import { AxiosResponse } from 'axios';
+import { ChartType } from 'chart.js';
 import React from 'react';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
+import Select from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import Container from '@/components/layout/Container';
-import LineChart from '@/components/shared/LineChart';
 import SingleAxisAreaChart from '@/components/shared/SingleAxisAreaChart';
 
 interface Props {
@@ -19,39 +20,53 @@ interface Props {
 
 interface CompetitorsType {
   title: string;
+  shop_id: number;
   link: string;
   common_categories_count: number;
+  common_categories_ids: string[];
   common_categories_titles: string[];
-  analytics: {
-    average_order_price: number;
-    average_purchase_price: number;
-    category_count: number;
-    date_pretty: string;
-    position: number;
-    rating: number;
-    total_orders: number;
-    total_products: number;
-    total_reviews: number;
-  }[];
+}
+
+interface CompetitorDataType {
+  date_pretty: string;
+
+  total_revenue: number;
+  total_orders: number;
+  total_products: number;
+  average_purchase_price: number;
+  total_reviews: number;
 }
 
 function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [competitors, setCompetitors] = React.useState<CompetitorsType[]>([]);
+  const [competitor, setCompetitor] = React.useState<CompetitorsType | null>(
+    null
+  );
+  const [competitorData, setCompetitorData] = React.useState<
+    CompetitorDataType[]
+  >([]);
+  const [categoryId, setCategoryId] = React.useState<string>('1');
+  const [shop, setShop] = React.useState<CompetitorsType | null>(null);
+  const [shopData, setShopData] = React.useState<CompetitorDataType[]>([]);
+  const [category, setCategory] = React.useState<string>('Barcha');
+  const [type, setType] = React.useState<string>('Daromad');
 
   React.useEffect(() => {
     const api = new API(null);
     setLoading(true);
     api
-      .get<unknown, AxiosResponse<{ data: CompetitorsType[] }>>(
-        '/shop/competitors/' + sellerId + '?range=45'
-      )
+      .get<
+        unknown,
+        AxiosResponse<{ data: CompetitorsType[]; shop: CompetitorDataType[] }>
+      >('/shop/competitors/' + sellerId + '?range=45')
       .then((res) => {
-        // setTopProducts(res.data.products);
-        // logger(res.data, 'Competitors');
+        const data_ = res.data.data.filter((item) => item.title !== title);
 
-        setCompetitors(res.data.data);
-
+        setCompetitors(data_);
+        setShop(res.data.data.find((item) => item.title === title) ?? null);
+        setCompetitor(data_[0]);
+        setShopData(res.data.shop);
         setLoading(false);
       })
       .catch((err) => {
@@ -59,7 +74,42 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         logger(err, 'Error in getting competitors');
         setLoading(false);
       });
-  }, [sellerId]);
+  }, [sellerId, title]);
+
+  React.useEffect(() => {
+    if (shop && competitor && category) {
+      const api = new API(null);
+      setLoading(true);
+      api
+        .get<unknown, AxiosResponse<CompetitorDataType[]>>(
+          `/shop/category/${competitor.shop_id}/${Number(categoryId.trim())}/`
+        )
+        .then((res) => {
+          setCompetitorData(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          // console.log(err);
+          logger(err, 'Error in getting competitors');
+          setLoading(false);
+        });
+      api
+        .get<unknown, AxiosResponse<CompetitorDataType[]>>(
+          `/shop/category/${shop.shop_id}/${Number(categoryId.trim())}/`
+        )
+        .then((res) => {
+          // setCompetitorData(res.data);
+          setShopData(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          // console.log(err);
+          logger(err, 'Error in getting competitors');
+          setLoading(false);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [competitor, categoryId, shop]);
 
   return (
     <div
@@ -99,107 +149,559 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                 );
             })}
       </Container>
-      {/* <Table columnDefs={shopCompetitorsTableColumnDefs} data={[]} /> */}
-      <Container
-        className='flex h-[600px] w-full flex-col gap-6 rounded-md bg-slate-100 p-5'
-        loading={loading}
-      >
-        {/* {competitors.length > 0 && ( */}
-        <p className='text-primary w-full text-center'>
-          Top 10 raqobatchilar kunlik buyurtmalari
-        </p>
-        <p className='-mt-5 text-center text-xs text-gray-400'>
-          * Ma'lum bir sotuvchiga tegishli chiziqni ko'rsatish yoki yashirish
-          uchun, quyidagi tegishli nomning ustiga bosing.
-        </p>
-        <LineChart
-          data={prepareOrdersDataset(competitors)}
-          yAxisTitle='Buyurtmalar soni'
-          xAxisTitle='Sana'
-          style={{
-            height: '500px',
-            maxHeight: '500px',
-          }}
-        />
-      </Container>
-      <Container
-        className='flex h-[600px] w-full flex-col gap-6 rounded-md bg-slate-100 p-5'
-        loading={loading}
-      >
-        {/* {competitors.length > 0 && ( */}
-        <p className='text-primary w-full text-center'>
-          Top 10 raqobatchilar pozitsiyalari
-        </p>
-        <p className='-mt-5 text-center text-xs text-gray-400'>
-          * Ma'lum bir sotuvchiga tegishli chiziqni ko'rsatish yoki yashirish
-          uchun, quyidagi tegishli nomning ustiga bosing.
-        </p>
-        <LineChart
-          data={preparePositionsDataset(competitors)}
-          style={{
-            height: '500px',
-            maxHeight: '500px',
-          }}
-          isStep
-          xAxisTitle='Sana'
-          yAxisTitle='Pozitsiya'
-        />
-        {/* )} */}
-      </Container>
-      <Container
-        className='flex h-[600px] w-full flex-col gap-6 rounded-md bg-slate-100 p-5'
-        loading={loading}
-      >
-        {/* {competitors.length > 0 && ( */}
-        <p className='text-primary w-full text-center'>
-          Top 10 raqobatchilar mahsulotlar soni
-        </p>
-        <p className='-mt-5 text-center text-xs text-gray-400'>
-          * Ma'lum bir sotuvchiga tegishli chiziqni ko'rsatish yoki yashirish
-          uchun, quyidagi tegishli nomning ustiga bosing.
-        </p>
-        <LineChart
-          data={prepareProductsCountDataset(competitors)}
-          style={{
-            height: '500px',
-            maxHeight: '500px',
-          }}
-          xAxisTitle='Sana'
-          yAxisTitle='Pozitsiya'
-        />
-        {/* )} */}
-      </Container>
-      <Container
-        className='flex h-[550px] w-full flex-col rounded-md bg-slate-100 p-5'
-        loading={loading}
-      >
-        {/* {competitors.length > 0 && ( */}
-        <p className='text-primary w-full text-center'>
-          Top 10 raqobatchilar mahsulotlaring o'rtacha mahsulot sotuv narxi
-        </p>
-        <p className='text-center text-xs text-gray-400'>
-          * Do'konning o'rtacha mahsulot narxini hisoblash uchun har bir
-          mahsulot sotuv narxlarini qo'shib mahsulotlar soniga bo'lingan.
-        </p>
-        {isActive && (
-          <SingleAxisAreaChart
-            labels={prepareLabels(competitors)}
-            data={preparePriceDataset(competitors)}
-            tension={0}
-            style={{
-              height: '470px',
-              maxHeight: '470px',
+
+      <div className='flex items-center justify-start gap-6'>
+        <div className='flex items-center justify-start gap-3'>
+          <p className='text-sm text-blue-500'>
+            Ushbu yerdan raqobatchini tanlang!
+          </p>
+          {competitor && (
+            <Select
+              className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+              classNamePrefix='select'
+              defaultValue={{
+                value: competitor?.title,
+                label: competitor?.title,
+              }}
+              isDisabled={false}
+              isLoading={false}
+              isClearable={false}
+              isRtl={false}
+              isSearchable={false}
+              onChange={(e) => {
+                setCategoryId('1');
+                setCategory('Barcha');
+                setCompetitor(
+                  competitors.find((item) => item.title === e?.value) ?? null
+                );
+              }}
+              name='color'
+              options={[
+                ...competitors.map((item) => ({
+                  value: item.title,
+                  label: item.title,
+                })),
+              ]}
+            />
+          )}
+        </div>
+        <div className='flex items-center justify-start gap-3'>
+          <p className='text-sm text-blue-500'>
+            Ushbu yerdan kategoriyani tanlang!
+          </p>
+          <Select
+            className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+            classNamePrefix='select'
+            defaultValue={{ value: 'Barcha', label: 'Barcha' }}
+            isDisabled={false}
+            isLoading={false}
+            isClearable={false}
+            value={{ value: category, label: category }}
+            isRtl={false}
+            isSearchable={false}
+            onChange={(e) => {
+              setCategory(e?.value ?? 'Barcha');
+
+              if (e?.value === 'Barcha') setCategoryId('1');
+              else {
+                const index = competitor?.common_categories_titles.findIndex(
+                  (item) => item === e?.value
+                );
+                if (index !== undefined) {
+                  setCategoryId(
+                    competitor?.common_categories_ids[index] ?? '1'
+                  );
+                }
+              }
             }}
-            className='h-[470px] max-h-[470px] w-full'
+            name='color'
+            options={[
+              { value: 'Barcha', label: 'Barcha' },
+              ...(competitor?.common_categories_titles.map((item) => ({
+                value: item,
+                label: item,
+              })) ?? []),
+            ]}
           />
+        </div>
+        <div className='flex items-center justify-start gap-3'>
+          <p className='text-sm text-blue-500'>
+            Ushbu yerdan ma'lumot turi tanlang!
+          </p>
+          <Select
+            className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+            classNamePrefix='select'
+            defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+            isDisabled={false}
+            isLoading={false}
+            isClearable={false}
+            isRtl={false}
+            isSearchable={false}
+            onChange={(e) => {
+              setType(e?.value ?? 'Daromad');
+            }}
+            name='color'
+            options={[
+              { value: 'Daromad', label: 'Daromad' },
+              { value: 'Buyurtmalar soni', label: 'Buyurtmalar soni' },
+              { value: 'Mahsulotlar soni', label: 'Mahsulotlar soni' },
+              {
+                value: "O'rtacha sotuv narxi",
+                label: "O'rtacha sotuv narxi",
+              },
+              { value: 'Izohlar soni', label: 'Izohlar soni' },
+            ]}
+          />
+        </div>
+      </div>
+
+      {competitorData.length > 0 && shopData.length > 0 && (
+        <Container
+          loading={loading}
+          className='flex h-[500px] w-full flex-col items-start justify-start gap-3 p-5'
+        >
+          {isActive && (
+            <SingleAxisAreaChart
+              data={
+                prepareAllData(
+                  competitorData,
+                  shopData,
+                  type,
+                  competitor!,
+                  shop!
+                ) as any
+              }
+              title={
+                type === "O'rtacha sotuv narxi"
+                  ? type
+                  : `Jami ${type.toLowerCase()}`
+              }
+              className='h-full w-full'
+              style={{
+                width: '100%',
+                maxWidth: '100%',
+                minWidth: '100%',
+                height: '450px',
+                maxHeight: '450px',
+              }}
+              // labels={shopData.map((item) => new Date(item.date_pretty))}
+            />
+          )}
+        </Container>
+      )}
+      {competitorData.length > 0 &&
+        shopData.length > 0 &&
+        type !== "O'rtacha sotuv narxi" && (
+          <Container
+            loading={loading}
+            className='flex h-[500px] w-full flex-col items-start justify-start gap-3 p-5'
+          >
+            {isActive && (
+              <SingleAxisAreaChart
+                data={
+                  prepareDailyData(
+                    competitorData,
+                    shopData,
+                    type,
+                    competitor!,
+                    shop!
+                  ) as any
+                }
+                title={
+                  type === "O'rtacha sotuv narxi"
+                    ? type
+                    : type === 'Mahsulotlar soni'
+                    ? "Kunlik mahsulotlar soni o'zgarishi"
+                    : `Kunlik ${type.toLowerCase()}`
+                }
+                className='h-full w-full'
+                style={{
+                  width: '100%',
+                  maxWidth: '100%',
+                  minWidth: '100%',
+                  height: '450px',
+                  maxHeight: '450px',
+                }}
+              />
+            )}
+          </Container>
         )}
-        {/* )} */}
-      </Container>
     </div>
   );
 }
 
 export default ShopCompetitors;
+
+function prepareAllData(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  type: string,
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  if (type === 'Buyurtmalar soni') {
+    return _prepareAllOrders(data, shopData, competitor, shop);
+  } else if (type === 'Daromad') {
+    return _prepareAllRevenue(data, shopData, competitor, shop);
+  } else if (type === 'Mahsulotlar soni') {
+    return _prepareAllProducts(data, shopData, competitor, shop);
+  } else if (type === 'Izohlar soni') {
+    return _prepareAllReviews(data, shopData, competitor, shop);
+  }
+  return _prepareAveragePrice(data, shopData, competitor, shop);
+}
+
+function prepareDailyData(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  type: string,
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  if (type === 'Buyurtmalar soni') {
+    return _prepareDailyOrders(data, shopData, competitor, shop);
+  } else if (type === 'Daromad') {
+    return _prepareDailyRevenue(data, shopData, competitor, shop);
+  } else if (type === 'Mahsulotlar soni') {
+    return _prepareDailyProducts(data, shopData, competitor, shop);
+  } else if (type === 'Izohlar soni') {
+    return _prepareDailyReviews(data, shopData, competitor, shop);
+  }
+}
+
+function _prepareAllOrders(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  const allOrdersCompetitor = data.map((item) => ({
+    y: item.total_orders,
+    x: new Date(item.date_pretty),
+  }));
+  const allOrdersShop = shopData.map((item) => ({
+    y: item.total_orders,
+    x: new Date(item.date_pretty),
+  }));
+
+  return [
+    {
+      data: allOrdersCompetitor.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#FF5733',
+      backgroundColor: 'rgba(229, 88, 7, 0.2)',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: allOrdersShop.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#F3AA60',
+      backgroundColor: 'rgba(255, 164, 27, 0.2)',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
+
+function _prepareDailyOrders(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  let prev = data[0].total_orders;
+  const dailyOrdersCompetitor = data.slice(1).map((item) => {
+    const res = {
+      y: item.total_orders - prev,
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_orders;
+    return res;
+  });
+
+  prev = shopData[0].total_orders;
+  const dailyOrdersShop = shopData.slice(1).map((item) => {
+    const res = {
+      y: item.total_orders - prev,
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_orders;
+    return res;
+  });
+
+  return [
+    {
+      data: dailyOrdersCompetitor,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      borderRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: dailyOrdersShop,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      borderRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
+
+function _prepareAllRevenue(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  const allOrdersCompetitor = data.map((item) => ({
+    y: Math.round(item.total_revenue * 1000),
+    x: new Date(item.date_pretty),
+  }));
+  const allOrdersShop = shopData.map((item) => ({
+    y: Math.round(item.total_revenue * 1000),
+    x: new Date(item.date_pretty),
+  }));
+
+  return [
+    {
+      data: allOrdersCompetitor.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: allOrdersShop.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
+
+function _prepareDailyRevenue(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  let prev = data[0].total_revenue;
+  const dailyOrdersCompetitor = data.slice(1).map((item) => {
+    const res = {
+      y: Math.round((item.total_revenue - prev) * 1000),
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_revenue;
+    return res;
+  });
+
+  prev = shopData[0].total_revenue;
+  const dailyOrdersShop = shopData.slice(1).map((item) => {
+    const res = {
+      y: Math.round((item.total_revenue - prev) * 1000),
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_revenue;
+    return res;
+  });
+
+  return [
+    {
+      data: dailyOrdersCompetitor,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: dailyOrdersShop,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
+
+function _prepareAllProducts(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  const allOrdersCompetitor = data.map((item) => ({
+    y: item.total_products,
+    x: new Date(item.date_pretty),
+  }));
+  const allOrdersShop = shopData.map((item) => ({
+    y: item.total_products,
+    x: new Date(item.date_pretty),
+  }));
+
+  return [
+    {
+      data: allOrdersCompetitor,
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: allOrdersShop,
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
+
+function _prepareDailyProducts(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  let prev = data[0].total_products;
+  const dailyOrdersCompetitor = data.slice(1).map((item) => {
+    const res = {
+      y: item.total_products - prev,
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_products;
+    return res;
+  });
+
+  prev = shopData[0].total_products;
+  const dailyOrdersShop = shopData.slice(1).map((item) => {
+    const res = {
+      y: item.total_products - prev,
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_products;
+    return res;
+  });
+
+  return [
+    {
+      data: dailyOrdersCompetitor,
+      type: 'bar' as ChartType,
+      fill: false,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: dailyOrdersShop,
+      type: 'bar' as ChartType,
+      fill: false,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
+
+function _prepareAveragePrice(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  const allOrdersCompetitor = data.map((item) => ({
+    y: Math.round(item.average_purchase_price),
+    x: new Date(item.date_pretty),
+  }));
+  const allOrdersShop = shopData.map((item) => ({
+    y: Math.round(item.average_purchase_price),
+    x: new Date(item.date_pretty),
+  }));
+
+  return [
+    {
+      data: allOrdersCompetitor.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: allOrdersShop.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
 
 function CommonCategories({
   common_categories_titles,
@@ -232,181 +734,101 @@ function CommonCategories({
   );
 }
 
-function prepareProductsCountDataset(data: CompetitorsType[]) {
-  if (data.length === 0) return [];
-
-  const dataset = [];
-
-  for (const competitor of data) {
-    const analytics = sortAnalytics(competitor.analytics);
-
-    for (const item of analytics) {
-      dataset.push({
-        x: item.date_pretty,
-        y: item.total_products,
-        label: competitor.title,
-      });
-    }
-  }
-  dataset.sort((a, b) => {
-    const a_date = new Date(a.x);
-    const b_date = new Date(b.x);
-    return a_date.getTime() - b_date.getTime();
-  });
-  return dataset;
-}
-
-function prepareOrdersDataset(data: CompetitorsType[]) {
-  if (data.length === 0) return [];
-  const dataset = [];
-
-  for (const competitor of data) {
-    const analytics = sortAnalytics(competitor.analytics);
-
-    let prev_orders = analytics[0].total_orders;
-
-    for (let j = 1; j < analytics.length; j++) {
-      dataset.push({
-        x: analytics[j - 1].date_pretty,
-        y: analytics[j].total_orders - prev_orders,
-        label: competitor.title,
-      });
-
-      prev_orders = analytics[j].total_orders;
-    }
-  }
-  dataset.sort((a, b) => {
-    const a_date = new Date(a.x);
-    const b_date = new Date(b.x);
-    return a_date.getTime() - b_date.getTime();
-  });
-
-  return dataset;
-}
-
-function sortAnalytics(
-  data: {
-    average_order_price: number;
-    average_purchase_price: number;
-    category_count: number;
-    date_pretty: string;
-    position: number;
-    rating: number;
-    total_orders: number;
-    total_products: number;
-    total_reviews: number;
-  }[]
+function _prepareAllReviews(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
 ) {
-  // date_pretty is in the form of "2021-08-01". Sort from oldest to newest
-  return data.sort((a, b) => {
-    const a_date = new Date(a.date_pretty);
-    const b_date = new Date(b.date_pretty);
-    return a_date.getTime() - b_date.getTime();
-  });
-}
+  const allOrdersCompetitor = data.map((item) => ({
+    y: item.total_reviews,
+    x: new Date(item.date_pretty),
+  }));
+  const allOrdersShop = shopData.map((item) => ({
+    y: item.total_reviews,
+    x: new Date(item.date_pretty),
+  }));
 
-function prepareLabels(data: CompetitorsType[]): string[] {
-  // get the analytcs array with largest length
-  if (data.length === 0) return [];
-  const max = Math.max(...data.map((item) => item.analytics.length));
+  console.log(allOrdersCompetitor, allOrdersShop);
 
-  // get the analytics array with largest length
-  const maxAnalytics = data.find((item) => item.analytics.length === max);
-  const sortedMaxAnalytics = sortAnalytics(maxAnalytics?.analytics ?? []);
-
-  // get the labels from the analytics array date_pretty
-  return sortedMaxAnalytics.slice(1).map((item) => item.date_pretty);
-}
-
-function preparePositionsDataset(data: CompetitorsType[]) {
-  if (data.length === 0) return [];
-  const datasets = [];
-
-  for (const competitor of data) {
-    const analytics = sortAnalytics(competitor.analytics).slice(0);
-    // datasets.push({
-    //   label: competitor.title,
-    //   data: analytics.slice(1).map((item) => {
-    //     return {
-    //       x: item.date_pretty,
-    //       y: item.position,
-    //     };
-    //   }),
-    //   fill: false,
-    //   hidden: i % 2 === 0 ? false : true,
-    //   backgroundColor: colors[i].background,
-    //   borderColor: colors[i].border,
-    // });
-    // i++;
-    for (let i = 0; i < analytics.length; i++) {
-      datasets.push({
-        x: analytics[i].date_pretty,
-        y: analytics[i].position,
-        label: competitor.title,
-      });
-    }
-  }
-  datasets.sort((a, b) => {
-    const a_date = new Date(a.x);
-    const b_date = new Date(b.x);
-    return a_date.getTime() - b_date.getTime();
-  });
-  return datasets;
-}
-
-function preparePriceDataset(data: CompetitorsType[]) {
-  if (data.length === 0) return [];
-  const datasets = [];
-  const colors = [
-    { background: 'rgba(102, 187, 106, 0.2)', border: '#d62728' }, // light green
-    { background: 'rgba(255, 241, 118, 0.2)', border: '#9467bd' }, // light yellow
-    { background: 'rgba(129, 212, 250, 0.2)', border: '#8c564b' }, // light blue
-    { background: 'rgba(159, 168, 218, 0.2)', border: '#e377c2' }, // light indigo
-    { background: 'rgba(206, 147, 216, 0.2)', border: '#7f7f7f' }, // light purple
-    { background: 'rgba(239, 154, 154, 0.2)', border: '#bcbd22' }, // light red
-    { background: 'rgba(179, 157, 219, 0.2)', border: '#17becf' }, // light deep purple
-    { background: 'rgba(240, 98, 146, 0.2)', border: '#aec7e8' }, // light pink
-    { background: 'rgba(121, 134, 203, 0.2)', border: '#2ca02c' }, // light blue grey
-    { background: 'rgba(128, 203, 196, 0.2)', border: '#1f77b4' }, // light cyan
-    { background: 'rgba(165, 114, 167, 0.2)', border: '#ff7f0e' }, // light teal
-  ];
-  // color: [
-  //     '#d62728',
-  //     '#9467bd',
-  //     '#8c564b',
-  //     '#e377c2',
-  //     '#7f7f7f',
-  //     '#bcbd22',
-  //     '#17becf',
-  //     '#aec7e8',
-  //     '#2ca02c',
-  //     '#1f77b4',
-  //     '#ff7f0e',
-  //   ],
-  let i = 0;
-
-  for (const competitor of data) {
-    const analytics = sortAnalytics(competitor.analytics);
-    datasets.push({
-      label: competitor.title,
-      data: analytics.slice(1).map((item) => {
-        return {
-          y: Number(item.average_purchase_price.toFixed(0)),
-          x: item.date_pretty,
-        };
-      }),
+  return [
+    {
+      data: allOrdersCompetitor.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
       fill: false,
-      hidden: i % 2 === 0 ? false : true,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: allOrdersShop.sort(
+        (a, b) => new Date(a.x).getTime() - new Date(b.x).getTime()
+      ),
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
 
-      backgroundColor: colors[i].background,
-      borderColor: colors[i].border,
-    });
-    i++;
-  }
-  datasets.sort((a, b) => {
-    const a_date = new Date(a.data[0].x);
-    const b_date = new Date(b.data[0].x);
-    return a_date.getTime() - b_date.getTime();
+function _prepareDailyReviews(
+  data: CompetitorDataType[],
+  shopData: CompetitorDataType[],
+  competitor: CompetitorsType,
+  shop: CompetitorsType
+) {
+  let prev = data[0].total_reviews;
+  const dailyOrdersCompetitor = data.slice(1).map((item) => {
+    const res = {
+      y: item.total_reviews - prev,
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_reviews;
+    return res;
   });
-  return datasets;
+
+  prev = shopData[0].total_reviews;
+  const dailyOrdersShop = shopData.slice(1).map((item) => {
+    const res = {
+      y: item.total_reviews - prev,
+      x: new Date(item.date_pretty),
+    };
+    prev = item.total_reviews;
+    return res;
+  });
+
+  return [
+    {
+      data: dailyOrdersCompetitor,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: competitor.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: dailyOrdersShop,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: shop.title,
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
 }

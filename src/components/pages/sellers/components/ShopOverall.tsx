@@ -1,5 +1,7 @@
 import { AxiosResponse } from 'axios';
+import { ChartType } from 'chart.js';
 import React, { useEffect } from 'react';
+import Select from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -7,7 +9,7 @@ import logger from '@/lib/logger';
 
 import { ShopOverallColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import AreaChart from '@/components/shared/AreaChart';
+import MixedChartSeller from '@/components/pages/sellers/components/MixedChartSeller';
 import LineChart from '@/components/shared/LineChart';
 import Table from '@/components/shared/Table';
 
@@ -33,6 +35,7 @@ interface SellerType {
 function ShopOverall({ className, sellerId, isActive }: Props) {
   const [data, setData] = React.useState<SellerType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [tab, setTab] = React.useState<string>('Daromad');
 
   useEffect(() => {
     const api = new API(null);
@@ -59,30 +62,62 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
         className
       )}
     >
+      <div className='flex items-center justify-start gap-5'>
+        <Select
+          className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+          classNamePrefix='select'
+          defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+          isDisabled={false}
+          isLoading={false}
+          isClearable={false}
+          isRtl={false}
+          isSearchable={false}
+          onChange={(e) => {
+            setTab(e?.value ?? 'Daromad');
+          }}
+          name='color'
+          options={[
+            { value: 'Daromad', label: 'Daromad' },
+            { value: 'Buyurtmalar', label: 'Buyurtmalar' },
+            { value: 'Tovarlar', label: 'Tovarlar' },
+            { value: "O'rtacha narx", label: "O'rtacha Narx" },
+            { value: 'Izohlar', label: 'Izohlar' },
+          ]}
+        />
+        <p className='text-sm text-blue-500'>
+          Ushbu yerdan grafikada ko'rsatiladigan ma'lumotni tanlang!
+        </p>
+      </div>
+
       <Container
-        className='flex h-[520px] w-full flex-col rounded-md bg-slate-100 px-5 py-2'
+        className='flex h-[480px] w-full flex-col items-end justify-end  rounded-md bg-white px-5 py-2'
         loading={loading}
-        title="Sotuvchining kinlik daromadi, buyurtmalari, izohlari, va mahsulotlari soni, hamda o'rtacha mahsulot narxi"
+        // title="Sotuvchining kunlik daromadi, buyurtmalari, izohlari, va mahsulotlari soni, hamda o'rtacha mahsulot narxi"
         titleContainerStyle={{
           marginBottom: '10px',
         }}
       >
         {isActive && (
-          <AreaChart
+          <MixedChartSeller
+            data={prepareDataset(data, tab) as any}
             labels={data.slice(1).map((item) => item.date_pretty)}
-            data={prepareDataset(data)}
-            style={{ height: '440px', maxHeight: '440px' }}
-            className='h-[440px] max-h-[440px]'
+            style={{
+              height: '440px',
+              maxHeight: '440px',
+              minHeight: '440px',
+              width: '100%',
+              maxWidth: '100%',
+            }}
           />
         )}
       </Container>
       <Container
-        className='mt-4 flex h-[350px] w-full flex-col rounded-md bg-slate-100 p-5'
+        className='mt-4 flex h-[350px] w-full flex-col rounded-md bg-white p-5'
         loading={loading}
       >
         <div className='flex w-full items-center justify-center'>
           <p className='text-primary'>
-            Sotuvchining pozitsiyasi (sotuv miqdori bo`yicha)
+            Sotuvchining pozitsiyasi (Daromadga ko'ra)
           </p>
         </div>
         {isActive && (
@@ -122,101 +157,238 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
 
 export default ShopOverall;
 
-function prepareDataset(data: SellerType[]) {
-  const orders: {
+function prepareDataset(data: SellerType[], type = 'Daromad') {
+  switch (type) {
+    case 'Daromad':
+      return _prepareRevenue(data);
+    case 'Buyurtmalar':
+      return _prepareOrders(data);
+    case 'Tovarlar':
+      return _prepareProducts(data);
+    case "O'rtacha narx":
+      return _preparePrice(data);
+
+    default:
+      return _prepareReviews(data);
+  }
+}
+
+/**
+ * Return all orders and daily orders
+ * @param orders
+ */
+function _prepareOrders(orders: SellerType[]) {
+  const allOrders: {
     y: number;
     x: string;
   }[] = [];
-  const products: {
-    y: number;
-    x: string;
-  }[] = [];
-  const reviews: {
-    y: number;
-    x: string;
-  }[] = [];
-  const price: {
+  const dailyOrders: {
     y: number;
     x: string;
   }[] = [];
 
-  const revenue: {
-    y: number;
-    x: string;
-  }[] = [];
+  let prevOrders = orders[0]?.total_orders || 0;
 
-  let prevOrders = data[0]?.total_orders || 0;
-  let prevReviews = data[0]?.total_reviews || 0;
-  let prevRevenue = data[0]?.total_revenue || 0;
-
-  data.slice(1).forEach((item) => {
-    orders.push({ y: item.total_orders - prevOrders, x: item.date_pretty });
-    products.push({ y: item.total_products, x: item.date_pretty });
-    reviews.push({ y: item.total_reviews - prevReviews, x: item.date_pretty });
-    price.push({
-      y: item.average_purchase_price,
+  orders.slice(1).forEach((item) => {
+    allOrders.push({ y: item.total_orders, x: item.date_pretty });
+    dailyOrders.push({
+      y: item.total_orders - prevOrders,
       x: item.date_pretty,
     });
-    revenue.push({
-      y: Math.ceil((item.total_revenue - prevRevenue) * 1000),
-      x: item.date_pretty,
-    });
-
-    prevRevenue = item.total_revenue;
     prevOrders = item.total_orders;
+  });
+
+  return [
+    {
+      data: allOrders,
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#FF5733',
+      backgroundColor: '#FF5733',
+      label: 'Jami buyurtmalar',
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#FF5733',
+    },
+    {
+      data: dailyOrders,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#F3AA60',
+      backgroundColor: '#F3AA60',
+      label: 'Kunlik buyurtmalar',
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#F3AA60',
+    },
+  ];
+}
+
+function _prepareRevenue(revenue: SellerType[]) {
+  const allRevenue: {
+    y: number;
+    x: string;
+  }[] = [];
+  const dailyRevenue: {
+    y: number;
+    x: string;
+  }[] = [];
+
+  let prevRevenue = revenue[0]?.total_revenue || 0;
+
+  revenue.slice(1).forEach((item) => {
+    allRevenue.push({
+      y: Math.round(item.total_revenue * 1000),
+      x: item.date_pretty,
+    });
+    dailyRevenue.push({
+      y: Math.round((item.total_revenue - prevRevenue) * 1000),
+      x: item.date_pretty,
+    });
+    prevRevenue = item.total_revenue;
+  });
+
+  return [
+    {
+      data: allRevenue,
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#0D1282',
+      backgroundColor: '#0D1282',
+      label: 'Jami daromad',
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#0D1282',
+    },
+    {
+      data: dailyRevenue,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: '#75C2F6',
+      backgroundColor: '#75C2F6',
+      label: 'Kunlik daromad',
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#75C2F6',
+    },
+  ];
+}
+
+function _prepareProducts(products: SellerType[]) {
+  const allProducts: {
+    y: number;
+    x: string;
+  }[] = [];
+  const dailyProducts: {
+    y: number;
+    x: string;
+  }[] = [];
+
+  let prevProducts = products[0]?.total_products || 0;
+
+  products.slice(1).forEach((item) => {
+    allProducts.push({ y: item.total_products, x: item.date_pretty });
+    dailyProducts.push({
+      y: item.total_products - prevProducts,
+      x: item.date_pretty,
+    });
+    prevProducts = item.total_products;
+  });
+
+  return [
+    {
+      type: 'line' as ChartType,
+      data: allProducts,
+      fill: false,
+      borderColor: '#1A5D1A',
+      backgroundColor: '#1A5D1A',
+      label: 'Jami mahsulotlar',
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: '#1A5D1A',
+    },
+    {
+      data: dailyProducts,
+      type: 'bar' as ChartType,
+      fill: true,
+      borderColor: 'rgb(62, 199, 11)',
+      backgroundColor: 'rgba(62, 199, 11, 0.25)',
+      label: "Kunlik mahsulotlar soni o'zgarishi",
+      hidden: false,
+      pointRadius: 3,
+      pointBackgroundColor: 'rgb(62, 199, 11)',
+    },
+  ];
+}
+
+function _prepareReviews(reviews: SellerType[]) {
+  const allReviews: {
+    y: number;
+    x: string;
+  }[] = [];
+  const dailyReviews: {
+    y: number;
+    x: string;
+  }[] = [];
+
+  let prevReviews = reviews[0]?.total_reviews || 0;
+
+  reviews.slice(1).forEach((item) => {
+    allReviews.push({ y: item.total_reviews, x: item.date_pretty });
+    dailyReviews.push({
+      y: item.total_reviews - prevReviews,
+      x: item.date_pretty,
+    });
     prevReviews = item.total_reviews;
   });
 
   return [
     {
-      data: orders,
-      fill: true,
-      borderColor: 'rgb(62, 199, 11)',
-      backgroundColor: 'rgba(62, 199, 11, 0.25)',
-      label: 'Buyurtmalar',
+      data: allReviews,
+      type: 'line' as ChartType,
+      fill: false,
+      borderColor: '#2192FF',
+      backgroundColor: '#2192FF',
+      label: 'Jami izohlar',
       hidden: false,
       pointRadius: 3,
-      pointBackgroundColor: 'rgb(62, 199, 11)',
+      pointBackgroundColor: '#2192FF',
     },
     {
-      data: products,
+      data: dailyReviews,
+      type: 'bar' as ChartType,
       fill: true,
-      borderColor: '#ff7f0e',
-      backgroundColor: 'rgba(255, 127, 14, 0.25)',
-      label: 'Tovarlar',
-      hidden: true,
-      pointRadius: 3,
-      pointBackgroundColor: '#ff7f0e',
-    },
-    {
-      data: reviews,
-      fill: true,
-      borderColor: '#d62728',
-      backgroundColor: 'rgba(214, 39, 40, 0.25)',
-      label: 'Izohlar',
+      borderColor: '#21E1E1',
+      backgroundColor: '#21E1E1',
+      label: 'Kunlik yangi izohlar soni',
       hidden: false,
       pointRadius: 3,
-      pointBackgroundColor: '#d62728',
+      pointBackgroundColor: '#21E1E1',
     },
+  ];
+}
+
+function _preparePrice(price: SellerType[]) {
+  const allPrice: {
+    y: number;
+    x: string;
+  }[] = [];
+
+  price.slice(1).forEach((item) => {
+    allPrice.push({ y: item.average_purchase_price, x: item.date_pretty });
+  });
+
+  return [
     {
-      data: price,
+      data: allPrice,
+      type: 'line' as ChartType,
       fill: true,
       borderColor: '#9467bd',
       backgroundColor: 'rgba(148, 103, 189, 0.25)',
-      label: "O'rtacha narx",
-      hidden: true,
-      pointRadius: 3,
-      pointBackgroundColor: '#9467bd',
-    },
-    {
-      data: revenue,
-      fill: true,
-      borderColor: '#8c564b',
-      backgroundColor: 'rgba(140, 86, 75, 0.25)',
-      label: 'Daromad',
+      label: "Do'kondagi barcha mahsulotlar o'rtacha narxi",
       hidden: false,
       pointRadius: 3,
-      pointBackgroundColor: '#8c564b',
+      pointBackgroundColor: '#9467bd',
     },
   ];
 }

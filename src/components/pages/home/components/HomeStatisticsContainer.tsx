@@ -18,6 +18,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   const [products, setProducts] = React.useState<any[]>([]);
   const [revenue, setRevenue] = React.useState<any[]>([]);
   const [reviews, setReviews] = React.useState<any[]>([]);
+  const [tree, setTree] = React.useState<any[]>([]);
   const [shops, setShops] = React.useState<{
     shops: {
       total_shops: number;
@@ -33,6 +34,19 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
 
   React.useEffect(() => {
     const api = new API(null);
+
+    api
+      .get<unknown, AxiosResponse<any>>('/category/segmentation/')
+      .then((res) => {
+        logger(res.data, 'Segmentation');
+        setTree(res.data);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in orders');
+        setLoading(false);
+      });
+
     setLoading(true);
     api
       .get<unknown, AxiosResponse<any>>('/uzum/orders/')
@@ -111,14 +125,15 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   return (
     <div
       className={clsxm(
-        'relative flex h-full w-full min-w-[1600px] flex-col gap-10',
+        'relative flex h-full w-full flex-col gap-10',
         className
       )}
     >
       {loading && <Loading />}
-      <div className='flex w-full items-start justify-start gap-10'>
+      <div className='flex w-full flex-col items-start justify-start gap-10  xl:flex-row'>
         {orders.length > 0 && (
           <DataContainer
+            data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
             title='Buyurtmalar soni'
@@ -153,6 +168,9 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         {revenue.length > 0 && (
           <DataContainer
+            data={tree}
+            isFullScreen={isFullScreen}
+            setFullScreen={setIsFullScreen}
             title='Daromad miqdori'
             all={revenue[revenue.length - 1]?.total_revenue ?? 0}
             all_last={revenue[revenue.length - 2]?.total_revenue ?? 0}
@@ -184,9 +202,12 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
           />
         )}
       </div>
-      <div className='flex w-full items-start justify-start gap-10'>
+      <div className='flex w-full flex-col items-start justify-start  gap-10 xl:flex-row'>
         {shops.shops.length > 0 && (
           <DataContainer
+            data={tree}
+            isFullScreen={isFullScreen}
+            setFullScreen={setIsFullScreen}
             title="Do'konlar soni"
             all={shops.shops[shops.shops.length - 1]?.total_shops ?? 0}
             all_last={shops.shops[shops.shops.length - 2]?.total_shops ?? 0}
@@ -219,6 +240,9 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         {shops.accounts.length > 0 && (
           <DataContainer
+            data={tree}
+            // isFullScreen={isFullScreen}
+            // setFullScreen={setIsFullScreen}
             title='Sotuvchilar soni'
             all={shops.accounts[shops.accounts.length - 1]?.total_accounts ?? 0}
             all_last={
@@ -226,10 +250,12 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             }
             isCount={true}
             daily={
-              shops.accounts[shops.accounts.length - 1]?.total_accounts - 0
+              shops.accounts[shops.accounts.length - 1]?.total_accounts -
+                shops.accounts[shops.accounts.length - 2]?.total_accounts ?? 0
             }
             daily_last={
-              shops.accounts[shops.accounts.length - 2]?.total_accounts - 0
+              shops.accounts[shops.accounts.length - 2]?.total_accounts -
+                shops.accounts[shops.accounts.length - 3].total_accounts ?? 0
             }
             last_date={
               shops.accounts[shops.accounts.length - 1]?.date_pretty ??
@@ -256,10 +282,13 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
           />
         )}
       </div>
-      <div className='flex w-full items-start justify-start gap-10'>
+      <div className='flex w-full flex-col items-start justify-start  gap-10 xl:flex-row'>
         {products.length > 0 && (
           <DataContainer
-            title='Buyurtmalar soni'
+            data={tree}
+            isFullScreen={isFullScreen}
+            setFullScreen={setIsFullScreen}
+            title='Mahsulotlar soni'
             all={products[products.length - 1]?.total_products ?? 0}
             all_last={products[products.length - 2]?.total_products ?? 0}
             isCount={true}
@@ -291,6 +320,9 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         {reviews.length > 0 && (
           <DataContainer
+            data={tree}
+            isFullScreen={isFullScreen}
+            setFullScreen={setIsFullScreen}
             title='Izohlar soni'
             all={reviews[reviews.length - 1]?.total_reviews ?? 0}
             all_last={reviews[reviews.length - 2]?.total_reviews ?? 0}
@@ -353,7 +385,7 @@ export interface DropDownProps {
   className?: string;
   values: string[];
   activeTab: number;
-  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+  setActiveTab: (index: number) => void;
 }
 
 export function DropDown({

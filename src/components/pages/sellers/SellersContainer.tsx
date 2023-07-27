@@ -7,8 +7,8 @@ import logger from '@/lib/logger';
 
 import { ShopsTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import RangeChartShops from '@/components/pages/sellers/components/RangeChartShops';
 import PaginatedTable from '@/components/shared/PaginatedTable';
-import StateckedColumnChart from '@/components/shared/StackedColumnChart';
 
 export interface Props {
   className?: string;
@@ -35,6 +35,7 @@ interface TopsType {
   title: string;
   diff_orders: number;
   diff_reviews: number;
+  diff_revenue: number;
   total_products: number;
 }
 
@@ -108,17 +109,22 @@ function SellersTable({ className }: Props) {
     >
       <Container
         loading={loadingTops}
-        title='Kecha eng ko`p buyurtmaga ega bo`lgan do`konlar'
-        explanation='Do`konlar soni va buyurtmalar soni o`rtasidagi farq'
+        title="Kecha eng ko'p daromadga ega bo`lgan do`konlar"
+        explanation='Hozircha qo`shimcha ma`lumotlar mavjud emas.'
         className={clsxm(
           'h-[520px] w-full shrink-0 overflow-scroll rounded-md bg-white px-5 py-3'
         )}
       >
-        <StateckedColumnChart
-          data={prepareStackedColumnData(tops)}
+        <RangeChartShops
+          data={tops.map((item) => ({
+            title: item.title,
+            total_orders: item.diff_orders,
+            total_revenue: item.diff_revenue,
+          }))}
           style={{
-            height: '440px',
             width: '100%',
+            height: 'calc(100% - 60px)',
+            maxHeight: 'calc(100% - 60px)',
           }}
         />
       </Container>

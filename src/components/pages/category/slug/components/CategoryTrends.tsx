@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
+import Select from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -9,7 +10,6 @@ import { CategoryTrendstableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import AreaChart from '@/components/shared/AreaChart';
 import Table from '@/components/shared/Table';
-import Tabs from '@/components/shared/Tabs';
 
 interface Props {
   className?: string;
@@ -68,13 +68,32 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         className
       )}
     >
-      <Tabs
-        className='ml-10'
-        activeColor='bg-blue-400 bg-opacity-[0.4]'
-        activeTab={tab}
-        setActiveTab={setTab}
-        tabs={['Daromad', 'Buyurtmalar', 'Tovarlar', "Do'konlar"]}
-      />
+      <div className='flex items-center justify-start gap-5'>
+        <Select
+          className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+          classNamePrefix='select'
+          defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+          isDisabled={false}
+          isLoading={false}
+          isClearable={false}
+          isRtl={false}
+          isSearchable={false}
+          onChange={(e) => {
+            setTab(e?.value ?? 'Daromad');
+          }}
+          name='color'
+          options={[
+            { value: 'Daromad', label: 'Daromad' },
+            { value: 'Buyurtmalar', label: 'Buyurtmalar' },
+            { value: 'Tovarlar', label: 'Tovarlar' },
+            { value: "Do'konlar", label: "Do'konlar" },
+          ]}
+        />
+        <p className='text-sm text-blue-400'>
+          Ushbu yerda grafika turini tanglang!
+        </p>
+      </div>
+
       <Container
         className='flex h-[500px] w-full flex-col gap-6 rounded-md bg-white px-5 pt-5'
         loading={loading}
@@ -186,22 +205,22 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
       {
         data: dailyRevenue,
         fill: true,
-        borderColor: 'rgb(122, 157, 84)',
-        backgroundColor: 'rgba(122, 157, 84, 0.15)',
+        borderColor: 'rgb(32,178,170)',
+        backgroundColor: 'rgba(32,178,170,0.15)',
         label: 'Kechagi daromad',
         hidden: false,
         pointRadius: 3,
-        pointBackgroundColor: 'rgb(122, 157, 84)',
+        pointBackgroundColor: 'rgb(32,178,170)',
       },
       {
         data: revenue,
         fill: true,
-        borderColor: 'rgb(140, 51, 51)',
-        backgroundColor: 'rgba(140, 51, 51, 0.15)',
+        borderColor: 'rgb(34,139,34)',
+        backgroundColor: 'rgba(34,139,34,0.15)',
         label: 'Jami daromad',
         hidden: false,
         pointRadius: 3,
-        pointBackgroundColor: 'rgb(140, 51, 51)',
+        pointBackgroundColor: 'rgb(34,139,34)',
       },
     ];
 
@@ -210,32 +229,32 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
       {
         data: orders,
         fill: true,
-        borderColor: '#1f77b4',
-        backgroundColor: 'rgba(31, 119, 180, 0.15)',
+        borderColor: 'rgb(219,112,147)',
+        backgroundColor: 'rgba(219,112,147,0.15)',
         label: 'Kechagi buyurtmalar',
         hidden: false,
         pointRadius: 3,
-        pointBackgroundColor: '#1f77b4',
+        pointBackgroundColor: 'rgb(219,112,147)',
       },
       {
         data: allOrders,
         fill: true,
-        borderColor: '#1f2214',
-        backgroundColor: 'rgba(0, 19, 80, 0.15)',
+        borderColor: 'rgb(128,0,128)',
+        backgroundColor: 'rgba(128,0,128,0.15)',
         label: 'Jami buyurtmalar',
         hidden: false,
         pointRadius: 3,
-        pointBackgroundColor: '#1f2214',
+        pointBackgroundColor: 'rgb(128,0,128)',
       },
       {
         data: reviews,
         fill: true,
-        borderColor: '#d62728',
-        backgroundColor: 'rgba(214, 39, 40, 0.15)',
+        borderColor: 'rgb(30,144,255)',
+        backgroundColor: 'rgba(30,144,255,0.15)',
         label: 'Izohlar',
         hidden: false,
         pointRadius: 3,
-        pointBackgroundColor: '#d62728',
+        pointBackgroundColor: 'rgb(30,144,255)',
       },
     ];
 
@@ -267,23 +286,23 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
     {
       data: shops,
       fill: true,
-      borderColor: '#2ca02c',
-      backgroundColor: 'rgba(44, 160, 44, 0.15)',
+      borderColor: 'rgb(60,179,113)',
+      backgroundColor: 'rgba(60,179,113,0.15)',
       label: "Do'konlar",
       hidden: false,
       pointRadius: 3,
-      pointBackgroundColor: '#2ca02c',
+      pointBackgroundColor: 'rgb(60,179,113)',
     },
 
     {
       data: shopsWithSales,
       fill: true,
-      borderColor: '#9467bd',
-      backgroundColor: 'rgba(148, 103, 189, 0.15)',
+      borderColor: 'rgb(70,130,180)',
+      backgroundColor: 'rgba(70,130,180,0.15)',
       label: "Kecha Sotuvi bo'lgan do'konlar",
       hidden: false,
       pointRadius: 3,
-      pointBackgroundColor: '#9467bd',
+      pointBackgroundColor: 'rgb(70,130,180)',
     },
   ];
 };

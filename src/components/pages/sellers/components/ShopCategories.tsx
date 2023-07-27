@@ -27,13 +27,13 @@ interface CategoryType {
 }
 
 interface CategoryDataType {
-  date: string;
+  date_pretty: string;
   category_id: number;
-  data: {
-    orders_amount: number;
-    reviews_amount: number;
-    products_count: number;
-  };
+  total_orders: number;
+  total_reviews: number;
+  total_products: number;
+  total_revenue: number;
+  average_purchase_price: number;
 }
 
 interface CategoryProductData {
@@ -251,8 +251,8 @@ function getAllOrdersData(data: CategoryDataType[]) {
   for (let i = 0; i < data.length; i++) {
     const element = data[i];
     dataset.push({
-      x: element.date.slice(0, 10),
-      y: element.data.orders_amount,
+      x: element.date_pretty,
+      y: element.total_orders,
       label: 'Barcha buyurtmalar soni',
     });
   }
@@ -263,16 +263,21 @@ function getAllOrdersData(data: CategoryDataType[]) {
 function getDailyOrdersData(data: CategoryDataType[]) {
   const dataset = [];
 
-  let prev = data[0].data.orders_amount;
+  let prev = data[0].total_orders;
 
   for (let i = 1; i < data.length; i++) {
     const element = data[i];
+    if (
+      element.date_pretty === '2023-06-22' ||
+      element.date_pretty === '2023-07-23'
+    )
+      continue;
     dataset.push({
-      x: element.date.slice(0, 10),
-      y: element.data.orders_amount - prev,
+      x: element.date_pretty,
+      y: element.total_orders - prev,
       type: 'Kunlik buyurtmalar soni',
     });
-    prev = element.data.orders_amount;
+    prev = element.total_orders;
   }
 
   return dataset;
@@ -281,17 +286,22 @@ function getDailyOrdersData(data: CategoryDataType[]) {
 function getDailyReviewsData(data: CategoryDataType[]) {
   const dataset = [];
 
-  let prev = data[0].data.reviews_amount;
+  let prev = data[0].total_reviews;
 
   for (let i = 1; i < data.length; i++) {
     const element = data[i];
+    if (
+      element.date_pretty === '2023-06-22' ||
+      element.date_pretty === '2023-07-23'
+    )
+      continue;
     dataset.push({
-      x: element.date.slice(0, 10),
-      y: element.data.reviews_amount - prev,
+      x: element.date_pretty,
+      y: element.total_reviews - prev,
       label: 'Kunlik izohlar soni',
     });
 
-    prev = element.data.reviews_amount;
+    prev = element.total_reviews;
   }
 
   return dataset;
@@ -303,8 +313,8 @@ function getAllReviewsData(data: CategoryDataType[]) {
   for (let i = 0; i < data.length; i++) {
     const element = data[i];
     dataset.push({
-      x: element.date.slice(0, 10),
-      y: element.data.reviews_amount,
+      x: element.date_pretty,
+      y: element.total_reviews,
       label: 'Barcha izohlar soni',
     });
   }
@@ -317,13 +327,13 @@ function getAllProductsData(data: CategoryDataType[]) {
 
   for (let i = 0; i < data.length; i++) {
     const element = data[i];
-    let products = element.data.products_count;
-    if (element.date.slice(0, 10) === '2023-06-22') {
-      if (i !== 0) products = data[i - 1].data.products_count;
-      else products = data[i + 1].data.products_count;
+    let products = element.total_products;
+    if (element.date_pretty === '2023-06-22') {
+      if (i !== 0) products = data[i - 1].total_products;
+      else products = data[i + 1].total_products;
     }
     dataset.push({
-      x: element.date.slice(0, 10),
+      x: element.date_pretty,
       y: products,
       label: 'Barcha mahsulotlar soni',
     });
