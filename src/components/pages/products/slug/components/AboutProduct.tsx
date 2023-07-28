@@ -326,12 +326,12 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
             </div>
           </div>
         )}
-        {product && (
+        {/* {product && (
           <div
             className='mt-[200px] w-full max-w-[1000px]'
             dangerouslySetInnerHTML={{ __html: product.description }}
           ></div>
-        )}
+        )} */}
       </Container>
     </div>
   );

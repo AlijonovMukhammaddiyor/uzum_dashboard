@@ -49,6 +49,22 @@ const GroupedColumnChart: React.FC<GroupedColumnChartProps> = ({
     0,
     data.datasets[0].data.length,
   ]);
+  const [filteredData, setFilteredData] = useState(data?.datasets);
+
+  React.useEffect(() => {
+    // sort and slice
+    const sortedData = data.datasets.map((dataset) => {
+      const sorted = dataset.data
+        .sort((a, b) => a.x.getTime() - b.x.getTime())
+        .slice(sliderValues[0], sliderValues[1]);
+      return {
+        ...dataset,
+        data: sorted,
+      };
+    });
+
+    setFilteredData(sortedData);
+  }, [data.datasets, sliderValues]);
 
   const options = {
     responsive: true,
@@ -96,10 +112,7 @@ const GroupedColumnChart: React.FC<GroupedColumnChartProps> = ({
     <div style={{ ...style }}>
       <Bar
         data={{
-          datasets: data.datasets.map((dataset) => ({
-            ...dataset,
-            data: dataset,
-          })),
+          datasets: filteredData,
         }}
         options={{ ...options, ...customOptions }}
       />

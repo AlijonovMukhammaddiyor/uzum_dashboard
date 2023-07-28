@@ -38,7 +38,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
     api
       .get<unknown, AxiosResponse<any>>('/category/segmentation/')
       .then((res) => {
-        logger(res.data, 'Segmentation');
+        // logger(res.data, 'Segmentation');
         setTree(res.data);
       })
       .catch((err) => {

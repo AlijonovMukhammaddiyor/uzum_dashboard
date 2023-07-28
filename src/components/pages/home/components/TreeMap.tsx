@@ -67,14 +67,15 @@ function TreeMap({
               content: `<b>${title}</b>: ${
                 isSum
                   ? formatRevenue(params.datum['analytics'])
-                  : params.datum['analytics'].toFixed(0) + ' ta'
+                  : Number(
+                      params.datum['analytics'].toFixed(0)
+                    ).toLocaleString() + ' ta'
               }`,
             };
           },
         },
         colorDomain: [min, max],
         colorRange: ['#FFD495', '#FE6244'],
-        paddingInner: 3, // spacing between nodes
         formatter: (params: any) => ({
           stroke: 'black',
           strokeWidth: 0.5, // reduce border thickness

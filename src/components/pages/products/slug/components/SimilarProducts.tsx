@@ -138,8 +138,8 @@ function AboutProduct({
 
           {!state.user?.is_proplus && (
             <p className='absolute top-10 z-50 w-full text-center font-semibold'>
-              Ushbu mahsulotni quyida berilgan jadvaldagi mahsulotlar bilan
-              barcha jihatdan solishtiring (3 tagacha)
+              Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar
+              bilan barcha jihatdan solishtiring (3 tagacha)
             </p>
           )}
           {!state.user?.is_proplus && (
@@ -148,7 +148,7 @@ function AboutProduct({
           <Container
             loading={loading}
             className={clsxm(
-              'z-0 flex w-full flex-col items-start justify-start gap-5 overflow-hidden rounded-md bg-white p-3',
+              'z-0 flex min-h-[400px] w-full flex-col items-start justify-start gap-5 overflow-hidden rounded-md bg-white p-3',
               open ? 'h-[2000px]' : 'h-[700px] overflow-hidden'
               // !user.is_proplus && 'backdrop-blur-sm backdrop-filter'
             )}
@@ -299,10 +299,10 @@ function prepareDailyChartData(
   }[] = [];
 
   const colors = [
-    'rgba(255, 99, 132, 0.3)',
-    'rgba(75, 192, 192, 0.3)',
-    'rgba(153, 102, 255, 0.3)',
-    'rgba(255, 159, 64, 0.3)',
+    'rgba(33, 150, 243, 0.5)', // Blue
+    'rgba(76, 175, 80, 0.5)', // Green
+    'rgba(255, 152, 0, 0.5)', // Orange
+    'rgba(244, 67, 54, 0.5)', // Red
   ];
 
   let color_counter = 0;
@@ -324,19 +324,21 @@ function prepareDailyChartData(
       prev = item.orders_amount;
     }
     dataset.push({
-      label: analytics[0].product__title,
+      label: analytics[0].product__title.split('((')[0],
       data: chartData,
       backgroundColor: colors[color_counter],
     });
     color_counter++;
   }
 
+  console.log(dataset);
+
   return {
-    labels: Array.from(labels).sort((a, b) => {
-      const dateA = new Date(a);
-      const dateB = new Date(b);
-      return dateA.getTime() - dateB.getTime();
-    }),
+    // labels: Array.from(labels).sort((a, b) => {
+    //   const dateA = new Date(a);
+    //   const dateB = new Date(b);
+    //   return dateA.getTime() - dateB.getTime();
+    // }),
     datasets: dataset,
   };
 }

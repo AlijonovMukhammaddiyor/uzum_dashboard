@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { ChartType } from 'chart.js';
 import React, { useEffect } from 'react';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -55,6 +55,14 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const DropdownIndicator = (props: any) => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <i style={{ color: 'white' }} className='fas fa-chevron-down' />
+      </components.DropdownIndicator>
+    );
+  };
+
   return (
     <div
       className={clsxm(
@@ -64,7 +72,8 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
     >
       <div className='flex items-center justify-start gap-5'>
         <Select
-          className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+          // components={{ DropdownIndicator }}
+          className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
           classNamePrefix='select'
           defaultValue={{ value: 'Daromad', label: 'Daromad' }}
           isDisabled={false}
@@ -72,6 +81,26 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           isClearable={false}
           isRtl={false}
           isSearchable={false}
+          styles={{
+            dropdownIndicator: (provided) => ({
+              ...provided,
+              svg: {
+                fill: 'white',
+              },
+            }),
+            control: (provided) => ({
+              ...provided,
+              backgroundColor: 'rgba(119, 67, 219, 1)',
+            }),
+            singleValue: (provided) => ({
+              ...provided,
+              color: 'white', // This changes the text color of the selected value
+            }),
+            option: (provided) => ({
+              ...provided,
+              color: 'black', // This changes the text color of the options
+            }),
+          }}
           onChange={(e) => {
             setTab(e?.value ?? 'Daromad');
           }}
