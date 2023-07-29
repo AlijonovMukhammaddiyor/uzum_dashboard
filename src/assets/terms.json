@@ -1,0 +1,38 @@
+{
+  "SHARTNOMA MAVZUSI": {
+    "1.1": "Foydalanuvchi ro’yhatdan o’tish jarayonida to’gri ma’lumotlarni kiritishi shart.",
+    "1.2": "Foydalanuvchi o’z parolini sir saqlashi va uni uchinchi shaxslarga bermaslikka majbur.",
+    "1.3": "Foydalanuvchi Saytga kirish va uning xizmatlaridan foydalanish uchun zarur bo'lgan barcha xarajatlarni (masalan, internet-provayder to'lovlarini) o'zining zimmasiga oladi."
+  },
+  "SAYT HAQIDA VA UNGA KIRISH HUQUQI": {
+    "2.1": "Sayt sahifalarida reklama bannerlari bo’lishi mumkin. Aniq bir sahifada bannerning mavjudligi, va u qanday hajmda ko’rsatilishi bo’yicha qarorni Sayt ma’muriyati qabul qiladi.",
+    "2.2": "Saytda PRO va PREMIUM tariflar mavjud bo’lib, u foydalanuvchilardan ma’lum cheklovlarni olib tashlaydi, BEPUL tarifi foydalanuvchilar kirishi mumkin bo’lmagan sahifalarga kirish imkoni beradi. Tariflarning narxlari Sayt ma’muriyati tomonidan belgilanadi."
+  },
+  "FOYDALANUVCHINING HUQUQ VA MAJBURIYATLARI": {
+    "3.1": "Har bir foydalanuvchi o’zining huquq va majburiyatlariga qat’iy amal qilishga majbur. Foydalanuvchi tomonidan Sayt sahifalarida(jumladan telegram gruhlarida) amaldagi qonunchilikni buzishga, millatlararo hamda dinlararo nizoni keltirib chiqarishga qaratilgan, irqchilik ruhidagi, shak-shubhasiz yolg’on, haqorat, beadab va axloqsiz xabarlarni o’z ichiga olgan ma’lumotlarni joylashtirish ta’qiqlanadi. Foydalanuvchi Saytdan turli yoshdagi shaxslar foydalanishini hisobga olishi lozim.",
+    "3.2": "Foydalanuvchi tomonidan Saytni buzishga, yoki undan foydalanishni qiyinlashtirishga qaratilgan har qanday harakatlar ta’qiqlanadi. Shu xildagi har qanday harakatlar fuqaroviy va jinoiy javobgarlikka tortiladi. Ayniqsa, ta’qiqlangan xarakatlarga Saytning jismoniy hamda mantiqiy tuzilishiga ta’sir etuvchi xarakatlar, shuningdek ma’lumotlarni avtomatik qo’lga olish, ko’chirish va yuborish, shu jumladan turli mexanik va dasturiy vositalar hamda skriptlardan foydalanish kiradi.",
+    "3.3": "Saytda uchinchi shaxslarni, ularning xabarisiz va roziligisiz ro’yxatga olish yoki ular ruxsatisiz qilinadigan har qanday harakatlar ta’qiqlanadi."
+  },
+  "XIZMAT UCHUN TO'LOVLAR": {
+    "4.1": "Xizmatga kirish Foydalanuvchi tomonidan 100% oldindan to‘lov asosida to‘lanadi",
+    "4.2": "Foydalanuvchi bankining xarajatlari, shu jumladan bank komissiyasi va to‘lov tizimining ushbu shartnoma bo‘yicha Foydalanuvchi tomonidan pul mablag'larini o‘tkazish bo‘yicha komissiyasi Foydalanuvchiga yuklanadi."
+  },
+  "HISOBNI BLOKLASH": {
+    "5.1": "Sayt ma’muriyati quyidagi holatlarda foydalanuvchi hisobini bloklash huquqini saqlab qoladi.",
+    "5.1.1": "Bir hisobdan foydalangan holda 3 dan IP manzillar orqali saytdan foydalanganda.",
+    "5.1.2": "Bir hisobdan foydalanish bir vaqtning o’zida ikki yoki undan ortiq IP manzillardan amalga oshirilganda.",
+    "5.1.3": "Sayt xizmatlarini sayt ma’muriyati ruxsatisiz tijorat maqsadlarida foydalanish.",
+    "5.1.4": "Boshqa shubhali harakatlar amalga oshirilganda, foydalanuvchi ogohlantiriladi. Agar Foydalanuchi ogohlantirishga amal qilmagan holatlarda, hisobi bloklanadi.",
+    "5.2": "Hisobni bloklanganda xizmatlar uchun to’langan pul qaytarilmaydi."
+  },
+  "FORS-MAJOR HOLARLAR": {
+    "6.1": "Agar tabiiy ofatlar, urushlar, terroristik harakatlar, fuqarolik tartibsizliklari, mehnat mojarolari va boshqalar kabi nazoratdan tashqari holatlar tufayli tomonlarning Shartnoma bo'yicha majburiyatlari bajarilmasa yoki bajarilishining kechikishi yuzaga kelsa, ularning hech biri bu vaqtlar uchun javobgar bo'lmaydi. Faqatgina to'lov majburiyatlari bundan istisno hisoblanadi."
+  },
+  "TO'LOVLARNI QATARISH": {
+    "7.1": "Ushbu shartnoma amal qilish muddati davomida turli nosozliklar tufayli xizmatlar mavjud bo’lmasa, Foydalanuvchi obuna davrini uzaytirishga yoki to’lovlarni qaytarilishini so’rashga haqli.  Foydalanuvchi to’lovlarni qaytarishni talab qilganda, Foydalanuvchining talablari ko’rib chiqiladi lekin sayt ma’muriyati to’lovlarni qaytarilishini kafolatlamaydi."
+  },
+  "Boshqa shartlar": {
+    "8.1": "Foydalanuvchi,uzanalitika.uz xizmatlarini o'zining mas'uliyati bilan foydalanadi. Sayt ma’muriyati xizmatlarni imkon qadar yaxshilashga va taqdim etishga harakat qiladi. Foydalanuvchining har qanday mustaqil faoliyati va qarorlari uchun sayt ma’muriyati javobgar bo'lmaydi.",
+    "8.2": "Sayt ma’muriyati Foydalanuvchilarning barcha talablariga javob berilishi, xizmatning va ma’lumotlarning xatosiz bo’lishiga harakat qiladi lekin kafolatlamaydi. Sayt ma'muriyati xizmat ma’lumotlari uchinchi tomon saytlari ma'lumotlari orqali olinishi mumkinligini takidlaydi."
+  }
+}

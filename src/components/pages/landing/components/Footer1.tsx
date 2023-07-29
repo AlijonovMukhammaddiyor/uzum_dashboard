@@ -52,10 +52,10 @@ const Footer1 = () => {
         <p>@2023 UzAnalitika. {t('footer.all_rights_reserved')}.</p>
 
         <div className='flex flex-1 justify-center gap-10 max-sm:mt-4 sm:justify-end'>
-          <Link href='/privacy_policy' className='text-gray-500'>
+          <Link href='/policy' className='text-gray-500'>
             {t('footer.privacy_policy')}
           </Link>
-          <Link href='/privacy_policy' className='text-gray-500'>
+          <Link href='/terms' className='text-gray-500'>
             {t('footer.terms_of_use')}
           </Link>
         </div>

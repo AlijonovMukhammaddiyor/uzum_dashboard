@@ -177,6 +177,26 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                   competitors.find((item) => item.title === e?.value) ?? null
                 );
               }}
+              styles={{
+                dropdownIndicator: (provided) => ({
+                  ...provided,
+                  svg: {
+                    fill: 'white',
+                  },
+                }),
+                control: (provided) => ({
+                  ...provided,
+                  backgroundColor: 'rgba(119, 67, 219, 1)',
+                }),
+                singleValue: (provided) => ({
+                  ...provided,
+                  color: 'white', // This changes the text color of the selected value
+                }),
+                option: (provided) => ({
+                  ...provided,
+                  color: 'black', // This changes the text color of the options
+                }),
+              }}
               name='color'
               options={[
                 ...competitors.map((item) => ({
@@ -216,6 +236,26 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                 }
               }
             }}
+            styles={{
+              dropdownIndicator: (provided) => ({
+                ...provided,
+                svg: {
+                  fill: 'white',
+                },
+              }),
+              control: (provided) => ({
+                ...provided,
+                backgroundColor: 'rgba(119, 67, 219, 1)',
+              }),
+              singleValue: (provided) => ({
+                ...provided,
+                color: 'white', // This changes the text color of the selected value
+              }),
+              option: (provided) => ({
+                ...provided,
+                color: 'black', // This changes the text color of the options
+              }),
+            }}
             name='color'
             options={[
               { value: 'Barcha', label: 'Barcha' },
@@ -241,6 +281,26 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
             isSearchable={false}
             onChange={(e) => {
               setType(e?.value ?? 'Daromad');
+            }}
+            styles={{
+              dropdownIndicator: (provided) => ({
+                ...provided,
+                svg: {
+                  fill: 'white',
+                },
+              }),
+              control: (provided) => ({
+                ...provided,
+                backgroundColor: 'rgba(119, 67, 219, 1)',
+              }),
+              singleValue: (provided) => ({
+                ...provided,
+                color: 'white', // This changes the text color of the selected value
+              }),
+              option: (provided) => ({
+                ...provided,
+                color: 'black', // This changes the text color of the options
+              }),
             }}
             name='color'
             options={[
