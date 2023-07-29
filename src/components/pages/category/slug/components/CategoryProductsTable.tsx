@@ -34,7 +34,7 @@ export interface ProductAnalyticsViewType {
   avg_purchase_price: number;
 }
 
-function CategoryProductsTable({ categoryId, className }: Props) {
+function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [topProductsData, setTopProductsData] = React.useState<
     {
@@ -143,6 +143,8 @@ function CategoryProductsTable({ categoryId, className }: Props) {
       }>
     >(url);
   };
+
+  if (activeTab !== 'Tovarlar') return <></>;
 
   return (
     <div

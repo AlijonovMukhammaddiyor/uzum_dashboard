@@ -114,11 +114,13 @@ function Category({ user, seller }: ShopsProps) {
       <ShopDailySales
         className={clsxm(activeTab === 'Kunlik Sotuv' ? '' : 'hidden')}
         sellerId={seller.seller_id}
+        isActive={activeTab === 'Kunlik Sotuv' ? true : false}
       />
 
       <ShopCategories
         className={clsxm(activeTab === 'Kategoriyalar' ? '' : 'hidden')}
         sellerId={seller.seller_id}
+        isActive={activeTab === 'Kategoriyalar' ? true : false}
       />
     </Layout>
   );

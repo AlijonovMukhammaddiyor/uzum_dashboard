@@ -15,6 +15,7 @@ import Table from '@/components/shared/Table';
 interface Props {
   className?: string;
   categoryId: string;
+  isActive: boolean;
 }
 
 interface SegmentationType {
@@ -28,7 +29,7 @@ interface SegmentationType {
   total_shops: number;
 }
 
-function Segmentation({ className, categoryId }: Props) {
+function Segmentation({ className, categoryId, isActive }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [segmentationCount, setSegmentationCount] = React.useState<number>(15);
   const [data, setData] = React.useState<SegmentationType[]>([]);
@@ -63,6 +64,10 @@ function Segmentation({ className, categoryId }: Props) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newFetch, categoryId]);
+
+  if (!isActive) {
+    return <></>;
+  }
 
   return (
     <div
@@ -122,7 +127,7 @@ function Segmentation({ className, categoryId }: Props) {
           </div>
         </div>
 
-        {data.length > 0 && (
+        {isActive && (
           <RangeChart
             data={data.map((item) => ({
               from: item.from,

@@ -17,9 +17,16 @@ export interface PieChartProps {
   title?: string;
   labelType?: 'spider' | 'inner' | 'outer';
   style?: React.CSSProperties;
+  isRevenue?: boolean;
 }
 
-const PieChart = ({ data, title, labelType, style }: PieChartProps) => {
+const PieChart = ({
+  data,
+  title,
+  labelType,
+  style,
+  isRevenue,
+}: PieChartProps) => {
   const config = {
     appendPadding: 10,
     date: data,
@@ -55,6 +62,14 @@ const PieChart = ({ data, title, labelType, style }: PieChartProps) => {
           type: 'dataView',
         },
       ],
+    },
+    tooltip: {
+      formatter: (datum: { value: number; type: string }) => {
+        return {
+          name: datum.type,
+          value: `${datum.value.toLocaleString()} ${isRevenue ? 'so`m' : ''}`,
+        };
+      },
     },
     legend: {},
     interactions: [

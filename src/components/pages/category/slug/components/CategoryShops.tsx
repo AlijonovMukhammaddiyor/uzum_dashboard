@@ -13,6 +13,7 @@ import Table from '@/components/shared/Table';
 interface Props {
   className?: string;
   categoryId: string;
+  activeTab: string;
 }
 
 interface CategoryShopsType {
@@ -26,7 +27,7 @@ interface CategoryShopsType {
   position: number;
 }
 
-function CategoryShops({ className, categoryId }: Props) {
+function CategoryShops({ className, categoryId, activeTab }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [data, setData] = React.useState<CategoryShopsType[]>([]);
@@ -60,6 +61,8 @@ function CategoryShops({ className, categoryId }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
 
+  if (activeTab !== 'Sotuvchilar') return <></>;
+
   return (
     <div
       className={clsxm(
@@ -83,7 +86,7 @@ function CategoryShops({ className, categoryId }: Props) {
             <p className='text-primary font-semibold'>{data.length}</p>
           </div>
         </div>
-        <PieChart data={preparePieChartData(data)} />
+        <PieChart data={preparePieChartData(data)} isRevenue />
       </Container>
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <Table
@@ -107,7 +110,7 @@ function preparePieChartData(data: CategoryShopsType[]) {
   const pieChartData = data.slice(0, 10).map((item) => {
     current_revenue += item.total_revenue;
     return {
-      type: item.title,
+      type: item.title.split('((')[0],
       value: Math.round(item.total_revenue * 1000),
     };
   });

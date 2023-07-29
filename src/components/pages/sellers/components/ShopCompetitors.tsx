@@ -111,6 +111,8 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [competitor, categoryId, shop]);
 
+  if (!isActive) return <></>;
+
   return (
     <div
       className={clsxm(

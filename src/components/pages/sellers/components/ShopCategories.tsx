@@ -16,6 +16,7 @@ import Table from '@/components/shared/Table';
 interface Props {
   className?: string;
   sellerId: number;
+  isActive: boolean;
 }
 
 interface CategoryType {
@@ -43,7 +44,7 @@ interface CategoryProductData {
   product_id: number;
 }
 
-function ShopCategories({ className, sellerId }: Props) {
+function ShopCategories({ className, sellerId, isActive }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingCategory, setLoadingCategory] = useState<boolean>(false);
   const [data, setData] = useState<CategoryType[]>([]);
@@ -110,6 +111,8 @@ function ShopCategories({ className, sellerId }: Props) {
   }, [categoryId]);
 
   const showCategoryData = categoryId && categoryData.length > 0;
+
+  if (!isActive) return <></>;
 
   return (
     <div

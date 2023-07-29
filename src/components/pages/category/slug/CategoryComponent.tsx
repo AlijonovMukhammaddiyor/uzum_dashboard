@@ -20,6 +20,7 @@ function CategoryComponent({ activeTab, categoryId }: Props) {
       <CategoryProductsTable
         categoryId={categoryId}
         className={clsxm(activeTab !== 'Tovarlar' && 'hidden')}
+        activeTab={activeTab}
       />
 
       <CategoryTrends
@@ -31,16 +32,19 @@ function CategoryComponent({ activeTab, categoryId }: Props) {
       <Subcategories
         className={clsxm(activeTab !== 'Ichki Kategoriyalar' && 'hidden')}
         categoryId={categoryId}
+        isActive={activeTab === 'Ichki Kategoriyalar' ? true : false}
       />
 
       <Segmentation
         className={clsxm(activeTab !== 'Segmentatsiya' && 'hidden')}
         categoryId={categoryId}
+        isActive={activeTab === 'Segmentatsiya' ? true : false}
       />
 
       <CategoryShops
         className={clsxm(activeTab !== 'Sotuvchilar' && 'hidden')}
         categoryId={categoryId}
+        activeTab={activeTab}
       />
     </div>
   );

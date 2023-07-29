@@ -1,0 +1,22 @@
+{
+  "sidebar.general": "Umumiy",
+  "sidebar.Categories": "Kategoriyalar",
+  "sidebar.Sellers": "Sotuvchilar",
+  "sidebar.products": "Mahsulotlar",
+  "sidebar.ai": "Suniy Intellekt",
+  "sidebar.campaigns": "Aksiyalar",
+  "sidebar.searches": "Qidiruvlar",
+  "sidebar.compare": "Taqqoslash",
+
+  "header.referralCode": "Taklif kodi",
+
+  "phrases.sellers": "Sotuvchilar",
+  "phrases.products": "Mahsulotlar",
+  "phrases.categories": "Kategoriyalar",
+  "phrases.daily": "Kunlik",
+  "phrases.all": "Jami",
+  "phrases.sales": "Sotuv",
+  "phrases.competitors": "Raqobatdoshlar",
+  "phrase.numberCount": "ta",
+  "phrase.moneyAmount": "so'm"
+}

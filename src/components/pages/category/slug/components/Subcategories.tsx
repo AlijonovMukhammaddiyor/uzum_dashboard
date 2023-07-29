@@ -14,9 +14,10 @@ import Table from '@/components/shared/Table';
 interface Props {
   className?: string;
   categoryId: string;
+  isActive: boolean;
 }
 
-function Subcategories({ className, categoryId }: Props) {
+function Subcategories({ className, categoryId, isActive }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [data, setData] = React.useState<{
@@ -52,6 +53,8 @@ function Subcategories({ className, categoryId }: Props) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
+
+  if (!isActive) return <></>;
 
   return (
     <div

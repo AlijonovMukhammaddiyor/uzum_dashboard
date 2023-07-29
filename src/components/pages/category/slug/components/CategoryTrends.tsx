@@ -61,6 +61,8 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
 
+  if (!isActive) return <></>;
+
   return (
     <div
       className={clsxm(
@@ -70,7 +72,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
     >
       <div className='flex items-center justify-start gap-5'>
         <Select
-          className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+          className='basic-single w-[300px] cursor-pointer rounded-md'
           classNamePrefix='select'
           defaultValue={{ value: 'Daromad', label: 'Daromad' }}
           isDisabled={false}
@@ -80,6 +82,26 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
           isSearchable={false}
           onChange={(e) => {
             setTab(e?.value ?? 'Daromad');
+          }}
+          styles={{
+            dropdownIndicator: (provided) => ({
+              ...provided,
+              svg: {
+                fill: 'white',
+              },
+            }),
+            control: (provided) => ({
+              ...provided,
+              backgroundColor: 'rgba(119, 67, 219, 1)',
+            }),
+            singleValue: (provided) => ({
+              ...provided,
+              color: 'white', // This changes the text color of the selected value
+            }),
+            option: (provided) => ({
+              ...provided,
+              color: 'black', // This changes the text color of the options
+            }),
           }}
           name='color'
           options={[

@@ -14,6 +14,7 @@ import Table from '@/components/shared/Table';
 export interface ShopDailySalesProps {
   sellerId: number;
   className?: string;
+  isActive: boolean;
 }
 
 interface Entry {
@@ -40,6 +41,7 @@ interface ExtendedProductAnalyticsType {
 const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   sellerId,
   className,
+  isActive,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<ExtendedProductAnalyticsType[]>([]);
@@ -81,6 +83,8 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, sellerId]);
+
+  if (!isActive) return <></>;
 
   return (
     <div
