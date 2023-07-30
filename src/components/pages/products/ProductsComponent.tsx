@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -12,6 +13,7 @@ import RangeChartProducts from '@/components/pages/products/slug/components/Rang
 import PaginatedTable from '@/components/shared/PaginatedTable';
 
 function ProductsComponent() {
+  const { t } = useTranslation('products');
   const [loading, setLoading] = React.useState(false);
   const [loadingSegmentation, setLoadingSegmentation] = React.useState(false);
   const [products, setProducts] = React.useState<
@@ -89,8 +91,8 @@ function ProductsComponent() {
     <div className='min-h-full w-full min-w-[1300px] overflow-scroll'>
       <Container
         loading={loadingSegmentation}
-        title="Mahsulotlar narx, buyurtmalar va do'konlar soni bo'yicha segmentatsiyasi"
-        explanation='Mahsulotlar narx, buyurtmalar, do`konlar bo`yicha segmentatsiyasi'
+        title={t('product_info')}
+        explanation={t('product_info')}
         className={clsxm(
           'mb-5 h-[530px] w-full shrink-0 overflow-scroll rounded-md bg-white px-5 py-3'
         )}

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -18,6 +19,7 @@ interface Props {
 }
 
 function Subcategories({ className, categoryId, isActive }: Props) {
+  const { t } = useTranslation('categories');
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [data, setData] = React.useState<{
@@ -78,7 +80,7 @@ function Subcategories({ className, categoryId, isActive }: Props) {
       ) : data.data.length <= 0 ? (
         <div className='flex h-full items-center justify-center'>
           <h3 className='h-full text-center text-slate-500'>
-            Ichki Kategoriyalar mavjud Emas
+            {t('no_subcategories')}
           </h3>
         </div>
       ) : (
@@ -195,7 +197,8 @@ const SubCategoriesPieChartData = ({
       type: 'Boshqa Kategoriyalar',
       value: main.total_reviews - total_reviews,
     });
-
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { t } = useTranslation('categories');
   return (
     <div className='flex h-full w-full items-center justify-start gap-5'>
       <Container
@@ -204,7 +207,7 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={revenue_data} title='Daromad' labelType='outer' />
+        <PieChart data={revenue_data} title={t('revenue')} labelType='outer' />
       </Container>
       <Container
         loading={loading}
@@ -212,7 +215,7 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={orders_data} title='Buyurtmalar' labelType='outer' />
+        <PieChart data={orders_data} title={t('orders')} labelType='outer' />
       </Container>
       <Container
         loading={loading}
@@ -220,7 +223,11 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={products_data} title='Mahsulotlar' labelType='outer' />
+        <PieChart
+          data={products_data}
+          title={t('products')}
+          labelType='outer'
+        />
       </Container>
       <Container
         loading={loading}
@@ -228,7 +235,7 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={reviews_data} title='Izohlar' labelType='outer' />
+        <PieChart data={reviews_data} title={t('reviews')} labelType='outer' />
       </Container>
     </div>
   );

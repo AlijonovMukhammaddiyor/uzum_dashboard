@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 
 import API from '@/lib/api';
@@ -32,6 +33,7 @@ export interface CategoryAnalyticsDataType {
 }
 
 function CategoryTrends({ className, categoryId, isActive }: Props) {
+  const { t } = useTranslation('tabs');
   const [data, setData] = React.useState<CategoryAnalyticsDataType[]>([]);
   const [labels, setLabels] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -74,14 +76,17 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         <Select
           className='basic-single w-[300px] cursor-pointer rounded-md'
           classNamePrefix='select'
-          defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+          defaultValue={{
+            value: t('categories.revenue'),
+            label: t('categories.revenue'),
+          }}
           isDisabled={false}
           isLoading={false}
           isClearable={false}
           isRtl={false}
           isSearchable={false}
           onChange={(e) => {
-            setTab(e?.value ?? 'Daromad');
+            setTab(e?.value ?? t('categories.revenue'));
           }}
           styles={{
             dropdownIndicator: (provided) => ({
@@ -105,14 +110,14 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
           }}
           name='color'
           options={[
-            { value: 'Daromad', label: 'Daromad' },
-            { value: 'Buyurtmalar', label: 'Buyurtmalar' },
-            { value: 'Tovarlar', label: 'Tovarlar' },
-            { value: "Do'konlar", label: "Do'konlar" },
+            { value: t('categories.revenue'), label: t('categories.revenue') },
+            { value: t('categories.orders'), label: t('categories.orders') },
+            { value: t('categories.goods'), label: t('categories.goods') },
+            { value: t('categories.shops'), label: t('categories.shops') },
           ]}
         />
         <p className='text-sm text-blue-400'>
-          Ushbu yerda grafika turini tanglang!
+          {t('categories.select_graph_type')}
         </p>
       </div>
 
@@ -222,14 +227,14 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
     prevRevenue = item.total_orders_amount;
   });
 
-  if (tab === 'Daromad')
+  if (tab === 'Daromad' || tab === 'Доход')
     return [
       {
         data: dailyRevenue,
         fill: true,
         borderColor: 'rgb(32,178,170)',
         backgroundColor: 'rgba(32,178,170,0.15)',
-        label: 'Kechagi daromad',
+        label: tab === 'Daromad' ? 'Kechagi daromad' : 'Вчерашний доход',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(32,178,170)',
@@ -239,21 +244,22 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(34,139,34)',
         backgroundColor: 'rgba(34,139,34,0.15)',
-        label: 'Jami daromad',
+        label: tab === 'Daromad' ? 'Jami daromad' : 'Общий доход',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(34,139,34)',
       },
     ];
 
-  if (tab === 'Buyurtmalar')
+  if (tab === 'Buyurtmalar' || tab === 'Заказы')
     return [
       {
         data: orders,
         fill: true,
         borderColor: 'rgb(219,112,147)',
         backgroundColor: 'rgba(219,112,147,0.15)',
-        label: 'Kechagi buyurtmalar',
+        label:
+          tab === 'Buyurtmalar' ? 'Kechagi buyurtmalar' : 'Вчерашние заказы',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(219,112,147)',
@@ -263,7 +269,7 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(128,0,128)',
         backgroundColor: 'rgba(128,0,128,0.15)',
-        label: 'Jami buyurtmalar',
+        label: tab === 'Buyurtmalar' ? 'Jami buyurtmalar' : 'Все заказы',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(128,0,128)',
@@ -273,21 +279,21 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(30,144,255)',
         backgroundColor: 'rgba(30,144,255,0.15)',
-        label: 'Izohlar',
+        label: tab === 'Buyurtmalar' ? 'Izohlar' : 'Отзывы',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(30,144,255)',
       },
     ];
 
-  if (tab === 'Tovarlar')
+  if (tab === 'Tovarlar' || tab === 'Товары')
     return [
       {
         data: products,
         fill: true,
         borderColor: '#ff7f0e',
         backgroundColor: 'rgba(255, 127, 14, 0.15)',
-        label: 'Tovarlar',
+        label: tab,
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: '#ff7f0e',
@@ -297,7 +303,10 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(204, 153, 255)',
         backgroundColor: 'rgba(204, 153, 255, 0.15)',
-        label: "Kecha Sotuvi bo'lgan tovarlar",
+        label:
+          tab === 'Tovarlar'
+            ? "Kecha Sotuvi bo'lgan tovarlar"
+            : 'Товары, проданные вчера',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(204, 153, 255)',
@@ -310,7 +319,7 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
       fill: true,
       borderColor: 'rgb(60,179,113)',
       backgroundColor: 'rgba(60,179,113,0.15)',
-      label: "Do'konlar",
+      label: tab,
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: 'rgb(60,179,113)',
@@ -321,7 +330,10 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
       fill: true,
       borderColor: 'rgb(70,130,180)',
       backgroundColor: 'rgba(70,130,180,0.15)',
-      label: "Kecha Sotuvi bo'lgan do'konlar",
+      label:
+        tab === "Do'konlar"
+          ? "Kecha sotuv bo'lgan do'konlar"
+          : 'Магазины с вечерней распродажей',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: 'rgb(70,130,180)',

@@ -1,7 +1,7 @@
 {
   "sidebar.general": "Umumiy",
-  "sidebar.Categories": "Kategoriyalar",
-  "sidebar.Sellers": "Sotuvchilar",
+  "sidebar.categories": "Kategoriyalar",
+  "sidebar.sellers": "Sotuvchilar",
   "sidebar.products": "Mahsulotlar",
   "sidebar.ai": "Suniy Intellekt",
   "sidebar.campaigns": "Aksiyalar",
@@ -9,14 +9,22 @@
   "sidebar.compare": "Taqqoslash",
 
   "header.referralCode": "Taklif kodi",
-
-  "phrases.sellers": "Sotuvchilar",
-  "phrases.products": "Mahsulotlar",
-  "phrases.categories": "Kategoriyalar",
-  "phrases.daily": "Kunlik",
-  "phrases.all": "Jami",
-  "phrases.sales": "Sotuv",
-  "phrases.competitors": "Raqobatdoshlar",
-  "phrase.numberCount": "ta",
-  "phrase.moneyAmount": "so'm"
+  "dataTable": {
+    "orders_amount": "Buyurtmalar soni",
+    "revenue": "Daromad miqdori",
+    "shops_amount": "Do'konlar soni",
+    "sellers_amount": "Sotuvchilar soni",
+    "products_amount": "Mahsulotlar soni",
+    "reviews_amount": "Izohlar soni",
+    "see_segmentations": "Segmentatsiyani ko'rish",
+    "total": "Jami",
+    "daily": "Kunlik",
+    "yesterday": "Kechagi",
+    "compared_to_yesterday": "Kechagi kundan taqqoslaganda",
+    "updated_at": "yangilangan sana",
+    "currency": "so'm",
+    "count": "ta"
+  },
+  "container.explanation": "Qo'llanmani ko'rsatish",
+  "container.close": "yopish"
 }

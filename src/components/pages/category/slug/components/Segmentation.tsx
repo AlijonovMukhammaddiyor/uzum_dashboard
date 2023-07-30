@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -30,6 +31,7 @@ interface SegmentationType {
 }
 
 function Segmentation({ className, categoryId, isActive }: Props) {
+  const { t } = useTranslation('categories');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [segmentationCount, setSegmentationCount] = React.useState<number>(15);
   const [data, setData] = React.useState<SegmentationType[]>([]);
@@ -85,18 +87,17 @@ function Segmentation({ className, categoryId, isActive }: Props) {
         <div className='mb-2 flex items-center justify-between'>
           <div className=''>
             <h4 className='m-0 font-bold'>
-              Kategoriyadagi mahsulotlar narxlari bo'yicha segmentatsiya
+              {t('procucts_segmentation_by_price_in_category')}
             </h4>
             <p className='m-0 text-sm text-slate-500'>
-              Ushbu narx oraliqlariga kiruvchi mahsulotlar soni, buyurtmalar
-              soni, va daromad miqdori ko'rsatilgan.
+              {t('data_info_price_range')}
             </p>
           </div>
           <div className='flex items-center justify-end'>
             <InputField
               placeholder='Segmentatsiya soni'
               containerStyle='gap-2 flex justify-start items-center flex-row h-10'
-              label='Segmentatsiya soni'
+              label={t('segmentations_amount')}
               type='number'
               min={1}
               max={100}
@@ -122,7 +123,7 @@ function Segmentation({ className, categoryId, isActive }: Props) {
                 setNewFetch(!newFetch);
               }}
             >
-              Yangilash
+              {t('update')}
             </Button>
           </div>
         </div>

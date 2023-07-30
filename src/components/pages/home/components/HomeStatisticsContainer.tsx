@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { HiChevronDown } from 'react-icons/hi2';
 
 import API from '@/lib/api';
@@ -121,7 +122,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         setLoading(false);
       });
   }, []);
-
+  const { t } = useTranslation('common');
   return (
     <div
       className={clsxm(
@@ -136,7 +137,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
-            title='Buyurtmalar soni'
+            title={t('dataTable.orders_amount')}
             all={orders[orders.length - 1]?.total_orders ?? 0}
             all_last={orders[orders.length - 2]?.total_orders ?? 0}
             isCount={true}
@@ -171,7 +172,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
-            title='Daromad miqdori'
+            title={t('dataTable.revenue')}
             all={revenue[revenue.length - 1]?.total_revenue ?? 0}
             all_last={revenue[revenue.length - 2]?.total_revenue ?? 0}
             isCount={false}
@@ -208,7 +209,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
-            title="Do'konlar soni"
+            title={t('dataTable.shops_amount')}
             all={shops.shops[shops.shops.length - 1]?.total_shops ?? 0}
             all_last={shops.shops[shops.shops.length - 2]?.total_shops ?? 0}
             isCount={true}
@@ -243,7 +244,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             data={tree}
             // isFullScreen={isFullScreen}
             // setFullScreen={setIsFullScreen}
-            title='Sotuvchilar soni'
+            title={t('dataTable.sellers_amount')}
             all={shops.accounts[shops.accounts.length - 1]?.total_accounts ?? 0}
             all_last={
               shops.accounts[shops.accounts.length - 2]?.total_accounts ?? 0
@@ -288,7 +289,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
-            title='Mahsulotlar soni'
+            title={t('dataTable.products_amount')}
             all={products[products.length - 1]?.total_products ?? 0}
             all_last={products[products.length - 2]?.total_products ?? 0}
             isCount={true}
@@ -323,7 +324,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
-            title='Izohlar soni'
+            title={t('dataTable.reviews_amount')}
             all={reviews[reviews.length - 1]?.total_reviews ?? 0}
             all_last={reviews[reviews.length - 2]?.total_reviews ?? 0}
             isCount={true}

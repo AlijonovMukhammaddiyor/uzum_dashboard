@@ -6,6 +6,7 @@ const DualAxes = dynamic(
 );
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface RangeChartProps {
   data: any[];
@@ -13,12 +14,13 @@ export interface RangeChartProps {
 }
 
 const RangeChart = ({ data, style }: RangeChartProps) => {
+  const { t } = useTranslation('categories');
   const transformedData = data.flatMap((item, index) => [
     {
       range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      category: 'Mahsulotlar soni',
+      category: t('products_amount'),
       value: item.total_products,
       index: index,
     },
@@ -26,7 +28,7 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
       range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      category: 'Buyurtmalar soni',
+      category: t('orders_amount'),
       value: item.total_orders,
       index: index,
     },
@@ -51,9 +53,9 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         seriesField: 'category',
         color: ({ category }: { category: string }) => {
           switch (category) {
-            case 'Mahsulotlar soni':
+            case t('products_amount'):
               return 'rgb(82, 95, 225)';
-            case 'Buyurtmalar soni':
+            case t('orders_amount'):
               return 'rgba(248, 111, 3, 0.6)';
             default:
               return '#ccc';
@@ -70,10 +72,10 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         // Filtering out the revenue line item
         const revenueItem = items.find((item) => item.name === 'Daromad');
         const productsItem = items.find(
-          (item) => item.name === 'Mahsulotlar soni'
+          (item) => item.name === t('products_amount')
         );
         const ordersItem = items.find(
-          (item) => item.name === 'Buyurtmalar soni'
+          (item) => item.name === t('orders_amount')
         );
 
         return `

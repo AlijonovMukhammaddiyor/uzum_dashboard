@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -28,6 +29,7 @@ interface CategoryShopsType {
 }
 
 function CategoryShops({ className, categoryId, activeTab }: Props) {
+  const { t } = useTranslation('categories');
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [data, setData] = React.useState<CategoryShopsType[]>([]);
@@ -61,7 +63,7 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
 
-  if (activeTab !== 'Sotuvchilar') return <></>;
+  if (activeTab !== 'Sotuvchilar' && activeTab !== 'Продавцы') return <></>;
 
   return (
     <div
@@ -77,12 +79,9 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
         )}
       >
         <div className='flex w-full items-center justify-between'>
-          <h3 className='text-primary text-base'>
-            Kategoriyadagi Sotuvchilarning ulushlari - Top sotuvchilar (10
-            tagacha)
-          </h3>
+          <h3 className='text-primary text-base'>{t('top_10_sellers')}</h3>
           <div className='flex items-center justify-start gap-6'>
-            <p className='font-bold'>Jami Sotuvchilar Soni:</p>
+            <p className='font-bold'>{t('total_sellers')}:</p>
             <p className='text-primary font-semibold'>{data.length}</p>
           </div>
         </div>

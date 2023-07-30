@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { ChartType } from 'chart.js';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
 import Select from 'react-select';
 
@@ -75,7 +76,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         setLoading(false);
       });
   }, [sellerId, title]);
-
+  const { t } = useTranslation('sellers');
   React.useEffect(() => {
     if (shop && competitor && category) {
       const api = new API(null);
@@ -127,8 +128,8 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         <div className='flex w-full items-center justify-start gap-2'>
           <VscDebugBreakpointData className='text-primary text-2xl' />
           <p className='text-sm'>
-            Raqobatchilarning <span className='font-semibold'>{title}</span>{' '}
-            bilan umumiy kategoriyalari
+            {t('info_1')} <span className='font-semibold'>{title}</span>{' '}
+            {t('info_2')}
           </p>
         </div>
 
@@ -154,9 +155,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
 
       <div className='flex items-center justify-start gap-6'>
         <div className='flex items-center justify-start gap-3'>
-          <p className='text-sm text-blue-500'>
-            Ushbu yerdan raqobatchini tanlang!
-          </p>
+          <p className='text-sm text-blue-500'>{t('select_competitor_here')}</p>
           {competitor && (
             <Select
               className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
@@ -188,9 +187,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
           )}
         </div>
         <div className='flex items-center justify-start gap-3'>
-          <p className='text-sm text-blue-500'>
-            Ushbu yerdan kategoriyani tanlang!
-          </p>
+          <p className='text-sm text-blue-500'>{t('select_category_here')}</p>
           <Select
             className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
             classNamePrefix='select'
@@ -227,31 +224,29 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
           />
         </div>
         <div className='flex items-center justify-start gap-3'>
-          <p className='text-sm text-blue-500'>
-            Ushbu yerdan ma'lumot turi tanlang!
-          </p>
+          <p className='text-sm text-blue-500'>{t('select_info_type_here')}</p>
           <Select
             className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
             classNamePrefix='select'
-            defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+            defaultValue={{ value: t('revenue'), label: t('revenue') }}
             isDisabled={false}
             isLoading={false}
             isClearable={false}
             isRtl={false}
             isSearchable={false}
             onChange={(e) => {
-              setType(e?.value ?? 'Daromad');
+              setType(e?.value ?? t('revenue'));
             }}
             name='color'
             options={[
-              { value: 'Daromad', label: 'Daromad' },
-              { value: 'Buyurtmalar soni', label: 'Buyurtmalar soni' },
-              { value: 'Mahsulotlar soni', label: 'Mahsulotlar soni' },
+              { value: t('revenue'), label: t('revenue') },
+              { value: t('orders_amount'), label: t('orders_amount') },
+              { value: t('products_amount'), label: t('products_amount') },
               {
-                value: "O'rtacha sotuv narxi",
-                label: "O'rtacha sotuv narxi",
+                value: t('avarage_selling_price'),
+                label: t('avarage_selling_price'),
               },
-              { value: 'Izohlar soni', label: 'Izohlar soni' },
+              { value: t('reviews_amount'), label: t('reviews_amount') },
             ]}
           />
         </div>
@@ -274,7 +269,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                 ) as any
               }
               title={
-                type === "O'rtacha sotuv narxi"
+                type === 'O`rtacha sotuv narxi'
                   ? type
                   : `Jami ${type.toLowerCase()}`
               }
@@ -293,7 +288,8 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
       )}
       {competitorData.length > 0 &&
         shopData.length > 0 &&
-        type !== "O'rtacha sotuv narxi" && (
+        type !== 'O`rtacha sotuv narxi' &&
+        type != 'Средняя цена продажи' && (
           <Container
             loading={loading}
             className='flex h-[500px] w-full flex-col items-start justify-start gap-3 p-5'
@@ -310,7 +306,8 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                   ) as any
                 }
                 title={
-                  type === "O'rtacha sotuv narxi"
+                  type === 'O`rtacha sotuv narxi' ||
+                  type === 'Средняя цена продажи'
                     ? type
                     : type === 'Mahsulotlar soni'
                     ? "Kunlik mahsulotlar soni o'zgarishi"
@@ -341,13 +338,13 @@ function prepareAllData(
   competitor: CompetitorsType,
   shop: CompetitorsType
 ) {
-  if (type === 'Buyurtmalar soni') {
+  if (type === 'Buyurtmalar soni' || type === 'Количество заказов') {
     return _prepareAllOrders(data, shopData, competitor, shop);
-  } else if (type === 'Daromad') {
+  } else if (type === 'Daromad' || type === 'Доход') {
     return _prepareAllRevenue(data, shopData, competitor, shop);
-  } else if (type === 'Mahsulotlar soni') {
+  } else if (type === 'Mahsulotlar soni' || type === 'Количество товаров') {
     return _prepareAllProducts(data, shopData, competitor, shop);
-  } else if (type === 'Izohlar soni') {
+  } else if (type === 'Izohlar soni' || type === 'Количество отзывов') {
     return _prepareAllReviews(data, shopData, competitor, shop);
   }
   return _prepareAveragePrice(data, shopData, competitor, shop);
@@ -360,13 +357,13 @@ function prepareDailyData(
   competitor: CompetitorsType,
   shop: CompetitorsType
 ) {
-  if (type === 'Buyurtmalar soni') {
+  if (type === 'Buyurtmalar soni' || type === 'Количество заказов') {
     return _prepareDailyOrders(data, shopData, competitor, shop);
-  } else if (type === 'Daromad') {
+  } else if (type === 'Daromad' || type === 'Доход') {
     return _prepareDailyRevenue(data, shopData, competitor, shop);
-  } else if (type === 'Mahsulotlar soni') {
+  } else if (type === 'Mahsulotlar soni' || type === 'Количество товаров') {
     return _prepareDailyProducts(data, shopData, competitor, shop);
-  } else if (type === 'Izohlar soni') {
+  } else if (type === 'Izohlar soni' || type === 'Количество отзывов') {
     return _prepareDailyReviews(data, shopData, competitor, shop);
   }
 }

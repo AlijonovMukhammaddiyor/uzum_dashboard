@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { ChartType } from 'chart.js';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Select, { components } from 'react-select';
 
 import API from '@/lib/api';
@@ -33,9 +34,10 @@ interface SellerType {
 }
 
 function ShopOverall({ className, sellerId, isActive }: Props) {
+  const { t } = useTranslation('sellers');
   const [data, setData] = React.useState<SellerType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [tab, setTab] = React.useState<string>('Daromad');
+  const [tab, setTab] = React.useState<string>(t('revenue'));
 
   useEffect(() => {
     const api = new API(null);
@@ -75,7 +77,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           // components={{ DropdownIndicator }}
           className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
           classNamePrefix='select'
-          defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+          defaultValue={{ value: t('revenue'), label: t('revenue') }}
           isDisabled={false}
           isLoading={false}
           isClearable={false}
@@ -102,20 +104,21 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
             }),
           }}
           onChange={(e) => {
-            setTab(e?.value ?? 'Daromad');
+            setTab(e?.value ?? t('revenue'));
           }}
           name='color'
           options={[
-            { value: 'Daromad', label: 'Daromad' },
-            { value: 'Buyurtmalar', label: 'Buyurtmalar' },
-            { value: 'Tovarlar', label: 'Tovarlar' },
-            { value: "O'rtacha narx", label: "O'rtacha Narx" },
-            { value: 'Izohlar', label: 'Izohlar' },
+            { value: t('revenue'), label: t('revenue') },
+            { value: t('orders'), label: t('orders') },
+            { value: t('products'), label: t('products') },
+            {
+              value: t('avarage_selling_price'),
+              label: t('avarage_selling_price'),
+            },
+            { value: t('reviews'), label: t('reviews') },
           ]}
         />
-        <p className='text-sm text-blue-500'>
-          Ushbu yerdan grafikada ko'rsatiladigan ma'lumotni tanlang!
-        </p>
+        <p className='text-sm text-blue-500'>{t('select_graph_type')}</p>
       </div>
 
       <Container
@@ -145,9 +148,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
         loading={loading}
       >
         <div className='flex w-full items-center justify-center'>
-          <p className='text-primary'>
-            Sotuvchining pozitsiyasi (Daromadga ko'ra)
-          </p>
+          <p className='text-primary'>{t('seller_position_by_revenue')}</p>
         </div>
         {isActive && (
           <LineChart
@@ -155,7 +156,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
               return {
                 y: item.position,
                 x: item.date_pretty,
-                label: 'Pozitsiya',
+                label: t('position'),
               };
             })}
             style={{
@@ -165,8 +166,8 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
               width: '100%',
             }}
             isStep
-            xAxisTitle='Sana'
-            yAxisTitle='Pozitsiya'
+            xAxisTitle={t('date')}
+            yAxisTitle={t('position')}
           />
         )}
       </Container>
@@ -189,12 +190,16 @@ export default ShopOverall;
 function prepareDataset(data: SellerType[], type = 'Daromad') {
   switch (type) {
     case 'Daromad':
+    case 'Доход':
       return _prepareRevenue(data);
     case 'Buyurtmalar':
+    case 'Заказы':
       return _prepareOrders(data);
-    case 'Tovarlar':
+    case 'Mahsulotlar':
+    case 'Продукты':
       return _prepareProducts(data);
-    case "O'rtacha narx":
+    case 'O`rtacha sotuv narxi':
+    case 'Средняя цена продажи':
       return _preparePrice(data);
 
     default:
@@ -234,7 +239,7 @@ function _prepareOrders(orders: SellerType[]) {
       fill: false,
       borderColor: '#FF5733',
       backgroundColor: '#FF5733',
-      label: 'Jami buyurtmalar',
+      label: '',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#FF5733',

@@ -1,0 +1,19 @@
+{
+  "top_10_products_revenue": "Самые прибыльные продукты (Топ 10)",
+  "revenue": "Доход",
+  "products_amount": "Количество продуктов",
+  "orders_amount": "Количество заказов",
+  "subcategories_amount": "Количество подкатегорий",
+  "segmentations_amount": "Количество сегментаций",
+  "other_products": "Другие продукты",
+  "orders": "Заказы",
+  "products": "Продукты",
+  "reviews": "Отзывы",
+  "procucts_segmentation_by_price_in_category": "Сегментация продуктов по цене в категории",
+  "data_info_price_range": "Указывается количество товаров, входящих в эти ценовые диапазоны, количество заказов и сумма выручки.",
+  "update": "Обновить",
+  "currency": "сум",
+  "top_10_sellers": "Доли продавцов в категории - Лидеры продаж (до 10)",
+  "total_sellers": "Количество всех продавцов",
+  "no_subcategories": "Нет подкатегорий"
+}

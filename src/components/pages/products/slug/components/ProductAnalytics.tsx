@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -63,6 +64,7 @@ function ProductAnalytics({
     null
   );
   const [iscreatedAfter, setIscreatedAfter] = React.useState<boolean>(false);
+  const { t } = useTranslation('products');
 
   React.useEffect(() => {
     const api = new API(null);
@@ -102,8 +104,7 @@ function ProductAnalytics({
         {isActive && (
           <AreaChart
             data={prepareAllOrdersDataset(product, iscreatedAfter) || []}
-            title="Mahsulotning daromadi, sotuv va mavjud miqdorlarining quyidagi davr
-            davomida o'zgarishi"
+            title={t('product_totals_title')}
             labels={getLabels(product, iscreatedAfter) || []}
             style={{ width: '100%', height: '100%', maxHeight: '460px' }}
             className='h-[460px] max-h-[460px] w-full'
@@ -120,17 +121,14 @@ function ProductAnalytics({
                 ) ?? []
             }
             data={prepareDailyOrdersDataset(product, iscreatedAfter) || []}
-            title="Kunlik ma'lumotlar"
+            title={t('daily_info')}
             style={{ width: '100%', height: '100%', maxHeight: '460px' }}
             className='h-[460px] max-h-[460px] w-full'
           />
         )}
 
         <div className='mt-8 flex w-full items-center justify-start'>
-          <p className='w-full text-center text-sm'>
-            * Mahsulotning Uzumdagi barcha mahsulotlar orasida pozitsiyasi
-            (buyurtmalar soniga ko`ra)
-          </p>
+          <p className='w-full text-center text-sm'>{t('product_in_uzum')}</p>
           <p></p>
         </div>
         {product && product.recent_analytics && isActive && (
@@ -139,7 +137,7 @@ function ProductAnalytics({
               product.recent_analytics.map((item) => ({
                 x: item.date_pretty,
                 y: item.position,
-                label: 'Pozitsiya',
+                label: t('position'),
               })) || []
             }
             isStep
@@ -155,8 +153,7 @@ function ProductAnalytics({
         )}
         <div className='mt-8 flex w-full items-center justify-start'>
           <p className='w-full text-center text-sm'>
-            * Mahsulotning o'zining kategoriyasidagi poziytsiyasi (buyurtmalar
-            soniga ko`ra)
+            {t('product_in_category')}
           </p>
           <p></p>
         </div>
@@ -166,7 +163,7 @@ function ProductAnalytics({
               product.recent_analytics.map((item) => ({
                 x: item.date_pretty,
                 y: item.position_in_category,
-                label: 'Pozitsiya',
+                label: t('position'),
               })) || []
             }
             isStep
@@ -181,10 +178,7 @@ function ProductAnalytics({
           />
         )}
         <div className='mt-8 flex w-full items-center justify-start'>
-          <p className='w-full text-center text-sm'>
-            * do'kondagi mahsulotlar orasidagi poziytsiyasi (buyurtmalar soniga
-            ko`ra)
-          </p>
+          <p className='w-full text-center text-sm'>{t('product_in_shop')}</p>
           <p></p>
         </div>
         {product && isActive && (
@@ -193,11 +187,11 @@ function ProductAnalytics({
               product.recent_analytics.map((item) => ({
                 x: item.date_pretty,
                 y: item.position_in_shop,
-                label: 'Pozitsiya',
+                label: t('position'),
               })) || []
             }
             isStep
-            yAxisTitle='Kunlik buyurtmalar soni'
+            yAxisTitle={t('daily_orders_amount')}
             xAxisTitle=''
             style={{
               width: '100%',
@@ -421,7 +415,7 @@ function prepareAllOrdersDataset(
     fill: true,
     borderColor: 'rgba(0, 128, 0, 1)',
     backgroundColor: 'rgba(0, 128, 0, 0.2)',
-    label: 'Jami mavjud soni',
+    label: 'Jami mavjud miqdori',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(0, 128, 0, 1)',
   });

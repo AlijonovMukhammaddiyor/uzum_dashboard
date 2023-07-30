@@ -2,7 +2,8 @@ import { AxiosResponse } from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
@@ -27,8 +28,11 @@ interface CategoryType {
 }
 
 function Category({ user }: Props) {
+  const { t, i18n } = useTranslation('tabs');
   const [rendered, setRendered] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState<string>('Tovarlar');
+  const [activeTab, setActiveTab] = React.useState<string>(
+    t('categories.goods')
+  );
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { slug } = router.query as { slug: string };
@@ -58,7 +62,9 @@ function Category({ user }: Props) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, id]);
-
+  useEffect(() => {
+    setActiveTab(t('categories.goods'));
+  }, [t, i18n.language]);
   if (!rendered) return <></>;
 
   return (
@@ -78,11 +84,11 @@ function Category({ user }: Props) {
 
       <Tabs
         tabs={[
-          'Tovarlar',
-          'Trend',
-          'Ichki Kategoriyalar',
-          'Segmentatsiya',
-          'Sotuvchilar',
+          t('categories.goods'),
+          t('categories.trend'),
+          t('categories.subcategories'),
+          t('categories.segmentation'),
+          t('categories.sellers'),
           // 'Kunlik',
         ]}
         activeTab={activeTab}
@@ -161,7 +167,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+        ...(await serverSideTranslations(context.locale || 'uz', [
+          'common',
+          'tabs',
+          'categories',
+        ])),
         user: res,
       },
     };

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -35,6 +36,7 @@ export interface ProductAnalyticsViewType {
 }
 
 function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
+  const { t } = useTranslation('categories');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [topProductsData, setTopProductsData] = React.useState<
     {
@@ -83,7 +85,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           });
         if (res.data.total_products > 10)
           data.push({
-            type: 'Boshqa Mahsulotlar',
+            type: t('other_products'),
             value: Math.round((res.data.total_revenue - sum) * 1000),
           });
 
@@ -144,7 +146,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     >(url);
   };
 
-  if (activeTab !== 'Tovarlar') return <></>;
+  if (activeTab !== 'Tovarlar' && activeTab !== 'Товары') return <></>;
 
   return (
     <div
@@ -161,10 +163,10 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       >
         <div className='flex items-center justify-start gap-3'>
           <h2 className='text-primary flex-1 text-left text-base'>
-            Eng daromadli mahsulotlar (Top 10)
+            {t('top_10_products_revenue')}
           </h2>
           <div className='flex items-center justify-between gap-4'>
-            <p className='font-semibold'>Daromad:</p>
+            <p className='font-semibold'>{t('revenue')}:</p>
             <p className='text-primary font-semibold'>
               {revenue / 1000000 > 1 ? (
                 <span>{(revenue / 1000000).toFixed(1)} mlrd so'm</span>
@@ -176,20 +178,20 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
             </p>
           </div>
           <div className='flex items-center justify-between gap-4'>
-            <p className='font-semibold'>Mahsulotlar Soni:</p>
+            <p className='font-semibold'>{t('products_amount')}:</p>
             <p className='text-primary font-semibold'>
               {totalProducts?.toLocaleString()}
             </p>
           </div>
           <div className='flex items-center justify-between gap-4'>
-            <p className='font-semibold'>Buyurtmalar Soni:</p>
+            <p className='font-semibold'>{t('orders_amount')}:</p>
             <p className='text-primary font-semibold'>
               {totalOrders?.toLocaleString()}
             </p>
           </div>
           {childrenCount > 0 && (
             <div className='flex items-center justify-between gap-4'>
-              <p className='font-semibold'>Ichki Kategoriyalar Soni:</p>
+              <p className='font-semibold'>{t('subcategories_amount')}:</p>
               <p className='text-primary font-semibold'>
                 {childrenCount?.toLocaleString()}
               </p>

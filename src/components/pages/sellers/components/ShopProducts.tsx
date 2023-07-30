@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -42,9 +43,10 @@ interface ProductType {
 }
 
 function ShopProducts({ sellerId, className }: Props) {
+  const { t, i18n } = useTranslation('sellers');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [activeProducts, setActiveProducts] = React.useState<string>(
-    'Sotuvchining hozirdagi mahsulotlari'
+    t('sellers_current_products')
   );
   const [ordersData, setOrdersData] = React.useState<
     {
@@ -169,7 +171,9 @@ function ShopProducts({ sellerId, className }: Props) {
         logger(err, 'Error in getting stopped products');
       });
   }, [sellerId]);
-
+  React.useEffect(() => {
+    setActiveProducts(t('sellers_current_products'));
+  }, [t, i18n.language]);
   const loadData = (
     page: number,
     sortModel: {
@@ -227,7 +231,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={revenueData}
-            title="Eng ko'p daromad keltirgan mahsulotlar (20 tagacha)"
+            title={t('most_profitable_products')}
             labelType='outer'
             style={{
               width: '100%',
@@ -244,7 +248,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={ordersData}
-            title="Eng ko'p sotilgan mahsulotlar (20 tagacha)"
+            title={t('most_sold_products')}
             labelType='outer'
             style={{
               width: '100%',
@@ -261,7 +265,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={reviewsData}
-            title="Eng ko'p izoh yoizlgan mahsulotlar (20 tagacha)"
+            title={t('most_reviewed_products')}
             labelType='outer'
             style={{
               width: '100%',
@@ -277,10 +281,7 @@ function ShopProducts({ sellerId, className }: Props) {
         className={clsxm('w-full overflow-scroll border-none px-0')}
       >
         <Tabs
-          tabs={[
-            'Sotuvchining hozirdagi mahsulotlari',
-            'Sotuvchining sotuvdan chiqqan mahsulotlari',
-          ]}
+          tabs={[t('sellers_current_products'), t('sellers_stopped_products')]}
           activeTab={activeProducts}
           setActiveTab={setActiveProducts}
           className='my-4'
@@ -290,9 +291,7 @@ function ShopProducts({ sellerId, className }: Props) {
           columnDefs={ShopProductTableColumnDefs}
           className={clsxm(
             'h-[1016px] min-w-full',
-            activeProducts === 'Sotuvchining hozirdagi mahsulotlari'
-              ? ''
-              : 'hidden'
+            activeProducts === t('sellers_current_products') ? '' : 'hidden'
           )}
           fetchData={loadData}
           setLoading={setLoading}
@@ -302,9 +301,7 @@ function ShopProducts({ sellerId, className }: Props) {
           columnDefs={ShopStoppedProductTableColumnDefs}
           className={clsxm(
             'h-[1016px] min-w-full',
-            activeProducts === 'Sotuvchining sotuvdan chiqqan mahsulotlari'
-              ? ''
-              : 'hidden'
+            activeProducts === t('sellers_stopped_products') ? '' : 'hidden'
           )}
           rowData={stoppedProductsData}
         />

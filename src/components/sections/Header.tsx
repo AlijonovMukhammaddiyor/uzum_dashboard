@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import {
   HiOutlineArrowRightOnRectangle,
@@ -9,6 +10,7 @@ import {
 } from 'react-icons/hi2';
 
 import API from '@/lib/api';
+import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
@@ -23,7 +25,6 @@ export interface HeaderProps {
 }
 
 export default function Header() {
-  const router = useRouter();
   const { state } = useContextState();
   const [showPaymentNotification, setShowPaymentNotification] =
     React.useState(true);
@@ -37,6 +38,18 @@ export default function Header() {
       logger(e, 'Error in Header');
       alert(e);
     }
+  };
+  const { t, i18n } = useTranslation('common');
+  const router = useRouter();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    onToggleLanguageClick(lng);
+  };
+
+  const onToggleLanguageClick = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
   };
 
   const is_paid = state.user?.is_pro || state.user?.is_proplus;
@@ -111,7 +124,7 @@ export default function Header() {
             {is_paid && (
               <li>
                 <div className='flex max-w-[200px] items-center justify-start rounded-md border border-slate-400 bg-purple-100 px-2 py-1 '>
-                  <p className='text-sm'>Taklif kod:</p>
+                  <p className='text-sm'>{t('header.referralCode')}:</p>
                   <div className='ml-1 flex flex-col items-start justify-start'>
                     <span className='m-0 text-xs'>
                       {state.user?.referral_code}
@@ -120,6 +133,28 @@ export default function Header() {
                 </div>
               </li>
             )}
+            <li>
+              <div className='border-primary  flex h-7 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
+                <div
+                  className={clsxm(
+                    'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
+                    i18n.language === 'uz' && 'bg-primary text-white'
+                  )}
+                  onClick={() => changeLanguage('uz')}
+                >
+                  Uz
+                </div>
+                <div
+                  className={clsxm(
+                    'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
+                    i18n.language === 'ru' && 'bg-primary text-white'
+                  )}
+                  onClick={() => changeLanguage('ru')}
+                >
+                  Рус
+                </div>
+              </div>
+            </li>
             <li className='relative'>
               <div className='hover:text-gray-600'>
                 <HiOutlineBell className='hover:text-primary h-5 w-5 flex-shrink-0 text-black' />

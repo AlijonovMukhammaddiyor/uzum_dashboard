@@ -22,6 +22,7 @@ function Tabs({
   premiumTabs,
   activeColor = 'bg-white bg-opacity-[0.8]',
 }: TabsProps) {
+  // const { t } = useTranslation('tabs');
   return (
     <div
       className={clsxm(

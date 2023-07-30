@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
 
 import API from '@/lib/api';
@@ -64,7 +65,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   );
   // get list of past 30 days as yyyy-mm-dd in string. do not add today
   const [date, setDate] = useState<number>(0);
-
+  const { t } = useTranslation('sellers');
   useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -100,9 +101,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
       <div className='mb-10 flex items-start justify-start'>
         <VscDebugBreakpointData className='text-primary text-2xl' />
         <p className='text-sm text-slate-500'>
-          Quyidagi mahsulotlar tanlangan kunda ma'lum bir o'zgarish(lar)ga ega
-          bo'lgan. Misol uchun, mahsulotning soni yoki mahsulotning narxi yoki
-          mahsulotning reytingi o'zgargan.
+          {t('product_info_changed_instruction')}
         </p>
       </div>
 

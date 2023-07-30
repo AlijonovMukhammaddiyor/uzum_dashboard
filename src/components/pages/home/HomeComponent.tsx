@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
@@ -11,31 +12,38 @@ import Tabs from '@/components/shared/Tabs';
 import { UserType } from '@/types/user';
 
 function HomeComponent({ user }: { user: UserType }) {
-  const [activeTab, setActiveTab] = React.useState<string>('Umumiy');
+  const { t, i18n } = useTranslation('tabs');
+  const [activeTab, setActiveTab] = React.useState<string>(t('home.overview'));
+  console.log(t('home.overview'));
+  console.log(activeTab);
   const isProPlus = user.is_proplus;
+
+  React.useEffect(() => {
+    setActiveTab(t('home.overview'));
+  }, [i18n.language, t]);
 
   return (
     <div className='flex w-full min-w-[1200px] flex-col items-start justify-start gap-4 overflow-scroll'>
       <Tabs
         tabs={[
-          'Umumiy',
-          'Yangi mahsulotlar',
-          "O'sayotgan mahsulotlar",
-          "O'sayotgan kategoriyalar",
+          t('home.overview'),
+          t('home.new_products'),
+          t('home.promising_products'),
+          t('home.promising_categories'),
           // 'Asosiy kategoriyalar',
         ]}
         premiumTabs={[
-          'Yangi mahsulotlar',
-          "O'sayotgan mahsulotlar",
-          "O'sayotgan kategoriyalar",
+          t('home.new_products'),
+          t('home.promising_products'),
+          t('home.promising_categories'),
         ]}
         disbaledTabs={
           isProPlus
             ? []
             : [
-                "O'sayotgan mahsulotlar",
-                "O'sayotgan kategoriyalar",
-                'Yangi mahsulotlar',
+                t('home.promising_products'),
+                t('home.promising_categories'),
+                t('home.new_products'),
               ]
         }
         activeTab={activeTab}
@@ -43,25 +51,27 @@ function HomeComponent({ user }: { user: UserType }) {
         className='w-full min-w-[1200px] overflow-auto'
       />
       <HomeStatisticsContainer
-        className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}
+        className={clsxm(activeTab === t('home.overview') ? '' : 'hidden')}
       />
 
       <NewProducts
-        className={clsxm(activeTab === 'Yangi mahsulotlar' ? 'mt-0' : 'hidden')}
+        className={clsxm(
+          activeTab === t('home.new_products') ? 'mt-0' : 'hidden'
+        )}
       />
 
-      {activeTab === "O'sayotgan mahsulotlar" && (
+      {activeTab === t('home.promising_products') && (
         <GrowingProducts
           className={clsxm(
-            activeTab === "O'sayotgan mahsulotlar" ? '' : 'hidden'
+            activeTab === t('home.promising_products') ? '' : 'hidden'
           )}
         />
       )}
 
-      {activeTab === "O'sayotgan kategoriyalar" && (
+      {activeTab === t('home.promising_categories') && (
         <GrowingCategories
           className={clsxm(
-            activeTab === "O'sayotgan kategoriyalar" ? '' : 'hidden'
+            activeTab === t('home.promising_categories') ? '' : 'hidden'
           )}
         />
       )}

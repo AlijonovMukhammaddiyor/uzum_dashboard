@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { BiTrendingDown, BiTrendingUp } from 'react-icons/bi';
 import { BsPlus } from 'react-icons/bs';
 import { FiChevronRight } from 'react-icons/fi';
@@ -50,6 +51,7 @@ function DataContainer({
   isFullScreen,
   setFullScreen,
 }: Props) {
+  const { t } = useTranslation('common');
   return (
     <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md xl:w-1/2'>
       {/* {isFullScreen && ( */}
@@ -87,7 +89,7 @@ function DataContainer({
             setFullScreen && setFullScreen(title);
           }}
         >
-          Segmentatsiyani ko'rish
+          {t('dataTable.see_segmentations')}
           <FiChevronRight className='ml-2 inline-block' />
         </button>
       </div>
@@ -96,13 +98,15 @@ function DataContainer({
           <div className='flex items-center justify-start gap-6'>
             <div className=''>
               <div className='flex max-w-full items-center justify-start gap-6'>
-                <p className='font-primary text-sm font-bold'>Jami: </p>
+                <p className='font-primary text-sm font-bold'>
+                  {t('dataTable.total')}:{' '}
+                </p>
                 <p className='-ml-4 shrink-0 text-2xl font-bold'>
                   {isCount
                     ? all.toLocaleString()
                     : Math.round(all / 1000000) + ' mlrd'}
                   <span className='text-sm font-normal'>
-                    {isCount ? ' ta' : " so'm"}
+                    {isCount ? t('dataTable.count') : t('dataTable.currency')}
                   </span>
                 </p>
 
@@ -138,12 +142,14 @@ function DataContainer({
               </div>
 
               <p className='text-sm text-slate-500'>
-                Yangilangan sana: {last_date}
+                {t('dataTable.updated_at')}: {last_date}
               </p>
             </div>
             <div className='ml-10 flex flex-col items-start  justify-start'>
               <div className='flex max-w-full items-center justify-start gap-6'>
-                <p className='font-primary text-sm font-bold '>Kechagi: </p>
+                <p className='font-primary text-sm font-bold '>
+                  {t('dataTable.yesterday')}:{' '}
+                </p>
                 <p className='-ml-4 shrink-0 text-2xl font-bold '>
                   {isCount
                     ? daily.toLocaleString()
@@ -151,7 +157,7 @@ function DataContainer({
                     ? Math.abs(daily / 1000000).toFixed(1) + ' mlrd'
                     : Math.abs(daily / 1000).toFixed(1) + ' mln'}
                   <span className='text-sm font-normal'>
-                    {isCount ? ' ta' : " so'm"}
+                    {isCount ? t('dataTable.count') : t('dataTable.currency')}
                   </span>
                 </p>
 
@@ -181,7 +187,7 @@ function DataContainer({
                 </div>
               </div>
               <p className='text-sm text-slate-500'>
-                Kechagi bilan taqqoslaganda
+                {t('dataTable.compared_to_yesterday')}
               </p>
             </div>
           </div>
@@ -193,13 +199,13 @@ function DataContainer({
                 type: 'line',
                 data: data_daily,
                 borderColor: daily_color,
-                label: 'Kunlik',
+                label: t('dataTable.daily'),
               },
               {
                 type: 'bar',
                 data: data_all,
                 backgroundColor: all_color,
-                label: 'Jami',
+                label: t('dataTable.total'),
                 borderRadius: 3,
                 borderSkipped: 'bottom',
               },
@@ -234,19 +240,19 @@ function getData(
 ) {
   if (!data.orders) return [];
 
-  if (title === 'Daromad miqdori') {
+  if (title === 'Daromad miqdori' || title === 'Доход') {
     return data.revenue.data;
   }
-  if (title === 'Buyurtmalar soni') {
+  if (title === 'Buyurtmalar soni' || title === 'Заказы') {
     return data.orders.data;
   }
-  if (title === 'Mahsulotlar soni') {
+  if (title === 'Mahsulotlar soni' || title === 'Продукты') {
     return data.products.data;
   }
-  if (title === "Do'konlar soni") {
+  if (title === "Do'konlar soni" || title === 'Магазины') {
     return data.shops.data;
   }
-  if (title === 'Izohlar soni') {
+  if (title === 'Izohlar soni' || title === 'Отзывы') {
     return data.reviews.data;
   }
 }
@@ -254,19 +260,19 @@ function getData(
 function getMinMax(data: any, title: string) {
   if (!data.orders) return [];
 
-  if (title === 'Daromad miqdori') {
+  if (title === 'Daromad miqdori' || title === 'Доход') {
     return data.revenue.min_max;
   }
-  if (title === 'Buyurtmalar soni') {
+  if (title === 'Buyurtmalar soni' || title === 'Заказы') {
     return data.orders.min_max;
   }
-  if (title === 'Mahsulotlar soni') {
+  if (title === 'Mahsulotlar soni' || title === 'Продукты') {
     return data.products.min_max;
   }
-  if (title === "Do'konlar soni") {
+  if (title === "Do'konlar soni" || title === 'Магазины') {
     return data.shops.min_max;
   }
-  if (title === 'Izohlar soni') {
+  if (title === 'Izohlar soni' || title === 'Отзывы') {
     return data.reviews.min_max;
   }
 }
@@ -287,10 +293,25 @@ function getTitles(title: string) {
   if (title === 'Izohlar soni') {
     return "Quyida barcha kategoriyalarning izohlar soni va shu izohlar soniga qarab ularning ulushi ko'rsatilgan.";
   }
+  if (title === 'Доход') {
+    return 'Ниже приведены суммы доходов всех категорий и их доля исходя из этого дохода';
+  }
+  if (title === 'Заказы') {
+    return 'Ниже указано количество заказов всех категорий и их доля в зависимости от количества заказов.';
+  }
+  if (title === 'Продукты') {
+    return 'Ниже указано количество товаров всех категорий и их доля в зависимости от количества этих товаров.';
+  }
+  if (title === 'Магазины') {
+    return 'Ниже указано количество магазинов всех категорий и их доля исходя из количества этих магазинов.';
+  }
+  if (title === 'Отзывы') {
+    return 'Ниже указано количество комментариев всех категорий и их доля в зависимости от количества комментариев.';
+  }
 }
 
 function getSubtitle(title: string) {
-  return "Agar ma'lum bir kategoriyani chuqurroq o'rganishni istasangiz, \"Kategoriyalar\" bo'limiga o'ting va shu kategoriyani tanlang.";
+  return 'Agar ma\'lum bir kategoriyani chuqurroq o\'rganishni istasangiz, "Kategoriyalar" bo\'limiga o\'ting va shu kategoriyani tanlang.\n Если вы хотите узнать больше об определенной категории, перейдите в "Категории" и выберите эту категорию.';
 }
 
 function calculateChange(current: number, last: number) {
