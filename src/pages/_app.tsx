@@ -120,32 +120,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </title>
           <link rel='canonical' href='https://www.uzanalitika.uz/' />
         </Head>
-        {/* add og manually */}
-
-        {/* <DefaultSeo
-          title='UzAnalitika.Uz - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
-          description="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-          openGraph={{
-            type: 'website',
-            locale: 'uz_UZ',
-            url: 'https://www.uzanalitika.uz/',
-            site_name: 'Uzum Analitka Xizmatlari',
-            images: [
-              {
-                url: 'https://www.uzanalitika.uz/images/og.png',
-                width: 800,
-                height: 600,
-                alt: 'Og Image Alt',
-              },
-            ],
-          }}
-          twitter={{
-            handle: '@handle',
-            site: '@site',
-            cardType: 'summary_large_image',
-          }}
-        /> */}
-        <NextNProgress color='rgb(119, 67, 219)' />
+        <NextNProgress color='rgb(119, 67, 219)' height={10} />
         {isMobile &&
         router.pathname !== '/' &&
         !router.pathname.startsWith('/login') &&

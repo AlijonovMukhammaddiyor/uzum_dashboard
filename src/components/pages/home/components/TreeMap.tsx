@@ -20,6 +20,7 @@ interface Props {
   main_subtitle?: string;
   min: number;
   max: number;
+  titleField?: string;
 }
 
 function TreeMap({
@@ -31,6 +32,7 @@ function TreeMap({
   main_subtitle,
   min,
   max,
+  titleField,
 }: Props) {
   const [filteredData, setFilteredData] = useState<any[]>(data);
 
@@ -58,7 +60,7 @@ function TreeMap({
     series: [
       {
         type: 'treemap',
-        labelKey: 'title',
+        labelKey: titleField ?? 'title',
         sizeKey: 'analytics',
         colorKey: 'analytics',
         tooltip: {

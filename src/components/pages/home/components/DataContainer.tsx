@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { BiTrendingDown, BiTrendingUp } from 'react-icons/bi';
 import { BsPlus } from 'react-icons/bs';
@@ -50,11 +51,14 @@ function DataContainer({
   isFullScreen,
   setFullScreen,
 }: Props) {
+  const { i18n } = useTranslation();
+
   return (
     <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md xl:w-1/2'>
       {/* {isFullScreen && ( */}
       <TreeMap
-        data={getData(data, title)}
+        titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
+        data={getData(data, title, i18n.language)}
         min={getMinMax(data, title)?.min}
         max={getMinMax(data, title)?.max}
         open={isFullScreen === title}
@@ -230,7 +234,8 @@ function getData(
       data: any;
     };
   },
-  title: string
+  title: string,
+  lang: string
 ) {
   if (!data.orders) return [];
 

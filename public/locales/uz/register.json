@@ -24,5 +24,7 @@
   "nousername.validate.error": "Foydalanuvchi nomini kiriting!",
   "nopassword.validate.error": "Parol kamida 8 ta belgidan iborat bo'lishi kerak!",
   "nophone.validate.error": "Telefon raqamini kiriting!",
-  "button.register": "Ro'yhatdan o'tish"
+  "button.register": "Ro'yhatdan o'tish",
+  "agreement.validate.error": "Iltimos Maxfiylik siyosati va Foydalanuvchi shartnomasi bilan tanishib chiqing va rozilik bering!",
+  "agreement": "Maxfiylik siyosati va Foydalanuvchi shartnomasi bilan tanishdim va ularga rozilik bildiraman."
 }

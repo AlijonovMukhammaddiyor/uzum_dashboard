@@ -22,6 +22,7 @@ const NamesAndEmailComponent = ({
   const router = useRouter();
   const [referral_code, setReferralCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
   const { t } = useTranslation('register');
 
@@ -32,6 +33,7 @@ const NamesAndEmailComponent = ({
     id: number;
   }) => {
     if (!user.username) return alert(t('nousername.validate.error'));
+    if (!isAgreed) return alert(t('agreement.validate.error'));
 
     setSendingRequest(true);
     const api = new API(null);
@@ -104,6 +106,17 @@ const NamesAndEmailComponent = ({
       </Button> */}
       <div className=''>
         {error && <p className='text-xs text-red-500'>{error}</p>}
+      </div>
+
+      <div className='flex items-center justify-center gap-2'>
+        <input
+          type='checkbox'
+          checked={isAgreed}
+          onChange={(e) => {
+            setIsAgreed(e.target.checked);
+          }}
+        />
+        <p className='text-xs'>{t('agreement')}</p>
       </div>
 
       <RegisterFooter

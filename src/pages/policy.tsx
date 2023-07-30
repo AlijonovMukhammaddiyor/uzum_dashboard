@@ -8,11 +8,11 @@ import clsxm from '@/lib/clsxm';
 import Footer1 from '@/components/pages/landing/components/Footer1';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 
-import terms from '@/assets/terms.json';
+import policy from '@/assets/policy.json';
 
-export default function Terms() {
+export default function Policy() {
   const router = useRouter();
-  const { t, i18n } = useTranslation('terms');
+  const { t, i18n } = useTranslation('policy');
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     onToggleLanguageClick(lng);
@@ -55,7 +55,7 @@ export default function Terms() {
             <p className='mb-4 text-gray-600'>{t('subtitle1')}</p>
             <p className='mb-4 text-gray-600'>{t('subtitle2')}</p>
             <ol className='list-outside list-disc pl-5'>
-              {Object.entries(terms).map(([key, value]) => {
+              {Object.entries(policy).map(([key, value]) => {
                 if (typeof value === 'string') {
                   return <></>;
                 }
@@ -102,7 +102,7 @@ export async function getStaticProps({ locale }: { locale: any }) {
     props: {
       ...(await serverSideTranslations(
         locale || 'uz',
-        ['landing', 'common', 'terms'],
+        ['landing', 'common', 'policy'],
         null,
         ['uz', 'ru']
       )),
