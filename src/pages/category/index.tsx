@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
@@ -19,6 +20,7 @@ export interface CategoryProps {
 export default function Category({ user }: CategoryProps) {
   const [mounted, setMounted] = React.useState(false);
   const { dispatch } = useContextState();
+  const { i18n } = useTranslation();
 
   React.useEffect(() => {
     setMounted(true);
@@ -27,7 +29,7 @@ export default function Category({ user }: CategoryProps) {
       type: 'PATH',
       payload: {
         path: {
-          Kategoriyalar: '/category',
+          [i18n.language === 'uz' ? 'Kategoriyalar' : 'Категории']: '/category',
         },
       },
     });
@@ -63,7 +65,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+        ...(await serverSideTranslations(context.locale || 'uz', [
+          'common',
+          'tabs',
+          'categories',
+        ])),
         user: res,
       },
     };

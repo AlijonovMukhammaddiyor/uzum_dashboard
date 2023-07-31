@@ -1,0 +1,48 @@
+{
+  "id": "ID",
+  "product_name": "Mahsulot nomi",
+  "products_count": "Mahsulotlar soni",
+  "active_products_amount": "Faol mahsulotlar soni",
+  "tooltip.active_products_amount": "Kecha sotilgan mahsulotlar soni",
+  "tooltip.position_in_category": "Mahsulotning o'z kategoriyasidagi pozitsiyasi",
+  "tooltip.revenue_in_category": "Do'konning ushbu kategoriyadagi mahsulotlar kelgan daromadi.",
+  "tooltip.average_price_in_category": "Do'konning ushbu kategoriyadagi mahsulotlar o'rtacha sotuv narxi.",
+
+  "shop_name": "Do'kon nomi",
+  "active_shops_count": "Faol do'konlar soni",
+  "tooltip.active_shops_count": "Kecha sotuvi bo'lgan do'konlar soni",
+  "position_in_shop": "Do'kondagi pozitsiyasi",
+  "shops_count": "Do'konlar soni",
+
+  "subcategory": "Ichki kategoriyasi",
+  "category": "Kategoriya",
+  "position_in_subcategory": "Ichki kategoriyadagi pozitsiyasi",
+  "subcategories_count": "Ichki kategoriyalar soni",
+
+  "position": "Pozitsiya",
+  "image": "Rasm",
+  "orders": "Buyurtmalar",
+  "revenue": "Daromad",
+  "sku": "SKU soni",
+  "average_price": "O'rtacha Sotuv Narxi",
+  "full_price": "Haqiqiy Narxi",
+  "promotion": "Aksiya",
+  "available_amount": "Mavjud soni",
+  "reviews": "Izohlar",
+  "rating": "Reyting",
+  "last_active_date": "Oxirgi mavjud sana",
+  "last_sold_date": "Oxirgi sotuv sanasi",
+  "date": "Sana",
+  "average_rating": "O'rtacha reytingi",
+  "from": "Dan",
+  "to": "Gacha",
+
+  "date_added": "Qo'shilgan sana",
+
+  "daily_revenue": "Kunlik daromad",
+  "categories_count": "Kategoriyalar soni",
+  "tooltip.categories_count": "Do'konning nechta kategoriyada mahsulotlari borligi",
+  "tooltip.rating": "Sotuvchi mahsulotlarining o'rtacha reytingi.",
+  "tooltip.average_price": "Sotuvchi mahsulotlarining o'rtacha sotuv narxi.",
+  "tooltip.last_active_date": "Sotuvchi mahsulotlarining oxirgi mavjud sana."
+}

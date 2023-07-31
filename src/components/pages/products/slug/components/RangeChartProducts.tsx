@@ -6,6 +6,7 @@ const Column = dynamic(
 );
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface RangeChartProps {
   data: any[];
@@ -13,12 +14,13 @@ export interface RangeChartProps {
 }
 
 const RangeChartProducts = ({ data, style }: RangeChartProps) => {
+  const { t } = useTranslation('products');
   const transformedData = data.flatMap((item, index) => [
     {
       range: `${(item.from / 1000).toLocaleString()}k so'm-${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      type: 'Mahsulotlar soni',
+      type: t('products_count'),
       value: item.total_products,
       index: index,
       color: 'rgba(120, 193, 243, 0.7)',
@@ -27,7 +29,7 @@ const RangeChartProducts = ({ data, style }: RangeChartProps) => {
       range: `${(item.from / 1000).toLocaleString()}k so'm-${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      type: 'Buyurtmalar soni',
+      type: t('orders_amount'),
       value: item.total_orders,
       index: index,
       // specify color of the column
@@ -37,7 +39,7 @@ const RangeChartProducts = ({ data, style }: RangeChartProps) => {
       range: `${(item.from / 1000).toLocaleString()}k so'm-${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      type: "Do'konlar soni",
+      type: t('shops_amount'),
       value: item.total_shops,
       index: index,
       // specify color of the column
@@ -109,8 +111,10 @@ const RangeChartProducts = ({ data, style }: RangeChartProps) => {
       // use a function to map categories to colors
       switch (type) {
         case 'Mahsulotlar soni':
+        case 'Количество товаров':
           return 'rgb(82, 95, 225)'; // specify color for Mahsulotlar soni
         case 'Buyurtmalar soni':
+        case 'Количество заказов':
           return 'rgba(48, 111, 3, 0.6)'; // specify color for Buyurtmalar soni
         default:
           return 'rgba(57, 181, 224, 0.7)'; // default color for other categories

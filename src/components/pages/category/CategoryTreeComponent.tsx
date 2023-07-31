@@ -1,4 +1,5 @@
 import { NextRouter, useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { HiChevronRight, HiMinusSm, HiPlusSm } from 'react-icons/hi';
 
@@ -19,6 +20,7 @@ function CategoryTreeComponent() {
   const [data, setData] = React.useState<CategoryInTree[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const { dispatch, state } = useContextState();
+  const { t, i18n } = useTranslation('tableColumns');
 
   const router = useRouter();
 
@@ -41,7 +43,11 @@ function CategoryTreeComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const parents = data?.map((category) => category.title).sort();
+  const parents = data
+    ?.map((category) =>
+      i18n.language === 'uz' ? category.title : category.title_ru
+    )
+    .sort();
 
   return (
     <Container
@@ -60,7 +66,24 @@ function CategoryTreeComponent() {
       </div>
       <div className='flex h-full flex-1 flex-col gap-6 overflow-y-scroll p-6'>
         {data?.map((category) => {
-          if (category.title === activeTab) {
+          if (i18n.language === 'uz' && category.title === activeTab) {
+            return (
+              <div key={category.categoryId} className='flex flex-col gap-3'>
+                <RenderChildren
+                  category={category}
+                  className=''
+                  goToCategory={goToCategory}
+                  router={router}
+                  dispatch={dispatch}
+                  depth={0}
+                  parentPath={{
+                    Kategoriyalar: '/category',
+                  }}
+                />
+              </div>
+            );
+          }
+          if (i18n.language !== 'uz' && category.title_ru === activeTab) {
             return (
               <div key={category.categoryId} className='flex flex-col gap-3'>
                 <RenderChildren
@@ -108,10 +131,13 @@ function RenderChildren({
   const [isExpanded, setIsExpanded] = React.useState<boolean>(depth === 0);
   const hasChildren = category.children && category.children.length > 0;
   const { state } = useContextState();
+  const { t, i18n } = useTranslation('tableColumns');
 
   const categoryPath = {
     ...parentPath,
-    [category.title]: `/category/${category.title}--${category.categoryId}`,
+    [i18n.language === 'uz' ? category.title : category.title_ru]: `/category/${
+      i18n.language === 'uz' ? category.title : category.title_ru
+    }--${category.categoryId}`,
   };
 
   return (
@@ -151,7 +177,7 @@ function RenderChildren({
           onClick={() => {
             goToCategory(
               category.categoryId,
-              category.title,
+              i18n.language === 'uz' ? category.title : category.title_ru,
               router,
               state.user as UserType
             );
@@ -167,7 +193,7 @@ function RenderChildren({
             }
           }}
         >
-          {category.title}
+          {i18n.language === 'uz' ? category.title : category.title_ru}
           <HiChevronRight
             className={clsxm(
               'group-hover:text-primary',

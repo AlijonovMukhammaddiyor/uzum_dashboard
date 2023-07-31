@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -32,9 +33,16 @@ export interface ShopsProps {
   };
 }
 function Category({ user, seller }: ShopsProps) {
+  const { t, i18n } = useTranslation('tabs');
   const [rendered, setRendered] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState<string>('Umumiy');
+  const [activeTab, setActiveTab] = React.useState<string>(
+    t('sellers.overview')
+  );
   const { dispatch } = useContextState();
+
+  React.useEffect(() => {
+    setActiveTab(t('sellers.overview'));
+  }, [i18n.language, t]);
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
@@ -83,44 +91,48 @@ function Category({ user, seller }: ShopsProps) {
 
       <Tabs
         tabs={[
-          'Umumiy',
-          'Tovarlar',
-          'Kunlik Sotuv',
-          'Raqobatchilar',
-          'Kategoriyalar',
+          t('sellers.overview'),
+          t('sellers.goods'),
+          t('sellers.daily_sales'),
+          t('sellers.competitors'),
+          t('sellers.categories'),
         ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4'
       />
       <ShopOverall
-        className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}
+        className={clsxm(activeTab === t('sellers.overview') ? '' : 'hidden')}
         sellerId={seller.seller_id}
-        isActive={activeTab === 'Umumiy' ? true : false}
+        isActive={activeTab === t('sellers.overview') ? true : false}
       />
 
       <ShopProducts
-        className={clsxm(activeTab === 'Tovarlar' ? '' : 'hidden')}
+        className={clsxm(activeTab === t('sellers.goods') ? '' : 'hidden')}
         sellerId={seller.seller_id}
       />
 
       <ShopCompetitors
-        className={clsxm(activeTab === 'Raqobatchilar' ? '' : 'hidden')}
+        className={clsxm(
+          activeTab === t('sellers.competitors') ? '' : 'hidden'
+        )}
         sellerId={seller.seller_id}
         title={seller.title}
-        isActive={activeTab === 'Raqobatchilar' ? true : false}
+        isActive={activeTab === t('sellers.competitors') ? true : false}
       />
 
       <ShopDailySales
-        className={clsxm(activeTab === 'Kunlik Sotuv' ? '' : 'hidden')}
+        className={clsxm(
+          activeTab === t('sellers.daily_sales') ? '' : 'hidden'
+        )}
         sellerId={seller.seller_id}
-        isActive={activeTab === 'Kunlik Sotuv' ? true : false}
+        isActive={activeTab === t('sellers.daily_sales') ? true : false}
       />
 
       <ShopCategories
-        className={clsxm(activeTab === 'Kategoriyalar' ? '' : 'hidden')}
+        className={clsxm(activeTab === t('sellers.categories') ? '' : 'hidden')}
         sellerId={seller.seller_id}
-        isActive={activeTab === 'Kategoriyalar' ? true : false}
+        isActive={activeTab === t('sellers.categories') ? true : false}
       />
     </Layout>
   );
@@ -196,7 +208,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+        ...(await serverSideTranslations(context.locale || 'uz', [
+          'common',
+          'tabs',
+          'sellers',
+          'tableColumns',
+        ])),
         user: res,
         seller: seller.data,
       },

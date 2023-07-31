@@ -1,12 +1,13 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { ShopDailySaleColumnDefs } from '@/components/columnDefs';
+import { getShopDailySaleColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
 import Table from '@/components/shared/Table';
@@ -45,6 +46,8 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<ExtendedProductAnalyticsType[]>([]);
+  const { t: t2, i18n } = useTranslation('tableColumns');
+
   const [dates, setDates] = useState<string[]>(
     Array.from(Array(60).keys())
       .map((i) => {
@@ -64,7 +67,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   );
   // get list of past 30 days as yyyy-mm-dd in string. do not add today
   const [date, setDate] = useState<number>(0);
-
+  const { t } = useTranslation('sellers');
   useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -100,9 +103,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
       <div className='mb-10 flex items-start justify-start'>
         <VscDebugBreakpointData className='text-primary text-2xl' />
         <p className='text-sm text-slate-500'>
-          Quyidagi mahsulotlar tanlangan kunda ma'lum bir o'zgarish(lar)ga ega
-          bo'lgan. Misol uchun, mahsulotning soni yoki mahsulotning narxi yoki
-          mahsulotning reytingi o'zgargan.
+          {t('product_info_changed_instruction')}
         </p>
       </div>
 
@@ -113,7 +114,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
         <Table
           rowData={data}
           className='min-h-full'
-          columnDefs={ShopDailySaleColumnDefs}
+          columnDefs={getShopDailySaleColumnDefs(t2, i18n.language)}
         />
       </Container>
     </div>

@@ -1,10 +1,11 @@
 import { AxiosResponse } from 'axios';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
-import { NewProductsColDefs } from '@/components/columnDefs';
+import { getNewProductsColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 
@@ -33,6 +34,7 @@ interface ProductsReponseType {
 
 function NewProducts({ className }: HomeStatisticsContainerProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
+  const { t, i18n } = useTranslation('tableColumns');
 
   const loadData = (
     page: number,
@@ -81,7 +83,7 @@ function NewProducts({ className }: HomeStatisticsContainerProps) {
         loading={loading}
       >
         <PaginatedTable
-          columnDefs={NewProductsColDefs as any}
+          columnDefs={getNewProductsColDefs(t, i18n.language)}
           className='h-[1016px] min-w-full'
           setLoading={setLoading}
           fetchData={loadData}

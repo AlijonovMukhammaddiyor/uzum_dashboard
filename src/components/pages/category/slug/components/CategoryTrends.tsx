@@ -1,12 +1,13 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { CategoryTrendstableColumnDefs } from '@/components/columnDefs';
+import { getCategoryTrendstableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import AreaChart from '@/components/shared/AreaChart';
 import Table from '@/components/shared/Table';
@@ -29,9 +30,13 @@ export interface CategoryAnalyticsDataType {
   total_shops: number;
   total_shops_with_sales: number;
   category_title: string;
+  category_title_ru: string;
 }
 
 function CategoryTrends({ className, categoryId, isActive }: Props) {
+  const { t, i18n } = useTranslation('tableColumns');
+  const { t: t2 } = useTranslation('categories');
+
   const [data, setData] = React.useState<CategoryAnalyticsDataType[]>([]);
   const [labels, setLabels] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -74,14 +79,17 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         <Select
           className='basic-single w-[300px] cursor-pointer rounded-md'
           classNamePrefix='select'
-          defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+          defaultValue={{
+            value: t2('revenue'),
+            label: t2('revenue'),
+          }}
           isDisabled={false}
           isLoading={false}
           isClearable={false}
           isRtl={false}
           isSearchable={false}
           onChange={(e) => {
-            setTab(e?.value ?? 'Daromad');
+            setTab(e?.value ?? t2('revenue'));
           }}
           styles={{
             dropdownIndicator: (provided) => ({
@@ -105,15 +113,13 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
           }}
           name='color'
           options={[
-            { value: 'Daromad', label: 'Daromad' },
-            { value: 'Buyurtmalar', label: 'Buyurtmalar' },
-            { value: 'Tovarlar', label: 'Tovarlar' },
-            { value: "Do'konlar", label: "Do'konlar" },
+            { value: t2('revenue'), label: t2('revenue') },
+            { value: t2('orders'), label: t2('orders') },
+            { value: t2('products'), label: t2('products') },
+            { value: t2('shops'), label: t2('shops') },
           ]}
         />
-        <p className='text-sm text-blue-400'>
-          Ushbu yerda grafika turini tanglang!
-        </p>
+        <p className='text-sm text-blue-400'>{t2('select_graph_type')}</p>
       </div>
 
       <Container
@@ -122,7 +128,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
       >
         {isActive && (
           <AreaChart
-            data={prepareDataset(data, tab) ?? []}
+            data={prepareDataset(data, tab, i18n.language) ?? []}
             labels={labels.slice(1)}
             style={{
               width: '100%',
@@ -134,7 +140,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         )}
       </Container>
       <Table
-        columnDefs={CategoryTrendstableColumnDefs as any}
+        columnDefs={getCategoryTrendstableColumnDefs(t, i18n.language) as any}
         className=''
         rowData={data || []}
       />
@@ -144,7 +150,11 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
 
 export default CategoryTrends;
 
-const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
+const prepareDataset = (
+  data: CategoryAnalyticsDataType[],
+  tab: string,
+  lang: string
+) => {
   const orders: {
     x: string;
     y: number;
@@ -222,14 +232,14 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
     prevRevenue = item.total_orders_amount;
   });
 
-  if (tab === 'Daromad')
+  if (tab === 'Daromad' || tab === 'Выручка')
     return [
       {
         data: dailyRevenue,
         fill: true,
         borderColor: 'rgb(32,178,170)',
         backgroundColor: 'rgba(32,178,170,0.15)',
-        label: 'Kechagi daromad',
+        label: lang === 'uz' ? 'Kunlik daromad' : 'Дневная выручка',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(32,178,170)',
@@ -239,21 +249,21 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(34,139,34)',
         backgroundColor: 'rgba(34,139,34,0.15)',
-        label: 'Jami daromad',
+        label: lang === 'uz' ? 'Jami daromad' : 'Вся выручка',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(34,139,34)',
       },
     ];
 
-  if (tab === 'Buyurtmalar')
+  if (tab === 'Buyurtmalar' || tab === 'Продаж')
     return [
       {
         data: orders,
         fill: true,
         borderColor: 'rgb(219,112,147)',
         backgroundColor: 'rgba(219,112,147,0.15)',
-        label: 'Kechagi buyurtmalar',
+        label: lang === 'uz' ? 'Kunlik buyurtmalar' : 'Ежедневные продажи',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(219,112,147)',
@@ -263,7 +273,7 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(128,0,128)',
         backgroundColor: 'rgba(128,0,128,0.15)',
-        label: 'Jami buyurtmalar',
+        label: lang === 'uz' ? 'Jami buyurtmalar' : 'Все продажи',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(128,0,128)',
@@ -273,21 +283,21 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(30,144,255)',
         backgroundColor: 'rgba(30,144,255,0.15)',
-        label: 'Izohlar',
+        label: lang === 'uz' ? 'Izohlar' : 'Комментарии',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(30,144,255)',
       },
     ];
 
-  if (tab === 'Tovarlar')
+  if (tab === 'Tovarlar' || tab === 'Товары')
     return [
       {
         data: products,
         fill: true,
         borderColor: '#ff7f0e',
         backgroundColor: 'rgba(255, 127, 14, 0.15)',
-        label: 'Tovarlar',
+        label: tab,
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: '#ff7f0e',
@@ -297,7 +307,10 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
         fill: true,
         borderColor: 'rgb(204, 153, 255)',
         backgroundColor: 'rgba(204, 153, 255, 0.15)',
-        label: "Kecha Sotuvi bo'lgan tovarlar",
+        label:
+          lang === 'uz'
+            ? "Kecha Sotuvi bo'lgan tovarlar"
+            : 'Товары, проданные вчера',
         hidden: false,
         pointRadius: 3,
         pointBackgroundColor: 'rgb(204, 153, 255)',
@@ -310,7 +323,7 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
       fill: true,
       borderColor: 'rgb(60,179,113)',
       backgroundColor: 'rgba(60,179,113,0.15)',
-      label: "Do'konlar",
+      label: tab,
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: 'rgb(60,179,113)',
@@ -321,7 +334,10 @@ const prepareDataset = (data: CategoryAnalyticsDataType[], tab: string) => {
       fill: true,
       borderColor: 'rgb(70,130,180)',
       backgroundColor: 'rgba(70,130,180,0.15)',
-      label: "Kecha Sotuvi bo'lgan do'konlar",
+      label:
+        lang === 'uz'
+          ? "Kecha sotuv bo'lgan do'konlar"
+          : 'Магазины с вечерней распродажей',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: 'rgb(70,130,180)',

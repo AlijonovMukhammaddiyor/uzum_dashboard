@@ -1,11 +1,12 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { CategoryProductTableColumnDefs } from '@/components/columnDefs';
+import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 import PieChart from '@/components/shared/PieChart';
@@ -35,6 +36,8 @@ export interface ProductAnalyticsViewType {
 }
 
 function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
+  const { t, i18n } = useTranslation('tableColumns');
+  const { t: t2 } = useTranslation('categories');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [topProductsData, setTopProductsData] = React.useState<
     {
@@ -59,6 +62,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           products: {
             product_id: number;
             product_title: string;
+            product_title_ru: string;
             orders_amount: number;
             orders_money: number;
           }[];
@@ -77,13 +81,16 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           .map((product) => {
             sum += product.orders_money;
             return {
-              type: product.product_title + ' (' + product.product_id + ')',
+              type:
+                i18n.language === 'uz'
+                  ? product.product_title
+                  : product.product_title_ru,
               value: Math.round(product.orders_money * 1000),
             };
           });
         if (res.data.total_products > 10)
           data.push({
-            type: 'Boshqa Mahsulotlar',
+            type: t('other_products'),
             value: Math.round((res.data.total_revenue - sum) * 1000),
           });
 
@@ -101,6 +108,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
         logger(err, 'Error in getting top products');
         setLoadingTopProducts(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
 
   const loadData = (
@@ -144,7 +152,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     >(url);
   };
 
-  if (activeTab !== 'Tovarlar') return <></>;
+  if (activeTab !== 'Tovarlar' && activeTab !== 'Товары') return <></>;
 
   return (
     <div
@@ -161,10 +169,10 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       >
         <div className='flex items-center justify-start gap-3'>
           <h2 className='text-primary flex-1 text-left text-base'>
-            Eng daromadli mahsulotlar (Top 10)
+            {t2('top_10_products_revenue')}
           </h2>
           <div className='flex items-center justify-between gap-4'>
-            <p className='font-semibold'>Daromad:</p>
+            <p className='font-semibold'>{t('revenue')}:</p>
             <p className='text-primary font-semibold'>
               {revenue / 1000000 > 1 ? (
                 <span>{(revenue / 1000000).toFixed(1)} mlrd so'm</span>
@@ -176,20 +184,20 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
             </p>
           </div>
           <div className='flex items-center justify-between gap-4'>
-            <p className='font-semibold'>Mahsulotlar Soni:</p>
+            <p className='font-semibold'>{t('products_count')}:</p>
             <p className='text-primary font-semibold'>
               {totalProducts?.toLocaleString()}
             </p>
           </div>
           <div className='flex items-center justify-between gap-4'>
-            <p className='font-semibold'>Buyurtmalar Soni:</p>
+            <p className='font-semibold'>{t('orders')}:</p>
             <p className='text-primary font-semibold'>
               {totalOrders?.toLocaleString()}
             </p>
           </div>
           {childrenCount > 0 && (
             <div className='flex items-center justify-between gap-4'>
-              <p className='font-semibold'>Ichki Kategoriyalar Soni:</p>
+              <p className='font-semibold'>{t('subcategories_count')}:</p>
               <p className='text-primary font-semibold'>
                 {childrenCount?.toLocaleString()}
               </p>
@@ -202,7 +210,9 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       </Container>
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <PaginatedTable
-          columnDefs={CategoryProductTableColumnDefs as any}
+          columnDefs={
+            getCategoryProductTableColumnDefs(t, i18n.language) as any
+          }
           className='h-[1016px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}

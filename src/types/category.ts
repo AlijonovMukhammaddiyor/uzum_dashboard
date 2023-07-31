@@ -1,6 +1,7 @@
 export interface CategoryInTree {
   categoryId: number;
   title: string;
+  title_ru: string;
   children?: CategoryInTree[];
 }
 

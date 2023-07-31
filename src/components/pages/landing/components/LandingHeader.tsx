@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { BsTelegram } from 'react-icons/bs';
@@ -14,18 +13,18 @@ import logo from '@/assets/logo/logo2.png';
 function LandingHeader() {
   const [isMobile, setIsMobile] = React.useState(false);
   const { t } = useTranslation('landing');
-  const { i18n } = useTranslation('landing');
-  const router = useRouter();
+  // const { i18n } = useTranslation('landing');
+  // const router = useRouter();
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    onToggleLanguageClick(lng);
-  };
+  // const changeLanguage = (lng: string) => {
+  //   i18n.changeLanguage(lng);
+  //   onToggleLanguageClick(lng);
+  // };
 
-  const onToggleLanguageClick = (newLocale: string) => {
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, router.asPath, { locale: newLocale });
-  };
+  // const onToggleLanguageClick = (newLocale: string) => {
+  //   const { pathname, asPath, query } = router;
+  //   router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  // };
 
   const headerItems: {
     [key: string]: string;

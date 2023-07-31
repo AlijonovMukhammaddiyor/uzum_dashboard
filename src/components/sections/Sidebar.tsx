@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { BsRobot } from 'react-icons/bs';
 import {
   // HiArrowPath,
@@ -36,6 +37,7 @@ function Sidebar({
   setActiveTab,
 }: SidebarProps) {
   const [rendered, setRendered] = React.useState(false);
+  const { t, i18n } = useTranslation('common');
 
   React.useEffect(() => {
     setRendered(true);
@@ -47,24 +49,39 @@ function Sidebar({
     if (rendered) {
       const path = window.location.pathname;
 
-      if (path.startsWith('/home')) {
-        setActiveTab('Umumiy');
-      } else if (path.startsWith('/category')) {
-        setActiveTab('Kategoriyalar');
-      } else if (path.startsWith('/sellers')) {
-        setActiveTab('Sotuvchilar');
-      } else if (path.startsWith('/campaigns')) {
-        setActiveTab('Aksiyalar');
-      } else if (path.startsWith('/products')) {
-        setActiveTab('Mahsulotlar');
-      } else if (path.startsWith('/words')) {
-        setActiveTab('Qidiruvlar');
-      } else if (path.startsWith('/compare')) {
-        setActiveTab('Taqqoslash');
+      if (path.startsWith('/home') || path.startsWith('/ru/home')) {
+        setActiveTab(t('sidebar.general'));
+      } else if (
+        path.startsWith('/category') ||
+        path.startsWith('/ru/category')
+      ) {
+        setActiveTab(t('sidebar.categories'));
+      } else if (
+        path.startsWith('/sellers') ||
+        path.startsWith('/ru/sellers')
+      ) {
+        setActiveTab(t('sidebar.sellers'));
+      } else if (
+        path.startsWith('/campaigns') ||
+        path.startsWith('/ru/campaigns')
+      ) {
+        setActiveTab(t('sidebar.campaigns'));
+      } else if (
+        path.startsWith('/products') ||
+        path.startsWith('/ru/products')
+      ) {
+        setActiveTab(t('sidebar.products'));
+      } else if (path.startsWith('/words') || path.startsWith('/ru/words')) {
+        setActiveTab(t('sidebar.searches'));
+      } else if (
+        path.startsWith('/compare') ||
+        path.startsWith('/ru/compare')
+      ) {
+        setActiveTab(t('sidebar.compare'));
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rendered]);
+  }, [rendered, i18n.language, t]);
 
   if (!rendered) return <></>;
 
@@ -105,7 +122,7 @@ function Sidebar({
         <ul className='h-full space-y-2 font-medium'>
           <SidebarItem
             href='/home'
-            label='Umumiy'
+            label={t('sidebar.general')}
             icon={
               <HiOutlineHome
                 className={clsxm(
@@ -123,7 +140,7 @@ function Sidebar({
 
           <SidebarItem
             href='/category'
-            label='Kategoriyalar'
+            label={t('sidebar.categories')}
             icon={
               <HiOutlineSquares2X2
                 className={clsxm(
@@ -142,7 +159,7 @@ function Sidebar({
 
           <SidebarItem
             href='/sellers'
-            label='Sotuvchilar'
+            label={t('sidebar.sellers')}
             icon={
               <HiOutlineBuildingStorefront
                 className={clsxm(
@@ -160,7 +177,7 @@ function Sidebar({
           />
           <SidebarItem
             href='/products'
-            label='Mahsulotlar'
+            label={t('sidebar.products')}
             icon={
               <HiOutlineShoppingBag
                 className={clsxm(
@@ -178,7 +195,7 @@ function Sidebar({
           />
           <SidebarItem
             href='/ai'
-            label='Suniy Intellekt'
+            label={t('sidebar.ai')}
             icon={
               <BsRobot
                 className={clsxm(
@@ -196,7 +213,7 @@ function Sidebar({
           />
           <SidebarItem
             href='/campaigns'
-            label='Aksiyalar'
+            label={t('sidebar.campaigns')}
             icon={
               <HiOutlineTag
                 className={clsxm(
@@ -215,7 +232,7 @@ function Sidebar({
 
           <SidebarItem
             href='/words'
-            label='Qidiruvlar'
+            label={t('sidebar.searches')}
             icon={
               <HiLanguage
                 className={clsxm(
@@ -234,7 +251,7 @@ function Sidebar({
           <div className='mt-5 h-[1px] w-full bg-slate-300'></div>
           <SidebarItem
             href='/compare'
-            label='Taqqoslash'
+            label={t('sidebar.compare')}
             icon={
               <MdOutlineCompare
                 className={clsxm(

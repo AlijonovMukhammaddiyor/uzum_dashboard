@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import AboutProduct from '@/components/pages/products/slug/components/AboutProduct';
 import ProductAnalytics from '@/components/pages/products/slug/components/ProductAnalytics';
@@ -17,22 +18,23 @@ function ProductComponent({
   activeTab,
   user,
 }: ProductComponentProps) {
+  const { t } = useTranslation('products');
   return (
     <div className=''>
       <AboutProduct
         product_id={product_id}
-        className={activeTab !== 'Mahsulot haqida' ? 'hidden' : ''}
+        className={activeTab !== t('tabs.about_product') ? 'hidden' : ''}
       />
       <ProductAnalytics
         product_id={product_id}
-        className={activeTab !== 'Grafik Analiz' ? 'hidden' : ''}
-        isActive={activeTab === 'Grafik Analiz' ? true : false}
+        className={activeTab !== t('tabs.graph_analysis') ? 'hidden' : ''}
+        isActive={activeTab === t('tabs.graph_analysis') ? true : false}
       />
       <SimilarProducts
         user={user}
         product_id={product_id}
-        className={activeTab !== "O'xshash Mahsulotlar" ? 'hidden' : ''}
-        isActive={activeTab === "O'xshash Mahsulotlar" ? true : false}
+        className={activeTab !== t('tabs.similar_products') ? 'hidden' : ''}
+        isActive={activeTab === t('tabs.similar_products') ? true : false}
       />
     </div>
   );

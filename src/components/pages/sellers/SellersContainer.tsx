@@ -1,11 +1,12 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { ShopsTableColumnDefs } from '@/components/columnDefs';
+import { getShopTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import RangeChartShops from '@/components/pages/sellers/components/RangeChartShops';
 import PaginatedTable from '@/components/shared/PaginatedTable';
@@ -40,9 +41,12 @@ interface TopsType {
 }
 
 function SellersTable({ className }: Props) {
+  const { t } = useTranslation('sellers');
+  const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [loadingTops, setLoadingTops] = React.useState<boolean>(false);
   const [tops, setTops] = React.useState<TopsType[]>([]);
+  const path = window.location.pathname;
 
   React.useEffect(() => {
     const api = new API(null);
@@ -50,8 +54,8 @@ function SellersTable({ className }: Props) {
     api
       .get<unknown, AxiosResponse<TopsType[]>>('/shop/yesterday-tops/')
       .then((res) => {
-        setLoadingTops(false);
         setTops(res.data);
+        setLoadingTops(false);
       })
       .catch((err) => {
         // console.log(err);
@@ -109,8 +113,8 @@ function SellersTable({ className }: Props) {
     >
       <Container
         loading={loadingTops}
-        title="Kecha eng ko'p daromadga ega bo`lgan do`konlar"
-        explanation='Hozircha qo`shimcha ma`lumotlar mavjud emas.'
+        title={t('shops_with_top_revenue')}
+        explanation={t('no_info')}
         className={clsxm(
           'h-[520px] w-full shrink-0 overflow-scroll rounded-md bg-white px-5 py-3'
         )}
@@ -130,7 +134,7 @@ function SellersTable({ className }: Props) {
       </Container>
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <PaginatedTable
-          columnDefs={ShopsTableColumnDefs}
+          columnDefs={getShopTableColumnDefs(t2)}
           className='h-[1016px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}
@@ -141,23 +145,3 @@ function SellersTable({ className }: Props) {
 }
 
 export default SellersTable;
-
-function prepareStackedColumnData(tops: TopsType[]) {
-  const data = [];
-
-  for (const top of tops) {
-    data.push({
-      x: top.title,
-      y: top.diff_reviews,
-      type: 'Izohlar soni',
-    });
-
-    data.push({
-      x: top.title,
-      y: top.diff_orders,
-      type: 'Buyurtmalar soni',
-    });
-  }
-
-  return data;
-}

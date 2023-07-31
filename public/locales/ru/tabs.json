@@ -1,0 +1,32 @@
+{
+  "home": {
+    "overview": "Общий",
+    "new_products": "Новые продукты",
+    "promising_products": "Многообещающие продукты",
+    "promising_categories": "Многообещающие категории"
+  },
+  "categories": {
+    "goods": "Товары",
+    "trend": "Тенденция",
+    "subcategories": "Подкатегории",
+    "segmentation": "Сегментация",
+    "sellers": "Продавцы",
+    "revenue": "Доход",
+    "orders": "Заказы",
+    "customers": "Клиенты",
+    "shops": "Магазины",
+    "select_graph_type": "Выберите график, который выхотите увидеть! "
+  },
+  "sellers": {
+    "overview": "Общий",
+    "goods": "Товары",
+    "daily_sales": "Ежедневные продажи",
+    "competitors": "Конкуренты",
+    "categories": "Категории"
+  },
+  "products": {
+    "about_product": "О продукте",
+    "graph_analiz": "Графический анализ",
+    "similar_products": "Похожие продукты"
+  }
+}

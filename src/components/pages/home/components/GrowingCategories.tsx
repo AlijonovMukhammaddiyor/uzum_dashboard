@@ -1,11 +1,12 @@
 import { AxiosResponse } from 'axios';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { GrowingCategoriesColDefs } from '@/components/columnDefs';
+import { getGrowingCategoriesColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import Table from '@/components/shared/Table';
 
@@ -51,6 +52,7 @@ interface CategoriesReponseType {
     category__categoryId: number;
     category__created_at: string;
     category__title: string;
+    category__title_ru: string;
     category__descendants: number;
     date_pretty: string;
     total_orders: number;
@@ -65,6 +67,7 @@ interface CategoriesReponseType {
 function GrowingCategories({ className }: HomeStatisticsContainerProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [categories, setCategories] = React.useState<GrowingCategoryType[]>([]);
+  const { t, i18n } = useTranslation('tableColumns');
 
   React.useEffect(() => {
     const api = new API(null);
@@ -75,7 +78,7 @@ function GrowingCategories({ className }: HomeStatisticsContainerProps) {
       )
       .then((res) => {
         logger(res.data, 'growing categories');
-        setCategories(prepareTableData(res.data));
+        setCategories(prepareTableData(res.data, i18n.language));
         setLoading(false);
       })
       .catch((err) => {
@@ -95,7 +98,7 @@ function GrowingCategories({ className }: HomeStatisticsContainerProps) {
         loading={loading}
       >
         <Table
-          columnDefs={GrowingCategoriesColDefs}
+          columnDefs={getGrowingCategoriesColDefs(t, i18n.language)}
           className='h-[1290px] min-w-full'
           rowData={categories}
           setLoading={setLoading}
@@ -109,7 +112,8 @@ function GrowingCategories({ className }: HomeStatisticsContainerProps) {
 export default GrowingCategories;
 
 function prepareTableData(
-  data: CategoriesReponseType[]
+  data: CategoriesReponseType[],
+  lang: string
 ): GrowingCategoryType[] {
   const res = [];
   // sort according to last orders_amount
@@ -124,7 +128,10 @@ function prepareTableData(
     let prev_orders = analytics[0].total_orders;
     const category = {
       categoryId: item.categoryId,
-      title: analytics[0].category__title,
+      title:
+        lang === 'uz'
+          ? analytics[0].category__title + '((' + item.categoryId + '))'
+          : analytics[0].category__title_ru + '((' + item.categoryId + '))',
       created_at: analytics[0].category__created_at,
       orders: analytics.map((item) => {
         const res = {

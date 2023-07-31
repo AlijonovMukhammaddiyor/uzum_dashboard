@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import { useTranslation } from 'next-i18next';
 
 const DualAxes = dynamic(
   () => import('@ant-design/charts').then((module) => module.DualAxes),
@@ -13,24 +14,26 @@ export interface RangeChartProps {
 }
 
 const RangeChartShops = ({ data, style }: RangeChartProps) => {
+  const { t } = useTranslation('tableColumns');
+
   const transformedData = data.flatMap((item, index) => [
     {
       x: item.title,
-      category: 'Kunlik daromad',
+      category: t('daily_revenue'),
       value: item.total_revenue * 1000,
       index: index,
     },
   ]);
   const lineData = data.map((item, index) => ({
     x: item.title,
-    'Buyurtmalar soni': item.total_orders,
+    [t('orders')]: item.total_orders,
     index: index,
   }));
 
   const config = {
     data: [transformedData, lineData],
     xField: 'x',
-    yField: ['value', 'Buyurtmalar soni'],
+    yField: ['value', t('orders')],
 
     geometryOptions: [
       {
@@ -38,9 +41,9 @@ const RangeChartShops = ({ data, style }: RangeChartProps) => {
         seriesField: 'category',
         color: ({ category }: { category: string }) => {
           switch (category) {
-            case 'Kunlik daromad':
+            case t('daily_revenue'):
               return '#7149C6';
-            case 'Buyurtmalar soni':
+            case t('orders'):
               return 'rgba(255, 82, 162, 0.5)';
             default:
               return '#ccc';
@@ -56,18 +59,16 @@ const RangeChartShops = ({ data, style }: RangeChartProps) => {
       customContent: (title: string, items: any[]) => {
         // Filtering out the revenue line item
         const revenueItem = items.find(
-          (item) => item.name === 'Kunlik daromad'
+          (item) => item.name === t('daily_revenue')
         );
-        const ordersItem = items.find(
-          (item) => item.name === 'Buyurtmalar soni'
-        );
+        const ordersItem = items.find((item) => item.name === t('orders'));
 
         return `
 
           <div class="text-base font-bold pb-2 border-b border-blue-400">${title}</div>
           <ul class='pb-2'>
             <li class="flex justify-between items-center py-1 gap-2">
-              <span>Daromad: </span>
+              <span>${t('daily_revenue')}: </span>
               <span class="font-semibold">${
                 revenueItem?.value / 1000000000 > 1
                   ? (revenueItem?.value / 1000000000).toFixed(1) + ' mlrd so`m'
@@ -77,7 +78,7 @@ const RangeChartShops = ({ data, style }: RangeChartProps) => {
               }</span>
             </li>
             <li class="flex justify-between items-center py-1">
-              <span>Buyurtmalar soni:</span>
+              <span>${t('orders')}:</span>
               <span class="font-semibold">${ordersItem?.value.toLocaleString()} ta</span>
             </li>
           </ul>

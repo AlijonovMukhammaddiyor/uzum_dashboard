@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { HiOutlineChevronDoubleDown } from 'react-icons/hi';
 import { LiaAngleDoubleUpSolid } from 'react-icons/lia';
 import Select from 'react-select';
@@ -66,7 +67,7 @@ function AboutProduct({
       label: string;
     }[]
   >([]);
-
+  const { t } = useTranslation('products');
   const [open, setOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -154,8 +155,7 @@ function AboutProduct({
             )}
           >
             <p className='z-50 w-full text-center font-semibold'>
-              Ushbu mahsulotni quyida berilgan jadvaldagi mahsulotlar bilan
-              barcha jihatdan solishtiring (3 tagacha)
+              {t('compare_with_3')}
             </p>
 
             <div className='mb-2 flex w-full justify-end'>
@@ -182,7 +182,7 @@ function AboutProduct({
                   marginBottom: '40px',
                   minHeight: '400px',
                 }}
-                title='Kunlik sotuvlar'
+                title={t('daily_sales')}
                 // yAxisTitle='Kunlik sotuvlar'
                 // xAxisTitle='Sana'
               />
@@ -193,7 +193,7 @@ function AboutProduct({
                 onClick={() => setOpen(true)}
               >
                 <button className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'>
-                  <p>Barcha ma'lumotlarni ko'rish</p>
+                  <p>{t('see_all')}</p>
                   <HiOutlineChevronDoubleDown className='text-base' />
                 </button>
               </div>
@@ -210,7 +210,7 @@ function AboutProduct({
                   maxHeight: '400px',
                   marginBottom: '40px',
                 }}
-                title='Jami sotuvlar'
+                title={t('total_sales')}
                 className='h-[400px] max-h-[400px] w-full'
               />
             )}
@@ -227,7 +227,7 @@ function AboutProduct({
                   maxHeight: '400px',
                   marginBottom: '40px',
                 }}
-                title='Narxlar'
+                title={t('prices')}
                 className='h-[400px] max-h-[400px] w-full'
               />
             )}
@@ -245,8 +245,8 @@ function AboutProduct({
                   maxHeight: '400px',
                 }}
                 isStep
-                yAxisTitle='Kategoriyadagi pozitsiya'
-                xAxisTitle='Sana'
+                yAxisTitle={t('position_in_category')}
+                xAxisTitle={t('date')}
               />
             )}
 
@@ -257,7 +257,7 @@ function AboutProduct({
                   onClick={() => setOpen(false)}
                 >
                   <LiaAngleDoubleUpSolid className='text-base' />
-                  <p>Qisqartirish</p>
+                  <p>{t('see_less')}</p>
                 </button>
               </div>
             )}

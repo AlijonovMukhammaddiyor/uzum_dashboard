@@ -1,10 +1,11 @@
 import { AxiosResponse } from 'axios';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
-import { GrowingProductsColDefs } from '@/components/columnDefs';
+import { getGrowingProductsColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 
@@ -39,6 +40,7 @@ interface GrowingProductType {
 
 function GrowingProducts({ className }: HomeStatisticsContainerProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
+  const { t, i18n } = useTranslation('tableColumns');
 
   const loadData = (
     page: number,
@@ -85,7 +87,7 @@ function GrowingProducts({ className }: HomeStatisticsContainerProps) {
         loading={loading}
       >
         <PaginatedTable
-          columnDefs={GrowingProductsColDefs as any}
+          columnDefs={getGrowingProductsColDefs(t, i18n.language)}
           className='h-[1318px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}

@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AiFillStar } from 'react-icons/ai';
 import { Carousel } from 'react-responsive-carousel';
 
@@ -65,6 +66,7 @@ interface ProductType {
 }
 
 function AboutProduct({ product_id, className }: AboutProductProps) {
+  const { t } = useTranslation('products');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [product, setProduct] = React.useState<ProductType | null>(null);
   const [selectedSku, setSelectedSku] = useState(0);
@@ -191,7 +193,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
             <div className='flex h-[650px] flex-col items-start justify-start'>
               {isNew && (
                 <div className='flex items-center justify-center gap-2 rounded-lg border border-blue-500 px-2 py-1'>
-                  <p>Sotuvga chiqqan sana: </p>
+                  <p>{t('release_date')} </p>
                   <p className='font-semibold'>
                     {product.created_at.split('T')[0]}
                   </p>
@@ -215,14 +217,16 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                         <span>{product.analytics[0].rating}</span>
                       </div>
                       <span className='text-gray-500'>
-                        ({product.analytics[0].reviews_amount} izohlar)
+                        ({product.analytics[0].reviews_amount}{' '}
+                        {t('reviews').toLowerCase()})
                       </span>
                       <span className='text-gray-500'>
-                        {product.analytics[0].orders_amount} buyurtmalar
+                        {product.analytics[0].orders_amount}{' '}
+                        {t('orders').toLowerCase()}
                       </span>
 
                       <span className='text-gray-500'>
-                        {product.analytics[0].available_amount} ta mavjud
+                        {product.analytics[0].available_amount} {t('in_stock')}
                       </span>
                     </div>
                   </div>
@@ -267,7 +271,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                   </div>
                   <div className=''>
                     <div className='flex items-center justify-start gap-5'>
-                      <p className='w-[120px] font-semibold'>Sotuvchi</p>
+                      <p className='w-[120px] font-semibold'>{t('seller')}</p>
                       <Link
                         href={'/sellers/' + product.shop_link}
                         className='font-semibold text-blue-500 hover:underline'
@@ -276,7 +280,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                       </Link>
                     </div>
                     <div className='mt-3 flex items-center justify-start gap-5'>
-                      <p className='w-[120px] font-semibold'>Kategoriya</p>
+                      <p className='w-[120px] font-semibold'>{t('category')}</p>
                       <Link
                         href={
                           '/category/' +

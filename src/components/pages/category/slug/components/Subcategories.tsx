@@ -1,11 +1,12 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { SubcategoriesTableColumnDefs } from '@/components/columnDefs';
+import { getSubcategoriesTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import { CategoryAnalyticsDataType } from '@/components/pages/category/slug/components/CategoryTrends';
 import PieChart from '@/components/shared/PieChart';
@@ -18,6 +19,7 @@ interface Props {
 }
 
 function Subcategories({ className, categoryId, isActive }: Props) {
+  const { t: t2, i18n } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [data, setData] = React.useState<{
@@ -78,7 +80,9 @@ function Subcategories({ className, categoryId, isActive }: Props) {
       ) : data.data.length <= 0 ? (
         <div className='flex h-full items-center justify-center'>
           <h3 className='h-full text-center text-slate-500'>
-            Ichki Kategoriyalar mavjud Emas
+            {i18n.language === 'uz'
+              ? "Ichki kategoriyalar yo'q"
+              : 'Нет подкатегорий'}
           </h3>
         </div>
       ) : (
@@ -101,7 +105,9 @@ function Subcategories({ className, categoryId, isActive }: Props) {
         >
           <Table
             className=''
-            columnDefs={SubcategoriesTableColumnDefs as any}
+            columnDefs={
+              getSubcategoriesTableColumnDefs(t2, i18n.language) as any
+            }
             rowData={[...(data.data ?? [])]}
           />
         </Container>
@@ -121,6 +127,7 @@ const SubCategoriesPieChartData = ({
   main: CategoryAnalyticsDataType;
   loading: boolean;
 }) => {
+  const { i18n } = useTranslation('categories');
   if (!data || data.length === 0) return null;
 
   const dataSorted = data
@@ -133,7 +140,10 @@ const SubCategoriesPieChartData = ({
     total_orders += item.total_orders;
     if (item.total_orders !== 0)
       orders_data.push({
-        type: item.category_title,
+        type:
+          i18n.language === 'uz'
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
         value: item.total_orders,
       });
   });
@@ -144,20 +154,25 @@ const SubCategoriesPieChartData = ({
     total_revenue += item.total_orders_amount;
     if (item.total_orders_amount !== 0)
       revenue_data.push({
-        type: item.category_title,
+        type:
+          i18n.language === 'uz'
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
         value: Math.round(item.total_orders_amount * 1000),
       });
   });
 
   if (main.total_orders_amount - total_revenue !== 0)
     revenue_data.push({
-      type: 'Boshqa Kategoriyalar',
+      type:
+        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
       value: Math.round((main.total_orders_amount - total_revenue) * 1000),
     });
 
   if (main.total_orders - total_orders !== 0)
     orders_data.push({
-      type: 'Boshqa Kategoriyalar',
+      type:
+        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
       value: main.total_orders - total_orders,
     });
 
@@ -167,14 +182,18 @@ const SubCategoriesPieChartData = ({
     total_products += item.total_products;
     if (item.total_products !== 0)
       products_data.push({
-        type: item.category_title,
+        type:
+          i18n.language === 'uz'
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
         value: item.total_products,
       });
   });
 
   if (main.total_products - total_products !== 0)
     products_data.push({
-      type: 'Boshqa Kategoriyalar',
+      type:
+        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
       value: main.total_products - total_products,
     });
 
@@ -185,17 +204,22 @@ const SubCategoriesPieChartData = ({
 
     if (item.total_reviews !== 0)
       reviews_data.push({
-        type: item.category_title,
+        type:
+          i18n.language === 'uz'
+            ? item.category_title.slice('((')[0]
+            : item.category_title_ru.slice('((')[0],
         value: item.total_shops,
       });
   });
 
   if (main.total_reviews - total_reviews !== 0)
     reviews_data.push({
-      type: 'Boshqa Kategoriyalar',
+      type:
+        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
       value: main.total_reviews - total_reviews,
     });
-
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { t } = useTranslation('categories');
   return (
     <div className='flex h-full w-full items-center justify-start gap-5'>
       <Container
@@ -204,7 +228,7 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={revenue_data} title='Daromad' labelType='outer' />
+        <PieChart data={revenue_data} title={t('revenue')} labelType='outer' />
       </Container>
       <Container
         loading={loading}
@@ -212,7 +236,7 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={orders_data} title='Buyurtmalar' labelType='outer' />
+        <PieChart data={orders_data} title={t('orders')} labelType='outer' />
       </Container>
       <Container
         loading={loading}
@@ -220,7 +244,11 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={products_data} title='Mahsulotlar' labelType='outer' />
+        <PieChart
+          data={products_data}
+          title={t('products')}
+          labelType='outer'
+        />
       </Container>
       <Container
         loading={loading}
@@ -228,7 +256,7 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={reviews_data} title='Izohlar' labelType='outer' />
+        <PieChart data={reviews_data} title={t('reviews')} labelType='outer' />
       </Container>
     </div>
   );

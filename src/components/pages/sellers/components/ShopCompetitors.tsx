@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { ChartType } from 'chart.js';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
 import Select from 'react-select';
 
@@ -25,6 +26,7 @@ interface CompetitorsType {
   common_categories_count: number;
   common_categories_ids: string[];
   common_categories_titles: string[];
+  common_categories_titles_ru: string[];
 }
 
 interface CompetitorDataType {
@@ -38,6 +40,8 @@ interface CompetitorDataType {
 }
 
 function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
+  const { t, i18n } = useTranslation('sellers');
+
   const [loading, setLoading] = React.useState<boolean>(false);
   const [competitors, setCompetitors] = React.useState<CompetitorsType[]>([]);
   const [competitor, setCompetitor] = React.useState<CompetitorsType | null>(
@@ -49,8 +53,10 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
   const [categoryId, setCategoryId] = React.useState<string>('1');
   const [shop, setShop] = React.useState<CompetitorsType | null>(null);
   const [shopData, setShopData] = React.useState<CompetitorDataType[]>([]);
-  const [category, setCategory] = React.useState<string>('Barcha');
-  const [type, setType] = React.useState<string>('Daromad');
+  const [category, setCategory] = React.useState<string>(
+    i18n.language === 'uz' ? 'Barcha' : 'Все'
+  );
+  const [type, setType] = React.useState<string>(t('revenue'));
 
   React.useEffect(() => {
     const api = new API(null);
@@ -75,7 +81,6 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         setLoading(false);
       });
   }, [sellerId, title]);
-
   React.useEffect(() => {
     if (shop && competitor && category) {
       const api = new API(null);
@@ -113,6 +118,8 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
 
   if (!isActive) return <></>;
 
+  console.log(category);
+
   return (
     <div
       className={clsxm(
@@ -127,8 +134,8 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         <div className='flex w-full items-center justify-start gap-2'>
           <VscDebugBreakpointData className='text-primary text-2xl' />
           <p className='text-sm'>
-            Raqobatchilarning <span className='font-semibold'>{title}</span>{' '}
-            bilan umumiy kategoriyalari
+            {t('info_1')} <span className='font-semibold'>{title}</span>{' '}
+            {t('info_2')}
           </p>
         </div>
 
@@ -144,7 +151,9 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                     key={competitor.title}
                     link={competitor.link}
                     common_categories_titles={
-                      competitor.common_categories_titles
+                      i18n.language === 'uz'
+                        ? competitor.common_categories_titles
+                        : competitor.common_categories_titles_ru
                     }
                     title={competitor.title}
                   />
@@ -154,9 +163,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
 
       <div className='flex items-center justify-start gap-6'>
         <div className='flex items-center justify-start gap-3'>
-          <p className='text-sm text-blue-500'>
-            Ushbu yerdan raqobatchini tanlang!
-          </p>
+          <p className='text-sm text-blue-500'>{t('select_competitor_here')}</p>
           {competitor && (
             <Select
               className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
@@ -172,7 +179,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
               isSearchable={false}
               onChange={(e) => {
                 setCategoryId('1');
-                setCategory('Barcha');
+                setCategory(i18n.language === 'uz' ? 'Barcha' : 'Все');
                 setCompetitor(
                   competitors.find((item) => item.title === e?.value) ?? null
                 );
@@ -208,13 +215,10 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
           )}
         </div>
         <div className='flex items-center justify-start gap-3'>
-          <p className='text-sm text-blue-500'>
-            Ushbu yerdan kategoriyani tanlang!
-          </p>
+          <p className='text-sm text-blue-500'>{t('select_category_here')}</p>
           <Select
             className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
             classNamePrefix='select'
-            defaultValue={{ value: 'Barcha', label: 'Barcha' }}
             isDisabled={false}
             isLoading={false}
             isClearable={false}
@@ -222,13 +226,18 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
             isRtl={false}
             isSearchable={false}
             onChange={(e) => {
-              setCategory(e?.value ?? 'Barcha');
+              if (e?.value === 'Barcha' || e?.value === 'Все') {
+                setCategory(e?.value ?? '');
+              } else setCategory(e?.value ?? '');
 
-              if (e?.value === 'Barcha') setCategoryId('1');
+              if (e?.value === (i18n.language === 'uz' ? 'Barcha' : 'Все'))
+                setCategoryId('1');
               else {
-                const index = competitor?.common_categories_titles.findIndex(
-                  (item) => item === e?.value
-                );
+                const titles =
+                  i18n.language === 'uz'
+                    ? competitor?.common_categories_titles
+                    : competitor?.common_categories_titles_ru;
+                const index = titles?.findIndex((item) => item === e?.value);
                 if (index !== undefined) {
                   setCategoryId(
                     competitor?.common_categories_ids[index] ?? '1'
@@ -258,29 +267,27 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
             }}
             name='color'
             options={[
-              { value: 'Barcha', label: 'Barcha' },
-              ...(competitor?.common_categories_titles.map((item) => ({
-                value: item,
-                label: item,
-              })) ?? []),
+              {
+                value: i18n.language === 'uz' ? 'Barcha' : 'Все',
+                label: i18n.language === 'uz' ? 'Barcha' : 'Все',
+              },
+              ...getCommonCategoryOptions(competitor!, i18n.language),
             ]}
           />
         </div>
         <div className='flex items-center justify-start gap-3'>
-          <p className='text-sm text-blue-500'>
-            Ushbu yerdan ma'lumot turi tanlang!
-          </p>
+          <p className='text-sm text-blue-500'>{t('select_info_type_here')}</p>
           <Select
             className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
             classNamePrefix='select'
-            defaultValue={{ value: 'Daromad', label: 'Daromad' }}
+            defaultValue={{ value: t('revenue'), label: t('revenue') }}
             isDisabled={false}
             isLoading={false}
             isClearable={false}
             isRtl={false}
             isSearchable={false}
             onChange={(e) => {
-              setType(e?.value ?? 'Daromad');
+              setType(e?.value ?? t('revenue'));
             }}
             styles={{
               dropdownIndicator: (provided) => ({
@@ -304,14 +311,14 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
             }}
             name='color'
             options={[
-              { value: 'Daromad', label: 'Daromad' },
-              { value: 'Buyurtmalar soni', label: 'Buyurtmalar soni' },
-              { value: 'Mahsulotlar soni', label: 'Mahsulotlar soni' },
+              { value: t('revenue'), label: t('revenue') },
+              { value: t('orders_amount'), label: t('orders_amount') },
+              { value: t('products_amount'), label: t('products_amount') },
               {
-                value: "O'rtacha sotuv narxi",
-                label: "O'rtacha sotuv narxi",
+                value: t('avarage_selling_price'),
+                label: t('avarage_selling_price'),
               },
-              { value: 'Izohlar soni', label: 'Izohlar soni' },
+              { value: t('reviews_amount'), label: t('reviews_amount') },
             ]}
           />
         </div>
@@ -330,13 +337,16 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                   shopData,
                   type,
                   competitor!,
-                  shop!
+                  shop!,
+                  t
                 ) as any
               }
               title={
-                type === "O'rtacha sotuv narxi"
+                type === t('avarage_selling_price')
                   ? type
-                  : `Jami ${type.toLowerCase()}`
+                  : `${
+                      i18n.language === 'uz' ? 'Jami' : 'Всего'
+                    } ${type.toLowerCase()}`
               }
               className='h-full w-full'
               style={{
@@ -353,7 +363,8 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
       )}
       {competitorData.length > 0 &&
         shopData.length > 0 &&
-        type !== "O'rtacha sotuv narxi" && (
+        type !== 'O`rtacha sotuv narxi' &&
+        type != 'Средняя цена продажи' && (
           <Container
             loading={loading}
             className='flex h-[500px] w-full flex-col items-start justify-start gap-3 p-5'
@@ -366,15 +377,21 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                     shopData,
                     type,
                     competitor!,
-                    shop!
+                    shop!,
+                    t
                   ) as any
                 }
                 title={
-                  type === "O'rtacha sotuv narxi"
+                  type === 'O`rtacha sotuv narxi' ||
+                  type === 'Средняя цена продажи'
                     ? type
-                    : type === 'Mahsulotlar soni'
-                    ? "Kunlik mahsulotlar soni o'zgarishi"
-                    : `Kunlik ${type.toLowerCase()}`
+                    : type === t('products_amount')
+                    ? i18n.language === 'uz'
+                      ? "Kunlik mahsulotlar soni o'zgarishi"
+                      : 'Изменение количества товаров в день'
+                    : ` ${
+                        i18n.language === 'uz' ? 'Kunlik' : 'Ежедневный'
+                      } ${type.toLowerCase()}`
                 }
                 className='h-full w-full'
                 style={{
@@ -394,20 +411,28 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
 
 export default ShopCompetitors;
 
+function getCommonCategoryOptions(competitor: CompetitorsType, lang: string) {
+  return competitor.common_categories_titles.map((item, index) => ({
+    value: lang === 'uz' ? item : competitor.common_categories_titles_ru[index],
+    label: lang === 'uz' ? item : competitor.common_categories_titles_ru[index],
+  }));
+}
+
 function prepareAllData(
   data: CompetitorDataType[],
   shopData: CompetitorDataType[],
   type: string,
   competitor: CompetitorsType,
-  shop: CompetitorsType
+  shop: CompetitorsType,
+  t: any
 ) {
-  if (type === 'Buyurtmalar soni') {
+  if (type === t('orders_amount')) {
     return _prepareAllOrders(data, shopData, competitor, shop);
-  } else if (type === 'Daromad') {
+  } else if (type === t('revenue')) {
     return _prepareAllRevenue(data, shopData, competitor, shop);
-  } else if (type === 'Mahsulotlar soni') {
+  } else if (type === t('products_amount')) {
     return _prepareAllProducts(data, shopData, competitor, shop);
-  } else if (type === 'Izohlar soni') {
+  } else if (type === t('reviews_amount')) {
     return _prepareAllReviews(data, shopData, competitor, shop);
   }
   return _prepareAveragePrice(data, shopData, competitor, shop);
@@ -418,15 +443,16 @@ function prepareDailyData(
   shopData: CompetitorDataType[],
   type: string,
   competitor: CompetitorsType,
-  shop: CompetitorsType
+  shop: CompetitorsType,
+  t: any
 ) {
-  if (type === 'Buyurtmalar soni') {
+  if (type === t('orders_amount')) {
     return _prepareDailyOrders(data, shopData, competitor, shop);
-  } else if (type === 'Daromad') {
+  } else if (type === t('revenue')) {
     return _prepareDailyRevenue(data, shopData, competitor, shop);
-  } else if (type === 'Mahsulotlar soni') {
+  } else if (type === t('products_amount')) {
     return _prepareDailyProducts(data, shopData, competitor, shop);
-  } else if (type === 'Izohlar soni') {
+  } else if (type === t('reviews_amount')) {
     return _prepareDailyReviews(data, shopData, competitor, shop);
   }
 }

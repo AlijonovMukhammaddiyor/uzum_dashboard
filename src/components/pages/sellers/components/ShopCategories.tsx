@@ -1,13 +1,14 @@
 import { AxiosResponse } from 'axios';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { CategoryProductsColDefs } from '@/components/columnDefs';
+import { getCategoryProductsColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import LineChart from '@/components/shared/LineChart';
 import StateckedColumnChart from '@/components/shared/StackedColumnChart';
@@ -22,6 +23,7 @@ interface Props {
 interface CategoryType {
   categoryId: number;
   title: string;
+  title_ru: string;
   orders_amount: number;
   reviews_amount: number;
   products_amount: number;
@@ -45,6 +47,8 @@ interface CategoryProductData {
 }
 
 function ShopCategories({ className, sellerId, isActive }: Props) {
+  const { t, i18n } = useTranslation('sellers');
+  const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingCategory, setLoadingCategory] = useState<boolean>(false);
   const [data, setData] = useState<CategoryType[]>([]);
@@ -123,11 +127,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
     >
       <div className='flex w-full items-center justify-start gap-2'>
         <VscDebugBreakpointData className='text-primary text-2xl' />
-        <p className='text-sm'>
-          Quyida sotuvchi kategoriyalari ro'yxati keltirilgan. Sotuvchining
-          ushbu kategoriyalarga oid ma'lumotlarini ko'rish uchun quyidagi
-          kategoriyalardan birini tanlang.
-        </p>
+        <p className='text-sm'>{t('select_category_instruction')}</p>
       </div>
       <Container
         loading={loading}
@@ -153,10 +153,13 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
           <p className='text-primary w-full text-center'>
             <span className='font-semibold text-black'>
               {categoryId
-                ? data.find((c) => c.categoryId === categoryId)?.title
+                ? i18n.language === 'uz'
+                  ? data.find((c) => c.categoryId === categoryId)?.title
+                  : data.find((c) => c.categoryId === categoryId)?.title_ru
                 : ''}{' '}
+              -{' '}
             </span>
-            kategoriya bo'yicha ma'lumotlar
+            {t('info_by_category')}
           </p>
         )}
         {/* <p className='mb-3 w-full text-center text-xs text-gray-400'>
@@ -165,9 +168,9 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
         </p> */}
         {showCategoryData && (
           <LineChart
-            data={getAllOrdersData(categoryData)}
-            yAxisTitle='Jami buyurtmalar soni'
-            xAxisTitle='Sana'
+            data={getAllOrdersData(categoryData, t('total_orders_amount'))}
+            yAxisTitle={t('total_orders_amount')}
+            xAxisTitle={t('date')}
             style={{
               width: '100%',
               height: '250px',
@@ -176,7 +179,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
         )}
         {showCategoryData && (
           <StateckedColumnChart
-            data={getDailyOrdersData(categoryData)}
+            data={getDailyOrdersData(categoryData, t('daily_orders_amount'))}
             style={{
               width: '100%',
               height: '250px',
@@ -186,9 +189,9 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
         )}
         {showCategoryData && (
           <LineChart
-            data={getAllProductsData(categoryData)}
-            yAxisTitle='Jami mahsulotlar soni'
-            xAxisTitle='Sana'
+            data={getAllProductsData(categoryData, t('total_products_amount'))}
+            yAxisTitle={t('total_products_amount')}
+            xAxisTitle={t('date')}
             style={{
               width: '100%',
               height: '250px',
@@ -197,9 +200,9 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
         )}
         {showCategoryData && (
           <LineChart
-            data={getAllReviewsData(categoryData)}
-            yAxisTitle='Jami izohlar Soni'
-            xAxisTitle='Sana'
+            data={getAllReviewsData(categoryData, t('total_reviews_amount'))}
+            yAxisTitle={t('total_reviews_amount')}
+            xAxisTitle={t('date')}
             style={{
               width: '100%',
               height: '250px',
@@ -208,9 +211,9 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
         )}
         {showCategoryData && (
           <LineChart
-            data={getDailyReviewsData(categoryData)}
-            yAxisTitle='Kunlik izohlar soni'
-            xAxisTitle='Sana'
+            data={getDailyReviewsData(categoryData, t('daily_reviews_amount'))}
+            yAxisTitle={t('daily_reviews_amount')}
+            xAxisTitle={t('date')}
             style={{
               width: '100%',
               height: '250px',
@@ -225,12 +228,12 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
         >
           <div className='mb-6 flex w-full items-center justify-start gap-2'>
             <p className='text-primary font-semibold'>
-              Sotuvchining ushbu kategoriyaga oid mahsulotlari ro'yxati
+              {t('seller_product_in_category')}
             </p>
           </div>
           <Table
             rowData={categoryProducts || []}
-            columnDefs={CategoryProductsColDefs}
+            columnDefs={getCategoryProductsColDefs(t2, i18n.language)}
             className='h-[1000px] w-full'
           />
         </Container>
@@ -239,7 +242,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
   );
 }
 
-function getAllOrdersData(data: CategoryDataType[]) {
+function getAllOrdersData(data: CategoryDataType[], label: string) {
   const dataset = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -247,14 +250,14 @@ function getAllOrdersData(data: CategoryDataType[]) {
     dataset.push({
       x: element.date_pretty,
       y: element.total_orders,
-      label: 'Barcha buyurtmalar soni',
+      label: label,
     });
   }
 
   return dataset;
 }
 
-function getDailyOrdersData(data: CategoryDataType[]) {
+function getDailyOrdersData(data: CategoryDataType[], label: string) {
   const dataset = [];
 
   let prev = data[0].total_orders;
@@ -269,7 +272,7 @@ function getDailyOrdersData(data: CategoryDataType[]) {
     dataset.push({
       x: element.date_pretty,
       y: element.total_orders - prev,
-      type: 'Kunlik buyurtmalar soni',
+      type: label,
     });
     prev = element.total_orders;
   }
@@ -277,7 +280,7 @@ function getDailyOrdersData(data: CategoryDataType[]) {
   return dataset;
 }
 
-function getDailyReviewsData(data: CategoryDataType[]) {
+function getDailyReviewsData(data: CategoryDataType[], label: string) {
   const dataset = [];
 
   let prev = data[0].total_reviews;
@@ -292,7 +295,7 @@ function getDailyReviewsData(data: CategoryDataType[]) {
     dataset.push({
       x: element.date_pretty,
       y: element.total_reviews - prev,
-      label: 'Kunlik izohlar soni',
+      label: label,
     });
 
     prev = element.total_reviews;
@@ -301,7 +304,7 @@ function getDailyReviewsData(data: CategoryDataType[]) {
   return dataset;
 }
 
-function getAllReviewsData(data: CategoryDataType[]) {
+function getAllReviewsData(data: CategoryDataType[], label: string) {
   const dataset = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -309,14 +312,14 @@ function getAllReviewsData(data: CategoryDataType[]) {
     dataset.push({
       x: element.date_pretty,
       y: element.total_reviews,
-      label: 'Barcha izohlar soni',
+      label: label,
     });
   }
 
   return dataset;
 }
 
-function getAllProductsData(data: CategoryDataType[]) {
+function getAllProductsData(data: CategoryDataType[], label: string) {
   const dataset = [];
 
   for (let i = 0; i < data.length; i++) {
@@ -329,7 +332,7 @@ function getAllProductsData(data: CategoryDataType[]) {
     dataset.push({
       x: element.date_pretty,
       y: products,
-      label: 'Barcha mahsulotlar soni',
+      label: label,
     });
   }
 
@@ -350,7 +353,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   setCategoryId,
 }) => {
   // console.log(categoryId, category.categoryId);
-
+  const { t, i18n } = useTranslation('sellers');
   return (
     <div
       className={clsxm(
@@ -358,14 +361,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         categoryId === category.categoryId ? 'bg-primary' : 'bg-white'
       )}
     >
-      <Link href={`/category/${category.title}--${category.categoryId}`}>
+      <Link
+        href={`/category/${
+          i18n.language === 'uz' ? category.title : category.title_ru
+        }--${category.categoryId}`}
+      >
         <h2
           className={clsxm(
             'mb-4 text-base font-bold text-blue-500 hover:underline',
             categoryId === category.categoryId ? 'text-white' : ''
           )}
         >
-          {category.title}
+          {i18n.language === 'uz' ? category.title : category.title_ru}
         </h2>
       </Link>
       <p
@@ -373,7 +380,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           categoryId === category.categoryId ? 'text-white' : 'text-black'
         )}
       >
-        <strong>Buyurtmalar soni:</strong>{' '}
+        <strong>{t('orders_amount')}:</strong>{' '}
         {category.orders_amount.toLocaleString()}
       </p>
       <p
@@ -381,7 +388,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           categoryId === category.categoryId ? 'text-white' : 'text-black'
         )}
       >
-        <strong>Izohlar soni:</strong>{' '}
+        <strong>{t('reviews_amount')}:</strong>{' '}
         {category.reviews_amount.toLocaleString()}
       </p>
       <p
@@ -389,7 +396,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           categoryId === category.categoryId ? 'text-white' : 'text-black'
         )}
       >
-        <strong>Mahsulotlar soni:</strong>{' '}
+        <strong>{t('products_amount')}:</strong>{' '}
         {category.products_amount.toLocaleString()}
       </p>
       <button
@@ -405,7 +412,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           setCategoryId(category.categoryId);
         }}
       >
-        Tanlash
+        {t('select')}
       </button>
     </div>
   );

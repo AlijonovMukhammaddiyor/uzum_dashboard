@@ -6,6 +6,7 @@ const DualAxes = dynamic(
 );
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface RangeChartProps {
   data: any[];
@@ -13,12 +14,13 @@ export interface RangeChartProps {
 }
 
 const RangeChart = ({ data, style }: RangeChartProps) => {
+  const { t } = useTranslation('categories');
   const transformedData = data.flatMap((item, index) => [
     {
       range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      category: 'Mahsulotlar soni',
+      category: t('products_amount'),
       value: item.total_products,
       index: index,
     },
@@ -26,7 +28,7 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
       range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      category: 'Buyurtmalar soni',
+      category: t('orders_amount'),
       value: item.total_orders,
       index: index,
     },
@@ -36,14 +38,14 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
     range: `${(item.from / 1000).toLocaleString()}k so'm - ${(
       item.to / 1000
     ).toLocaleString()}k so'm`,
-    Daromad: item.total_revenue * 1000,
+    [t('revenue')]: item.total_revenue * 1000,
     index: index,
   }));
 
   const config = {
     data: [transformedData, lineData],
     xField: 'range',
-    yField: ['value', 'Daromad'],
+    yField: ['value', t('revenue')],
     geometryOptions: [
       {
         geometry: 'column',
@@ -51,9 +53,9 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
         seriesField: 'category',
         color: ({ category }: { category: string }) => {
           switch (category) {
-            case 'Mahsulotlar soni':
+            case t('products_amount'):
               return 'rgb(82, 95, 225)';
-            case 'Buyurtmalar soni':
+            case t('orders_amount'):
               return 'rgba(248, 111, 3, 0.6)';
             default:
               return '#ccc';
@@ -68,12 +70,12 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
     tooltip: {
       customContent: (title: string, items: any[]) => {
         // Filtering out the revenue line item
-        const revenueItem = items.find((item) => item.name === 'Daromad');
+        const revenueItem = items.find((item) => item.name === t('revenue'));
         const productsItem = items.find(
-          (item) => item.name === 'Mahsulotlar soni'
+          (item) => item.name === t('products_amount')
         );
         const ordersItem = items.find(
-          (item) => item.name === 'Buyurtmalar soni'
+          (item) => item.name === t('orders_amount')
         );
 
         return `
@@ -81,7 +83,7 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
           <div class="text-base font-bold pb-2 border-b border-blue-400">${title}</div>
           <ul class='pb-2'>
             <li class="flex justify-between items-center py-1">
-              <span class='mr-2'>Daromad: </span>
+              <span class='mr-2'>${t('revenue')}: </span>
               <span class="font-semibold">${
                 revenueItem?.value / 1000000000 > 1
                   ? (revenueItem?.value / 1000000000).toFixed(1) + ' mlrd so`m'
@@ -91,11 +93,11 @@ const RangeChart = ({ data, style }: RangeChartProps) => {
               }</span>
             </li>
             <li class="flex justify-between items-center py-1">
-              <span>Mahsulotlar soni:</span>
+              <span>${t('products_amount')}:</span>
               <span class="font-semibold">${productsItem?.value.toLocaleString()} ta</span>
             </li>
             <li class="flex justify-between items-center py-1">
-              <span>Buyurtmalar soni:</span>
+              <span>${t('orders_amount')}:</span>
               <span class="font-semibold">${ordersItem?.value.toLocaleString()} ta</span>
             </li>
           </ul>

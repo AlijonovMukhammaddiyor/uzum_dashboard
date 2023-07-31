@@ -1,0 +1,31 @@
+{
+  "sidebar.general": "Общий",
+  "sidebar.categories": "Категории",
+  "sidebar.sellers": "Продавцы",
+  "sidebar.products": "Продукты",
+  "sidebar.ai": "ИИ",
+  "sidebar.campaigns": "Кампании",
+  "sidebar.searches": "Поиски",
+  "sidebar.compare": "Сравнить",
+
+  "header.referralCode": "Реферер",
+
+  "dataTable": {
+    "orders_amount": "Продаж",
+    "revenue": "Доход",
+    "shops_amount": "Магазины",
+    "sellers_amount": "Продавцы",
+    "products_amount": "Продукты",
+    "reviews_amount": "Отзывы",
+    "see_segmentations": "Сегментация",
+    "total": "Все",
+    "daily": "Ежедневно",
+    "yesterday": "Вчера",
+    "compared_to_yesterday": "Сравнение с вчерашним днем",
+    "updated_at": "Обновлено в",
+    "currency": "сум",
+    "count": ""
+  },
+  "container.explanation": "см. объяснение",
+  "container.close": "Закрыть"
+}

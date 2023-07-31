@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
@@ -15,34 +16,39 @@ export interface Props {
 }
 
 function CategoryComponent({ activeTab, categoryId }: Props) {
+  const { t } = useTranslation('tabs');
   return (
     <div>
       <CategoryProductsTable
         categoryId={categoryId}
-        className={clsxm(activeTab !== 'Tovarlar' && 'hidden')}
+        className={clsxm(activeTab !== t('categories.goods') && 'hidden')}
         activeTab={activeTab}
       />
 
       <CategoryTrends
-        className={clsxm(activeTab !== 'Trend' && 'hidden')}
+        className={clsxm(activeTab !== t('categories.trend') && 'hidden')}
         categoryId={categoryId}
-        isActive={activeTab === 'Trend' ? true : false}
+        isActive={activeTab === t('categories.trend') ? true : false}
       />
 
       <Subcategories
-        className={clsxm(activeTab !== 'Ichki Kategoriyalar' && 'hidden')}
+        className={clsxm(
+          activeTab !== t('categories.subcategories') && 'hidden'
+        )}
         categoryId={categoryId}
-        isActive={activeTab === 'Ichki Kategoriyalar' ? true : false}
+        isActive={activeTab === t('categories.subcategories') ? true : false}
       />
 
       <Segmentation
-        className={clsxm(activeTab !== 'Segmentatsiya' && 'hidden')}
+        className={clsxm(
+          activeTab !== t('categories.segmentation') && 'hidden'
+        )}
         categoryId={categoryId}
-        isActive={activeTab === 'Segmentatsiya' ? true : false}
+        isActive={activeTab === t('categories.segmentation') ? true : false}
       />
 
       <CategoryShops
-        className={clsxm(activeTab !== 'Sotuvchilar' && 'hidden')}
+        className={clsxm(activeTab !== t('categories.sellers') && 'hidden')}
         categoryId={categoryId}
         activeTab={activeTab}
       />

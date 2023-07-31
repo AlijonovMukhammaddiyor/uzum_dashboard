@@ -22,10 +22,11 @@ function Tabs({
   premiumTabs,
   activeColor = 'bg-white bg-opacity-[0.8]',
 }: TabsProps) {
+  // const { t } = useTranslation('tabs');
   return (
     <div
       className={clsxm(
-        'no-scrollbar relative w-max rounded-lg  bg-gray-300  p-1',
+        'no-scrollbar relative w-max rounded-lg  bg-purple-300  p-1',
         className
       )}
     >
@@ -47,7 +48,7 @@ function Tabs({
             }}
           >
             {premiumTabs?.includes(tab) && (
-              <span className='absolute right-0 top-0 text-xs font-bold text-red-500'>
+              <span className='font-primary absolute right-0 top-0 text-xs font-bold text-red-500'>
                 🌟
               </span>
             )}

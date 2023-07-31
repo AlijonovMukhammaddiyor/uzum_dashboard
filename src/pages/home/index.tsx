@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from 'next/types';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
@@ -18,6 +19,7 @@ export interface HomeProps {
 
 export default function HomePage({ user }: HomeProps) {
   const { dispatch } = useContextState();
+  const { t } = useTranslation('tabs');
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
@@ -25,7 +27,7 @@ export default function HomePage({ user }: HomeProps) {
       type: 'PATH',
       payload: {
         path: {
-          Umumiy: '/home',
+          [t('home.overview')]: '/home',
         },
       },
     });
@@ -59,7 +61,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        ...(await serverSideTranslations(locale ?? '', ['common'])),
+        ...(await serverSideTranslations(locale ?? '', [
+          'common',
+          'tabs',
+          'tableColumns',
+        ])),
         user: res,
       },
     };

@@ -1,13 +1,14 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import {
-  ShopProductTableColumnDefs,
-  ShopStoppedProductTableColumnDefs,
+  getShopProductTableColumnDefs,
+  getShopStoppedProductTableColumnDefs,
 } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import PaginatedTable from '@/components/shared/PaginatedTable';
@@ -33,6 +34,7 @@ interface ProductType {
   product_characteristics: string;
   product_id: number;
   product_title: string;
+  product_title_ru: string;
   rating: number;
   reviews_amount: number;
   shop_link: string;
@@ -42,9 +44,11 @@ interface ProductType {
 }
 
 function ShopProducts({ sellerId, className }: Props) {
+  const { t, i18n } = useTranslation('sellers');
+  const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [activeProducts, setActiveProducts] = React.useState<string>(
-    'Sotuvchining hozirdagi mahsulotlari'
+    t('sellers_current_products')
   );
   const [ordersData, setOrdersData] = React.useState<
     {
@@ -98,13 +102,16 @@ function ShopProducts({ sellerId, className }: Props) {
           .map((product) => {
             sum += product.orders_amount;
             return {
-              type: product.product_title + ' (' + product.product_id + ')',
+              type:
+                i18n.language === 'uz'
+                  ? product.product_title.split('((')[0]
+                  : product.product_title_ru.split('((')[0],
               value: product.orders_amount,
             };
           });
         if (res.data.total_orders - sum > 0)
           data.push({
-            type: 'Boshqa Mahsulotlar',
+            type: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
             value: res.data.total_orders - sum,
           });
 
@@ -117,14 +124,16 @@ function ShopProducts({ sellerId, className }: Props) {
           .map((product) => {
             sum += product.orders_money;
             return {
-              type: product.product_title + ' (' + product.product_id + ')',
+              type:
+                i18n.language === 'uz'
+                  ? product.product_title.split('((')[0]
+                  : product.product_title_ru.split('((')[0],
               value: Math.round(product.orders_money * 1000),
             };
           });
-        console.log(res.data.total_revenue - sum);
         if (res.data.total_revenue - sum > 0)
           data2.push({
-            type: 'Boshqa Mahsulotlar',
+            type: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
             value: Math.round((res.data.total_revenue - sum) * 1000),
           });
 
@@ -135,13 +144,16 @@ function ShopProducts({ sellerId, className }: Props) {
         const dataReviews = reviews.map((product) => {
           sumReviews += product.reviews_amount;
           return {
-            type: product.product_title + ' (' + product.product_id + ')',
+            type:
+              i18n.language === 'uz'
+                ? product.product_title.split('((')[0]
+                : product.product_title_ru.split('((')[0],
             value: product.reviews_amount,
           };
         });
         if (res.data.total_reviews - sumReviews > 0)
           dataReviews.push({
-            type: 'Boshqa Mahsulotlar',
+            type: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
             value: res.data.total_reviews - sumReviews,
           });
 
@@ -168,8 +180,10 @@ function ShopProducts({ sellerId, className }: Props) {
         setStoppedProductsLoading(false);
         logger(err, 'Error in getting stopped products');
       });
-  }, [sellerId]);
-
+  }, [i18n.language, sellerId]);
+  React.useEffect(() => {
+    setActiveProducts(t('sellers_current_products'));
+  }, [t, i18n.language]);
   const loadData = (
     page: number,
     sortModel: {
@@ -227,7 +241,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={revenueData}
-            title="Eng ko'p daromad keltirgan mahsulotlar (20 tagacha)"
+            title={t('most_profitable_products')}
             labelType='outer'
             style={{
               width: '100%',
@@ -244,7 +258,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={ordersData}
-            title="Eng ko'p sotilgan mahsulotlar (20 tagacha)"
+            title={t('most_sold_products')}
             labelType='outer'
             style={{
               width: '100%',
@@ -261,7 +275,7 @@ function ShopProducts({ sellerId, className }: Props) {
         >
           <PieChart
             data={reviewsData}
-            title="Eng ko'p izoh yoizlgan mahsulotlar (20 tagacha)"
+            title={t('most_reviewed_products')}
             labelType='outer'
             style={{
               width: '100%',
@@ -277,34 +291,27 @@ function ShopProducts({ sellerId, className }: Props) {
         className={clsxm('w-full overflow-scroll border-none px-0')}
       >
         <Tabs
-          tabs={[
-            'Sotuvchining hozirdagi mahsulotlari',
-            'Sotuvchining sotuvdan chiqqan mahsulotlari',
-          ]}
+          tabs={[t('sellers_current_products'), t('sellers_stopped_products')]}
           activeTab={activeProducts}
           setActiveTab={setActiveProducts}
           className='my-4'
         />
 
         <PaginatedTable
-          columnDefs={ShopProductTableColumnDefs}
+          columnDefs={getShopProductTableColumnDefs(t2, i18n.language)}
           className={clsxm(
             'h-[1016px] min-w-full',
-            activeProducts === 'Sotuvchining hozirdagi mahsulotlari'
-              ? ''
-              : 'hidden'
+            activeProducts === t('sellers_current_products') ? '' : 'hidden'
           )}
           fetchData={loadData}
           setLoading={setLoading}
           id={sellerId}
         />
         <Table
-          columnDefs={ShopStoppedProductTableColumnDefs}
+          columnDefs={getShopStoppedProductTableColumnDefs(t2, i18n.language)}
           className={clsxm(
             'h-[1016px] min-w-full',
-            activeProducts === 'Sotuvchining sotuvdan chiqqan mahsulotlari'
-              ? ''
-              : 'hidden'
+            activeProducts === t('sellers_stopped_products') ? '' : 'hidden'
           )}
           rowData={stoppedProductsData}
         />

@@ -1,6 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 
@@ -21,10 +22,16 @@ interface ProductProps {
 }
 
 function Product({ user, product_id, product_title }: ProductProps) {
+  const { t, i18n } = useTranslation('products');
   const [rendered, setRendered] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState<string>('Mahsulot haqida');
+  const [activeTab, setActiveTab] = React.useState<string>(
+    t('tabs.about_product')
+  );
   const { dispatch } = useContextState();
 
+  React.useEffect(() => {
+    setActiveTab(t('tabs.about_product'));
+  }, [t, i18n?.language]);
   React.useEffect(() => {
     setRendered(true);
     dispatch({ type: 'USER', payload: { user } });
@@ -60,7 +67,11 @@ function Product({ user, product_id, product_title }: ProductProps) {
       </div>
 
       <Tabs
-        tabs={['Mahsulot haqida', 'Grafik Analiz', "O'xshash Mahsulotlar"]}
+        tabs={[
+          t('tabs.about_product'),
+          t('tabs.graph_analysis'),
+          t('tabs.similar_products'),
+        ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4 min-w-[1200px]'
@@ -117,7 +128,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     return {
       props: {
-        ...(await serverSideTranslations(context.locale || 'uz', ['common'])),
+        ...(await serverSideTranslations(context.locale || 'uz', [
+          'common',
+          'products',
+        ])),
         user: res,
         product_id,
         product_title: product.data.title,
