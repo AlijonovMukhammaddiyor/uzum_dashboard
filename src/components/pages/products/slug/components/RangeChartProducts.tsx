@@ -20,7 +20,7 @@ const RangeChartProducts = ({ data, style }: RangeChartProps) => {
       range: `${(item.from / 1000).toLocaleString()}k so'm-${(
         item.to / 1000
       ).toLocaleString()}k so'm`,
-      type: t('products_count'),
+      type: t('products_amount'),
       value: item.total_products,
       index: index,
       color: 'rgba(120, 193, 243, 0.7)',

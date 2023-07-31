@@ -59,6 +59,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           'common',
           'tabs',
           'products',
+          'tableColumns',
         ])),
         user: res,
       },

@@ -6,14 +6,15 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { CategoryProductTableColumnDefs } from '@/components/columnDefs';
+import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import { ProductAnalyticsViewType } from '@/components/pages/category/slug/components/CategoryProductsTable';
 import RangeChartProducts from '@/components/pages/products/slug/components/RangeChartProducts';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 
 function ProductsComponent() {
-  const { t } = useTranslation('products');
+  const { t, i18n } = useTranslation('products');
+  const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState(false);
   const [loadingSegmentation, setLoadingSegmentation] = React.useState(false);
   const [products, setProducts] = React.useState<
@@ -112,7 +113,9 @@ function ProductsComponent() {
         <PaginatedTable
           fetchData={loadData}
           setLoading={setLoading}
-          columnDefs={CategoryProductTableColumnDefs as any}
+          columnDefs={
+            getCategoryProductTableColumnDefs(t2, i18n.language) as any
+          }
           className='h-[1016px] w-full'
         />
       </Container>
