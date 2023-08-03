@@ -1703,7 +1703,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     minWidth: 300,
   },
   {
-    headerName: t('seller'),
+    headerName: t('shop_name'),
     field: 'shop',
     sortable: true,
     cellRenderer: SellerNameCellRenderer,
@@ -1714,7 +1714,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     minWidth: 300,
   },
   {
-    headerName: t('position_in_category'),
+    headerName: t('position_in_subcategory'),
     field: 'position_in_category',
     sortable: true,
     minWidth: 150,
@@ -1728,7 +1728,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
   },
 
   {
-    headerName: t('orders_amount'),
+    headerName: t('orders'),
     field: 'orders_amount',
     sortable: true,
     minWidth: 150,
@@ -1740,7 +1740,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     } as CellStyle,
   },
   {
-    headerName: t('total_revenue'),
+    headerName: t('revenue'),
     field: 'orders_money',
     sortable: true,
     minWidth: 200,
@@ -1753,7 +1753,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     } as CellStyle,
   },
   {
-    headerName: t('reviews_amount'),
+    headerName: t('reviews'),
     field: 'reviews_amount',
     sortable: true,
     minWidth: 150,

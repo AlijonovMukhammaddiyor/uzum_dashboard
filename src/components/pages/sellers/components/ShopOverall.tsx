@@ -183,10 +183,10 @@ export default ShopOverall;
 function prepareDataset(data: SellerType[], type = 'Daromad') {
   switch (type) {
     case 'Daromad':
-    case 'Доход':
+    case 'Выручка':
       return _prepareRevenue(data);
     case 'Buyurtmalar':
-    case 'Заказы':
+    case 'Продаж':
       return _prepareOrders(data);
     case 'Mahsulotlar':
     case 'Продукты':
