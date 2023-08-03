@@ -131,6 +131,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         ...(await serverSideTranslations(context.locale || 'uz', [
           'common',
           'products',
+          'tableColumns',
         ])),
         user: res,
         product_id,

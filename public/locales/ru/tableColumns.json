@@ -21,8 +21,11 @@
   "subcategory": "Подкатегория",
   "category": "Категория",
   "position_in_subcategory": "Позиция в подкатегорий",
+  "seller": "Продавец",
+  "position_in_category": "Позиция в категории",
 
   "position": "Позиция",
+  "orders_amount": "Количество продаж",
   "orders": "Продаж",
   "revenue": "Выручка",
   "sku": "SKU",
@@ -43,6 +46,7 @@
   "to": "До",
 
   "position_at_store": "Позиция в магазине",
+  "reviews_amount": "Количество комментариев",
   "date_added": "Дата добавления",
 
   "daily_revenue": "Дневная выручка",

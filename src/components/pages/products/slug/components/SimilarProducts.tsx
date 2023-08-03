@@ -9,7 +9,7 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { SimilarProductsColDefs } from '@/components/columnDefs';
+import { getSimilarProductsColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import GroupedColumnChart from '@/components/shared/ColumnChart';
 import LineChart from '@/components/shared/LineChart';
@@ -53,6 +53,7 @@ function AboutProduct({
   isActive,
   user,
 }: AboutProductProps) {
+  const { t: t2, i18n } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
   const { state } = useContextState();
   const [products, setProducts] = React.useState<
@@ -268,7 +269,7 @@ function AboutProduct({
         {products.length > 0 && (
           <Table
             rowData={prepareTableData(products, product_id)}
-            columnDefs={SimilarProductsColDefs as any}
+            columnDefs={getSimilarProductsColDefs(t2, i18n.language) as any}
             className='h-[1200px]'
             withCheckbox
           />
