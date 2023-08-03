@@ -7,6 +7,7 @@ import {
   LinearScale,
   LineElement,
   PointElement,
+  TimeSeriesScale,
   Title,
   Tooltip,
 } from 'chart.js';
@@ -14,6 +15,7 @@ import Annotation from 'chartjs-plugin-annotation';
 import Slider from 'rc-slider';
 import React, { useEffect, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
+import 'chartjs-adapter-date-fns';
 
 import clsxm from '@/lib/clsxm';
 
@@ -27,14 +29,15 @@ ChartJS.register(
   PointElement,
   Filler,
   LineElement,
-  Annotation
+  Annotation,
+  TimeSeriesScale
 );
 
 export interface AreaChartProps {
   data: {
     type?: 'line' | 'bar'; // Add this type
     data: {
-      x: string;
+      x: Date;
       y: number;
     }[];
     fill?: boolean;
@@ -44,20 +47,24 @@ export interface AreaChartProps {
     pointRadius?: number;
     pointBackgroundColor?: string;
   }[];
-  labels: string[];
+  labels: Date[];
   options?: any;
   style?: React.CSSProperties;
   title?: string;
   className?: string;
+  first_date: Date;
+  last_date: Date;
 }
 
-function AreaChart({
+function CampaignAreaChart({
   data,
   labels,
   options: customOptions,
   style,
   title,
   className,
+  first_date,
+  last_date,
 }: AreaChartProps) {
   const [data_, setData] = useState(data);
   const [sliderValues, setSliderValues] = useState([0, labels.length]);
@@ -98,6 +105,17 @@ function AreaChart({
     };
   }
 
+  const findClosestDate = (targetDate: Date) => {
+    return labels.reduce((a, b) => {
+      const aDiff = Math.abs(a.getTime() - targetDate.getTime());
+      const bDiff = Math.abs(b.getTime() - targetDate.getTime());
+      return aDiff < bDiff ? a : b;
+    });
+  };
+
+  const firstDateIndex = findClosestDate(first_date);
+  const lastDateIndex = findClosestDate(last_date);
+
   const options: any = {
     maintainAspectRatio: false,
     responsive: true,
@@ -115,13 +133,59 @@ function AreaChart({
         display: title ? true : false,
         text: title,
       },
+      annotation: {
+        annotations: [
+          {
+            type: 'line',
+            mode: 'vertical',
+            scaleID: 'x',
+            value: firstDateIndex,
+            borderColor: '#343a40',
+            content: 'End: ' + last_date.toDateString(),
+            borderWidth: 2,
+            label: {
+              enabled: true,
+              position: 'start',
+              content: 'Start' + first_date.toDateString(),
+            },
+          },
+          {
+            type: 'line',
+            mode: 'vertical',
+            scaleID: 'x',
+            value: lastDateIndex,
+            borderColor: '#343a40',
+            borderWidth: 2,
+            content: 'End: ' + last_date.toDateString(),
+            label: {
+              enabled: true,
+              position: 'end',
+              content: 'End: ' + last_date.toDateString(),
+            },
+          },
+          {
+            type: 'box',
+            xScaleID: 'x',
+            xMin: firstDateIndex,
+            xMax: lastDateIndex,
+            backgroundColor: 'rgba(2, 236, 241,0.1)', // Change to the color you want
+          },
+        ],
+      },
     },
     scales: {
       x: {
-        autoSkip: false,
+        type: 'timeseries',
+        time: {
+          unit: 'day',
+          displayFormats: {
+            day: 'yyyy-MM-dd',
+          },
+        },
         ticks: {
-          maxRotation: 90,
-          minRotation: 0,
+          source: 'data',
+          autoSkip: true,
+          // maxTicksLimit: 20, // Adjust this value as needed to prevent label overlap
         },
       },
       ...yAxis,
@@ -178,4 +242,4 @@ function AreaChart({
   );
 }
 
-export default AreaChart;
+export default CampaignAreaChart;

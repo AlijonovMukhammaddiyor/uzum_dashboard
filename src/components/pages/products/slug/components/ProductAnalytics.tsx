@@ -225,23 +225,6 @@ function getLabels(data: ProductAnalyticsType | null, iscreatedAfter: boolean) {
   return labels.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 }
 
-function fillLabels(labels: string[]) {
-  const start_date = new Date(labels[0]);
-  const end_date = new Date(labels[labels.length - 1]);
-
-  // from start date to end date, check if there is a label for each day
-  const current_date = new Date(start_date);
-  while (current_date <= end_date) {
-    const date_str = current_date.toISOString().split('T')[0];
-    if (!labels.includes(date_str)) {
-      labels.push(date_str);
-    }
-    current_date.setDate(current_date.getDate() + 1);
-  }
-
-  return labels.sort();
-}
-
 function prepareDailyOrdersDataset(
   data: ProductAnalyticsType | null,
   iscreatedAfter = false
@@ -285,7 +268,7 @@ function prepareDailyOrdersDataset(
       label: data.skus.length > 1 ? "O'rtacha sotuv narxi" : 'Sotuv narxi',
     });
 
-    if (item.date_pretty !== '2023-07-24')
+    if (item.date_pretty !== '2023-07-23')
       revenue.push({
         x: item.date_pretty,
         y: (item.orders_money - prev_revenue) * 1000,
@@ -307,7 +290,7 @@ function prepareDailyOrdersDataset(
   dataset.push({
     data: reviews,
     fill: true,
-    hidden: true,
+    hidden: false,
     borderColor: 'rgba(220, 20, 60, 1)',
     backgroundColor: 'rgba(220, 20, 60, 0.2)',
     label: 'Kunlik izohlar soni',
@@ -327,12 +310,13 @@ function prepareDailyOrdersDataset(
 
   dataset.push({
     data: revenue,
+    type: 'bar' as const,
     fill: true,
-    borderColor: 'rgba(248, 111, 3, 1)',
-    backgroundColor: 'rgba(248, 111, 3, 0.1)',
+    borderColor: 'rgb(101, 40, 247)',
+    backgroundColor: 'rgba(101, 40, 247, 0.6)',
     label: 'Kunlik daromad',
     pointRadius: 3,
-    pointBackgroundColor: 'rgba(248, 111, 3, 1)',
+    pointBackgroundColor: 'rgb(101, 40, 247)',
   });
 
   return dataset;
@@ -377,7 +361,7 @@ function prepareAllOrdersDataset(
       y: item.available_amount,
     });
 
-    if (item.date_pretty !== '2023-07-24')
+    if (item.date_pretty !== '2023-07-23')
       revenue.push({
         x: item.date_pretty,
         y: item.orders_money * 1000,
@@ -402,7 +386,7 @@ function prepareAllOrdersDataset(
   dataset.push({
     data: reviews,
     fill: true,
-    hidden: true,
+    hidden: false,
     borderColor: 'rgba(220, 20, 60, 1)',
     backgroundColor: 'rgba(220, 20, 60, 0.2)',
     label: 'Jami izohlar soni',
@@ -423,11 +407,12 @@ function prepareAllOrdersDataset(
   dataset.push({
     data: revenue,
     fill: true,
-    borderColor: 'rgba(248, 111, 3, 1)',
-    backgroundColor: 'rgba(248, 111, 3, 0.1)',
+    type: 'bar' as const,
+    borderColor: 'rgba(101, 40, 247, 1)',
+    backgroundColor: 'rgba(101, 40, 247, 0.6)',
     label: 'Jami daromad',
     pointRadius: 3,
-    pointBackgroundColor: 'rgba(248, 111, 3, 1)',
+    pointBackgroundColor: 'rgb(101, 40, 247)',
   });
 
   // dataset.push({

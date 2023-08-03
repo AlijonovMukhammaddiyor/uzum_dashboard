@@ -194,24 +194,6 @@ function Sidebar({
             // disabled
           />
           <SidebarItem
-            href='/ai'
-            label={t('sidebar.ai')}
-            icon={
-              <BsRobot
-                className={clsxm(
-                  ' h-6 w-6 flex-shrink-0 ',
-                  activeTab === 'Suniy Intellekt' && 'text-white'
-                )}
-              />
-            }
-            activeTab={activeTab}
-            isSidebarOpen={isSidebarOpen}
-            onClick={() => {
-              setActiveTab('Suniy Intellekt');
-            }}
-            disabled
-          />
-          <SidebarItem
             href='/campaigns'
             label={t('sidebar.campaigns')}
             icon={
@@ -226,6 +208,24 @@ function Sidebar({
             isSidebarOpen={isSidebarOpen}
             onClick={() => {
               setActiveTab('Aksiyalar');
+            }}
+            // disabled
+          />
+          <SidebarItem
+            href='/ai'
+            label={t('sidebar.ai')}
+            icon={
+              <BsRobot
+                className={clsxm(
+                  ' h-6 w-6 flex-shrink-0 ',
+                  activeTab === 'Suniy Intellekt' && 'text-white'
+                )}
+              />
+            }
+            activeTab={activeTab}
+            isSidebarOpen={isSidebarOpen}
+            onClick={() => {
+              setActiveTab('Suniy Intellekt');
             }}
             disabled
           />

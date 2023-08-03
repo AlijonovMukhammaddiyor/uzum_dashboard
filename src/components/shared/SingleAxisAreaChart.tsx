@@ -7,6 +7,7 @@ import {
   LinearScale,
   LineElement,
   PointElement,
+  TimeSeriesScale,
   Title,
   Tooltip,
 } from 'chart.js';
@@ -16,7 +17,6 @@ import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
 
 import clsxm from '@/lib/clsxm';
-import logger from '@/lib/logger';
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +28,8 @@ ChartJS.register(
   PointElement,
   Filler,
   LineElement,
-  Annotation
+  Annotation,
+  TimeSeriesScale
 );
 
 export interface AreaChartProps {
@@ -62,7 +63,6 @@ function SingAxisAreaChart({
   const [data_, setData] = useState(data);
 
   useEffect(() => {
-    logger('data changed');
     setData(data);
   }, [data]);
 

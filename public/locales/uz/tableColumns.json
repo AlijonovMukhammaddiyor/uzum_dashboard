@@ -44,5 +44,8 @@
   "tooltip.categories_count": "Do'konning nechta kategoriyada mahsulotlari borligi",
   "tooltip.rating": "Sotuvchi mahsulotlarining o'rtacha reytingi.",
   "tooltip.average_price": "Sotuvchi mahsulotlarining o'rtacha sotuv narxi.",
-  "tooltip.last_active_date": "Sotuvchi mahsulotlarining oxirgi mavjud sana."
+  "tooltip.last_active_date": "Sotuvchi mahsulotlarining oxirgi mavjud sana.",
+
+  "banner_created": "Reklama yaratildi",
+  "banner_ended": "Reklama tugadi"
 }

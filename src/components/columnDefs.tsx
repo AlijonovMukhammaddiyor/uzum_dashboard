@@ -298,6 +298,41 @@ const ProductNameCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
+const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
+  const { dispatch, state } = useContextState();
+  const router = useRouter();
+  if (!value) return '';
+
+  // replace / with dash
+  const title = value?.split('((')[0];
+  // const product_title = value
+  //   ?.split('((')[0]
+  //   .replace(/\//g, '-')
+  //   .replace(/ /g, '-');
+  const product_id = value?.split('((')[1]?.split('))')[0];
+  return (
+    <div
+      onClick={() => {
+        dispatch({
+          type: 'PATH',
+          payload: {
+            path: null,
+          },
+        });
+        if (state.user?.is_pro || state.user?.is_proplus)
+          router.push(`/campaigns/${product_id}`);
+        else {
+          alert(
+            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+          );
+        }
+      }}
+    >
+      <p className='text-blue-500 hover:underline'>{title}</p>
+    </div>
+  );
+};
+
 const SubcategoryCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
@@ -753,6 +788,23 @@ const ProductDateCellRenderer = (props: { value: any }) => {
     <div className='flex items-center justify-center'>
       <p className='text-center'>
         {date.toISOString().split('T')[0].split('-').reverse().join('/')}
+      </p>
+    </div>
+  );
+};
+
+const BannerDateCellRenderer = (props: { value: any }) => {
+  if (!props.value) return '';
+  // if it is equal to today in format yyyy-mm-dd, return ''
+  if (props.value === new Date().toISOString().split('T')[0]) return '';
+
+  const date = new Date(props.value);
+  // check if it is after may 20 2023. if not, return empty string
+  if (date.getTime() < 1685491200000) return '';
+  return (
+    <div className='flex items-center justify-center'>
+      <p className='text-center'>
+        {date.toLocaleDateString('en-GB').split('/').reverse().join('/')}
       </p>
     </div>
   );
@@ -1333,6 +1385,133 @@ export const getNewProductsColDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+  ];
+};
+
+export const getBannerProductsColDefs = (t: any, lang: string) => {
+  return [
+    {
+      headerName: t('image'),
+      field: 'product__photos',
+      sortable: false,
+      cellRenderer: ProductImageCellRenderer,
+      pinned: 'left',
+      minWidth: 150,
+      filter: false,
+      maxWidth: 200,
+    },
+    {
+      headerName: t('product_name'),
+      field: lang === 'uz' ? 'product__title' : 'product__title_ru',
+      // pinned: 'left',
+      sortable: false,
+      cellRenderer: BannerProductNameCellRenderer,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 300,
+    },
+    {
+      headerName: t('category'),
+      field:
+        lang === 'uz'
+          ? 'product__category__title'
+          : 'product__category__title_ru',
+      sortable: true,
+      cellRenderer: CategoryNameCellRenderer,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 200,
+    },
+    {
+      headerName: 'Sotuvchi',
+      field: 'product__shop__title',
+      sortable: true,
+      cellRenderer: SellerNameCellRenderer,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 150,
+    },
+    {
+      headerName: t('banner_created'),
+      field: 'first_date',
+      cellRenderer: BannerDateCellRenderer,
+      filter: false,
+      maxWidth: 200,
+      sortable: false,
+    },
+    {
+      headerName: t('banner_ended'),
+      field: 'last_date',
+      cellRenderer: BannerDateCellRenderer,
+      filter: false,
+      maxWidth: 200,
+      sortable: false,
+    },
+    {
+      headerName: t('position_in_subcategory'),
+      field: 'position_in_category',
+      sortable: true,
+      filter: false,
+      maxWidth: 200,
+      headerTooltip: t('tooltip.position_in_category'),
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+
+    {
+      headerName: t('orders'),
+      field: 'orders_amount',
+      sortable: true,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('revenue'),
+      field: 'orders_money',
+      sortable: true,
+      maxWidth: 300,
+      cellRenderer: RevenueCellRenderer,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('reviews'),
+      field: 'reviews_amount',
+      sortable: true,
+      filter: false,
+      maxWidth: 200,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('average_price'),
+      field: 'average_purchase_price',
+      sortable: true,
+      cellRenderer: PriceRenderer,
+      filter: false,
+      maxWidth: 200,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
   ];
@@ -2401,7 +2580,7 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       pinned: 'left',
       maxWidth: 200,
       cellStyle: {
-        backgroundColor: 'rgba(46, 139, 87, 0.1)',
+        // backgroundColor: 'rgba(46, 139, 87, 0.1)',
       } as CellStyle,
     },
     {
@@ -2414,7 +2593,7 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       pinned: 'left',
       maxWidth: 200,
       cellStyle: {
-        backgroundColor: 'rgba(46, 139, 87, 0.1)',
+        // backgroundColor: 'rgba(46, 139, 87, 0.1)',
       } as CellStyle,
     },
     {

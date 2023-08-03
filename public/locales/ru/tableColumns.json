@@ -50,5 +50,7 @@
   "tooltip.categories_count": "Количество категорий, в которых есть товары магазина",
   "tooltip.rating": "Средний рейтинг товаров продавца",
   "tooltip.average_price": "Средняя цена товаров продавца",
-  "tooltip.last_active_date": "Дата последней продажи товаров продавца"
+  "tooltip.last_active_date": "Дата последней продажи товаров продавца",
+  "banner_created": "Реклама создана",
+  "banner_ended": "Реклама закончилась"
 }

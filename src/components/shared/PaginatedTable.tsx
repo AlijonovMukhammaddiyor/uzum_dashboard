@@ -3,6 +3,7 @@ import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { AxiosResponse } from 'axios';
 import React from 'react';
 
+// import 'ag-grid-enterprise';
 import clsxm from '@/lib/clsxm';
 
 import Uzlocale from '@/assets/localeuzbek.json';
@@ -148,6 +149,7 @@ const PaginatedTable = <T,>({
             alwaysShowBothConditions: true,
           },
         }}
+        enableRangeSelection={true}
         suppressColumnMoveAnimation={true}
         allowDragFromColumnsToolPanel={true}
         pagination={true}
