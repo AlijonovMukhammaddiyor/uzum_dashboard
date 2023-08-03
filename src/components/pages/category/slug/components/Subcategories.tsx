@@ -206,8 +206,8 @@ const SubCategoriesPieChartData = ({
       reviews_data.push({
         type:
           i18n.language === 'uz'
-            ? item.category_title.slice('((')[0]
-            : item.category_title_ru.slice('((')[0],
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
         value: item.total_shops,
       });
   });
