@@ -14,7 +14,7 @@ interface Props {
   data: any;
   open: boolean;
   closeModal: () => void;
-  title: string;
+  title?: string;
   isRevenue?: boolean;
   main_title?: string;
   main_subtitle?: string;
