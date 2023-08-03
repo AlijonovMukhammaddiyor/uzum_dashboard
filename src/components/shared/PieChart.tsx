@@ -86,7 +86,7 @@ const PieChart = ({
       {title && <h3 className='text-primary text-center text-base'>{title}</h3>}
       <Pie
         data={data}
-        {...config}
+        {...(config as any)}
         style={{
           height: '100%',
           width: '100%',
