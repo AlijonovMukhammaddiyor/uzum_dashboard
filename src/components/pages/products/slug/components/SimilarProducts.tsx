@@ -34,12 +34,14 @@ interface ProductType {
   position: number;
   orders_amount: number;
   product__category__title: string;
+  product__category__title_ru: string;
   product__category__categoryId: number;
   product__created_at: string;
   product__product_id: number;
   product__shop__link: string;
   product__shop__title: number;
   product__title: string;
+  product__title_ru: string;
   rating: number;
   reviews_amount: number;
   orders_money: number;
@@ -566,11 +568,18 @@ function prepareTableData(
     data.push({
       product_id: product.product_id,
       title: latest.product__title + ' ((' + latest.product__product_id + '))',
+      title_ru:
+        latest.product__title_ru + ' ((' + latest.product__product_id + '))',
       category:
         latest.product__category__title +
-        ' (' +
+        ' ((' +
         latest.product__category__categoryId +
-        ')',
+        '))',
+      category_ru:
+        latest.product__category__title_ru +
+        ' ((' +
+        latest.product__category__categoryId +
+        '))',
       position: latest.position,
       position_in_category: latest.position_in_category,
       orders_amount: latest.orders_amount,

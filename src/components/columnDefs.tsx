@@ -1429,7 +1429,7 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       minWidth: 200,
     },
     {
-      headerName: 'Sotuvchi',
+      headerName: t('shop_name'),
       field: 'product__shop__title',
       sortable: true,
       cellRenderer: SellerNameCellRenderer,
@@ -1693,7 +1693,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
   },
   {
     headerName: t('category'),
-    field: 'category',
+    field: lang === 'uz' ? 'category' : 'category_ru',
     sortable: true,
     cellRenderer: CategoryNameCellRenderer,
     filter: true,

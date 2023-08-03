@@ -64,7 +64,7 @@ function ProductAnalytics({
     null
   );
   const [iscreatedAfter, setIscreatedAfter] = React.useState<boolean>(false);
-  const { t } = useTranslation('products');
+  const { t, i18n } = useTranslation('products');
 
   React.useEffect(() => {
     const api = new API(null);
@@ -103,7 +103,10 @@ function ProductAnalytics({
         {/* {product && product.recent_analytics && ( */}
         {isActive && (
           <AreaChart
-            data={prepareAllOrdersDataset(product, iscreatedAfter) || []}
+            data={
+              prepareAllOrdersDataset(product, iscreatedAfter, i18n.language) ||
+              []
+            }
             title={t('product_totals_title')}
             labels={getLabels(product, iscreatedAfter) || []}
             style={{ width: '100%', height: '100%', maxHeight: '460px' }}
@@ -120,7 +123,13 @@ function ProductAnalytics({
                   (a, b) => new Date(a).getTime() - new Date(b).getTime()
                 ) ?? []
             }
-            data={prepareDailyOrdersDataset(product, iscreatedAfter) || []}
+            data={
+              prepareDailyOrdersDataset(
+                product,
+                iscreatedAfter,
+                i18n.language
+              ) || []
+            }
             title={t('daily_info')}
             style={{ width: '100%', height: '100%', maxHeight: '460px' }}
             className='h-[460px] max-h-[460px] w-full'
@@ -227,7 +236,8 @@ function getLabels(data: ProductAnalyticsType | null, iscreatedAfter: boolean) {
 
 function prepareDailyOrdersDataset(
   data: ProductAnalyticsType | null,
-  iscreatedAfter = false
+  iscreatedAfter = false,
+  lang = 'uz'
 ) {
   if (!data) return [];
 
@@ -253,26 +263,26 @@ function prepareDailyOrdersDataset(
     orders.push({
       x: item.date_pretty,
       y: item.orders_amount - prev,
-      label: 'Kunlik buyurtmalar soni',
+      label: lang === 'uz' ? 'Kunlik buyurtmalar' : 'Ежедневные заказы',
     });
     prev = item.orders_amount;
     reviews.push({
       x: item.date_pretty,
       y: item.reviews_amount - prev_rev,
-      label: 'Kunlik izohlar soni',
+      label: lang === 'uz' ? 'Kunlik izohlar' : 'Ежедневные отзывы',
     });
     prev_rev = item.reviews_amount;
     prices.push({
       x: item.date_pretty,
       y: item.average_purchase_price,
-      label: data.skus.length > 1 ? "O'rtacha sotuv narxi" : 'Sotuv narxi',
+      label: lang === 'uz' ? "O'rtacha sotuv narxi" : 'Средняя цена продажи',
     });
 
     if (item.date_pretty !== '2023-07-23')
       revenue.push({
         x: item.date_pretty,
         y: (item.orders_money - prev_revenue) * 1000,
-        label: 'Kunlik daromad',
+        label: lang === 'uz' ? 'Kunlik daromad' : 'Ежедневный доход',
       });
     prev_revenue = item.orders_money;
   }
@@ -282,7 +292,7 @@ function prepareDailyOrdersDataset(
     fill: true,
     borderColor: 'rgba(100, 149, 237, 1)',
     backgroundColor: 'rgba(100, 149, 237, 0.2)',
-    label: 'Kunlik buyurtmalar soni',
+    label: lang === 'uz' ? 'Kunlik buyurtmalar' : 'Ежедневные заказы',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(100, 149, 237, 1)',
   });
@@ -293,7 +303,7 @@ function prepareDailyOrdersDataset(
     hidden: false,
     borderColor: 'rgba(220, 20, 60, 1)',
     backgroundColor: 'rgba(220, 20, 60, 0.2)',
-    label: 'Kunlik izohlar soni',
+    label: lang === 'uz' ? 'Kunlik izohlar' : 'Ежедневные отзывы',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(220, 20, 60, 1)',
   });
@@ -303,7 +313,7 @@ function prepareDailyOrdersDataset(
     fill: true,
     borderColor: 'rgba(255, 165, 0, 1)',
     backgroundColor: 'rgba(255, 165, 0, 0.2)',
-    label: data.skus.length > 1 ? "O'rtacha sotuv narxi" : 'Sotuv narxi',
+    label: lang === 'uz' ? "O'rtacha sotuv narxi" : 'Средняя цена продажи',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(255, 165, 0, 1)',
   });
@@ -312,9 +322,10 @@ function prepareDailyOrdersDataset(
     data: revenue,
     type: 'bar' as const,
     fill: true,
+    hidden: true,
     borderColor: 'rgb(101, 40, 247)',
     backgroundColor: 'rgba(101, 40, 247, 0.6)',
-    label: 'Kunlik daromad',
+    label: lang === 'uz' ? 'Kunlik daromad' : 'Ежедневный доход',
     pointRadius: 3,
     pointBackgroundColor: 'rgb(101, 40, 247)',
   });
@@ -324,7 +335,8 @@ function prepareDailyOrdersDataset(
 
 function prepareAllOrdersDataset(
   data: ProductAnalyticsType | null,
-  iscreatedAfter: boolean
+  iscreatedAfter: boolean,
+  lang = 'uz'
 ) {
   if (!data) return [];
 
@@ -378,7 +390,7 @@ function prepareAllOrdersDataset(
     fill: true,
     borderColor: 'rgba(100, 149, 237, 1)',
     backgroundColor: 'rgba(100, 149, 237, 0.2)',
-    label: 'Jami buyurtmalar soni',
+    label: lang === 'uz' ? 'Jami buyurtmalar' : 'Всего заказов',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(100, 149, 237, 1)',
   });
@@ -389,7 +401,7 @@ function prepareAllOrdersDataset(
     hidden: false,
     borderColor: 'rgba(220, 20, 60, 1)',
     backgroundColor: 'rgba(220, 20, 60, 0.2)',
-    label: 'Jami izohlar soni',
+    label: lang === 'uz' ? 'Jami izohlar' : 'Всего отзывов',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(220, 20, 60, 1)',
   });
@@ -399,7 +411,7 @@ function prepareAllOrdersDataset(
     fill: true,
     borderColor: 'rgba(0, 128, 0, 1)',
     backgroundColor: 'rgba(0, 128, 0, 0.2)',
-    label: 'Jami mavjud miqdori',
+    label: lang === 'uz' ? 'Jami mavjud miqdor' : 'Всего доступно',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(0, 128, 0, 1)',
   });
@@ -407,10 +419,11 @@ function prepareAllOrdersDataset(
   dataset.push({
     data: revenue,
     fill: true,
+    hidden: true,
     type: 'bar' as const,
     borderColor: 'rgba(101, 40, 247, 1)',
     backgroundColor: 'rgba(101, 40, 247, 0.6)',
-    label: 'Jami daromad',
+    label: lang === 'uz' ? 'Jami daromad' : 'Всего доход',
     pointRadius: 3,
     pointBackgroundColor: 'rgb(101, 40, 247)',
   });

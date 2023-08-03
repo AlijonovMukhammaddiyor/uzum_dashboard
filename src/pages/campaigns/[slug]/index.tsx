@@ -87,11 +87,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
     const { slug } = context.query;
+
+    console.log('slug', slug);
+
     if (!slug) {
       return {
         redirect: {
           permanent: false,
-          destination: '/products',
+          destination: '/campaigns',
         },
         props: {},
       };
@@ -103,7 +106,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       return {
         redirect: {
           permanent: false,
-          destination: '/products',
+          destination: '/campaigns',
         },
         props: {},
       };
