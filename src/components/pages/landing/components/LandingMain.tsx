@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
-import dashboard from '@/assets/dashboard2.png';
+import dashboard from '@/assets/main3.png';
 
 function LandingMain() {
   const { t } = useTranslation('landing');
@@ -11,7 +11,7 @@ function LandingMain() {
   return (
     <div className='bg-gradient h-[calc(100vh-98px)] w-full overflow-hidden'>
       <div className='layout relative flex h-full items-center  justify-between'>
-        <div className='base:justify-center base:gap-20 base:w-1/2 flex h-full w-full flex-col justify-center gap-10 py-5 2xl:justify-center '>
+        <div className='base:justify-center base:gap-20 flex h-full flex-col justify-center gap-10 py-5 2xl:justify-center '>
           <div className='pr-10'>
             <h1 className='font-primary text-3xl font-semibold tracking-wider sm:text-4xl md:text-5xl lg:text-5xl'>
               {t('main.title.line1.part1')}{' '}
@@ -57,7 +57,7 @@ function LandingMain() {
             </p> */}
           </div>
         </div>
-        <div className='base:flex hidden w-1/2'>
+        <div className='base:flex hidden w-full'>
           <Image
             src={dashboard}
             alt='dashboard'
