@@ -151,7 +151,7 @@ const NewPassword = ({
         spinnerColor='white'
         disabled={!isPasswordValid || sendingRequest}
       >
-        Parolni Yangilash
+        <>Parolni Yangilash</>
       </Button>
     </div>
   );

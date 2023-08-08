@@ -100,7 +100,7 @@ function LoginPhoneConfirm({
         isLoading={sendingRequest}
         disabled={code.length < 4 || sendingRequest}
       >
-        Tasdiqlash
+        <>Tasdiqlash</>
       </Button>
 
       <div

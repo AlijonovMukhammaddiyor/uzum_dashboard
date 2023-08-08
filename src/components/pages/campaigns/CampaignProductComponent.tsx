@@ -79,65 +79,83 @@ function CampaignProductComponent({
         className='flex min-h-[500px] w-full flex-col items-start justify-start gap-5 rounded-md bg-white p-4'
         loading={loading}
       >
-        {dates.first_date && dates.last_date && (
-          <CampaignAreaChart
-            data={prepareAllOrdersDataset(products, i18n.language) || []}
-            // title={t('daily_info')}
-            style={{ width: '100%', height: '100%', maxHeight: '460px' }}
-            className='h-[460px] max-h-[460px] w-full'
-            labels={products.map((item) => new Date(item.date_pretty))}
-            first_date={new Date(dates.first_date)}
-            last_date={new Date(dates.last_date)}
-          />
+        {dates.first_date ? (
+          dates.last_date ? (
+            <CampaignAreaChart
+              data={prepareAllOrdersDataset(products, i18n.language) || []}
+              // title={t('daily_info')}
+              style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+              className='h-[460px] max-h-[460px] w-full'
+              labels={products.map((item) => new Date(item.date_pretty))}
+              first_date={new Date(dates.first_date)}
+              last_date={new Date(dates.last_date)}
+            />
+          ) : (
+            <></>
+          )
+        ) : (
+          <></>
         )}
       </Container>
       <Container
         className='mt-6 flex min-h-[500px] w-full flex-col items-start justify-start gap-5 rounded-md bg-white p-4'
         loading={loading}
       >
-        {dates.first_date && dates.last_date && (
-          <CampaignAreaChart
-            data={
-              prepareDailyOrdersDataset(
-                products.sort(
-                  (a, b) =>
-                    new Date(a.date_pretty).getTime() -
-                    new Date(b.date_pretty).getTime()
-                ),
-                i18n.language
-              ) || []
-            }
-            // title={t('daily_info')}
-            style={{ width: '100%', height: '100%', maxHeight: '460px' }}
-            className='h-[460px] max-h-[460px] w-full'
-            labels={products.map((item) => new Date(item.date_pretty))}
-            first_date={new Date(dates.first_date)}
-            last_date={new Date(dates.last_date)}
-          />
+        {dates.first_date ? (
+          dates.last_date ? (
+            <CampaignAreaChart
+              data={
+                prepareDailyOrdersDataset(
+                  products.sort(
+                    (a, b) =>
+                      new Date(a.date_pretty).getTime() -
+                      new Date(b.date_pretty).getTime()
+                  ),
+                  i18n.language
+                ) || []
+              }
+              // title={t('daily_info')}
+              style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+              className='h-[460px] max-h-[460px] w-full'
+              labels={products.map((item) => new Date(item.date_pretty))}
+              first_date={new Date(dates.first_date)}
+              last_date={new Date(dates.last_date)}
+            />
+          ) : (
+            <></>
+          )
+        ) : (
+          <></>
         )}
       </Container>
       <Container
         className='mt-6 flex min-h-[500px] w-full flex-col items-start justify-start gap-5 rounded-md bg-white p-4'
         loading={loading}
       >
-        {dates.first_date && dates.last_date && (
-          <CampaignAreaChart
-            data={
-              preparePriceDataset(
-                products.sort(
-                  (a, b) =>
-                    new Date(a.date_pretty).getTime() -
-                    new Date(b.date_pretty).getTime()
-                )
-              ) || []
-            }
-            // title={t('daily_info')}
-            style={{ width: '100%', height: '100%', maxHeight: '460px' }}
-            className='h-[460px] max-h-[460px] w-full'
-            labels={products.map((item) => new Date(item.date_pretty))}
-            first_date={new Date(dates.first_date)}
-            last_date={new Date(dates.last_date)}
-          />
+        {dates.first_date ? (
+          dates.last_date ? (
+            <CampaignAreaChart
+              data={
+                preparePriceDataset(
+                  products.sort(
+                    (a, b) =>
+                      new Date(a.date_pretty).getTime() -
+                      new Date(b.date_pretty).getTime()
+                  )
+                ) || []
+              }
+              // title={t('daily_info')}
+              style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+              className='h-[460px] max-h-[460px] w-full'
+              labels={products.map((item) => new Date(item.date_pretty))}
+              first_date={new Date(dates.first_date)}
+              last_date={new Date(dates.last_date)}
+            />
+          ) : (
+            <></>
+          )
+        ) : (
+          <></>
         )}
       </Container>
     </div>

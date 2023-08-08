@@ -174,108 +174,119 @@ function AboutProduct({
                 name='products'
               />
             </div>
-
-            {isActive && products && products.length && (
-              <GroupedColumnChart
-                data={prepareDailyChartData(products, selectedRows, product_id)}
-                style={{
-                  width: '100%',
-                  height: '400px',
-                  maxHeight: '400px',
-                  marginBottom: '40px',
-                  minHeight: '400px',
-                }}
-                title={t('daily_sales')}
-                // yAxisTitle='Kunlik sotuvlar'
-                // xAxisTitle='Sana'
-              />
-            )}
-            {!open && (
-              <div
-                className='mb-16 flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'
-                onClick={() => setOpen(true)}
-              >
-                <button className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'>
-                  <p>{t('see_all')}</p>
-                  <HiOutlineChevronDoubleDown className='text-base' />
-                </button>
-              </div>
-            )}
-
-            {isActive && (
-              <SingleAxisAreaChart
-                data={
-                  prepareAllChartData(products, selectedRows, product_id) ?? []
-                }
-                style={{
-                  width: '100%',
-                  height: '400px',
-                  maxHeight: '400px',
-                  marginBottom: '40px',
-                }}
-                title={t('total_sales')}
-                className='h-[400px] max-h-[400px] w-full'
-              />
-            )}
-
-            {isActive && (
-              <SingleAxisAreaChart
-                data={
-                  preparePricesChartData(products, selectedRows, product_id) ??
-                  []
-                }
-                style={{
-                  width: '100%',
-                  height: '400px',
-                  maxHeight: '400px',
-                  marginBottom: '40px',
-                }}
-                title={t('prices')}
-                className='h-[400px] max-h-[400px] w-full'
-              />
-            )}
-
-            {isActive && (
-              <LineChart
-                data={preparePositionChartData(
-                  products,
-                  selectedRows,
-                  product_id
-                )}
-                style={{
-                  width: '100%',
-                  height: '400px',
-                  maxHeight: '400px',
-                }}
-                isStep
-                yAxisTitle={t('position_in_category')}
-                xAxisTitle={t('date')}
-              />
-            )}
-
-            {open && (
-              <div className='flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'>
-                <button
-                  className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'
-                  onClick={() => setOpen(false)}
+            <>
+              {isActive && products && products.length && (
+                <GroupedColumnChart
+                  data={prepareDailyChartData(
+                    products,
+                    selectedRows,
+                    product_id
+                  )}
+                  style={{
+                    width: '100%',
+                    height: '400px',
+                    maxHeight: '400px',
+                    marginBottom: '40px',
+                    minHeight: '400px',
+                  }}
+                  title={t('daily_sales')}
+                  // yAxisTitle='Kunlik sotuvlar'
+                  // xAxisTitle='Sana'
+                />
+              )}
+              {!open && (
+                <div
+                  className='mb-16 flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'
+                  onClick={() => setOpen(true)}
                 >
-                  <LiaAngleDoubleUpSolid className='text-base' />
-                  <p>{t('see_less')}</p>
-                </button>
-              </div>
-            )}
+                  <button className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'>
+                    <p>{t('see_all')}</p>
+                    <HiOutlineChevronDoubleDown className='text-base' />
+                  </button>
+                </div>
+              )}
+
+              {isActive && (
+                <SingleAxisAreaChart
+                  data={
+                    prepareAllChartData(products, selectedRows, product_id) ??
+                    []
+                  }
+                  style={{
+                    width: '100%',
+                    height: '400px',
+                    maxHeight: '400px',
+                    marginBottom: '40px',
+                  }}
+                  title={t('total_sales')}
+                  className='h-[400px] max-h-[400px] w-full'
+                />
+              )}
+
+              {isActive && (
+                <SingleAxisAreaChart
+                  data={
+                    preparePricesChartData(
+                      products,
+                      selectedRows,
+                      product_id
+                    ) ?? []
+                  }
+                  style={{
+                    width: '100%',
+                    height: '400px',
+                    maxHeight: '400px',
+                    marginBottom: '40px',
+                  }}
+                  title={t('prices')}
+                  className='h-[400px] max-h-[400px] w-full'
+                />
+              )}
+
+              {isActive && (
+                <LineChart
+                  data={preparePositionChartData(
+                    products,
+                    selectedRows,
+                    product_id
+                  )}
+                  style={{
+                    width: '100%',
+                    height: '400px',
+                    maxHeight: '400px',
+                  }}
+                  isStep
+                  yAxisTitle={t('position_in_category')}
+                  xAxisTitle={t('date')}
+                />
+              )}
+
+              {open && (
+                <div className='flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'>
+                  <button
+                    className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'
+                    onClick={() => setOpen(false)}
+                  >
+                    <LiaAngleDoubleUpSolid className='text-base' />
+                    <p>{t('see_less')}</p>
+                  </button>
+                </div>
+              )}
+            </>
           </Container>
         </div>
       )}
       <Container loading={loading} className='h-full w-full bg-transparent p-5'>
-        {products.length > 0 && (
-          <Table
-            rowData={prepareTableData(products, product_id)}
-            columnDefs={getSimilarProductsColDefs(t2, i18n.language) as any}
-            className='h-[1200px]'
-            withCheckbox
-          />
-        )}
+        <>
+          {products.length > 0 && (
+            <Table
+              rowData={prepareTableData(products, product_id)}
+              columnDefs={getSimilarProductsColDefs(t2, i18n.language) as any}
+              className='h-[1200px]'
+              withCheckbox
+            />
+          )}
+        </>
       </Container>
     </div>
   );

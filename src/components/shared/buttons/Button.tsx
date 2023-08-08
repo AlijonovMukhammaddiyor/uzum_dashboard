@@ -12,6 +12,7 @@ type ButtonProps = {
   rightIconClassName?: string;
   className?: string;
   spinnerColor?: string;
+  children?: JSX.Element | JSX.Element[];
 } & React.ComponentPropsWithRef<'button'>;
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

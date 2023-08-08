@@ -284,7 +284,7 @@ function Tarif({
           )}
           // disabled={isProPlus}
         >
-          {buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}
+          <>{buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}</>
         </Button>
       </div>
     </div>
