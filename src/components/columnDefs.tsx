@@ -402,6 +402,25 @@ const CategoryNameCellRenderer = ({ value }: { value: string }) => {
     </div>
   );
 };
+const CategoryAncestorsCellRenderer = ({ value }: { value: string }) => {
+  if (!value) return '';
+
+  const categories = value.split('/');
+
+  let res = '';
+
+  for (let i = 0; i < categories.length; i++) {
+    res += categories[i].split(':')[0].trim() + ' > ';
+  }
+
+  if (res.length > 0) res = res.slice(0, -2);
+
+  return (
+    <div>
+      <p className='text-slate-500'>{res}</p>
+    </div>
+  );
+};
 
 const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
@@ -1078,6 +1097,115 @@ export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
       minWidth: 300,
       filter: false,
       maxWidth: 600,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('rating'),
+      field: 'average_product_rating',
+      cellRenderer: RatingCellRenderer,
+      sortable: true,
+      filter: false,
+      minWidth: 150,
+      maxWidth: 150,
+      headerTooltip: 'Kategoriyadagi mahsulotlarning o`rtacha reytingi',
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+  ];
+};
+
+export const getNichesColDefs = (t: any, lang: string) => {
+  return [
+    {
+      headerName: '',
+      field: lang === 'uz' ? 'category__ancestors' : 'category__ancestors_ru',
+      sortable: true,
+      cellRenderer: CategoryAncestorsCellRenderer,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      minWidth: 300,
+    },
+    {
+      headerName: t('category'),
+      field: lang === 'uz' ? 'category__title' : 'category__title_ru',
+      sortable: true,
+      cellRenderer: CategoryNameCellRenderer,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 300,
+    },
+    {
+      headerName: t('revenue'),
+      field: 'total_orders_amount',
+      sortable: true,
+      filter: false,
+      cellRenderer: RevenueCellRenderer,
+      maxWidth: 300,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('orders'),
+      field: 'total_orders',
+      sortable: true,
+      filter: false,
+      maxWidth: 300,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('products_count'),
+      field: 'total_products',
+      sortable: true,
+      filter: false,
+      maxWidth: 300,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('shops_count'),
+      field: 'total_shops',
+      sortable: true,
+      filter: false,
+      maxWidth: 300,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('average_price'),
+      field: 'average_purchase_price',
+      sortable: true,
+      cellRenderer: PriceRenderer,
+      minWidth: 150,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('reviews'),
+      field: 'total_reviews',
+      sortable: true,
+      // cellRenderer: ReviewsAmountTinyChartCellRenderer,
+      filter: false,
+      maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',

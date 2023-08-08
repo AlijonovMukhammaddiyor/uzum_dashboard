@@ -412,7 +412,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
 export default ShopCompetitors;
 
 function getCommonCategoryOptions(competitor: CompetitorsType, lang: string) {
-  return competitor.common_categories_titles.map((item, index) => ({
+  return competitor?.common_categories_titles.map((item, index) => ({
     value: lang === 'uz' ? item : competitor.common_categories_titles_ru[index],
     label: lang === 'uz' ? item : competitor.common_categories_titles_ru[index],
   }));

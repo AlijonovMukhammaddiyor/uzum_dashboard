@@ -7,18 +7,18 @@ import API from '@/lib/api';
 
 // import { productTableColumnDefs } from '@/components/columnDefs';
 import Layout from '@/components/layout/Layout';
-import ProductsComponent from '@/components/pages/products/ProductsComponent';
+import NichesComponent from '@/components/pages/niches/NichesComponent';
 import Seo from '@/components/Seo';
 
 import { useContextState } from '@/context/Context';
 
 import { UserType } from '@/types/user';
 
-interface ProductsProps {
+interface NichesProps {
   user: UserType;
 }
 
-export default function Products({ user }: ProductsProps) {
+export default function Niches({ user }: NichesProps) {
   const { dispatch } = useContextState();
   const { t } = useTranslation('common');
 
@@ -28,7 +28,7 @@ export default function Products({ user }: ProductsProps) {
       type: 'PATH',
       payload: {
         path: {
-          [t('sidebar.products')]: '/products',
+          [t('sidebar.niches')]: '/niches',
         },
       },
     });
@@ -38,7 +38,7 @@ export default function Products({ user }: ProductsProps) {
   return (
     <Layout>
       <Seo />
-      <ProductsComponent />
+      <NichesComponent />
     </Layout>
   );
 }
@@ -62,7 +62,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         ...(await serverSideTranslations(context.locale || 'uz', [
           'common',
           'tabs',
-          'products',
           'tableColumns',
         ])),
         user: res,

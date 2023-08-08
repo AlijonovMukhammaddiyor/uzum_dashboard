@@ -8,6 +8,7 @@ import {
   HiChevronDoubleLeft,
   HiChevronDoubleRight,
   HiLanguage,
+  HiMagnifyingGlass,
   HiOutlineBuildingStorefront,
   HiOutlineHome,
   HiOutlineShoppingBag,
@@ -78,6 +79,8 @@ function Sidebar({
         path.startsWith('/ru/compare')
       ) {
         setActiveTab(t('sidebar.compare'));
+      } else if (path.startsWith('/niches') || path.startsWith('/ru/niches')) {
+        setActiveTab(t('sidebar.niches'));
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -194,6 +197,24 @@ function Sidebar({
             // disabled
           />
           <SidebarItem
+            href='/niches'
+            label={t('sidebar.niches')}
+            icon={
+              <HiMagnifyingGlass
+                className={clsxm(
+                  ' h-6 w-6 flex-shrink-0 ',
+                  activeTab === 'Niches' && 'text-white'
+                )}
+              />
+            }
+            activeTab={activeTab}
+            isSidebarOpen={isSidebarOpen}
+            onClick={() => {
+              setActiveTab('Niches');
+            }}
+            // disabled
+          />
+          <SidebarItem
             href='/campaigns'
             label={t('sidebar.campaigns')}
             icon={
@@ -211,6 +232,7 @@ function Sidebar({
             }}
             // disabled
           />
+
           <SidebarItem
             href='/ai'
             label={t('sidebar.ai')}
