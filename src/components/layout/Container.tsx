@@ -13,7 +13,6 @@ type ContainerProps = {
   animation?: 'fade' | 'slide';
   title?: string;
   explanation?: string;
-  children: JSX.Element | JSX.Element[];
 } & React.HTMLAttributes<HTMLDivElement>;
 
 function Container({
