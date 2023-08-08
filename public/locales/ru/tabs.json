@@ -28,5 +28,10 @@
     "about_product": "О продукте",
     "graph_analiz": "Графический анализ",
     "similar_products": "Похожие продукты"
+  },
+  "profile": {
+    "payments": "Платежи",
+    "plans": "Планы",
+    "others": "Другие"
   }
 }

@@ -331,3 +331,29 @@
     rgba(254, 240, 255, 1) 100%
   );
 }
+._gradient {
+  background: rgb(254, 240, 255);
+  background: radial-gradient(
+    circle,
+    rgba(254, 240, 255, 1) 10%,
+    rgba(255, 255, 255, 1) 64%
+  );
+}
+._gradient2 {
+  background: rgb(254, 240, 255);
+  background: linear-gradient(
+    315deg,
+    rgba(254, 240, 255, 1) 10%,
+    rgba(255, 255, 255, 1) 51%
+  );
+}
+
+.text_gradient {
+  @apply from-primary to-primary bg-gradient-to-r via-orange-500 bg-clip-text text-transparent;
+}
+.all_side_shadow {
+  box-shadow: 0 0 20px rgb(211, 209, 209);
+}
+.all_side_shadow1 {
+  box-shadow: 0 0 30px rgb(186, 186, 186);
+}

@@ -28,5 +28,10 @@
     "about_product": "Mahsulot haqida",
     "graph_analiz": "Grafik analiz",
     "similar_products": "O'xshash mahsulotlar"
+  },
+  "profile": {
+    "payments": "To'lovlar",
+    "plans": "Tariflar",
+    "others": "Boshqalar"
   }
 }

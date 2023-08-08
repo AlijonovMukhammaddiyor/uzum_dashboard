@@ -6,6 +6,7 @@
   "main.subtitle.line1": "Ma'lumotlarni daromadga aylantiring.",
   "main.subtitle.line2": "Uzum Marketdagi biznesingiz uchun mukammal analitika xizmati",
   "main.button.signup": "Bepul Foydalanish",
+  "main.button.learn": "Tanishish",
 
   "header.xizmatlar": "Xizmatlar",
   "header.tariflar": "Tariflar",
@@ -51,7 +52,7 @@
         {
           "title": "O'sayotgan mahsulotlar",
           "description": "Bu xizmat orqali eng ko'p o'sib borayotgan mahsulotlar haqida ma'lumot bilib turing, bu esa sizga qaysi mahsulotlar ommalashib borayotganini tushunish imkonini beradi.",
-          "image": "/landing/features/growing_products.png"
+          "image": "/landing/features/promising_products.png"
         },
         {
           "title": "O'sayotgan kategoriyalar",
@@ -156,7 +157,7 @@
         {
           "title": "Mahsulot raqobatchilari",
           "description": "Bu xususiyat ma'lum bir mahsulotning raqobatchilarini ta'kidlab, sizga mahsulotlaringiz raqobatchilarga qanday qarshilik ko'rsatishini tushunishga imkon beradi.",
-          "image": "/landing/features/similars.png"
+          "image": "/landing/features/all_similar_products.png"
         },
         {
           "title": "Raqobatchilarini taqqoslash",
