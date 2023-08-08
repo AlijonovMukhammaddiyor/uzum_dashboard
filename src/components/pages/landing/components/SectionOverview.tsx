@@ -7,7 +7,7 @@ function SectionOverview() {
   const { t, i18n } = useTranslation('landing');
 
   return (
-    <div className='mt-6  w-full py-16 md:py-28'>
+    <div className=' bg-gradient w-full bg-[#f8f2ff] py-16 md:py-28'>
       <div className='md:layout flex h-full flex-col items-center justify-center gap-10'>
         <div className='flex w-full flex-col items-center justify-center'>
           <h2

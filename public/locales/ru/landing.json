@@ -6,6 +6,7 @@
   "main.subtitle.line1": "Превратите данные в доход.",
   "main.subtitle.line2": "Идеальный аналитический сервис для вашего бизнеса на Uzum Market!",
   "main.button.signup": "Бесплатное использование",
+  "main.button.learn": "Узнать больше",
 
   "header.xizmatlar": "Услуги",
   "header.tariflar": "Расценки",
@@ -51,7 +52,7 @@
         {
           "title": "Перспективные продукты",
           "description": "Получите информацию о самых быстрорастущих продуктах с помощью этой услуги, которая позволит вам понять, какие продукты находятся в тренде.",
-          "image": "/landing/features/growing_products.png"
+          "image": "/landing/features/promising_products.png"
         },
         {
           "title": "Растущие категории",
@@ -156,7 +157,7 @@
         {
           "title": "Конкуренты по продуктам",
           "description": "Эта функция выделяет конкурентов определенного продукта, позволяя вам понять, как ваши продукты выглядят по сравнению с конкурентами.",
-          "image": "/landing/features/similars.png"
+          "image": "/landing/features/all_similar_products.png"
         },
         {
           "title": "Сравнение конкурентов",

@@ -1122,16 +1122,6 @@ export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
 export const getNichesColDefs = (t: any, lang: string) => {
   return [
     {
-      headerName: '',
-      field: lang === 'uz' ? 'category__ancestors' : 'category__ancestors_ru',
-      sortable: true,
-      cellRenderer: CategoryAncestorsCellRenderer,
-      filter: true,
-      floatingFilter: true,
-      flex: 1,
-      minWidth: 300,
-    },
-    {
       headerName: t('category'),
       field: lang === 'uz' ? 'category__title' : 'category__title_ru',
       sortable: true,
@@ -1140,7 +1130,17 @@ export const getNichesColDefs = (t: any, lang: string) => {
       floatingFilter: true,
       flex: 1,
       maxWidth: 500,
-      minWidth: 300,
+      minWidth: 200,
+    },
+    {
+      headerName: '',
+      field: lang === 'uz' ? 'category__ancestors' : 'category__ancestors_ru',
+      sortable: true,
+      cellRenderer: CategoryAncestorsCellRenderer,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      minWidth: 400,
     },
     {
       headerName: t('revenue'),

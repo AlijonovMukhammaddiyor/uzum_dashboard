@@ -41,9 +41,9 @@ function Tops() {
         logger(err, 'Error in getting top products');
       });
   }, []);
-
+  // bg - [#E8F0F2];
   return (
-    <div className='relative w-full bg-[#E8F0F2] py-16 md:py-32'>
+    <div className='bg-gradient relative  w-full bg-[#f8f2ff] py-16 md:py-32'>
       <div className='layout flex flex-col justify-start gap-10 md:flex-row'>
         <div className='mx-auto flex w-11/12 flex-col items-start justify-start md:w-1/2'>
           <h3 className='mb-8'>{t('tops.products.title')}</h3>

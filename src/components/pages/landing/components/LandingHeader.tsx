@@ -33,9 +33,9 @@ function LandingHeader() {
     [t('header.tariflar')]: "#ta'riflar",
     // 'Bog`lanish': '#contact',
   };
-
+  // bg-[rgb(232,234,255)]
   return (
-    <nav className='bg-gradient  w-full bg-[rgb(232,234,255)]'>
+    <nav className='w-full   bg-white'>
       <div className='layout flex items-center justify-between py-6'>
         <Link href='/' className='md:-ml-6'>
           {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}

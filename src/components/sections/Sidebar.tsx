@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsRobot } from 'react-icons/bs';
+import { BsPerson } from 'react-icons/bs';
 import {
   // HiArrowPath,
   HiChevronDoubleLeft,
@@ -81,6 +82,11 @@ function Sidebar({
         setActiveTab(t('sidebar.compare'));
       } else if (path.startsWith('/niches') || path.startsWith('/ru/niches')) {
         setActiveTab(t('sidebar.niches'));
+      } else if (
+        path.startsWith('/profile') ||
+        path.startsWith('/ru/profile')
+      ) {
+        setActiveTab(t('sidebar.profile'));
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -270,7 +276,7 @@ function Sidebar({
             }}
             disabled
           />
-          <div className='mt-5 h-[1px] w-full bg-slate-300'></div>
+          {/* <div className='mt-5 h-[1px] w-full bg-slate-300'></div> */}
           <SidebarItem
             href='/compare'
             label={t('sidebar.compare')}
@@ -288,6 +294,26 @@ function Sidebar({
               setActiveTab('Taqqoslash');
             }}
             disabled
+          />
+          <div>
+            <div className='mt-5 h-[1px] w-full bg-slate-500'></div>
+          </div>
+          <SidebarItem
+            href='/profile'
+            label={t('sidebar.profile')}
+            icon={
+              <BsPerson
+                className={clsxm(
+                  'h-6 w-6 flex-shrink-0 ',
+                  activeTab === 'Profile' && 'text-white'
+                )}
+              />
+            }
+            isSidebarOpen={isSidebarOpen}
+            activeTab={activeTab}
+            onClick={() => {
+              setActiveTab('Profile');
+            }}
           />
         </ul>
       </div>
