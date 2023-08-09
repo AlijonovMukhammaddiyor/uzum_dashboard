@@ -131,7 +131,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   }, []);
 
   const { t } = useTranslation('common');
-  console.log(revenue);
+
   return (
     <div
       className={clsxm(

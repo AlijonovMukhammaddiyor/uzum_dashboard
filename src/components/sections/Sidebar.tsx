@@ -260,7 +260,7 @@ function Sidebar({
 
           <SidebarItem
             href='/words'
-            label={t('sidebar.searches')}
+            label='SEO'
             icon={
               <HiLanguage
                 className={clsxm(

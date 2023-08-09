@@ -30,6 +30,37 @@ const RangeChartShops = ({ data, style }: RangeChartProps) => {
     index: index,
   }));
 
+  const tooltipCustomContent = (title: string, items: any[]) => {
+    const revenueItem = items.find((item) => item.name === t('daily_revenue'));
+    const ordersItem = items.find((item) => item.name === t('orders'));
+
+    const revenueValue = revenueItem?.value;
+    let formattedRevenue;
+    if (revenueValue / 1000000000 > 1) {
+      formattedRevenue = `${(revenueValue / 1000000000).toFixed(
+        1
+      )} billion so'm`;
+    } else if (revenueValue / 1000000 > 1) {
+      formattedRevenue = `${(revenueValue / 1000000).toFixed(1)} million so'm`;
+    } else {
+      formattedRevenue = `${revenueValue} thousand so'm`;
+    }
+
+    return `
+    <div class="text-base font-bold pb-2 border-b border-blue-400">${title}</div>
+    <ul class='pb-2'>
+      <li class="flex justify-between items-center py-1 gap-2">
+        <span>${t('daily_revenue')}: </span>
+        <span class="font-semibold">${formattedRevenue}</span>
+      </li>
+      <li class="flex justify-between items-center py-1">
+        <span>${t('orders')}:</span>
+        <span class="font-semibold">${ordersItem?.value.toLocaleString()} items</span>
+      </li>
+    </ul>
+  `;
+  };
+
   const config = {
     data: [transformedData, lineData],
     xField: 'x',
@@ -56,34 +87,7 @@ const RangeChartShops = ({ data, style }: RangeChartProps) => {
       },
     ],
     tooltip: {
-      customContent: (title: string, items: any[]) => {
-        // Filtering out the revenue line item
-        const revenueItem = items.find(
-          (item) => item.name === t('daily_revenue')
-        );
-        const ordersItem = items.find((item) => item.name === t('orders'));
-
-        return `
-
-          <div class="text-base font-bold pb-2 border-b border-blue-400">${title}</div>
-          <ul class='pb-2'>
-            <li class="flex justify-between items-center py-1 gap-2">
-              <span>${t('daily_revenue')}: </span>
-              <span class="font-semibold">${
-                revenueItem?.value / 1000000000 > 1
-                  ? (revenueItem?.value / 1000000000).toFixed(1) + ' mlrd so`m'
-                  : revenueItem?.value / 1000000 > 1
-                  ? (revenueItem?.value / 1000000).toFixed(1) + ' mln so`m'
-                  : revenueItem?.value + ' ming so`m'
-              }</span>
-            </li>
-            <li class="flex justify-between items-center py-1">
-              <span>${t('orders')}:</span>
-              <span class="font-semibold">${ordersItem?.value.toLocaleString()} ta</span>
-            </li>
-          </ul>
-        `;
-      },
+      customContent: tooltipCustomContent,
     },
     xAxis: {
       label: null,
