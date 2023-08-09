@@ -281,5 +281,6 @@
   "tariffs.free": "Бесплатно",
   "tariffs.pro": "Pro",
   "tariffs.premium": "Премиум",
-  "tariffs.trial": "Бесплатно на 24 часа"
+  "tariffs.trial": "Бесплатно на 24 часа",
+  "tariffs.enterprise": "Предприятие"
 }

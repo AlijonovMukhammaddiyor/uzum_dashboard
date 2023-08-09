@@ -281,5 +281,6 @@
   "tariffs.free": "Bepul",
   "tariffs.pro": "Pro",
   "tariffs.premium": "Premium",
-  "tariffs.trial": "24 soat mutlaqo bepul"
+  "tariffs.trial": "24 soat mutlaqo bepul",
+  "tariffs.enterprise": "Enterprise"
 }
