@@ -62,16 +62,18 @@ function MainAnalytics({ className }: MainAnalyticsProps) {
           className='h-[500px] w-full min-w-full items-start justify-start gap-6 rounded-md bg-white p-1'
           loading={loading}
         >
-          {data && (
-            <ScatterChart
-              data={
-                data?.shops.map((shop) => ({
-                  x: shop.total_orders,
-                  y: shop.total_products,
-                })) || []
-              }
-            />
-          )}
+          <>
+            {data && (
+              <ScatterChart
+                data={
+                  data?.shops.map((shop) => ({
+                    x: shop.total_orders,
+                    y: shop.total_products,
+                  })) || []
+                }
+              />
+            )}
+          </>
         </Container>
       </div>
     </div>

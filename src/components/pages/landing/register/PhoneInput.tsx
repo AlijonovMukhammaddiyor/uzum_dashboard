@@ -118,7 +118,7 @@ const PhoneInputComponent = ({
           handleSendCode();
         }}
       >
-        Kodni Yuborish
+        <>Kodni Yuborish</>
       </Button>
     </div>
   );

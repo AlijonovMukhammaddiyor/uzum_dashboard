@@ -87,13 +87,20 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       .get<unknown, AxiosResponse<any>>('/uzum/revenue/')
       .then((res) => {
         setRevenue(
-          res.data.slice(0).map((item: any) => {
-            if (item.date_pretty !== '2023-07-05') return item;
-            return {
-              ...item,
-              total_revenue: 411_523_262.5,
-            };
-          })
+          res.data
+            .slice(0)
+            .map((item: any) => {
+              return item;
+              // return {
+              //   ...item,
+              //   total_revenue: 411_523_262.5,
+              // };
+            })
+            .filter(
+              (item: any) =>
+                item.date_pretty !== '2023-06-22' &&
+                item.date_pretty !== '2023-07-23'
+            )
         );
       })
       .catch((err) => {
@@ -124,7 +131,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
   }, []);
 
   const { t } = useTranslation('common');
-
+  console.log(revenue);
   return (
     <div
       className={clsxm(
@@ -373,12 +380,14 @@ function getDaily(
   const res = [];
   for (let i = 1; i < data.length; i++) {
     const item = data[i];
+
     res.push({
       x: item.x,
       y: item.y - prev,
     });
     prev = item.y;
   }
+
   return res;
 }
 

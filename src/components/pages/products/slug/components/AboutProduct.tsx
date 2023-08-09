@@ -163,7 +163,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
         loading={loading}
         className='h-max min-h-[400px] w-full rounded-md bg-white p-5'
       >
-        {product && (
+        {product ? (
           <div className='flex items-start justify-start gap-10 lg:grid-cols-2'>
             <div className='h-[600px] w-[500px]'>
               <Carousel
@@ -329,6 +329,8 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
               </div>
             </div>
           </div>
+        ) : (
+          <></>
         )}
         {/* {product && (
           <div

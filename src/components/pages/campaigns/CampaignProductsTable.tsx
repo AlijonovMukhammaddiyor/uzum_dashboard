@@ -60,7 +60,7 @@ function CampaignProductsTable() {
         loading={loading}
         className='h-full w-full border-none bg-transparent'
       >
-        {products.length > 0 && (
+        {products.length > 0 ? (
           <Table
             rowData={products.sort(
               (a, b) =>
@@ -71,6 +71,8 @@ function CampaignProductsTable() {
             className='h-[1200px]'
             withCheckbox
           />
+        ) : (
+          <></>
         )}
       </Container>
     </div>

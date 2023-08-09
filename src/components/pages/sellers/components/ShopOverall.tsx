@@ -122,19 +122,21 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           marginBottom: '10px',
         }}
       >
-        {isActive && (
-          <MixedChartSeller
-            data={prepareDataset(data, tab) as any}
-            labels={data.slice(1).map((item) => item.date_pretty)}
-            style={{
-              height: '440px',
-              maxHeight: '440px',
-              minHeight: '440px',
-              width: '100%',
-              maxWidth: '100%',
-            }}
-          />
-        )}
+        <>
+          {isActive && (
+            <MixedChartSeller
+              data={prepareDataset(data, tab) as any}
+              labels={data.slice(1).map((item) => item.date_pretty)}
+              style={{
+                height: '440px',
+                maxHeight: '440px',
+                minHeight: '440px',
+                width: '100%',
+                maxWidth: '100%',
+              }}
+            />
+          )}
+        </>
       </Container>
       <Container
         className='mt-4 flex h-[350px] w-full flex-col rounded-md bg-white p-5'
@@ -143,26 +145,28 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
         <div className='flex w-full items-center justify-center'>
           <p className='text-primary'>{t('seller_position_by_revenue')}</p>
         </div>
-        {isActive && (
-          <LineChart
-            data={data.map((item) => {
-              return {
-                y: item.position,
-                x: item.date_pretty,
-                label: t('position'),
-              };
-            })}
-            style={{
-              height: '300px',
-              maxHeight: '300px',
-              minHeight: '300px',
-              width: '100%',
-            }}
-            isStep
-            xAxisTitle={t('date')}
-            yAxisTitle={t('position')}
-          />
-        )}
+        <>
+          {isActive && (
+            <LineChart
+              data={data.map((item) => {
+                return {
+                  y: item.position,
+                  x: item.date_pretty,
+                  label: t('position'),
+                };
+              })}
+              style={{
+                height: '300px',
+                maxHeight: '300px',
+                minHeight: '300px',
+                width: '100%',
+              }}
+              isStep
+              xAxisTitle={t('date')}
+              yAxisTitle={t('position')}
+            />
+          )}
+        </>
       </Container>
       <Container
         className='mt-10 flex h-[1000px] w-full flex-col gap-6 rounded-md bg-white'

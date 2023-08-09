@@ -109,7 +109,7 @@ function PhoneConfirm({
         isLoading={sendingRequest}
         disabled={code.length < 4 || sendingRequest}
       >
-        Tasdiqlash
+        <>Tasdiqlash</>
       </Button>
 
       <RegisterFooter

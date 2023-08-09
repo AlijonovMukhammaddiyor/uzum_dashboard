@@ -138,27 +138,28 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
             {t('info_2')}
           </p>
         </div>
-
-        {competitors.length > 0 &&
-          competitors
-            .sort(
-              (a, b) => b.common_categories_count - a.common_categories_count
-            )
-            .map((competitor) => {
-              if (competitor.title !== title)
-                return (
-                  <CommonCategories
-                    key={competitor.title}
-                    link={competitor.link}
-                    common_categories_titles={
-                      i18n.language === 'uz'
-                        ? competitor.common_categories_titles
-                        : competitor.common_categories_titles_ru
-                    }
-                    title={competitor.title}
-                  />
-                );
-            })}
+        <>
+          {competitors.length > 0 &&
+            competitors
+              .sort(
+                (a, b) => b.common_categories_count - a.common_categories_count
+              )
+              .map((competitor) => {
+                if (competitor.title !== title)
+                  return (
+                    <CommonCategories
+                      key={competitor.title}
+                      link={competitor.link}
+                      common_categories_titles={
+                        i18n.language === 'uz'
+                          ? competitor.common_categories_titles
+                          : competitor.common_categories_titles_ru
+                      }
+                      title={competitor.title}
+                    />
+                  );
+              })}
+        </>
       </Container>
 
       <div className='flex items-center justify-start gap-6'>
@@ -412,7 +413,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
 export default ShopCompetitors;
 
 function getCommonCategoryOptions(competitor: CompetitorsType, lang: string) {
-  return competitor.common_categories_titles.map((item, index) => ({
+  return competitor?.common_categories_titles.map((item, index) => ({
     value: lang === 'uz' ? item : competitor.common_categories_titles_ru[index],
     label: lang === 'uz' ? item : competitor.common_categories_titles_ru[index],
   }));

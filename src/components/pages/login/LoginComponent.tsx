@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
@@ -11,7 +12,7 @@ import logger from '@/lib/logger';
 import TelegramLogin from '@/components/pages/login/TelegramLogin';
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
 
-import Logo from '@/assets/logo/logo.svg';
+import Logo from '@/assets/logo/logo2.png';
 
 function LoginComponent() {
   const router = useRouter();
@@ -107,8 +108,15 @@ function LoginComponent() {
         </div>
       </div>
       <div className='layout base:w-1/2 absolute top-5 flex w-full items-center justify-between gap-2 px-3 text-sm'>
-        <Link href='/' className=''>
-          <Logo className='h-[40px] w-[140px]' />
+        <Link href='/' className='md:ml-6'>
+          {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
+          <Image
+            src={Logo}
+            alt='logo'
+            width={200}
+            height={50}
+            className='w-28 md:w-36'
+          />
         </Link>
         <div className='flex items-center justify-end gap-2'>
           <p className='hidden text-xs lg:block'>{t('register.ask')}</p>

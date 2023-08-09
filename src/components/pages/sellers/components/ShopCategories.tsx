@@ -149,77 +149,85 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
           !showCategoryData ? 'h-[250px]' : 'h-[1500px]'
         )}
       >
-        {showCategoryData && (
-          <p className='text-primary w-full text-center'>
-            <span className='font-semibold text-black'>
-              {categoryId
-                ? i18n.language === 'uz'
-                  ? data.find((c) => c.categoryId === categoryId)?.title
-                  : data.find((c) => c.categoryId === categoryId)?.title_ru
-                : ''}{' '}
-              -{' '}
-            </span>
-            {t('info_by_category')}
-          </p>
-        )}
-        {/* <p className='mb-3 w-full text-center text-xs text-gray-400'>
+        <>
+          {showCategoryData && (
+            <p className='text-primary w-full text-center'>
+              <span className='font-semibold text-black'>
+                {categoryId
+                  ? i18n.language === 'uz'
+                    ? data.find((c) => c.categoryId === categoryId)?.title
+                    : data.find((c) => c.categoryId === categoryId)?.title_ru
+                  : ''}{' '}
+                -{' '}
+              </span>
+              {t('info_by_category')}
+            </p>
+          )}
+          {/* <p className='mb-3 w-full text-center text-xs text-gray-400'>
           * Ma'lum bir chiziqni yashirish yoki ko'rsatish uchun quyidagi
           nomlardan tegishli nom ustiga bosing.
         </p> */}
-        {showCategoryData && (
-          <LineChart
-            data={getAllOrdersData(categoryData, t('total_orders_amount'))}
-            yAxisTitle={t('total_orders_amount')}
-            xAxisTitle={t('date')}
-            style={{
-              width: '100%',
-              height: '250px',
-            }}
-          />
-        )}
-        {showCategoryData && (
-          <StateckedColumnChart
-            data={getDailyOrdersData(categoryData, t('daily_orders_amount'))}
-            style={{
-              width: '100%',
-              height: '250px',
-            }}
-            sliderEnd={1}
-          />
-        )}
-        {showCategoryData && (
-          <LineChart
-            data={getAllProductsData(categoryData, t('total_products_amount'))}
-            yAxisTitle={t('total_products_amount')}
-            xAxisTitle={t('date')}
-            style={{
-              width: '100%',
-              height: '250px',
-            }}
-          />
-        )}
-        {showCategoryData && (
-          <LineChart
-            data={getAllReviewsData(categoryData, t('total_reviews_amount'))}
-            yAxisTitle={t('total_reviews_amount')}
-            xAxisTitle={t('date')}
-            style={{
-              width: '100%',
-              height: '250px',
-            }}
-          />
-        )}
-        {showCategoryData && (
-          <LineChart
-            data={getDailyReviewsData(categoryData, t('daily_reviews_amount'))}
-            yAxisTitle={t('daily_reviews_amount')}
-            xAxisTitle={t('date')}
-            style={{
-              width: '100%',
-              height: '250px',
-            }}
-          />
-        )}
+          {showCategoryData && (
+            <LineChart
+              data={getAllOrdersData(categoryData, t('total_orders_amount'))}
+              yAxisTitle={t('total_orders_amount')}
+              xAxisTitle={t('date')}
+              style={{
+                width: '100%',
+                height: '250px',
+              }}
+            />
+          )}
+          {showCategoryData && (
+            <StateckedColumnChart
+              data={getDailyOrdersData(categoryData, t('daily_orders_amount'))}
+              style={{
+                width: '100%',
+                height: '250px',
+              }}
+              sliderEnd={1}
+            />
+          )}
+          {showCategoryData && (
+            <LineChart
+              data={getAllProductsData(
+                categoryData,
+                t('total_products_amount')
+              )}
+              yAxisTitle={t('total_products_amount')}
+              xAxisTitle={t('date')}
+              style={{
+                width: '100%',
+                height: '250px',
+              }}
+            />
+          )}
+          {showCategoryData && (
+            <LineChart
+              data={getAllReviewsData(categoryData, t('total_reviews_amount'))}
+              yAxisTitle={t('total_reviews_amount')}
+              xAxisTitle={t('date')}
+              style={{
+                width: '100%',
+                height: '250px',
+              }}
+            />
+          )}
+          {showCategoryData && (
+            <LineChart
+              data={getDailyReviewsData(
+                categoryData,
+                t('daily_reviews_amount')
+              )}
+              yAxisTitle={t('daily_reviews_amount')}
+              xAxisTitle={t('date')}
+              style={{
+                width: '100%',
+                height: '250px',
+              }}
+            />
+          )}
+        </>
       </Container>
       {categoryId && categoryProducts.length > 0 && (
         <Container

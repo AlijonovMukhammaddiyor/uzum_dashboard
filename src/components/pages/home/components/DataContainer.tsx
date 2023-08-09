@@ -52,6 +52,7 @@ function DataContainer({
   setFullScreen,
 }: Props) {
   const { t, i18n } = useTranslation('common');
+
   return (
     <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md xl:w-1/2'>
       {isFullScreen && (
