@@ -34,10 +34,7 @@ export default function Profile({ user }: ProfileProps) {
   return (
     <Layout>
       <Seo />
-      <div className='w-full rounded-md p-3'>
-        <h1 className='text-2xl font-bold'>Profile</h1>
-        <ProfileComponent user={user} />
-      </div>
+      <ProfileComponent user={user} />
     </Layout>
   );
 }

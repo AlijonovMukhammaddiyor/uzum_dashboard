@@ -184,9 +184,9 @@
     "Ichki_kategoriyalar": "Подкатегории",
     "Kategoriya_narx_segmentatsiyasi": "Ценовая сегментация категории",
     "Kategoriya_dokonlari": "Магазины категорий",
-    "Barcha_dokonlar": "Все магазины",
+    "Barcha_dokonlar": "Общая аналитика по всем магазинам",
     "Dokon_tahlili": "Анализ магазина",
-    "Dokon_mahsulotlari": "Магазин товаров",
+    "Dokon_mahsulotlari": "Аналитика по всем товарам магазинов",
     "Dokon_kategoriyalari": "Категории магазина",
     "Dokon_raqobatchilari": "Магазин конкурентов",
     "Dokon_kunlik_sotuvlari": "Ежедневные продажи магазина",
@@ -199,7 +199,10 @@
     "Osayotgan kategoriyalar": "Перспективные категории",
     "24/7_doimiy_yordam": "Постоянная поддержка 24/7",
     "30_kunlik": "30 дней данных",
-    "60_kunlik": "60+ дней данных"
+    "60_kunlik": "60+ дней данных",
+    "2_dukon": "Полная аналитика для двух магазинов",
+    "5_dukon": "Полная аналитика по пяти магазинам",
+    "Barcha_dokonlar_full": "Полная аналитика по всем магазинам"
   },
   "footer": {
     "footer_links": [
@@ -281,5 +284,11 @@
   "tariffs.free": "Бесплатно",
   "tariffs.pro": "Pro",
   "tariffs.premium": "Премиум",
-  "tariffs.trial": "Бесплатно на 24 часа"
+  "tariffs.trial": "Бесплатно на 24 часа",
+  "tariffs.enterprise": "Предприятие",
+  "tariffs.select": "Купить",
+  "tariffs.current": "Текущий план",
+  "tariffs.choosePlan": "Выберите план",
+  "tariffs.choosePayment": "Выберите способ оплаты",
+  "tariffs.pay": "Платить"
 }

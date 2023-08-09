@@ -184,9 +184,9 @@
     "Ichki_kategoriyalar": "Ichki kategoriyalar",
     "Kategoriya_narx_segmentatsiyasi": "Kategoriya narx segmentatsiyasi",
     "Kategoriya_dokonlari": "Kategoriya do'konlari",
-    "Barcha_dokonlar": "Barcha do'konlar",
+    "Barcha_dokonlar": "Barcha do'konlar uchun umumiy analitika",
     "Dokon_tahlili": "Do'kon tahlili",
-    "Dokon_mahsulotlari": "Do'kon mahsulotlari",
+    "Dokon_mahsulotlari": "Barcha do'konlar mahsulotlari analitikasi",
     "Dokon_kategoriyalari": "Do'kon kategoriyalari",
     "Dokon_raqobatchilari": "Do'kon raqobatchilari",
     "Dokon_kunlik_sotuvlari": "Do'kon kunlik sotuvlari",
@@ -199,7 +199,10 @@
     "Osayotgan kategoriyalar": "O'sayotgan kategoriyalar",
     "24/7_doimiy_yordam": "24/7 doimiy yordam",
     "30_kunlik": "30 kunlik ma'lumotlar",
-    "60_kunlik": "60+ kunlik ma'lumotlar"
+    "60_kunlik": "60+ kunlik ma'lumotlar",
+    "2_dukon": "2ta do'kon uchun to'liq analitika",
+    "5_dukon": "5ta do'kon uchun to'liq analitika",
+    "Barcha_dokonlar_full": "Barcha do'konlar uchun to'liq analitika"
   },
   "footer": {
     "footer_links": [
@@ -281,5 +284,11 @@
   "tariffs.free": "Bepul",
   "tariffs.pro": "Pro",
   "tariffs.premium": "Premium",
-  "tariffs.trial": "24 soat mutlaqo bepul"
+  "tariffs.trial": "24 soat mutlaqo bepul",
+  "tariffs.enterprise": "Enterprise",
+  "tariffs.select": "Tarifga o'tish",
+  "tariffs.current": "Joriy tarif",
+  "tariffs.choosePlan": "Tarifni tanlang",
+  "tariffs.choosePayment": "To'lov usulini tanlang",
+  "tariffs.pay": "To'lov qilish"
 }
