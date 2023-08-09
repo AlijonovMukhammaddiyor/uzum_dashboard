@@ -1,17 +1,24 @@
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IoCheckmarkSharp } from 'react-icons/io5';
+import Select from 'react-select';
 
 import clsxm from '@/lib/clsxm';
 
 import Button from '@/components/shared/buttons/Button';
 
 import Logo from '@/assets/logo/logo_only.svg';
+import { useContextState } from '@/context/Context';
 
 function Tarifs() {
-  const { t } = useTranslation('landing');
+  const { state } = useContextState();
 
+  const { t, i18n } = useTranslation('landing');
+  const [currentPlan, setCurrentPlan] = React.useState<string>(
+    t('tariffs.choosePlan')
+  );
+  console.log(currentPlan);
   const sendToRegister = (plan: string) => {
     Router.push({
       pathname: '/register',
@@ -26,26 +33,106 @@ function Tarifs() {
     });
   };
 
+  useEffect(() => {
+    setCurrentPlan(t('tariffs.choosePlan'));
+  }, [t, i18n.language]);
+
   return (
-    <div id="ta'riflar" className='flex w-full justify-center  py-28'>
-      <div className='md:layout w-full overflow-hidden'>
-        {/* <div className='bg-linear-dark layout mb-6 rounded-md p-5 text-center shadow-xl md:w-full'>
-          <p className='font-primary text-center text-2xl text-white'>
-            <span className='text-4xl'>🎉</span> Har bir taklif qilgan
-            do'stingiz uchun <span className='text-3xl'>$3</span> chegirmaga ega
-            bo'ling
-          </p>
-          <p className='font-primary text-center text-2xl text-white'>
-            <span className='text-4xl'>🎉</span> {t('referral.title')}
-          </p>
-          <p className='mt-5  text-[#fff]'>{t('referral.subtitle1')}</p>
-          <p className='mt-5 w-full text-left text-[#fff]'>
-            {t('referral.subtitle2')}
-          </p>
-          <p className='mt-3 w-full text-left text-white'>
-            {t('referral.subtitle3')}
-          </p>
-        </div> */}
+    <div id="ta'riflar" className='flex w-full justify-center '>
+      <div className=' w-full overflow-hidden'>
+        <div className=' mt-4 flex max-w-max gap-12 rounded-md border border-slate-300 px-4 py-4'>
+          <Select
+            className='basic-single  w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
+            classNamePrefix='select'
+            defaultValue={{
+              value: currentPlan,
+              label: currentPlan,
+            }}
+            isDisabled={false}
+            isLoading={false}
+            isClearable={false}
+            isRtl={false}
+            isSearchable={false}
+            styles={{
+              dropdownIndicator: (provided) => ({
+                ...provided,
+                svg: {
+                  fill: 'white',
+                },
+              }),
+              control: (provided) => ({
+                ...provided,
+                backgroundColor: 'rgba(119, 67, 219, 1)',
+              }),
+              singleValue: (provided) => ({
+                ...provided,
+                color: 'white', // This changes the text color of the selected value
+              }),
+              option: (provided) => ({
+                ...provided,
+                color: 'black', // This changes the text color of the options
+              }),
+            }}
+            onChange={(e) => {
+              setCurrentPlan(e?.value ?? t('tariffs.free'));
+            }}
+            name='color'
+            options={[
+              { value: t('tariffs.free'), label: t('tariffs.free') },
+              { value: t('tariffs.pro'), label: t('tariffs.pro') },
+              { value: t('tariffs.premium'), label: t('tariffs.premium') },
+              {
+                value: t('tariffs.enterprise'),
+                label: t('tariffs.enterprise'),
+              },
+            ]}
+          />
+          <Select
+            className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
+            classNamePrefix='select'
+            defaultValue={{
+              value: t('tariffs.choosePayment'),
+              label: t('tariffs.choosePayment'),
+            }}
+            isDisabled={false}
+            isLoading={false}
+            isClearable={false}
+            isRtl={false}
+            isSearchable={false}
+            styles={{
+              dropdownIndicator: (provided) => ({
+                ...provided,
+                svg: {
+                  fill: 'white',
+                },
+              }),
+              control: (provided) => ({
+                ...provided,
+                backgroundColor: 'rgba(119, 67, 219, 1)',
+              }),
+              singleValue: (provided) => ({
+                ...provided,
+                color: 'white', // This changes the text color of the selected value
+              }),
+              option: (provided) => ({
+                ...provided,
+                color: 'black', // This changes the text color of the options
+              }),
+            }}
+            onChange={(e) => {
+              // setCurrentPlan(e?.value ?? t('tariffs.free'));
+            }}
+            name='color'
+            options={[
+              { value: 'PayMe', label: 'PayMe' },
+              { value: 'Click', label: 'Click' },
+            ]}
+          />
+          <button className='bg-primary rounded-md px-7 py-2 text-white hover:bg-purple-700'>
+            {t('tariffs.pay')}
+          </button>
+          <p></p>
+        </div>
         <div
           className={clsxm(
             '  flex w-full max-w-full flex-1 items-start gap-4 overflow-x-auto p-3 pt-10',
@@ -54,10 +141,11 @@ function Tarifs() {
           )}
         >
           <div className='flex-1'></div>
-
           <Tarif
             title={t('tariffs.free')}
             price='$0'
+            isCurrentPlan={currentPlan === t('tariffs.free')}
+            setCurrentPlan={setCurrentPlan}
             features={[
               t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
@@ -66,42 +154,17 @@ function Tarifs() {
               t('tariffs.24/7_doimiy_yordam'),
             ]}
             color='primary'
-            buttonTitle={t('tariffs.start')}
+            buttonTitle={t('tariffs.select')}
             sendToRegister={sendToRegister}
           />
           <div className='flex-1'></div>
-          {/* <Tarif
-            title={t('tariffs.pro')}
-            price='$30'
-            features={[
-              t('tariffs.30_kunlik'),
-              t('tariffs.Umumiy_malumotlar'),
-              t('tariffs.Barcha_Kategoriyalar'),
-              t('tariffs.Kategoriya_trendi'),
-              t('tariffs.Kategoriya_mahsulotlari'),
-              t('tariffs.Ichki_kategoriyalar'),
-              t('tariffs.Kategoriya_narx_segmentatsiyasi'),
-              t('tariffs.Kategoriya_dokonlari'),
-              t('tariffs.Barcha_dokonlar'),
-              t('tariffs.Dokon_tahlili'),
-              t('tariffs.Dokon_mahsulotlari'),
-              t('tariffs.Dokon_kategoriyalari'),
-              t('tariffs.Dokon_raqobatchilari'),
-              t('tariffs.Dokon_kunlik_sotuvlari'),
-              t('tariffs.Barcha_mahsulotlar'),
-              t('tariffs.Mahsulot_tahlili'),
-              t('tariffs.Mahsulot_raqobatchilari'),
-              t('tariffs.24/7_doimiy_yordam'),
-            ]}
-            color='primary'
-            isPro
-            buttonTitle={t('tariffs.start')}
-            sendToRegister={sendToRegister}
-          /> */}
           <Tarif
             title={t('tariffs.pro')}
+            isCurrentPlan={currentPlan === t('tariffs.pro')}
+            setCurrentPlan={setCurrentPlan}
             price='$40'
             features={[
+              t('tariffs.2_dukon'),
               t('tariffs.30_kunlik'),
               t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
@@ -123,15 +186,18 @@ function Tarifs() {
             ]}
             color='primary'
             isPro
-            buttonTitle={t('tariffs.trial')}
+            buttonTitle={t('tariffs.select')}
             sendToRegister={sendToRegister}
             isFreeTrial={true}
           />
           <div className='flex-1'></div>
           <Tarif
             title={t('tariffs.premium')}
+            isCurrentPlan={currentPlan === t('tariffs.premium')}
+            setCurrentPlan={setCurrentPlan}
             price='$60'
             features={[
+              t('tariffs.5_dukon'),
               t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
               t('tariffs.Kategoriya_trendi'),
@@ -155,15 +221,18 @@ function Tarifs() {
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
             ]}
             color='primary'
-            buttonTitle={t('tariffs.start')}
+            buttonTitle={t('tariffs.select')}
             isProPlus
             sendToRegister={sendToRegister}
           />
           <div className='flex-1'></div>
           <Tarif
             title={t('tariffs.enterprise')}
+            isCurrentPlan={currentPlan === t('tariffs.enterprise')}
+            setCurrentPlan={setCurrentPlan}
             price='$90'
             features={[
+              t('tariffs.Barcha_dokonlar_full'),
               t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
               t('tariffs.Kategoriya_trendi'),
@@ -188,7 +257,7 @@ function Tarifs() {
             ]}
             color='primary'
             isPro
-            buttonTitle={t('tariffs.trial')}
+            buttonTitle={t('tariffs.select')}
             sendToRegister={sendToRegister}
             isFreeTrial={true}
           />
@@ -200,6 +269,7 @@ function Tarifs() {
 }
 
 function Tarif({
+  isCurrentPlan,
   title,
   price,
   features,
@@ -209,7 +279,9 @@ function Tarif({
   sendToRegister,
   isProPlus,
   isFreeTrial,
+  setCurrentPlan,
 }: {
+  isCurrentPlan?: boolean;
   title: string;
   price: string;
   features: string[];
@@ -217,12 +289,16 @@ function Tarif({
   buttonTitle?: string;
   isPro?: boolean;
   sendToRegister: (plan: string) => void;
+  setCurrentPlan?: (plan: string) => void;
   isProPlus?: boolean;
   isFreeTrial?: boolean;
 }) {
   const { t } = useTranslation('landing');
   const { i18n } = useTranslation('landing');
   const features_ = [
+    t('tariffs.5_dukon'),
+    t('tariffs.2_dukon'),
+    t('tariffs.Barcha_dokonlar_full'),
     t('tariffs.Umumiy_malumotlar'),
     t('tariffs.Barcha_Kategoriyalar'),
     t('tariffs.Kategoriya_trendi'),
@@ -251,20 +327,21 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        ' relative flex h-[920px] max-h-[920px] w-[280px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        ' relative flex h-[1000px]  max-h-[1200px] w-[350px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
         // isProPlus && 'bg-gradient',
         'border-2 border-blue-500',
-        i18n.language === 'ru' && 'h-[980px] max-h-[980px]'
+        i18n.language === 'ru' && 'h-[980px] max-h-[980px]',
         // isPro && 'bg-gradient  w-[320px] min-w-[220px] sm:w-[400px] ',
-        // isFreeTrial && 'bg-gradient  w-[320px] min-w-[220px] sm:w-[400px]  '
+        isCurrentPlan && 'border-amber-500 bg-amber-100 '
       )}
     >
       <div className='relative w-full '>
         <div
           className={clsxm(
-            'mb-2 flex items-center justify-between gap-3 border-b-2 border-blue-500 bg-blue-100 px-6 py-5 text-center text-xl font-bold'
+            'mb-2 flex items-center justify-between gap-3 border-b-2 border-blue-500 bg-blue-100 px-6 py-5 text-center text-xl font-bold',
             // isFreeTrial &&
             //   'bg-gradient-to-r from-purple-500 to-blue-500 text-white'
+            isCurrentPlan && 'border-amber-500    bg-amber-200'
           )}
         >
           <div className='flex items-center justify-start gap-3'>
@@ -301,9 +378,10 @@ function Tarif({
       </div>
       <div className='w-full px-6 py-3'>
         <Button
-          onClick={() => sendToRegister(title)}
+          onClick={() => setCurrentPlan(title)}
           className={clsxm(
-            `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`
+            `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`,
+            isCurrentPlan && 'bg-amber-500  hover:bg-amber-600'
             // !isPro && 'bg-blue-500'
           )}
           // disabled={isProPlus}
