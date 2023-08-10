@@ -155,7 +155,7 @@ function ShopsSelect({
           </>
         </Button>
       </Container>
-      <p className='font-sm mt-4 font-semibold'>
+      <p className={clsxm('font-sm mt-4 font-semibold', className)}>
         Oxirgi yangilangan sana: {user.shops_updated_at?.slice(0, 10)}
       </p>
     </>

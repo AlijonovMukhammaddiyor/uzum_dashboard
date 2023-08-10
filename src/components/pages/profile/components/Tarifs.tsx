@@ -15,6 +15,7 @@ function Tarifs({ className }: { className?: string }) {
   const [currentPlan, setCurrentPlan] = React.useState<string>(
     t('tariffs.choosePlan')
   );
+  const [months, setMonths] = React.useState<number>(1);
 
   const sendToRegister = (plan: string) => {
     Router.push({
@@ -40,112 +41,151 @@ function Tarifs({ className }: { className?: string }) {
       className={clsxm('flex w-full justify-center ', className)}
     >
       <div className=' w-full overflow-hidden'>
-        <div className=' mt-4 flex max-w-max gap-12 rounded-md px-12 py-4'>
-          <Select
-            className='basic-single  w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
-            classNamePrefix='select'
-            defaultValue={{
-              value: currentPlan,
-              label: currentPlan,
-            }}
-            isDisabled={false}
-            isLoading={false}
-            isClearable={false}
-            isRtl={false}
-            isSearchable={false}
-            styles={{
-              dropdownIndicator: (provided) => ({
-                ...provided,
-                svg: {
-                  fill: 'white',
+        <div className='mb-4 mt-10 flex w-full items-center justify-between'>
+          <div className='flex max-w-max gap-12 rounded-md'>
+            {/* <Select
+              className='basic-single  w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
+              classNamePrefix='select'
+              defaultValue={{
+                value: currentPlan,
+                label: currentPlan,
+              }}
+              isDisabled={false}
+              isLoading={false}
+              isClearable={false}
+              isRtl={false}
+              isSearchable={false}
+              styles={{
+                dropdownIndicator: (provided) => ({
+                  ...provided,
+                  svg: {
+                    fill: 'white',
+                  },
+                }),
+                control: (provided) => ({
+                  ...provided,
+                  backgroundColor: 'rgba(119, 67, 219, 1)',
+                }),
+                singleValue: (provided) => ({
+                  ...provided,
+                  color: 'white', // This changes the text color of the selected value
+                }),
+                option: (provided) => ({
+                  ...provided,
+                  color: 'black', // This changes the text color of the options
+                }),
+              }}
+              onChange={(e) => {
+                setCurrentPlan(e?.value ?? t('tariffs.free'));
+              }}
+              name='color'
+              options={[
+                { value: t('tariffs.free'), label: t('tariffs.free') },
+                { value: t('tariffs.pro'), label: t('tariffs.pro') },
+                { value: t('tariffs.premium'), label: t('tariffs.premium') },
+                {
+                  value: t('tariffs.enterprise'),
+                  label: t('tariffs.enterprise'),
                 },
-              }),
-              control: (provided) => ({
-                ...provided,
-                backgroundColor: 'rgba(119, 67, 219, 1)',
-              }),
-              singleValue: (provided) => ({
-                ...provided,
-                color: 'white', // This changes the text color of the selected value
-              }),
-              option: (provided) => ({
-                ...provided,
-                color: 'black', // This changes the text color of the options
-              }),
-            }}
-            onChange={(e) => {
-              setCurrentPlan(e?.value ?? t('tariffs.free'));
-            }}
-            name='color'
-            options={[
-              { value: t('tariffs.free'), label: t('tariffs.free') },
-              { value: t('tariffs.pro'), label: t('tariffs.pro') },
-              { value: t('tariffs.premium'), label: t('tariffs.premium') },
-              {
-                value: t('tariffs.enterprise'),
-                label: t('tariffs.enterprise'),
-              },
-            ]}
-          />
-          <Select
-            className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
-            classNamePrefix='select'
-            defaultValue={{
-              value: t('tariffs.choosePayment'),
-              label: t('tariffs.choosePayment'),
-            }}
-            isDisabled={false}
-            isLoading={false}
-            isClearable={false}
-            isRtl={false}
-            isSearchable={false}
-            styles={{
-              dropdownIndicator: (provided) => ({
-                ...provided,
-                svg: {
-                  fill: 'white',
-                },
-              }),
-              control: (provided) => ({
-                ...provided,
-                backgroundColor: 'rgba(119, 67, 219, 1)',
-              }),
-              singleValue: (provided) => ({
-                ...provided,
-                color: 'white', // This changes the text color of the selected value
-              }),
-              option: (provided) => ({
-                ...provided,
-                color: 'black', // This changes the text color of the options
-              }),
-            }}
-            onChange={(e) => {
-              // setCurrentPlan(e?.value ?? t('tariffs.free'));
-            }}
-            name='color'
-            options={[
-              { value: 'PayMe', label: 'PayMe' },
-              { value: 'Click', label: 'Click' },
-            ]}
-          />
-          <button className='bg-primary rounded-md px-7 py-2 text-white hover:bg-purple-700'>
-            {t('tariffs.pay')}
-          </button>
-          <p></p>
+              ]}
+            /> */}
+            <Select
+              className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
+              classNamePrefix='select'
+              defaultValue={{
+                value: t('tariffs.choosePayment'),
+                label: t('tariffs.choosePayment'),
+              }}
+              isDisabled={false}
+              isLoading={false}
+              isClearable={false}
+              isRtl={false}
+              isSearchable={false}
+              styles={{
+                dropdownIndicator: (provided) => ({
+                  ...provided,
+                  svg: {
+                    fill: 'white',
+                  },
+                }),
+                control: (provided) => ({
+                  ...provided,
+                  backgroundColor: 'rgba(119, 67, 219, 1)',
+                }),
+                singleValue: (provided) => ({
+                  ...provided,
+                  color: 'white', // This changes the text color of the selected value
+                }),
+                option: (provided) => ({
+                  ...provided,
+                  color: 'black', // This changes the text color of the options
+                }),
+              }}
+              onChange={(e) => {
+                // setCurrentPlan(e?.value ?? t('tariffs.free'));
+              }}
+              name='color'
+              options={[
+                { value: 'PayMe', label: 'PayMe' },
+                { value: 'Click', label: 'Click' },
+              ]}
+            />
+
+            {/* <button className='bg-primary h-10 rounded-md px-7 py-2 text-white hover:bg-purple-700'>
+              {t('tariffs.pay')}
+            </button> */}
+          </div>
+          <div className='border-primary flex h-10 w-[200px] items-center justify-between rounded-full border'>
+            {/* 1 Month Option */}
+            <div
+              className={clsxm(
+                'flex h-full w-1/2 cursor-pointer items-center justify-center',
+                months === 1
+                  ? 'bg-primary rounded-l-full text-white'
+                  : 'hover:rounded-l-full hover:bg-purple-100'
+              )}
+              onClick={() => setMonths(1)}
+            >
+              {i18n.language === 'uz' ? '1 oy' : '1 месяц'}
+            </div>
+
+            {/* Divider */}
+            <div className='bg-primary h-full w-px self-center'></div>
+
+            {/* 3 Months Option */}
+            <div
+              className={clsxm(
+                'relative flex h-full w-1/2 cursor-pointer items-center justify-center',
+                months === 3
+                  ? 'bg-primary rounded-r-full text-white'
+                  : 'hover:rounded-r-full hover:bg-purple-100'
+              )}
+              onClick={() => setMonths(3)}
+            >
+              {i18n.language === 'uz' ? '3 oy' : '3 месяца'}
+
+              {/* Discount Tag */}
+              <span className='absolute right-[-0px] top-[-20px] rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white'>
+                -15%
+              </span>
+            </div>
+          </div>
         </div>
+
         <div
           className={clsxm(
-            '  flex w-full max-w-full flex-1 items-start gap-4 overflow-x-auto p-3 pt-10',
+            'flex w-full max-w-full flex-1 items-start justify-start gap-12 overflow-x-auto p-3 px-0',
             'no-scrollbar overflow-scroll'
             // 'flex-col md:flex-row'
           )}
         >
-          <div className='flex-1'></div>
+          {/* <div className='flex-1'></div> */}
           <Tarif
             title={t('tariffs.free')}
-            price='$0'
+            price={0}
             isCurrentPlan={currentPlan === t('tariffs.free')}
             setCurrentPlan={setCurrentPlan}
+            months={months}
             features={[
               t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
@@ -157,12 +197,13 @@ function Tarifs({ className }: { className?: string }) {
             buttonTitle={t('tariffs.select')}
             sendToRegister={sendToRegister}
           />
-          <div className='flex-1'></div>
+          {/* <div className='flex-1'></div> */}
           <Tarif
             title={t('tariffs.pro')}
             isCurrentPlan={currentPlan === t('tariffs.pro')}
             setCurrentPlan={setCurrentPlan}
-            price='$39'
+            price={39}
+            months={months}
             features={[
               t('tariffs.2_dukon'),
               t('tariffs.30_kunlik'),
@@ -191,12 +232,13 @@ function Tarifs({ className }: { className?: string }) {
             sendToRegister={sendToRegister}
             isFreeTrial={true}
           />
-          <div className='flex-1'></div>
+          {/* <div className='flex-1'></div> */}
           <Tarif
             title={t('tariffs.premium')}
             isCurrentPlan={currentPlan === t('tariffs.premium')}
             setCurrentPlan={setCurrentPlan}
-            price='$59'
+            price={59}
+            months={months}
             features={[
               t('tariffs.5_dukon'),
               t('tariffs.60_kunlik'),
@@ -229,12 +271,12 @@ function Tarifs({ className }: { className?: string }) {
             isProPlus
             sendToRegister={sendToRegister}
           />
-          <div className='flex-1'></div>
+          {/* <div className='flex-1'></div> */}
           <Tarif
             title={t('tariffs.enterprise')}
             isCurrentPlan={currentPlan === t('tariffs.enterprise')}
             setCurrentPlan={setCurrentPlan}
-            price='$99'
+            price={99}
             features={[
               t('tariffs.Barcha_dokonlar_full'),
               t('tariffs.90_kunlik'),
@@ -263,13 +305,14 @@ function Tarifs({ className }: { className?: string }) {
               t('tariffs.addsImpactCheck'),
               t('tariffs.24/7_doimiy_yordam'),
             ]}
+            months={months}
             color='primary'
             isEnterprise
             buttonTitle={t('tariffs.select')}
             sendToRegister={sendToRegister}
             isFreeTrial={true}
           />
-          <div className='flex-1'></div>
+          {/* <div className='flex-1'></div> */}
         </div>
       </div>
     </div>
@@ -289,10 +332,11 @@ function Tarif({
   isFreeTrial,
   isEnterprise,
   setCurrentPlan,
+  months = 1,
 }: {
   isCurrentPlan?: boolean;
   title: string;
-  price: string;
+  price: number;
   features: string[];
   color: string;
   buttonTitle?: string;
@@ -302,9 +346,9 @@ function Tarif({
   isProPlus?: boolean;
   isEnterprise?: boolean;
   isFreeTrial?: boolean;
+  months?: number;
 }) {
-  const { t } = useTranslation('landing');
-  const { i18n } = useTranslation('landing');
+  const { t, i18n } = useTranslation('landing');
   const features_ = [
     t('tariffs.60_kunlik'),
     t('tariffs.90_kunlik'),
@@ -343,12 +387,11 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        ' relative flex  h-[1050px] max-h-[1050px] w-[350px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        ' relative mt-8  flex h-[1050px] max-h-[1050px] w-[350px] min-w-[220px] shrink-0 flex-col items-center justify-between rounded-lg border border-slate-300 bg-white',
         // isProPlus && 'bg-gradient',
         'border-2 border-blue-500',
-        i18n.language === 'ru' && 'h-[1000px] max-h-[1000px]',
         // isPro && 'bg-gradient  w-[320px] min-w-[220px] sm:w-[400px] ',
-        isCurrentPlan && 'border-amber-500 bg-amber-100 '
+        isProPlus && 'bg-gradient'
       )}
     >
       <div className='relative w-full '>
@@ -357,36 +400,39 @@ function Tarif({
             'mb-2 flex items-center justify-between gap-3 border-b-2 border-blue-500 bg-blue-100 px-6 py-5 text-center text-xl font-bold',
             // isFreeTrial &&
             //   'bg-gradient-to-r from-purple-500 to-blue-500 text-white'
-            isCurrentPlan && 'border-amber-500    bg-amber-200'
+            isProPlus && 'bg-linear'
           )}
         >
-          <div className='flex items-center justify-start gap-3'>
+          <div className='relative flex items-center justify-start gap-3'>
             <Logo className='inline-block h-6 w-6' />
             <p className='font-primary font-bold'>{title}</p>
+
+            {/* Best Offer Label */}
+            {isProPlus && (
+              <span className='absolute -top-[56px] left-12 w-[200px] transform rounded-full bg-red-500 px-2 py-1 text-xs text-white'>
+                {i18n.language === 'uz'
+                  ? 'eng yaxshi qiymat'
+                  : 'лучшее предложение'}
+              </span>
+            )}
           </div>
-          <div className='text-2xl font-bold'>
-            <p>{price}</p>
+          <div className='relative flex items-center justify-end gap-2 text-2xl font-bold'>
+            {months === 3 && price !== 0 && (
+              <span className='text-lg text-slate-700 line-through'>
+                ${price * 3}
+              </span>
+            )}
+            <p>
+              $
+              {months === 1
+                ? price
+                : price === 0
+                ? 0
+                : Math.floor(price * 3 * 0.85)}
+            </p>
           </div>
         </div>
         <ul className='mt-6 flex flex-col gap-2 pl-6 '>
-          {/* {isPro && (
-            <li className='flex  items-start justify-start'>
-              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
-              {t('tariffs.30_kunlik')}
-            </li>
-          )}
-          {isProPlus && (
-            <li className='flex items-start justify-start'>
-              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
-              {t('tariffs.60_kunlik')}
-            </li>
-          )}
-          {isEnterprise && (
-            <li className='flex items-start justify-start'>
-              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
-              {t('tariffs.90_kunlik')}
-            </li>
-          )} */}
           {ff.map((f: string) => {
             if (!features.includes(f)) return null;
             return (
@@ -404,11 +450,10 @@ function Tarif({
           className={clsxm(
             `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`,
             isCurrentPlan && 'bg-amber-500  hover:bg-amber-600'
-            // !isPro && 'bg-blue-500'
           )}
           // disabled={isProPlus}
         >
-          <>{buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}</>
+          <>{t('tariffs.pay')}</>
         </Button>
       </div>
     </div>
