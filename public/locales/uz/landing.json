@@ -47,17 +47,17 @@
         {
           "title": "Yangi mahsulotlar",
           "description": "Bozorga yangi sotuvga chiqqan mahsulotlarni va ularning turlarini tahlil qiling.",
-          "image": "/landing/features/new_products.png"
+          "image": "/landing/features/home_new_products.png"
         },
         {
           "title": "O'sayotgan mahsulotlar",
           "description": "Bu xizmat orqali eng ko'p o'sib borayotgan mahsulotlar haqida ma'lumot bilib turing, bu esa sizga qaysi mahsulotlar ommalashib borayotganini tushunish imkonini beradi.",
-          "image": "/landing/features/promising_products.png"
+          "image": "/landing/features/home_promising_products.png"
         },
         {
           "title": "O'sayotgan kategoriyalar",
           "description": "Bu qaysi kategoriyalar o'sib borayotganini ko'rsatadi, va sizga trend bo'lgan tarmoqlarni aniqlashga va o'z investitsiyalaringizni shunga mos ravishda yo'naltirishga yordam beradi.",
-          "image": "/landing/features/growing_categories.png"
+          "image": "/landing/features/home_promising_categories.png"
         }
       ]
     },
@@ -67,12 +67,7 @@
         {
           "title": "Barcha kategoriyalar",
           "description": "Bu orqali siz barcha mavjud kategoriyalarni hamda ularning ichki kategoriyalarini ko'rishingiz mumkin.",
-          "image": "/landing/features/categories.png"
-        },
-        {
-          "title": "Kategoriya do'konlari",
-          "description": "Bu xususiyat ma'lum bir kategoriyadagi mahsulotlarni sotadigan barcha do'konlar haqida ma'lumot beradi va sizga potentsial raqobatchilarni aniqlashga yordam beradi.",
-          "image": "/landing/features/category_shops.png"
+          "image": "/landing/features/categories_all.png"
         },
         {
           "title": "Kategoriya mahsulotlari",
@@ -80,7 +75,7 @@
           "image": "/landing/features/category_products.png"
         },
         {
-          "title": "Kategoriya trendi",
+          "title": "Kategoriyadagi trendlar",
           "description": "Kategoriyadagi mahsulotlar soni, narxi, daromadi va shu kabi asosiy ko'rsatkichlarni bilib oling. Bu sizga kategoriyalarni solishtirish va kategoriyalarni tanlashda yordam beradi.",
           "image": "/landing/features/category_trends.png"
         },
@@ -92,7 +87,12 @@
         {
           "title": "Narx segmentatsiyasi",
           "description": "Bu har bir toifadagi narxlar va shu narxlar oralig'idagi buyurtmalar segmentatsiyasini ko'rsatadi va sizga raqobatli yoki eng foydali narxl oralig'larini topishga va raqobatbardosh narxlarni belgilashda yordam beradi.",
-          "image": "/landing/features/category_price_seg.png"
+          "image": "/landing/features/category_segmentations.png"
+        },
+        {
+          "title": "Kategoriya do'konlari",
+          "description": "Bu xususiyat ma'lum bir kategoriyadagi mahsulotlarni sotadigan barcha do'konlar haqida ma'lumot beradi va sizga potentsial raqobatchilarni aniqlashga yordam beradi.",
+          "image": "/landing/features/category_sellers.png"
         }
       ]
     },
@@ -102,12 +102,12 @@
         {
           "title": "Barcha do'konlar",
           "description": "Platformadagi barcha do'konlarning batafsil jadvali, raqobatbardosh landshaftning yaxlit ko'rinishini taklif qiladi.",
-          "image": "/landing/features/allshops.png"
+          "image": "/landing/features/shops_all.png"
         },
         {
           "title": "Do'kon tahlili",
           "description": "Bu individual do'konlarning savdo ma'lumotlari va mahsulot assortimentlarini chuqur tahlil qiladi va biznesga muvaffaqiyatli strategiyalarni aniqlashda yordam beradi.",
-          "image": "/landing/features/shop_analytics.png"
+          "image": "/landing/features/shop_all_analytics.png"
         },
         {
           "title": "Do'kon mahsulotlari",
@@ -115,19 +115,19 @@
           "image": "/landing/features/shop_products.png"
         },
         {
-          "title": "Do'kon kategoriyalari",
-          "description": "Do'konlar tomonidan sotiladigan kategoriyalar haqida ma'lumotni ko'rsatadi, sizga raqobatli kategoriyalarni topish va biznes strategiyalaringizni belgilashda yordam beradi.",
-          "image": "/landing/features/shop_categories.png"
+          "title": "Do'kon kunlik sotuvlari",
+          "description": "Bu xususiyat do'konning kundalik savdo ma'lumotlarini taqdim etadi, bu esa kundalik savdo tendentsiyalarini tahlil qilishga yordam beradi.",
+          "image": "/landing/features/shop_daily.png"
         },
         {
           "title": "Do'kon raqobatchilari",
           "description": "U ma'lum bir do'konning raqobatchilarini ta'kidlab, strategik raqobat va ajralib turish uchun tushuncha beradi.",
-          "image": "/landing/features/product_competitors.png"
+          "image": "/landing/features/shop_competitors.png"
         },
         {
-          "title": "Do'kon kunlik sotuvlari",
-          "description": "Bu xususiyat do'konning kundalik savdo ma'lumotlarini taqdim etadi, bu esa kundalik savdo tendentsiyalarini tahlil qilishga yordam beradi.",
-          "image": "/landing/features/shop_daily.png"
+          "title": "Do'kon kategoriyalari",
+          "description": "Do'konlar tomonidan sotiladigan kategoriyalar haqida ma'lumotni ko'rsatadi, sizga raqobatli kategoriyalarni topish va biznes strategiyalaringizni belgilashda yordam beradi.",
+          "image": "/landing/features/shop_categories.png"
         }
       ]
     },
@@ -137,32 +137,57 @@
         {
           "title": "Barcha mahsulotlar",
           "description": "Bu xususiyat platformadagi barcha mahsulotlar haqida to'liq ma'lumot beradi va bozorda mavjud bo'lgan narsalar haqida keng tushuncha beradi.",
-          "image": "/landing/features/products.png"
+          "image": "/landing/features/products_all.png"
         },
         {
           "title": "Mahsulotlar segmentatsiyasi",
           "description": "Bu xizmat orqali siz mahsulotlarni narx, daromad, sotuvlar va shu kabi asosiy ko'rsatkichlar bo'yicha segmentatsiyalash imkoniyatiga ega bo'lasiz. Bu esa sizga mahsulotlaringizni solishtirishda va mahsulotlaringizni narx strategiyalaringizni yaxshilashda yordam beradi.",
-          "image": "/landing/features/products.png"
+          "image": "/landing/features/products_all.png"
         },
         {
           "title": "Mahsulot haqida",
           "description": "Bu ma'lum bir mahsulot haqida batafsil ma'lumotni, jumladan uning narxi, reytingi va sotuvchi tafsilotlarini taqdim etadi va iste'molchilar va raqobatchilar uchun qimmatli tushunchalarni beradi.",
-          "image": "/landing/features/product.png"
+          "image": "/landing/features/products_about.png"
         },
         {
           "title": "Mahsulot tahlili",
           "description": "Bu mahsulotni chuqur tahlil qilib, sotuvchilarga mahsulotning ishlashi va sotuv tendetsiyalari hamda narx va raqobatning mahsulot sotuviga ta'sirini tushunishda yordam beradi.",
-          "image": "/landing/features/product_analytics.png"
+          "image": "/landing/features/product_graph_analytics.png"
         },
         {
           "title": "Mahsulot raqobatchilari",
           "description": "Bu xususiyat ma'lum bir mahsulotning raqobatchilarini ta'kidlab, sizga mahsulotlaringiz raqobatchilarga qanday qarshilik ko'rsatishini tushunishga imkon beradi.",
-          "image": "/landing/features/all_similar_products.png"
+          "image": "/landing/features/product_similar_products_list.png"
         },
         {
           "title": "Raqobatchilarini taqqoslash",
           "description": "Bu mahsulotni raqobatchilari bilan narx, reyting, sotuv miqdori va boshqalar kabi turli parametrlar bo'yicha taqqoslash imkonini beradi, bu esa sizga o'z takliflaringizni va narx strategiyalaringizni yaxshilashda yordam beradi.",
-          "image": "/landing/features/product_competitors.png"
+          "image": "/landing/features/product_compare_similars.png"
+        }
+      ]
+    },
+    "Niches": {
+      "title": "Nishalar",
+      "children": [
+        {
+          "title": "Barcha nishalar",
+          "description": "Bu funksiya Uzum marketdagi barcha nishalar haqida to'liq ma'lumot beradi",
+          "image": "/landing/features/niches_list.png"
+        }
+      ]
+    },
+    "Campaigns": {
+      "title": "Reklamalar",
+      "children": [
+        {
+          "title": "Barcha rekmala qlingan mahsulotlar",
+          "description": "Bu funksiya orqali siz Uzum marketda reklama qilingan barcha mahsulotlarni ko'rishingiz mumkin.",
+          "image": "/landing/features/campaigns_list.png"
+        },
+        {
+          "title": "Reklamaning sotuvga ta'siri",
+          "description": "Bu funksiya orqali siz reklamalar va mahsulot sotuvi o'rtasidagi bog'lanishni tushunishingiz mumkin.",
+          "image": "/landing/features/campaigns_effects.png"
         }
       ]
     }

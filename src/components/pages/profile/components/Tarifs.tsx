@@ -198,6 +198,7 @@ function Tarifs({ className }: { className?: string }) {
             price='$60'
             features={[
               t('tariffs.5_dukon'),
+              t('tariffs.60_kunlik'),
               t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
               t('tariffs.Kategoriya_trendi'),
@@ -233,6 +234,7 @@ function Tarifs({ className }: { className?: string }) {
             price='$99'
             features={[
               t('tariffs.Barcha_dokonlar_full'),
+              t('tariffs.90_kunlik'),
               t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
               t('tariffs.Kategoriya_trendi'),
@@ -300,6 +302,9 @@ function Tarif({
   const features_ = [
     t('tariffs.5_dukon'),
     t('tariffs.2_dukon'),
+    t('tariffs.60_kunlik'),
+    t('tariffs.90_kunlik'),
+    t('tariffs.30_kunlik'),
     t('tariffs.Barcha_dokonlar_full'),
     t('tariffs.Umumiy_malumotlar'),
     t('tariffs.Barcha_Kategoriyalar'),
@@ -329,10 +334,10 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        ' relative flex h-[1000px]  max-h-[1200px] w-[350px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        ' relative flex  h-[1000px] max-h-[1000px] w-[350px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
         // isProPlus && 'bg-gradient',
         'border-2 border-blue-500',
-        i18n.language === 'ru' && 'h-[980px] max-h-[980px]',
+        i18n.language === 'ru' && 'h-[1000px] max-h-[1000px]',
         // isPro && 'bg-gradient  w-[320px] min-w-[220px] sm:w-[400px] ',
         isCurrentPlan && 'border-amber-500 bg-amber-100 '
       )}
@@ -355,7 +360,7 @@ function Tarif({
           </div>
         </div>
         <ul className='mt-6 flex flex-col gap-2 pl-6 '>
-          {isPro && (
+          {/* {isPro && (
             <li className='flex  items-start justify-start'>
               <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
               {t('tariffs.30_kunlik')}
@@ -372,7 +377,7 @@ function Tarif({
               <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
               {t('tariffs.90_kunlik')}
             </li>
-          )}
+          )} */}
           {ff.map((f: string) => {
             if (!features.includes(f)) return null;
             return (

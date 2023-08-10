@@ -5,7 +5,7 @@ import React from 'react';
 
 import futbolka from '@/assets/futbolka.png';
 import graph from '@/assets/graph.png';
-import dashboard from '@/assets/main6.png';
+import dashboard from '@/assets/home_umumiy.png';
 
 function LandingMain() {
   const { t } = useTranslation('landing');

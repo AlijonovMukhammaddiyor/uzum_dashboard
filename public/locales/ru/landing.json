@@ -47,17 +47,17 @@
         {
           "title": "Новые продукты",
           "description": "Анализируйте выходы на новый рынок и их типы.",
-          "image": "/landing/features/new_products.png"
+          "image": "/landing/features/home_new_products.png"
         },
         {
           "title": "Перспективные продукты",
           "description": "Получите информацию о самых быстрорастущих продуктах с помощью этой услуги, которая позволит вам понять, какие продукты находятся в тренде.",
-          "image": "/landing/features/promising_products.png"
+          "image": "/landing/features/home_promising_products.png"
         },
         {
           "title": "Растущие категории",
           "description": "Он показывает, какие категории растут, и помогает вам определить трендовые сектора и соответствующим образом нацелить свои инвестиции.",
-          "image": "/landing/features/growing_categories.png"
+          "image": "/landing/features/home_promising_categories.png"
         }
       ]
     },
@@ -67,12 +67,7 @@
         {
           "title": "Все категории",
           "description": "Это позволяет вам просматривать все доступные категории и их подкатегории.",
-          "image": "/landing/features/categories.png"
-        },
-        {
-          "title": "Магазины категорий",
-          "description": "Эта функция предоставляет информацию обо всех магазинах, торгующих товарами определенной категории, и помогает определить потенциальных конкурентов.",
-          "image": "/landing/features/category_shops.png"
+          "image": "/landing/features/categories_all.png"
         },
         {
           "title": "Категория товаров",
@@ -80,7 +75,7 @@
           "image": "/landing/features/category_products.png"
         },
         {
-          "title": "Категория Тренд",
+          "title": "Тенденции в категории",
           "description": "Узнайте количество товаров в категории, цену, выручку и другие ключевые показатели. Это поможет вам сравнивать категории и выбирать категории.",
           "image": "/landing/features/category_trends.png"
         },
@@ -92,7 +87,12 @@
         {
           "title": "Ценовая сегментация",
           "description": "Он показывает сегментацию заказов в каждой ценовой категории и этих ценовых диапазонах и помогает вам найти конкурентоспособные или наиболее выгодные ценовые диапазоны и установить конкурентоспособные цены.",
-          "image": "/landing/features/category_price_seg.png"
+          "image": "/landing/features/category_segmentations.png"
+        },
+        {
+          "title": "Магазины категорий",
+          "description": "Эта функция предоставляет информацию обо всех магазинах, торгующих товарами определенной категории, и помогает определить потенциальных конкурентов.",
+          "image": "/landing/features/category_sellers.png"
         }
       ]
     },
@@ -102,12 +102,12 @@
         {
           "title": "Все магазины",
           "description": "Подробная диаграмма всех магазинов на платформе, предлагающая целостное представление о конкурентной среде.",
-          "image": "/landing/features/allshops.png"
+          "image": "/landing/features/shops_all.png"
         },
         {
           "title": "Анализ магазина",
           "description": "Он обеспечивает углубленный анализ данных о продажах отдельных магазинов и ассортимента товаров и помогает компаниям выявлять успешные стратегии.",
-          "image": "/landing/features/shop_analytics.png"
+          "image": "/landing/features/shop_all_analytics.png"
         },
         {
           "title": "Магазин товаров",
@@ -115,19 +115,19 @@
           "image": "/landing/features/shop_products.png"
         },
         {
-          "title": "Категории магазина",
-          "description": "Отображает информацию о категориях, продаваемых магазинами, помогает вам находить конкурентные категории и определять свои бизнес-стратегии.",
-          "image": "/landing/features/shop_categories.png"
+          "title": "Ежедневные продажи в магазине",
+          "description": "Эта функция предоставляет ежедневные данные о продажах магазина, что помогает анализировать ежедневные тенденции продаж.",
+          "image": "/landing/features/shop_daily.png"
         },
         {
           "title": "Магазин конкурентов",
           "description": "Он выделяет конкурентов конкретного магазина и дает представление о стратегической конкуренции и дифференциации.",
-          "image": "/landing/features/product_competitors.png"
+          "image": "/landing/features/shop_competitors.png"
         },
         {
-          "title": "Ежедневные продажи в магазине",
-          "description": "Эта функция предоставляет ежедневные данные о продажах магазина, что помогает анализировать ежедневные тенденции продаж.",
-          "image": "/landing/features/shop_daily.png"
+          "title": "Категории магазина",
+          "description": "Отображает информацию о категориях, продаваемых магазинами, помогает вам находить конкурентные категории и определять свои бизнес-стратегии.",
+          "image": "/landing/features/shop_categories.png"
         }
       ]
     },
@@ -137,32 +137,57 @@
         {
           "title": "Все продукты",
           "description": "Эта функция предоставляет полную информацию обо всех продуктах на платформе и дает общее представление о том, что доступно на рынке.",
-          "image": "/landing/features/products.png"
+          "image": "/landing/features/products_all.png"
         },
         {
           "title": "Сегментация продукта",
           "description": "Эта услуга позволяет вам сегментировать продукты по цене, доходам, продажам и другим ключевым показателям. Это поможет вам сравнить ваши продукты и улучшить стратегии ценообразования продуктов.",
-          "image": "/landing/features/products.png"
+          "image": "/landing/features/products_all.png"
         },
         {
           "title": "О продукте",
           "description": "Он предоставляет подробную информацию о конкретном продукте, включая его цену, рейтинг и информацию о продавце, обеспечивая ценную информацию для потребителей и конкурентов.",
-          "image": "/landing/features/product.png"
+          "image": "/landing/features/product_about.png"
         },
         {
           "title": "Анализ продукта",
           "description": "Он обеспечивает углубленный анализ продукта, чтобы помочь маркетологам понять характеристики продукта и тенденции продаж, а также влияние цены и конкуренции на продажи продукта.",
-          "image": "/landing/features/product_analytics.png"
+          "image": "/landing/features/product_graph_analytics.png"
         },
         {
           "title": "Конкуренты по продуктам",
           "description": "Эта функция выделяет конкурентов определенного продукта, позволяя вам понять, как ваши продукты выглядят по сравнению с конкурентами.",
-          "image": "/landing/features/all_similar_products.png"
+          "image": "/landing/features/product_similar_products_list.png"
         },
         {
           "title": "Сравнение конкурентов",
           "description": "Это позволяет вам сравнивать продукт с его конкурентами по различным параметрам, таким как цена, рейтинг, объем продаж и т. д., что помогает вам улучшить свои предложения и стратегии ценообразования.",
-          "image": "/landing/features/product_competitors.png"
+          "image": "/landing/features/product_compare_similars.png"
+        }
+      ]
+    },
+    "Niches": {
+      "title": "Ниши",
+      "children": [
+        {
+          "title": "Все ниши",
+          "description": "Эта функция предоставляет полную информацию обо всех нишах на рынке Узума.",
+          "image": "/landing/features/niches_list.png"
+        }
+      ]
+    },
+    "Campaigns": {
+      "title": "Реклама",
+      "children": [
+        {
+          "title": "Все рекламируемые товары",
+          "description": "С помощью этой функции вы сможете увидеть все товары, рекламируемые на Узум маркете.",
+          "image": "/landing/features/campaigns_list.png"
+        },
+        {
+          "title": "Влияние рекламы на продажи",
+          "description": "С помощью этой функции вы можете узнать, какое влияние оказывает реклама на продажи товаров.",
+          "image": "/landing/features/campaigns_effects.png"
         }
       ]
     }
@@ -287,7 +312,7 @@
   "tariffs.premium": "Премиум",
   "tariffs.trial": "Бесплатно на 24 часа",
   "tariffs.enterprise": "Предприятие",
-  "tariffs.select": "Купить",
+  "tariffs.select": "Выбирать",
   "tariffs.current": "Текущий план",
   "tariffs.choosePlan": "Выберите план",
   "tariffs.choosePayment": "Выберите способ оплаты",
