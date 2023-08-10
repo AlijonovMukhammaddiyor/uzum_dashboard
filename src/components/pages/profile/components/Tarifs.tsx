@@ -306,8 +306,6 @@ function Tarif({
   const { t } = useTranslation('landing');
   const { i18n } = useTranslation('landing');
   const features_ = [
-    t('tariffs.5_dukon'),
-    t('tariffs.2_dukon'),
     t('tariffs.60_kunlik'),
     t('tariffs.90_kunlik'),
     t('tariffs.30_kunlik'),
@@ -335,6 +333,8 @@ function Tarif({
     t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
     t('tariffs.nishesSelection'),
     t('tariffs.addsImpactCheck'),
+    t('tariffs.5_dukon'),
+    t('tariffs.2_dukon'),
     t('tariffs.24/7_doimiy_yordam'),
   ];
 
