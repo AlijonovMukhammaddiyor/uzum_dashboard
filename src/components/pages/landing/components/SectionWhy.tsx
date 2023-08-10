@@ -7,10 +7,10 @@ function SectionWhy() {
     <div className=' bg-gradient  relative w-full bg-white py-16 md:py-32'>
       <div className='layout flex h-full flex-col items-center justify-between gap-16 md:gap-32 lg:flex-row'>
         <div className=' flex h-full w-full flex-col justify-center overflow-hidden text-center md:w-11/12  lg:w-1/2  lg:items-start'>
-          <h1 className=' font-primary text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
+          <h1 className=' font-primary w-full text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
             {t('why.title.line1')}
           </h1>
-          <h1 className=' font-primary text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
+          <h1 className=' font-primary w-full text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
             {t('why.title.line2')}
           </h1>
 
@@ -18,7 +18,7 @@ function SectionWhy() {
             Xizmatlarimiz orqali onlayn savdoingizni tezlashtiring va
             biznesingizni yangi darajaga ko'taring.
           </p> */}
-          <p className=' font-primary mt-6 max-w-full text-lg leading-6 tracking-wider text-slate-600 md:text-2xl md:leading-[38px] xl:text-2xl'>
+          <p className=' font-primary mt-6 w-full max-w-full text-lg leading-6 tracking-wider text-slate-600 md:text-2xl md:leading-[38px] xl:text-2xl'>
             {t('why.subtitle')}
           </p>
         </div>
@@ -69,9 +69,9 @@ function ContainerItem({
   index?: number;
 }) {
   return (
-    <div className='flex w-full items-center justify-start gap-5 rounded-md border border-slate-300 p-4 md:h-[80px]'>
+    <div className='flex w-full items-center justify-start gap-5 rounded-md border border-purple-500 p-4 md:h-[80px]'>
       <p className='text-primary text-3xl'>{index}</p>
-      <div className='text-sm'>{description}</div>
+      <div className='text-base'>{description}</div>
     </div>
   );
 }

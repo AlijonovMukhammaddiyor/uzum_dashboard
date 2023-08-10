@@ -18,7 +18,7 @@ function Tops() {
   const [shops, setShops] = React.useState<
     {
       shop__title: string;
-      total_orders: number;
+      total_revenue: number;
     }[]
   >([]);
   const { t } = useTranslation('landing');
@@ -80,8 +80,9 @@ function Tops() {
                   <ListItem
                     key={index}
                     title={item.shop__title}
-                    count={item.total_orders}
+                    count={item.total_revenue}
                     index={index + 1}
+                    isMoney
                   />
                 ))
               ) : (
@@ -99,11 +100,14 @@ function ListItem({
   title,
   count,
   index,
+  isMoney,
 }: {
   title: string;
   count: number;
   index: number;
+  isMoney?: boolean;
 }) {
+  const { i18n } = useTranslation('landing');
   return (
     <li className='boder flex h-10 w-full items-center justify-between gap-2 border-b border-slate-300'>
       <div className='flex flex-1 items-center justify-start gap-5'>
@@ -111,7 +115,33 @@ function ListItem({
         <div className='line-clamp-2 overflow-hidden text-sm'>{title}</div>
       </div>
       <div className='shrink-0 text-sm font-bold'>
-        {count?.toLocaleString()}
+        {!isMoney ? (
+          <div className='flex items-center justify-end gap-1'>
+            <p>{count?.toLocaleString()}</p>
+            {i18n.language === 'uz' ? 'ta' : 'шт'}
+          </div>
+        ) : count * 1000 > 1000000000 ? (
+          <div className='flex flex-col gap-1'>
+            <p className=''>
+              {(Math.round(count * 1000) / 1000000000).toFixed(1)}{' '}
+              {i18n.language === 'uz' ? "mlrd so'm" : 'млрд сум'}
+            </p>
+          </div>
+        ) : count * 1000 > 1000000 ? (
+          <div className='flex flex-col gap-1'>
+            <p className=''>
+              {(Math.round(count * 1000) / 1000000).toFixed(1)}{' '}
+              {i18n.language === 'uz' ? "mln so'm" : 'млн сум'}
+            </p>
+          </div>
+        ) : (
+          <div className='flex flex-col gap-1'>
+            <p className=''>
+              {(Math.round(count * 1000) / 1000).toFixed(1)}{' '}
+              {i18n.language === 'uz' ? "ming so'm" : 'тыс. сум'}
+            </p>
+          </div>
+        )}
       </div>
     </li>
   );

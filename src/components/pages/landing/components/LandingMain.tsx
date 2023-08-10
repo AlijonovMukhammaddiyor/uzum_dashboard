@@ -15,7 +15,7 @@ function LandingMain() {
       <div className='layout relative flex h-full flex-col items-center justify-between  pb-10'>
         <div className='base:justify-center base:gap-20 flex h-full flex-col justify-center gap-10 py-5 2xl:justify-center '>
           <div className='base:text-center pr-10'>
-            <h1 className='font-primary base:mb-2 base:leading-10 mb-4 text-6xl font-extrabold leading-[3.3rem] tracking-wider md:text-6xl '>
+            <h1 className='font-primary base:mt-24 base:leading-10 mb-4 text-6xl font-extrabold leading-[3.3rem] tracking-wider md:text-6xl '>
               {t('main.title.line1.part1')}{' '}
               <span className='text_gradient '>
                 {t('main.title.line1.part2')}
@@ -34,13 +34,27 @@ function LandingMain() {
               {t('main.subtitle.line2')}
             </p>
           </div>
-          <div className='base:bottom-[370px] base:top-[300px] base:left-[500px] base:w-[900px] base:hidden bottom-[290px] right-0 h-1/3 w-full overflow-hidden lg:-right-40  lg:left-[700px]'>
+          <div className='base:hidden relative h-1/3 w-full items-center justify-center overflow-hidden'>
             <Image
-              priority
-              src={dashboard}
-              alt='dashboard'
-              className='h-full w-full object-contain '
+              src={futbolka}
+              alt='futbolka'
+              width={500}
+              className='absolute bottom-2 left-2 w-[160px] rounded-md shadow-2xl'
             />
+            <Image
+              src={graph}
+              alt='graph'
+              width={500}
+              className='absolute right-2 top-2 w-[160px]  rounded-md shadow-2xl'
+            />
+            <div className='flex h-full w-full items-center justify-center'>
+              <Image
+                priority
+                src={dashboard}
+                alt='dashboard'
+                className='shadow-3xl mx-auto my-auto w-[90%] rounded-md object-contain'
+              />
+            </div>
           </div>
           <div className='w-full '>
             <div className='base:flex-row flex w-full flex-col items-center justify-around gap-8 '>
@@ -49,7 +63,7 @@ function LandingMain() {
                   <p>{t('main.button.signup')}</p>
                 </div>
               </Link>
-              <Link href='#services' className='base:inline hidden w-full'>
+              <Link href='#services' className='base:inline w-full'>
                 <div className=' base:mt-0 hover:bg-primary base:w-[320px] text-primary  mx-auto flex  w-full cursor-pointer items-center justify-center rounded-lg border border-purple-800 px-4 py-3 text-lg shadow-xl transition-all duration-200 hover:text-white md:px-3  md:text-xl'>
                   <p>{t('main.button.learn')}</p>
                 </div>
@@ -67,7 +81,6 @@ function LandingMain() {
           <Image
             src={dashboard}
             alt='dashboard'
-            // width={1500}
             className='all_side_shadow z-10 h-full w-full rounded-md  object-contain'
           />
           <Image

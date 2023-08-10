@@ -11,7 +11,7 @@
   "header.xizmatlar": "Xizmatlar",
   "header.tariflar": "Tariflar",
   "header.button.kirish": "Kirish",
-  "header.button.telegram": "Kanalga Qo'shilish",
+  "header.button.telegram": "Guruhga Qo'shilish",
   "header.button.signup": "Ro'yxatdan o'tish",
 
   "overview.title.line1.part1": "Sizning savdoingizni",
@@ -26,14 +26,14 @@
   "overview.studio.title": "Studio",
   "overview.studio.description": "Mahsulotlar uchun ajoyib, jozibali banner va rasmlarni yaratish imkoniyati.",
 
-  "why.title.line1": "Nima uchun analitikasiz",
-  "why.title.line2": "bozorga kirish juda xavfli?",
-  "why.subtitle": "Aniq va so'nggi analitika ma'lumotlari shunchaki foyda emas, ular zaruratdir.",
+  "why.title.line1": "Nega har bir sotuvchi",
+  "why.title.line2": "analitikaga muhtoj?",
+  "why.subtitle": "Analitika xizmati sizni bozorda bir qadam avvalga qo'yadi va ishonchli qarorlarni qabul qilishga yordam beradi.",
   "why.reason1": "Yagona sotilmay qolgan mahsulotingiz analitika xizmati narxidan sezilarli darajada oshib ketishi mumkin.",
-  "why.reason2": "Bizning xizmatlar bilan atiga bir necha minutlarda to`g`ri qarorlarni qbul qiling.",
-  "why.reason3": "So'nggi trendlar, bozordagi o`zgarishlar haqida tezkor yangiliklar bilan hammadan oldinda turing!",
-  "why.reason4": "Chegirmalar va reklamalar mahsulotlar sotuviga qanday ta`sir qilayotgani haqida ma`lumotlarni oling.",
-  "features.title": "Nima qilish mumkin?",
+  "why.reason2": "Bizning xizmatlar bilan atiga bir necha soniyada to'g'ri xulosalar, harakatlar va strategiyalarni qabul qiling.",
+  "why.reason3": "So'nggi trendlar, bozordagi o'zgarishlar haqida tezkor yangiliklar bilan hammadan oldinda turing!",
+  "why.reason4": "Chegirmalar va reklamalar sizning sotuvlaringizga qanday ta'sir qilayotganini tushunish uchun bizning analitik xizmatimizdan foydalaning.",
+  "features.title": "Nimalar qilish mumkin?",
 
   "features": {
     "UmumiyAnalytics": {

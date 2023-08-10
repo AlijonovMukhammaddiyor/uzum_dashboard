@@ -12,6 +12,7 @@ const Footer1 = () => {
           <p className='text-base text-slate-100'>
             {t('footer.all_rights_reserved')}&copy;
           </p>
+          <p>STIR: 509 439 967</p>
         </div>
 
         <div className='flex w-full flex-1 flex-wrap gap-20 max-md:mt-10 md:justify-end'>
@@ -49,9 +50,7 @@ const Footer1 = () => {
       </div>
 
       <div className='mt-10 flex flex-wrap items-center justify-between border-t border-gray-900 px-6 pt-10 sm:px-16'>
-        <p>
-          @2023 "RAQAMLITAHLIL GROUP" MCHJ. {t('footer.all_rights_reserved')}.
-        </p>
+        <p>@2023 UzAnalitika Jamoasi. {t('footer.all_rights_reserved')}.</p>
 
         <div className='flex flex-1 justify-center gap-10 max-sm:mt-4 sm:justify-end'>
           <Link href='/policy' className='text-gray-300'>

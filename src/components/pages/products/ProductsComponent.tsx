@@ -109,7 +109,13 @@ function ProductsComponent() {
           }}
         />
       </Container>
-      <Container loading={loading} className='h-full w-full'>
+      <Container
+        loading={loading}
+        className='h-full w-full border-none shadow-none'
+      >
+        <p className='text-primary w-full p-4 text-center text-lg'>
+          {i18n.language === 'uz' ? 'Barcha mahsulotlar' : 'Все продукты'}
+        </p>
         <PaginatedTable
           fetchData={loadData}
           setLoading={setLoading}

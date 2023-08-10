@@ -852,7 +852,8 @@ const OrdersAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
   ) {
     const date = new Date(i);
     const date_string = date.toISOString().split('T')[0];
-    days.push(date_string);
+    if (date_string !== '2023-07-23' && date_string !== '2023-07-24')
+      days.push(date_string);
   }
 
   const data: number[] = [];
@@ -861,7 +862,8 @@ const OrdersAmountTinyChartCellRenderer = ({ value }: { value: any }) => {
   for (let i = 0; i < days.length; i++) {
     const day = days[i];
     const entry = value.find((e: any) => e.x === day);
-    data.push(entry ? entry.y : 0);
+    if (day !== '2023-07-23' && day !== '2023-07-24')
+      data.push(entry ? entry.y : 0);
   }
 
   return (
