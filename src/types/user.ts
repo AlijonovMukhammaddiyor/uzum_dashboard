@@ -7,4 +7,6 @@ export interface UserType {
   is_staff?: boolean;
   is_pro?: boolean;
   is_proplus?: boolean;
+  is_enterprise?: boolean;
+  shops_updated_at?: string;
 }

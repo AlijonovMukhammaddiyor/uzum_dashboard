@@ -10,6 +10,8 @@ import clsxm from '@/lib/clsxm';
 import MixedChart from '@/components/pages/home/components/SmallAxisCharts';
 import TreeMap from '@/components/pages/home/components/TreeMap';
 
+import { UserType } from '@/types/user';
+
 interface Props {
   title: string;
   all_title?: string;
@@ -33,6 +35,7 @@ interface Props {
   isFullScreen?: string | null;
   setFullScreen?: React.Dispatch<React.SetStateAction<string | null>>;
   data: any;
+  user: UserType;
 }
 
 function DataContainer({
@@ -50,12 +53,19 @@ function DataContainer({
   data,
   isFullScreen,
   setFullScreen,
+  user,
 }: Props) {
   const { t, i18n } = useTranslation('common');
 
+  const isFree =
+    !user.is_pro &&
+    !user.is_proplus &&
+    !user.is_enterprise &&
+    title !== t('dataTable.orders_amount');
+
   return (
     <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md xl:w-1/2'>
-      {isFullScreen && (
+      {isFullScreen && !isFree && (
         <TreeMap
           titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
           data={getData(data, title, i18n.language)}
@@ -88,6 +98,7 @@ function DataContainer({
             backgroundColor: daily_color,
           }}
           onClick={() => {
+            if (isFree) alert(t('toPaid'));
             setFullScreen && setFullScreen(title);
           }}
         >

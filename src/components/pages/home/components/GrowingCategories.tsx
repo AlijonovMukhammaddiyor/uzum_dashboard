@@ -86,6 +86,7 @@ function GrowingCategories({ className }: HomeStatisticsContainerProps) {
         logger(err, 'Error in growing product');
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

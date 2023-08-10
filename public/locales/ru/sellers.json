@@ -32,5 +32,8 @@
   "total_products_amount": "Общее количество товаров",
   "daily_reviews_amount": "Количество отзывов за день",
   "total_reviews_amount": "Общее количество отзывов",
-  "seller_product_in_category": "Продукты продавца в категории "
+  "seller_product_in_category": "Продукты продавца в категории",
+  "myShops": "Мои магазины",
+  "allShops": "Все магазины",
+  "selectShops": "Пожалуйста, выберите свой магазин из личного кабинета."
 }

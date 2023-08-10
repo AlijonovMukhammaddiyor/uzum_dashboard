@@ -1,33 +1,47 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import clsxm from '@/lib/clsxm';
+
+import ShopsSelect from '@/components/pages/profile/components/ShopsSelect';
 import Tarifs from '@/components/pages/profile/components/Tarifs';
 import Tabs from '@/components/shared/Tabs';
 
 import { UserType } from '@/types/user';
+
 const ProfileComponent = ({ user }: { user: UserType }) => {
   const { t, i18n } = useTranslation('tabs');
-  const [activeTab, setActiveTab] = React.useState<string>(t('profile.plans'));
-  console.log(activeTab);
-  const isProPlus = user.is_proplus;
+  const [activeTab, setActiveTab] = React.useState<string>(
+    t('profile.payments')
+  );
 
   React.useEffect(() => {
-    setActiveTab(t('profile.plans'));
+    setActiveTab(t('profile.payments'));
   }, [i18n.language, t]);
+
   return (
     <div>
       <Tabs
         tabs={[
-          t('profile.plans'),
           t('profile.payments'),
-          t('profile.others'),
+          t('profile.shops'),
+          // t('profile.others'),
           // 'Asosiy kategoriyalar',
         ]}
+        disbaledTabs={
+          !user.is_pro ? (!user.is_proplus ? [t('profile.shops')] : []) : []
+        }
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='overflow-auto'
       />
-      <Tarifs />
+      <Tarifs
+        className={clsxm(activeTab === t('profile.payments') ? '' : 'hidden')}
+      />
+      <ShopsSelect
+        user={user}
+        className={clsxm(activeTab === t('profile.shops') ? '' : 'hidden')}
+      />
     </div>
   );
 };

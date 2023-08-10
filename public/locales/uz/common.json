@@ -27,6 +27,7 @@
     "currency": "so'm",
     "count": "ta"
   },
+  "toPaid": "Siz bu funksiyadan foydalanish uchun boshqa paketga o'tishingiz kerak",
   "container.explanation": "Qo'llanmani ko'rsatish",
   "container.close": "yopish"
 }

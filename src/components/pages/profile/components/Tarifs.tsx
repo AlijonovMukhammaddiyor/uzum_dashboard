@@ -9,16 +9,13 @@ import clsxm from '@/lib/clsxm';
 import Button from '@/components/shared/buttons/Button';
 
 import Logo from '@/assets/logo/logo_only.svg';
-import { useContextState } from '@/context/Context';
 
-function Tarifs() {
-  const { state } = useContextState();
-
+function Tarifs({ className }: { className?: string }) {
   const { t, i18n } = useTranslation('landing');
   const [currentPlan, setCurrentPlan] = React.useState<string>(
     t('tariffs.choosePlan')
   );
-  console.log(currentPlan);
+
   const sendToRegister = (plan: string) => {
     Router.push({
       pathname: '/register',
@@ -38,9 +35,12 @@ function Tarifs() {
   }, [t, i18n.language]);
 
   return (
-    <div id="ta'riflar" className='flex w-full justify-center '>
+    <div
+      id="ta'riflar"
+      className={clsxm('flex w-full justify-center ', className)}
+    >
       <div className=' w-full overflow-hidden'>
-        <div className=' mt-4 flex max-w-max gap-12 rounded-md border border-slate-300 px-4 py-4'>
+        <div className=' mt-4 flex max-w-max gap-12 rounded-md px-12 py-4'>
           <Select
             className='basic-single  w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
             classNamePrefix='select'
@@ -230,7 +230,7 @@ function Tarifs() {
             title={t('tariffs.enterprise')}
             isCurrentPlan={currentPlan === t('tariffs.enterprise')}
             setCurrentPlan={setCurrentPlan}
-            price='$90'
+            price='$99'
             features={[
               t('tariffs.Barcha_dokonlar_full'),
               t('tariffs.Umumiy_malumotlar'),
@@ -256,7 +256,7 @@ function Tarifs() {
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
             ]}
             color='primary'
-            isPro
+            isEnterprise
             buttonTitle={t('tariffs.select')}
             sendToRegister={sendToRegister}
             isFreeTrial={true}
@@ -279,6 +279,7 @@ function Tarif({
   sendToRegister,
   isProPlus,
   isFreeTrial,
+  isEnterprise,
   setCurrentPlan,
 }: {
   isCurrentPlan?: boolean;
@@ -291,6 +292,7 @@ function Tarif({
   sendToRegister: (plan: string) => void;
   setCurrentPlan?: (plan: string) => void;
   isProPlus?: boolean;
+  isEnterprise?: boolean;
   isFreeTrial?: boolean;
 }) {
   const { t } = useTranslation('landing');
@@ -365,6 +367,12 @@ function Tarif({
               {t('tariffs.60_kunlik')}
             </li>
           )}
+          {isEnterprise && (
+            <li className='flex items-start justify-start'>
+              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
+              {t('tariffs.90_kunlik')}
+            </li>
+          )}
           {ff.map((f: string) => {
             if (!features.includes(f)) return null;
             return (
@@ -378,7 +386,7 @@ function Tarif({
       </div>
       <div className='w-full px-6 py-3'>
         <Button
-          onClick={() => setCurrentPlan(title)}
+          onClick={() => setCurrentPlan && setCurrentPlan(title)}
           className={clsxm(
             `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`,
             isCurrentPlan && 'bg-amber-500  hover:bg-amber-600'
@@ -386,7 +394,7 @@ function Tarif({
           )}
           // disabled={isProPlus}
         >
-          {buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}
+          <>{buttonTitle ? buttonTitle : `Buy ${price}` || 'Buy'}</>
         </Button>
       </div>
     </div>

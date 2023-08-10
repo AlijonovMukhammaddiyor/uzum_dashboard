@@ -10,9 +10,13 @@ import { getShopTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import RangeChartShops from '@/components/pages/sellers/components/RangeChartShops';
 import PaginatedTable from '@/components/shared/PaginatedTable';
+import Table from '@/components/shared/Table';
+
+import { UserType } from '@/types/user';
 
 export interface Props {
   className?: string;
+  user: UserType;
 }
 
 interface SellerType {
@@ -40,13 +44,15 @@ interface TopsType {
   total_products: number;
 }
 
-function SellersTable({ className }: Props) {
+function SellersTable({ className, user }: Props) {
   const { t } = useTranslation('sellers');
   const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [loadingTops, setLoadingTops] = React.useState<boolean>(false);
   const [tops, setTops] = React.useState<TopsType[]>([]);
   const path = window.location.pathname;
+  const [myShops, setMyShops] = React.useState<SellerType[]>([]);
+  const [shopsLoading, setShopsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -61,6 +67,18 @@ function SellersTable({ className }: Props) {
         // console.log(err);
         logger(err, 'Error in top 20 shops');
         setLoadingTops(false);
+      });
+    setShopsLoading(true);
+    api
+      .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/shop/mine/')
+      .then((res) => {
+        setMyShops(res.data.data);
+        setShopsLoading(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in my shops');
+        setShopsLoading(false);
       });
   }, []);
 
@@ -111,6 +129,25 @@ function SellersTable({ className }: Props) {
         className
       )}
     >
+      {(user.is_pro || user.is_proplus) && myShops.length > 0 ? (
+        <Container
+          loading={shopsLoading}
+          className={clsxm('w-full overflow-scroll border-none pt-4')}
+        >
+          <p className='text-primary h-10 w-full text-center'>{t('myShops')}</p>
+          <Table
+            columnDefs={getShopTableColumnDefs(t2)}
+            className={clsxm(
+              'min-w-full rounded-none',
+              user.is_pro && 'h-[190px]',
+              user.is_proplus && 'h-[320px]'
+            )}
+            rowData={myShops ?? []}
+          />
+        </Container>
+      ) : (
+        <p>{t('selectShops')}</p>
+      )}
       <Container
         loading={loadingTops}
         title={t('shops_with_top_revenue')}
@@ -132,7 +169,12 @@ function SellersTable({ className }: Props) {
           }}
         />
       </Container>
-      <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
+
+      <Container
+        loading={loading}
+        className={clsxm('w-full overflow-scroll border-none')}
+      >
+        <p className='text-primary h-10 w-full text-center'>{t('allShops')}</p>
         <PaginatedTable
           columnDefs={getShopTableColumnDefs(t2)}
           className='h-[1016px] min-w-full'

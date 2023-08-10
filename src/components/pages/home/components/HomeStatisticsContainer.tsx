@@ -10,11 +10,17 @@ import logger from '@/lib/logger';
 import Loading from '@/components/Loading';
 import DataContainer from '@/components/pages/home/components/DataContainer';
 
+import { UserType } from '@/types/user';
+
 export interface HomeStatisticsContainerProps {
   className?: string;
+  user: UserType;
 }
 
-function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
+function HomeStatisticsContainer({
+  className,
+  user,
+}: HomeStatisticsContainerProps) {
   const [orders, setOrders] = React.useState<any[]>([]);
   const [products, setProducts] = React.useState<any[]>([]);
   const [revenue, setRevenue] = React.useState<any[]>([]);
@@ -143,6 +149,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       <div className='flex w-full flex-col items-start justify-start gap-10  xl:flex-row'>
         {orders.length > 0 && (
           <DataContainer
+            user={user}
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
@@ -178,6 +185,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         {revenue.length > 0 && (
           <DataContainer
+            user={user}
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
@@ -215,6 +223,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       <div className='flex w-full flex-col items-start justify-start  gap-10 xl:flex-row'>
         {shops.shops.length > 0 && (
           <DataContainer
+            user={user}
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
@@ -250,6 +259,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         {shops.accounts.length > 0 && (
           <DataContainer
+            user={user}
             data={tree}
             // isFullScreen={isFullScreen}
             // setFullScreen={setIsFullScreen}
@@ -295,6 +305,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
       <div className='flex w-full flex-col items-start justify-start  gap-10 xl:flex-row'>
         {products.length > 0 && (
           <DataContainer
+            user={user}
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}
@@ -330,6 +341,7 @@ function HomeStatisticsContainer({ className }: HomeStatisticsContainerProps) {
         )}
         {reviews.length > 0 && (
           <DataContainer
+            user={user}
             data={tree}
             isFullScreen={isFullScreen}
             setFullScreen={setIsFullScreen}

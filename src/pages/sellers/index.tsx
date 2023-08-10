@@ -36,6 +36,7 @@ export default function Sellers({ user }: ShopsProps) {
       /> */}
       <div className='h-[calc(100vh-150px)]'>
         <SellersTable
+          user={user}
           className={clsxm(activeTab === 'Sotuvchilar' ? '' : 'hidden')}
         />
 

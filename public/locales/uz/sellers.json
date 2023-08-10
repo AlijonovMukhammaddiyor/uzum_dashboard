@@ -32,5 +32,8 @@
   "daily_reviews_amount": "Kunlik izohlar soni",
   "total_products_amount": "Jami mahsulotlar soni",
   "total_reviews_amount": "Jami izohlar soni",
-  "seller_product_in_category": "Sotuvchining ushbu kategoriyaga oid mahsulotlari ro'yxati"
+  "seller_product_in_category": "Sotuvchining ushbu kategoriyaga oid mahsulotlari ro'yxati",
+  "myShops": "Mening do'konlarim",
+  "allShops": "Barcha do'konlar",
+  "selectShops": "Iltimos, shaxsiy kabinetdan do'konlaringizni tanlang."
 }
