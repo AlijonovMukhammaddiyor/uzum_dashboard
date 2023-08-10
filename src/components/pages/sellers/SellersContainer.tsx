@@ -72,7 +72,7 @@ function SellersTable({ className, user }: Props) {
     api
       .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/shop/mine/')
       .then((res) => {
-        setMyShops(res.data.data);
+        setMyShops(res.data.data ?? []);
         setShopsLoading(false);
       })
       .catch((err) => {
