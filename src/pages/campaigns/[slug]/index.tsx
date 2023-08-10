@@ -88,8 +88,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
     const { slug } = context.query;
 
-    console.log('slug', slug);
-
     if (!slug) {
       return {
         redirect: {
@@ -103,6 +101,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const product_id = slug as string;
 
     if (!product_id) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/campaigns',
+        },
+        props: {},
+      };
+    }
+
+    if (!res.is_proplus && !res.is_enterprise) {
       return {
         redirect: {
           permanent: false,
