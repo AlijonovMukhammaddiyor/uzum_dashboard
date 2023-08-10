@@ -162,7 +162,7 @@ function Tarifs({ className }: { className?: string }) {
             title={t('tariffs.pro')}
             isCurrentPlan={currentPlan === t('tariffs.pro')}
             setCurrentPlan={setCurrentPlan}
-            price='$40'
+            price='$39'
             features={[
               t('tariffs.2_dukon'),
               t('tariffs.30_kunlik'),
@@ -196,7 +196,7 @@ function Tarifs({ className }: { className?: string }) {
             title={t('tariffs.premium')}
             isCurrentPlan={currentPlan === t('tariffs.premium')}
             setCurrentPlan={setCurrentPlan}
-            price='$60'
+            price='$59'
             features={[
               t('tariffs.5_dukon'),
               t('tariffs.60_kunlik'),
