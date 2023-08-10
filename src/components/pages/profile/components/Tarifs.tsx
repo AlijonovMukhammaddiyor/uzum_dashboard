@@ -183,6 +183,7 @@ function Tarifs({ className }: { className?: string }) {
               t('tariffs.Mahsulot_tahlili'),
               t('tariffs.Mahsulot_raqobatchilari'),
               t('tariffs.24/7_doimiy_yordam'),
+              t('tariffs.nishesSelection'),
             ]}
             color='primary'
             isPro
@@ -220,6 +221,8 @@ function Tarifs({ className }: { className?: string }) {
               t('tariffs.Osayotgan_mahsulotlar'),
               t('tariffs.Osayotgan kategoriyalar'),
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
+              t('tariffs.nishesSelection'),
+              t('tariffs.addsImpactCheck'),
             ]}
             color='primary'
             buttonTitle={t('tariffs.select')}
@@ -251,11 +254,14 @@ function Tarifs({ className }: { className?: string }) {
               t('tariffs.Barcha_mahsulotlar'),
               t('tariffs.Mahsulot_tahlili'),
               t('tariffs.Mahsulot_raqobatchilari'),
-              t('tariffs.24/7_doimiy_yordam'),
+
               t('tariffs.Yangi_mahsulotlar'),
               t('tariffs.Osayotgan_mahsulotlar'),
               t('tariffs.Osayotgan kategoriyalar'),
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
+              t('tariffs.nishesSelection'),
+              t('tariffs.addsImpactCheck'),
+              t('tariffs.24/7_doimiy_yordam'),
             ]}
             color='primary'
             isEnterprise
@@ -322,11 +328,14 @@ function Tarif({
     t('tariffs.Barcha_mahsulotlar'),
     t('tariffs.Mahsulot_tahlili'),
     t('tariffs.Mahsulot_raqobatchilari'),
-    t('tariffs.24/7_doimiy_yordam'),
+
     t('tariffs.Yangi_mahsulotlar'),
     t('tariffs.Osayotgan_mahsulotlar'),
     t('tariffs.Osayotgan kategoriyalar'),
     t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
+    t('tariffs.nishesSelection'),
+    t('tariffs.addsImpactCheck'),
+    t('tariffs.24/7_doimiy_yordam'),
   ];
 
   const ff = features_;
@@ -334,7 +343,7 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        ' relative flex  h-[1000px] max-h-[1000px] w-[350px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
+        ' relative flex  h-[1050px] max-h-[1050px] w-[350px] min-w-[220px] shrink-0 flex-col items-center justify-between overflow-hidden rounded-lg border border-slate-300 bg-white',
         // isProPlus && 'bg-gradient',
         'border-2 border-blue-500',
         i18n.language === 'ru' && 'h-[1000px] max-h-[1000px]',

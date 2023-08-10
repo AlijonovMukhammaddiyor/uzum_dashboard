@@ -228,7 +228,9 @@
     "90_kunlik": "90+ kunlik ma'lumotlar",
     "2_dukon": "2ta do'kon uchun to'liq analitika",
     "5_dukon": "5ta do'kon uchun to'liq analitika",
-    "Barcha_dokonlar_full": "Barcha do'konlar uchun to'liq analitika"
+    "Barcha_dokonlar_full": "Barcha do'konlar uchun to'liq analitika",
+    "nishesSelection": "Nish tanlash",
+    "addsImpactCheck": "Reklamalar tasirini o'rganish."
   },
   "footer": {
     "footer_links": [
