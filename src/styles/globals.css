@@ -357,3 +357,12 @@
 .all_side_shadow1 {
   box-shadow: 0 0 30px rgb(186, 186, 186);
 }
+
+.bg_orange_gradient {
+  background: rgb(196, 153, 39);
+  background: linear-gradient(
+    103deg,
+    rgba(196, 153, 39, 1) 0%,
+    rgba(93, 0, 153, 1) 84%
+  );
+}

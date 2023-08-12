@@ -75,7 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Head>
           <meta
             name='viewport'
-            content='width=device-width, initial-scale=0.7'
+            content='width=device-width, initial-scale=0.75 '
           />
           <meta
             name='description'
@@ -120,6 +120,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </title>
           <link rel='canonical' href='https://www.uzanalitika.uz/' />
         </Head>
+
         <NextNProgress color='rgb(119, 67, 219)' height={10} />
         {isMobile &&
         router.pathname !== '/' &&

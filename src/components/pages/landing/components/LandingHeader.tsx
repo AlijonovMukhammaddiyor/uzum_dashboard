@@ -30,7 +30,7 @@ function LandingHeader() {
     [key: string]: string;
   } = {
     [t('header.xizmatlar')]: '#services',
-    [t('header.tariflar')]: "#ta'riflar",
+    [t('header.hamkorlik')]: '#referral',
     // 'Bog`lanish': '#contact',
   };
   // bg-[rgb(232,234,255)]
@@ -93,7 +93,13 @@ function LandingHeader() {
                   <div className='layout flex items-center justify-between py-6 '>
                     <Link href='/'>
                       {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
-                      <Image src={logo} alt='logo' width={200} height={50} />
+                      <Image
+                        src={logo}
+                        alt='logo'
+                        width={200}
+                        height={50}
+                        className='w-32 sm:w-32 md:w-48'
+                      />
                     </Link>
                     <div
                       onClick={() => setIsMobile(false)}

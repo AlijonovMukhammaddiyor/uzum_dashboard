@@ -10,9 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   return (
-    <div className='flex h-screen w-screen items-start justify-start overflow-hidden bg-white'>
+    <div className='main_layout_container flex h-screen w-screen items-start justify-start  overflow-hidden bg-white'>
       <Sidebar
-        className='h-screen'
+        className='sticky left-0 top-0 z-50 h-full'
         activeTab={activeTab}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}

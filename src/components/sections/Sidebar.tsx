@@ -97,7 +97,7 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        'bg-font-primary relative z-10 h-screen max-h-screen w-[240px] -translate-x-full shadow-md transition-all duration-300 ease-in-out sm:translate-x-0',
+        'bg-font-primary relative z-10  w-[240px] -translate-x-full  shadow-md transition-all duration-300 ease-in-out sm:translate-x-0',
         isSidebarOpen ? 'w-[220px]' : 'w-[65px]',
         className
       )}
@@ -119,11 +119,11 @@ function Sidebar({
         <div className='h-full w-[1px] bg-slate-400'></div>
         <div className='h-full w-[1px] bg-slate-400'></div>
       </div> */}
-      <div className='h-full w-full overflow-auto bg-[#FFD966] px-3 py-4'>
-        <div className='mb-8 flex w-full justify-center'>
+      <div className='box-border h-full w-full overflow-x-clip bg-[#FFD966] px-3 py-4'>
+        <div className='mb-8  flex w-full justify-center'>
           {isSidebarOpen ? (
             // <Logo className='h-10 w-36 object-contain' />
-            <Image src={logo} alt='logo' width={160} height={50} />
+            <Image src={logo} alt='logo' width={160} height={60} />
           ) : (
             <LogoOnly className='h-10 w-10 object-contain' />
           )}

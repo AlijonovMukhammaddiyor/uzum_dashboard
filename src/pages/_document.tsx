@@ -26,6 +26,7 @@ export default function Document() {
               scroll-behavior: smooth;
               }`}
         </style>
+
         <meta
           name='description'
           content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."

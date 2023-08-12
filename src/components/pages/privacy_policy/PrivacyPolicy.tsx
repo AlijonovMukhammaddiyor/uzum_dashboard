@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
   return (
     <>
       <LandingHeader />
-      <div className='bg-gradient w-full overflow-hidden pb-32 pt-20'>
+      <div className=' w-full overflow-hidden bg-white pb-32 pt-20'>
         <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
           <div
             className={clsxm(

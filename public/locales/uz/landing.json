@@ -10,6 +10,7 @@
 
   "header.xizmatlar": "Xizmatlar",
   "header.tariflar": "Tariflar",
+  "header.hamkorlik": "Hamkorlik",
   "header.button.kirish": "Kirish",
   "header.button.telegram": "Guruhga Qo'shilish",
   "header.button.signup": "Ro'yxatdan o'tish",
@@ -147,7 +148,7 @@
         {
           "title": "Mahsulot haqida",
           "description": "Bu ma'lum bir mahsulot haqida batafsil ma'lumotni, jumladan uning narxi, reytingi va sotuvchi tafsilotlarini taqdim etadi va iste'molchilar va raqobatchilar uchun qimmatli tushunchalarni beradi.",
-          "image": "/landing/features/products_about.png"
+          "image": "/landing/features/product_about.png"
         },
         {
           "title": "Mahsulot tahlili",
@@ -199,7 +200,7 @@
   "referral.title": "Har bir taklif qilgan do'stingiz uchun $3 chegirmaga ega bo'ling!",
   "referral.subtitle1": "Agar siz bizning xizmatimizni yoqtirgan bo'lsangiz va uni boshqalarga ham tavsiya qilmoqchi bo'lsangiz, siz uchun ajoyib mukofotimiz bor.",
   "referral.subtitle2": "Ha bu shunday oson! Do'stlaringizni taklif qiling va har bir premium tarifiga obuna bo'lgan do'stingiz uchun, sizga $3 chegirma beriladi. Siz bu chegirmalarni kelgusi oylarning obunasi uchun ishlatishingiz mumkin.",
-  "referral.subtitle3": "Qanday taklif qilaman deysizmi? Ro'yhatdan o'tgandan so'ng sizga Taklif Kodi beriladi. Siz bu kodni do'stingizga yuboring va ular ro'yhatdan o'tish paytida bu kodni kiritishlari kerak.",
+  "referral.subtitle3": "Qanday taklif qilaman deysizmi? Ro'yhatdan o'tgandan so'ng sizga Taklif Kodi beriladi. Siz bu kodni do'stingizga yuboring va ular ro'yhatdan o'tish paytida bu kodni kiritishlari kerak. Shuni o'zi yetarli bo'ladi.",
 
   "tariffs": {
     "Umumiy_malumotlar": "Umumiy ma'lumotlar",

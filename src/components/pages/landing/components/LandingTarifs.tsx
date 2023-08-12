@@ -7,7 +7,7 @@ import clsxm from '@/lib/clsxm';
 
 import Button from '@/components/shared/buttons/Button';
 
-import Logo from '@/assets/logo/logo_only.svg';
+// import referral from '@/assets/referral.svg';
 
 function LandingTarifs() {
   const { t } = useTranslation('landing');
@@ -46,6 +46,7 @@ function LandingTarifs() {
             {t('referral.subtitle3')}
           </p>
         </div>
+
         <div
           className={clsxm(
             '  flex w-full max-w-full flex-1 items-start gap-4 overflow-x-auto p-3 pt-10',
@@ -70,7 +71,7 @@ function LandingTarifs() {
             sendToRegister={sendToRegister}
           />
           <div className='flex-1'></div>
-          {/* <Tarif
+          <Tarif
             title={t('tariffs.pro')}
             price='$30'
             features={[
@@ -97,7 +98,8 @@ function LandingTarifs() {
             isPro
             buttonTitle={t('tariffs.start')}
             sendToRegister={sendToRegister}
-          /> */}
+          />
+          <div className='flex-1'></div>
           <Tarif
             title={t('tariffs.pro')}
             price='$30'

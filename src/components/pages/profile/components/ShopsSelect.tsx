@@ -1,5 +1,7 @@
 import { AxiosResponse } from 'axios';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { IoWarningOutline } from 'react-icons/io5';
 import Select from 'react-select';
 
@@ -7,8 +9,10 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
+import { getShopTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import Button from '@/components/shared/buttons/Button';
+import Table from '@/components/shared/Table';
 
 import { UserType } from '@/types/user';
 
@@ -16,6 +20,21 @@ interface ShopsType {
   account_id: number;
   title: string;
   link: string;
+}
+interface SellerType {
+  average_order_price: number;
+  average_purchase_price: number;
+  date_pretty: string;
+  id: string;
+  num_categories: number;
+  position: number;
+  rating: number;
+  shop_link: string;
+  total_revenue: number;
+  shop_title: string;
+  total_orders: number;
+  total_products: number;
+  total_reviews: number;
 }
 
 function ShopsSelect({
@@ -27,6 +46,7 @@ function ShopsSelect({
 }) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [shops, setShops] = React.useState<ShopsType[]>([]);
+  const [myShops, setMyShops] = React.useState<SellerType[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<
     {
       value: string;
@@ -36,7 +56,9 @@ function ShopsSelect({
   const [account_map, setAccountMap] = React.useState<{
     [key: string]: number;
   }>({});
-
+  const router = useRouter();
+  const { t } = useTranslation('sellers');
+  const { t: t2 } = useTranslation('tableColumns');
   React.useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -61,6 +83,17 @@ function ShopsSelect({
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    api
+      .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/shop/mine/')
+      .then((res) => {
+        setMyShops(res.data.data ?? []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in my shops');
+        setLoading(false);
+      });
   }, []);
 
   const options = React.useMemo(() => {
@@ -81,6 +114,7 @@ function ShopsSelect({
         // logger(res.data, 'ShopsSelect');
         alert("Do'konlar muvaffaqiyatli saqlandi.");
         setLoading(false);
+        router.push('/sellers');
       })
       .catch((err) => {
         // console.log(err);
@@ -155,9 +189,33 @@ function ShopsSelect({
           </>
         </Button>
       </Container>
+
       <p className={clsxm('font-sm mt-4 font-semibold', className)}>
         Oxirgi yangilangan sana: {user.shops_updated_at?.slice(0, 10)}
       </p>
+      {(user.is_pro || user.is_proplus) && myShops.length > 0 ? (
+        <Container
+          loading={loading}
+          className={clsxm(
+            'w-full overflow-scroll border-none pt-4',
+            className
+          )}
+        >
+          <p className='text-primary h-10 w-full text-center'>{t('myShops')}</p>
+          <Table
+            columnDefs={getShopTableColumnDefs(t2)}
+            className={clsxm(
+              'min-w-full rounded-none',
+              user.is_pro && `h-[${(65 + myShops.length * 45).toString()}px]`,
+              user.is_proplus &&
+                `h-[${(65 + myShops.length * 45).toString()}px]`
+            )}
+            rowData={myShops ?? []}
+          />
+        </Container>
+      ) : (
+        <p>{t('selectShops')}</p>
+      )}
     </>
   );
 }

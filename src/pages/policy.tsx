@@ -26,7 +26,7 @@ export default function Policy() {
   return (
     <div>
       <LandingHeader />
-      <div className='bg-gradient w-full overflow-hidden pb-32 pt-20'>
+      <div className='  w-full overflow-hidden pb-32 pt-20'>
         <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
           <div
             className={clsxm(
@@ -47,7 +47,7 @@ export default function Policy() {
             Рус
           </div>
         </div>
-        <div className='layout flex flex-col gap-8 rounded-lg bg-white p-20 shadow-lg'>
+        <div className='layout all_side_shadow flex flex-col gap-8 rounded-lg bg-white p-20 shadow-lg'>
           <h1 className='border-b border-gray-400 pb-4 text-2xl font-bold'>
             {t('title')}
           </h1>
