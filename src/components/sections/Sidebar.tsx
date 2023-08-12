@@ -97,8 +97,7 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        'bg-font-primary relative z-10  w-[240px] -translate-x-full  shadow-md transition-all duration-300 ease-in-out sm:translate-x-0',
-        isSidebarOpen ? 'w-[220px]' : 'w-[65px]',
+        'bg-font-primary group relative z-10 w-[65px] -translate-x-full   shadow-md  transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
         className
       )}
     >
@@ -121,12 +120,20 @@ function Sidebar({
       </div> */}
       <div className='box-border h-full w-full overflow-x-clip bg-[#FFD966] px-3 py-4'>
         <div className='mb-8  flex w-full justify-center'>
-          {isSidebarOpen ? (
+          <Image
+            src={logo}
+            alt='logo'
+            width={160}
+            height={60}
+            className='hidden h-[40px] group-hover:block'
+          />
+          <LogoOnly className='block h-10 w-10 object-contain group-hover:hidden' />
+          {/* {isSidebarOpen ? (
             // <Logo className='h-10 w-36 object-contain' />
             <Image src={logo} alt='logo' width={160} height={60} />
           ) : (
             <LogoOnly className='h-10 w-10 object-contain' />
-          )}
+          )} */}
         </div>
         <ul className='h-full space-y-2 font-medium'>
           <SidebarItem
@@ -135,7 +142,7 @@ function Sidebar({
             icon={
               <HiOutlineHome
                 className={clsxm(
-                  'h-6 w-6 flex-shrink-0 group-hover:text-white',
+                  'h-6 w-6 flex-shrink-0 ',
                   activeTab === 'Umumiy' && 'text-white'
                 )}
               />
@@ -368,22 +375,30 @@ function SidebarItem({
         )}
       >
         {icon}
-        {isSidebarOpen && <span className='ml-3 text-base'>{label}</span>}
+        <span className='ml-3 hidden text-base transition-all group-hover:inline-block'>
+          {label}
+        </span>
+        {/* {isSidebarOpen && <span className='ml-3 text-base'>{label}</span>} */}
         {/* {!isSidebarOpen && !disabled && (
           <div className='absolute -right-full z-10 hidden bg-white text-black shadow-lg group-hover:inline-block'>
             {label}
           </div>
         )} */}
       </p>
-
-      {isSidebarOpen && (
+      <MdChevronRight
+        className={clsxm(
+          'absolute right-2 top-1/2 hidden -translate-y-1/2 transform text-black group-hover:inline',
+          disabled && 'text-slate-300'
+        )}
+      />
+      {/* {isSidebarOpen && (
         <MdChevronRight
           className={clsxm(
             'absolute right-2 top-1/2 -translate-y-1/2 transform text-black',
             disabled && 'text-slate-300'
           )}
         />
-      )}
+      )} */}
     </li>
   );
 }
