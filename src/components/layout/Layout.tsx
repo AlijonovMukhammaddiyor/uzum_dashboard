@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className='main_layout_container flex h-screen w-screen items-start justify-start  overflow-hidden bg-white'>
       <Sidebar
-        className='sticky left-0 top-0 z-50 h-full'
+        className='fixed left-0 top-0 z-50 h-full'
         activeTab={activeTab}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         )}
       >
         <Header />
-        <div className='w-full flex-1 p-4'>{children}</div>
+        <div className='w-full flex-1 p-4 pl-20'>{children}</div>
       </div>
     </div>
   );

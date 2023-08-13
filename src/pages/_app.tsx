@@ -121,7 +121,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link rel='canonical' href='https://www.uzanalitika.uz/' />
         </Head>
 
-        <NextNProgress color='rgb(119, 67, 219)' height={10} />
+        <NextNProgress color='rgb(119, 67, 219)' height={8} />
         {isMobile &&
         router.pathname !== '/' &&
         !router.pathname.startsWith('/login') &&

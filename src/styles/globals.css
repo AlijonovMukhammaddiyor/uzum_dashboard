@@ -5,8 +5,8 @@
 :root {
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
-  --tw-color-primary: 119 67 219;
-  --tw-color-secondary: 254 220 93;
+  --tw-color-primary: 97 75 195;
+  --tw-color-secondary: 119 67 219;
   --tw-color-accent: 255 233 177;
   --tw-color-image: 239 239 239;
   --tw-color-border: 221 221 221;
@@ -349,7 +349,7 @@
 }
 
 .text_gradient {
-  @apply from-primary to-primary bg-gradient-to-r via-orange-500 bg-clip-text text-transparent;
+  @apply from-primary to-primary via-secondary bg-gradient-to-r bg-clip-text text-transparent;
 }
 .all_side_shadow {
   box-shadow: 0 0 50px rgb(230, 230, 230);

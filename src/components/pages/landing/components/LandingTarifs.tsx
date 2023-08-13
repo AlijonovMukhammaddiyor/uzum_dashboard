@@ -7,6 +7,7 @@ import clsxm from '@/lib/clsxm';
 
 import Button from '@/components/shared/buttons/Button';
 
+import Logo from '@/assets/logo.svg';
 // import referral from '@/assets/referral.svg';
 
 function LandingTarifs() {

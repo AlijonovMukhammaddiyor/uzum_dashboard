@@ -2,8 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
-import clsxm from '@/lib/clsxm';
+import { FaTelegramPlane } from 'react-icons/fa';
 
 import Footer1 from '@/components/pages/landing/components/Footer1';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
@@ -17,16 +16,6 @@ function LandingPage() {
   const { t, i18n } = useTranslation('landing');
   const router = useRouter();
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    onToggleLanguageClick(lng);
-  };
-
-  const onToggleLanguageClick = (newLocale: string) => {
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, router.asPath, { locale: newLocale });
-  };
-
   return (
     <div className='relative w-screen'>
       <Head>
@@ -39,25 +28,15 @@ function LandingPage() {
           }
         />
       </Head>
-      <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
-        <div
-          className={clsxm(
-            'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
-            i18n.language === 'uz' && 'bg-primary text-white'
-          )}
-          onClick={() => changeLanguage('uz')}
+
+      <div className='shadow-3xl fixed bottom-5 right-5 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-blue-500'>
+        <a
+          href='https://t.me/uzum_uzanalitika'
+          target='_blank'
+          className='items-center justify-center'
         >
-          Uz
-        </div>
-        <div
-          className={clsxm(
-            'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
-            i18n.language === 'ru' && 'bg-primary text-white'
-          )}
-          onClick={() => changeLanguage('ru')}
-        >
-          Рус
-        </div>
+          <FaTelegramPlane className='text-2xl text-white' />
+        </a>
       </div>
 
       <LandingHeader />
@@ -67,8 +46,6 @@ function LandingPage() {
       <SectionFeatures />
       <Tops />
       <Referral />
-      {/* <LandingTarifs /> */}
-      {/* <Footer /> */}
       <Footer1 />
     </div>
   );

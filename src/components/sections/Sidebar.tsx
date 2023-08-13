@@ -1,13 +1,9 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsRobot } from 'react-icons/bs';
 import { BsPerson } from 'react-icons/bs';
 import {
-  // HiArrowPath,
-  HiChevronDoubleLeft,
-  HiChevronDoubleRight,
   HiLanguage,
   HiMagnifyingGlass,
   HiOutlineBuildingStorefront,
@@ -20,8 +16,6 @@ import { MdChevronRight, MdOutlineCompare } from 'react-icons/md';
 
 import clsxm from '@/lib/clsxm';
 
-import LogoOnly from '@/assets/logo/logo_only.svg';
-import logo from '@/assets/logo/logo2.png';
 import { useContextState } from '@/context/Context';
 export interface SidebarProps {
   className?: string;
@@ -97,11 +91,11 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        'bg-font-primary group relative z-10 w-[65px] -translate-x-full   shadow-md  transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
+        'group relative z-10 w-[65px] -translate-x-full bg-[#AEC7E8] py-10  shadow-md transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
         className
       )}
     >
-      <div
+      {/* <div
         className='bg-primary group absolute -right-4 bottom-[40px] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow-lg'
         onClick={() => {
           setIsSidebarOpen(!isSidebarOpen);
@@ -112,29 +106,13 @@ function Sidebar({
         ) : (
           <HiChevronDoubleRight className='h-6 w-6 flex-shrink-0 font-bold text-white' />
         )}
-      </div>
+      </div> */}
       {/* <div className='absolute right-0 top-0 flex h-full w-4 items-start justify-evenly bg-slate-100'>
         <div className='h-full w-[1px] bg-slate-400'></div>
         <div className='h-full w-[1px] bg-slate-400'></div>
         <div className='h-full w-[1px] bg-slate-400'></div>
       </div> */}
-      <div className='box-border h-full w-full overflow-x-clip bg-[#FFD966] px-3 py-4'>
-        <div className='mb-8  flex w-full justify-center'>
-          <Image
-            src={logo}
-            alt='logo'
-            width={160}
-            height={60}
-            className='hidden h-[40px] group-hover:block'
-          />
-          <LogoOnly className='block h-10 w-10 object-contain group-hover:hidden' />
-          {/* {isSidebarOpen ? (
-            // <Logo className='h-10 w-36 object-contain' />
-            <Image src={logo} alt='logo' width={160} height={60} />
-          ) : (
-            <LogoOnly className='h-10 w-10 object-contain' />
-          )} */}
-        </div>
+      <div className='box-border h-full w-full overflow-x-clip bg-[#AEC7E8] px-3 py-4 pt-8'>
         <ul className='h-full space-y-2 font-medium'>
           <SidebarItem
             href='/home'
@@ -352,7 +330,7 @@ function SidebarItem({
 
   return (
     <li
-      className={clsxm('relative', className)}
+      className={clsxm('min-h-10 relative h-10 max-h-10', className)}
       onClick={() => {
         if (disabled) return;
         onClick;
@@ -368,14 +346,14 @@ function SidebarItem({
           router.push(href);
         }}
         className={clsxm(
-          'group flex cursor-pointer items-center rounded-lg p-2 text-black hover:bg-slate-400 hover:text-white',
+          'group flex flex-1 cursor-pointer items-center rounded-lg p-2 text-black hover:bg-slate-400 hover:text-white',
           activeTab === label && 'bg-primary hover:bg-primary text-white',
           disabled &&
             'cursor-not-allowed bg-slate-100 text-slate-300 hover:bg-slate-100 hover:text-slate-300'
         )}
       >
         {icon}
-        <span className='ml-3 hidden text-base transition-all group-hover:inline-block'>
+        <span className='ml-5 w-[200px] shrink-0 text-base transition-all group-hover:block'>
           {label}
         </span>
         {/* {isSidebarOpen && <span className='ml-3 text-base'>{label}</span>} */}

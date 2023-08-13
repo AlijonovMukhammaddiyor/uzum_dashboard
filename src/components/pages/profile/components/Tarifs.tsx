@@ -1,10 +1,12 @@
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoCheckmarkSharp } from 'react-icons/io5';
 import Select from 'react-select';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
 import Button from '@/components/shared/buttons/Button';
 
@@ -349,6 +351,7 @@ function Tarif({
   months?: number;
 }) {
   const { t, i18n } = useTranslation('landing');
+  const [loading, setLoading] = useState(false);
   const features_ = [
     t('tariffs.60_kunlik'),
     t('tariffs.90_kunlik'),
@@ -383,6 +386,26 @@ function Tarif({
   ];
 
   const ff = features_;
+
+  const dollarToSumRate = 12107;
+
+  const handlePayment = () => {
+    const api = new API(null);
+    setLoading(true);
+    api
+      .post('/payments/paylink/', {
+        amount: price * dollarToSumRate,
+      })
+      .then((res) => {
+        logger(res.data, 'res');
+        setLoading(false);
+        window.location.href = res.data.pay_link;
+      })
+      .catch((err) => {
+        logger(err, 'err');
+        setLoading(false);
+      });
+  };
 
   return (
     <div
@@ -444,18 +467,19 @@ function Tarif({
           })}
         </ul>
       </div>
-      <div className='w-full px-6 py-3'>
-        <Button
-          onClick={() => setCurrentPlan && setCurrentPlan(title)}
-          className={clsxm(
-            `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`,
-            isCurrentPlan && 'bg-amber-500  hover:bg-amber-600'
-          )}
-          // disabled={isProPlus}
-        >
-          <>{t('tariffs.pay')}</>
-        </Button>
-      </div>
+      {(isPro || isProPlus || isEnterprise) && (
+        <div className='w-full px-6 py-3'>
+          <Button
+            onClick={() => handlePayment()}
+            className={clsxm(
+              `bg-${color} w-full rounded px-4 py-2 text-white hover:bg-purple-700`
+            )}
+            isLoading={loading}
+          >
+            <>{t('tariffs.pay')}</>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

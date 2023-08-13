@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { AiOutlineInstagram } from 'react-icons/ai';
 import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineBell,
@@ -18,8 +17,8 @@ import Breadcrumb from '@/components/shared/Breadcrumb';
 import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
+import Logo from '@/assets/logo/logo_only.svg';
 import { useContextState } from '@/context/Context';
-
 export interface HeaderProps {
   className?: string;
 }
@@ -55,42 +54,18 @@ export default function Header() {
   const is_paid = state.user?.is_pro || state.user?.is_proplus;
 
   return (
-    <header className='w-full bg-transparent'>
+    <header className='sticky right-0 top-0 z-[1000] w-full bg-[#48CAE4] shadow-lg'>
       <div className='flex h-14 items-center justify-between gap-4 p-3'>
-        {state.path && Object.keys(state.path).length >= 1 ? (
-          <Breadcrumb className='flex items-center justify-start gap-2' />
-        ) : !is_paid ? (
-          showPaymentNotification ? (
-            <div className='relative mt-3 flex  items-center justify-between rounded-md bg-gradient-to-r from-purple-500 to-blue-500 p-2 px-4 py-1 text-white'>
-              <div className='flex items-center justify-start gap-3'>
-                <p className='text-sm'>
-                  Hozirda to'lov tizimini ishga tushirish jarayonida
-                  ishlamoqdamiz. To'lov qilish uchun iltimos, biz bilan
-                  bog'laning.
-                </p>
-                <a
-                  href='https://instagram.com/uzanalitika?igshid=MzNlNGNkZWQ4Mg=='
-                  target='_blank'
-                >
-                  <button className='instagram-btn flex items-center justify-start gap-2 rounded-md bg-white px-3 py-1 text-white'>
-                    Instagram
-                    <AiOutlineInstagram className='h-6 w-6' />
-                  </button>
-                </a>
-              </div>
-              {/* <button
-                className='absolute right-1 top-1'
-                onClick={() => setShowPaymentNotification(false)}
-              >
-                <HiOutlineX className='h-5 w-5 text-white' />
-              </button> */}
-            </div>
+        <div className='flex items-center justify-start gap-6'>
+          <Logo className='h-10 w-10' />
+          {state.path && Object.keys(state.path).length >= 1 ? (
+            <Breadcrumb className='flex items-center justify-start gap-2' />
+          ) : !is_paid ? (
+            <div></div>
           ) : (
             <div></div>
-          )
-        ) : (
-          <div></div>
-        )}
+          )}
+        </div>
 
         <nav>
           <ul className='flex items-center justify-between space-x-8'>
