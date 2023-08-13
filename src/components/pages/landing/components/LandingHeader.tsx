@@ -14,6 +14,30 @@ import logo from '@/assets/landing/main.png';
 
 function LandingHeader() {
   const [isMobile, setIsMobile] = React.useState(false);
+
+  const [isVisible, setIsVisible] = React.useState(true);
+  const [prevScrollY, setPrevScrollY] = React.useState(0);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (prevScrollY > currentScrollY || currentScrollY < 75) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+
+      setPrevScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollY]);
+
   const { t, i18n } = useTranslation('landing');
   const router = useRouter();
 
@@ -35,8 +59,13 @@ function LandingHeader() {
   };
 
   return (
-    <nav className='fixed top-4 z-[10000] w-full bg-white'>
-      <div className='layout z-[10000] flex items-center justify-between rounded-xl bg-white px-6 py-4 shadow-2xl'>
+    <nav
+      className={clsxm(
+        'fixed top-2 z-[10000] w-full bg-transparent transition-all duration-500',
+        !isVisible ? '-top-full' : ''
+      )}
+    >
+      <div className='layout base:px-10 z-[10000] flex items-center justify-between rounded-xl bg-white px-2 py-3 shadow-xl'>
         <Link href='/' className=''>
           <Image
             src={logo}

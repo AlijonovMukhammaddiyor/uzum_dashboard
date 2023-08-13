@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { HiSpeakerphone } from 'react-icons/hi';
 
 import ReferSvg from '@/assets/referral.svg';
 
@@ -14,7 +13,8 @@ const Referral = () => {
       {/*  */}
       <div className=' layout bg-linear-dark relative rounded-xl p-10  '>
         <div className='absolute -left-5 -top-10 flex h-24 w-24 items-center justify-center rounded-full bg-purple-300 sm:-left-10'>
-          <HiSpeakerphone className='rot -rotate-[20deg] text-7xl text-white' />
+          {/* <HiSpeakerphone className='rot -rotate-[20deg] text-7xl text-white' /> */}
+          <span className='-rotate-45 text-4xl font-bold text-white'> $3</span>
         </div>
         <p className='font-primary  text-center text-2xl font-bold text-white sm:text-4xl'>
           {t('referral.title')}

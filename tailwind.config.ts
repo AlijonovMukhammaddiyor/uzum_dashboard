@@ -24,6 +24,12 @@ export default {
         image: 'rgb(var(--tw-color-image) / <alpha-value>)',
         border: 'rgb(var(--tw-color-border) / <alpha-value>)',
       },
+      // shadow: {
+      //   '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+      // },
+      boxShadow: {
+        right: ' 7px 0px 10px rgba(0, 0, 0, 0.1)',
+      },
       keyframes: {
         flicker: {
           '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': {

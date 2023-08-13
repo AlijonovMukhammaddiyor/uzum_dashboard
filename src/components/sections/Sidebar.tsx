@@ -91,7 +91,7 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        'group relative z-10 w-[65px] -translate-x-full bg-[#AEC7E8] py-10  shadow-md transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
+        ' shadow-right group relative z-10 w-[65px] -translate-x-full bg-white  py-10 transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
         className
       )}
     >
@@ -112,7 +112,7 @@ function Sidebar({
         <div className='h-full w-[1px] bg-slate-400'></div>
         <div className='h-full w-[1px] bg-slate-400'></div>
       </div> */}
-      <div className='box-border h-full w-full overflow-x-clip bg-[#AEC7E8] px-3 py-4 pt-8'>
+      <div className=' box-border h-full w-full overflow-x-clip  px-3 py-4 pt-8'>
         <ul className='h-full space-y-2 font-medium'>
           <SidebarItem
             href='/home'

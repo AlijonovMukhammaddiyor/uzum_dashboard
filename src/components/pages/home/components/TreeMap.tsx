@@ -101,9 +101,12 @@ function TreeMap({
         width: '100vw',
         height: '100vh',
         overflow: 'scroll',
+        // padding: '50px 0 0 0',
+        position: 'relative',
+        zIndex: 10000,
       }}
     >
-      <div className='modal relative flex h-full flex-col items-start justify-start overflow-scroll'>
+      <div className='modal relative  flex h-full flex-col items-start justify-start overflow-scroll'>
         <LuShrink
           className='absolute right-5 top-5 z-[100] h-6 w-6 cursor-pointer'
           onClick={closeModal}

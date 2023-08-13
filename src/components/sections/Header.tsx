@@ -2,14 +2,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { GrLanguage } from 'react-icons/gr';
 import {
   HiOutlineArrowRightOnRectangle,
-  HiOutlineBell,
   HiOutlineUserCircle,
 } from 'react-icons/hi2';
 
 import API from '@/lib/api';
-import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
@@ -17,7 +16,7 @@ import Breadcrumb from '@/components/shared/Breadcrumb';
 import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
-import Logo from '@/assets/logo/logo_only.svg';
+import Logo from '@/assets/logo/main_logo_only.png';
 import { useContextState } from '@/context/Context';
 export interface HeaderProps {
   className?: string;
@@ -54,10 +53,10 @@ export default function Header() {
   const is_paid = state.user?.is_pro || state.user?.is_proplus;
 
   return (
-    <header className='sticky right-0 top-0 z-[1000] w-full bg-[#48CAE4] shadow-lg'>
+    <header className='sticky right-0 top-0 z-[1000] w-full bg-white shadow-lg'>
       <div className='flex h-14 items-center justify-between gap-4 p-3'>
         <div className='flex items-center justify-start gap-6'>
-          <Logo className='h-10 w-10' />
+          <Image src={Logo} alt='logo' width={40} height={40} />
           {state.path && Object.keys(state.path).length >= 1 ? (
             <Breadcrumb className='flex items-center justify-start gap-2' />
           ) : !is_paid ? (
@@ -98,10 +97,12 @@ export default function Header() {
             </li>
             {is_paid && (
               <li>
-                <div className='flex max-w-[200px] items-center justify-start rounded-md border border-slate-400 bg-purple-100 px-2 py-1 '>
-                  <p className='text-sm'>{t('header.referralCode')}:</p>
+                <div className='flex max-w-[200px] items-center justify-start rounded-md border border-slate-400 bg-slate-200 px-2 py-1 '>
+                  <p className='text-sm tracking-wide'>
+                    {t('header.referralCode')}:
+                  </p>
                   <div className='ml-1 flex flex-col items-start justify-start'>
-                    <span className='m-0 text-xs'>
+                    <span className='m-0 text-sm tracking-wide'>
                       {state.user?.referral_code}
                     </span>
                   </div>
@@ -109,42 +110,41 @@ export default function Header() {
               </li>
             )}
             <li>
-              <div className='border-primary  flex h-7 items-center justify-center overflow-hidden rounded-md border bg-purple-200 bg-opacity-25'>
-                <div
-                  className={clsxm(
-                    'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
-                    i18n.language === 'uz' && 'bg-primary text-white'
-                  )}
-                  onClick={() => changeLanguage('uz')}
-                >
-                  Uz
-                </div>
-                <div
-                  className={clsxm(
-                    'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
-                    i18n.language === 'ru' && 'bg-primary text-white'
-                  )}
-                  onClick={() => changeLanguage('ru')}
-                >
-                  Рус
-                </div>
+              <div className='flex h-8 w-[70px] items-center justify-center rounded-md border border-black px-2'>
+                {i18n.language === 'uz' ? (
+                  <div
+                    className='flex cursor-pointer items-center justify-start gap-1'
+                    onClick={() => changeLanguage('ru')}
+                  >
+                    <GrLanguage className='text-xl' />
+                    <p className='text-sm'>Рус</p>
+                  </div>
+                ) : (
+                  <div
+                    className='flex cursor-pointer items-center justify-start gap-1'
+                    onClick={() => changeLanguage('uz')}
+                  >
+                    <GrLanguage className='text-xl' />
+                    <p className='text-sm'>Uz</p>
+                  </div>
+                )}
               </div>
             </li>
-            <li className='relative'>
+            {/* <li className='relative'>
               <div className='hover:text-gray-600'>
                 <HiOutlineBell className='hover:text-primary h-5 w-5 flex-shrink-0 text-black' />
               </div>
-            </li>
+            </li> */}
             <li
               onClick={() => {
                 // logout
               }}
             >
               <div
-                className='hover:text-gray-600'
+                className=' hover:text-gray-600'
                 onClick={() => handleUserLogout()}
               >
-                <HiOutlineArrowRightOnRectangle className='hover:text-primary h-6 w-6 flex-shrink-0 cursor-pointer text-black' />
+                <HiOutlineArrowRightOnRectangle className='hover:text-primary h-8 w-8 flex-shrink-0 cursor-pointer text-black' />
               </div>
             </li>
           </ul>
