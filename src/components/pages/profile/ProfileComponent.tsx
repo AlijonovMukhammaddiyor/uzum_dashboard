@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
+import Pricing from '@/components/pages/profile/components/Pricing';
 import ShopsSelect from '@/components/pages/profile/components/ShopsSelect';
-import Tarifs from '@/components/pages/profile/components/Tarifs';
 import Tabs from '@/components/shared/Tabs';
 
 import { UserType } from '@/types/user';
@@ -35,7 +35,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
         setActiveTab={setActiveTab}
         className='overflow-auto'
       />
-      <Tarifs
+      <Pricing
         className={clsxm(activeTab === t('profile.payments') ? '' : 'hidden')}
       />
       <ShopsSelect
