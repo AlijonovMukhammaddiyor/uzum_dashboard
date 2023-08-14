@@ -14,9 +14,9 @@ import NamesAndEmailComponent from '@/components/pages/landing/register/NameInpu
 import Seo from '@/components/Seo';
 
 import free from '@/assets/landing/free.png';
+import Logo from '@/assets/landing/main.png';
 import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
-import Logo from '@/assets/logo/logo.svg';
 
 const Register = () => {
   const router = useRouter();
@@ -60,7 +60,14 @@ const Register = () => {
       </div>
       <div className='base:w-1/2 bg-gradient base:bg-none relative flex w-full items-center justify-center overflow-hidden px-5'>
         <Link href='/' className='absolute left-6 top-3 z-10'>
-          <Logo className='h-[40px] w-[110px]' />
+          {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
+          <Image
+            src={Logo}
+            alt='logo'
+            width={200}
+            height={50}
+            className='w-28 md:w-36'
+          />
         </Link>
         <div
           className={clsxm(

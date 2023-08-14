@@ -12,7 +12,7 @@ import logger from '@/lib/logger';
 import TelegramLogin from '@/components/pages/login/TelegramLogin';
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
 
-import Logo from '@/assets/logo/logo2.png';
+import Logo from '@/assets/landing/main.png';
 
 function LoginComponent() {
   const router = useRouter();
