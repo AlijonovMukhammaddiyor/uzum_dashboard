@@ -204,34 +204,50 @@
 
   "tariffs": {
     "Umumiy_malumotlar": "Общие данные",
+    "Jami_buyurtmalar_va_daromad_tahlili": "Общая аналитика по заказам и выручке",
+    "Jami_mahsulotlar_va_izohlar_tahlili": "Общая аналитика по продуктам и отзывам",
+    "Jami_dokonlar_va_sotuvchilar_tahlili": "Общая аналитика по магазинам и продавцам",
+    "Top_5_mahsulotlar_va_dokonlar_tahlili": "Аналитика по топ-5 продуктам и магазинам",
+    "Yangi_mahsulotlar": "Новые товары",
+    "Osayotgan_mahsulotlar": "Перспективные товары",
+    "Osayotgan_kategoriyalar": "Перспективные категории",
+
+    "Kategoriyalar": "Категории",
     "Barcha_Kategoriyalar": "Все категории",
     "Kategoriya_trendi": "Тенденция категории",
     "Kategoriya_mahsulotlari": "Категория товаров",
     "Ichki_kategoriyalar": "Подкатегории",
     "Kategoriya_narx_segmentatsiyasi": "Ценовая сегментация категории",
     "Kategoriya_dokonlari": "Магазины категорий",
+
+    "Dokonlar": "Магазины",
     "Barcha_dokonlar": "Общая аналитика по всем магазинам",
     "Dokon_tahlili": "Анализ магазина",
     "Dokon_mahsulotlari": "Аналитика по всем товарам магазинов",
     "Dokon_kategoriyalari": "Категории магазина",
     "Dokon_raqobatchilari": "Магазин конкурентов",
     "Dokon_kunlik_sotuvlari": "Ежедневные продажи магазина",
-    "Barcha_mahsulotlar": "Все продукты",
+    "1_dukon": "По одному магазину",
+    "4_dukon": "По четырем магазинам",
+    "Barcha_dokonlar_full": "Для всех магазинов",
+
+    "Mahsulotlar": "Товары",
+    "Barcha_mahsulotlar": "Общая аналитика по всем товарам ",
     "Mahsulot_tahlili": "Анализ продукта",
     "Mahsulot_raqobatchilari": "Продукт-конкуренты",
     "Mahsulot_raqobatchilari_taqqoslash": "сравнивать продукты конкурентов напрямую",
-    "Yangi_mahsulotlar": "Новые товары",
-    "Osayotgan_mahsulotlar": "Перспективные товары",
-    "Osayotgan kategoriyalar": "Перспективные категории",
+
+    "Reklamalar": "Реклама",
+    "addsImpactCheck": "Проверка влияния рекламы",
+
+    "Nishalar": "Ниши",
+    "Barcha_nishalar": "Все ниши и их анализ",
+
     "24/7_doimiy_yordam": "Постоянная поддержка 24/7",
-    "30_kunlik": "30 дней данных",
-    "60_kunlik": "60+ дней данных",
-    "90_kunlik": "90+ дней данных",
-    "2_dukon": "Полная аналитика для двух магазинов",
-    "5_dukon": "Полная аналитика по пяти магазинам",
-    "Barcha_dokonlar_full": "Полная аналитика по всем магазинам",
-    "nishesSelection": "Выбор ниши",
-    "addsImpactCheck": "Проверка влияния рекламы"
+    "Malumotlar": "Данные и тренды",
+    "30_kunlik": "За последние 30 дней",
+    "60_kunlik": "За последние 60 дней",
+    "90_kunlik": "За последние 90+ дней"
   },
   "footer": {
     "footer_links": [
@@ -311,8 +327,9 @@
 
   "tariffs.start": "Начать сейчас",
   "tariffs.free": "Бесплатно",
-  "tariffs.pro": "Pro",
-  "tariffs.premium": "Премиум",
+  "tariffs.beginner": "Начальный",
+  "tariffs.seller": "Продавец",
+  "tariffs.business": "Бизнес",
   "tariffs.trial": "Бесплатно на 24 часа",
   "tariffs.enterprise": "Предприятие",
   "tariffs.select": "Выбирать",

@@ -204,34 +204,50 @@
 
   "tariffs": {
     "Umumiy_malumotlar": "Umumiy ma'lumotlar",
-    "Barcha_Kategoriyalar": "Barcha Kategoriyalar",
+    "Jami_buyurtmalar_va_daromad_tahlili": "Jami daromad va buyurtmalar tahlili",
+    "Jami_mahsulotlar_va_izohlar_tahlili": "Jami mahsulotlar va izohlar tahlili",
+    "Jami_dokonlar_va_sotuvchilar_tahlili": "Jami sotuvchilar va do'konlar tahlili",
+    "Top_5_mahsulotlar_va_dokonlar_tahlili": "Top 5 mahsulotlar va do'konlar tahlili",
+    "Osayotgan_mahsulotlar": "O'sayotgan mahsulotlar",
+    "Yangi_mahsulotlar": "Yangi mahsulotlar",
+    "Osayotgan_kategoriyalar": "O'sayotgan kategoriyalar",
+
+    "Kategoriyalar": "Kategoriyalar",
+    "Barcha_Kategoriyalar": "Barcha Kategoriyalar ",
     "Kategoriya_trendi": "Kategoriya trendi",
     "Kategoriya_mahsulotlari": "Kategoriya mahsulotlari",
-    "Ichki_kategoriyalar": "Ichki kategoriyalar",
     "Kategoriya_narx_segmentatsiyasi": "Kategoriya narx segmentatsiyasi",
+    "Ichki_kategoriyalar": "Ichki kategoriyalar",
     "Kategoriya_dokonlari": "Kategoriya do'konlari",
+
+    "Dokonlar": "Do'konlar",
     "Barcha_dokonlar": "Barcha do'konlar uchun umumiy analitika",
     "Dokon_tahlili": "Do'kon tahlili",
     "Dokon_mahsulotlari": "Barcha do'konlar mahsulotlari analitikasi",
     "Dokon_kategoriyalari": "Do'kon kategoriyalari",
     "Dokon_raqobatchilari": "Do'kon raqobatchilari",
     "Dokon_kunlik_sotuvlari": "Do'kon kunlik sotuvlari",
-    "Barcha_mahsulotlar": "Barcha mahsulotlar",
+    "1_dukon": "1ta do'kon uchun ",
+    "4_dukon": "4ta do'kon uchun ",
+    "Barcha_dokonlar_full": "Barcha do'konlar uchun ",
+
+    "Mahsulotlar": "Mahsulotlar",
+    "Barcha_mahsulotlar": "Barcha mahsulotlar uchun umumiy analitika",
     "Mahsulot_tahlili": "Mahsulot tahlili",
     "Mahsulot_raqobatchilari": "Mahsulot raqobatchilari",
     "Mahsulot_raqobatchilari_taqqoslash": "Mahsulot raqobatchilari to'g'ridan-to'g'ri taqqoslash",
-    "Yangi_mahsulotlar": "Yangi mahsulotlar",
-    "Osayotgan_mahsulotlar": "O'sayotgan mahsulotlar",
-    "Osayotgan kategoriyalar": "O'sayotgan kategoriyalar",
+
+    "Reklamalar": "Reklamalar",
+    "addsImpactCheck": "Reklamalar tasirini o'rganish.",
+
+    "Nishalar": "Nishalar",
+    "Barcha_nishalar": "Barcha nishalar va ularning tahlili",
+
     "24/7_doimiy_yordam": "24/7 doimiy yordam",
-    "30_kunlik": "30 kunlik ma'lumotlar",
-    "60_kunlik": "60+ kunlik ma'lumotlar",
-    "90_kunlik": "90+ kunlik ma'lumotlar",
-    "2_dukon": "2ta do'kon uchun doimiy to'liq analitika",
-    "5_dukon": "5ta do'kon uchun doimiy to'liq analitika",
-    "Barcha_dokonlar_full": "Barcha do'konlar uchun to'liq analitika",
-    "nishesSelection": "Nish tanlash",
-    "addsImpactCheck": "Reklamalar tasirini o'rganish."
+    "Malumotlar": "Malumot va trendlar",
+    "30_kunlik": "So'nggi 30 kun uchun",
+    "60_kunlik": "So'nggi 60 kun uchun",
+    "90_kunlik": "So'nggi 90+ kun uchun"
   },
   "footer": {
     "footer_links": [
@@ -311,10 +327,10 @@
 
   "tariffs.start": "Hoziroq boshlang",
   "tariffs.free": "Bepul",
-  "tariffs.pro": "Pro",
-  "tariffs.premium": "Premium",
+  "tariffs.beginner": "Boshlang'ich",
+  "tariffs.seller": "Sotuvchi",
+  "tariffs.business": "Biznes",
   "tariffs.trial": "24 soat mutlaqo bepul",
-  "tariffs.enterprise": "Enterprise",
   "tariffs.select": "Tarifga o'tish",
   "tariffs.current": "Joriy tarif",
   "tariffs.choosePlan": "Tarifni tanlang",

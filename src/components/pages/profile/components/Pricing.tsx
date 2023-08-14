@@ -103,8 +103,8 @@ function Pricing({ className }: { className?: string }) {
             sendToRegister={sendToRegister}
           />
           <Tarif
-            title={t('tariffs.pro')}
-            isCurrentPlan={currentPlan === t('tariffs.pro')}
+            title={t('tariffs.beginner')}
+            isCurrentPlan={currentPlan === t('tariffs.beginner')}
             setCurrentPlan={setCurrentPlan}
             price={39}
             months={months}
@@ -137,8 +137,8 @@ function Pricing({ className }: { className?: string }) {
             isFreeTrial={true}
           />
           <Tarif
-            title={t('tariffs.premium')}
-            isCurrentPlan={currentPlan === t('tariffs.premium')}
+            title={t('tariffs.seller')}
+            isCurrentPlan={currentPlan === t('tariffs.seller')}
             setCurrentPlan={setCurrentPlan}
             price={59}
             months={months}
@@ -175,8 +175,8 @@ function Pricing({ className }: { className?: string }) {
             sendToRegister={sendToRegister}
           />
           <Tarif
-            title={t('tariffs.enterprise')}
-            isCurrentPlan={currentPlan === t('tariffs.enterprise')}
+            title={t('tariffs.business')}
+            isCurrentPlan={currentPlan === t('tariffs.business')}
             setCurrentPlan={setCurrentPlan}
             price={99}
             features={[
@@ -219,7 +219,7 @@ function Pricing({ className }: { className?: string }) {
           <div className='bg-primary my-24 w-full p-4 text-center font-semibold text-white'>
             <p>Tariflarni taqqoslash</p>
           </div>
-          <PricingTable featuresData={getPricingData(t)} />
+          <PricingTable featuresData={getPricingData(t)} t={t} />
         </div>
       </div>
     </div>
@@ -398,64 +398,69 @@ export default Pricing;
 
 const PricingTable = ({
   featuresData,
+  t,
 }: {
   featuresData: {
     title: string;
     free: string;
-    pro: string;
-    premium: string;
-    enterprise: string;
+    beginner: string;
+    seller: string;
+    business: string;
     isTitle?: boolean;
   }[];
+  t: any;
 }) => {
   const { i18n } = useTranslation('common');
 
   return (
-    <div className='flex w-full flex-col border px-10'>
-      <div className='flex shrink-0'>
+    <div className='flex w-full flex-col border border-b-0 px-10'>
+      <div className='flex h-24 shrink-0 '>
         <div className='  flex w-[500px] items-center justify-start  font-medium'>
-          {i18n.language === 'uz' ? 'Xizmatlar' : 'Услуги'}
+          {t('tariffs.Umumiy_malumotlar')}
         </div>
-        <div className=' flex h-24 w-64  flex-grow items-center justify-center border-x  font-medium'>
-          Free
+        <div className=' flex  w-64  flex-grow items-center justify-center border-x  font-medium'>
+          {t('tariffs.free')}
         </div>
-        <div className=' b flex h-24 w-64  flex-grow items-center justify-center font-medium'>
-          Pro
+        <div className=' b flex  w-64  flex-grow items-center justify-center font-medium'>
+          {t('tariffs.beginner')}
         </div>
-        <div className=' flex h-24 w-64 flex-grow  items-center justify-center border-x font-medium'>
-          Premium
+        <div className=' flex  w-64 flex-grow  items-center justify-center border-x font-medium'>
+          {t('tariffs.seller')}
         </div>
-        <div className=' flex h-24 w-64 flex-grow  items-center justify-center  font-medium'>
-          Enterprise
+        <div className=' flex  w-64 flex-grow  items-center justify-center  font-medium'>
+          {t('tariffs.business')}
         </div>
       </div>
-      {featuresData.map((data, idx) =>
-        data.isTitle ? (
-          <div className='flex shrink-0 border-t' key={idx}>
-            <div className='flex w-[500px] items-center justify-start text-sm'>
-              {data.title}
-            </div>
+      {featuresData.map((data, idx) => (
+        <div
+          className={clsxm(
+            'flex h-12 shrink-0 border-b',
+            data.isTitle && 'h-28 border-b-0'
+          )}
+          key={idx}
+        >
+          <div
+            className={clsxm(
+              'flex w-[500px] items-center justify-start text-sm',
+              data.isTitle && 'text-md font-medium'
+            )}
+          >
+            {data.title}
           </div>
-        ) : (
-          <div className='flex shrink-0 border-t' key={idx}>
-            <div className='flex w-[500px] items-center justify-start text-sm'>
-              {data.title}
-            </div>
-            <div className='flex h-12 w-64 flex-grow items-center justify-center border-x text-sm'>
-              {data.free}
-            </div>
-            <div className='flex h-12 w-64 flex-grow items-center justify-center  text-sm'>
-              {data.pro}
-            </div>
-            <div className='flex h-12 w-64 flex-grow items-center justify-center border-x text-sm'>
-              {data.premium}
-            </div>
-            <div className=' flex h-12 w-64 flex-grow items-center justify-center  text-sm'>
-              {data.enterprise}
-            </div>
+          <div className='flex w-64 flex-grow items-center justify-center border-x text-sm'>
+            {data.free}
           </div>
-        )
-      )}
+          <div className='flex w-64 flex-grow items-center justify-center  text-sm'>
+            {data.beginner}
+          </div>
+          <div className='flex w-64 flex-grow items-center justify-center border-x text-sm'>
+            {data.seller}
+          </div>
+          <div className=' flex w-64 flex-grow items-center justify-center  text-sm'>
+            {data.business}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
@@ -463,209 +468,244 @@ const PricingTable = ({
 const getPricingData = (t: any) => {
   return [
     {
-      title: t('tariffs.Umumiy_malumotlar'),
+      title: t('tariffs.Malumotlar'),
+      free: t('tariffs.30_kunlik'),
+      beginner: t('tariffs.30_kunlik'),
+      seller: t('tariffs.60_kunlik'),
+      business: t('tariffs.90_kunlik'),
+    },
+    {
+      title: t('tariffs.Jami_buyurtmalar_va_daromad_tahlili'),
       free: '✓',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Jami_mahsulotlar_va_izohlar_tahlili'),
+      free: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Jami_dokonlar_va_sotuvchilar_tahlili'),
+      free: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Top_5_mahsulotlar_va_dokonlar_tahlili'),
+      free: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Yangi_mahsulotlar'),
+      free: '',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Osayotgan_mahsulotlar'),
+      free: '',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Osayotgan_kategoriyalar'),
+
+      free: '',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Kategoriyalar'),
+      free: '',
+      beginner: '',
+      seller: '',
+      business: '',
       isTitle: true,
     },
     {
       title: t('tariffs.Barcha_Kategoriyalar'),
-      free: '✓',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-
-    {
-      title: t('tariffs.Barcha_dokonlar'),
-      free: '✓',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-    {
-      title: t('tariffs.Barcha_mahsulotlar'),
-      free: '✓',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-    {
-      title: t('tariffs.24/7_doimiy_yordam'),
-
-      free: '✓',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-
-    {
-      title: t('tariffs.Barcha_dokonlar_full'),
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
     },
+
     {
       title: t('tariffs.Kategoriya_trendi'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: t('tariffs.30_kunlik'),
+      seller: t('tariffs.60_kunlik'),
+      business: t('tariffs.90_kunlik'),
     },
     {
       title: t('tariffs.Kategoriya_mahsulotlari'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-    {
-      title: t('tariffs.Ichki_kategoriyalar'),
-
-      free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
     },
     {
       title: t('tariffs.Kategoriya_narx_segmentatsiyasi'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+
+    {
+      title: t('tariffs.Ichki_kategoriyalar'),
+      free: '',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
     },
     {
       title: t('tariffs.Kategoriya_dokonlari'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+
+    {
+      title: t('tariffs.Dokonlar'),
+      free: '',
+      beginner: '',
+      seller: '',
+      business: '',
+      isTitle: true,
+    },
+    {
+      title: t('tariffs.Barcha_dokonlar'),
+      free: '',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
     },
     {
       title: t('tariffs.Dokon_tahlili'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
     },
     {
       title: t('tariffs.Dokon_mahsulotlari'),
 
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
     },
     {
       title: t('tariffs.Dokon_kategoriyalari'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: t('tariffs.1_dukon'),
+      seller: t('tariffs.4_dukon'),
+      business: t('tariffs.Barcha_dokonlar_full'),
     },
     {
       title: t('tariffs.Dokon_raqobatchilari'),
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: t('tariffs.1_dukon'),
+      seller: t('tariffs.4_dukon'),
+      business: t('tariffs.Barcha_dokonlar_full'),
     },
     {
       title: t('tariffs.Dokon_kunlik_sotuvlari'),
       free: '',
-      pro: t('tariffs.2_dukon'),
-      premium: t('tariffs.5_dukon'),
-      enterprise: t('tariffs.Barcha_dokonlar_full'),
+      beginner: t('tariffs.1_dukon'),
+      seller: t('tariffs.4_dukon'),
+      business: t('tariffs.Barcha_dokonlar_full'),
+    },
+    {
+      title: t('tariffs.Mahsulotlar'),
+      free: '',
+      beginner: '',
+      seller: '',
+      business: '',
+      isTitle: true,
     },
     {
       title: t('tariffs.Barcha_mahsulotlar'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
     },
-    {
-      title: t('tariffs.Yangi_mahsulotlar'),
-
-      free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-    {
-      title: t('tariffs.Osayotgan_mahsulotlar'),
-
-      free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-    {
-      title: t('tariffs.Osayotgan kategoriyalar'),
-
-      free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
-    },
-
     {
       title: t('tariffs.Mahsulot_tahlili'),
-
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: t('tariffs.30_kunlik'),
+      seller: t('tariffs.60_kunlik'),
+      business: t('tariffs.90_kunlik'),
     },
+
+    {
+      title: t('tariffs.Mahsulot_raqobatchilari'),
+      free: '',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+
     {
       title: t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
 
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
     },
     {
-      title: t('tariffs.Mahsulot_raqobatchilari'),
-
+      title: t('tariffs.Nishalar'),
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '',
+      seller: '',
+      business: '',
+      isTitle: true,
     },
     {
       title: t('tariffs.nishesSelection'),
 
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.Reklamalar'),
+      free: '',
+      beginner: '',
+      seller: '',
+      business: '',
+      isTitle: true,
     },
     {
       title: t('tariffs.addsImpactCheck'),
 
       free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
     },
     {
       title: t('tariffs.24/7_doimiy_yordam'),
 
-      free: '',
-      pro: '✓',
-      premium: '✓',
-      enterprise: '✓',
+      free: ' ✓',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
     },
   ];
 };
