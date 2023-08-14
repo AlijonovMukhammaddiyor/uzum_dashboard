@@ -11,6 +11,11 @@
   border-radius: 8px !important;
 }
 
+.ag-ltr .ag-header-cell-resize {
+  background-color: #28543050 !important;
+  width: 6px !important;
+}
+
 /* .ag-theme-alpine {
   --ag-background-color: rgba(243, 255, 229, 0.2);
 } */

@@ -20,13 +20,13 @@ function Tabs({
   className,
   disbaledTabs,
   premiumTabs,
-  activeColor = 'bg-white bg-opacity-[0.8] text-primary',
+  activeColor = 'bg-white text-primary',
 }: TabsProps) {
   // const { t } = useTranslation('tabs');
   return (
     <div
       className={clsxm(
-        'no-scrollbar bg-primary relative w-max  rounded-lg  p-1',
+        'no-scrollbar bg-primary relative w-max  rounded-sm  p-1',
         className
       )}
     >
@@ -35,11 +35,11 @@ function Tabs({
           <li
             key={index}
             className={clsxm(
-              `tab relative flex min-w-[120px] cursor-pointer justify-center rounded-lg p-3 text-sm font-semibold text-slate-100`,
+              `tab relative flex min-w-[120px] cursor-pointer justify-center rounded-sm p-3 py-1 text-sm font-semibold text-slate-100`,
               activeTab === tab ? `active ${activeColor}` : '',
               activeTab !== tab && 'hover:bg-slate-400 hover:bg-opacity-25',
               disbaledTabs?.includes(tab) &&
-                'cursor-not-allowed bg-slate-400 bg-opacity-25 opacity-50'
+                'cursor-not-allowed bg-slate-400 bg-opacity-25'
             )}
             onClick={() => {
               if (!disbaledTabs?.includes(tab)) {
@@ -48,7 +48,7 @@ function Tabs({
             }}
           >
             {premiumTabs?.includes(tab) && (
-              <span className='font-primary absolute right-0 top-0 text-xs font-bold text-red-500'>
+              <span className='font-primary absolute right-0 top-0 z-50 text-xs font-bold text-red-500'>
                 🌟
               </span>
             )}

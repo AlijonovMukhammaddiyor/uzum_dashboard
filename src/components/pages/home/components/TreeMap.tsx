@@ -102,8 +102,12 @@ function TreeMap({
         height: '100vh',
         overflow: 'scroll',
         // padding: '50px 0 0 0',
-        position: 'relative',
-        zIndex: 10000,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 20000,
       }}
     >
       <div className='modal relative  flex h-full flex-col items-start justify-start overflow-scroll'>

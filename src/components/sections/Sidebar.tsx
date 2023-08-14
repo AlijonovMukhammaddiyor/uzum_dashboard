@@ -91,7 +91,7 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        ' shadow-right group relative z-10 w-[65px] -translate-x-full bg-white  py-10 transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
+        ' shadow-right group relative z-10 w-[61px] -translate-x-full bg-white  py-10 transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
         className
       )}
     >
@@ -112,7 +112,7 @@ function Sidebar({
         <div className='h-full w-[1px] bg-slate-400'></div>
         <div className='h-full w-[1px] bg-slate-400'></div>
       </div> */}
-      <div className=' box-border h-full w-full overflow-x-clip  px-3 py-4 pt-8'>
+      <div className=' box-border h-full w-full overflow-x-clip  px-3 py-4'>
         <ul className='h-full space-y-2 font-medium'>
           <SidebarItem
             href='/home'
@@ -120,7 +120,7 @@ function Sidebar({
             icon={
               <HiOutlineHome
                 className={clsxm(
-                  'h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Umumiy' && 'text-white'
                 )}
               />
@@ -138,7 +138,7 @@ function Sidebar({
             icon={
               <HiOutlineSquares2X2
                 className={clsxm(
-                  ' h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Kategoriyalar' && 'text-white'
                 )}
               />
@@ -157,7 +157,7 @@ function Sidebar({
             icon={
               <HiOutlineBuildingStorefront
                 className={clsxm(
-                  ' h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Sotuvchilar' && 'text-white'
                 )}
               />
@@ -175,7 +175,7 @@ function Sidebar({
             icon={
               <HiOutlineShoppingBag
                 className={clsxm(
-                  ' h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Mahsulotlar' && 'text-white'
                 )}
               />
@@ -193,7 +193,7 @@ function Sidebar({
             icon={
               <HiMagnifyingGlass
                 className={clsxm(
-                  ' h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Niches' && 'text-white'
                 )}
               />
@@ -211,7 +211,7 @@ function Sidebar({
             icon={
               <HiOutlineTag
                 className={clsxm(
-                  ' h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Aksiyalar' && 'text-white'
                 )}
               />
@@ -249,7 +249,7 @@ function Sidebar({
             icon={
               <HiLanguage
                 className={clsxm(
-                  'h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'So`zlar' && 'text-white'
                 )}
               />
@@ -268,7 +268,7 @@ function Sidebar({
             icon={
               <MdOutlineCompare
                 className={clsxm(
-                  'h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Taqqoslash' && 'text-white'
                 )}
               />
@@ -330,7 +330,7 @@ function SidebarItem({
 
   return (
     <li
-      className={clsxm('min-h-10 relative h-10 max-h-10', className)}
+      className={clsxm('min-h-9 relative h-9 max-h-9', className)}
       onClick={() => {
         if (disabled) return;
         onClick;
@@ -346,7 +346,7 @@ function SidebarItem({
           router.push(href);
         }}
         className={clsxm(
-          'group flex flex-1 cursor-pointer items-center rounded-lg p-2 text-black hover:bg-slate-400 hover:text-white',
+          'group flex h-full flex-1 cursor-pointer items-center rounded-md px-2 text-black hover:bg-slate-400 hover:text-white',
           activeTab === label && 'bg-primary hover:bg-primary text-white',
           disabled &&
             'cursor-not-allowed bg-slate-100 text-slate-300 hover:bg-slate-100 hover:text-slate-300'

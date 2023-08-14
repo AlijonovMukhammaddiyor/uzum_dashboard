@@ -58,7 +58,7 @@ const Table = <T,>({
   };
 
   return (
-    <div className={clsxm('ag-theme-alpine h-[800px] w-full ', className)}>
+    <div className={clsxm('ag-theme-material h-[800px] w-full ', className)}>
       <AgGridReact
         defaultColDef={{
           resizable: true,

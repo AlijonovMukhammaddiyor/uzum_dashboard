@@ -12,6 +12,7 @@ import { RiAlarmWarningFill } from 'react-icons/ri';
 import '@/styles/colors.css';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import 'ag-grid-community/styles/ag-theme-material.css';
 import '@/styles/globals.css';
 import '@/styles/agGrid.css';
 import '@/styles/loading.css';

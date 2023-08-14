@@ -53,10 +53,10 @@ export default function Header() {
   const is_paid = state.user?.is_pro || state.user?.is_proplus;
 
   return (
-    <header className='sticky right-0 top-0 z-[1000] w-full bg-white shadow-lg'>
-      <div className='flex h-14 items-center justify-between gap-4 p-3'>
+    <header className='sticky right-0 top-0 z-[100] w-full bg-white shadow-lg'>
+      <div className='flex h-10 items-center justify-between gap-4 p-3'>
         <div className='flex items-center justify-start gap-6'>
-          <Image src={Logo} alt='logo' width={40} height={40} />
+          <Image src={Logo} alt='logo' width={36} height={36} />
           {state.path && Object.keys(state.path).length >= 1 ? (
             <Breadcrumb className='flex items-center justify-start gap-2' />
           ) : !is_paid ? (
@@ -110,21 +110,21 @@ export default function Header() {
               </li>
             )}
             <li>
-              <div className='flex h-8 w-[70px] items-center justify-center rounded-md border border-black px-2'>
+              <div className='flex h-7 w-[70px] items-center justify-center rounded-md border border-black px-2'>
                 {i18n.language === 'uz' ? (
                   <div
-                    className='flex cursor-pointer items-center justify-start gap-1'
+                    className='flex cursor-pointer items-center justify-start gap-2'
                     onClick={() => changeLanguage('ru')}
                   >
-                    <GrLanguage className='text-xl' />
+                    <GrLanguage className='text-base' />
                     <p className='text-sm'>Рус</p>
                   </div>
                 ) : (
                   <div
-                    className='flex cursor-pointer items-center justify-start gap-1'
+                    className='flex cursor-pointer items-center justify-start gap-2'
                     onClick={() => changeLanguage('uz')}
                   >
-                    <GrLanguage className='text-xl' />
+                    <GrLanguage className='text-base' />
                     <p className='text-sm'>Uz</p>
                   </div>
                 )}
@@ -144,7 +144,7 @@ export default function Header() {
                 className=' hover:text-gray-600'
                 onClick={() => handleUserLogout()}
               >
-                <HiOutlineArrowRightOnRectangle className='hover:text-primary h-8 w-8 flex-shrink-0 cursor-pointer text-black' />
+                <HiOutlineArrowRightOnRectangle className='hover:text-primary h-7 w-7 flex-shrink-0 cursor-pointer text-black' />
               </div>
             </li>
           </ul>

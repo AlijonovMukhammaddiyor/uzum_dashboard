@@ -11,7 +11,7 @@ function LandingMain() {
   const { t } = useTranslation('landing');
   //
   return (
-    <div className=' base:h-auto  base:bg-white  min-h-screen w-full overflow-hidden'>
+    <div className=' base:h-auto  base:bg-white w-full overflow-hidden md:py-32'>
       <div className='layout relative flex h-full  items-center justify-between  pb-10'>
         <div className=' base:gap-20 flex h-full flex-col  justify-start gap-10  py-5'>
           <div className='base:text-start  mt-36 flex flex-col justify-center '>

@@ -1,9 +1,6 @@
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { BiTrendingDown, BiTrendingUp } from 'react-icons/bi';
-import { BsPlus } from 'react-icons/bs';
 import { FiChevronRight } from 'react-icons/fi';
-import { HiMinus } from 'react-icons/hi';
 
 import clsxm from '@/lib/clsxm';
 
@@ -56,7 +53,6 @@ function DataContainer({
   user,
 }: Props) {
   const { t, i18n } = useTranslation('common');
-
   const isFree =
     !user.is_pro &&
     !user.is_proplus &&
@@ -64,7 +60,7 @@ function DataContainer({
     title !== t('dataTable.orders_amount');
 
   return (
-    <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md xl:w-1/2'>
+    <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md'>
       {isFullScreen && !isFree && (
         <TreeMap
           titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
@@ -91,12 +87,9 @@ function DataContainer({
         </h3>
         <button
           className={clsxm(
-            'flex items-center justify-between gap-3 rounded-lg px-3 py-1 text-white shadow-inner',
+            'text-primary border-primary hover:bg-primary flex items-center justify-between gap-3 rounded-md border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner',
             title === 'Sotuvchilar soni' && 'cursor-not-allowed'
           )}
-          style={{
-            backgroundColor: daily_color,
-          }}
           onClick={() => {
             if (isFree) alert(t('toPaid'));
             setFullScreen && setFullScreen(title);
@@ -107,7 +100,7 @@ function DataContainer({
         </button>
       </div>
       <div className='flex h-[400px] w-full flex-col items-start justify-start gap-5'>
-        <div className='flex w-full max-w-full items-center justify-start gap-5'>
+        {/* <div className='flex w-full max-w-full items-center justify-start gap-5'>
           <div className='flex items-center justify-start gap-6'>
             <div className=''>
               <div className='flex max-w-full items-center justify-start gap-6'>
@@ -204,8 +197,8 @@ function DataContainer({
               </p>
             </div>
           </div>
-        </div>
-        <div className='h-[300px] w-full flex-1'>
+        </div> */}
+        <div className='h-[400px] w-full flex-1'>
           <MixedChart
             data={[
               {

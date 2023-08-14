@@ -14,8 +14,6 @@ import { UserType } from '@/types/user';
 function HomeComponent({ user }: { user: UserType }) {
   const { t, i18n } = useTranslation('tabs');
   const [activeTab, setActiveTab] = React.useState<string>(t('home.overview'));
-  console.log(t('home.overview'));
-  console.log(activeTab);
   const isProPlus = user.is_proplus;
 
   React.useEffect(() => {

@@ -12,6 +12,7 @@ import Popup from 'reactjs-popup';
 import clsxm from '@/lib/clsxm';
 
 import TinyColumnGraph from '@/components/shared/TinyColumnGraph';
+import TinyLineGraph from '@/components/shared/TinyLineGraph';
 
 import { useContextState } from '@/context/Context';
 
@@ -1025,6 +1026,81 @@ const SellersCountTinyChartCellRenderer = ({ value }: { value: any }) => {
       />
     </div>
   );
+};
+
+const TopSellersRevenueChartCellRenderer = ({ value }: { value: any }) => {
+  if (!value) return '';
+
+  // reverse value
+  const data: number[] = value.map((num: number) => num * 1000).reverse();
+
+  return (
+    <div className='m-0 flex h-full w-full max-w-full items-center justify-center p-0'>
+      <TinyLineGraph
+        data={data}
+        bgColor='rgb(248, 111, 3)'
+        borderColor='rgb(248, 111, 3)'
+        width='250px'
+        isRevenue={true}
+      />
+    </div>
+  );
+};
+
+export const getTopShopsColDefs = (t: any) => {
+  return [
+    {
+      headerName: t('shop_name'),
+      field: 'title',
+      cellRenderer: SellerNameCellRenderer,
+      filter: false,
+      sortable: false,
+      floatingFilter: true,
+      flex: 1,
+      minWidth: 200,
+    },
+    {
+      headerName: t('revenue'),
+      field: 'total_revenue',
+      cellRenderer: TopSellersRevenueChartCellRenderer,
+      filter: false,
+      sortable: false,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 250,
+      minWidth: 200,
+    },
+    {
+      headerName: t('orders'),
+      field: 'total_orders',
+      cellRenderer: LocaleNumberCellRenderer,
+      filter: false,
+      sortable: false,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 200,
+    },
+    {
+      headerName: t('reviews'),
+      field: 'total_reviews',
+      cellRenderer: LocaleNumberCellRenderer,
+      filter: false,
+      sortable: false,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 200,
+    },
+    {
+      headerName: t('average_price'),
+      field: 'average_purchase_price',
+      cellRenderer: PriceRenderer,
+      filter: false,
+      sortable: false,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 200,
+    },
+  ];
 };
 
 export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
