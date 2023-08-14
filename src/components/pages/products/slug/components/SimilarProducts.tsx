@@ -123,6 +123,8 @@ function AboutProduct({
     return target?.analytics?.length > 1 ? true : false;
   }, [products, product_id]);
 
+  const isProPlus = user.tariff === 'seller' || user.tariff === 'business';
+
   return (
     <div
       className={clsxm(
@@ -131,22 +133,20 @@ function AboutProduct({
       )}
     >
       {shouldRender && (
-        <div
-          className={clsxm('relative h-full w-full', !user.is_proplus && '')}
-        >
-          {!state.user?.is_proplus && (
+        <div className={clsxm('relative h-full w-full', !isProPlus && '')}>
+          {!isProPlus && (
             <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
               <span className='w-full text-center'>🌟 Premium</span>
             </div>
           )}
 
-          {!state.user?.is_proplus && (
+          {!isProPlus && (
             <p className='absolute top-10 z-50 w-full text-center font-semibold'>
               Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar
               bilan barcha jihatdan solishtiring (3 tagacha)
             </p>
           )}
-          {!state.user?.is_proplus && (
+          {!isProPlus && (
             <div className='absolute inset-0 z-10 bg-white bg-opacity-30 backdrop-blur-md backdrop-filter'></div>
           )}
           <Container
@@ -154,7 +154,6 @@ function AboutProduct({
             className={clsxm(
               'z-0 flex min-h-[400px] w-full flex-col items-start justify-start gap-5 overflow-hidden rounded-md bg-white p-3',
               open ? 'h-[2000px]' : 'h-[700px] overflow-hidden'
-              // !user.is_proplus && 'backdrop-blur-sm backdrop-filter'
             )}
           >
             <p className='z-50 w-full text-center font-semibold'>

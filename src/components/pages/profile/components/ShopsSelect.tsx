@@ -129,7 +129,7 @@ function ShopsSelect({
       });
   }, [router, selectedRows]);
 
-  const is_paid = user.is_pro || user.is_proplus;
+  const is_paid = user.tariff !== 'free';
 
   return (
     <>
@@ -211,8 +211,9 @@ function ShopsSelect({
               columnDefs={getShopTableColumnDefs(t2)}
               className={clsxm(
                 'min-w-full rounded-none',
-                user.is_pro && `h-[${(65 + myShops.length * 45).toString()}px]`,
-                user.is_proplus &&
+                user.tariff === 'base' &&
+                  `h-[${(65 + myShops.length * 45).toString()}px]`,
+                user.tariff === 'seller' &&
                   `h-[${(65 + myShops.length * 45).toString()}px]`
               )}
               rowData={myShops ?? []}

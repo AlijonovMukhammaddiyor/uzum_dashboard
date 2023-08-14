@@ -19,8 +19,8 @@ function CategoryTreeComponent() {
   const [activeTab, setActiveTab] = React.useState<string>('Elektronika');
   const [data, setData] = React.useState<CategoryInTree[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const { dispatch, state } = useContextState();
-  const { t, i18n } = useTranslation('tableColumns');
+  const { dispatch } = useContextState();
+  const { i18n } = useTranslation('tableColumns');
 
   const router = useRouter();
 
@@ -181,14 +181,16 @@ function RenderChildren({
               router,
               state.user as UserType
             );
-            if (state.user?.is_pro || state.user?.is_proplus)
+            if (state.user?.tariff !== 'free')
               dispatch({
                 type: 'PATH',
                 payload: { path: categoryPath },
               });
             else {
               alert(
-                "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+                i18n.language === 'uz'
+                  ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                  : 'Пожалуйста, перейдите на другой тариф, чтобы воспользоваться этой услугой!'
               );
             }
           }}

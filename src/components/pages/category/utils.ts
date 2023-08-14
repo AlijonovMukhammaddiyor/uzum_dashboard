@@ -10,7 +10,7 @@ export const goToCategory = (
 ) => {
   if (!user) return;
   // ther might be both dash and space in the title
-  if (!user.is_pro && !user.is_proplus) return;
+  if (user.tariff === 'free') return;
   router.push(`/category/${title}--${id}`);
 };
 

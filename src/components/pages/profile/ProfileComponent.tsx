@@ -28,9 +28,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
           // t('profile.others'),
           // 'Asosiy kategoriyalar',
         ]}
-        disbaledTabs={
-          !user.is_pro ? (!user.is_proplus ? [t('profile.shops')] : []) : []
-        }
+        disbaledTabs={user.tariff === 'free' ? [t('profile.shops')] : []}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='overflow-auto'

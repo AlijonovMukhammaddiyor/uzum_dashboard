@@ -8,8 +8,8 @@ import logger from '@/lib/logger';
 
 import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import AntTreemap from '@/components/shared/AntTreeMap';
 import PaginatedTable from '@/components/shared/PaginatedTable';
-import TreeMapChart from '@/components/shared/Treemap';
 
 export interface Props {
   activeTab?: string;
@@ -84,7 +84,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
               type:
                 i18n.language === 'uz'
                   ? product.product_title
-                  : product.product_title_ru,
+                  : product.product_title_ru ?? product.product_title,
               value: Math.round(product.orders_money),
             };
           });
@@ -163,11 +163,11 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     >
       <Container
         className={clsxm(
-          'h-[500px] w-full min-w-[1200px] overflow-hidden rounded-md bg-white p-6'
+          'h-[500px] w-full min-w-[1200px] overflow-hidden rounded-md bg-white py-3'
         )}
         loading={loadingTopProducts}
       >
-        <div className='flex items-center justify-start gap-3'>
+        <div className='flex items-center justify-start gap-3 px-6'>
           <h2 className='text-primary flex-1 text-left text-base'>
             {t2('top_10_products_revenue')}
           </h2>
@@ -204,15 +204,21 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
             </div>
           )}
         </div>
-        <div className='flex h-[calc(100%-24px)] w-full flex-1 items-start justify-start'>
+        <div className='flex h-[calc(100%-24px)] w-full flex-1 items-start justify-start p-3'>
           {/* <PieChart data={topProductsData} labelType='spider' />
            */}
 
-          <TreeMapChart
+          <AntTreemap
             data={prepareTreeData(topProductsData, i18n.language)}
-            min={Math.min(...topProductsData.map((product) => product.value))}
-            max={Math.max(...topProductsData.map((product) => product.value))}
-            title={t('revenue')}
+            style={{
+              width: '100%',
+              height: '100%',
+              padding: '0 0px',
+              margin: '0 0',
+            }}
+            // min={Math.min(...topProductsData.map((product) => product.value))}
+            // max={Math.max(...topProductsData.map((product) => product.value))}
+            // title={t('revenue')}
           />
         </div>
       </Container>
@@ -238,20 +244,20 @@ function prepareTreeData(
   lang: string
 ) {
   const res: {
-    title: string;
+    name: string;
     children: {
-      title: string;
-      analytics: number;
+      name: string;
+      value: number;
     }[];
   } = {
-    title: lang === 'uz' ? 'Mahsulotlar' : 'Товары',
+    name: lang === 'uz' ? 'Mahsulotlar' : 'Товары',
     children: [],
   };
 
   for (const product of products) {
     res.children.push({
-      title: product.type,
-      analytics: product.value,
+      name: product.type,
+      value: product.value * 1000,
     });
   }
 

@@ -142,7 +142,17 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
       <Table
         columnDefs={getCategoryTrendstableColumnDefs(t, i18n.language) as any}
         className=''
-        rowData={data || []}
+        rowData={
+          data
+            ? data
+                .filter((a) => true)
+                .sort(
+                  (b, a) =>
+                    new Date(a.date_pretty).getTime() -
+                    new Date(b.date_pretty).getTime()
+                )
+            : [] || []
+        }
       />
     </div>
   );
@@ -290,7 +300,7 @@ const prepareDataset = (
       },
     ];
 
-  if (tab === 'Tovarlar' || tab === 'Товары')
+  if (tab === 'Mahsulotlar' || tab === 'Товары')
     return [
       {
         data: products,

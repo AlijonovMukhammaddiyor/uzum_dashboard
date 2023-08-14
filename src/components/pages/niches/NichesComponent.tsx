@@ -97,7 +97,7 @@ function NichesComponent() {
             </li>
             <li className='transition-all duration-200 hover:text-gray-800'>
               {i18n.language === 'uz'
-                ? "4. Esingizda bo'lsin, ideal joy bozor imkoniyatlarini kuchli tomonlaringiz bilan birlashtiradi."
+                ? "4. Esingizda bo'lsin, ideal nish bozor imkoniyatlarini kuchli tomonlaringiz bilan birlashtiradi."
                 : '4. Помните, идеальная ниша сочетает в себе рыночные возможности и ваши сильные стороны.'}
             </li>
           </ul>

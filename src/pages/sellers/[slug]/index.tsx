@@ -30,19 +30,20 @@ export interface ShopsProps {
     logo: string;
     created_at: string;
     registration_date: number;
+    is_owner: boolean;
   };
 }
 function Category({ user, seller }: ShopsProps) {
   const { t, i18n } = useTranslation('tabs');
   const [rendered, setRendered] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<string>(
-    t('sellers.overview')
+    seller.is_owner ? t('sellers.overview') : t('sellers.goods')
   );
   const { dispatch } = useContextState();
 
   React.useEffect(() => {
-    setActiveTab(t('sellers.overview'));
-  }, [i18n.language, t]);
+    setActiveTab(seller.is_owner ? t('sellers.overview') : t('sellers.goods'));
+  }, [i18n.language, t, seller.is_owner]);
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
@@ -97,6 +98,16 @@ function Category({ user, seller }: ShopsProps) {
           t('sellers.competitors'),
           t('sellers.categories'),
         ]}
+        disbaledTabs={
+          seller.is_owner
+            ? []
+            : [
+                t('sellers.overview'),
+                t('sellers.daily_sales'),
+                t('sellers.competitors'),
+                t('sellers.categories'),
+              ]
+        }
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4'
@@ -144,7 +155,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
     // check if user is logged in
-    const res = await api.getCurrentUser();
+    const res: UserType = await api.getCurrentUser();
     if (!res) {
       return {
         redirect: {
@@ -155,7 +166,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    if (!res.is_pro && !res.is_proplus) {
+    if (res.tariff === 'free') {
       return {
         redirect: {
           permanent: false,
@@ -195,6 +206,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         total: number;
       }>
     >(`/shop/current/${seller_link}`);
+
+    console.log(seller.data, 'seller data');
 
     return {
       props: {

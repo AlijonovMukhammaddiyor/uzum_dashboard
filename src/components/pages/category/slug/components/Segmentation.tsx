@@ -124,20 +124,14 @@ function Segmentation({ className, categoryId, isActive }: Props) {
                 setNewFetch(!newFetch);
               }}
             >
-              {t('update')}
+              <>{t('update')}</>
             </Button>
           </div>
         </div>
 
         {/* {isActive && ( */}
         <RangeChart
-          data={data.map((item) => ({
-            from: item.from,
-            to: item.to,
-            total_products: item.total_products,
-            total_orders: item.total_orders,
-            total_revenue: item.total_revenue,
-          }))}
+          data={data}
           style={{
             width: '100%',
             height: 'calc(100% - 60px)',
@@ -146,7 +140,10 @@ function Segmentation({ className, categoryId, isActive }: Props) {
         />
         {/* )} */}
       </Container>
-      <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
+      <Container
+        loading={loading}
+        className={clsxm('w-full overflow-scroll border-none')}
+      >
         <Table
           className='max-h-[800px] min-h-max'
           columnDefs={getSegmentationTableColumnDefs(t2, i18n.language) as any}

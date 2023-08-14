@@ -14,6 +14,7 @@ interface TableProps<T> extends AgGridReactProps {
   withCheckbox?: boolean;
   columnDefs: any[];
   rowHeight?: number;
+  isMaterial?: boolean;
 }
 
 const Table = <T,>({
@@ -23,6 +24,7 @@ const Table = <T,>({
   rowHeight = 45,
   withCheckbox = false,
   columnDefs,
+  isMaterial = false,
   ...props
 }: TableProps<T>) => {
   const [rowData, setRowData] = React.useState<T[]>(props.rowData || []);
@@ -58,7 +60,13 @@ const Table = <T,>({
   };
 
   return (
-    <div className={clsxm('ag-theme-material h-[800px] w-full ', className)}>
+    <div
+      className={clsxm(
+        'ag-theme-alpine h-[800px] w-full',
+        className,
+        isMaterial && 'ag-theme-material'
+      )}
+    >
       <AgGridReact
         defaultColDef={{
           resizable: true,

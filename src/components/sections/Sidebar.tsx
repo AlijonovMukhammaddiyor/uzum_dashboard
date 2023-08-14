@@ -29,11 +29,11 @@ function Sidebar({
   className,
   activeTab,
   isSidebarOpen,
-  setIsSidebarOpen,
   setActiveTab,
 }: SidebarProps) {
   const [rendered, setRendered] = React.useState(false);
   const { t, i18n } = useTranslation('common');
+  const { state } = useContextState();
 
   React.useEffect(() => {
     setRendered(true);
@@ -325,8 +325,9 @@ function SidebarItem({
   onClick?: () => void;
   disabled?: boolean;
 }) {
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
   const router = useRouter();
+  const { t, i18n } = useTranslation('common');
 
   return (
     <li
@@ -339,6 +340,18 @@ function SidebarItem({
       <p
         onClick={() => {
           if (disabled) return;
+          if (
+            state.user?.tariff === 'free' &&
+            href !== '/profile' &&
+            href !== '/home'
+          ) {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                : 'Для использования этой страницы перейдите на другой тариф'
+            );
+            return;
+          }
           dispatch({
             type: 'PATH',
             payload: { path: null },

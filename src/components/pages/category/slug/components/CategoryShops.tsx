@@ -76,7 +76,7 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
       <Container
         loading={loading}
         className={clsxm(
-          'flex h-[600px] w-full min-w-[1200px] flex-col items-start justify-start overflow-scroll rounded-md bg-white p-6'
+          'flex h-[600px] w-full min-w-[1200px] flex-col items-start justify-start overflow-scroll rounded-md border bg-white p-6 shadow-lg'
         )}
       >
         <div className='flex w-full items-center justify-between'>
@@ -88,7 +88,10 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
         </div>
         <PieChart data={preparePieChartData(data)} isRevenue />
       </Container>
-      <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
+      <Container
+        loading={loading}
+        className={clsxm('w-full overflow-scroll border-none')}
+      >
         <Table
           className='max-h-[800px] min-h-max'
           columnDefs={getCategoryShopsTableColumnDefs(t2) as any}

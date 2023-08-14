@@ -62,7 +62,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    if (!res.is_proplus && !res.is_enterprise && !res.is_pro) {
+    if (res.tariff === 'free') {
       return {
         redirect: {
           permanent: false,

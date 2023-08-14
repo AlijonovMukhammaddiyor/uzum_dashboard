@@ -681,6 +681,7 @@ function HomeStatisticsContainer({
               columnDefs={getTopShopsColDefs(t2)}
               className='h-[360px] min-w-full rounded-sm'
               rowData={topShops.shops}
+              isMaterial={true}
               setLoading={(l) => {
                 setLoading((prev) => ({ ...prev, topShops: l }));
               }}
@@ -721,6 +722,7 @@ function HomeStatisticsContainer({
               columnDefs={getTopProductsColDefs(t2, i18n.language)}
               className='h-[360px] min-w-full rounded-sm'
               rowData={topProducts.top_products}
+              isMaterial={true}
               setLoading={(l) => {
                 setLoading((prev) => ({ ...prev, topProducts: l }));
               }}

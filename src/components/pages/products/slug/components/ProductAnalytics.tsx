@@ -252,9 +252,16 @@ function prepareDailyOrdersDataset(
   if (!data) return [];
 
   const dataset = [];
-  let prev = data.recent_analytics[0].orders_amount;
-  let prev_rev = data.recent_analytics[0].reviews_amount;
-  let prev_revenue = data.recent_analytics[0].orders_money;
+  let prev = 0;
+  if (data.recent_analytics.length > 0)
+    prev = data.recent_analytics[0].orders_amount;
+  let prev_rev = 0;
+  if (data.recent_analytics.length > 0)
+    prev_rev = data.recent_analytics[0].reviews_amount;
+
+  let prev_revenue = 0;
+  if (data.recent_analytics.length > 0)
+    prev_revenue = data.recent_analytics[0].orders_money;
 
   let analytics = data.recent_analytics.slice();
 

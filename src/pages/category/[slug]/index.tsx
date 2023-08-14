@@ -133,7 +133,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
     // check if user is logged in
-    const res = await api.getCurrentUser();
+    const res: UserType = await api.getCurrentUser();
 
     if (!res) {
       return {
@@ -145,7 +145,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    if (!res.is_pro && !res.is_proplus) {
+    if (res.tariff === 'free') {
       return {
         redirect: {
           permanent: false,

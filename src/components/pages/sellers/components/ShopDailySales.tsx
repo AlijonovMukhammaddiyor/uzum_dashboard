@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { HiChevronDown } from 'react-icons/hi';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
 
 import API from '@/lib/api';
@@ -9,7 +10,6 @@ import logger from '@/lib/logger';
 
 import { getShopDailySaleColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import { DropDown } from '@/components/pages/home/components/HomeStatisticsContainer';
 import Table from '@/components/shared/Table';
 
 export interface ShopDailySalesProps {
@@ -122,3 +122,70 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
 };
 
 export default ShopDailySales;
+export interface DropDownProps {
+  className?: string;
+  values: string[];
+  activeTab: number;
+  setActiveTab: (index: number) => void;
+}
+
+export function DropDown({
+  className,
+  values,
+  activeTab,
+  setActiveTab,
+}: DropDownProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+
+  return (
+    <div className={clsxm('flex items-center justify-end', className)}>
+      <div className='relative z-10'>
+        <button
+          id='dropdownDefaultButton'
+          data-dropdown-toggle='dropdown'
+          className='bg-primary flex w-[140px] items-center justify-between rounded-md px-3 py-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-0'
+          type='button'
+          aria-haspopup='true'
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        >
+          {values[activeTab]}
+          <HiChevronDown className='h-4 w-4 flex-shrink-0' />
+        </button>
+
+        <div
+          id='dropdown'
+          className={clsxm(
+            'absolute right-0 top-8 z-10 max-h-[500px] w-44 divide-y divide-gray-100 overflow-y-scroll rounded-lg bg-slate-700 shadow',
+            isDropdownOpen ? 'block' : 'hidden'
+          )}
+        >
+          <ul
+            className='py-2 text-sm text-gray-700 dark:text-gray-200'
+            aria-labelledby='dropdownDefaultButton'
+          >
+            {values.map((day, index) => (
+              <li key={index}>
+                <button
+                  className={clsxm(
+                    'flex w-full justify-between px-4 py-2 text-left text-sm leading-5',
+                    activeTab === index
+                      ? 'text-primary'
+                      : 'text-slate-500 hover:bg-slate-300',
+                    index === 0 && 'rounded-t-lg',
+                    index === values.length - 1 && 'rounded-b-lg'
+                  )}
+                  onClick={() => {
+                    setActiveTab(index);
+                    setIsDropdownOpen(false);
+                  }}
+                >
+                  {day}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}

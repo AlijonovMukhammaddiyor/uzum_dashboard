@@ -129,22 +129,28 @@ function SellersTable({ className, user }: Props) {
         className
       )}
     >
-      {(user.is_pro || user.is_proplus) && myShops.length > 0 ? (
-        <Container
-          loading={shopsLoading}
-          className={clsxm('w-full overflow-scroll border-none pt-4')}
-        >
-          <p className='text-primary h-10 w-full text-center'>{t('myShops')}</p>
-          <Table
-            columnDefs={getShopTableColumnDefs(t2)}
-            className={clsxm(
-              'min-w-full rounded-none',
-              user.is_pro && 'h-[190px]',
-              user.is_proplus && 'h-[320px]'
-            )}
-            rowData={myShops ?? []}
-          />
-        </Container>
+      {user.tariff !== 'free' && user.tariff !== 'business' ? (
+        myShops.length > 0 ? (
+          <Container
+            loading={shopsLoading}
+            className={clsxm('w-full overflow-scroll border-none pt-4')}
+          >
+            <p className='text-primary h-10 w-full text-center'>
+              {t('myShops')}
+            </p>
+            <Table
+              columnDefs={getShopTableColumnDefs(t2)}
+              className={clsxm(
+                'min-w-full rounded-none',
+                user.tariff === 'base' && 'h-[155px]',
+                user.tariff === 'seller' && 'h-[320px]'
+              )}
+              rowData={myShops ?? []}
+            />
+          </Container>
+        ) : (
+          <></>
+        )
       ) : (
         <p className='bg-primary text-centera rounded-lg p-4 text-white'>
           {t('selectShops')}

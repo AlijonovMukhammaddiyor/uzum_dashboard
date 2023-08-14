@@ -49,26 +49,34 @@ function TreeMapChart({
 
   const options = {
     data: filteredData,
+    padding: [20, 20, 20, 20], // Padding around the tree map
     series: [
       {
         type: 'treemap',
         labelKey: titleField ?? 'title',
         sizeKey: 'analytics',
         colorKey: 'analytics',
+        labels: {
+          fontSize: 14, // Adjust as necessary
+          color: 'black', // Font color for labels
+          padding: { left: 5, right: 5, top: 5, bottom: 5 }, // Spacing around text
+        },
         tooltip: {
           renderer: (params: any) => {
             return {
-              content: `<b>${title}</b>: ${formatRevenue(
+              content: `<div style="background-color: #f9f9f9; padding: 5px; border-radius: 3px; color: black;">
+                          <b style"color: black;">${title}</b>: ${formatRevenue(
                 params.datum['analytics']
-              )}`,
+              )}
+                        </div>`,
             };
           },
         },
         colorDomain: [min, max],
-        colorRange: ['#feedde', '#a63603'],
+        colorRange: ['#f0f8ff', '#4682b4'], // Lighter blue to steel blue
         formatter: (params: any) => ({
-          stroke: 'black',
-          strokeWidth: 0.5, // reduce border thickness
+          stroke: '#ffffff', // White border
+          strokeWidth: 1, // Adjusted border thickness
         }),
       },
     ],
@@ -80,6 +88,7 @@ function TreeMapChart({
         options={options as any}
         containerStyle={{
           height: '460px',
+          fontFamily: '"Roboto", sans-serif',
         }}
       />
     </div>

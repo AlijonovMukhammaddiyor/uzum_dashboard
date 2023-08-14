@@ -24,8 +24,6 @@ export interface HeaderProps {
 
 export default function Header() {
   const { state } = useContextState();
-  const [showPaymentNotification, setShowPaymentNotification] =
-    React.useState(true);
 
   const handleUserLogout = async () => {
     try {
@@ -50,8 +48,6 @@ export default function Header() {
     router.push({ pathname, query }, router.asPath, { locale: newLocale });
   };
 
-  const is_paid = state.user?.is_pro || state.user?.is_proplus;
-
   return (
     <header className='sticky right-0 top-0 z-[100] w-full bg-white shadow-lg'>
       <div className='flex h-10 items-center justify-between gap-4 p-3'>
@@ -59,8 +55,6 @@ export default function Header() {
           <Image src={Logo} alt='logo' width={36} height={36} />
           {state.path && Object.keys(state.path).length >= 1 ? (
             <Breadcrumb className='flex items-center justify-start gap-2' />
-          ) : !is_paid ? (
-            <div></div>
           ) : (
             <div></div>
           )}
@@ -74,13 +68,19 @@ export default function Header() {
                 <div className='ml-1 flex flex-col items-start justify-start'>
                   <span className='m-0 text-xs'>{state.user?.username}</span>
                 </div>
-                {state.user?.is_proplus ? (
+                {state.user?.tariff === 'seller' ? (
                   <Image
                     src={star}
                     alt='premium-star'
                     className='ml-2 h-5 w-5'
                   />
-                ) : state.user?.is_pro ? (
+                ) : state.user?.tariff === 'base' ? (
+                  <Image
+                    src={starter}
+                    alt='premium-star'
+                    className='ml-2 h-5 w-5'
+                  />
+                ) : state.user?.tariff === 'business' ? (
                   <Image
                     src={starter}
                     alt='premium-star'
@@ -95,20 +95,21 @@ export default function Header() {
                 )}
               </div>
             </li>
-            {is_paid && (
-              <li>
-                <div className='flex max-w-[200px] items-center justify-start rounded-md border border-slate-400 bg-slate-200 px-2 py-1 '>
-                  <p className='text-sm tracking-wide'>
-                    {t('header.referralCode')}:
-                  </p>
-                  <div className='ml-1 flex flex-col items-start justify-start'>
-                    <span className='m-0 text-sm tracking-wide'>
-                      {state.user?.referral_code}
-                    </span>
+            {state.user?.tariff !== 'trial' &&
+              state.user?.tariff !== 'free' && (
+                <li>
+                  <div className='flex max-w-[200px] items-center justify-start rounded-md border border-slate-400 bg-slate-200 px-2 py-1 '>
+                    <p className='text-sm tracking-wide'>
+                      {t('header.referralCode')}:
+                    </p>
+                    <div className='ml-1 flex flex-col items-start justify-start'>
+                      <span className='m-0 text-sm tracking-wide'>
+                        {state.user?.referral_code}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </li>
-            )}
+                </li>
+              )}
             <li>
               <div className='flex h-7 w-[70px] items-center justify-center rounded-md border border-black px-2'>
                 {i18n.language === 'uz' ? (

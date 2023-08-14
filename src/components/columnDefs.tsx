@@ -285,11 +285,11 @@ const ProductNameCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
-        if (state.user?.is_pro || state.user?.is_proplus)
+        if (state.user?.tariff !== 'free')
           router.push(`/products/${product_id}`);
         else {
           alert(
-            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
           );
         }
       }}
@@ -320,11 +320,11 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
-        if (state.user?.is_pro || state.user?.is_proplus)
+        if (state.user?.tariff !== 'free')
           router.push(`/campaigns/${product_id}`);
         else {
           alert(
-            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
           );
         }
       }}
@@ -352,7 +352,7 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
-        if (state.user?.is_pro || state.user?.is_proplus)
+        if (state.user?.tariff !== 'free')
           // if (typeof window !== 'undefined')
           //   // router.push(`/category/${title}--${category_id}`);
           //   window.location.href = `/category/${title}--${category_id}`;
@@ -360,7 +360,7 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
         // else router.push(`/category/${title}--${category_id}`);
         else {
           alert(
-            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
           );
         }
       }}
@@ -390,11 +390,11 @@ const CategoryNameCellRenderer = ({ value }: { value: string }) => {
           },
         });
 
-        if (state.user?.is_pro || state.user?.is_proplus)
+        if (state.user?.tariff !== 'free')
           router.push(`/category/${title}--${category_id}`);
         else {
           alert(
-            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
           );
         }
       }}
@@ -445,11 +445,11 @@ const SellerNameCellRenderer = ({ value }: { value: string }) => {
             path: null,
           },
         });
-        if (state.user?.is_pro || state.user?.is_proplus)
+        if (state.user?.tariff !== 'free')
           router.push(`/sellers/${seller_link}`);
         else {
           alert(
-            "Bu xizmatdan foydalanish uchun iltimos Pro yoki Premium tarifiga o'ting!"
+            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
           );
         }
       }}

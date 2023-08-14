@@ -76,12 +76,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
     // check if user is logged in
-    const res = await api.getCurrentUser();
+    const res: UserType = await api.getCurrentUser();
     if (!res) {
       return {
         redirect: {
           permanent: false,
           destination: '/login',
+        },
+        props: {},
+      };
+    }
+    if (res.tariff !== 'seller' && res.tariff !== 'business') {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/campaigns',
         },
         props: {},
       };
@@ -101,16 +110,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const product_id = slug as string;
 
     if (!product_id) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/campaigns',
-        },
-        props: {},
-      };
-    }
-
-    if (!res.is_proplus && !res.is_enterprise) {
       return {
         redirect: {
           permanent: false,
