@@ -49,7 +49,6 @@ export default function Category({ user }: CategoryProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const api = new API(context);
-    const { locale } = context;
     // check if user is logged in
     const res = await api.getCurrentUser();
 
@@ -58,6 +57,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         redirect: {
           permanent: false,
           destination: '/login',
+        },
+        props: {},
+      };
+    }
+
+    if (!res.is_proplus && !res.is_enterprise && !res.is_pro) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/home',
         },
         props: {},
       };

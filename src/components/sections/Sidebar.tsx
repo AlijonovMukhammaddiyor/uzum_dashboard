@@ -289,7 +289,7 @@ function Sidebar({
             icon={
               <BsPerson
                 className={clsxm(
-                  'h-6 w-6 flex-shrink-0 ',
+                  'h-5 w-5 flex-shrink-0 ',
                   activeTab === 'Profile' && 'text-white'
                 )}
               />

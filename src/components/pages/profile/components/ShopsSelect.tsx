@@ -127,7 +127,9 @@ function ShopsSelect({
 
         setLoading(false);
       });
-  }, [selectedRows]);
+  }, [router, selectedRows]);
+
+  const is_paid = user.is_pro || user.is_proplus;
 
   return (
     <>
@@ -193,28 +195,34 @@ function ShopsSelect({
       <p className={clsxm('font-sm mt-4 font-semibold', className)}>
         Oxirgi yangilangan sana: {user.shops_updated_at?.slice(0, 10)}
       </p>
-      {(user.is_pro || user.is_proplus) && myShops.length > 0 ? (
-        <Container
-          loading={loading}
-          className={clsxm(
-            'w-full overflow-scroll border-none pt-4',
-            className
-          )}
-        >
-          <p className='text-primary h-10 w-full text-center'>{t('myShops')}</p>
-          <Table
-            columnDefs={getShopTableColumnDefs(t2)}
+      {is_paid ? (
+        myShops.length > 0 ? (
+          <Container
+            loading={loading}
             className={clsxm(
-              'min-w-full rounded-none',
-              user.is_pro && `h-[${(65 + myShops.length * 45).toString()}px]`,
-              user.is_proplus &&
-                `h-[${(65 + myShops.length * 45).toString()}px]`
+              'w-full overflow-scroll border-none pt-4',
+              className
             )}
-            rowData={myShops ?? []}
-          />
-        </Container>
+          >
+            <p className='text-primary h-10 w-full text-center'>
+              {t('myShops')}
+            </p>
+            <Table
+              columnDefs={getShopTableColumnDefs(t2)}
+              className={clsxm(
+                'min-w-full rounded-none',
+                user.is_pro && `h-[${(65 + myShops.length * 45).toString()}px]`,
+                user.is_proplus &&
+                  `h-[${(65 + myShops.length * 45).toString()}px]`
+              )}
+              rowData={myShops ?? []}
+            />
+          </Container>
+        ) : (
+          <p>{t('selectShops')}</p>
+        )
       ) : (
-        <p>{t('selectShops')}</p>
+        <></>
       )}
     </>
   );

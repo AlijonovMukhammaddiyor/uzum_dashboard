@@ -73,6 +73,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {},
       };
     }
+
+    if (!res.is_proplus && !res.is_enterprise && !res.is_pro) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/home',
+        },
+        props: {},
+      };
+    }
+
     return {
       props: {
         ...(await serverSideTranslations(context.locale || 'uz', [

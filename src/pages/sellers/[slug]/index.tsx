@@ -155,21 +155,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    // if (!res.is_paid) {
-    //   return {
-    //     redirect: {
-    //       permanent: false,
-    //       destination: '/sellers',
-    //     },
-    //     props: {},
-    //   };
-    // }
-
     if (!res.is_pro && !res.is_proplus) {
       return {
         redirect: {
           permanent: false,
-          destination: '/sellers',
+          destination: '/home',
         },
         props: {},
       };

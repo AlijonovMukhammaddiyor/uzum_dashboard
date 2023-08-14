@@ -42,14 +42,14 @@ function Pricing({ className }: { className?: string }) {
       <div className=' w-full overflow-hidden'>
         <div className='mb-4 mt-10 flex w-full items-center justify-between'>
           <div className='flex max-w-max gap-12 rounded-md'></div>
-          <div className='border-primary flex h-10 w-[200px] items-center justify-between rounded-full border'>
+          <div className='border-primary flex h-10 w-[200px] items-center justify-between rounded-md border'>
             {/* 1 Month Option */}
             <div
               className={clsxm(
                 'flex h-full w-1/2 cursor-pointer items-center justify-center',
                 months === 1
-                  ? 'bg-primary rounded-l-full text-white'
-                  : 'hover:rounded-l-full hover:bg-purple-100'
+                  ? 'bg-primary rounded-l-md text-white'
+                  : 'hover:rounded-l-md hover:bg-purple-100'
               )}
               onClick={() => setMonths(1)}
             >
@@ -64,8 +64,8 @@ function Pricing({ className }: { className?: string }) {
               className={clsxm(
                 'relative flex h-full w-1/2 cursor-pointer items-center justify-center',
                 months === 3
-                  ? 'bg-primary rounded-r-full text-white'
-                  : 'hover:rounded-r-full hover:bg-purple-100'
+                  ? 'bg-primary rounded-r-md text-white'
+                  : 'hover:rounded-r-md hover:bg-purple-100'
               )}
               onClick={() => setMonths(3)}
             >
@@ -92,7 +92,7 @@ function Pricing({ className }: { className?: string }) {
             setCurrentPlan={setCurrentPlan}
             months={months}
             features={[
-              // t('tariffs.Umumiy_malumotlar'),
+              t('tariffs.Umumiy_malumotlar'),
               // t('tariffs.Barcha_Kategoriyalar'),
               t('tariffs.Barcha_dokonlar'),
               t('tariffs.Barcha_mahsulotlar'),
@@ -216,7 +216,7 @@ function Pricing({ className }: { className?: string }) {
           />
         </div>
         <div className='min-h-screen'>
-          <div className='my-24 w-full text-center'>
+          <div className='bg-primary my-24 w-full p-4 text-center font-semibold text-white'>
             <p>Tariflarni taqqoslash</p>
           </div>
           <PricingTable featuresData={getPricingData(t)} />
@@ -315,7 +315,8 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        'four-sided-shadow relative mt-10 flex h-[800px] max-h-[800px] w-[300px] shrink-0 flex-grow  flex-col gap-7 border  bg-white px-5  py-8'
+        'four-sided-shadow relative mt-10 flex h-[800px] max-h-[800px] w-[300px] shrink-0 flex-grow  flex-col gap-7 border  bg-white px-5  py-8',
+        isProPlus && 'border-primary translate-y-[-50px] border'
       )}
     >
       <div className=' flex items-center justify-start gap-3'>
@@ -323,7 +324,7 @@ function Tarif({
 
         {/* Best Offer Label  */}
         {isProPlus && (
-          <span className='absolute -top-10 left-0 flex h-10 w-full items-center justify-center bg-green-500 text-xs uppercase text-white'>
+          <span className='absolute left-0 top-0 flex h-8 w-full items-center justify-center bg-green-500 text-xs uppercase text-white'>
             {i18n.language === 'uz'
               ? 'eng yaxshi qiymat'
               : 'лучшее предложение'}
@@ -350,19 +351,19 @@ function Tarif({
           </p>
         )}
         {price === 0 ? (
-          <p className='mt-6 text-sm font-light tracking-wide'>
+          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
             {t('tariffs.about_free')}
           </p>
         ) : price === 39 ? (
-          <p className='mt-6 text-sm font-light tracking-wide'>
+          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
             {t('tariffs.about_pro')}
           </p>
         ) : price === 59 ? (
-          <p className='mt-6 text-sm font-light tracking-wide'>
+          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
             {t('tariffs.about_premium')}
           </p>
         ) : (
-          <p className='mt-6 text-sm font-light tracking-wide'>
+          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
             {t('tariffs.about_enterprise')}
           </p>
         )}
@@ -404,13 +405,16 @@ const PricingTable = ({
     pro: string;
     premium: string;
     enterprise: string;
+    isTitle?: boolean;
   }[];
 }) => {
+  const { i18n } = useTranslation('common');
+
   return (
-    <div className=' flex w-full flex-col px-10'>
+    <div className='flex w-full flex-col border px-10'>
       <div className='flex shrink-0'>
         <div className='  flex w-[500px] items-center justify-start  font-medium'>
-          All features
+          {i18n.language === 'uz' ? 'Xizmatlar' : 'Услуги'}
         </div>
         <div className=' flex h-24 w-64  flex-grow items-center justify-center border-x  font-medium'>
           Free
@@ -425,25 +429,33 @@ const PricingTable = ({
           Enterprise
         </div>
       </div>
-      {featuresData.map((data, idx) => (
-        <div className='flex shrink-0 border-t' key={idx}>
-          <div className=' flex w-[500px] items-center justify-start text-sm'>
-            {data.title}
+      {featuresData.map((data, idx) =>
+        data.isTitle ? (
+          <div className='flex shrink-0 border-t' key={idx}>
+            <div className='flex w-[500px] items-center justify-start text-sm'>
+              {data.title}
+            </div>
           </div>
-          <div className='  flex h-12 w-64 flex-grow items-center justify-center border-x text-sm'>
-            {data.free}
+        ) : (
+          <div className='flex shrink-0 border-t' key={idx}>
+            <div className='flex w-[500px] items-center justify-start text-sm'>
+              {data.title}
+            </div>
+            <div className='flex h-12 w-64 flex-grow items-center justify-center border-x text-sm'>
+              {data.free}
+            </div>
+            <div className='flex h-12 w-64 flex-grow items-center justify-center  text-sm'>
+              {data.pro}
+            </div>
+            <div className='flex h-12 w-64 flex-grow items-center justify-center border-x text-sm'>
+              {data.premium}
+            </div>
+            <div className=' flex h-12 w-64 flex-grow items-center justify-center  text-sm'>
+              {data.enterprise}
+            </div>
           </div>
-          <div className=' flex h-12 w-64 flex-grow items-center justify-center  text-sm'>
-            {data.pro}
-          </div>
-          <div className=' flex h-12 w-64 flex-grow items-center justify-center border-x text-sm'>
-            {data.premium}
-          </div>
-          <div className=' flex h-12 w-64 flex-grow items-center justify-center  text-sm'>
-            {data.enterprise}
-          </div>
-        </div>
-      ))}
+        )
+      )}
     </div>
   );
 };
@@ -456,6 +468,7 @@ const getPricingData = (t: any) => {
       pro: '✓',
       premium: '✓',
       enterprise: '✓',
+      isTitle: true,
     },
     {
       title: t('tariffs.Barcha_Kategoriyalar'),

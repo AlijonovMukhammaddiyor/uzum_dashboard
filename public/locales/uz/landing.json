@@ -323,8 +323,8 @@
   "tariffs.month": "oy",
   "tariffs.save_15%": "3 oyda 15% tejang",
   "tariffs.always_free": "Doimiy bepul",
-  "tariffs.about_free": "Marketdagi umumiy ma'lumotlarni kuzatib bormoqchilar uchun",
-  "tariffs.about_pro": "Uzum marketda ikkitagacha do'konlarga ega sotuvchilar uchun",
-  "tariffs.about_premium": "Uzum marketda ikkitadan ko'p do'konlarga ega sotuvchilar uchun",
-  "tariffs.about_enterprise": "Yirik do'kon va brand egalari hamda marketshunoslarga uchun"
+  "tariffs.about_free": "Sinab ko'rish, asosiy market ma'lumotlari bilan tanishib, ularni kuzatib bormoqchilar uchun.",
+  "tariffs.about_pro": "Marketda yangi ish boshlagan va sotuv miqdori ko'p bo'lmagan sotuvchilar uchun optimal tanlov.",
+  "tariffs.about_premium": "Bir necha do'konlarga ega bo'lgan yoki marketda eng yuqori o'rinlarga harakat qilayotgan sotuvchilar uchun.",
+  "tariffs.about_enterprise": "Marketshunoslar, yirik do'konlar yoki brand egalari uchun eng yaxshi imkoniyatlar."
 }
