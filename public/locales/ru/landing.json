@@ -319,5 +319,12 @@
   "tariffs.current": "Текущий план",
   "tariffs.choosePlan": "Выберите план",
   "tariffs.choosePayment": "Выберите способ оплаты",
-  "tariffs.pay": "Платить"
+  "tariffs.pay": "Платить",
+  "tariffs.month": "месяц",
+  "tariffs.save_15%": "Сэкономьте 15% за 3 месяца",
+  "tariffs.always_free": "Всегда бесплатно",
+  "tariffs.about_free": "Для тех, кто хочет следить за общей информацией по рынку",
+  "tariffs.about_pro": "Для продавцов, имеющих до двух магазинов на Узум Маркете",
+  "tariffs.about_premium": "Для продавцов, имеющих более двух магазинов на Узум Маркете",
+  "tariffs.about_enterprise": "Для владельцев крупных магазинов и маркетологов."
 }
