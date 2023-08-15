@@ -1284,7 +1284,7 @@ function GeneralsContainer({
       className='flex h-[200px] min-w-[350px] shrink-0 flex-col items-start justify-between gap-6 rounded-md border p-4 shadow-lg'
       loading={isLoading()}
     >
-      {!isLoading() && (
+      {!isLoading() ? (
         <div className='flex w-full shrink-0 items-center justify-start gap-4'>
           <div className='bg-secondary flex h-12 w-12 shrink-0 items-center justify-center rounded-full'>
             {getLogo()}
@@ -1294,8 +1294,10 @@ function GeneralsContainer({
             <p className='text-2xl font-semibold'>{getData()}</p>
           </div>
         </div>
+      ) : (
+        <></>
       )}
-      {!isLoading() && (
+      {!isLoading() ? (
         <div>
           <div className='mb-2 flex w-full items-center justify-start'>
             <div className='flex items-center justify-start gap-2'>
@@ -1307,6 +1309,8 @@ function GeneralsContainer({
             <p className='font-semibold'>{getThisMonth()}</p>
           </div>
         </div>
+      ) : (
+        <></>
       )}
     </Container>
   );

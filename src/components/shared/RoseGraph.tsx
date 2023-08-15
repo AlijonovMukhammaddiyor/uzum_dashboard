@@ -80,7 +80,7 @@ function RoseGraph({ data, isRevenue, title }: Props) {
 
   return (
     <Pie
-      {...config}
+      {...(config as any)}
       style={{
         width: '100%',
         height: '100%',

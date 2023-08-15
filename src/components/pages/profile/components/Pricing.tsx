@@ -42,7 +42,7 @@ function Pricing({ className }: { className?: string }) {
       id="ta'riflar"
       className={clsxm('flex w-full justify-center ', className)}
     >
-      <div className=' w-full overflow-hidden'>
+      <div className='w-full overflow-hidden'>
         <div className='mb-4 mt-10 flex w-full items-center justify-between'>
           <div className='flex max-w-max gap-12 rounded-md'></div>
           <div className='border-primary flex h-10 w-[200px] items-center justify-between rounded-md border'>
@@ -355,6 +355,11 @@ function Tarif({
       </div>
       <div className='relative flex flex-col gap-1 text-3xl font-medium'>
         <p className=' '>
+          {months === 3 && (
+            <span className='text-base text-slate-500 line-through'>
+              ${price}
+            </span>
+          )}
           <span className='text-3xl font-normal'>$</span>
           {months === 1
             ? price
@@ -393,8 +398,7 @@ function Tarif({
       <div className='w-full '>
         <Button
           onClick={() => {
-            if (!isCurrentPlan && state.user?.tariff !== 'trial')
-              handlePayment();
+            if (!isCurrentPlan) handlePayment();
           }}
           className={clsxm(
             `w-full bg-${color}  px-4 py-4 text-white`,

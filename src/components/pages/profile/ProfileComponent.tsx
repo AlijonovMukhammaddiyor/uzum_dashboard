@@ -29,13 +29,6 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
 
   return (
     <div className=''>
-      {user.tariff === 'trial' && (
-        <p className='absolute left-[380px] top-16 text-xs'>
-          {i18n.language === 'uz'
-            ? "1 kunlik sinov versiyasida do'konlarni tanlash imkoniyati mavjud emas"
-            : 'Возможность выбора магазинов недоступна в пробной версии на 1 день'}
-        </p>
-      )}
       <Tabs
         tabs={[
           t('profile.payments'),
@@ -48,6 +41,13 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
         setActiveTab={setActiveTab}
         className='overflow-auto'
       />
+      {user.tariff === 'trial' && (
+        <p className='mt-4 text-xs'>
+          {i18n.language === 'uz'
+            ? "1 kunlik sinov versiyasida do'konlarni tanlash imkoniyati mavjud emas"
+            : 'Возможность выбора магазинов недоступна в пробной версии на 1 день'}
+        </p>
+      )}
       <Pricing
         className={clsxm(activeTab === t('profile.payments') ? '' : 'hidden')}
       />
