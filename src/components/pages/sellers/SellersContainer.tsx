@@ -143,7 +143,8 @@ function SellersTable({ className, user }: Props) {
               className={clsxm(
                 'min-w-full rounded-none',
                 user.tariff === 'base' && 'h-[155px]',
-                user.tariff === 'seller' && 'h-[320px]'
+                user.tariff === 'seller' && 'h-[320px]',
+                user.tariff === 'trial' && 'h-[520px]'
               )}
               rowData={myShops ?? []}
             />

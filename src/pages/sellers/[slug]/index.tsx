@@ -39,7 +39,7 @@ function Category({ user, seller }: ShopsProps) {
   const [activeTab, setActiveTab] = React.useState<string>(
     seller.is_owner ? t('sellers.overview') : t('sellers.goods')
   );
-  const { dispatch } = useContextState();
+  const { dispatch, state } = useContextState();
 
   React.useEffect(() => {
     setActiveTab(seller.is_owner ? t('sellers.overview') : t('sellers.goods'));
@@ -61,6 +61,8 @@ function Category({ user, seller }: ShopsProps) {
   }, [user]);
 
   if (!rendered) return <></>;
+
+  const canSee = seller.is_owner || state.user?.tariff === 'business';
 
   return (
     <Layout>
@@ -89,7 +91,13 @@ function Category({ user, seller }: ShopsProps) {
           <p></p>
         </div>
       </div>
-
+      {!canSee && (
+        <p className='top- absolute left-[330px] top-20 px-2 py-1 text-xs'>
+          {i18n.language === 'uz'
+            ? "Qolgan ma'lumotlarni faqatgina o'z do'konlaringiz uchun ko'rishingiz mumkin"
+            : 'Вы можете просматривать остальные данные только для своих магазинов'}
+        </p>
+      )}
       <Tabs
         tabs={[
           t('sellers.overview'),
@@ -99,7 +107,7 @@ function Category({ user, seller }: ShopsProps) {
           t('sellers.categories'),
         ]}
         disbaledTabs={
-          seller.is_owner
+          canSee
             ? []
             : [
                 t('sellers.overview'),

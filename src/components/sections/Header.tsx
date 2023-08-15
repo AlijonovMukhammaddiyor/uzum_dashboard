@@ -86,6 +86,12 @@ export default function Header() {
                     alt='premium-star'
                     className='ml-2 h-5 w-5'
                   />
+                ) : state.user?.tariff === 'trial' ? (
+                  <Image
+                    src={starter}
+                    alt='premium-star'
+                    className='ml-2 h-5 w-5'
+                  />
                 ) : (
                   <Image
                     src={free}

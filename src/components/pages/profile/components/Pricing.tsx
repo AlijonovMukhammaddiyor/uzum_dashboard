@@ -9,8 +9,11 @@ import logger from '@/lib/logger';
 
 import Button from '@/components/shared/buttons/Button';
 
+import { useContextState } from '@/context/Context';
+
 function Pricing({ className }: { className?: string }) {
   const { t, i18n } = useTranslation('landing');
+  const { state } = useContextState();
   const [currentPlan, setCurrentPlan] = React.useState<string>(
     t('tariffs.choosePlan')
   );
@@ -88,7 +91,7 @@ function Pricing({ className }: { className?: string }) {
           <Tarif
             title={t('tariffs.free')}
             price={0}
-            isCurrentPlan={currentPlan === t('tariffs.free')}
+            isCurrentPlan={state.user?.tariff === 'free'}
             setCurrentPlan={setCurrentPlan}
             months={months}
             features={[
@@ -104,12 +107,12 @@ function Pricing({ className }: { className?: string }) {
           />
           <Tarif
             title={t('tariffs.beginner')}
-            isCurrentPlan={currentPlan === t('tariffs.beginner')}
+            isCurrentPlan={state.user?.tariff === 'base'}
             setCurrentPlan={setCurrentPlan}
             price={39}
             months={months}
             features={[
-              t('tariffs.2_dukon'),
+              t('tariffs.1_dukon'),
               t('tariffs.30_kunlik'),
               // t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
@@ -128,7 +131,7 @@ function Pricing({ className }: { className?: string }) {
               // t('tariffs.Mahsulot_tahlili'),
               t('tariffs.Mahsulot_raqobatchilari'),
               t('tariffs.24/7_doimiy_yordam'),
-              t('tariffs.nishesSelection'),
+              t('tariffs.Barcha_nishalar'),
             ]}
             color='primary'
             isPro
@@ -138,12 +141,12 @@ function Pricing({ className }: { className?: string }) {
           />
           <Tarif
             title={t('tariffs.seller')}
-            isCurrentPlan={currentPlan === t('tariffs.seller')}
+            isCurrentPlan={state.user?.tariff === 'seller'}
             setCurrentPlan={setCurrentPlan}
             price={59}
             months={months}
             features={[
-              t('tariffs.5_dukon'),
+              t('tariffs.4_dukon'),
               t('tariffs.60_kunlik'),
               // t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
@@ -164,9 +167,9 @@ function Pricing({ className }: { className?: string }) {
               t('tariffs.24/7_doimiy_yordam'),
               // t('tariffs.Yangi_mahsulotlar'),
               t('tariffs.Osayotgan_mahsulotlar'),
-              t('tariffs.Osayotgan kategoriyalar'),
+              t('tariffs.Osayotgan_kategoriyalar'),
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-              t('tariffs.nishesSelection'),
+              t('tariffs.Barcha_nishalar'),
               t('tariffs.addsImpactCheck'),
             ]}
             color='primary'
@@ -176,7 +179,7 @@ function Pricing({ className }: { className?: string }) {
           />
           <Tarif
             title={t('tariffs.business')}
-            isCurrentPlan={currentPlan === t('tariffs.business')}
+            isCurrentPlan={state.user?.tariff === 'business'}
             setCurrentPlan={setCurrentPlan}
             price={99}
             features={[
@@ -201,9 +204,9 @@ function Pricing({ className }: { className?: string }) {
 
               // t('tariffs.Yangi_mahsulotlar'),
               t('tariffs.Osayotgan_mahsulotlar'),
-              t('tariffs.Osayotgan kategoriyalar'),
+              t('tariffs.Osayotgan_kategoriyalar'),
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-              t('tariffs.nishesSelection'),
+              t('tariffs.Barcha_nishalar'),
               t('tariffs.addsImpactCheck'),
               t('tariffs.24/7_doimiy_yordam'),
             ]}
@@ -215,7 +218,7 @@ function Pricing({ className }: { className?: string }) {
             isFreeTrial={true}
           />
         </div>
-        <div className='min-h-screen'>
+        <div className='min-h-screen pb-16'>
           <div className='bg-primary my-24 w-full p-4 text-center font-semibold text-white'>
             <p>Tariflarni taqqoslash</p>
           </div>
@@ -256,6 +259,7 @@ function Tarif({
   months?: number;
 }) {
   const { t, i18n } = useTranslation('landing');
+  const { state } = useContextState();
   const [loading, setLoading] = useState(false);
   const features_ = [
     t('tariffs.60_kunlik'),
@@ -281,12 +285,12 @@ function Tarif({
 
     t('tariffs.Yangi_mahsulotlar'),
     t('tariffs.Osayotgan_mahsulotlar'),
-    t('tariffs.Osayotgan kategoriyalar'),
+    t('tariffs.Osayotgan_kategoriyalar'),
     t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-    t('tariffs.nishesSelection'),
+    t('tariffs.Barcha_nishalar'),
     t('tariffs.addsImpactCheck'),
-    t('tariffs.5_dukon'),
-    t('tariffs.2_dukon'),
+    t('tariffs.4_dukon'),
+    t('tariffs.1_dukon'),
     t('tariffs.24/7_doimiy_yordam'),
   ];
 
@@ -296,10 +300,21 @@ function Tarif({
 
   const handlePayment = () => {
     const api = new API(null);
+    if (price === 0) return;
     setLoading(true);
+
     api
       .post('/payments/paylink/', {
-        amount: price * dollarToSumRate,
+        amount: price * dollarToSumRate * months,
+        months,
+        tariff:
+          title === t('tariffs.free')
+            ? 'free'
+            : title === t('tariffs.beginner')
+            ? 'base'
+            : title === t('tariffs.seller')
+            ? 'seller'
+            : 'business',
       })
       .then((res) => {
         logger(res.data, 'res');
@@ -319,6 +334,13 @@ function Tarif({
         isProPlus && 'border-primary translate-y-[-50px] border'
       )}
     >
+      {state.user?.tariff === 'trial' && title === t('tariffs.beginner') && (
+        <p className='absolute -top-12 text-center text-sm'>
+          {i18n.language === 'uz'
+            ? 'Sizda ushbu tarifning 1 kunlik sinov versiyasi mavjud'
+            : 'У вас есть 1-дневная пробная версия этого тарифа'}
+        </p>
+      )}
       <div className=' flex items-center justify-start gap-3'>
         <p className='font-primary font-semibold'>{title}</p>
 
@@ -370,13 +392,26 @@ function Tarif({
       </div>
       <div className='w-full '>
         <Button
-          onClick={() => handlePayment()}
+          onClick={() => {
+            if (!isCurrentPlan && state.user?.tariff !== 'trial')
+              handlePayment();
+          }}
           className={clsxm(
-            `w-full bg-${color}  px-4 py-4 text-white hover:bg-purple-700`
+            `w-full bg-${color}  px-4 py-4 text-white`,
+            !isCurrentPlan && 'hover:bg-purple-700'
           )}
+          disabled={
+            (isCurrentPlan || loading) && state.user?.tariff !== 'trial'
+          }
           isLoading={loading}
         >
-          <>{t('tariffs.select')}</>
+          <>
+            {isCurrentPlan
+              ? i18n.language === 'uz'
+                ? 'Hozirgi'
+                : 'Текущий'
+              : t('tariffs.select')}
+          </>
         </Button>
       </div>
       <ul className=' flex flex-col gap-2  '>
@@ -676,7 +711,7 @@ const getPricingData = (t: any) => {
       isTitle: true,
     },
     {
-      title: t('tariffs.nishesSelection'),
+      title: t('tariffs.Barcha_nishalar'),
 
       free: '',
       beginner: '✓',

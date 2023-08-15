@@ -154,7 +154,7 @@ function LandingTarifs() {
               t('tariffs.24/7_doimiy_yordam'),
               t('tariffs.Yangi_mahsulotlar'),
               t('tariffs.Osayotgan_mahsulotlar'),
-              t('tariffs.Osayotgan kategoriyalar'),
+              t('tariffs.Osayotgan_kategoriyalar'),
               t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
             ]}
             color='primary'
@@ -212,7 +212,7 @@ function Tarif({
     t('tariffs.24/7_doimiy_yordam'),
     t('tariffs.Yangi_mahsulotlar'),
     t('tariffs.Osayotgan_mahsulotlar'),
-    t('tariffs.Osayotgan kategoriyalar'),
+    t('tariffs.Osayotgan_kategoriyalar'),
     t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
   ];
 

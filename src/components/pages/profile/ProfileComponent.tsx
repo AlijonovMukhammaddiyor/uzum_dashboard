@@ -19,8 +19,23 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
     setActiveTab(t('profile.payments'));
   }, [i18n.language, t]);
 
+  // console.log('user', user, new Date(user.shops_updated_at ?? '2023-01-01'));
+  // check if it has been more than 30 days since the last update
+  const more_than_30_days =
+    Date.now() - new Date(user.shops_updated_at ?? '2023-01-01').getTime() >
+    30 * 24 * 60 * 60 * 1000;
+  const ShopsSelectDisabled =
+    user.tariff === 'free' || user.tariff === 'business' || !more_than_30_days;
+
   return (
-    <div>
+    <div className=''>
+      {user.tariff === 'trial' && (
+        <p className='absolute left-[380px] top-16 text-xs'>
+          {i18n.language === 'uz'
+            ? "1 kunlik sinov versiyasida do'konlarni tanlash imkoniyati mavjud emas"
+            : 'Возможность выбора магазинов недоступна в пробной версии на 1 день'}
+        </p>
+      )}
       <Tabs
         tabs={[
           t('profile.payments'),
@@ -28,7 +43,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
           // t('profile.others'),
           // 'Asosiy kategoriyalar',
         ]}
-        disbaledTabs={user.tariff === 'free' ? [t('profile.shops')] : []}
+        disbaledTabs={ShopsSelectDisabled ? [t('profile.shops')] : []}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='overflow-auto'
