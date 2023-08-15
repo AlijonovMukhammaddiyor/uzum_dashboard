@@ -224,6 +224,25 @@ function Sidebar({
             // disabled
           />
 
+          {/* <SidebarItem
+            href='/discovery'
+            label={t('sidebar.discovery')}
+            icon={
+              <HiOutlineTag
+                className={clsxm(
+                  'h-5 w-5 flex-shrink-0 ',
+                  activeTab === 'Aksiyalar' && 'text-white'
+                )}
+              />
+            }
+            activeTab={activeTab}
+            isSidebarOpen={isSidebarOpen}
+            onClick={() => {
+              setActiveTab('Aksiyalar');
+            }}
+            // disabled
+          /> */}
+
           <SidebarItem
             href='/ai'
             label={t('sidebar.ai')}

@@ -138,16 +138,19 @@ function SellersTable({ className, user }: Props) {
             <p className='text-primary h-10 w-full text-center'>
               {t('myShops')}
             </p>
-            <Table
-              columnDefs={getShopTableColumnDefs(t2)}
-              className={clsxm(
-                'min-w-full rounded-none',
-                user.tariff === 'base' && 'h-[155px]',
-                user.tariff === 'seller' && 'h-[320px]',
-                user.tariff === 'trial' && 'h-[520px]'
-              )}
-              rowData={myShops ?? []}
-            />
+            {user.tariff !== 'trial' ? (
+              <Table
+                columnDefs={getShopTableColumnDefs(t2)}
+                className={clsxm(
+                  'min-w-full rounded-none',
+                  user.tariff === 'base' && 'h-[155px]',
+                  user.tariff === 'seller' && 'h-[320px]'
+                )}
+                rowData={myShops ?? []}
+              />
+            ) : (
+              <></>
+            )}
           </Container>
         ) : (
           <></>
