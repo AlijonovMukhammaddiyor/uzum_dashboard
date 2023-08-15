@@ -49,7 +49,7 @@ export default function Header() {
   };
 
   return (
-    <header className='sticky right-0 top-0 z-[100] w-full bg-white shadow-lg'>
+    <header className='fixed right-0 top-0 z-[100] h-10 w-full bg-white shadow-lg'>
       <div className='flex h-10 items-center justify-between gap-4 p-3'>
         <div className='flex items-center justify-start gap-6'>
           <Image src={Logo} alt='logo' width={36} height={36} />

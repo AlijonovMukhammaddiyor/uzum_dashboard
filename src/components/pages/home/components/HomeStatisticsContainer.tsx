@@ -876,12 +876,12 @@ function GeneralsContainer({
       )[0].total_revenue;
       if (r > 1000000) {
         return (
-          <span>
+          <div>
             {`${(r / 1000000).toFixed(1)} `}
             <span className='text-base'>
               {lang === 'uz' ? "mlrd so'm" : 'млрд сум'}
             </span>
-          </span>
+          </div>
         );
       } else if (r > 1000) {
         return (
@@ -987,34 +987,34 @@ function GeneralsContainer({
         return (
           <div className='flex w-full flex-wrap items-center justify-between gap-2'>
             <div className='flex items-center justify-start gap-1'>
-              <p className='text-green-600'>+</p>
-              <p className='font-semibold text-green-600'>
+              <div className='text-green-600'>+</div>
+              <div className='font-semibold text-green-600'>
                 {yesterday > 1000000
                   ? `${(yesterday / 1000000).toFixed(1)} `
                   : yesterday > 1000
                   ? `${(yesterday / 1000).toFixed(2)} `
                   : yesterday.toFixed(2)}
-              </p>
-              <p className='text-sm font-semibold'>
+              </div>
+              <div className='text-sm font-semibold'>
                 {yesterday > 1000000
                   ? `${lang === 'uz' ? 'mlrd' : 'млрд'}`
                   : yesterday > 1000
                   ? `${lang === 'uz' ? 'mln' : 'млн'}`
                   : `${lang === 'uz' ? '' : ''}`}
-              </p>
+              </div>
             </div>
 
             <div className='flex shrink-0 items-center justify-start gap-1'>
-              <p className='text-sm'>{t('comparedToYesterday')}</p>
-              <p className='flex shrink-0 gap-1 text-sm font-semibold'>
-                <p className='shrink-0 font-semibold'>
+              <div className='text-sm'>{t('comparedToYesterday')}</div>
+              <div className='flex shrink-0 gap-1 text-sm font-semibold'>
+                <span className='shrink-0 font-semibold'>
                   (
                   {dayBeforeYesterday > 1000000
                     ? `${(dayBeforeYesterday / 1000000).toFixed(1)} `
                     : dayBeforeYesterday > 1000
                     ? `${(dayBeforeYesterday / 1000).toFixed(2)} `
                     : dayBeforeYesterday.toFixed(2)}
-                </p>
+                </span>
                 <p className='text-sm font-semibold'>
                   {dayBeforeYesterday > 1000000
                     ? `${lang === 'uz' ? 'mlrd' : 'млрд'}`
@@ -1023,7 +1023,7 @@ function GeneralsContainer({
                     : `${lang === 'uz' ? '' : ''}`}
                   )
                 </p>
-              </p>
+              </div>
             </div>
           </div>
         );
@@ -1150,7 +1150,7 @@ function GeneralsContainer({
         (order: any) => order.date_pretty === '2023-08-01'
       );
       const change = current.total_orders - beginning.total_orders;
-      console.log();
+
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
@@ -1290,8 +1290,8 @@ function GeneralsContainer({
             {getLogo()}
           </div>
           <div className='flex flex-col items-start justify-start gap-1'>
-            <p className='font-primary font-semibold'>{title}</p>
-            <p className='text-2xl font-semibold'>{getData()}</p>
+            <div className='font-primary font-semibold'>{title}</div>
+            <div className='text-2xl font-semibold'>{getData()}</div>
           </div>
         </div>
       ) : (
@@ -1305,8 +1305,8 @@ function GeneralsContainer({
             </div>
           </div>
           <div className='flex items-center justify-start gap-2'>
-            <p className='text-sm'>{t('InThisMonth')}</p>
-            <p className='font-semibold'>{getThisMonth()}</p>
+            <div className='text-sm'>{t('InThisMonth')}</div>
+            <div className='font-semibold'>{getThisMonth()}</div>
           </div>
         </div>
       ) : (

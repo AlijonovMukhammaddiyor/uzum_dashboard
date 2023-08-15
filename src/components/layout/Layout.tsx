@@ -18,13 +18,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         setIsSidebarOpen={setIsSidebarOpen}
         setActiveTab={setActiveTab}
       />
-      <div
-        className={clsxm(
-          'flex h-full flex-1 flex-col items-start justify-start overflow-scroll'
-        )}
-      >
-        <Header />
-        <div className='w-full flex-1 p-4 pl-20'>{children}</div>
+      <Header />
+      <div className={clsxm('mt-10 h-screen w-screen overflow-scroll')}>
+        <div className='h-full w-full flex-1 p-4 pl-20'>{children}</div>
       </div>
     </div>
   );
