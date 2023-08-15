@@ -228,7 +228,7 @@ function ShopProducts({ sellerId, className }: Props) {
   return (
     <div
       className={clsxm(
-        'flex w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll',
+        'flex w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll pb-12',
         className
       )}
     >

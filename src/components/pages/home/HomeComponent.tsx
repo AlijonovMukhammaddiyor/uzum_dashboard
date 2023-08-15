@@ -21,7 +21,7 @@ function HomeComponent({ user }: { user: UserType }) {
   }, [i18n.language, t]);
 
   return (
-    <div className='flex w-full min-w-[1400px] flex-col items-start justify-start gap-4 overflow-scroll'>
+    <div className='flex w-full min-w-[1400px] flex-col items-start justify-start gap-4 overflow-scroll pb-12'>
       <Tabs
         tabs={[
           t('home.overview'),

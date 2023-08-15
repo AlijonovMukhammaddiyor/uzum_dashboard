@@ -61,7 +61,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
   return (
     <div
       className={clsxm(
-        'flex min-w-[1200px] flex-col gap-6 overflow-scroll',
+        'flex min-w-[1200px] flex-col gap-6 overflow-scroll pb-12',
         className
       )}
     >

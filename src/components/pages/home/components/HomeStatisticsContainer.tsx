@@ -679,7 +679,7 @@ function HomeStatisticsContainer({
           {!loading.topShops ? (
             <Table
               columnDefs={getTopShopsColDefs(t2)}
-              className='h-[360px] min-w-full rounded-sm'
+              className='h-[370px] min-w-full rounded-sm'
               rowData={topShops.shops}
               isMaterial={true}
               setLoading={(l) => {
@@ -720,7 +720,7 @@ function HomeStatisticsContainer({
           {!loading.topProducts ? (
             <Table
               columnDefs={getTopProductsColDefs(t2, i18n.language)}
-              className='h-[360px] min-w-full rounded-sm'
+              className='h-[370px] min-w-full rounded-sm'
               rowData={topProducts.top_products}
               isMaterial={true}
               setLoading={(l) => {
