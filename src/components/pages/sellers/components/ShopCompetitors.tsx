@@ -118,18 +118,16 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
 
   if (!isActive) return <></>;
 
-  console.log(category);
-
   return (
     <div
       className={clsxm(
-        'flex h-full w-full min-w-[1400px] flex-col items-start justify-start gap-8 overflow-scroll',
+        'flex min-h-max w-full min-w-[1400px] flex-col items-start justify-start gap-8 overflow-scroll pb-16',
         className
       )}
     >
       <Container
         loading={loading}
-        className='flex w-full flex-col items-start justify-start gap-3 p-5'
+        className='flex w-full shrink-0 flex-col items-start justify-start gap-3 p-5'
       >
         <div className='flex w-full items-center justify-start gap-2'>
           <VscDebugBreakpointData className='text-primary text-2xl' />
@@ -162,7 +160,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         </>
       </Container>
 
-      <div className='flex items-center justify-start gap-6'>
+      <div className='flex shrink-0 items-center justify-start gap-6'>
         <div className='flex items-center justify-start gap-3'>
           <p className='text-sm text-blue-500'>{t('select_competitor_here')}</p>
           {competitor && (
@@ -215,7 +213,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
             />
           )}
         </div>
-        <div className='flex items-center justify-start gap-3'>
+        <div className='flex shrink-0 items-center justify-start gap-3'>
           <p className='text-sm text-blue-500'>{t('select_category_here')}</p>
           <Select
             className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
@@ -328,7 +326,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
       {competitorData.length > 0 && shopData.length > 0 && (
         <Container
           loading={loading}
-          className='flex h-[500px] w-full flex-col items-start justify-start gap-3 p-5'
+          className='flex h-[500px] w-full shrink-0 flex-col items-start justify-start gap-3 p-5'
         >
           {isActive && (
             <SingleAxisAreaChart
@@ -368,7 +366,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         type != 'Средняя цена продажи' && (
           <Container
             loading={loading}
-            className='flex h-[500px] w-full flex-col items-start justify-start gap-3 p-5'
+            className='flex h-[500px] w-full shrink-0 flex-col items-start justify-start gap-3 p-5'
           >
             {isActive && (
               <SingleAxisAreaChart

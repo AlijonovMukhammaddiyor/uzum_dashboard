@@ -92,7 +92,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   return (
     <div
       className={clsxm(
-        'flex h-[calc(100%-100px)] flex-col items-start justify-start',
+        'flex min-h-full flex-col items-start justify-start overflow-scroll',
         className
       )}
     >
@@ -107,13 +107,10 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
         </p>
       </div>
 
-      <Container
-        loading={loading}
-        className={clsxm('h-[calc(100%-100px)] w-full')}
-      >
+      <Container loading={loading} className={clsxm('h-[calc(100%)] w-full')}>
         <Table
           rowData={data}
-          className='min-h-full'
+          className='h-[1000px] min-h-full'
           columnDefs={getShopDailySaleColumnDefs(t2, i18n.language)}
         />
       </Container>
@@ -138,7 +135,12 @@ export function DropDown({
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
 
   return (
-    <div className={clsxm('flex items-center justify-end', className)}>
+    <div
+      className={clsxm(
+        'flex min-h-full items-center justify-end overflow-scroll',
+        className
+      )}
+    >
       <div className='relative z-10'>
         <button
           id='dropdownDefaultButton'
