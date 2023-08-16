@@ -13,6 +13,7 @@ import {
   HiOutlineTag,
 } from 'react-icons/hi2';
 import { MdChevronRight, MdOutlineCompare } from 'react-icons/md';
+import { TbViewfinder } from 'react-icons/tb';
 
 import clsxm from '@/lib/clsxm';
 
@@ -188,6 +189,25 @@ function Sidebar({
             // disabled
           />
           <SidebarItem
+            href='/discovery'
+            label={t('sidebar.discovery')}
+            icon={
+              <TbViewfinder
+                className={clsxm(
+                  'h-5 w-5 flex-shrink-0 ',
+                  activeTab === 'Aksiyalar' && 'text-white'
+                )}
+              />
+            }
+            activeTab={activeTab}
+            isSidebarOpen={isSidebarOpen}
+            onClick={() => {
+              setActiveTab('Aksiyalar');
+            }}
+            // disabled
+          />
+
+          <SidebarItem
             href='/niches'
             label={t('sidebar.niches')}
             icon={
@@ -223,25 +243,6 @@ function Sidebar({
             }}
             // disabled
           />
-
-          {/* <SidebarItem
-            href='/discovery'
-            label={t('sidebar.discovery')}
-            icon={
-              <HiOutlineTag
-                className={clsxm(
-                  'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Aksiyalar' && 'text-white'
-                )}
-              />
-            }
-            activeTab={activeTab}
-            isSidebarOpen={isSidebarOpen}
-            onClick={() => {
-              setActiveTab('Aksiyalar');
-            }}
-            // disabled
-          /> */}
 
           <SidebarItem
             href='/ai'

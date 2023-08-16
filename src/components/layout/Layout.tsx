@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   return (
-    <div className='main_layout_container flex h-screen w-screen items-start justify-start  overflow-hidden bg-white'>
+    <div className='main_layout_container flex h-screen w-screen items-start justify-start overflow-hidden  bg-white pt-10'>
       <Sidebar
         className='fixed left-0 top-0 z-50 h-full'
         activeTab={activeTab}
@@ -19,8 +19,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         setActiveTab={setActiveTab}
       />
       <Header />
-      <div className={clsxm('mt-10 h-screen w-screen overflow-scroll')}>
-        <div className='h-full w-full flex-1 p-4 pl-20'>{children}</div>
+      <div className={clsxm('h-full w-screen overflow-scroll')}>
+        <div className='h-full w-full flex-1 overflow-scroll p-4 pl-20'>
+          {children}
+        </div>
       </div>
     </div>
   );

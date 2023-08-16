@@ -44,7 +44,7 @@ export default function Sellers({ user }: ShopsProps) {
         setActiveTab={setActiveTab}
         className='mb-4'
       /> */}
-      <div className='h-[calc(100vh-150px)]'>
+      <div className='overflow-scroll'>
         <SellersTable
           user={user}
           className={clsxm(activeTab === 'Sotuvchilar' ? '' : 'hidden')}

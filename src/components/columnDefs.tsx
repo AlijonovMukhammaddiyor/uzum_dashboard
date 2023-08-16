@@ -541,7 +541,7 @@ const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
 };
 
 const RevenueCellRenderer = ({ value }: { value: number }) => {
-  if (!value) return '';
+  if (!value) return '-';
   const value_ = value * 1000;
   // check if it is int billion
   if (value_ > 1000000000)

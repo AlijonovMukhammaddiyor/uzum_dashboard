@@ -47,6 +47,13 @@ function Pricing({ className }: { className?: string }) {
           <div className='flex max-w-max gap-12 rounded-md'></div>
           <div className='border-primary flex h-10 w-[200px] items-center justify-between rounded-md border'>
             {/* 1 Month Option */}
+            {state.user?.tariff === 'trial' && (
+              <p className='absolute left-[380px] top-16 text-xs'>
+                {i18n.language === 'uz'
+                  ? "1 kunlik sinov versiyasida do'konlarni tanlash imkoniyati mavjud emas"
+                  : 'Возможность выбора магазинов недоступна в пробной версии на 1 день'}
+              </p>
+            )}
             <div
               className={clsxm(
                 'flex h-full w-1/2 cursor-pointer items-center justify-center',

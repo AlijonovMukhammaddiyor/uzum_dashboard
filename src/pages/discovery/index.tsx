@@ -6,7 +6,7 @@ import * as React from 'react';
 import API from '@/lib/api';
 
 import Layout from '@/components/layout/Layout';
-import HomeComponent from '@/components/pages/home/HomeComponent';
+import DiscoveryComponent from '@/components/pages/discovery/DiscoveryComponent';
 import Seo from '@/components/Seo';
 
 import { useContextState } from '@/context/Context';
@@ -17,11 +17,9 @@ export interface HomeProps {
   user: UserType;
 }
 
-export default function HomePage({ user }: HomeProps) {
+export default function Discovery({ user }: HomeProps) {
   const { dispatch } = useContextState();
   const { t } = useTranslation('tabs');
-
-  console.log('user', user);
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
@@ -39,7 +37,7 @@ export default function HomePage({ user }: HomeProps) {
   return (
     <Layout>
       <Seo />
-      <HomeComponent user={user} />
+      <DiscoveryComponent user={user} />
     </Layout>
   );
 }
