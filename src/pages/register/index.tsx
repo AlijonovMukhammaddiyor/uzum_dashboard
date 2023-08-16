@@ -10,7 +10,7 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import Loading from '@/components/Loading';
-import NamesAndEmailComponent from '@/components/pages/landing/register/NameInput';
+import NamesAndEmailComponent from '@/components/pages/register/NameInput';
 import Seo from '@/components/Seo';
 
 import Logo from '@/assets/landing/main.png';
@@ -56,7 +56,7 @@ const Register = () => {
           Рус
         </div>
       </div>
-      <div className='base:w-1/2 bg-gradient base:bg-none relative flex w-full items-center justify-center overflow-hidden px-5'>
+      <div className='base:w-1/2 base:bg-none relative flex w-full items-center justify-center overflow-hidden px-5'>
         <Link href='/' className='absolute left-6 top-3 z-10'>
           {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
           <Image
@@ -69,8 +69,8 @@ const Register = () => {
         </Link>
         <div
           className={clsxm(
-            'relative  flex max-w-full flex-col items-center justify-center gap-6 px-2',
-            'bg-gradient base:bg-none'
+            'relative flex max-w-full flex-col items-center justify-center gap-6 px-2',
+            'base:bg-none'
           )}
         >
           <RegisterHeader plan={plan as string} />

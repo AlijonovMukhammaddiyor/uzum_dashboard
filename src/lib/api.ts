@@ -119,7 +119,7 @@ class API {
       // const error_ = error as AxiosError;
       // console.log('error in refreshTokens', error_.cause);
       logger(
-        (error as AxiosError).response?.data ?? error,
+        // (error as AxiosError).response?.data ?? error.response?.,
         "Can't refresh token in refreshTokens"
       );
       throw new Error("Can't refresh token");
@@ -128,7 +128,6 @@ class API {
 
   public async login(user: { username: string; password: string }) {
     try {
-      console.log('user', user);
       if (!user.username || !user.password)
         throw new Error('Foydalanuvchi nomi yoki paroli kiritilmadi');
       const res = await axios.post('/api/auth/login', { user });
@@ -152,23 +151,25 @@ class API {
   }
 
   public async register(user: {
-    username: string;
+    username?: string;
+    isGoogle?: boolean;
     referred_by?: string;
-    password: string;
+    password?: string;
+    code?: string;
+    phone_number?: string;
   }) {
     try {
       const data = {
         username: user.username,
         referred_by_code: user.referred_by,
         password: user.password,
+        phone_number: user.phone_number,
       };
-
-      if (!data.username || !data.password)
-        throw new Error(
-          'Foydalanuvchi nomi, telefon raqami yoki paroli kiritilmadi'
-        );
-
-      const res = await axios.post('/api/auth/register', { user: data });
+      const res = await axios.post('/api/auth/register', {
+        user: data,
+        code: user.code,
+        isGoogle: user.isGoogle,
+      });
       if (res.status === 200) return true;
       return false;
     } catch (err) {

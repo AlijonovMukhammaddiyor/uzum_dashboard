@@ -4,10 +4,6 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    cursor: {
-      grab: 'grab',
-      grabbing: 'grabbing',
-    },
     screens: {
       sm: '640px',
       md: '768px',

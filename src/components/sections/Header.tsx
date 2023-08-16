@@ -30,7 +30,7 @@ export default function Header() {
     try {
       const api = new API(null);
       const res = await api.logout();
-      if (res) router.push('/login');
+      if (res) router.push('/');
     } catch (e) {
       logger(e, 'Error in Header');
       alert(e);
@@ -103,10 +103,12 @@ export default function Header() {
                 )}
               </div>
 
-              <div className='flex max-w-[200px] items-center justify-start '>
+              <div className='flex max-w-[200px] items-center justify-start overflow-hidden '>
                 <HiOutlineUserCircle className='h-6 w-6 flex-shrink-0 rounded-full text-black' />
                 <div className='ml-1 flex flex-col items-start justify-start'>
-                  <span className='m-0 text-xs'>{state.user?.username}</span>
+                  <span className='m-0 max-w-[200px] text-xs'>
+                    {state.user?.username}
+                  </span>
                 </div>
                 {state.user?.tariff === 'seller' ? (
                   <Image

@@ -17,17 +17,18 @@ export default async function handler(
     return res.status(405).end(`Method ${method} Not Allowed`);
   }
 
-  const { user } = body;
+  const { user, code, isGoogle } = body;
 
   if (!user) {
     return res.status(400).json({ detail: 'User data is required.' });
   }
-
+  const endpoint = isGoogle ? '/google/' : '/users/';
   try {
     const response = await axios.post(
-      SERVER_URL + '/users/',
+      SERVER_URL + endpoint,
       {
         ...user,
+        code,
       },
       {
         headers: {
@@ -38,8 +39,8 @@ export default async function handler(
     );
 
     if (response.status === 200 || response.status === 201) {
-      const refreshToken = response.data.refresh;
-      const accessToken = response.data.access;
+      const refreshToken = response.data.refresh_token;
+      const accessToken = response.data.access_token;
 
       const isSecure = process.env.NODE_ENV === 'production';
 

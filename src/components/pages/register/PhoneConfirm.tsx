@@ -3,7 +3,7 @@ import React from 'react';
 
 import clsxm from '@/lib/clsxm';
 
-import RegisterFooter from '@/components/pages/landing/register/RegisterFooter';
+import RegisterFooter from '@/components/pages/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
 

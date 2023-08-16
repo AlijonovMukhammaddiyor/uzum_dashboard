@@ -58,7 +58,7 @@ module.exports = nextConfig;
 
 const ContentSecurityPolicy = `
   default-src 'self' data:;
-  script-src 'self' 'unsafe-eval' https://telegram.org https://va.vercel-scripts.com https://vitals.vercel-insights.com;
+  script-src 'self' 'unsafe-eval' https://telegram.org https://va.vercel-scripts.com https://vitals.vercel-insights.com https://accounts.google.com/gsi/client;
   child-src 'self' https://telegram.org blob:;
   style-src 'self' 'unsafe-inline' https://telegram.org https://fonts.googleapis.com;
   img-src 'self' data: https://images.unsplash.com https://plus.unsplash.com https://images.uzum.uz https://images.umarket.uz;

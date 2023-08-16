@@ -8,3 +8,6 @@ export const showLogger = isLocal
 export const SERVER_URL = isLocal
   ? 'http://localhost:8000/api'
   : 'https://api.alijonov.com/api';
+
+export const GOOGLE_CLIENT_ID =
+  '483214873501-l2uhke5s95fejuciimdhcp8kt712lnj9.apps.googleusercontent.com';
