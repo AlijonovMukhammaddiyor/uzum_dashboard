@@ -13,6 +13,7 @@ import logger from '@/lib/logger';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
 
+import crown from '@/assets/landing/crown.png';
 import free from '@/assets/landing/free.png';
 import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
@@ -121,7 +122,7 @@ export default function Header() {
                   />
                 ) : state.user?.tariff === 'business' ? (
                   <Image
-                    src={starter}
+                    src={crown}
                     alt='premium-star'
                     className='ml-2 h-5 w-5'
                   />

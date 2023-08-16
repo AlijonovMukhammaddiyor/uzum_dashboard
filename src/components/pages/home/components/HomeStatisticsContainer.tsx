@@ -492,7 +492,7 @@ function HomeStatisticsContainer({
           loading={isLoading()}
         >
           <>
-            <div className='absolute left-8 top-0'>
+            <div className='absolute left-8 top-0 flex items-center justify-start gap-2'>
               <Select
                 className='basic-single right-5 top-4 z-10 w-[300px] cursor-pointer rounded-md'
                 classNamePrefix='select'
@@ -554,6 +554,11 @@ function HomeStatisticsContainer({
                   },
                 ]}
               />
+              <p className='mt-7'>
+                {i18n.language === 'uz'
+                  ? "Ma'lumot turini tanlang"
+                  : 'Выберите тип данных'}
+              </p>
             </div>
             {!isLoading() &&
               getCurrentDataContainer(

@@ -1,6 +1,9 @@
 import { AxiosResponse } from 'axios';
+import * as FileSaver from 'file-saver';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { PiMicrosoftExcelLogoFill } from 'react-icons/pi';
+import XLSX from 'sheetjs-style';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -9,6 +12,7 @@ import logger from '@/lib/logger';
 import { getShopTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import RangeChartShops from '@/components/pages/sellers/components/RangeChartShops';
+import Button from '@/components/shared/buttons/Button';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 import Table from '@/components/shared/Table';
 
@@ -45,7 +49,7 @@ interface TopsType {
 }
 
 function SellersTable({ className, user }: Props) {
-  const { t } = useTranslation('sellers');
+  const { t, i18n } = useTranslation('sellers');
   const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [loadingTops, setLoadingTops] = React.useState<boolean>(false);
@@ -81,6 +85,31 @@ function SellersTable({ className, user }: Props) {
         setShopsLoading(false);
       });
   }, []);
+
+  const exportToExcel = () => {
+    const api = new API(null);
+    setLoading(true);
+    if (user.tariff === 'free' || user.tariff === 'trial') {
+      setLoading(false);
+      return alert(
+        i18n?.language === 'uz'
+          ? "Bu funktsiyadan foydalanish uchun boshqa tarifga o'ting"
+          : 'Для использования этой функции перейдите на другой тариф'
+      );
+    }
+    api
+      .get<unknown, AxiosResponse<Blob>>('/shop/toexcel/')
+      .then((res) => {
+        // download res.data as excel file
+        downloadExcel(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in export to excel');
+        setLoading(false);
+      });
+  };
 
   const loadData = (
     page: number,
@@ -186,7 +215,27 @@ function SellersTable({ className, user }: Props) {
         loading={loading}
         className={clsxm('w-full overflow-scroll border-none')}
       >
-        <p className='text-primary h-10 w-full text-center'>{t('allShops')}</p>
+        <p className='text-primary h-10 w-full text-center font-semibold'>
+          {t('allShops')}
+        </p>
+        <div className='flex w-full items-center justify-end'>
+          <Button
+            className='mb-3 mt-6 flex items-center justify-start rounded-md bg-green-500 px-3 text-white hover:bg-green-700'
+            onClick={exportToExcel}
+            isLoading={loading}
+            spinnerColor='rgb(126 34 206)'
+            disabled={
+              user.tariff === 'free' || user.tariff === 'trial' ? true : false
+            }
+          >
+            <PiMicrosoftExcelLogoFill className='mr-2' />
+            <>
+              {i18n?.language === 'uz'
+                ? 'Excelga yuklab olish'
+                : 'Скачать в Excel'}
+            </>
+          </Button>
+        </div>
         <PaginatedTable
           columnDefs={getShopTableColumnDefs(t2)}
           className='h-[1016px] min-w-full'
@@ -199,3 +248,52 @@ function SellersTable({ className, user }: Props) {
 }
 
 export default SellersTable;
+
+export function downloadExcel(data: any) {
+  const fileType =
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  const fileExtension = '.xlsx';
+
+  // Filter data to include only the required columns
+  const filteredData = data.map((item: any) => ({
+    position: item.position,
+    shop_title: item.shop_title,
+    total_products: item.total_products,
+    total_revenue: item.total_revenue,
+    total_orders: item.total_orders,
+    total_reviews: item.total_reviews,
+    average_purchase_price: item.average_purchase_price,
+    date_updated: item.date_pretty,
+    num_categories: item.num_categories,
+    rating: item.rating,
+  }));
+
+  // Convert the filtered data to a sheet
+  const ws = XLSX.utils.json_to_sheet(filteredData);
+
+  // Define custom column headers in Russian
+  const customHeaders = {
+    A1: 'Рейтинг',
+    B1: 'Всего товаров',
+    C1: 'Всего заказов',
+    D1: 'Всего отзывов',
+    E1: 'Общий доход',
+    F1: 'Cредняя цена продуктов',
+    H1: 'Дата обновления',
+    I1: 'Количество категорий',
+    J1: 'Название магазина',
+    L1: 'Позиция',
+  };
+
+  // Map custom headers to the sheet
+  for (const key in customHeaders) {
+    const key_: keyof typeof customHeaders = key as any;
+    ws[key_] = { v: customHeaders[key_] };
+  }
+
+  // Create the workbook and save it
+  const wb = { Sheets: { shops: ws }, SheetNames: ['shops'] };
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const data2 = new Blob([excelBuffer], { type: fileType });
+  FileSaver.saveAs(data2, 'shops' + fileExtension);
+}

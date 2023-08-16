@@ -74,6 +74,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
+    // console.log(res);
+
     if (res.tariff === 'free') {
       return {
         redirect: {

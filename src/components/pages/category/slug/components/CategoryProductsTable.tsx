@@ -8,8 +8,8 @@ import logger from '@/lib/logger';
 
 import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import AntTreemap from '@/components/shared/AntTreeMap';
 import PaginatedTable from '@/components/shared/PaginatedTable';
+import TreeMapChart from '@/components/shared/Treemap';
 
 export interface Props {
   activeTab?: string;
@@ -208,17 +208,12 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           {/* <PieChart data={topProductsData} labelType='spider' />
            */}
 
-          <AntTreemap
+          <TreeMapChart
             data={prepareTreeData(topProductsData, i18n.language)}
-            style={{
-              width: '100%',
-              height: '100%',
-              padding: '0 0px',
-              margin: '0 0',
-            }}
-            // min={Math.min(...topProductsData.map((product) => product.value))}
-            // max={Math.max(...topProductsData.map((product) => product.value))}
-            // title={t('revenue')}
+            min={Math.min(...topProductsData.map((product) => product.value))}
+            max={Math.max(...topProductsData.map((product) => product.value))}
+            title={t('revenue')}
+            colors={['#FFC107', '#FF9800', '#FF5722', '#F44336', '#E91E63']}
           />
         </div>
       </Container>
@@ -244,24 +239,23 @@ function prepareTreeData(
   lang: string
 ) {
   const res: {
-    name: string;
+    title: string;
     children: {
-      name: string;
-      value: number;
+      title: string;
+      analytics: number;
     }[];
   } = {
-    name: lang === 'uz' ? 'Mahsulotlar' : 'Товары',
+    title: lang === 'uz' ? 'Mahsulotlar' : 'Товары',
     children: [],
   };
 
   for (const product of products) {
     res.children.push({
-      name: product.type,
-      value: product.value * 1000,
+      title: product.type,
+      analytics: product.value,
     });
   }
 
   return res;
 }
-
 export default CategoryProductsTable;
