@@ -62,7 +62,46 @@ export default function Header() {
 
         <nav>
           <ul className='flex items-center justify-between space-x-8'>
-            <li>
+            <li className='flex items-center justify-end gap-3'>
+              <div className='mr-3 rounded-md border bg-slate-200 px-3 py-1 text-sm'>
+                {' '}
+                {state.user?.tariff === 'free' ? (
+                  <p>
+                    {i18n.language === 'uz'
+                      ? 'Tarif: Bepul'
+                      : 'Тариф: Бесплатный'}
+                  </p>
+                ) : state.user?.tariff === 'trial' ? (
+                  <p>
+                    {i18n.language === 'uz'
+                      ? 'Tarif: 1 kunlik sinov'
+                      : 'Тариф: 1 дневный тест'}
+                  </p>
+                ) : state.user?.tariff === 'base' ? (
+                  <p>
+                    {i18n.language === 'uz'
+                      ? "Tarif: Boshlang'ich"
+                      : 'Тариф: Начальный'}
+                  </p>
+                ) : state.user?.tariff === 'seller' ? (
+                  <p>
+                    {i18n.language === 'uz'
+                      ? 'Tarif: Sotuvchi'
+                      : 'Тариф: Продавец'}
+                  </p>
+                ) : state.user?.tariff === 'business' ? (
+                  <p>
+                    {i18n.language === 'uz' ? 'Tarif: Biznes' : 'Тариф: Бизнес'}
+                  </p>
+                ) : (
+                  <p>
+                    {i18n.language === 'uz'
+                      ? 'Tarif: Bepul'
+                      : 'Тариф: Бесплатный'}
+                  </p>
+                )}
+              </div>
+
               <div className='flex max-w-[200px] items-center justify-start '>
                 <HiOutlineUserCircle className='h-6 w-6 flex-shrink-0 rounded-full text-black' />
                 <div className='ml-1 flex flex-col items-start justify-start'>

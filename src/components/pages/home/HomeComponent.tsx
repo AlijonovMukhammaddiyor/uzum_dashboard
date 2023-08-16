@@ -48,6 +48,7 @@ function HomeComponent({ user }: { user: UserType }) {
         setActiveTab={setActiveTab}
         className='overflow-auto'
       />
+
       <HomeStatisticsContainer
         user={user}
         className={clsxm(activeTab === t('home.overview') ? '' : 'hidden')}

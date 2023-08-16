@@ -399,7 +399,7 @@ function HomeStatisticsContainer({
     return loading.shops;
   };
   const router = useRouter();
-
+  const canSee = user.tariff === 'seller' || user.tariff === 'business';
   return (
     <div
       className={clsxm(
@@ -407,6 +407,15 @@ function HomeStatisticsContainer({
         className
       )}
     >
+      {!canSee && (
+        <p className='absolute -top-5 left-[125px] px-2 py-1 text-xs'>
+          {i18n.language === 'uz'
+            ? "Qolgan ma'lumotlardan foydalanish uchun, iltimos boshqa tarifga o'ting -> Shaxsiy kabinet"
+            : i18n.language === 'ru'
+            ? 'Для получения доступа к остальным данным, пожалуйста, перейдите на другой тариф -> Moй кабинет'
+            : 'To get access to the rest of the data, please switch to another tariff -> Personal account'}
+        </p>
+      )}
       <div className='no-scrollbar flex w-full items-center justify-start gap-6 overflow-x-scroll py-3'>
         <GeneralsContainer
           shops={shops}

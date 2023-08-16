@@ -202,6 +202,17 @@ function Sidebar({
             activeTab={activeTab}
             isSidebarOpen={isSidebarOpen}
             onClick={() => {
+              if (
+                state.user?.tariff === 'base' ||
+                state.user?.tariff === 'trial'
+              ) {
+                alert(
+                  i18n.language === 'uz'
+                    ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                    : 'Для использования этой страницы перейдите на другой тариф'
+                );
+                return;
+              }
               setActiveTab('Aksiyalar');
             }}
             // disabled
@@ -352,8 +363,20 @@ function SidebarItem({
                 ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
                 : 'Для использования этой страницы перейдите на другой тариф'
             );
+
             return;
           }
+
+          if (state.user?.tariff === 'trial' && href === '/campaigns') {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                : 'Для использования этой страницы перейдите на другой тариф'
+            );
+
+            return;
+          }
+
           dispatch({
             type: 'PATH',
             payload: { path: null },
