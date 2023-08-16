@@ -1,7 +1,6 @@
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
-import { IoCheckmarkSharp } from 'react-icons/io5';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -418,7 +417,7 @@ function Tarif({
           </>
         </Button>
       </div>
-      <ul className=' flex flex-col gap-2  '>
+      {/* <ul className=' flex flex-col gap-2  '>
         {ff.map((f: string) => {
           if (!features.includes(f)) return null;
           return (
@@ -428,7 +427,7 @@ function Tarif({
             </li>
           );
         })}
-      </ul>
+      </ul> */}
     </div>
   );
 }
