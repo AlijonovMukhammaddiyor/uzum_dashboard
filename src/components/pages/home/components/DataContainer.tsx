@@ -242,12 +242,13 @@ function getData(
   title: string,
   lang: string
 ) {
+  console.log(title);
   if (!data.orders) return [];
 
   if (title === 'Daromad miqdori' || title === 'Доход') {
     return data.revenue.data;
   }
-  if (title === 'Buyurtmalar soni' || title === 'Заказы') {
+  if (title === 'Buyurtmalar soni' || title === 'Продаж') {
     return data.orders.data;
   }
   if (title === 'Mahsulotlar soni' || title === 'Продукты') {
@@ -267,7 +268,7 @@ function getMinMax(data: any, title: string) {
   if (title === 'Daromad miqdori' || title === 'Доход') {
     return data.revenue.min_max;
   }
-  if (title === 'Buyurtmalar soni' || title === 'Заказы') {
+  if (title === 'Buyurtmalar soni' || title === 'Продаж') {
     return data.orders.min_max;
   }
   if (title === 'Mahsulotlar soni' || title === 'Продукты') {

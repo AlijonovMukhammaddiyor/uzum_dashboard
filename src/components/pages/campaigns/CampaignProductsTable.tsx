@@ -55,7 +55,7 @@ function CampaignProductsTable() {
   }, []);
 
   return (
-    <div className='h-full w-full'>
+    <div className='min-h-full w-full overflow-scroll pb-16'>
       <Container
         loading={loading}
         className='h-full w-full border-none bg-transparent'

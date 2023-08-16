@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiPurchaseTagAlt } from 'react-icons/bi';
 import { BsShop } from 'react-icons/bs';
@@ -40,6 +40,9 @@ function HomeStatisticsContainer({
   const [revenue, setRevenue] = React.useState<any[]>([]);
   const [reviews, setReviews] = React.useState<any[]>([]);
   const [tree, setTree] = React.useState<any[]>([]);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
   const [shops, setShops] = React.useState<{
     shops: {
       total_shops: number;
@@ -69,6 +72,29 @@ function HomeStatisticsContainer({
     topShops: true,
     topProducts: true,
   });
+  const draggableRef = useRef<HTMLDivElement>(null);
+  const handleMouseDown = (e: any) => {
+    setIsDown(true);
+    setStartX(e.pageX - e.currentTarget.offsetLeft);
+    setScrollLeft(draggableRef.current?.scrollLeft ?? 0);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDown(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDown(false);
+  };
+
+  const handleMouseMove = (e: any) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - e.currentTarget.offsetLeft;
+    const walk = x - startX;
+    if (draggableRef.current)
+      draggableRef.current.scrollLeft = scrollLeft - walk;
+  };
   const [isFullScreen, setIsFullScreen] = React.useState<string | null>(null);
   const { t, i18n } = useTranslation('common');
   const { t: t2 } = useTranslation('tableColumns');
@@ -416,7 +442,14 @@ function HomeStatisticsContainer({
             : 'To get access to the rest of the data, please switch to another tariff -> Personal account'}
         </p>
       )}
-      <div className='no-scrollbar flex w-full items-center justify-start gap-6 overflow-x-scroll py-3'>
+      <div
+        className='no-scrollbar flex w-full items-center justify-start gap-6 overflow-x-scroll py-3'
+        ref={draggableRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+      >
         <GeneralsContainer
           shops={shops}
           orders={orders}
