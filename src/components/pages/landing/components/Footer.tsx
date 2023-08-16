@@ -35,7 +35,7 @@ function Footer() {
           <a href='https://t.me/uzum_uzanalitika' target='_blank'>
             <BsTelegram className='h-8 w-8 cursor-pointer text-white ' />
           </a>
-          <a href='mailto: uzumanalitika@gmail.com'>
+          <a href='mailto: uzanalitika@gmail.com'>
             <HiOutlineMail className='h-8 w-8 cursor-pointer text-white' />
           </a>
         </div>

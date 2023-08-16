@@ -1,8 +1,11 @@
 import { Head, Html, Main, NextScript } from 'next/document';
+import { useTranslation } from 'next-i18next';
 
 export default function Document() {
+  const { i18n } = useTranslation(); // ru and uz
+
   return (
-    <Html lang='uz'>
+    <Html lang={i18n.language}>
       <Head>
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
@@ -29,15 +32,27 @@ export default function Document() {
 
         <meta
           name='description'
-          content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+          content={
+            i18n.language === 'uz'
+              ? "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+              : 'Полноценный инструмент аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т.д. А также подробный анализ развивающихся товаров и категорий.'
+          }
         />
         <meta
           property='og:title'
-          content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati.'
+          content={
+            i18n.language === 'uz'
+              ? 'UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati.'
+              : 'UzAnalitika - Комплексный аналитический сервис для вашего бизнеса на рынке Узбекистана.'
+          }
         />
         <meta
           property='og:description'
-          content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+          content={
+            i18n.language === 'uz'
+              ? "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+              : 'Полноценный инструмент аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т.д. А также подробный анализ развивающихся товаров и категорий.'
+          }
         />
         <meta
           property='og:image'
