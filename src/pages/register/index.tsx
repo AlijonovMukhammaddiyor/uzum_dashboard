@@ -13,9 +13,7 @@ import Loading from '@/components/Loading';
 import NamesAndEmailComponent from '@/components/pages/landing/register/NameInput';
 import Seo from '@/components/Seo';
 
-import free from '@/assets/landing/free.png';
 import Logo from '@/assets/landing/main.png';
-import star from '@/assets/landing/star.png';
 import starter from '@/assets/landing/starter.png';
 
 const Register = () => {
@@ -90,6 +88,8 @@ const Register = () => {
 
 function RegisterHeader({ plan }: { plan: string }) {
   const { t } = useTranslation('register');
+  const { t: t2 } = useTranslation('landing');
+
   return (
     <div className='flex w-full max-w-sm flex-col items-center justify-center gap-6 px-2'>
       <Seo />
@@ -105,37 +105,17 @@ function RegisterHeader({ plan }: { plan: string }) {
       </div>
       <div className='flex w-full items-center justify-between text-sm text-slate-300'>
         <span
-          className={clsxm(
-            'h-px flex-1 bg-slate-300',
-            plan === 'premium'
-              ? 'bg-primary'
-              : plan === 'basic'
-              ? 'bg-blue-500'
-              : 'bg-green-500'
-          )}
+          className={clsxm('h-px flex-1 bg-slate-300', 'bg-blue-500')}
         ></span>
         <p
           className={clsxm(
             'mx-3 flex items-center justify-start gap-2',
-            plan === 'premium'
-              ? 'text-primary'
-              : plan === 'basic'
-              ? 'text-blue-500'
-              : 'text-green-500'
+            'text-blue-500'
           )}
         >
-          {plan === 'premium' ? (
-            <Image src={star} alt='premium-star' className='h-5 w-5' />
-          ) : plan === 'basic' ? (
-            <Image src={starter} alt='premium-star' className='h-5 w-5' />
-          ) : (
-            <Image src={free} alt='premium-star' className='h-5 w-5' />
-          )}
-          {plan === 'premium'
-            ? t('premium')
-            : plan === 'basic'
-            ? t('pro')
-            : t('free')}
+          <Image src={starter} alt='premium-star' className='h-5 w-5' />
+
+          {t2('tariffs.beginner')}
         </p>
 
         <span
@@ -171,7 +151,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           props: {
             ...(await serverSideTranslations(
               context.locale || 'uz',
-              ['common', 'register'],
+              ['common', 'register', 'landing'],
               null,
               ['uz', 'ru']
             )),
@@ -183,7 +163,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {
           ...(await serverSideTranslations(
             context.locale || 'uz',
-            ['common', 'register'],
+            ['common', 'register', 'landing'],
             null,
             ['uz', 'ru']
           )),
@@ -194,7 +174,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {
           ...(await serverSideTranslations(
             context.locale || 'uz',
-            ['common', 'register'],
+            ['common', 'register', 'landing'],
             null,
             ['uz', 'ru']
           )),
@@ -206,7 +186,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         ...(await serverSideTranslations(
           context.locale || 'uz',
-          ['common', 'register'],
+          ['common', 'register', 'landing'],
           null,
           ['uz', 'ru']
         )),

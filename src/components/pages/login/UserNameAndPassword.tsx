@@ -91,10 +91,10 @@ const UserNameAndPassword = ({
   return (
     <div
       className={clsxm(
-        'top-full flex min-w-[300px] max-w-[400px] flex-col gap-2 transition-all duration-500',
-        activeTab === currentTab
-          ? '-left-0 opacity-100'
-          : '-left-full opacity-0'
+        'top-full flex min-w-[300px] max-w-[300px] flex-col gap-2 transition-all duration-500'
+        // activeTab === currentTab
+        //   ? '-left-0 opacity-100'
+        //   : '-left-full opacity-0'
       )}
     >
       <CustomInput
@@ -174,7 +174,7 @@ const UserNameAndPassword = ({
           !isPasswordValid || sending || !user.username || errors.length > 0
         }
       >
-        {t('title')}
+        <>{t('title')}</>
       </Button>
 
       {/* <LoginFooter

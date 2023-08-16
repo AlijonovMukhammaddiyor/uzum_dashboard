@@ -108,7 +108,7 @@ const NamesAndEmailComponent = ({
         {error && <p className='text-xs text-red-500'>{error}</p>}
       </div>
 
-      <div className='flex items-center justify-center gap-2'>
+      <div className='flex items-start justify-center gap-2'>
         <input
           type='checkbox'
           checked={isAgreed}

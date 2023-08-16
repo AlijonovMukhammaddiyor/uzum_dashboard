@@ -130,19 +130,25 @@ function LoginComponent() {
           </p>
         </div>
       </div>
-      <div className='base:w-1/2  relative mt-[22vh] flex w-full items-start justify-center px-5 md:mt-[30vh]'>
+      <div className='base:w-1/2 relative mt-[22vh] flex w-full items-start justify-center px-5 md:mt-[30vh]'>
         <div
           className={clsxm(
-            'flex max-w-full flex-col items-start justify-start gap-6 px-2'
+            'flex max-w-[350px] flex-col items-center justify-start gap-6 px-2'
             // activeTab === 3 && '-mt-[400px]'
           )}
         >
           <LoginHeader activeTab={activeTab} />
-
+          <p className='-mt-2 max-w-full px-2 text-sm text-slate-500'>
+            {i18n.language === 'uz'
+              ? "Agar telegram orqali ro'yhatdan o'tgan bo'lsangiz"
+              : 'Если вы зарегистрированы через телеграм'}
+          </p>
           <TelegramLogin onTelegramAuth={onTelegramAuth} />
           <div className='flex w-full items-center justify-between'>
             <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
-            <p>Yoki</p>
+            <p className='text-slate-500'>
+              {i18n.language === 'uz' ? 'Yoki' : 'Или'}
+            </p>
             <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
           </div>
           <UserNameAndPassword
