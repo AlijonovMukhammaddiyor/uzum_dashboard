@@ -78,6 +78,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             name='viewport'
             content='width=device-width, initial-scale=0.75 '
           />
+          <link
+            rel='icon'
+            href='https://www.uzanalitika.uz/images/favicon.ico?v=2'
+          />
           <meta
             name='description'
             content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
@@ -92,7 +96,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
           <meta
             property='og:image'
-            content='https://www.uzanalitika.uz/images/og_new.png'
+            content='https://www.uzanalitika.uz/images/og_new.png?v=2'
           />
           <meta property='og:url' content='https://www.uzanalitika.uz/' />
           <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
@@ -109,7 +113,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
           <meta
             property='twitter:image'
-            content='https://www.uzanalitika.uz/images/og_new.png'
+            content='https://www.uzanalitika.uz/images/og_new.png?v=2'
           />
           <meta property='twitter:site' content='@uzanalitika' />
           <meta property='twitter:creator' content='@uzanalitika' />

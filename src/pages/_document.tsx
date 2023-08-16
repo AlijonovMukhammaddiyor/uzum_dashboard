@@ -13,7 +13,10 @@ export default function Document() {
           href='https://fonts.gstatic.com'
           crossOrigin='anonymous'
         />
-
+        <link
+          rel='icon'
+          href='https://www.uzanalitika.uz/images/favicon.ico?v=2'
+        />
         <link
           href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap'
           rel='stylesheet'
@@ -56,7 +59,7 @@ export default function Document() {
         />
         <meta
           property='og:image'
-          content='https://www.uzanalitika.uz/images/og_new.png'
+          content='https://www.uzanalitika.uz/images/og_new.png?v=2'
         />
         <meta property='og:url' content='https://www.uzanalitika.uz/' />
         <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
@@ -73,7 +76,7 @@ export default function Document() {
         />
         <meta
           property='twitter:image'
-          content='https://www.uzanalitika.uz/images/og_new.png'
+          content='https://www.uzanalitika.uz/images/og_new.png?v=2'
         />
         <meta property='twitter:site' content='@uzanalitika' />
         <meta property='twitter:creator' content='@uzanalitika' />
