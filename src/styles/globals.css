@@ -255,6 +255,15 @@
   .custom-slider .rc-slider-mark-text {
     fontsize: 16px;
   }
+
+  .draggable {
+    overflow: auto;
+    cursor: grab;
+  }
+
+  .draggable:active {
+    cursor: grabbing;
+  }
 }
 
 @layer utilities {

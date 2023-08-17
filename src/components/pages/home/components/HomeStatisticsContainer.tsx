@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiPurchaseTagAlt } from 'react-icons/bi';
 import { BsShop } from 'react-icons/bs';
@@ -40,6 +40,9 @@ function HomeStatisticsContainer({
   const [revenue, setRevenue] = React.useState<any[]>([]);
   const [reviews, setReviews] = React.useState<any[]>([]);
   const [tree, setTree] = React.useState<any[]>([]);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
   const [shops, setShops] = React.useState<{
     shops: {
       total_shops: number;
@@ -69,6 +72,29 @@ function HomeStatisticsContainer({
     topShops: true,
     topProducts: true,
   });
+  const draggableRef = useRef<HTMLDivElement>(null);
+  const handleMouseDown = (e: any) => {
+    setIsDown(true);
+    setStartX(e.pageX - e.currentTarget.offsetLeft);
+    setScrollLeft(draggableRef.current?.scrollLeft ?? 0);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDown(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDown(false);
+  };
+
+  const handleMouseMove = (e: any) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - e.currentTarget.offsetLeft;
+    const walk = x - startX;
+    if (draggableRef.current)
+      draggableRef.current.scrollLeft = scrollLeft - walk;
+  };
   const [isFullScreen, setIsFullScreen] = React.useState<string | null>(null);
   const { t, i18n } = useTranslation('common');
   const { t: t2 } = useTranslation('tableColumns');
@@ -399,7 +425,7 @@ function HomeStatisticsContainer({
     return loading.shops;
   };
   const router = useRouter();
-
+  const canSee = user.tariff === 'seller' || user.tariff === 'business';
   return (
     <div
       className={clsxm(
@@ -407,7 +433,23 @@ function HomeStatisticsContainer({
         className
       )}
     >
-      <div className='no-scrollbar flex w-full items-center justify-start gap-6 overflow-x-scroll py-3'>
+      {!canSee && (
+        <p className='absolute -top-5 left-[125px] px-2 py-1 text-xs'>
+          {i18n.language === 'uz'
+            ? "Qolgan ma'lumotlardan foydalanish uchun, iltimos boshqa tarifga o'ting -> Shaxsiy kabinet"
+            : i18n.language === 'ru'
+            ? 'Для получения доступа к остальным данным, пожалуйста, перейдите на другой тариф -> Moй кабинет'
+            : 'To get access to the rest of the data, please switch to another tariff -> Personal account'}
+        </p>
+      )}
+      <div
+        className='no-scrollbar flex w-full items-center justify-start gap-6 overflow-x-scroll py-3'
+        ref={draggableRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+      >
         <GeneralsContainer
           shops={shops}
           orders={orders}
@@ -483,7 +525,7 @@ function HomeStatisticsContainer({
           loading={isLoading()}
         >
           <>
-            <div className='absolute left-8 top-0'>
+            <div className='absolute left-8 top-0 flex items-center justify-start gap-2'>
               <Select
                 className='basic-single right-5 top-4 z-10 w-[300px] cursor-pointer rounded-md'
                 classNamePrefix='select'
@@ -545,6 +587,11 @@ function HomeStatisticsContainer({
                   },
                 ]}
               />
+              <p className='mt-7'>
+                {i18n.language === 'uz'
+                  ? "Ma'lumot turini tanlang"
+                  : 'Выберите тип данных'}
+              </p>
             </div>
             {!isLoading() &&
               getCurrentDataContainer(
@@ -679,7 +726,7 @@ function HomeStatisticsContainer({
           {!loading.topShops ? (
             <Table
               columnDefs={getTopShopsColDefs(t2)}
-              className='h-[360px] min-w-full rounded-sm'
+              className='h-[370px] min-w-full rounded-sm'
               rowData={topShops.shops}
               isMaterial={true}
               setLoading={(l) => {
@@ -720,7 +767,7 @@ function HomeStatisticsContainer({
           {!loading.topProducts ? (
             <Table
               columnDefs={getTopProductsColDefs(t2, i18n.language)}
-              className='h-[360px] min-w-full rounded-sm'
+              className='h-[370px] min-w-full rounded-sm'
               rowData={topProducts.top_products}
               isMaterial={true}
               setLoading={(l) => {

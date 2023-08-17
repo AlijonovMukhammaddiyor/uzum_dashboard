@@ -121,17 +121,17 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
   return (
     <div
       className={clsxm(
-        'flex h-full w-full flex-col items-start justify-start gap-8',
+        'flex min-h-full w-full shrink-0 flex-col items-start justify-start gap-8 overflow-scroll pb-16',
         className
       )}
     >
-      <div className='flex w-full items-center justify-start gap-2'>
+      <div className='flex w-full shrink-0 items-center justify-start gap-2'>
         <VscDebugBreakpointData className='text-primary text-2xl' />
         <p className='text-sm'>{t('select_category_instruction')}</p>
       </div>
       <Container
         loading={loading}
-        className='flex h-[250px] w-full items-start justify-start overflow-x-scroll border-b border-slate-400 bg-transparent'
+        className='flex h-[250px] w-full shrink-0 items-start justify-start overflow-x-scroll border-b border-slate-400 bg-transparent'
       >
         {data.map((category, i) => (
           <CategoryCard
@@ -145,7 +145,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
       <Container
         loading={loadingCategory}
         className={clsxm(
-          'flex w-full flex-col items-start justify-start gap-5 overflow-x-scroll bg-slate-100 p-5',
+          'flex w-full shrink-0 flex-col items-start justify-start gap-5 overflow-x-scroll bg-slate-100 p-5',
           !showCategoryData ? 'h-[250px]' : 'h-[1500px]'
         )}
       >
@@ -184,6 +184,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
               style={{
                 width: '100%',
                 height: '250px',
+                flexShrink: 0,
               }}
               sliderEnd={1}
             />
@@ -199,6 +200,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
               style={{
                 width: '100%',
                 height: '250px',
+                flexShrink: 0,
               }}
             />
           )}
@@ -210,6 +212,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
               style={{
                 width: '100%',
                 height: '250px',
+                flexShrink: 0,
               }}
             />
           )}
@@ -224,6 +227,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
               style={{
                 width: '100%',
                 height: '250px',
+                flexShrink: 0,
               }}
             />
           )}
@@ -232,7 +236,7 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
       {categoryId && categoryProducts.length > 0 && (
         <Container
           loading={loadingCategory}
-          className=' flex w-full flex-col items-start justify-start overflow-x-scroll'
+          className=' flex w-full shrink-0 flex-col items-start justify-start overflow-x-scroll'
         >
           <div className='mb-6 flex w-full items-center justify-start gap-2'>
             <p className='text-primary font-semibold'>

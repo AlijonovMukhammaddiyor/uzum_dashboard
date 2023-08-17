@@ -1,3 +1,4 @@
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Analytics } from '@vercel/analytics/react';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
@@ -24,6 +25,7 @@ import 'rc-slider/assets/index.css';
 
 import ArrowLink from '@/components/shared/links/ArrowLink';
 
+import { GOOGLE_CLIENT_ID } from '@/constant/env';
 import { AuthProvider } from '@/context/Context';
 
 /**
@@ -71,88 +73,90 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.pathname]);
 
   return (
-    <AuthProvider>
-      <main className={roboto.className}>
-        <Head>
-          <meta
-            name='viewport'
-            content='width=device-width, initial-scale=0.75 '
-          />
-          <meta
-            name='description'
-            content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-          />
-          <meta
-            property='og:title'
-            content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
-          />
-          <meta
-            property='og:description'
-            content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-          />
-          <meta
-            property='og:image'
-            content='https://www.uzanalitika.uz/images/og_new.png'
-          />
-          <meta property='og:url' content='https://www.uzanalitika.uz/' />
-          <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
-          <meta property='og:type' content='website' />
-          <meta property='og:locale' content='uz_UZ' />
-          <meta property='twitter:card' content='summary_large_image' />
-          <meta
-            property='twitter:title'
-            content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
-          />
-          <meta
-            property='twitter:description'
-            content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-          />
-          <meta
-            property='twitter:image'
-            content='https://www.uzanalitika.uz/images/og_new.png'
-          />
-          <meta property='twitter:site' content='@uzanalitika' />
-          <meta property='twitter:creator' content='@uzanalitika' />
-          <meta property='twitter:domain' content='uzanalitika.uz' />
-          <meta property='og:image:width' content='1200' />
-          <meta property='og:image:height' content='630' />
-          <title>
-            UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil.
-          </title>
-          <link rel='canonical' href='https://www.uzanalitika.uz/' />
-        </Head>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <AuthProvider>
+        <main className={roboto.className}>
+          <Head>
+            <meta
+              name='viewport'
+              content='width=device-width, initial-scale=0.75 '
+            />
+            <meta
+              name='description'
+              content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+            />
+            <meta
+              property='og:title'
+              content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+            />
+            <meta
+              property='og:description'
+              content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+            />
+            <meta
+              property='og:image'
+              content='https://www.uzanalitika.uz/images/og_new.png?v=2'
+            />
+            <meta property='og:url' content='https://www.uzanalitika.uz/' />
+            <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
+            <meta property='og:type' content='website' />
+            <meta property='og:locale' content='uz_UZ' />
+            <meta property='twitter:card' content='summary_large_image' />
+            <meta
+              property='twitter:title'
+              content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+            />
+            <meta
+              property='twitter:description'
+              content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
+            />
+            <meta
+              property='twitter:image'
+              content='https://www.uzanalitika.uz/images/og_new.png?v=2'
+            />
+            <meta property='twitter:site' content='@uzanalitika' />
+            <meta property='twitter:creator' content='@uzanalitika' />
+            <meta property='twitter:domain' content='uzanalitika.uz' />
+            <meta property='og:image:width' content='1200' />
+            <meta property='og:image:height' content='630' />
+            <title>
+              UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil.
+            </title>
+            <link rel='canonical' href='https://www.uzanalitika.uz/' />
+          </Head>
 
-        <NextNProgress color='rgb(119, 67, 219)' height={8} />
-        {isMobile &&
-        router.pathname !== '/' &&
-        !router.pathname.startsWith('/login') &&
-        !router.pathname.startsWith('/register') ? (
-          <div>
-            <main>
-              <section className='bg-white'>
-                <div className='layout flex min-h-screen flex-col items-center justify-center text-center text-black'>
-                  <RiAlarmWarningFill
-                    size={60}
-                    className='drop-shadow-glow animate-flicker text-red-500'
-                  />
-                  <h2 className='mt-8 text-3xl md:text-6xl'>
-                    Iltimos kompyuter orqali kiring!
-                  </h2>
-                  <ArrowLink className='mt-4 md:text-lg' href='/'>
-                    Bosh Sahifaga Qaytish
-                  </ArrowLink>
-                </div>
-              </section>
-            </main>
-          </div>
-        ) : (
-          <>
-            <Component {...pageProps} />
-            <Analytics />
-          </>
-        )}
-      </main>
-    </AuthProvider>
+          <NextNProgress color='rgb(119, 67, 219)' height={8} />
+          {isMobile &&
+          router.pathname !== '/' &&
+          !router.pathname.startsWith('/login') &&
+          !router.pathname.startsWith('/register') ? (
+            <div>
+              <main>
+                <section className='bg-white'>
+                  <div className='layout flex min-h-screen flex-col items-center justify-center text-center text-black'>
+                    <RiAlarmWarningFill
+                      size={60}
+                      className='drop-shadow-glow animate-flicker text-red-500'
+                    />
+                    <h2 className='mt-8 text-3xl md:text-6xl'>
+                      Iltimos kompyuter orqali kiring!
+                    </h2>
+                    <ArrowLink className='mt-4 md:text-lg' href='/'>
+                      Bosh Sahifaga Qaytish
+                    </ArrowLink>
+                  </div>
+                </section>
+              </main>
+            </div>
+          ) : (
+            <>
+              <Component {...pageProps} />
+              <Analytics />
+            </>
+          )}
+        </main>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 }
 

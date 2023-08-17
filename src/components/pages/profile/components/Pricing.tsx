@@ -1,7 +1,6 @@
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
-import { IoCheckmarkSharp } from 'react-icons/io5';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -226,7 +225,7 @@ function Pricing({ className }: { className?: string }) {
           />
         </div>
         <div className='min-h-screen pb-16'>
-          <div className='bg-primary my-24 w-full p-4 text-center font-semibold text-white'>
+          <div className='my-24 w-full border bg-slate-200 p-4 text-center font-semibold text-black'>
             <p>Tariflarni taqqoslash</p>
           </div>
           <PricingTable featuresData={getPricingData(t)} t={t} />
@@ -337,8 +336,8 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        'four-sided-shadow relative mt-10 flex h-[800px] max-h-[800px] w-[300px] shrink-0 flex-grow  flex-col gap-7 border  bg-white px-5  py-8',
-        isProPlus && 'border-primary translate-y-[-50px] border'
+        'four-sided-shadow relative mt-10 flex h-[350px] max-h-[350px] w-[300px] shrink-0 flex-grow  flex-col gap-7 border  bg-white px-5  py-8',
+        isProPlus && 'border-primary border'
       )}
     >
       {state.user?.tariff === 'trial' && title === t('tariffs.beginner') && (
@@ -425,7 +424,7 @@ function Tarif({
           </>
         </Button>
       </div>
-      <ul className=' flex flex-col gap-2  '>
+      {/* <ul className=' flex flex-col gap-2  '>
         {ff.map((f: string) => {
           if (!features.includes(f)) return null;
           return (
@@ -435,7 +434,7 @@ function Tarif({
             </li>
           );
         })}
-      </ul>
+      </ul> */}
     </div>
   );
 }

@@ -92,27 +92,10 @@ function Sidebar({
   return (
     <div
       className={clsxm(
-        ' shadow-right group relative z-10 w-[61px] -translate-x-full bg-white  py-10 transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
+        ' shadow-right group relative z-10 w-[59px] -translate-x-full bg-white  py-10 transition-all duration-300 ease-in-out hover:w-[240px] sm:translate-x-0',
         className
       )}
     >
-      {/* <div
-        className='bg-primary group absolute -right-4 bottom-[40px] flex h-10 w-10 cursor-pointer items-center justify-center rounded-full shadow-lg'
-        onClick={() => {
-          setIsSidebarOpen(!isSidebarOpen);
-        }}
-      >
-        {isSidebarOpen ? (
-          <HiChevronDoubleLeft className='animated-icon duration-3000 repeat-infinite h-6 w-6 flex-shrink-0 font-bold text-white' />
-        ) : (
-          <HiChevronDoubleRight className='h-6 w-6 flex-shrink-0 font-bold text-white' />
-        )}
-      </div> */}
-      {/* <div className='absolute right-0 top-0 flex h-full w-4 items-start justify-evenly bg-slate-100'>
-        <div className='h-full w-[1px] bg-slate-400'></div>
-        <div className='h-full w-[1px] bg-slate-400'></div>
-        <div className='h-full w-[1px] bg-slate-400'></div>
-      </div> */}
       <div className=' box-border h-full w-full overflow-x-clip  px-3 py-4'>
         <ul className='h-full space-y-2 font-medium'>
           <SidebarItem
@@ -239,6 +222,17 @@ function Sidebar({
             activeTab={activeTab}
             isSidebarOpen={isSidebarOpen}
             onClick={() => {
+              if (
+                state.user?.tariff === 'base' ||
+                state.user?.tariff === 'trial'
+              ) {
+                alert(
+                  i18n.language === 'uz'
+                    ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                    : 'Для использования этой страницы перейдите на другой тариф'
+                );
+                return;
+              }
               setActiveTab('Aksiyalar');
             }}
             // disabled
@@ -370,8 +364,20 @@ function SidebarItem({
                 ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
                 : 'Для использования этой страницы перейдите на другой тариф'
             );
+
             return;
           }
+
+          if (state.user?.tariff === 'trial' && href === '/campaigns') {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                : 'Для использования этой страницы перейдите на другой тариф'
+            );
+
+            return;
+          }
+
           dispatch({
             type: 'PATH',
             payload: { path: null },

@@ -1,15 +1,15 @@
+import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
+import { FcGoogle } from 'react-icons/fc';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import TelegramLogin from '@/components/pages/login/TelegramLogin';
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
 
 import Logo from '@/assets/landing/main.png';
@@ -74,19 +74,35 @@ function LoginComponent() {
       });
   };
 
-  return (
-    <div className='w-sreen bg-gradient base:bg-none relative flex h-screen overflow-hidden'>
-      <Script
-        src='https://telegram.org/js/telegram-widget.js?9'
-        data-telegram-login='uzanalitikabot'
-        data-size='large'
-        data-request-access='write'
-        data-userpic='true'
-        data-lang='en'
-        data-onauth='onTelegramAuth(user)'
-        strategy='lazyOnload'
-      />
+  const login = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      const api = new API(null);
+      try {
+        setSendingRequest(true);
+        const res = await api.register({
+          code: codeResponse.access_token,
+          isGoogle: true,
+        });
 
+        if (res) {
+          router.push('/home');
+          setSendingRequest(false);
+        } else {
+          setSendingRequest(false);
+        }
+      } catch (e) {
+        const error = e as Error;
+        // get error message
+        const errorMessage = error.message;
+
+        setSendingRequest(false);
+      }
+    },
+    flow: 'implicit',
+  });
+
+  return (
+    <div className='w-sreen base:bg-none relative flex h-screen overflow-hidden'>
       <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
@@ -130,19 +146,33 @@ function LoginComponent() {
           </p>
         </div>
       </div>
-      <div className='base:w-1/2  relative mt-[22vh] flex w-full items-start justify-center px-5 md:mt-[30vh]'>
+      <div className='base:w-1/2 relative mt-[22vh] flex w-full items-start justify-center px-5 md:mt-[30vh]'>
         <div
           className={clsxm(
-            'flex max-w-full flex-col items-start justify-start gap-6 px-2'
+            'flex w-[350px] max-w-[350px] flex-col items-center justify-start gap-6  px-2'
             // activeTab === 3 && '-mt-[400px]'
           )}
         >
           <LoginHeader activeTab={activeTab} />
 
-          <TelegramLogin onTelegramAuth={onTelegramAuth} />
+          <div
+            className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border py-1 hover:bg-gray-100'
+            onClick={() => {
+              login();
+            }}
+          >
+            <FcGoogle className='text-primary text-4xl' />
+            <p className=''>
+              {i18n.language === 'uz'
+                ? 'Google orqali kirish'
+                : 'Войти через Google'}
+            </p>
+          </div>
           <div className='flex w-full items-center justify-between'>
             <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
-            <p>Yoki</p>
+            <p className='text-slate-500'>
+              {i18n.language === 'uz' ? 'Yoki' : 'Или'}
+            </p>
             <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
           </div>
           <UserNameAndPassword

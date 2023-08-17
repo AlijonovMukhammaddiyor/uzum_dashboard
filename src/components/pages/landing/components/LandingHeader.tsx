@@ -176,15 +176,15 @@ function LandingHeader() {
                       setIsMobile(false);
                     }}
                   > */}
-                  <Link href='/register'>
-                    <div className='base:mt-0 flex cursor-pointer items-center justify-center rounded-lg bg-transparent px-3 py-4 text-sm text-white shadow-xl transition-all duration-200 md:px-6 md:py-4 md:text-2xl xl:text-2xl'>
+                  <Link href='/register' className='flex-1'>
+                    <div className='base:mt-0  bg-primary flex cursor-pointer items-center justify-center rounded-lg px-3 py-4 text-sm text-white shadow-xl transition-all duration-200 md:px-6 md:py-4 md:text-2xl xl:text-2xl'>
                       {t('header.button.signup')}
                     </div>
                   </Link>
                   <a
                     href='https://t.me/uzum_uzanalitika'
                     target='_blank'
-                    className=' flex flex-1 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-transparent px-3 text-white transition-all duration-200 sm:gap-4'
+                    className=' flex min-w-max  flex-1 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 px-3 text-white transition-all duration-200 sm:gap-4'
                   >
                     <BsTelegram className='text-xl' />
                     <p className='text-sm'>{t('header.button.telegram')}</p>

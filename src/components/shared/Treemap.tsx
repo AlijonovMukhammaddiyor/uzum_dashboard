@@ -17,6 +17,7 @@ interface Props {
   min: number;
   max: number;
   titleField?: string;
+  colors?: string[];
 }
 
 function TreeMapChart({
@@ -26,6 +27,7 @@ function TreeMapChart({
   main_subtitle,
   min,
   max,
+  colors,
   titleField,
 }: Props) {
   const [filteredData, setFilteredData] = useState<any[]>(data);
@@ -73,7 +75,7 @@ function TreeMapChart({
           },
         },
         colorDomain: [min, max],
-        colorRange: ['#f0f8ff', '#4682b4'], // Lighter blue to steel blue
+        colorRange: colors ?? ['#f0f8ff', '#4682b4'], // Lighter blue to steel blue
         formatter: (params: any) => ({
           stroke: '#ffffff', // White border
           strokeWidth: 1, // Adjusted border thickness

@@ -3,25 +3,25 @@ import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
-import futbolka from '@/assets/futbolka.png';
 import graph from '@/assets/graph.png';
-import dashboard from '@/assets/home_umumiy.png';
+import dashboard from '@/assets/landing/Dashboard.png';
+import Pia from '@/assets/landing/piegrapgh.png';
 
 function LandingMain() {
   const { t } = useTranslation('landing');
   //
   return (
-    <div className=' base:h-auto  base:bg-white w-full overflow-hidden md:py-32'>
+    <div className=' base:bg-white w-full overflow-hidden md:py-32 2xl:h-auto'>
       <div className='layout relative flex h-full  items-center justify-between  pb-10'>
         <div className=' base:gap-20 flex h-full flex-col  justify-start gap-10  py-5'>
-          <div className='base:text-start  mt-36 flex flex-col justify-center '>
-            <h1 className='font-primary text_gradient text-5xl font-extrabold tracking-wider md:text-6xl '>
+          <div className='base:text-start mt-32 flex flex-col justify-center md:mt-12  '>
+            <h1 className='font-primary text_gradient text-5xl font-extrabold tracking-wider lg:text-6xl '>
               {t('main.title.line1.part1')}{' '}
             </h1>
-            <h1 className=' font-primary  text-5xl font-extrabold tracking-wider  md:text-6xl'>
+            <h1 className=' font-primary  text-5xl font-extrabold tracking-wider  lg:text-6xl'>
               {t('main.title.line1.part2')}
             </h1>
-            <h1 className='font-primary text-5xl font-extrabold tracking-wider  md:text-6xl '>
+            <h1 className='font-primary text-5xl font-extrabold tracking-wider  lg:text-6xl '>
               {t('main.title.line2.part1')}{' '}
               <span className=' text-black'>
                 {t('main.title.line2.part2')}!
@@ -34,25 +34,25 @@ function LandingMain() {
               {t('main.subtitle.line2')}
             </p>
           </div>
-          <div className='base:hidden relative h-1/3 w-full items-center justify-center overflow-hidden'>
+          <div className='base:hidden relative h-1/3 w-full items-center justify-center '>
             <Image
-              src={futbolka}
+              src={Pia}
               alt='futbolka'
               width={500}
-              className='absolute bottom-2 left-2 w-[160px] rounded-md shadow-2xl'
+              className='all_side_shadow absolute -bottom-5 left-2 w-[160px] rounded-md'
             />
             <Image
               src={graph}
               alt='graph'
               width={500}
-              className='absolute right-2 top-2 w-[160px]  rounded-md shadow-2xl'
+              className='all_side_shadow absolute -top-5 right-2 w-[160px]  rounded-md '
             />
-            <div className='flex h-full w-full items-center justify-center'>
+            <div className='  flex h-full w-full items-center justify-center'>
               <Image
                 priority
                 src={dashboard}
                 alt='dashboard'
-                className='shadow-3xl mx-auto my-auto w-[90%] rounded-md object-contain'
+                className='all_side_shadow mx-auto my-auto w-[90%] rounded-md object-contain'
               />
             </div>
           </div>
@@ -64,7 +64,7 @@ function LandingMain() {
                 </div>
               </Link>
               <Link href='/register' className='base:w-auto w-full'>
-                <div className='bg-primary base:mt-0 border-primary hover:bg-secondary base:w-[240px] mx-auto flex w-full  cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-3 text-sm text-white shadow-xl transition-all duration-200 md:px-3 '>
+                <div className='bg-primary base:mt-0 border-primary hover:bg-secondary base:w-[240px] hover:border-secondary mx-auto flex  w-full cursor-pointer items-center justify-center rounded-lg border-2 px-4 py-3 text-sm text-white shadow-xl transition-all duration-200 md:px-3 '>
                   <p>{t('main.button.signup')}</p>
                 </div>
               </Link>
@@ -77,23 +77,23 @@ function LandingMain() {
             </p> */}
           </div>
         </div>
-        <div className='base:flex all_side_shadow relative  mt-12 hidden w-3/5 rounded-md'>
+        <div className='all_side_shadow  base:flex relative  mt-12 hidden w-3/5 rounded-md'>
           <Image
             src={dashboard}
             alt='dashboard'
-            className='all_side_shadow  rounded-md object-contain'
+            className='all_side_shadow1  rounded-md object-contain'
           />
-          {/* <Image
-            src={futbolka}
+          <Image
+            src={Pia}
             alt='futbolka'
             width={1500}
-            className='all_side_shadow1 absolute -bottom-10 left-[70px] z-50  w-[200px] rounded-md'
-          /> */}
+            className='all_side_shadow1 absolute -bottom-16 -left-5 z-50 w-[250px]  max-w-[45%] rounded-md'
+          />
           <Image
             src={graph}
             alt='graph'
             width={1500}
-            className='all_side_shadow absolute -right-[150px] -top-10 z-50 w-[300px] rounded-md'
+            className='all_side_shadow1 absolute -right-[30px] -top-10 z-50 w-[250px] max-w-[45%] rounded-md'
           />
         </div>
       </div>
