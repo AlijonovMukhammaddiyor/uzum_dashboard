@@ -91,7 +91,7 @@ const UserNameAndPassword = ({
   return (
     <div
       className={clsxm(
-        'top-full flex min-w-[300px] max-w-[300px] flex-col gap-2 transition-all duration-500'
+        'top-full flex min-w-full max-w-full flex-col gap-2 transition-all duration-500'
         // activeTab === currentTab
         //   ? '-left-0 opacity-100'
         //   : '-left-full opacity-0'
@@ -103,9 +103,9 @@ const UserNameAndPassword = ({
         label={t('username.title')}
         containerStyle={clsxm('rounded-md')}
         inputStyle={clsxm(
-          'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md',
+          'w-full h-10 px-3 text-base placeholder-slate-300 rounded-md placeholder:text-sm',
           errors.includes('username') ? 'border-2 border-red-500' : '',
-          'border border-primary base:border-slate-300'
+          'base:border-slate-300'
         )}
         placeholder={t('username.placeholder')}
         name='username'
@@ -123,7 +123,7 @@ const UserNameAndPassword = ({
           label={t('password.title')}
           autoComplete='current-password'
           containerStyle='rounded-md'
-          inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 rounded-md border border-primary base:border-slate-300'
+          inputStyle='w-full h-10 px-3 text-base placeholder-slate-300 placeholder:text-sm rounded-md  base:border-slate-300'
           placeholder={t('password.placeholder')}
           name='password'
           value={user.password}
@@ -169,7 +169,7 @@ const UserNameAndPassword = ({
         className='bg-primary mt-6 w-full text-white hover:bg-purple-700'
         onClick={onLogin}
         isLoading={sending}
-        spinnerColor='rgb(126 34 206)'
+        spinnerColor='primary'
         disabled={
           !isPasswordValid || sending || !user.username || errors.length > 0
         }
