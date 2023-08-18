@@ -380,15 +380,15 @@ function Tarif({
             {t('tariffs.always_free')}
           </p>
         )}
-        {price === 0 ? (
+        {title === t('tariffs.free') ? (
           <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
             {t('tariffs.about_free')}
           </p>
-        ) : price === 39 ? (
+        ) : title === t('tariffs.beginner') ? (
           <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
             {t('tariffs.about_pro')}
           </p>
-        ) : price === 59 ? (
+        ) : title === t('tariffs.seller') ? (
           <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
             {t('tariffs.about_premium')}
           </p>
