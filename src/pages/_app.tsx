@@ -41,7 +41,7 @@ import { AuthProvider } from '@/context/Context';
 //   display: 'swap',
 // });
 
-const roboto = Ubuntu({
+const ubuntu = Ubuntu({
   subsets: ['latin'],
   weight: ['300', '400', '500', '700'],
   style: ['normal', 'italic'],
@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
-        <main className={roboto.className}>
+        <main className={ubuntu.className}>
           <Head>
             <meta
               name='viewport'
