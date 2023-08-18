@@ -264,6 +264,42 @@
   .draggable:active {
     cursor: grabbing;
   }
+
+  .custom-checkbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    border-radius: 3px;
+  }
+
+  .custom-checkbox.checked {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .custom-checkbox.intermediate {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .custom-checkbox span {
+    color: white;
+    font-size: 18px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 @layer utilities {
@@ -288,6 +324,12 @@
   .animated-underline:hover,
   .animated-underline:focus-visible {
     background-size: 0 2px, 100% 2px;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 @keyframes pulse-right {

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
+import ProductsFilter from '@/components/pages/discovery/ProductsFilter';
 import GrowingCategories from '@/components/pages/home/components/GrowingCategories';
 import GrowingProducts from '@/components/pages/home/components/GrowingProducts';
 import NewProducts from '@/components/pages/home/components/NewProducts';
@@ -12,18 +13,18 @@ import { UserType } from '@/types/user';
 
 function DiscoveryComponent({ user }: { user: UserType }) {
   const { t, i18n } = useTranslation('tabs');
-  const [activeTab, setActiveTab] = React.useState<string>(t('home.overview'));
+  const [activeTab, setActiveTab] = React.useState<string>(t('home.filter'));
   const isProPlus = user.tariff === 'seller' || user.tariff === 'business';
 
   React.useEffect(() => {
-    setActiveTab(t('home.overview'));
+    setActiveTab(t('home.filter'));
   }, [i18n.language, t]);
 
   return (
     <div className='flex w-full min-w-[1400px] flex-col items-start justify-start gap-4 overflow-scroll'>
       <Tabs
         tabs={[
-          t('home.overview'),
+          t('home.filter'),
           t('home.new_products'),
           t('home.promising_products'),
           t('home.promising_categories'),
@@ -47,10 +48,9 @@ function DiscoveryComponent({ user }: { user: UserType }) {
         setActiveTab={setActiveTab}
         className='overflow-auto'
       />
-      {/* <HomeStatisticsContainer
-        user={user}
-        className={clsxm(activeTab === t('home.overview') ? '' : 'hidden')}
-      /> */}
+      <ProductsFilter
+        className={clsxm(activeTab === t('home.filter') ? '' : 'hidden')}
+      />
 
       <NewProducts
         className={clsxm(

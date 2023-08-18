@@ -3,7 +3,8 @@
     "overview": "Общий",
     "new_products": "Новые продукты",
     "promising_products": "Многообещающие продукты",
-    "promising_categories": "Многообещающие категории"
+    "promising_categories": "Многообещающие категории",
+    "filter": "Фильтрация"
   },
   "categories": {
     "goods": "Товары",

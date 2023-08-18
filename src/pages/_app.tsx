@@ -17,6 +17,7 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import '@/styles/globals.css';
 import '@/styles/agGrid.css';
 import '@/styles/loading.css';
+// import 'antd/dist/antd.css';
 import 'react-medium-image-zoom/dist/styles.css';
 import 'react-phone-input-2/lib/style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader

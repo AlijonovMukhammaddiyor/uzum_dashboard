@@ -71,6 +71,11 @@ function Sidebar({
       } else if (path.startsWith('/words') || path.startsWith('/ru/words')) {
         setActiveTab(t('sidebar.searches'));
       } else if (
+        path.startsWith('/discovery') ||
+        path.startsWith('/ru/discovery')
+      ) {
+        setActiveTab(t('sidebar.discovery'));
+      } else if (
         path.startsWith('/compare') ||
         path.startsWith('/ru/compare')
       ) {
@@ -178,14 +183,14 @@ function Sidebar({
               <TbViewfinder
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Aksiyalar' && 'text-white'
+                  activeTab === t('sidebar.discovery') && 'text-white'
                 )}
               />
             }
             activeTab={activeTab}
             isSidebarOpen={isSidebarOpen}
             onClick={() => {
-              setActiveTab('Aksiyalar');
+              setActiveTab(t('sidebar.discovery'));
             }}
             // disabled
           />

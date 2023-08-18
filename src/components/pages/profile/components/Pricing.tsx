@@ -115,7 +115,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.beginner')}
             isCurrentPlan={state.user?.tariff === 'base'}
             setCurrentPlan={setCurrentPlan}
-            price={39}
+            price={299000}
             months={months}
             features={[
               t('tariffs.1_dukon'),
@@ -149,7 +149,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.seller')}
             isCurrentPlan={state.user?.tariff === 'seller'}
             setCurrentPlan={setCurrentPlan}
-            price={59}
+            price={499000}
             months={months}
             features={[
               t('tariffs.4_dukon'),
@@ -187,7 +187,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.business')}
             isCurrentPlan={state.user?.tariff === 'business'}
             setCurrentPlan={setCurrentPlan}
-            price={99}
+            price={899000}
             features={[
               t('tariffs.Barcha_dokonlar_full'),
               t('tariffs.90_kunlik'),

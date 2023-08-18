@@ -3,7 +3,8 @@
     "overview": "Umumiy",
     "new_products": "Yangi mahsulotlar",
     "promising_products": "O'sayotgan mahsulotlar",
-    "promising_categories": "O'sayotgan kategoriyalar"
+    "promising_categories": "O'sayotgan kategoriyalar",
+    "filter": "Saralash"
   },
   "categories": {
     "goods": "Tovarlar",

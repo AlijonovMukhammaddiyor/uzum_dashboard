@@ -3,6 +3,8 @@ export interface CategoryInTree {
   title: string;
   title_ru: string;
   children?: CategoryInTree[];
+  isChecked?: boolean;
+  parentId?: number;
 }
 
 export interface CategoryProductType {
