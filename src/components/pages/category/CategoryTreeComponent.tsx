@@ -117,7 +117,8 @@ function CategoryTreeComponent() {
     const wb = { Sheets: { shops: ws }, SheetNames: ['shops'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const data2 = new Blob([excelBuffer], { type: fileType });
-    FileSaver.saveAs(data2, 'Categories' + fileExtension);
+    const currentDate = new Date().toISOString().slice(0, 10);
+    FileSaver.saveAs(data2, 'Категории_' + currentDate + fileExtension);
   }
 
   const parents = data
