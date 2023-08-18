@@ -259,7 +259,8 @@ export function downloadExcel(data: any) {
     position: item.position,
     shop_title: item.shop_title,
     total_products: item.total_products,
-    total_revenue: item.total_revenue * 1000,
+    // make total revenue divisable by 1000
+    total_revenue: Math.round((item.total_revenue * 1000) / 1000) * 1000,
     total_orders: item.total_orders,
     total_reviews: item.total_reviews,
     average_purchase_price: item.average_purchase_price,

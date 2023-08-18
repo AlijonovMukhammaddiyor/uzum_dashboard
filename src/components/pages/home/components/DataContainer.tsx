@@ -245,7 +245,7 @@ function getData(
   console.log(title);
   if (!data.orders) return [];
 
-  if (title === 'Daromad miqdori' || title === 'Доход') {
+  if (title === 'Daromad miqdori' || title === 'Выручка') {
     return data.revenue.data;
   }
   if (title === 'Buyurtmalar soni' || title === 'Продаж') {
