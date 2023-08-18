@@ -16,7 +16,7 @@ export async function getStaticProps({ locale }: { locale: any }) {
   return {
     props: {
       ...(await serverSideTranslations(
-        locale || 'uz',
+        locale || 'ru',
         ['landing', 'common'],
         null,
         ['uz', 'ru']

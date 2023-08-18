@@ -357,12 +357,12 @@ function Tarif({
       </div>
       <div className='relative flex flex-col gap-1 text-3xl font-medium'>
         <p className=' '>
-          {months === 3 && (
+          {/* {months === 3 && (
             <span className='text-base text-slate-500 line-through'>
               {price}
               {i18n.language === 'uz' ? "so'm/oyiga" : 'сум/месяц'}
             </span>
-          )}
+          )} */}
           {months === 1
             ? price.toLocaleString()
             : price === 0

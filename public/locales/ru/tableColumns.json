@@ -5,7 +5,7 @@
   "active_products_amount": "Количество активных товаров",
   "tooltip.active_products_amount": "Количество товаров, проданных вчера",
   "tooltip.position_in_category": "позиция товара в подкатегории",
-  "tooltip.revenue_in_category": "Доход магазина от товаров данной категории",
+  "tooltip.revenue_in_category": "Выручка магазина от товаров данной категории",
   "tooltip.average_price_in_category": "Средняя цена товаров данной категории",
 
   "shop_name": "Название магазина",

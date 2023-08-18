@@ -2,7 +2,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Analytics } from '@vercel/analytics/react';
 import ru from 'date-fns/locale/ru';
 import { AppProps } from 'next/app';
-import { Poppins } from 'next/font/google';
+import { Ubuntu } from 'next/font/google';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { appWithTranslation } from 'next-i18next';
@@ -37,13 +37,19 @@ import { AuthProvider } from '@/context/Context';
  * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
  */
 
-const roboto = Poppins({
+// const roboto = Poppins({
+//   subsets: ['latin'],
+//   weight: ['100', '300', '400', '500', '700', '900'],
+//   style: ['normal', 'italic'],
+//   display: 'swap',
+// });
+
+const ubuntu = Ubuntu({
   subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '700', '900'],
+  weight: ['300', '400', '500', '700'],
   style: ['normal', 'italic'],
   display: 'swap',
 });
-
 function MyApp({ Component, pageProps }: AppProps) {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
@@ -79,7 +85,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
-        <main className={roboto.className}>
+        <main className={ubuntu.className}>
           <Head>
             <meta
               name='viewport'
