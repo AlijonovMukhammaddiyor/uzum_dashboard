@@ -1,12 +1,11 @@
 /** @type {import('next-i18next').UserConfig} */
-const path = require('path')
-
+const path = require('path');
 
 module.exports = {
   i18n: {
-    locales: ["uz", 'ru'],
-    defaultLocale: "uz",
+    locales: ['uz', 'ru'],
+    defaultLocale: 'ru',
   },
-  fallbackLng: { default: ['uz'] },
+  fallbackLng: { default: ['ru'] },
   localePath: path.resolve('./public/locales'),
-}
+};

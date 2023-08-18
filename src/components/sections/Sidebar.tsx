@@ -46,45 +46,45 @@ function Sidebar({
     if (rendered) {
       const path = window.location.pathname;
 
-      if (path.startsWith('/home') || path.startsWith('/ru/home')) {
+      if (path.startsWith('/home') || path.startsWith('/uz/home')) {
         setActiveTab(t('sidebar.general'));
       } else if (
         path.startsWith('/category') ||
-        path.startsWith('/ru/category')
+        path.startsWith('/uz/category')
       ) {
         setActiveTab(t('sidebar.categories'));
       } else if (
         path.startsWith('/sellers') ||
-        path.startsWith('/ru/sellers')
+        path.startsWith('/uz/sellers')
       ) {
         setActiveTab(t('sidebar.sellers'));
       } else if (
         path.startsWith('/campaigns') ||
-        path.startsWith('/ru/campaigns')
+        path.startsWith('/uz/campaigns')
       ) {
         setActiveTab(t('sidebar.campaigns'));
       } else if (
         path.startsWith('/products') ||
-        path.startsWith('/ru/products')
+        path.startsWith('/uz/products')
       ) {
         setActiveTab(t('sidebar.products'));
-      } else if (path.startsWith('/words') || path.startsWith('/ru/words')) {
+      } else if (path.startsWith('/words') || path.startsWith('/uz/words')) {
         setActiveTab(t('sidebar.searches'));
       } else if (
         path.startsWith('/discovery') ||
-        path.startsWith('/ru/discovery')
+        path.startsWith('/uz/discovery')
       ) {
         setActiveTab(t('sidebar.discovery'));
       } else if (
         path.startsWith('/compare') ||
-        path.startsWith('/ru/compare')
+        path.startsWith('/uz/compare')
       ) {
         setActiveTab(t('sidebar.compare'));
-      } else if (path.startsWith('/niches') || path.startsWith('/ru/niches')) {
+      } else if (path.startsWith('/niches') || path.startsWith('/uz/niches')) {
         setActiveTab(t('sidebar.niches'));
       } else if (
         path.startsWith('/profile') ||
-        path.startsWith('/ru/profile')
+        path.startsWith('/uz/profile')
       ) {
         setActiveTab(t('sidebar.profile'));
       }

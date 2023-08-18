@@ -1,6 +1,6 @@
 {
   "product_info": "Сегментация товаров по цене, заказам и количеству магазинов",
-  "revenue": "Доход",
+  "revenue": "Выручка",
   "orders_amount": "Количество заказов",
   "orders": "Заказы",
   "reviews": "Отзывы",
@@ -27,7 +27,7 @@
   "total_shops_amount": "Общее количество магазинов",
   "total_reviews_amount": "Общее количество отзывов",
   "total_available_amount": "Общее количество доступных товаров",
-  "total_revenue": "Общий доход",
+  "total_revenue": "Общая выручка",
   "daily_orders_amount": "Количество заказов в день",
   "daily_reviews_amount": "Количество отзывов в день",
   "average_selling_price": "Средняя цена продажи",
