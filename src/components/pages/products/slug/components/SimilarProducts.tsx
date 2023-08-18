@@ -128,7 +128,7 @@ function AboutProduct({
   return (
     <div
       className={clsxm(
-        'flex h-full w-full min-w-[1000px] flex-col items-start justify-start gap-5 overflow-x-scroll',
+        'flex min-h-full w-full min-w-[1000px] flex-col items-start justify-start gap-5 overflow-scroll pb-16',
         className
       )}
     >

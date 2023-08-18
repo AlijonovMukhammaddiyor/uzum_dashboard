@@ -192,7 +192,7 @@ function Sidebar({
             onClick={() => {
               setActiveTab(t('sidebar.discovery'));
             }}
-            // disabled
+            disabled
           />
 
           <SidebarItem

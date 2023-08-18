@@ -352,7 +352,7 @@ function Tarif({
 
         {/* Best Offer Label  */}
         {isProPlus && (
-          <span className='absolute left-0 top-0 flex h-8 w-full items-center justify-center bg-green-500 text-xs uppercase text-white'>
+          <span className='absolute left-0 top-0 flex h-8 w-full items-center justify-center bg-blue-500 text-xs uppercase text-white'>
             {i18n.language === 'uz'
               ? 'eng yaxshi qiymat'
               : 'лучшее предложение'}
@@ -363,15 +363,16 @@ function Tarif({
         <p className=' '>
           {months === 3 && (
             <span className='text-base text-slate-500 line-through'>
-              ${price}
+              {price}
+              {i18n.language === 'uz' ? "so'm/oyiga" : 'сум/месяц'}
             </span>
           )}
-          <span className='text-3xl font-normal'>$</span>
           {months === 1
-            ? price
+            ? price.toLocaleString()
             : price === 0
             ? 0
-            : Math.floor(price * 0.85)}{' '}
+            : Math.floor(price * 0.85).toLocaleString()}{' '}
+          {i18n.language === 'uz' ? "so'm" : 'сум'}
           <span className=' text-xs  '>/{t('tariffs.month')}</span>
         </p>
         {price !== 0 ? (
