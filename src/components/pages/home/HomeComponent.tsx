@@ -3,13 +3,18 @@ import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
+import GrowingCategories from '@/components/pages/home/components/GrowingCategories';
+import GrowingProducts from '@/components/pages/home/components/GrowingProducts';
 import HomeStatisticsContainer from '@/components/pages/home/components/HomeStatisticsContainer';
+import NewProducts from '@/components/pages/home/components/NewProducts';
+import Tabs from '@/components/shared/Tabs';
 
 import { UserType } from '@/types/user';
 
 function HomeComponent({ user }: { user: UserType }) {
   const { t, i18n } = useTranslation('tabs');
   const [activeTab, setActiveTab] = React.useState<string>(t('home.overview'));
+  const isProPlus = user.tariff === 'seller' || user.tariff === 'business';
 
   React.useEffect(() => {
     setActiveTab(t('home.overview'));
@@ -17,10 +22,59 @@ function HomeComponent({ user }: { user: UserType }) {
 
   return (
     <div className='flex w-full min-w-[1400px] flex-col items-start justify-start gap-4 overflow-scroll pb-12'>
+      <Tabs
+        tabs={[
+          t('home.overview'),
+          t('home.new_products'),
+          t('home.promising_products'),
+          t('home.promising_categories'),
+          // 'Asosiy kategoriyalar',
+        ]}
+        premiumTabs={[
+          t('home.new_products'),
+          t('home.promising_products'),
+          t('home.promising_categories'),
+        ]}
+        disbaledTabs={
+          isProPlus
+            ? []
+            : [
+                t('home.promising_products'),
+                t('home.promising_categories'),
+                t('home.new_products'),
+              ]
+        }
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        className='overflow-auto'
+      />
+
       <HomeStatisticsContainer
         user={user}
         className={clsxm(activeTab === t('home.overview') ? '' : 'hidden')}
       />
+
+      <NewProducts
+        className={clsxm(
+          activeTab === t('home.new_products') ? 'mt-0' : 'hidden'
+        )}
+      />
+
+      {activeTab === t('home.promising_products') && (
+        <GrowingProducts
+          className={clsxm(
+            activeTab === t('home.promising_products') ? '' : 'hidden'
+          )}
+        />
+      )}
+
+      {activeTab === t('home.promising_categories') && (
+        <GrowingCategories
+          className={clsxm(
+            activeTab === t('home.promising_categories') ? '' : 'hidden'
+          )}
+        />
+      )}
 
       {/* <MainCategories
         className={clsxm(
