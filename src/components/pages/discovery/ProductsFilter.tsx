@@ -2,8 +2,8 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 
 import CategoriesSelect from '@/components/pages/discovery/CategoriesSelect';
+import DateFilter from '@/components/pages/discovery/DateFilter';
 import Filter from '@/components/pages/discovery/Filter';
-
 export interface HomeStatisticsContainerProps {
   className?: string;
 }
@@ -44,6 +44,13 @@ function ProductsFilter({ className }: HomeStatisticsContainerProps) {
     min: number;
     max: number;
   }>({ min: 0, max: 100_000 });
+  const [dates, setDates] = React.useState<{
+    min: number;
+    max: number;
+  }>({
+    min: 1684627200000,
+    max: new Date().getTime(),
+  });
 
   return (
     <div className='mt-6 flex h-full w-full items-start justify-start gap-5'>
@@ -73,7 +80,12 @@ function ProductsFilter({ className }: HomeStatisticsContainerProps) {
         </div>
         <div className='flex items-center justify-end'>
           <Filter title="O'rtacha narxi" setValues={setOrders} />
-          <Filter title='Sotuvga chiqqan sanasi' setValues={setOrders} />
+          <DateFilter
+            title='Sotuvga chiqqan sanasi'
+            setValues={setDates}
+            min={dates.min}
+            max={dates.max}
+          />
         </div>
       </div>
     </div>

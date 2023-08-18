@@ -1,5 +1,6 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Analytics } from '@vercel/analytics/react';
+import ru from 'date-fns/locale/ru';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import Head from 'next/head';
@@ -7,10 +8,12 @@ import { useRouter } from 'next/router';
 import { appWithTranslation } from 'next-i18next';
 import NextNProgress from 'nextjs-progressbar';
 import { useEffect, useState } from 'react';
+import { registerLocale } from 'react-datepicker';
 import { RiAlarmWarningFill } from 'react-icons/ri';
-
+registerLocale('ru', ru);
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-community/styles/ag-theme-material.css';

@@ -300,10 +300,6 @@ function Tarif({
     t('tariffs.24/7_doimiy_yordam'),
   ];
 
-  const ff = features_;
-
-  const dollarToSumRate = 12107;
-
   const handlePayment = () => {
     const api = new API(null);
     if (price === 0) return;
@@ -311,7 +307,7 @@ function Tarif({
 
     api
       .post('/payments/paylink/', {
-        amount: price * dollarToSumRate * months,
+        amount: price * months,
         months,
         tariff:
           title === t('tariffs.free')
