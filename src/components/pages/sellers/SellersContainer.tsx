@@ -259,11 +259,10 @@ export function downloadExcel(data: any) {
     position: item.position,
     shop_title: item.shop_title,
     total_products: item.total_products,
-    total_revenue: item.total_revenue,
+    total_revenue: item.total_revenue * 1000,
     total_orders: item.total_orders,
     total_reviews: item.total_reviews,
     average_purchase_price: item.average_purchase_price,
-    date_updated: item.date_pretty,
     num_categories: item.num_categories,
     rating: item.rating,
   }));
@@ -279,11 +278,10 @@ export function downloadExcel(data: any) {
     D1: 'Выручка',
     E1: 'Заказы',
     F1: 'Отзывы',
-    H1: 'Средняя цена покупки',
-    I1: 'Дата обновления',
+    G1: 'Средняя цена покупки',
     // number of categories
-    J1: 'Категории',
-    L1: 'Рейтинг',
+    H1: 'Количество категорий',
+    I1: 'Рейтинг',
   };
 
   // Map custom headers to the sheet
