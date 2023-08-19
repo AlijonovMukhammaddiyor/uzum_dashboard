@@ -25,7 +25,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
     Date.now() - new Date(user.shops_updated_at ?? '2023-01-01').getTime() >
     30 * 24 * 60 * 60 * 1000;
   const ShopsSelectDisabled =
-    user.tariff === 'free' || user.tariff === 'business' || !more_than_30_days;
+    user.tariff === 'free' || user.tariff === 'business';
 
   return (
     <div className=''>
