@@ -150,18 +150,17 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
       setSelectedSku(0);
     }
   };
-  console.log(selectedTypes, selectedSku);
 
   return (
     <div
       className={clsxm(
-        'flex h-full w-full min-w-[1000px] flex-col items-start justify-start gap-5 overflow-x-scroll',
+        'flex h-screen w-full min-w-[1000px] flex-col items-start justify-start gap-5 overflow-scroll',
         className
       )}
     >
       <Container
         loading={loading}
-        className='h-max min-h-[400px] w-full rounded-md bg-white p-5'
+        className='h-full min-h-full w-full rounded-md bg-white p-5'
       >
         {product ? (
           <div className='flex items-start justify-start gap-10 lg:grid-cols-2'>

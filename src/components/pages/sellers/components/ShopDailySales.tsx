@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiChevronDown } from 'react-icons/hi';
 import { VscDebugBreakpointData } from 'react-icons/vsc';
+import Select from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -96,8 +97,54 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
         className
       )}
     >
-      <div className='mb-8 flex w-full items-center justify-end'>
-        <DropDown values={dates} activeTab={date} setActiveTab={setDate} />
+      <div className='mb-8 flex h-full w-full items-center justify-end'>
+        {/* <DropDown values={dates} activeTab={date} setActiveTab={setDate} /> */}
+        <Select
+          className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
+          classNamePrefix='select'
+          defaultValue={{
+            value: dates[date],
+            label: dates[date],
+          }}
+          isDisabled={false}
+          isLoading={false}
+          isClearable={false}
+          isRtl={false}
+          isSearchable={false}
+          onChange={(e) => {
+            if (e) {
+              const index = dates.indexOf(e.value);
+              setDate(index);
+            }
+          }}
+          styles={{
+            dropdownIndicator: (provided) => ({
+              ...provided,
+              svg: {
+                fill: 'white',
+              },
+            }),
+            control: (provided) => ({
+              ...provided,
+              backgroundColor: 'rgba(119, 67, 219, 1)',
+            }),
+            singleValue: (provided) => ({
+              ...provided,
+              color: 'white', // This changes the text color of the selected value
+            }),
+            option: (provided) => ({
+              ...provided,
+              color: 'black', // This changes the text color of the options
+            }),
+          }}
+          name='color'
+          options={[
+            ...dates.map((item) => ({
+              value: item,
+              label: item,
+            })),
+          ]}
+        />
       </div>
 
       <div className='mb-10 flex items-start justify-start'>
