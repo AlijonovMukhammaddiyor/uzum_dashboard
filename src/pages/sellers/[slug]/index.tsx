@@ -14,6 +14,7 @@ import ShopDailySales from '@/components/pages/sellers/components/ShopDailySales
 import ShopOverall from '@/components/pages/sellers/components/ShopOverall';
 import ShopProducts from '@/components/pages/sellers/components/ShopProducts';
 import Seo from '@/components/Seo';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Tabs from '@/components/shared/Tabs';
 
 import { useContextState } from '@/context/Context';
@@ -39,6 +40,7 @@ function Category({ user, seller }: ShopsProps) {
   const [activeTab, setActiveTab] = React.useState<string>(
     seller.is_owner ? t('sellers.overview') : t('sellers.goods')
   );
+  const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
   const { dispatch, state } = useContextState();
 
   React.useEffect(() => {
@@ -59,6 +61,49 @@ function Category({ user, seller }: ShopsProps) {
     setRendered(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  React.useEffect(() => {
+    switch (notAllowedTab) {
+      case t('sellers.overview'):
+        RenderAlert({
+          alertTitle: t('tariffs.only_selected_shops'),
+          // alertSubtitle: t('home.new_products.info'),
+          buttonTitle: t('tariffs.add_shop'),
+          buttonLink: '/profile',
+        });
+        setNotAllowedTab('');
+        break;
+      case t('sellers.daily_sales'):
+        RenderAlert({
+          alertTitle: t('tariffs.only_selected_shops'),
+
+          buttonTitle: t('tariffs.add_shop'),
+          buttonLink: '/profile',
+        });
+        setNotAllowedTab('');
+        break;
+      case t('sellers.competitors'):
+        RenderAlert({
+          alertTitle: t('tariffs.only_selected_shops'),
+
+          buttonTitle: t('tariffs.add_shop'),
+          buttonLink: '/profile',
+        });
+        setNotAllowedTab('');
+        break;
+      case t('sellers.categories'):
+        RenderAlert({
+          alertTitle: t('tariffs.only_selected_shops'),
+
+          buttonTitle: t('tariffs.add_shop'),
+          buttonLink: '/profile',
+        });
+        setNotAllowedTab('');
+        break;
+      default:
+        break;
+    }
+  }, [notAllowedTab]);
 
   if (!rendered) return <></>;
 
@@ -118,6 +163,7 @@ function Category({ user, seller }: ShopsProps) {
         }
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        setNotAllowedTab={setNotAllowedTab}
         className='mb-6 mt-4'
       />
       <ShopOverall

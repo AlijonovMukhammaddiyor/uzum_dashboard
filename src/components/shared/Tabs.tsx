@@ -1,13 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
 export interface TabsProps {
   tabs: string[];
+  messages?: string[];
   activeTab: string;
+  setNotAllowedTab: React.Dispatch<React.SetStateAction<string>>;
   activeColor?: string;
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
+
   tabWidth?: string;
   disbaledTabs?: string[];
   premiumTabs?: string[];
@@ -16,13 +20,15 @@ export interface TabsProps {
 function Tabs({
   tabs,
   activeTab,
+  setNotAllowedTab,
   setActiveTab,
   className,
   disbaledTabs,
   premiumTabs,
   activeColor = 'bg-white text-primary',
 }: TabsProps) {
-  // const { t } = useTranslation('tabs');
+  const { t } = useTranslation('tabs');
+
   return (
     <div
       className={clsxm(
@@ -30,6 +36,7 @@ function Tabs({
         className
       )}
     >
+      {/* <Toaster /> */}
       <ol className='no-scrollbar flex items-center justify-start gap-3'>
         {tabs.map((tab, index) => (
           <li
@@ -44,6 +51,17 @@ function Tabs({
             onClick={() => {
               if (!disbaledTabs?.includes(tab)) {
                 setActiveTab(tab);
+              } else {
+                setNotAllowedTab(tab);
+                // RenderAlert({
+                //   tab,
+                //   index,
+                //   message,
+                //   alertTitle: t('tariffs.change_tariff'),
+                //   buttonTitle: t('tariffs.tariffs'),
+                //   alertSubtitle: t('tariffs.not_available'),
+                //   buttonLink: '/profile',
+                // });
               }
             }}
           >

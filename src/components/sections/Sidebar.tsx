@@ -17,6 +17,8 @@ import { TbViewfinder } from 'react-icons/tb';
 
 import clsxm from '@/lib/clsxm';
 
+import { RenderAlert } from '@/components/shared/AlertComponent';
+
 import { useContextState } from '@/context/Context';
 export interface SidebarProps {
   className?: string;
@@ -212,6 +214,11 @@ function Sidebar({
               setActiveTab('Niches');
             }}
             // disabled
+            // alert(
+            //   i18n.language === 'uz'
+            //     ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+            //     : 'Для использования этой страницы перейдите на другой тариф'
+            // );
           />
           <SidebarItem
             href='/campaigns'
@@ -231,11 +238,12 @@ function Sidebar({
                 state.user?.tariff === 'base' ||
                 state.user?.tariff === 'trial'
               ) {
-                alert(
-                  i18n.language === 'uz'
-                    ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
-                    : 'Для использования этой страницы перейдите на другой тариф'
-                );
+                RenderAlert({
+                  alertTitle:
+                    i18n.language === 'uz'
+                      ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                      : 'Для использования этой страницы перейдите на другой тариф',
+                });
                 return;
               }
               setActiveTab('Aksiyalar');
@@ -364,21 +372,27 @@ function SidebarItem({
             href !== '/profile' &&
             href !== '/home'
           ) {
-            alert(
-              i18n.language === 'uz'
-                ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
-                : 'Для использования этой страницы перейдите на другой тариф'
-            );
+            RenderAlert({
+              alertTitle:
+                i18n.language === 'uz'
+                  ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                  : 'Для использования этой страницы перейдите на другой тариф',
+              buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+              buttonLink: '/profile',
+            });
 
             return;
           }
 
           if (state.user?.tariff === 'trial' && href === '/campaigns') {
-            alert(
-              i18n.language === 'uz'
-                ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
-                : 'Для использования этой страницы перейдите на другой тариф'
-            );
+            RenderAlert({
+              alertTitle:
+                i18n.language === 'uz'
+                  ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                  : 'Для использования этой страницы перейдите на другой тариф',
+              buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+              buttonLink: '/profile',
+            });
 
             return;
           }
