@@ -257,7 +257,7 @@ export function downloadExcel(data: any) {
   // Filter data to include only the required columns
   const filteredData = data.map((item: any) => ({
     position: item.position,
-    shop_title: item.shop_title,
+    shop_title: item.shop_title.split('((')[0],
     total_products: item.total_products,
     // make total revenue divisable by 1000
     total_revenue: Math.round((item.total_revenue * 1000) / 1000) * 1000,
