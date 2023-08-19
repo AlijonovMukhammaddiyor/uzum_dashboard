@@ -639,6 +639,15 @@ const LocaleNumberCellRenderer = ({ value }: { value: string }) => {
     </div>
   );
 };
+const PercentageCellRenderer = ({ value }: { value: string }) => {
+  if (value === null) return '';
+  const value_number = Number(value);
+  return (
+    <div className='flex flex-col gap-1'>
+      <p className=''>{value_number?.toLocaleString()} %</p>
+    </div>
+  );
+};
 
 function DailyOrdersCellRenderer(props: { value: any }) {
   const { value } = props;
@@ -1323,7 +1332,20 @@ export const getNichesColDefs = (t: any, lang: string) => {
       headerName: t('products_count'),
       field: 'total_products',
       sortable: true,
+
       filter: false,
+      maxWidth: 300,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('active_products_percentage'),
+      field: 'percentage_of_products_with_sales',
+      sortable: true,
+      filter: false,
+      cellRenderer: PercentageCellRenderer,
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
@@ -1335,6 +1357,18 @@ export const getNichesColDefs = (t: any, lang: string) => {
       field: 'total_shops',
       sortable: true,
       filter: false,
+      maxWidth: 300,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('active_shops_percentage'),
+      field: 'percentage_of_shops_with_sales',
+      sortable: true,
+      filter: false,
+      cellRenderer: PercentageCellRenderer,
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',

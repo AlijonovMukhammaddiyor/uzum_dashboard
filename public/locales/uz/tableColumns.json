@@ -3,6 +3,7 @@
   "product_name": "Mahsulot nomi",
   "products_count": "Mahsulotlar soni",
   "active_products_amount": "Faol mahsulotlar soni",
+  "active_products_percentage": "Faol mahsulotlar foizda",
   "tooltip.active_products_amount": "Kecha sotilgan mahsulotlar soni",
   "tooltip.position_in_category": "Mahsulotning o'z kategoriyasidagi pozitsiyasi",
   "tooltip.revenue_in_category": "Do'konning ushbu kategoriyadagi mahsulotlar kelgan daromadi.",
@@ -10,6 +11,7 @@
 
   "shop_name": "Do'kon nomi",
   "active_shops_count": "Faol do'konlar soni",
+  "active_shops_percentage": "Faol do'konlar foizda",
   "tooltip.active_shops_count": "Kecha sotuvi bo'lgan do'konlar soni",
   "position_in_shop": "Do'kondagi pozitsiyasi",
   "shops_count": "Do'konlar soni",

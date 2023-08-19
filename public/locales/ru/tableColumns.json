@@ -3,6 +3,7 @@
   "product_name": "Название товара",
   "products_count": "Количество товаров",
   "active_products_amount": "Количество активных товаров",
+  "active_products_percentage": "Процент активных товаров",
   "tooltip.active_products_amount": "Количество товаров, проданных вчера",
   "tooltip.position_in_category": "позиция товара в подкатегории",
   "tooltip.revenue_in_category": "Выручка магазина от товаров данной категории",
@@ -10,6 +11,7 @@
 
   "shop_name": "Название магазина",
   "active_shops_count": "Количество активных магазинов",
+  "active_shops_percentage": "Процент активных магазинов",
   "tooltip.active_shops_count": "Количество магазинов с распродажами вчера",
   "position_in_shop": "Позиция в магазине",
   "shops_count": "Количество магазинов",

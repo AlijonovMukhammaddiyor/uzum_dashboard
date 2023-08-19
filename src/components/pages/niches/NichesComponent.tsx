@@ -30,6 +30,8 @@ interface CategoryNichesType {
   total_reviews: number;
   total_shops: number;
   total_shops_with_sales: number;
+  percentage_of_shops_with_sales: number;
+  percentage_of_products_with_sales: number;
 }
 
 function NichesComponent() {
@@ -52,7 +54,18 @@ function NichesComponent() {
       >(`/category/niches/`)
       .then((res) => {
         // logger(res.data.data, 'category niches');
-        setData(res.data.data);
+        const d = res.data.data;
+
+        for (let i = 0; i < d.length; i++) {
+          d[i].percentage_of_products_with_sales = Math.round(
+            (d[i].total_products_with_sales / d[i].total_products) * 100
+          );
+          d[i].percentage_of_shops_with_sales = Math.round(
+            (d[i].total_shops_with_sales / d[i].total_shops) * 100
+          );
+        }
+
+        setData(d);
         setLoading(false);
       })
       .catch((err) => {
@@ -80,10 +93,8 @@ function NichesComponent() {
       average_purchase_price: item.average_purchase_price,
       total_shops: item.total_shops,
       average_product_rating: item.average_product_rating,
-      percentage_of_shops_with_sales:
-        (item.total_shops_with_sales / item.total_shops) * 100,
-      percentage_of_products_with_sales:
-        (item.total_products_with_sales / item.total_products) * 100,
+      percentage_of_shops_with_sales: item.percentage_of_shops_with_sales,
+      percentage_of_products_with_sales: item.percentage_of_products_with_sales,
     }));
 
     // Convert the filtered data to a sheet
@@ -116,6 +127,8 @@ function NichesComponent() {
     const currentDate = new Date().toISOString().slice(0, 10);
     FileSaver.saveAs(data2, 'Категории_' + currentDate + fileExtension);
   }
+
+  console.log(data);
 
   return (
     <div className='min-h-full w-full overflow-scroll pb-16'>
@@ -176,6 +189,16 @@ function NichesComponent() {
                 : '4. Помните, идеальная ниша сочетает в себе рыночные возможности и ваши сильные стороны.'}
             </li>
           </ul>
+          <div className='mt-3'>
+            {i18n.language === 'uz'
+              ? "Faol mahsulotlar va faol do'konlar foizlari soni eng so'ngi trendlarga asosan hisoblangan. Yani bu ko'rsatkichlarni ohirgi bir necha kunga asoslangan holda taqriban chiqarilgan (oxirgi oyga asoslangan emas)."
+              : 'Проценты активных продуктов и активных магазинов рассчитываются на основе последних тенденций, то есть эти показатели рассчитываются за последние несколько дней (а не за последний месяц).'}
+          </div>
+          <div className=''>
+            {i18n.language === 'uz'
+              ? "Agar siz anniq kunlik active mahsulotlar yoki do'konlarning foizlarini ohirgi oylar mobaynida ko'rmoqchi bo'lsangiz, qiziqtirgan kategoriyaning Trend bo'lidan ko'rishingiz mumkin."
+              : 'Если вы хотите увидеть точные проценты ежедневных активных продуктов или магазинов за последние месяцы, вы можете щелкнуть раздел «Тенденции» интересующей вас категории.'}
+          </div>
         </div>
 
         <Table
