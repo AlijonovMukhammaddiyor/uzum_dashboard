@@ -128,6 +128,7 @@ function ProductsComponent() {
 
     // Filter data to include only the required columns
     const filteredData = data.map((item: any) => ({
+      product_id: item.product_id,
       title_ru: item.product_title_ru,
       title: item.product_title,
       category_title_ru: item.category_title_ru ?? item.category_title,
@@ -146,17 +147,18 @@ function ProductsComponent() {
 
     // Define custom column headers in Russian
     const customHeaders = {
-      A1: 'Название товара',
-      B1: 'Mahsulot nomi',
-      C1: 'Название категории',
-      D1: 'Название магазина',
-      E1: 'Выручка',
-      F1: 'Заказы',
-      G1: 'Позиция в категории',
-      H1: 'Количество в наличии',
-      I1: 'Рейтинг',
-      J1: 'Отзывы',
-      K1: 'Средняя цена покупки',
+      A1: 'ID товара',
+      B1: 'Название товара',
+      C1: 'Mahsulot nomi',
+      D1: 'Название категории',
+      E1: 'Название магазина',
+      F1: 'Выручка',
+      G1: 'Заказы',
+      H1: 'Позиция в категории',
+      I1: 'Количество в наличии',
+      J1: 'Рейтинг',
+      K1: 'Отзывы',
+      L1: 'Средняя цена покупки',
     };
 
     // Map custom headers to the sheet

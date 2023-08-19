@@ -80,6 +80,10 @@ function NichesComponent() {
       average_purchase_price: item.average_purchase_price,
       total_shops: item.total_shops,
       average_product_rating: item.average_product_rating,
+      percentage_of_shops_with_sales:
+        (item.total_shops_with_sales / item.total_shops) * 100,
+      percentage_of_products_with_sales:
+        (item.total_products_with_sales / item.total_products) * 100,
     }));
 
     // Convert the filtered data to a sheet
@@ -95,6 +99,8 @@ function NichesComponent() {
       F1: 'Средняя цена покупки',
       G1: 'Магазины',
       H1: 'Рейтинг товара',
+      I1: 'Процент магазинов с продажами',
+      J1: 'Процент товаров с продажами',
     };
 
     // Map custom headers to the sheet
