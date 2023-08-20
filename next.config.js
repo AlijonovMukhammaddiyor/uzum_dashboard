@@ -39,30 +39,6 @@ const nextConfig = {
     return config;
   },
   i18n,
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
-          },
-        ],
-      },
-    ]
-  },
 };
 
 module.exports = nextConfig;
-
-const ContentSecurityPolicy = `
-  default-src 'self' data:;
-  script-src 'self' 'unsafe-eval' https://telegram.org https://va.vercel-scripts.com https://vitals.vercel-insights.com https://accounts.google.com/gsi/client;
-  child-src 'self' https://telegram.org blob:;
-  style-src 'self' 'unsafe-inline' https://telegram.org https://fonts.googleapis.com;
-  img-src 'self' data: https://images.unsplash.com https://plus.unsplash.com https://images.uzum.uz https://images.umarket.uz;
-  font-src 'self' https://telegram.org https://fonts.gstatic.com data:;
-  frame-src https://oauth.telegram.org/;
-  connect-src 'self' https://api.alijonov.com https://api.telegram.org https://oauth.telegram.org http://localhost:8000 https://vitals.vercel-insights.com;
-`;
