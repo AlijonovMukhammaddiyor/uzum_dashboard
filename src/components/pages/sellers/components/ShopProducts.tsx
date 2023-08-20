@@ -73,6 +73,7 @@ function ShopProducts({ sellerId, className }: Props) {
   >([]);
   const [stoopedProductsLoading, setStoppedProductsLoading] =
     React.useState<boolean>(false);
+  const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
 
   const [loadingTopProducts, setLoadingTopProducts] =
     React.useState<boolean>(false);
@@ -295,6 +296,7 @@ function ShopProducts({ sellerId, className }: Props) {
           activeTab={activeProducts}
           setActiveTab={setActiveProducts}
           className='my-4'
+          setNotAllowedTab={setNotAllowedTab}
         />
 
         <PaginatedTable

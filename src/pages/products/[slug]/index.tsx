@@ -28,7 +28,7 @@ function Product({ user, product_id, product_title }: ProductProps) {
     t('tabs.about_product')
   );
   const { dispatch } = useContextState();
-
+  const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
   React.useEffect(() => {
     setActiveTab(t('tabs.about_product'));
   }, [t, i18n?.language]);
@@ -72,6 +72,7 @@ function Product({ user, product_id, product_title }: ProductProps) {
           t('tabs.graph_analysis'),
           t('tabs.similar_products'),
         ]}
+        setNotAllowedTab={setNotAllowedTab}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4 '

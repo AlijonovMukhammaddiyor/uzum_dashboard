@@ -15,7 +15,7 @@ function DiscoveryComponent({ user }: { user: UserType }) {
   const { t, i18n } = useTranslation('tabs');
   const [activeTab, setActiveTab] = React.useState<string>(t('home.filter'));
   const isProPlus = user.tariff === 'seller' || user.tariff === 'business';
-
+  const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
   React.useEffect(() => {
     setActiveTab(t('home.filter'));
   }, [i18n.language, t]);
@@ -30,6 +30,7 @@ function DiscoveryComponent({ user }: { user: UserType }) {
           t('home.promising_categories'),
           // 'Asosiy kategoriyalar',
         ]}
+        setNotAllowedTab={setNotAllowedTab}
         premiumTabs={[
           t('home.new_products'),
           t('home.promising_products'),

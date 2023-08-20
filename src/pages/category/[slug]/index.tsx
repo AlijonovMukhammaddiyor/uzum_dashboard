@@ -37,7 +37,7 @@ function Category({ user }: Props) {
   const router = useRouter();
   const { slug } = router.query as { slug: string };
   const { title, id } = reverseSlug(slug);
-
+  const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
   React.useEffect(() => {
     setRendered(true);
     dispatch({ type: 'USER', payload: { user } });
@@ -91,6 +91,7 @@ function Category({ user }: Props) {
           t('categories.sellers'),
           // 'Kunlik',
         ]}
+        setNotAllowedTab={setNotAllowedTab}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4'
