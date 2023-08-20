@@ -264,7 +264,7 @@ function getData(
 function getMinMax(data: any, title: string) {
   if (!data.orders) return [];
 
-  if (title === 'Daromad miqdori' || title === 'Доход') {
+  if (title === 'Daromad miqdori' || title === 'Выручка') {
     return data.revenue.min_max;
   }
   if (title === 'Buyurtmalar soni' || title === 'Продаж') {
@@ -297,7 +297,7 @@ function getTitles(title: string) {
   if (title === 'Izohlar soni') {
     return "Quyida barcha kategoriyalarning izohlar soni va shu izohlar soniga qarab ularning ulushi ko'rsatilgan.";
   }
-  if (title === 'Доход') {
+  if (title === 'Выручка') {
     return 'Ниже приведены суммы доходов всех категорий и их доля исходя из этого дохода';
   }
   if (title === 'Заказы') {
