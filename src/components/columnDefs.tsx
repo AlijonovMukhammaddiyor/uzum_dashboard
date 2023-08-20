@@ -2,10 +2,12 @@
 import { CellStyle } from 'ag-grid-community';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { useState } from 'react';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi';
+import { TbExternalLink } from 'react-icons/tb';
 import { Carousel } from 'react-responsive-carousel';
 import Popup from 'reactjs-popup';
 
@@ -185,6 +187,19 @@ export const subCategoryAnalyticsColumnDefs = [
   },
 ];
 
+function makeid(length: number) {
+  let result = '';
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
+
 const ProductImageCellRenderer = ({ value }: { value: string }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -267,6 +282,7 @@ const AvatarCellRenderer = ({ value }: { value: string }) => {
 const ProductNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
+  const { i18n } = useTranslation('common');
   if (!value) return '';
 
   // replace / with dash
@@ -275,26 +291,52 @@ const ProductNameCellRenderer = ({ value }: { value: string }) => {
   //   ?.split('((')[0]
   //   .replace(/\//g, '-')
   //   .replace(/ /g, '-');
+  const clean_title = title
+    ?.replace(/\//g, '-')
+    .replace(/ /g, '-')
+    .trim()
+    .replace(',', '');
   const product_id = value?.split('((')[1]?.split('))')[0];
+  const isFreeUser = state.user?.tariff === 'free';
   return (
-    <div
-      onClick={() => {
-        dispatch({
-          type: 'PATH',
-          payload: {
-            path: null,
-          },
-        });
-        if (state.user?.tariff !== 'free')
-          router.push(`/products/${product_id}`);
-        else {
-          alert(
-            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-          );
-        }
-      }}
-    >
-      <p className='text-blue-500 hover:underline'>{title}</p>
+    <div className='flex h-full w-full items-center justify-start gap-1'>
+      {isFreeUser ? (
+        <TbExternalLink
+          onClick={() => {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }}
+          className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
+        />
+      ) : (
+        <a href={`/products/${product_id}`} target='_blank'>
+          <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
+        </a>
+      )}
+      <div
+        onClick={() => {
+          dispatch({
+            type: 'PATH',
+            payload: {
+              path: null,
+            },
+          });
+          if (state.user?.tariff !== 'free')
+            router.push(`/products/${product_id}`);
+          else {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }
+        }}
+      >
+        <p className='text-blue-500 hover:underline'>{title}</p>
+      </div>
     </div>
   );
 };
@@ -302,6 +344,7 @@ const ProductNameCellRenderer = ({ value }: { value: string }) => {
 const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
+  const { i18n } = useTranslation('common');
   if (!value) return '';
 
   // replace / with dash
@@ -311,25 +354,47 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
   //   .replace(/\//g, '-')
   //   .replace(/ /g, '-');
   const product_id = value?.split('((')[1]?.split('))')[0];
+  const isFreeUser = state.user?.tariff === 'free';
+
   return (
-    <div
-      onClick={() => {
-        dispatch({
-          type: 'PATH',
-          payload: {
-            path: null,
-          },
-        });
-        if (state.user?.tariff !== 'free')
-          router.push(`/campaigns/${product_id}`);
-        else {
-          alert(
-            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-          );
-        }
-      }}
-    >
-      <p className='text-blue-500 hover:underline'>{title}</p>
+    <div className='flex h-full w-full items-center justify-start gap-1'>
+      {isFreeUser ? (
+        <TbExternalLink
+          onClick={() => {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }}
+          className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
+        />
+      ) : (
+        <a href={`/campaigns/${product_id}`} target='_blank'>
+          <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
+        </a>
+      )}
+      <div
+        onClick={() => {
+          dispatch({
+            type: 'PATH',
+            payload: {
+              path: null,
+            },
+          });
+          if (state.user?.tariff !== 'free')
+            router.push(`/campaigns/${product_id}`);
+          else {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }
+        }}
+      >
+        <p className='text-blue-500 hover:underline'>{title}</p>
+      </div>
     </div>
   );
 };
@@ -337,35 +402,51 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
 const SubcategoryCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
+  const { i18n } = useTranslation('common');
   if (!value) return '';
 
   const title = value?.split('((')[0].trim();
   const category_id = value?.split('((')[1]?.split('))')[0];
-
+  const isFreeUser = state.user?.tariff === 'free';
   return (
-    <div
-      // href={`/category/${title}--${category_id}`}
-      onClick={() => {
-        dispatch({
-          type: 'PATH',
-          payload: {
-            path: null,
-          },
-        });
-        if (state.user?.tariff !== 'free')
-          // if (typeof window !== 'undefined')
-          //   // router.push(`/category/${title}--${category_id}`);
-          //   window.location.href = `/category/${title}--${category_id}`;
-          router.push(`/category/${title}--${category_id}`);
-        // else router.push(`/category/${title}--${category_id}`);
-        else {
-          alert(
-            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-          );
-        }
-      }}
-    >
-      <p className='text-blue-500 hover:underline'>{title}</p>
+    <div className='flex h-full w-full items-center justify-start gap-1'>
+      {isFreeUser ? (
+        <TbExternalLink
+          onClick={() => {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }}
+          className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
+        />
+      ) : (
+        <a href={`/category/${title}--${category_id}`} target='_blank'>
+          <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
+        </a>
+      )}
+      <div
+        onClick={() => {
+          dispatch({
+            type: 'PATH',
+            payload: {
+              path: null,
+            },
+          });
+          if (state.user?.tariff !== 'free')
+            router.push(`/category/${title}--${category_id}`);
+          else {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }
+        }}
+      >
+        <p className='text-blue-500 hover:underline'>{title}</p>
+      </div>
     </div>
   );
 };
@@ -373,33 +454,53 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
 const CategoryNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
+  const { i18n } = useTranslation('common');
 
   if (!value) return '';
 
   const title = value?.split('((')[0].trim();
   const category_id = value?.split('((')[1]?.trim().split('))')[0];
+  const isFreeUser = state.user?.tariff === 'free';
 
   return (
-    <div
-      // href={`/category/${title}--${category_id}`}
-      onClick={() => {
-        dispatch({
-          type: 'PATH',
-          payload: {
-            path: null,
-          },
-        });
-
-        if (state.user?.tariff !== 'free')
-          router.push(`/category/${title}--${category_id}`);
-        else {
-          alert(
-            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-          );
-        }
-      }}
-    >
-      <p className='text-blue-500 hover:underline'>{title}</p>
+    <div className='flex h-full w-full items-center justify-start gap-1'>
+      {isFreeUser ? (
+        <TbExternalLink
+          onClick={() => {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }}
+          className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
+        />
+      ) : (
+        <a href={`/category/${title}--${category_id}`} target='_blank'>
+          <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
+        </a>
+      )}
+      <div
+        onClick={() => {
+          dispatch({
+            type: 'PATH',
+            payload: {
+              path: null,
+            },
+          });
+          if (state.user?.tariff !== 'free')
+            router.push(`/category/${title}--${category_id}`);
+          else {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }
+        }}
+      >
+        <p className='text-blue-500 hover:underline'>{title}</p>
+      </div>
     </div>
   );
 };
@@ -426,35 +527,77 @@ const CategoryAncestorsCellRenderer = ({ value }: { value: string }) => {
 const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
+  const { i18n } = useTranslation('common');
+
   // get seller link from value = "title (link)""
   if (!value) return '';
   // try{
   const seller_link = value?.split('((')[1]?.trim().split('))')[0];
   const seller_title = value?.split('((')[0].trim();
+  const isFreeUser = state.user?.tariff === 'free';
 
   if (!seller_link || !seller_title)
     return <p className='text-black'>{seller_title}</p>;
 
   return (
-    <div
-      // href={`/sellers/${seller_link}`}
-      onClick={() => {
-        dispatch({
-          type: 'PATH',
-          payload: {
-            path: null,
-          },
-        });
-        if (state.user?.tariff !== 'free')
-          router.push(`/sellers/${seller_link}`);
-        else {
-          alert(
-            "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-          );
-        }
-      }}
-    >
-      <p className='text-blue-500 hover:underline'>{seller_title}</p>
+    // <div
+    //   // href={`/sellers/${seller_link}`}
+    //   onClick={() => {
+    //     dispatch({
+    //       type: 'PATH',
+    //       payload: {
+    //         path: null,
+    //       },
+    //     });
+    //     if (state.user?.tariff !== 'free')
+    //       router.push(`/sellers/${seller_link}`);
+    //     else {
+    //       alert(
+    //         "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+    //       );
+    //     }
+    //   }}
+    // >
+    //   <p className='text-blue-500 hover:underline'>{seller_title}</p>
+    // </div>
+    <div className='flex h-full w-full items-center justify-start gap-1'>
+      {isFreeUser ? (
+        <TbExternalLink
+          onClick={() => {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }}
+          className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
+        />
+      ) : (
+        <a href={`/sellers/${seller_link}`} target='_blank'>
+          <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
+        </a>
+      )}
+      <div
+        onClick={() => {
+          dispatch({
+            type: 'PATH',
+            payload: {
+              path: null,
+            },
+          });
+          if (state.user?.tariff !== 'free')
+            router.push(`/sellers/${seller_link}`);
+          else {
+            alert(
+              i18n.language === 'uz'
+                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
+                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+            );
+          }
+        }}
+      >
+        <p className='text-blue-500 hover:underline'>{seller_title}</p>
+      </div>
     </div>
   );
 };
@@ -2323,7 +2466,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       sortable: false,
       flex: 1,
       maxWidth: 500,
-      minWidth: 200,
+      minWidth: 300,
     },
     {
       headerName: t('category'),

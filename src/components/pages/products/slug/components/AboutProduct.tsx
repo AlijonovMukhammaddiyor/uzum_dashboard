@@ -47,6 +47,7 @@ interface ProductType {
   }[];
   category_id: number;
   category_title: string;
+  category_title_ru: string;
   characteristics: {
     id: number;
     title: string;
@@ -63,10 +64,11 @@ interface ProductType {
   shop_title: string;
   title: string;
   created_at: string;
+  title_ru: string;
 }
 
 function AboutProduct({ product_id, className }: AboutProductProps) {
-  const { t } = useTranslation('products');
+  const { t, i18n } = useTranslation('products');
   const [loading, setLoading] = React.useState<boolean>(false);
   const [product, setProduct] = React.useState<ProductType | null>(null);
   const [selectedSku, setSelectedSku] = useState(0);
@@ -209,7 +211,11 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                   )}
                 >
                   <div>
-                    <h1 className='text-3xl font-bold'>{product.title}</h1>
+                    <h1 className='text-3xl font-bold'>
+                      {i18n.language === 'uz'
+                        ? product.title
+                        : product.title_ru ?? product.title}
+                    </h1>
                     <div className='mt-2 flex items-center space-x-2'>
                       <div className='flex items-center space-x-1 text-yellow-400'>
                         <AiFillStar />
@@ -283,13 +289,17 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                       <Link
                         href={
                           '/category/' +
-                          product.category_title +
+                          (i18n.language === 'uz'
+                            ? product.category_title
+                            : product.category_title_ru) +
                           '--' +
                           product.category_id
                         }
                         className='font-semibold text-blue-500 hover:underline'
                       >
-                        {product.category_title}
+                        {i18n.language === 'uz'
+                          ? product.category_title
+                          : product.category_title_ru}
                       </Link>
                     </div>
                   </div>
