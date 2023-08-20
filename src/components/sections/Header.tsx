@@ -82,7 +82,7 @@ export default function Header() {
                   <p>
                     {i18n.language === 'uz'
                       ? "Tarif: Boshlang'ich"
-                      : 'Тариф: Начальный'}
+                      : 'Тариф: Стартер'}
                   </p>
                 ) : state.user?.tariff === 'seller' ? (
                   <p>

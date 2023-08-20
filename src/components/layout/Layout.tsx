@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Toaster } from 'react-hot-toast';
 
 import clsxm from '@/lib/clsxm';
 
@@ -21,6 +22,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Header />
       <div className={clsxm('h-full w-screen overflow-scroll')}>
         <div className='h-full w-full flex-1 overflow-scroll p-4 pl-20'>
+          <Toaster
+            position='top-center'
+            reverseOrder={false}
+            gutter={32}
+            toastOptions={{
+              duration: 2000,
+            }}
+          />
           {children}
         </div>
       </div>

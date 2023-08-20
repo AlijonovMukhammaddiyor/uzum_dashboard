@@ -417,3 +417,7 @@
     rgba(93, 0, 153, 1) 84%
   );
 }
+
+.simple_shadow {
+  box-shadow: 0px 0px 10px rgba(69, 69, 69, 0.5);
+}
