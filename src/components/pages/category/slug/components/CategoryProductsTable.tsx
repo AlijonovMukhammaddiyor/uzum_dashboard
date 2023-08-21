@@ -1,6 +1,9 @@
 import { AxiosResponse } from 'axios';
+import * as FileSaver from 'file-saver';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaFileExcel } from 'react-icons/fa';
+import XLSX from 'sheetjs-style';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -8,8 +11,11 @@ import logger from '@/lib/logger';
 
 import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import Button from '@/components/shared/buttons/Button';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 import TreeMapChart from '@/components/shared/Treemap';
+
+import { useContextState } from '@/context/Context';
 
 export interface Props {
   activeTab?: string;
@@ -38,6 +44,7 @@ export interface ProductAnalyticsViewType {
 function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   const { t, i18n } = useTranslation('tableColumns');
   const { t: t2 } = useTranslation('categories');
+  const { state } = useContextState();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [topProductsData, setTopProductsData] = React.useState<
     {
@@ -152,6 +159,179 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     >(url);
   };
 
+  const exportToExcel = () => {
+    const api = new API(null);
+    setLoading(true);
+    if (state.user?.tariff === 'free' || state.user?.tariff === 'trial') {
+      setLoading(false);
+      return alert(
+        i18n?.language === 'uz'
+          ? "Bu funktsiyadan foydalanish uchun boshqa tarifga o'ting"
+          : 'Для использования этой функции перейдите на другой тариф'
+      );
+    }
+    api
+      .get<unknown, AxiosResponse<Blob>>('/product/toexcel/' + categoryId)
+      .then((res) => {
+        // download res.data as excel file
+        // logger(res, 'Response from export to excel');
+        downloadExcel(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in export to excel');
+        setLoading(false);
+      });
+  };
+
+  function downloadExcel(data_: any) {
+    const fileType =
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+    const data = data_.slice(0, 10000);
+    // Filter data to include only the required columns
+    const filteredData = data.slice(0, 10000).map((item: any) => ({
+      product_id: item.product_id,
+      title_ru: item.product_title_ru,
+      title: item.product_title,
+      category_title_ru: item.category_title_ru ?? item.category_title,
+      shop_title: item.shop_title,
+      revenue: Math.round((item.orders_money * 1000) / 1000) * 1000,
+      position_in_subcategory: item.position_in_category,
+      orders: item.orders_amount,
+      available_in_stock: item.product_available_amount,
+      rating: item.rating,
+      reviews_amount: item.reviews_amount,
+      average_purchase_price: Math.round(item.avg_purchase_price / 1000) * 1000,
+    }));
+
+    // Convert the filtered data to a sheet
+    const ws = XLSX.utils.json_to_sheet(filteredData);
+
+    // Define custom column headers in Russian
+    const customHeaders = {
+      A1: 'ID товара',
+      B1: 'Название товара',
+      C1: 'Mahsulot nomi',
+      D1: 'Название категории',
+      E1: 'Название магазина',
+      F1: 'Выручка',
+      G1: 'Позиция в подкатегории',
+      H1: 'Заказы',
+      I1: 'Количество в наличии',
+      J1: 'Рейтинг',
+      K1: 'Отзывы',
+      L1: 'Средняя цена покупки',
+    };
+
+    // Map custom headers to the sheet
+    for (const key in customHeaders) {
+      const key_: keyof typeof customHeaders = key as any;
+      ws[key_].v = customHeaders[key_];
+      ws[key_].s = {
+        fill: { patternType: 'solid', fgColor: { rgb: '000000' } }, // Black background color for headers
+        font: { bold: true, color: { rgb: 'FFFFFF' }, sz: 14 }, // White text with larger font size
+        alignment: {
+          horizontal: 'center',
+          vertical: 'center',
+          wrapText: true,
+        },
+      };
+    }
+
+    ws['!cols'] = [
+      { wch: 12 }, // A: ID товара
+      { wch: 40 }, // B: Название товара
+      { wch: 40 }, // C: Mahsulot nomi
+      { wch: 40 }, // D: Название категории
+      { wch: 30 }, // E: Название магазина
+      { wch: 20 }, // F: Выручка
+      { wch: 20 }, // G: Заказы
+      { wch: 30 }, // H: Позиция в категории
+      { wch: 30 }, // I: Количество в наличии
+      { wch: 15 }, // J: Рейтинг
+      { wch: 20 }, // K: Отзывы
+      { wch: 25 }, // L: Средняя цена покупки
+    ];
+
+    ws['!rows'] = [
+      { hpx: 40 },
+      ...Array(filteredData.length).fill({ hpx: 30 }),
+    ];
+
+    const greenGradient = (value: number, min: number, max: number) => {
+      if (min === 0) {
+        min = 1;
+      }
+      const gradient = Math.round(100 + 155 * ((max - value) / (max - min))); // Darker shades for higher values
+      return `00${gradient.toString(16).padStart(2, '0')}00`;
+    };
+
+    const orangeGradient = (value: number, min: number, max: number) => {
+      if (min === 0) {
+        min = 1;
+      }
+
+      const gradient = Math.round(220 - 50 * ((value - min) / (max - min)));
+      return `FF${gradient.toString(16).padStart(2, '0')}A5`;
+    };
+
+    const applyGradient = (
+      column: string,
+      data: any[],
+      gradientFunction: (value: number, min: number, max: number) => string
+    ) => {
+      const maxVal = Math.max(...data);
+      const minVal = Math.min(...data);
+      console.log(maxVal, minVal, column);
+      for (let i = 0; i < data.length; i++) {
+        const cell = `${column}${i + 2}`;
+        ws[cell].s = {
+          fill: {
+            patternType: 'solid',
+            fgColor: { rgb: gradientFunction(data[i], minVal, maxVal) },
+          },
+          border: {
+            // Setting borders for each cell
+            top: { style: 'thin', color: { auto: 1 } },
+            bottom: { style: 'thin', color: { auto: 1 } },
+            left: { style: 'thin', color: { auto: 1 } },
+            right: { style: 'thin', color: { auto: 1 } },
+          },
+          font: { sz: 12 }, // Setting a standard font size
+          alignment: {
+            horizontal: 'center',
+            vertical: 'center',
+          },
+        };
+      }
+    };
+
+    applyGradient(
+      'F',
+      filteredData.map((item: any) => item.revenue),
+      greenGradient
+    );
+    applyGradient(
+      'H',
+      filteredData.map((item: any) => item.orders),
+      orangeGradient
+    );
+    applyGradient(
+      'K',
+      filteredData.map((item: any) => item.reviews_amount),
+      greenGradient
+    );
+
+    // Create the workbook and save it
+    const wb = { Sheets: { shops: ws }, SheetNames: ['shops'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data2 = new Blob([excelBuffer], { type: fileType });
+    const currentDate = new Date().toISOString().slice(0, 10);
+    FileSaver.saveAs(data2, 'продукты_' + currentDate + fileExtension);
+  }
+
   if (activeTab !== 'Tovarlar' && activeTab !== 'Товары') return <></>;
 
   return (
@@ -217,6 +397,26 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           />
         </div>
       </Container>
+      <div className=''>
+        <Button
+          className='flex items-center rounded bg-green-500 px-4 py-2 text-white transition duration-200 ease-in-out hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50'
+          onClick={exportToExcel}
+          isLoading={loading}
+          spinnerColor='rgb(126 34 206)'
+          disabled={
+            state.user?.tariff === 'free' || state.user?.tariff === 'trial'
+              ? true
+              : false
+          }
+        >
+          <FaFileExcel className='mr-2' />
+          <p>
+            {i18n.language === 'uz'
+              ? 'Mahsulotlarni Excelga yuklash'
+              : 'Загрузить товары в Excel'}
+          </p>
+        </Button>
+      </div>
       <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
         <PaginatedTable
           columnDefs={

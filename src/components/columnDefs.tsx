@@ -200,7 +200,7 @@ function makeid(length: number) {
   return result;
 }
 
-const ProductImageCellRenderer = ({ value }: { value: string }) => {
+export const ProductImageCellRenderer = ({ value }: { value: string }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   if (!value) return null;
@@ -217,7 +217,7 @@ const ProductImageCellRenderer = ({ value }: { value: string }) => {
   };
 
   return (
-    <div className='relative h-full max-w-[180px] overflow-auto'>
+    <div className='relative h-[60px] max-w-[180px] overflow-auto'>
       {srcs_back.map((src, index) => {
         return (
           <div
@@ -279,7 +279,7 @@ const AvatarCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const ProductNameCellRenderer = ({ value }: { value: string }) => {
+export const ProductNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { i18n } = useTranslation('common');
@@ -451,10 +451,10 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const CategoryNameCellRenderer = ({ value }: { value: string }) => {
+export const CategoryNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
-  const router = useRouter();
   const { i18n } = useTranslation('common');
+  const router = useRouter();
 
   if (!value) return '';
 
@@ -524,7 +524,7 @@ const CategoryAncestorsCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const SellerNameCellRenderer = ({ value }: { value: string }) => {
+export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { i18n } = useTranslation('common');
@@ -613,7 +613,7 @@ const TrendPriceCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const PriceRenderer = ({ value }: { value: number }) => {
+export const PriceRenderer = ({ value }: { value: number }) => {
   if (value === null || value === 0) return <p>-</p>;
 
   const value_number = Number(Number(value).toFixed(0));
@@ -624,7 +624,7 @@ const PriceRenderer = ({ value }: { value: number }) => {
   );
 };
 
-const FullPriceCellRenderer = ({ value }: { value: string }) => {
+export const FullPriceCellRenderer = ({ value }: { value: string }) => {
   if (!value) return '';
   const skus: {
     sku_id: number;
@@ -657,7 +657,7 @@ const FullPriceCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
+export const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
   if (!value) return '';
   const skus: {
     sku_id: number;
@@ -683,7 +683,46 @@ const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const RevenueCellRenderer = ({ value }: { value: number }) => {
+export const PurchasePriceCellRenderer2 = ({ value }: { value: string }) => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  if (!value) return '';
+
+  const skus: {
+    sku_id: number;
+    purchase_price: number;
+    full_price: number;
+    orders_amount: number;
+    available_amount: number;
+  }[] = JSON.parse(value);
+
+  const count = skus.filter(
+    (sku) => sku.purchase_price && sku.purchase_price > 0
+  ).length;
+
+  return (
+    <div className='relative flex h-full w-full flex-col gap-1'>
+      <div
+        className='h-full w-full cursor-pointer'
+        onClick={() => {
+          console.log('clicked');
+          setIsCollapsed(!isCollapsed);
+        }}
+      >
+        {isCollapsed ? (
+          <p>{skus[0]?.purchase_price?.toLocaleString()} so'm</p>
+        ) : (
+          <ul className='absolute right-0 top-0 flex h-full w-full'>
+            {skus.map((sku, index) => (
+              <li key={index}>{sku.purchase_price?.toLocaleString()} so'm</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export const RevenueCellRenderer = ({ value }: { value: number }) => {
   if (!value) return '-';
   const value_ = value * 1000;
   // check if it is int billion
@@ -711,7 +750,7 @@ const RevenueCellRenderer = ({ value }: { value: number }) => {
   );
 };
 
-const RatingCellRenderer = ({ value }: { value: string }) => {
+export const RatingCellRenderer = ({ value }: { value: string }) => {
   if (!value) return '';
   const value_number = Number(value);
   return (
@@ -725,7 +764,7 @@ const RatingCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const SkusCountCellRenderer = ({ value }: { value: string }) => {
+export const SkusCountCellRenderer = ({ value }: { value: string }) => {
   if (!value) return '';
   const skus: {
     sku_id: number;
@@ -739,12 +778,12 @@ const SkusCountCellRenderer = ({ value }: { value: string }) => {
 
   return (
     <div className='flex flex-col gap-1'>
-      <p className=''>{count?.toLocaleString()} ta</p>
+      <p className=''>{count?.toLocaleString()} шт.</p>
     </div>
   );
 };
 
-const BadgesCellRenderer = ({ value }: { value: string }) => {
+export const BadgesCellRenderer = ({ value }: { value: string }) => {
   if (!value) return '';
 
   const badges: {
@@ -773,7 +812,7 @@ const BadgesCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-const LocaleNumberCellRenderer = ({ value }: { value: string }) => {
+export const LocaleNumberCellRenderer = ({ value }: { value: string }) => {
   if (value === null) return '';
   const value_number = Number(value);
   return (
@@ -782,7 +821,7 @@ const LocaleNumberCellRenderer = ({ value }: { value: string }) => {
     </div>
   );
 };
-const PercentageCellRenderer = ({ value }: { value: string }) => {
+export const PercentageCellRenderer = ({ value }: { value: string }) => {
   if (value === null) return '';
   const value_number = Number(value);
   return (
@@ -792,7 +831,7 @@ const PercentageCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-function DailyOrdersCellRenderer(props: { value: any }) {
+export function DailyOrdersCellRenderer(props: { value: any }) {
   const { value } = props;
 
   const color = value?.change < 0 ? 'red' : 'green';
@@ -838,7 +877,7 @@ function DailyOrdersCellRenderer(props: { value: any }) {
     </div>
   );
 }
-function DailyRatingCellRenderer(props: { value: any }) {
+export function DailyRatingCellRenderer(props: { value: any }) {
   const { value } = props;
 
   const color = value?.change < 0 ? 'red' : 'green';
@@ -950,7 +989,7 @@ function PriceChangeCellRenderer(props: { value: any }) {
   );
 }
 
-const ProductDateCellRenderer = (props: { value: any }) => {
+export const ProductDateCellRenderer = (props: { value: any }) => {
   if (!props.value) return '';
 
   const date = new Date(props.value);

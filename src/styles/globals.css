@@ -331,6 +331,10 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
+  .InovuaReactDataGrid--theme-green-light .InovuaReactDataGrid__header {
+    background: green !important;
+  }
 }
 @keyframes pulse-right {
   0% {

@@ -88,15 +88,17 @@ function SellersTable({ className, user }: Props) {
 
   const exportToExcel = () => {
     const api = new API(null);
-    setLoading(true);
+
     if (user.tariff === 'free' || user.tariff === 'trial') {
       setLoading(false);
-      return alert(
+      alert(
         i18n?.language === 'uz'
           ? "Bu funktsiyadan foydalanish uchun boshqa tarifga o'ting"
           : 'Для использования этой функции перейдите на другой тариф'
       );
+      return;
     }
+    setLoading(true);
     api
       .get<unknown, AxiosResponse<Blob>>('/shop/toexcel/')
       .then((res) => {
@@ -258,14 +260,14 @@ export function downloadExcel(data: any) {
   const filteredData = data.map((item: any) => ({
     position: item.position,
     shop_title: item.shop_title.split('((')[0],
-    total_products: item.total_products,
-    // make total revenue divisable by 1000
     total_revenue: Math.round((item.total_revenue * 1000) / 1000) * 1000,
+    rating: item.rating,
+    // make total revenue divisable by 1000
     total_orders: item.total_orders,
     total_reviews: item.total_reviews,
-    average_purchase_price: item.average_purchase_price,
     num_categories: item.num_categories,
-    rating: item.rating,
+    average_purchase_price: item.average_purchase_price,
+    total_products: item.total_products,
   }));
 
   // Convert the filtered data to a sheet
@@ -275,21 +277,101 @@ export function downloadExcel(data: any) {
   const customHeaders = {
     A1: 'Позиция',
     B1: 'Название магазина',
-    C1: 'Всего товаров',
-    D1: 'Выручка',
+    C1: 'Выручка',
+    D1: 'Рейтинг',
     E1: 'Заказы',
     F1: 'Отзывы',
-    G1: 'Средняя цена покупки',
-    // number of categories
-    H1: 'Количество категорий',
-    I1: 'Рейтинг',
+    G1: 'Количество категорий',
+    H1: 'Средняя цена покупки',
+    I1: 'Всего товаров',
   };
 
   // Map custom headers to the sheet
   for (const key in customHeaders) {
-    const key_: keyof typeof customHeaders = key as any;
-    ws[key_] = { v: customHeaders[key_] };
+    const key_: keyof typeof customHeaders = key as keyof typeof customHeaders;
+    ws[key].v = customHeaders[key_];
+    ws[key].s = {
+      fill: { patternType: 'solid', fgColor: { rgb: '000000' } }, // Black background color for headers
+      font: { bold: true, color: { rgb: 'FFFFFF' }, sz: 14 }, // White text with larger font size
+      alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+    };
   }
+
+  ws['!cols'] = [
+    { wch: 25 },
+    { wch: 50 },
+    { wch: 25 },
+    { wch: 25 },
+    { wch: 25 },
+    { wch: 25 },
+    { wch: 25 },
+    { wch: 25 },
+    { wch: 25 },
+  ];
+
+  const greenGradient = (value: number, min: number, max: number) => {
+    const gradient = Math.round(100 + 155 * ((max - value) / (max - min))); // Darker shades for higher values
+    return `00${gradient.toString(16).padStart(2, '0')}00`;
+  };
+
+  const orangeGradient = (value: number, min: number, max: number) => {
+    const gradient = Math.round(220 - 50 * ((value - min) / (max - min)));
+    return `FF${gradient.toString(16).padStart(2, '0')}A5`;
+  };
+
+  const applyGradient = (
+    column: string,
+    data: any[],
+    gradientFunction: (value: number, min: number, max: number) => string
+  ) => {
+    const maxVal = Math.max(...data);
+    const minVal = Math.min(...data);
+    for (let i = 0; i < data.length; i++) {
+      const cell = `${column}${i + 2}`;
+      ws[cell].s = {
+        fill: {
+          patternType: 'solid',
+          fgColor: { rgb: gradientFunction(data[i], minVal, maxVal) },
+        },
+        border: {
+          // Setting borders for each cell
+          top: { style: 'thin', color: { auto: 1 } },
+          bottom: { style: 'thin', color: { auto: 1 } },
+          left: { style: 'thin', color: { auto: 1 } },
+          right: { style: 'thin', color: { auto: 1 } },
+        },
+        font: { sz: 12 }, // Setting a standard font size
+        alignment: {
+          horizontal: 'center',
+          vertical: 'center',
+        },
+      };
+    }
+  };
+
+  applyGradient(
+    'I',
+    data.map((item: any) => item.total_products),
+    greenGradient
+  );
+  applyGradient(
+    'G',
+    data.map((item: any) => item.num_categories),
+    orangeGradient
+  );
+  applyGradient(
+    'C',
+    data.map((item: any) => item.total_revenue),
+    greenGradient
+  );
+  applyGradient(
+    'E',
+    data.map((item: any) => item.total_orders),
+    orangeGradient
+  );
+
+  // Set row heights
+  ws['!rows'] = Array(data.length + 1).fill({ hpx: 30 }); // 30 pixels height for each row, adjust as needed
 
   // Create the workbook and save it
   const wb = { Sheets: { shops: ws }, SheetNames: ['shops'] };

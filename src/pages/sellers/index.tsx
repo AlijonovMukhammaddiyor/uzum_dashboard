@@ -37,22 +37,11 @@ export default function Sellers({ user }: ShopsProps) {
   return (
     <Layout>
       <Seo />
-
-      {/* <Tabs
-        tabs={['Sotuvchilar']}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        className='mb-4'
-      /> */}
       <div className='overflow-scroll'>
         <SellersTable
           user={user}
           className={clsxm(activeTab === 'Sotuvchilar' ? '' : 'hidden')}
         />
-
-        {/* <MainAnalytics
-          className={clsxm(activeTab === 'Umumiy' ? '' : 'hidden')}
-        /> */}
       </div>
     </Layout>
   );

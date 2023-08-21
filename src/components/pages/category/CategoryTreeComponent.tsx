@@ -81,7 +81,7 @@ function CategoryTreeComponent() {
 
     // Filter data to include only the required columns
     const filteredData = data.map((item: any) => ({
-      category__title_ru: item.category__title_ru ?? item.category__title,
+      category__title_ru: item.category__title ?? item.category__title,
       total_orders_amount:
         Math.round((item.total_orders_amount * 1000) / 1000) * 1000,
       total_orders: item.total_orders,
@@ -110,8 +110,89 @@ function CategoryTreeComponent() {
     // Map custom headers to the sheet
     for (const key in customHeaders) {
       const key_: keyof typeof customHeaders = key as any;
-      ws[key_] = { v: customHeaders[key_] };
+      ws[key_].v = customHeaders[key_];
+      ws[key_].s = {
+        fill: { patternType: 'solid', fgColor: { rgb: '000000' } }, // Black background color for headers
+        font: { bold: true, color: { rgb: 'FFFFFF' }, sz: 14 }, // White text with larger font size
+        alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+      };
     }
+
+    // Set column widths
+    ws['!cols'] = [
+      { wch: 50 }, // A: Категория
+      { wch: 25 }, // B: Выручка
+      { wch: 25 }, // C: Заказы
+      { wch: 25 }, // D: Товары
+      { wch: 25 }, // E: Отзывы
+      { wch: 25 }, // F: Средняя цена покупки
+      { wch: 25 }, // G: Магазины
+      { wch: 25 }, // H: Рейтинг товара
+    ];
+
+    const greenGradient = (value: number, min: number, max: number) => {
+      const gradient = Math.round(100 + 155 * ((max - value) / (max - min))); // Darker shades for higher values
+      return `00${gradient.toString(16).padStart(2, '0')}00`;
+    };
+
+    const orangeGradient = (value: number, min: number, max: number) => {
+      const gradient = Math.round(220 - 50 * ((value - min) / (max - min)));
+      return `FF${gradient.toString(16).padStart(2, '0')}A5`;
+    };
+
+    const applyGradient = (
+      column: string,
+      data: any[],
+      gradientFunction: (value: number, min: number, max: number) => string
+    ) => {
+      const maxVal = Math.max(...data);
+      const minVal = Math.min(...data);
+      for (let i = 0; i < data.length; i++) {
+        const cell = `${column}${i + 2}`;
+        ws[cell].s = {
+          fill: {
+            patternType: 'solid',
+            fgColor: { rgb: gradientFunction(data[i], minVal, maxVal) },
+          },
+          border: {
+            // Setting borders for each cell
+            top: { style: 'thin', color: { auto: 1 } },
+            bottom: { style: 'thin', color: { auto: 1 } },
+            left: { style: 'thin', color: { auto: 1 } },
+            right: { style: 'thin', color: { auto: 1 } },
+          },
+          font: { sz: 12 }, // Setting a standard font size
+          alignment: {
+            horizontal: 'center',
+            vertical: 'center',
+          },
+        };
+      }
+    };
+
+    applyGradient(
+      'B',
+      data.map((item: any) => item.total_orders_amount),
+      greenGradient
+    );
+    applyGradient(
+      'C',
+      data.map((item: any) => item.total_orders),
+      orangeGradient
+    );
+    applyGradient(
+      'D',
+      data.map((item: any) => item.total_products),
+      greenGradient
+    );
+    applyGradient(
+      'G',
+      data.map((item: any) => item.total_shops),
+      orangeGradient
+    );
+
+    // Set row heights (e.g., 40 pixels for headers and 30 for data rows)
+    ws['!rows'] = [{ hpx: 40 }, ...Array(data.length).fill({ hpx: 30 })];
 
     // Create the workbook and save it
     const wb = { Sheets: { shops: ws }, SheetNames: ['shops'] };
