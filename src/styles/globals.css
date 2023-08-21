@@ -326,6 +326,12 @@
     background-size: 0 2px, 100% 2px;
   }
 
+  .cover_image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;

@@ -87,7 +87,7 @@ function LandingHeader() {
             ))}
 
             <Link href='/login'>
-              <div className='bg-primary hover:border-primary hover:text-primary flex cursor-pointer items-center justify-end gap-4 rounded-md border px-4 py-2 text-white transition-all duration-200  hover:bg-transparent'>
+              <div className='bg-primary hover:border-primary hover:text-primary flex cursor-pointer items-center justify-end gap-4 rounded-md border-2 px-4 py-2 text-white transition-all duration-200  hover:bg-transparent'>
                 <p className='text-sm '>{t('header.button.kirish')}</p>
               </div>
             </Link>

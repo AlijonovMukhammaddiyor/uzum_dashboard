@@ -242,8 +242,8 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
 
     ws['!cols'] = [
       { wch: 12 }, // A: ID товара
-      { wch: 40 }, // B: Название товара
-      { wch: 40 }, // C: Mahsulot nomi
+      { wch: 60 }, // B: Название товара
+      { wch: 60 }, // C: Mahsulot nomi
       { wch: 40 }, // D: Название категории
       { wch: 30 }, // E: Название магазина
       { wch: 20 }, // F: Выручка
