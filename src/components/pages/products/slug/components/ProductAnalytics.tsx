@@ -96,131 +96,152 @@ function ProductAnalytics({
         className
       )}
     >
-      <Container
-        className='flex w-full flex-col items-start justify-start gap-5 rounded-md bg-white p-4'
-        loading={loading}
-      >
-        {/* {product && product.recent_analytics && ( */}
-        {isActive ? (
-          <AreaChart
-            data={
-              prepareAllOrdersDataset(product, iscreatedAfter, i18n.language) ||
-              []
-            }
-            title={t('product_totals_title')}
-            labels={getLabels(product, iscreatedAfter) || []}
-            style={{ width: '100%', height: '100%', maxHeight: '460px' }}
-            className='h-[460px] max-h-[460px] w-full'
-          />
-        ) : (
-          <></>
-        )}
+      {product ? (
+        product.recent_analytics.length > 1 ? (
+          <Container
+            className='flex w-full flex-col items-start justify-start gap-5 rounded-md bg-white p-4'
+            loading={loading}
+          >
+            {/* {product && product.recent_analytics && ( */}
+            {isActive ? (
+              <AreaChart
+                data={
+                  prepareAllOrdersDataset(
+                    product,
+                    iscreatedAfter,
+                    i18n.language
+                  ) || []
+                }
+                title={t('product_totals_title')}
+                labels={getLabels(product, iscreatedAfter) || []}
+                style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+                className='h-[460px] max-h-[460px] w-full'
+              />
+            ) : (
+              <></>
+            )}
 
-        {isActive ? (
-          <AreaChart
-            labels={
-              product?.recent_analytics
-                .map((item) => item.date_pretty)
-                .sort(
-                  (a, b) => new Date(a).getTime() - new Date(b).getTime()
-                ) ?? []
-            }
-            data={
-              prepareDailyOrdersDataset(
-                product,
-                iscreatedAfter,
-                i18n.language
-              ) || []
-            }
-            title={t('daily_info')}
-            style={{ width: '100%', height: '100%', maxHeight: '460px' }}
-            className='h-[460px] max-h-[460px] w-full'
-          />
-        ) : (
-          <></>
-        )}
+            {isActive ? (
+              <AreaChart
+                labels={
+                  product?.recent_analytics
+                    .map((item) => item.date_pretty)
+                    .sort(
+                      (a, b) => new Date(a).getTime() - new Date(b).getTime()
+                    ) ?? []
+                }
+                data={
+                  prepareDailyOrdersDataset(
+                    product,
+                    iscreatedAfter,
+                    i18n.language
+                  ) || []
+                }
+                title={t('daily_info')}
+                style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+                className='h-[460px] max-h-[460px] w-full'
+              />
+            ) : (
+              <></>
+            )}
 
-        <div className='mt-8 flex w-full items-center justify-start'>
-          <p className='w-full text-center text-sm'>{t('product_in_uzum')}</p>
-          <p></p>
-        </div>
-        <>
-          {product && product.recent_analytics && isActive && (
-            <LineChart
-              data={
-                product.recent_analytics.map((item) => ({
-                  x: item.date_pretty,
-                  y: item.position,
-                  label: t('position'),
-                })) || []
-              }
-              isStep
-              // yAxisTitle='Kunlik buyurtmalar soni'
-              xAxisTitle=''
-              style={{
-                width: '100%',
-                height: '100%',
-                maxHeight: '300px',
-                minHeight: '300px',
-              }}
-            />
-          )}
-        </>
-        <div className='mt-8 flex w-full items-center justify-start'>
-          <p className='w-full text-center text-sm'>
-            {t('product_in_category')}
-          </p>
-          <p></p>
-        </div>
-        <>
-          {product && isActive && (
-            <LineChart
-              data={
-                product.recent_analytics.map((item) => ({
-                  x: item.date_pretty,
-                  y: item.position_in_category,
-                  label: t('position'),
-                })) || []
-              }
-              isStep
-              // yAxisTitle='Kunlik buyurtmalar soni'
-              xAxisTitle=''
-              style={{
-                width: '100%',
-                height: '100%',
-                maxHeight: '300px',
-                minHeight: '300px',
-              }}
-            />
-          )}
-        </>
-        <div className='mt-8 flex w-full items-center justify-start'>
-          <p className='w-full text-center text-sm'>{t('product_in_shop')}</p>
-          <p></p>
-        </div>
-        <>
-          {product && isActive && (
-            <LineChart
-              data={
-                product.recent_analytics.map((item) => ({
-                  x: item.date_pretty,
-                  y: item.position_in_shop,
-                  label: t('position'),
-                })) || []
-              }
-              isStep
-              yAxisTitle={t('daily_orders_amount')}
-              xAxisTitle=''
-              style={{
-                width: '100%',
-                height: '100%',
-                maxHeight: '300px',
-                minHeight: '300px',
-              }}
-            />
-          )}
-        </>
-      </Container>
+            <div className='mt-8 flex w-full items-center justify-start'>
+              <p className='w-full text-center text-sm'>
+                {t('product_in_uzum')}
+              </p>
+              <p></p>
+            </div>
+            <>
+              {product && product.recent_analytics && isActive && (
+                <LineChart
+                  data={
+                    product.recent_analytics.map((item) => ({
+                      x: item.date_pretty,
+                      y: item.position,
+                      label: t('position'),
+                    })) || []
+                  }
+                  isStep
+                  // yAxisTitle='Kunlik buyurtmalar soni'
+                  xAxisTitle=''
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '300px',
+                    minHeight: '300px',
+                  }}
+                />
+              )}
+            </>
+            <div className='mt-8 flex w-full items-center justify-start'>
+              <p className='w-full text-center text-sm'>
+                {t('product_in_category')}
+              </p>
+              <p></p>
+            </div>
+            <>
+              {product && isActive && (
+                <LineChart
+                  data={
+                    product.recent_analytics.map((item) => ({
+                      x: item.date_pretty,
+                      y: item.position_in_category,
+                      label: t('position'),
+                    })) || []
+                  }
+                  isStep
+                  // yAxisTitle='Kunlik buyurtmalar soni'
+                  xAxisTitle=''
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '300px',
+                    minHeight: '300px',
+                  }}
+                />
+              )}
+            </>
+            <div className='mt-8 flex w-full items-center justify-start'>
+              <p className='w-full text-center text-sm'>
+                {t('product_in_shop')}
+              </p>
+              <p></p>
+            </div>
+            <>
+              {product && isActive && (
+                <LineChart
+                  data={
+                    product.recent_analytics.map((item) => ({
+                      x: item.date_pretty,
+                      y: item.position_in_shop,
+                      label: t('position'),
+                    })) || []
+                  }
+                  isStep
+                  yAxisTitle={t('daily_orders_amount')}
+                  xAxisTitle=''
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '300px',
+                    minHeight: '300px',
+                  }}
+                />
+              )}
+            </>
+          </Container>
+        ) : (
+          <div className=''>
+            <p>
+              {i18n.language === 'uz'
+                ? 'Yangi mahsulot: ushbu mahsulot atiga 1 kun oldin sotuvga chiqqan.'
+                : 'Новый продукт: Этот продукт был выпущен всего 1 день назад.'}
+            </p>
+          </div>
+        )
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

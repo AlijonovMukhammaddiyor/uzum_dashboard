@@ -275,7 +275,10 @@ function AboutProduct({
           </Container>
         </div>
       )}
-      <Container loading={loading} className='h-full w-full bg-transparent p-5'>
+      <Container
+        loading={loading}
+        className='h-full min-h-[800px] w-full border-none bg-transparent p-0'
+      >
         <>
           {products.length > 0 && (
             <Table

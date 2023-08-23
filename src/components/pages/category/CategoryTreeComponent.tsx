@@ -21,11 +21,13 @@ import { CategoryInTree } from '@/types/category';
 import { UserType } from '@/types/user';
 
 function CategoryTreeComponent() {
-  const [activeTab, setActiveTab] = React.useState<string>('Elektronika');
   const [data, setData] = React.useState<CategoryInTree[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const { dispatch, state } = useContextState();
   const { i18n } = useTranslation('tableColumns');
+  const [activeTab, setActiveTab] = React.useState<string>(
+    i18n.language === 'uz' ? 'Elektronika' : 'Электроника'
+  );
 
   const router = useRouter();
 

@@ -40,7 +40,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
   const [data, setData] = React.useState<CategoryAnalyticsDataType[]>([]);
   const [labels, setLabels] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [tab, setTab] = React.useState<string>('Daromad');
+  const [tab, setTab] = React.useState<string>(t2('revenue'));
 
   useEffect(() => {
     const api = new API(null);

@@ -25,6 +25,7 @@ interface Props {
 interface CategoryType {
   categiry_id: number;
   ancestors: string;
+  ancestors_ru: string;
 }
 
 function Category({ user }: Props) {
@@ -49,7 +50,11 @@ function Category({ user }: Props) {
       .then((res) => {
         logger(res, 'category');
         const data = res.data;
-        const categoryPath = buildPathFromAncestors(data.ancestors, title, id);
+        const categoryPath = buildPathFromAncestors(
+          i18n.language === 'uz' ? data.ancestors : data.ancestors_ru,
+          title,
+          id
+        );
         if (data.ancestors) {
           dispatch({
             type: 'PATH',
