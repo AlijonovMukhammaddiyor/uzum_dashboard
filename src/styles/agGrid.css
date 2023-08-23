@@ -8,7 +8,12 @@
 }
 
 .ag-theme-alpine .ag-root-wrapper {
-  border-radius: 8px !important;
+  border-radius: 0px !important;
+}
+
+.ag-theme-balham .ag-header-cell {
+  color: black !important;
+  font-weight: bold !important;
 }
 
 /* .ag-theme-alpine {
@@ -16,7 +21,6 @@
 } */
 
 .ag-header-cell {
-  background-color: #f1e9fd !important;
 }
 
 .ag-header-cell-resize:after {

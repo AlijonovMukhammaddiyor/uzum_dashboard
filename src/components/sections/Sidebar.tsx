@@ -171,6 +171,7 @@ function Sidebar({
                 )}
               />
             }
+            isNew={true}
             isSidebarOpen={isSidebarOpen}
             activeTab={activeTab}
             onClick={() => {
@@ -342,6 +343,7 @@ function SidebarItem({
   className,
   onClick,
   disabled,
+  isNew,
 }: {
   href: string;
   label: string;
@@ -351,6 +353,7 @@ function SidebarItem({
   className?: string;
   onClick?: () => void;
   disabled?: boolean;
+  isNew?: boolean;
 }) {
   const { dispatch, state } = useContextState();
   const router = useRouter();
@@ -404,7 +407,7 @@ function SidebarItem({
           router.push(href);
         }}
         className={clsxm(
-          'group flex h-full flex-1 cursor-pointer items-center rounded-md px-2 text-black hover:bg-slate-400 hover:text-white',
+          'group relative flex h-full flex-1 cursor-pointer items-center rounded-md px-2 text-black hover:bg-slate-400 hover:text-white',
           activeTab === label && 'bg-primary hover:bg-primary text-white',
           disabled &&
             'cursor-not-allowed bg-slate-100 text-slate-300 hover:bg-slate-100 hover:text-slate-300'
@@ -420,6 +423,12 @@ function SidebarItem({
             {label}
           </div>
         )} */}
+        {/* Conditionally render the "New" label based on isNew */}
+        {isNew && (
+          <span className='absolute -left-5 -top-2 ml-2 rounded-lg bg-yellow-500 px-1 text-[10px] font-semibold text-white'>
+            New
+          </span>
+        )}
       </p>
       <MdChevronRight
         className={clsxm(

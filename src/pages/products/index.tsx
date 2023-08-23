@@ -38,7 +38,7 @@ export default function Products({ user }: ProductsProps) {
   return (
     <Layout>
       <Seo />
-      <ProductsComponent />
+      <ProductsComponent user={user} />
     </Layout>
   );
 }

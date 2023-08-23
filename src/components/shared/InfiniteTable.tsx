@@ -8,11 +8,13 @@ import React from 'react';
 import clsxm from '@/lib/clsxm';
 
 import RuLocale from '@/assets/localeRussian.json';
+import UzLocale from '@/assets/localeuzbek.json';
 
 interface TableProps<T> extends AgGridReactProps {
   className?: string;
   fetchData: (
-    page: number,
+    startRow: number,
+    endRow: number,
     sortModel: {
       colId: string;
       sort: string;
@@ -84,6 +86,7 @@ const PaginatedTable = <T,>({
     const dataSource = {
       getRows: async function ({
         startRow,
+        endRow,
         successCallback,
       }: {
         startRow: number;
@@ -91,17 +94,23 @@ const PaginatedTable = <T,>({
         successCallback: <T>(data: T[], totalCount: number) => void;
       }) {
         try {
-          const pageNum = Math.floor(startRow / pageSize) + 1;
           if (!fetchData) return;
-          const response = await fetchData(pageNum, sortColumn, searchColumn);
+          const response = await fetchData(
+            startRow,
+            endRow,
+            sortColumn,
+            searchColumn
+          );
           if (setLoading) setLoading(false);
-          successCallback(response.data.results, response.data.count);
+
+          successCallback(response.data.results ?? [], response.data.count);
           // params.api.setRowCount(response.data.results.length);
         } catch (err) {
           setLoading && setLoading(false);
         }
       },
     };
+
     gridApiRef.current = params.api;
     params.api.setDatasource(dataSource);
     params.api.addEventListener('sortChanged', () => {
@@ -122,6 +131,7 @@ const PaginatedTable = <T,>({
 
     params.api.addEventListener('filterChanged', async () => {
       const filterModel = params.api.getFilterModel();
+      console.log(filterModel);
       if (
         Object.values(filterModel).length > 0 &&
         Object.values(filterModel)[0].filterType === 'text'
@@ -135,12 +145,10 @@ const PaginatedTable = <T,>({
     });
   };
 
-  const height = (rowHeight ?? 45) * pageSize + 116;
-
   return (
     <div
       className={clsxm(
-        'ag-theme-alpine min-w-full overflow-hidden rounded-lg border border-gray-200 shadow-sm',
+        'ag-theme-balham min-w-full overflow-hidden border border-none shadow-none',
         className
       )}
     >
@@ -157,32 +165,27 @@ const PaginatedTable = <T,>({
         }}
         enableRangeSelection={true}
         suppressColumnMoveAnimation={true}
-        allowDragFromColumnsToolPanel={true}
-        pagination={true}
-        headerHeight={30}
-        rowSelection='multiple'
-        floatingFiltersHeight={35}
-        suppressMenuHide={true}
-        // enableCharts={true}
-        paginationPageSize={pageSize}
+        headerHeight={60}
+        floatingFiltersHeight={45}
         animateRows={true}
         enableCellChangeFlash={true}
         alwaysShowVerticalScroll={true}
         alwaysShowHorizontalScroll={true}
         debounceVerticalScrollbar={true}
         // enableRangeSelection={true}
+        paginationPageSize={200}
         // enableFillHandle={true}
         rowHeight={rowHeight ?? 45}
         rowModelType='infinite'
         tooltipShowDelay={0}
         modules={modules}
-        cacheBlockSize={pageSize}
+        cacheBlockSize={200}
+        cacheOverflowSize={100}
         maxBlocksInCache={10}
+        maxConcurrentDatasourceRequests={2}
         onGridReady={onGridReady}
-        localeText={RuLocale}
-        // containerStyle={{
-        //   height: `${height}px`,
-        // }}
+        localeText={i18n.language === 'uz' ? UzLocale : RuLocale}
+        domLayout='autoHeight'
         {...props}
       />
     </div>

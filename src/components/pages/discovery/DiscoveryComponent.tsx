@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
-import ProductsFilter from '@/components/pages/discovery/ProductsFilter';
 import GrowingCategories from '@/components/pages/home/components/GrowingCategories';
 import GrowingProducts from '@/components/pages/home/components/GrowingProducts';
 import NewProducts from '@/components/pages/home/components/NewProducts';
@@ -49,9 +48,9 @@ function DiscoveryComponent({ user }: { user: UserType }) {
         setActiveTab={setActiveTab}
         className='overflow-auto'
       />
-      <ProductsFilter
+      {/* <ProductsFilter
         className={clsxm(activeTab === t('home.filter') ? '' : 'hidden')}
-      />
+      /> */}
 
       <NewProducts
         className={clsxm(

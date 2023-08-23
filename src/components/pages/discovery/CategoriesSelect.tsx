@@ -6,24 +6,28 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
+// up icon from react-icons/io5
 import Container from '@/components/layout/Container';
 import CustomCheckbox from '@/components/shared/CustomCheckbox';
 
 import { CategoryInTree } from '@/types/category';
 
-function CategoriesSelect({ className }: { className?: string }) {
+function CategoriesSelect({
+  className,
+  selectedCategories,
+  setSelectedCategories,
+}: {
+  className?: string;
+  selectedCategories: Set<number>;
+  setSelectedCategories: React.Dispatch<React.SetStateAction<Set<number>>>;
+}) {
   const [data, setData] = React.useState<CategoryInTree[]>([]);
   const [parents, setParents] = React.useState<{
-    [key: number]: {
-      parents: number[];
-      intermediate?: boolean;
-    };
+    [key: number]: number[];
   }>({});
+  const [currentParent, setCurrentParent] = React.useState<number | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
   const { i18n } = useTranslation('tableColumns');
-  const [selectedCategories, setSelectedCategories] = React.useState<
-    Set<number>
-  >(new Set());
 
   const handleCategoryCheck = (
     category: CategoryInTree,
@@ -31,6 +35,29 @@ function CategoriesSelect({ className }: { className?: string }) {
     updatedSelectedCategories: Set<number> = new Set(selectedCategories)
   ) => {
     if (isChecked) {
+      // if another categyrID from main_category_ids is already selected, alert user that he can select only one main category and its children
+      if (
+        currentParent &&
+        !parents[currentParent].includes(category.categoryId)
+      ) {
+        alert(
+          // you can select only one main category and its subcategories
+          i18n.language === 'uz'
+            ? 'Faqatgina bir asosiy kategoriyaga tegishli ichki kategoriyalarni tanlash mumkin.'
+            : 'Вы можете выбрать только одну основную категорию и ее подкатегории.'
+        );
+        return;
+      }
+
+      if (!currentParent)
+        // search every parent and set currentParent
+        for (const [key, value] of Object.entries(parents)) {
+          if (value.includes(category.categoryId)) {
+            setCurrentParent(Number(key));
+            break;
+          }
+        }
+
       // go untill the leaf, and add leaf nodes only
       const traverseCategories = (category: CategoryInTree) => {
         if (category.children && category.children.length > 0) {
@@ -53,7 +80,7 @@ function CategoriesSelect({ className }: { className?: string }) {
 
       traverseCategories(category);
     }
-
+    if (updatedSelectedCategories.size === 0) setCurrentParent(null);
     setSelectedCategories(updatedSelectedCategories);
   };
 
@@ -62,11 +89,29 @@ function CategoriesSelect({ className }: { className?: string }) {
     const api = new API(null);
     setLoading(true);
     api
-      .get('/category')
+      .get('/category/segmentation/')
       .then((res) => {
-        if (res.data) {
-          const data = res.data;
-          setData(data.children);
+        if (res.data.products.data.children) {
+          setData(res.data.products.data.children);
+          const pp: {
+            [key: number]: number[];
+          } = {};
+          res.data.products.data.children.forEach(
+            (category: CategoryInTree) => {
+              const children: number[] = [];
+              const traverseCategories = (category: CategoryInTree) => {
+                if (category.children && category.children.length > 0) {
+                  category.children.forEach((child) => {
+                    traverseCategories(child);
+                  });
+                }
+                children.push(category.categoryId);
+              };
+              traverseCategories(category);
+              pp[category.categoryId] = children;
+            }
+          );
+          setParents(pp);
           setLoading(false);
         }
       })
@@ -81,12 +126,31 @@ function CategoriesSelect({ className }: { className?: string }) {
     <Container
       loading={loading}
       className={clsxm(
-        'flex h-[calc(100vh-149px)] max-h-full w-[600px] flex-col items-start justify-start gap-4 overflow-hidden rounded-md border-none bg-white',
+        'relative z-10 flex h-full min-h-[calc(100vh-200px)] w-[480px] flex-col items-start justify-start gap-4 rounded-none border-none bg-white shadow-none',
         className
       )}
     >
-      <p className='text-lg font-semibold'>Kategoriyalar</p>
-      <div className='flex h-full flex-1 flex-col gap-1 overflow-y-scroll p-6 pl-1'>
+      <div className='z-10 flex h-16 w-full items-center justify-between bg-slate-200 px-3 text-lg font-semibold '>
+        <p>
+          {i18n.language === 'uz' ? 'Kategoriyalar' : 'Категории'}
+          <span className='text-red-500'>*</span>{' '}
+          <span className='text-sm text-slate-400'>
+            {i18n.language === 'uz'
+              ? '(tanlanishi shart)'
+              : '(обязательно к выбору)'}
+          </span>
+        </p>
+      </div>
+      <div
+        className={clsxm(
+          'flex max-h-[calc(100vh-200px)] flex-1 flex-col gap-1 overflow-y-scroll p-6 pb-6 pl-1 pt-2'
+        )}
+      >
+        <p className='text-sm'>
+          {i18n.language === 'uz'
+            ? 'Faqat bir asosiy kategoriyaga tegishli ichki kategoriyalarni tanlash mumkin.'
+            : 'Вы можете выбрать только одну основную категорию и ее подкатегории.'}
+        </p>
         {data?.map((category) => {
           if (i18n.language === 'uz') {
             return (
@@ -187,7 +251,7 @@ function RenderChildren({
   return (
     <div
       className={clsxm(
-        'relative flex flex-col items-start justify-start',
+        'relative flex max-w-full flex-col items-start justify-start',
         'my-1',
         className
       )}
@@ -204,7 +268,7 @@ function RenderChildren({
       )}
       <div
         className={clsxm(
-          'flex w-full items-center justify-start gap-2 rounded-sm px-2 py-1 ',
+          'flex w-full max-w-full items-center justify-start gap-2 rounded-sm px-2 py-1 ',
           isExpanded && 'bg-blue-200'
         )}
       >
@@ -224,9 +288,7 @@ function RenderChildren({
           // style={{ marginLeft: `${depth * 25}px` }} // Indent children
         >
           <div
-            className={clsxm(
-              'flex cursor-pointer items-center justify-start gap-2'
-            )}
+            className={clsxm('flex cursor-pointer items-center justify-start')}
           >
             <p
               className={clsxm(
@@ -237,6 +299,7 @@ function RenderChildren({
             >
               {i18n.language === 'uz' ? category.title : category.title_ru}
             </p>
+            <p className='text-sm text-slate-400'>({category.analytics} шт)</p>
           </div>
 
           {hasChildren ? (

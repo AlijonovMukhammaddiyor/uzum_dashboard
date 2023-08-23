@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { useState } from 'react';
+import { AiFillStar } from 'react-icons/ai';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi';
 import { TbExternalLink } from 'react-icons/tb';
@@ -217,18 +218,18 @@ export const ProductImageCellRenderer = ({ value }: { value: string }) => {
   };
 
   return (
-    <div className='relative h-[60px] max-w-[180px] overflow-auto'>
+    <div className='relative flex h-full max-w-[180px] items-center justify-center overflow-auto'>
       {srcs_back.map((src, index) => {
         return (
           <div
             key={index}
-            className='absolute left-0 top-0'
+            className=''
             style={{ zIndex: index, left: `${index * 30}px` }}
             onClick={openModal}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              className='h-[40px] w-[40px] object-contain'
+              className='h-[60px] w-[60px] object-contain'
               src={`/api/image?url=${encodeURIComponent(src)}`}
               alt=''
               // width={40}
@@ -674,10 +675,14 @@ export const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
   const average_purchase_price: number =
     skus.reduce((acc, curr) => acc + curr.purchase_price, 0) / count;
 
+  // make it divisable by 1000
+  const average_purchase_price_ =
+    Math.floor(average_purchase_price / 1000) * 1000;
+
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex h-full flex-col items-center justify-center gap-1'>
       <p className=''>
-        {Math.floor(average_purchase_price)?.toLocaleString()} so'm
+        {Math.floor(average_purchase_price_)?.toLocaleString()} so'm
       </p>
     </div>
   );
@@ -723,12 +728,15 @@ export const PurchasePriceCellRenderer2 = ({ value }: { value: string }) => {
 };
 
 export const RevenueCellRenderer = ({ value }: { value: number }) => {
-  if (!value) return '-';
+  if (!value)
+    return (
+      <div className='flex h-full w-full items-center justify-center'>0</div>
+    );
   const value_ = value * 1000;
   // check if it is int billion
   if (value_ > 1000000000)
     return (
-      <div className='flex flex-col gap-1'>
+      <div className='flex h-full flex-col items-center justify-center gap-1'>
         <p className=''>
           {(Math.round(value_) / 1000000000).toFixed(1)} mlrd so'm
         </p>
@@ -738,23 +746,30 @@ export const RevenueCellRenderer = ({ value }: { value: number }) => {
   // check if it is int million
   if (value_ > 1000000)
     return (
-      <div className='flex flex-col gap-1'>
+      <div className='flex h-full flex-col items-center justify-center gap-1'>
         <p className=''>{(Math.round(value_) / 1000000).toFixed(1)} mln so'm</p>
       </div>
     );
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex h-full flex-col items-center justify-center gap-1'>
       <p className=''>{Math.floor(value_)?.toLocaleString()} so'm</p>
     </div>
   );
 };
 
 export const RatingCellRenderer = ({ value }: { value: string }) => {
-  if (!value) return '';
+  const { i18n } = useTranslation('common');
+  if (!value)
+    return (
+      <div className='flex h-full w-full items-center justify-center'>
+        {i18n.language === 'uz' ? "Reyting Yo'q" : 'Рейтинг Нет'}
+      </div>
+    );
   const value_number = Number(value);
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex h-full items-center justify-center'>
+      <AiFillStar className='text-xl text-yellow-500' />
       <p className='text-center'>
         {value_number !== 0
           ? value_number?.toFixed(1).toLocaleString()
@@ -777,7 +792,7 @@ export const SkusCountCellRenderer = ({ value }: { value: string }) => {
   const count = skus.length;
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex h-full flex-col items-center justify-center gap-1'>
       <p className=''>{count?.toLocaleString()} шт.</p>
     </div>
   );
@@ -816,7 +831,7 @@ export const LocaleNumberCellRenderer = ({ value }: { value: string }) => {
   if (value === null) return '';
   const value_number = Number(value);
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex h-full flex-col items-center justify-center gap-1'>
       <p className=''>{value_number?.toLocaleString()}</p>
     </div>
   );
@@ -997,6 +1012,26 @@ export const ProductDateCellRenderer = (props: { value: any }) => {
   if (date.getTime() < 1684627200000) return '';
   return (
     <div className='flex items-center justify-center'>
+      <p className='text-center'>
+        {date.toISOString().split('T')[0].split('-').reverse().join('/')}
+      </p>
+    </div>
+  );
+};
+export const LaunchDateCellRenderer = (props: { value: any }) => {
+  // const { i18n } = useTranslation('common');
+  if (!props.value) return '';
+
+  const date = new Date(props.value);
+  // check if it is after may 20 2023. if not, return empty string
+  if (date.getTime() <= 1684627200000)
+    return (
+      <div className='flex h-full w-full items-center justify-center'>
+        <p></p>
+      </div>
+    );
+  return (
+    <div className='flex h-full w-full items-center justify-center'>
       <p className='text-center'>
         {date.toISOString().split('T')[0].split('-').reverse().join('/')}
       </p>
@@ -2472,35 +2507,54 @@ export const CategoryProductsColDefs = [
 
 export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
   return [
-    {
-      headerName: t('id'),
-      field: 'product_id',
-      flex: 1,
-      sortable: false,
-      minWidth: 100,
-      filter: false,
-      maxWidth: 120,
-      pinned: 'left',
-    },
+    // {
+    //   headerName: t('id'),
+    //   field: 'product_id',
+    //   flex: 1,
+    //   sortable: false,
+    //   minWidth: 100,
+    //   filter: 'agNumberColumnFilter',
+    //   filterParams: {
+    //     alwaysShowBothConditions: true,
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   flloatingFilterComponentParams: {
+    //     suppressFilterButton: true,
+    //     buttons: ['reset', 'apply'],
+    //   },
+    //   floatingFilter: true,
+    //   maxWidth: 120,
+    //   // pinned: 'left',
+    // },
     {
       headerName: t('image'),
       field: 'photos',
       cellRenderer: ProductImageCellRenderer,
       sortable: false,
-      minWidth: 150,
+      minWidth: 180,
       filter: false,
-      pinned: 'left',
+      // pinned: 'left',
       maxWidth: 200,
     },
     {
       headerName: t('product_name'),
       field: lang === 'uz' ? 'product_title' : 'product_title_ru',
       cellRenderer: ProductNameCellRenderer,
-      filter: true,
-      pinned: 'left',
-      floatingFilter: true,
-      filterParams: {
-        alwaysShowBothConditions: true,
+      filter: false,
+      // // pinned: 'left',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   applyButton: true, // This adds an "Apply" button to the filter
+      //   clearButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      cellStyle: {
+        fontSize: '14px',
       },
       sortable: false,
       flex: 1,
@@ -2511,12 +2565,22 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       headerName: t('category'),
       field: lang === 'uz' ? 'category_title' : 'category_title_ru',
       cellRenderer: SubcategoryCellRenderer,
-      filter: true,
-      sortable: false,
-      floatingFilter: true,
-      filterParams: {
-        alwaysShowBothConditions: true,
+      // filter: true,
+      // sortable: false,
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      cellStyle: {
+        fontSize: '14px',
       },
+      filter: false,
+
       flex: 1,
       maxWidth: 500,
       minWidth: 200,
@@ -2526,38 +2590,97 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       headerName: t('position_in_subcategory'),
       field: 'position_in_category',
       flex: 1,
-      filter: false,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      cellRenderer: LocaleNumberCellRenderer,
       minWidth: 150,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       headerTooltip: t('tooltip.position_in_category'),
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
+      filter: false,
     },
     {
       headerName: t('shop_name'),
       field: 'shop_title',
-      filter: true,
+      // filter: true,
       sortable: false,
-      floatingFilter: true,
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       cellRenderer: SellerNameCellRenderer,
-      filterParams: {
-        alwaysShowBothConditions: true,
-      },
       flex: 1,
       minWidth: 200,
+      filter: false,
+
+      cellStyle: {
+        fontSize: '14px',
+      },
     },
     {
       headerName: t('orders'),
       field: 'orders_amount',
       sortable: true,
-      filter: false,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
       flex: 1,
+      filter: false,
+
+      cellRenderer: LocaleNumberCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_orders'),
+      field: 'diff_orders_amount',
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      cellRenderer: LocaleNumberCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
+      headerTooltip: t('monthly_orders.tooltip'),
     },
     {
       headerName: t('revenue'),
@@ -2565,58 +2688,166 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       cellRenderer: RevenueCellRenderer,
       sortable: true,
       filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_revenue'),
+      field: 'diff_orders_money',
+      cellRenderer: RevenueCellRenderer,
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       flex: 1,
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
+      headerTooltip: t('monthly_revenue.tooltip'),
     },
     {
-      headerName: t('sku'),
-      field: 'sku_analytics',
-      cellRenderer: SkusCountCellRenderer,
+      headerName: t('reviews'),
+      field: 'reviews_amount',
+      // floatingFilter: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
       flex: 1,
-      filter: false,
-      sortable: false,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       minWidth: 150,
+      filter: false,
+
       cellStyle: {
         textAlign: 'center',
       } as CellStyle,
+    },
+    {
+      headerName: t('monthly_reviews'),
+      field: 'diff_reviews_amount',
+      // floatingFilter: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      filter: false,
+
+      cellStyle: {
+        textAlign: 'center',
+      } as CellStyle,
+      headerTooltip: t('monthly_reviews.tooltip'),
     },
     {
       headerName: t('average_price'),
       field: 'sku_analytics',
       cellRenderer: PurchasePriceCellRenderer,
       flex: 1,
-      filter: false,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       sortable: false,
       minWidth: 200,
+      filter: false,
+
       cellStyle: {
         textAlign: 'center',
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
     {
-      headerName: t('full_price'),
-      field: 'sku_analytics',
+      headerName: t('date_added'),
+      field: 'product_created_at',
+      sortable: true,
       filter: false,
-      cellRenderer: FullPriceCellRenderer,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
       flex: 1,
-      sortable: false,
+      cellRenderer: LaunchDateCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
     {
-      headerName: t('promotion'),
+      headerName: t('sku'),
       filter: false,
+
+      field: 'sku_analytics',
+      cellRenderer: SkusCountCellRenderer,
+      sortable: false,
+      minWidth: 80,
+      cellStyle: {
+        textAlign: 'center',
+      } as CellStyle,
+    },
+
+    {
+      headerName: t('promotion'),
       field: 'badges',
       cellRenderer: BadgesCellRenderer,
       flex: 1,
       minWidth: 200,
       sortable: false,
+      filter: false,
+
       cellStyle: {
         textAlign: 'center',
       } as CellStyle,
@@ -2625,34 +2856,44 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       headerName: t('available_amount'),
       field: 'product_available_amount',
       sortable: true,
-      filter: false,
-      flex: 1,
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-      } as CellStyle,
-    },
-    {
-      headerName: t('reviews'),
-      field: 'reviews_amount',
-      filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       // filter: 'agNumberColumnFilter',
       // floatingFilter: true,
       flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
+
     {
       headerName: t('rating'),
       field: 'rating',
       cellRenderer: RatingCellRenderer,
       sortable: false,
       flex: 1,
-      filter: false,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
       minWidth: 150,
+      filter: false,
+
       headerTooltip: 'Mahsulot reytingi.',
       cellStyle: {
         textAlign: 'center',

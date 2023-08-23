@@ -32,8 +32,8 @@
   "andCondition": "VA",
   "orCondition": "YOKI",
 
-  "applyFilter": "Qo'llash",
-  "resetFilter": "Qayta o'rnatish",
+  "applyFilter": "Filtrni qo'llash",
+  "resetFilter": "Bekor qilish",
   "clearFilter": "Tozalash",
   "cancelFilter": "Bekor qilish",
 

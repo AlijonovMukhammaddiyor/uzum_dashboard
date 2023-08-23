@@ -5,6 +5,7 @@ export interface CategoryInTree {
   children?: CategoryInTree[];
   isChecked?: boolean;
   parentId?: number;
+  analytics?: number;
 }
 
 export interface CategoryProductType {

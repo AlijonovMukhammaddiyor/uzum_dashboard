@@ -84,9 +84,10 @@ function NewProducts({ className }: HomeStatisticsContainerProps) {
       >
         <PaginatedTable
           columnDefs={getNewProductsColDefs(t, i18n.language)}
-          className='h-[1016px] min-w-full'
+          className='h-[1520px] min-w-full'
           setLoading={setLoading}
           fetchData={loadData}
+          rowHeight={70}
         />
       </Container>
     </div>

@@ -14,6 +14,7 @@ type ContainerProps = {
   title?: string;
   explanation?: string;
   children?: JSX.Element | JSX.Element[];
+  loadText?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 function Container({
@@ -23,6 +24,7 @@ function Container({
   show = true,
   titleContainerStyle,
   title,
+  loadText,
   explanation,
   ...rest
 }: ContainerProps) {
@@ -39,7 +41,7 @@ function Container({
   return (
     <div
       className={clsxm(
-        'relative overflow-hidden rounded-lg border border-gray-300 shadow-sm transition-all duration-500',
+        'relative rounded-lg border border-gray-300 shadow-sm transition-all duration-500',
         className
       )}
       {...rest}
@@ -60,7 +62,7 @@ function Container({
           )}
         </div>
       )}
-      {loading && <Loading />}
+      {loading && <Loading loadText={loadText} />}
       {children}
       {isSidebarOpen && explanation && (
         <aside className='absolute right-0 top-0 h-full w-64 overflow-y-scroll bg-white p-5 shadow-md'>

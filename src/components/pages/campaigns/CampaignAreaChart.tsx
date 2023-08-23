@@ -113,8 +113,14 @@ function CampaignAreaChart({
     });
   };
 
+  const today = new Date().toISOString().slice(0, 10);
+
   const firstDateIndex = findClosestDate(first_date);
-  const lastDateIndex = findClosestDate(last_date);
+  let lastDateIndex = findClosestDate(last_date);
+
+  if (last_date >= new Date(today)) {
+    lastDateIndex = findClosestDate(new Date(today));
+  }
 
   const options: any = {
     maintainAspectRatio: false,

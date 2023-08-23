@@ -1,59 +1,48 @@
+import { useTranslation } from 'next-i18next';
 import React from 'react';
 import Datepicker from 'react-datepicker';
 import { HiOutlineArrowLongRight } from 'react-icons/hi2';
-import { LiaQuestionCircleSolid } from 'react-icons/lia';
 
 import clsxm from '@/lib/clsxm';
 
 interface FilterProps {
-  title: string;
-  description?: string;
   className?: string;
-  min?: number;
-  max?: number;
-  setValues: (values: { min: number; max: number }) => void;
+  min: number | null;
+  max: number | null;
+  setValues: (type: string, min: number | null, max: number | null) => void;
 }
 
-function DateFilter({
-  title,
-  description,
-  className,
-  setValues,
-  min = 1684627200000,
-  max = new Date().getTime(),
-}: FilterProps) {
-  return (
-    <div className={clsxm('h-[200px] w-[400px]', className)}>
-      <div className='mb-4 flex items-center justify-start gap-2 font-semibold'>
-        <p className='text-lg'>{title}</p>
-        <LiaQuestionCircleSolid className='h-5 w-5 cursor-pointer text-blue-700' />
-      </div>
-      <div className='flex w-full items-center gap-3'>
-        <Datepicker
-          locale='ru'
-          selected={new Date(min)}
-          onChange={(date) => {
-            setValues({
-              min: date?.getTime() || 1684627200000,
-              max,
-            });
-          }}
-          minDate={new Date(1684627200000)}
-          className='w-[150px] appearance-none rounded-none border-b border-blue-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
-        />
+function DateFilter({ className, setValues, min, max }: FilterProps) {
+  const { i18n } = useTranslation('common');
 
-        <HiOutlineArrowLongRight className='text-blue-700' />
+  return (
+    <div
+      className={clsxm(
+        'flex h-[150px] items-center justify-center pl-5',
+        className
+      )}
+    >
+      <div className='flex h-full items-center gap-0'>
         <Datepicker
           locale='ru'
-          selected={new Date(max)}
+          selected={min ? new Date(min) : null}
           onChange={(date) => {
-            setValues({
-              min,
-              max: date?.getTime() || new Date().getTime(),
-            });
+            setValues('product_created_at', date?.getTime() || null, max);
           }}
+          placeholderText={i18n.language === 'uz' ? 'Dan' : 'От'}
+          minDate={new Date(1684627200000)}
+          className='w-[150px] max-w-[150px] appearance-none rounded-none border-b border-blue-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
+        />
+        <HiOutlineArrowLongRight className='mx-3 text-blue-700' />
+        <Datepicker
+          locale='ru'
+          selected={max ? new Date(max) : null}
+          onChange={(date) => {
+            setValues('product_created_at', min, date?.getTime() || null);
+          }}
+          placeholderText={i18n.language === 'uz' ? 'Gacha' : 'До'}
           maxDate={new Date()}
-          minDate={new Date(min)}
+          minDate={min ? new Date(min) : null}
           className='w-[150px] appearance-none rounded-none border-b border-blue-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
         />
       </div>

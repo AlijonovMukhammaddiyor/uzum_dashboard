@@ -14,7 +14,9 @@ interface TableProps<T> extends AgGridReactProps {
   withCheckbox?: boolean;
   columnDefs: any[];
   rowHeight?: number;
+  theme?: string;
   isMaterial?: boolean;
+  isBalham?: boolean;
 }
 
 const Table = <T,>({
@@ -22,6 +24,7 @@ const Table = <T,>({
   fetchData,
   setLoading,
   rowHeight = 45,
+  isBalham = false,
   withCheckbox = false,
   columnDefs,
   isMaterial = false,
@@ -62,9 +65,13 @@ const Table = <T,>({
   return (
     <div
       className={clsxm(
-        'ag-theme-alpine h-[800px] w-full',
+        'h-[800px] w-full',
         className,
-        isMaterial && 'ag-theme-material'
+        isMaterial
+          ? 'ag-theme-material'
+          : isBalham
+          ? 'ag-theme-balham'
+          : 'ag-theme-alpine'
       )}
     >
       <AgGridReact
@@ -81,7 +88,7 @@ const Table = <T,>({
         suppressColumnMoveAnimation={true}
         allowDragFromColumnsToolPanel={true}
         rowSelection='multiple'
-        headerHeight={30}
+        headerHeight={props.headerHeight ?? 30}
         floatingFiltersHeight={35}
         suppressMenuHide={true}
         animateRows={true}

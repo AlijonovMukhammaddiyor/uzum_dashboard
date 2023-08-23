@@ -29,7 +29,12 @@
   "position": "Позиция",
   "orders_amount": "Количество продаж",
   "orders": "Продаж",
+  "monthly_orders.tooltip": "Количество продаж за последние 30 дней",
+  "monthly_orders": "Продаж (30 дней)",
+
   "revenue": "Выручка",
+  "monthly_revenue.tooltip": "Выручка за последние 30 дней",
+  "monthly_revenue": "Выручка (30 дней)",
   "sku": "SKU",
   "average_price": "Средняя цена",
 
@@ -48,8 +53,10 @@
   "to": "До",
 
   "position_at_store": "Позиция в магазине",
-  "reviews_amount": "Количество комментариев",
-  "date_added": "Дата добавления",
+  "reviews_amount": "Комментарии",
+  "monthly_reviews_amount": "Комментарии (30 дней)",
+  "monthly_reviews_amount.tooltip": "Количество комментариев за последние 30 дней",
+  "date_added": "Дата выхода",
 
   "daily_revenue": "Дневная выручка",
   "categories_count": "Количество категорий",
