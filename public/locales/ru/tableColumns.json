@@ -54,8 +54,8 @@
 
   "position_at_store": "Позиция в магазине",
   "reviews_amount": "Комментарии",
-  "monthly_reviews_amount": "Комментарии (30 дней)",
-  "monthly_reviews_amount.tooltip": "Количество комментариев за последние 30 дней",
+  "monthly_reviews": "Комментарии (30 дней)",
+  "monthly_reviews.tooltip": "Количество комментариев за последние 30 дней",
   "date_added": "Дата выхода",
 
   "daily_revenue": "Дневная выручка",
