@@ -121,13 +121,13 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
   return (
     <div
       className={clsxm(
-        'flex min-h-max w-full min-w-[1400px] flex-col items-start justify-start gap-8 overflow-scroll pb-16',
+        'flex min-h-max w-full min-w-[1400px] flex-col items-start justify-start gap-8 pb-16',
         className
       )}
     >
       <Container
         loading={loading}
-        className='flex w-full shrink-0 flex-col items-start justify-start gap-3 p-5'
+        className='flex w-full shrink-0 flex-col items-start justify-start gap-3 bg-white p-5'
       >
         <div className='flex w-full items-center justify-start gap-2'>
           <VscDebugBreakpointData className='text-primary text-2xl' />
@@ -326,7 +326,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
       {competitorData.length > 0 && shopData.length > 0 && (
         <Container
           loading={loading}
-          className='flex h-[500px] w-full shrink-0 flex-col items-start justify-start gap-3 p-5'
+          className='flex h-[500px] w-full shrink-0 flex-col items-start justify-start gap-3 bg-white p-5'
         >
           {isActive && (
             <SingleAxisAreaChart
@@ -366,7 +366,7 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         type != 'Средняя цена продажи' && (
           <Container
             loading={loading}
-            className='flex h-[500px] w-full shrink-0 flex-col items-start justify-start gap-3 p-5'
+            className='flex h-[500px] w-full shrink-0 flex-col items-start justify-start gap-3 bg-white p-5'
           >
             {isActive && (
               <SingleAxisAreaChart

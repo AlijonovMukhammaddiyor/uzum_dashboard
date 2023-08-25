@@ -230,7 +230,7 @@ function ShopProducts({ sellerId, className }: Props) {
     <div
       className={clsxm('h-full w-full min-w-[1200px] gap-5 pb-12', className)}
     >
-      <div className='flex w-full items-start justify-start gap-5 overflow-x-scroll'>
+      <div className='flex w-full items-start justify-start gap-5 overflow-scroll '>
         <Container
           loading={loadingTopProducts}
           className={clsxm(
@@ -310,6 +310,8 @@ function ShopProducts({ sellerId, className }: Props) {
           id={sellerId}
         />
         <Table
+          rowHeight={80}
+          headerHeight={60}
           columnDefs={getShopStoppedProductTableColumnDefs(t2, i18n.language)}
           className={clsxm(
             'h-[1016px] min-w-full',

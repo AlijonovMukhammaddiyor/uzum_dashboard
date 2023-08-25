@@ -35,7 +35,7 @@ const Register = () => {
   };
 
   return (
-    <div className='relative flex h-screen min-h-[900px] w-screen overflow-scroll'>
+    <div className='relative flex  min-h-[900px] w-screen justify-start '>
       <div className='border-primary fixed right-0 top-5 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(

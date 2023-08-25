@@ -93,7 +93,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   return (
     <div
       className={clsxm(
-        'flex min-h-full flex-col items-start justify-start overflow-scroll',
+        'flex min-h-full flex-col items-start justify-start ',
         className
       )}
     >
@@ -157,6 +157,9 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
       <Container loading={loading} className={clsxm('h-[calc(100%)] w-full')}>
         <Table
           rowData={data}
+          rowHeight={80}
+          headerHeight={60}
+          isBalham={true}
           className='h-[1000px] min-h-full'
           columnDefs={getShopDailySaleColumnDefs(t2, i18n.language)}
         />
