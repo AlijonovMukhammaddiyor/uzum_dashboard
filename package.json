@@ -63,6 +63,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-responsive-carousel": "^3.2.23",
     "react-select": "^5.7.3",
+    "react-switch": "^7.0.0",
     "reactjs-popup": "^2.0.5",
     "sharp": "^0.32.4",
     "sheetjs-style": "^0.15.8",

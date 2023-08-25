@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   return (
-    <div className='main_layout_container flex h-screen w-screen items-start justify-start overflow-hidden  bg-white pt-10'>
+    <div className='main_layout_container flex h-screen w-screen items-start justify-start overflow-hidden  bg-slate-100 pt-10'>
       <Sidebar
         className='fixed left-0 top-0 z-50 h-full'
         activeTab={activeTab}
@@ -20,8 +20,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         setActiveTab={setActiveTab}
       />
       <Header />
-      <div className={clsxm('h-full w-screen overflow-scroll')}>
-        <div className='h-full w-full flex-1 overflow-scroll p-4 pl-20'>
+      <div
+        className={clsxm(
+          'ml-20 flex h-full w-screen items-start justify-start overflow-scroll'
+        )}
+      >
+        <div className='flex h-full w-full flex-1 py-3 pr-4'>
           <Toaster
             position='top-center'
             reverseOrder={false}

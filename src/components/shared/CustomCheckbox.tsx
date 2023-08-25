@@ -5,6 +5,7 @@ type Props = {
   intermediate?: boolean;
   onChange?: () => void;
   className?: string;
+  color?: string;
 };
 
 function CustomCheckbox({
@@ -12,22 +13,21 @@ function CustomCheckbox({
   checked,
   onChange,
   className,
+  color = '#3B82F6',
 }: Props) {
   return (
     <div
       className={`custom-checkbox min-h-5 min-w-5 max-w-5 relative h-5 max-h-5 w-5 shrink-0 rounded border-2 ${
         className || ''
-      } 
-      ${
+      } cursor-pointer`}
+      onClick={onChange}
+      style={
         checked || intermediate
           ? checked
-            ? 'border-blue-500 bg-blue-500'
-            : 'border-4 border-white bg-blue-500'
-          : 'border-gray-400 bg-white'
-      } 
-      
-      cursor-pointer`}
-      onClick={onChange}
+            ? { borderColor: color, backgroundColor: color }
+            : { borderColor: '#fff', backgroundColor: color }
+          : { borderColor: '#9CA3AF', backgroundColor: '#fff' }
+      }
     >
       {checked && !intermediate && (
         <span className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-white'>

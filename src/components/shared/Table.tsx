@@ -1,12 +1,13 @@
 import { GridReadyEvent } from 'ag-grid-community';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import { AxiosResponse } from 'axios';
+import { useTranslation } from 'next-i18next';
 import React, { useCallback } from 'react';
 
 import clsxm from '@/lib/clsxm';
 
+import RuLocale from '@/assets/localeRussian.json';
 import Uzlocale from '@/assets/localeuzbek.json';
-
 interface TableProps<T> extends AgGridReactProps {
   className?: string;
   fetchData?: () => Promise<AxiosResponse<T[]>>;
@@ -32,6 +33,7 @@ const Table = <T,>({
 }: TableProps<T>) => {
   const [rowData, setRowData] = React.useState<T[]>(props.rowData || []);
   const selectedRowsRef = React.useRef<T[]>([]);
+  const { i18n } = useTranslation('common');
   const onSelectionChanged = useCallback((event: any) => {
     if (!withCheckbox) return;
     selectedRowsRef.current = event.api.getSelectedRows();
@@ -100,7 +102,7 @@ const Table = <T,>({
         tooltipShowDelay={0}
         rowData={rowData ?? []}
         onGridReady={onGridReady}
-        localeText={Uzlocale}
+        localeText={i18n.language === 'uz' ? Uzlocale : RuLocale}
         onSelectionChanged={onSelectionChanged}
         columnDefs={columnDefs}
         {...props}

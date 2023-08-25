@@ -3,6 +3,7 @@ import * as FileSaver from 'file-saver';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaFileExcel } from 'react-icons/fa';
+import Switch from 'react-switch';
 import XLSX from 'sheetjs-style';
 
 import API from '@/lib/api';
@@ -11,9 +12,9 @@ import logger from '@/lib/logger';
 
 import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import CategoryProductsFilters from '@/components/pages/category/slug/components/CategoryProductsFilters';
 import Button from '@/components/shared/buttons/Button';
-import PaginatedTable from '@/components/shared/PaginatedTable';
-import TreeMapChart from '@/components/shared/Treemap';
+import InfiniteTable from '@/components/shared/InfiniteTable';
 
 import { useContextState } from '@/context/Context';
 
@@ -58,6 +59,23 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   const [totalProducts, setTotalProducts] = React.useState<number>(0);
   const [childrenCount, setChildrenCount] = React.useState<number>(0);
   const [revenue, setRevenue] = React.useState<number>(0);
+  const [count, setCount] = React.useState<number>(0);
+  const [filters, setFilters] = React.useState<
+    {
+      max: number | null;
+      min: number | null;
+      type: string;
+    }[]
+  >([]);
+  const [nameFilters, setNameFilters] = React.useState<
+    {
+      value: string | null;
+      type: string;
+    }[]
+  >([]);
+  const [isInstantFilter, setIsInstantFilter] = React.useState<boolean>(true);
+  const [instantFilter, setInstantFilter] = React.useState<string | null>(null);
+  const [shouldRefetch, setShouldRefetch] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -119,7 +137,8 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   }, [categoryId, i18n.language]);
 
   const loadData = (
-    page: number,
+    startRow: number,
+    endRow: number,
     sortModel: {
       colId: string;
       sort: string;
@@ -134,18 +153,19 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   ) => {
     const api = new API(null);
     setLoading(true);
-    let url = `/category/products/` + categoryId + `?page=${page}`;
+    let url =
+      `/category/products/` +
+      categoryId +
+      `?offset=${startRow}&limit=${endRow - startRow}`;
     if (sortModel) {
       url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
     }
 
-    if (filterModel) {
-      const columns = Object.keys(filterModel);
-      const filters = Object.values(filterModel);
-
-      url += `&searches=${columns.join(',')}&filters=${filters
-        .map((filter) => filter.filter)
-        .join('---')}`;
+    if (isInstantFilter && instantFilter) {
+      url += `&instant_filter=${instantFilter}`;
+    } else {
+      const params = makeUrlParams();
+      url += params;
     }
 
     return api.get<
@@ -332,6 +352,25 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     FileSaver.saveAs(data2, 'продукты_' + currentDate + fileExtension);
   }
 
+  const makeUrlParams = () => {
+    // traverse through filters and make url params
+    // console.log(filters, nameFilters);
+    let params = '';
+
+    filters.forEach((filter) => {
+      if (filter.min && filter.max)
+        params += `&${filter.type}__range=[${filter.min}, ${filter.max}]`;
+      else if (filter.min) params += `&${filter.type}__gte=${filter.min}`;
+      else if (filter.max) params += `&${filter.type}__lte=${filter.max}`;
+    });
+
+    nameFilters.forEach((filter) => {
+      if (filter.value) params += `&${filter.type}__icontains=${filter.value}`;
+    });
+
+    return params;
+  };
+
   if (activeTab !== 'Tovarlar' && activeTab !== 'Товары') return <></>;
 
   return (
@@ -343,15 +382,12 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     >
       <Container
         className={clsxm(
-          'h-[500px] w-full min-w-[1200px] overflow-hidden rounded-md bg-white py-3'
+          'h-[70px] w-full min-w-[1200px] overflow-hidden rounded-md border-none shadow-none'
         )}
         loading={loadingTopProducts}
       >
-        <div className='flex items-center justify-start gap-3 px-6'>
-          <h2 className='text-primary flex-1 text-left text-base'>
-            {t2('top_10_products_revenue')}
-          </h2>
-          <div className='flex items-center justify-between gap-4'>
+        <div className='flex items-center justify-between gap-3'>
+          <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
             <p className='font-semibold'>{t('revenue')}:</p>
             <p className='text-primary font-semibold'>
               {revenue / 1000000 > 1 ? (
@@ -363,20 +399,20 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
               )}
             </p>
           </div>
-          <div className='flex items-center justify-between gap-4'>
+          <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
             <p className='font-semibold'>{t('products_count')}:</p>
             <p className='text-primary font-semibold'>
               {totalProducts?.toLocaleString()}
             </p>
           </div>
-          <div className='flex items-center justify-between gap-4'>
+          <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
             <p className='font-semibold'>{t('orders')}:</p>
             <p className='text-primary font-semibold'>
               {totalOrders?.toLocaleString()}
             </p>
           </div>
           {childrenCount > 0 && (
-            <div className='flex items-center justify-between gap-4'>
+            <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
               <p className='font-semibold'>{t('subcategories_count')}:</p>
               <p className='text-primary font-semibold'>
                 {childrenCount?.toLocaleString()}
@@ -388,13 +424,13 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           {/* <PieChart data={topProductsData} labelType='spider' />
            */}
 
-          <TreeMapChart
+          {/* <TreeMapChart
             data={prepareTreeData(topProductsData, i18n.language)}
             min={Math.min(...topProductsData.map((product) => product.value))}
             max={Math.max(...topProductsData.map((product) => product.value))}
             title={t('revenue')}
             colors={['#FFC107', '#FF9800', '#FF5722', '#F44336', '#E91E63']}
-          />
+          /> */}
         </div>
       </Container>
       <div className=''>
@@ -417,14 +453,101 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           </p>
         </Button>
       </div>
-      <Container loading={loading} className={clsxm('w-full overflow-scroll')}>
-        <PaginatedTable
+      <Container
+        loading={loading}
+        className={clsxm('w-full border-none shadow-none')}
+      >
+        <div className='mb-4 w-full rounded-md bg-white p-5'>
+          <CategoryProductsFilters
+            filters={filters}
+            setShouldRefetch={() => {
+              setShouldRefetch(!shouldRefetch);
+              setIsInstantFilter(false);
+              setInstantFilter(null);
+            }}
+            setFilters={setFilters}
+            nameFilters={nameFilters}
+            setNameFilters={setNameFilters}
+          />
+        </div>
+
+        <div className='mb-4 flex w-full items-center justify-between rounded-md bg-white p-5'>
+          <p className='font-semibold'>
+            {i18n.language === 'uz' ? 'Tez Filtrlar' : 'Мгновенные фильтры'}
+          </p>
+          <div className='flex items-center justify-end gap-8'>
+            <div className='flex items-center justify-start gap-2'>
+              <p className='text-sm font-semibold'>
+                {i18n.language === 'uz'
+                  ? "Eng ko'p daromad keltirgan 100 ta"
+                  : '100 товаров с наибольшей выручкой'}
+              </p>
+              <Switch
+                onColor='#614bc3'
+                offColor='#c3c1c9'
+                onChange={(e) => {
+                  setIsInstantFilter(e);
+                  if (!e) setInstantFilter(null);
+                  else setInstantFilter('revenue');
+
+                  setShouldRefetch(!shouldRefetch);
+                }}
+                checked={instantFilter === 'revenue'}
+              />
+            </div>
+            <div className='flex items-center justify-start gap-2'>
+              <p className='text-sm font-semibold'>
+                {i18n.language === 'uz'
+                  ? "Eng so'nggi sotuvga qo'shilgan 100 ta"
+                  : 'Последние 100 товаров, добавленных в продажу'}
+              </p>
+              <Switch
+                onColor='#614bc3'
+                offColor='#c3c1c9'
+                onChange={(e) => {
+                  setIsInstantFilter(e);
+                  if (!e) setInstantFilter(null);
+                  else setInstantFilter('created_at');
+
+                  setShouldRefetch(!shouldRefetch);
+                }}
+                checked={instantFilter === 'created_at'}
+              />
+            </div>
+            <div className='flex items-center justify-start gap-2'>
+              <p className='text-sm font-semibold'>
+                {i18n.language === 'uz'
+                  ? '30 kunlik yuqori daromadli 100 ta'
+                  : '100 товаров с максимальной выручкой за 30 дней'}
+              </p>
+              <Switch
+                onColor='#614bc3'
+                offColor='#c3c1c9'
+                onChange={(e) => {
+                  setIsInstantFilter(e);
+                  if (!e) setInstantFilter(null);
+                  else setInstantFilter('monthly_revenue');
+
+                  setShouldRefetch(!shouldRefetch);
+                }}
+                checked={instantFilter === 'monthly_revenue'}
+              />
+            </div>
+          </div>
+        </div>
+        <p className='mb-4 font-semibold'>
+          {i18n.language === 'uz' ? 'Mahsulotlar' : 'Товары'} ({count})
+        </p>
+        <InfiniteTable
           columnDefs={
             getCategoryProductTableColumnDefs(t, i18n.language) as any
           }
+          rowHeight={90}
+          setCount={setCount}
           className='h-[1016px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}
+          shouldRefetch={shouldRefetch}
         />
       </Container>
     </div>

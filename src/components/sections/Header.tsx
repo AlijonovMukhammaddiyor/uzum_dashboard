@@ -50,7 +50,7 @@ export default function Header() {
   };
 
   return (
-    <header className='fixed right-0 top-0 z-[100] h-10 w-full bg-white shadow-lg'>
+    <header className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'>
       <div className='flex h-10 items-center justify-between gap-4 p-3'>
         <div className='flex items-center justify-start gap-6'>
           <Image src={Logo} alt='logo' width={36} height={36} />
@@ -64,7 +64,7 @@ export default function Header() {
         <nav>
           <ul className='flex items-center justify-between space-x-8'>
             <li className='flex items-center justify-end gap-3'>
-              <div className='mr-3 rounded-md border bg-slate-200 px-3 py-1 text-sm'>
+              <div className='bg-primary fonnt-primary mr-3 rounded-md border px-3 py-2 text-sm font-bold text-white'>
                 {' '}
                 {state.user?.tariff === 'free' ? (
                   <p>
@@ -146,12 +146,12 @@ export default function Header() {
             {state.user?.tariff !== 'trial' &&
               state.user?.tariff !== 'free' && (
                 <li>
-                  <div className='flex max-w-[200px] items-center justify-start rounded-md border border-slate-400 bg-slate-200 px-2 py-1 '>
+                  <div className='border-primary bg-primary flex max-w-[200px] items-center justify-start rounded-md border px-2 py-2 text-white'>
                     <p className='text-sm tracking-wide'>
                       {t('header.referralCode')}:
                     </p>
                     <div className='ml-1 flex flex-col items-start justify-start'>
-                      <span className='m-0 text-sm tracking-wide'>
+                      <span className='m-0 text-sm font-bold tracking-wide'>
                         {state.user?.referral_code}
                       </span>
                     </div>

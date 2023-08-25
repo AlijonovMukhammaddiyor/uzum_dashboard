@@ -152,9 +152,17 @@
     /* background gradient from purple to blue-500 */
     background-image: linear-gradient(
       90deg,
-      rgba(119, 67, 219, 0.5) 0%,
-      #0ea5e9 100%
+      rgb(236, 135, 213),
+      rgb(97, 75, 195) 100%
     );
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
   }
 
   .control-arrow {

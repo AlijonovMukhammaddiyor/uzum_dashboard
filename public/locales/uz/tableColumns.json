@@ -1,6 +1,6 @@
 {
   "id": "ID",
-  "product_name": "Mahsulot nomi",
+  "product_name": "Mahsulot",
   "products_count": "Mahsulotlar soni",
   "active_products_amount": "Faol mahsulotlar soni",
   "active_products_percentage": "Faol mahsulotlar foizda",
@@ -9,7 +9,7 @@
   "tooltip.revenue_in_category": "Do'konning ushbu kategoriyadagi mahsulotlar kelgan daromadi.",
   "tooltip.average_price_in_category": "Do'konning ushbu kategoriyadagi mahsulotlar o'rtacha sotuv narxi.",
 
-  "shop_name": "Do'kon nomi",
+  "shop_name": "Do'kon",
   "active_shops_count": "Faol do'konlar soni",
   "active_shops_percentage": "Faol do'konlar foizda",
   "tooltip.active_shops_count": "Kecha sotuvi bo'lgan do'konlar soni",

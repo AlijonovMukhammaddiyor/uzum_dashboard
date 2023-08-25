@@ -6,8 +6,10 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import { BiCheckDouble } from 'react-icons/bi';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi';
+import { MdContentCopy } from 'react-icons/md';
 import { TbExternalLink } from 'react-icons/tb';
 import { Carousel } from 'react-responsive-carousel';
 import Popup from 'reactjs-popup';
@@ -284,6 +286,8 @@ export const ProductNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { i18n } = useTranslation('common');
+  const [isCopied, setIsCopied] = useState(false);
+
   if (!value) return '';
 
   // replace / with dash
@@ -292,11 +296,17 @@ export const ProductNameCellRenderer = ({ value }: { value: string }) => {
   //   ?.split('((')[0]
   //   .replace(/\//g, '-')
   //   .replace(/ /g, '-');
-  const clean_title = title
-    ?.replace(/\//g, '-')
-    .replace(/ /g, '-')
-    .trim()
-    .replace(',', '');
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(title);
+      setIsCopied(true);
+
+      // Reset after 2 seconds
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
   const product_id = value?.split('((')[1]?.split('))')[0];
   const isFreeUser = state.user?.tariff === 'free';
   return (
@@ -317,6 +327,13 @@ export const ProductNameCellRenderer = ({ value }: { value: string }) => {
           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
         </a>
       )}
+      <button onClick={handleCopyToClipboard} className='p-1'>
+        {isCopied ? (
+          <BiCheckDouble className='h-5 w-5 text-green-500' />
+        ) : (
+          <MdContentCopy className='h-5 w-5' />
+        )}
+      </button>
       <div
         onClick={() => {
           dispatch({
@@ -336,7 +353,7 @@ export const ProductNameCellRenderer = ({ value }: { value: string }) => {
           }
         }}
       >
-        <p className='text-blue-500 hover:underline'>{title}</p>
+        <p className='line-clamp-2 text-blue-500 hover:underline'>{title}</p>
       </div>
     </div>
   );
@@ -446,7 +463,7 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
           }
         }}
       >
-        <p className='text-blue-500 hover:underline'>{title}</p>
+        <p className='line-clamp-2 text-blue-500 hover:underline'>{title}</p>
       </div>
     </div>
   );
@@ -500,7 +517,7 @@ export const CategoryNameCellRenderer = ({ value }: { value: string }) => {
           }
         }}
       >
-        <p className='text-blue-500 hover:underline'>{title}</p>
+        <p className='line-clamp-2 text-blue-500 hover:underline'>{title}</p>
       </div>
     </div>
   );
@@ -597,7 +614,9 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
           }
         }}
       >
-        <p className='text-blue-500 hover:underline'>{seller_title}</p>
+        <p className='line-clamp-2 text-blue-500 hover:underline'>
+          {seller_title}
+        </p>
       </div>
     </div>
   );
@@ -608,7 +627,7 @@ const TrendPriceCellRenderer = ({ value }: { value: string }) => {
 
   const value_number = Number(Number(value).toFixed(0));
   return (
-    <div className=''>
+    <div className='flex h-full w-full items-center justify-center'>
       <p className=''>{value_number?.toLocaleString()} so'm</p>
     </div>
   );
@@ -2558,7 +2577,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       },
       sortable: false,
       flex: 1,
-      maxWidth: 500,
+      maxWidth: 300,
       minWidth: 300,
     },
     {
@@ -2587,30 +2606,6 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       headerTooltip: 'Ushbu mahsulotning asosiy ichki kategoriyasi.',
     },
     {
-      headerName: t('position_in_subcategory'),
-      field: 'position_in_category',
-      flex: 1,
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      cellRenderer: LocaleNumberCellRenderer,
-      minWidth: 150,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      headerTooltip: t('tooltip.position_in_category'),
-      cellStyle: {
-        textAlign: 'center',
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-      } as CellStyle,
-      filter: false,
-    },
-    {
       headerName: t('shop_name'),
       field: 'shop_title',
       // filter: true,
@@ -2634,6 +2629,57 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       },
     },
     {
+      headerName: t('rating'),
+      field: 'rating',
+      cellRenderer: RatingCellRenderer,
+      sortable: false,
+      flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      minWidth: 150,
+      filter: false,
+
+      headerTooltip: 'Mahsulot reytingi.',
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+
+    // {
+    //   headerName: t('position_in_subcategory'),
+    //   field: 'position_in_category',
+    //   flex: 1,
+    //   // filter: 'agNumberColumnFilter',
+    //   // floatingFilter: true,
+    //   cellRenderer: LocaleNumberCellRenderer,
+    //   minWidth: 150,
+    //   // filterParams: {
+    //   //   alwaysShowBothConditions: true,
+    //   //   buttons: ['reset', 'apply'],
+    //   // },
+
+    //   // flloatingFilterComponentParams: {
+    //   //   suppressFilterButton: true,
+    //   //   buttons: ['reset', 'apply'],
+    //   // },
+    //   headerTooltip: t('tooltip.position_in_category'),
+    //   cellStyle: {
+    //     textAlign: 'center',
+    //     backgroundColor: 'rgba(119, 67, 219, 0.1)',
+    //   } as CellStyle,
+    //   filter: false,
+    // },
+
+    {
       headerName: t('orders'),
       field: 'orders_amount',
       sortable: true,
@@ -2653,6 +2699,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       // },
       minWidth: 150,
       cellStyle: {
+        fontSize: '14px',
         textAlign: 'center',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
@@ -2679,6 +2726,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
       headerTooltip: t('monthly_orders.tooltip'),
     },
@@ -2703,6 +2751,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
@@ -2728,6 +2777,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
       headerTooltip: t('monthly_revenue.tooltip'),
     },
@@ -2752,6 +2802,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
 
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -2775,6 +2826,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
 
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
       headerTooltip: t('monthly_reviews.tooltip'),
     },
@@ -2799,6 +2851,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
 
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
@@ -2823,6 +2876,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
@@ -2836,6 +2890,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 80,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
     },
 
@@ -2850,12 +2905,14 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
 
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
       headerName: t('available_amount'),
       field: 'product_available_amount',
       sortable: true,
+      filter: false,
       cellRenderer: LocaleNumberCellRenderer,
       // filter: 'agNumberColumnFilter',
       // floatingFilter: true,
@@ -2871,32 +2928,8 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
-      } as CellStyle,
-    },
-
-    {
-      headerName: t('rating'),
-      field: 'rating',
-      cellRenderer: RatingCellRenderer,
-      sortable: false,
-      flex: 1,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      minWidth: 150,
-      filter: false,
-
-      headerTooltip: 'Mahsulot reytingi.',
-      cellStyle: {
-        textAlign: 'center',
       } as CellStyle,
     },
   ];
@@ -3361,6 +3394,7 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       field: 'total_products',
       flex: 1,
       minWidth: 100,
+      cellRenderer: LocaleNumberCellRenderer,
       filter: false,
       sortable: false,
     },
@@ -3370,6 +3404,7 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       minWidth: 100,
       sortable: false,
+      cellRenderer: LocaleNumberCellRenderer,
       filter: false,
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
@@ -3381,6 +3416,7 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       filter: false,
       minWidth: 100,
+      cellRenderer: LocaleNumberCellRenderer,
       sortable: false,
       headerTooltip: 'Ushbu sanagacha kategoriyada berilgan buyurtmalar soni.',
       cellStyle: {
@@ -3406,6 +3442,7 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       filter: false,
       minWidth: 100,
+      cellRenderer: LocaleNumberCellRenderer,
       sortable: false,
     },
     {
@@ -3414,6 +3451,7 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       minWidth: 100,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       sortable: false,
       headerTooltip: t('tooltip.active_products_amount'),
     },
@@ -3423,6 +3461,7 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       minWidth: 100,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       sortable: false,
       headerTooltip: t('tooltip.active_shops_count'),
     },
@@ -3630,6 +3669,7 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       pinned: 'left',
       cellStyle: {
         backgroundColor: 'rgba(46, 139, 87, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3637,10 +3677,12 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       field: 'category_title',
       cellRenderer: SubcategoryCellRenderer,
       sortable: false,
+      filter: false,
       minWidth: 200,
       maxWidth: 500,
       cellStyle: {
         // backgroundColor: '#efefef80',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3649,15 +3691,22 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       minWidth: 100,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: false,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('shops_count'),
       field: 'total_shops',
       flex: 1,
+      cellRenderer: LocaleNumberCellRenderer,
       filter: false,
       minWidth: 100,
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3666,9 +3715,11 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       filter: false,
       minWidth: 100,
+      cellRenderer: LocaleNumberCellRenderer,
       headerTooltip: 'Ushbu sanagacha kategoriyada berilgan buyurtmalar soni.',
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3681,6 +3732,7 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       headerTooltip: 'Ushbu sanagacha kategoriyadagi jami daromad.',
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3688,7 +3740,11 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       field: 'total_reviews',
       flex: 1,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       minWidth: 100,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('active_products_amount'),
@@ -3696,7 +3752,11 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       minWidth: 100,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       headerTooltip: t('tooltip.active_products_amount'),
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('active_shops_count'),
@@ -3704,7 +3764,11 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       filter: false,
       minWidth: 100,
+      cellRenderer: LocaleNumberCellRenderer,
       headerTooltip: t('tooltip.active_shops_count'),
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('average_rating'),
@@ -3713,6 +3777,9 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       filter: false,
       minWidth: 100,
       cellRenderer: RatingCellRenderer,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('average_price'),
@@ -3720,6 +3787,9 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       cellRenderer: TrendPriceCellRenderer,
       flex: 1,
       minWidth: 100,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
       filter: false,
     },
   ];

@@ -1,6 +1,6 @@
 {
   "id": "ID",
-  "product_name": "Название товара",
+  "product_name": "Товар",
   "products_count": "Количество товаров",
   "active_products_amount": "Количество активных товаров",
   "active_products_percentage": "Процент активных товаров",
@@ -9,7 +9,7 @@
   "tooltip.revenue_in_category": "Выручка магазина от товаров данной категории",
   "tooltip.average_price_in_category": "Средняя цена товаров данной категории",
 
-  "shop_name": "Название магазина",
+  "shop_name": "Магазин",
   "active_shops_count": "Количество активных магазинов",
   "active_shops_percentage": "Процент активных магазинов",
   "tooltip.active_shops_count": "Количество магазинов с распродажами вчера",
@@ -40,7 +40,7 @@
 
   "full_price": "Реальная цена",
   "promotion": "Акция",
-  "available_amount": "количество на складе",
+  "available_amount": "Наличие",
   "reviews": "Количество комментариев",
   "rating": "Рейтинг",
   "last_active_date": "Последняя доступная дата",

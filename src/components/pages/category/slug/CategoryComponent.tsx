@@ -18,7 +18,7 @@ export interface Props {
 function CategoryComponent({ activeTab, categoryId }: Props) {
   const { t } = useTranslation('tabs');
   return (
-    <div className='pb-12'>
+    <div className='w-full max-w-full pb-12'>
       <CategoryProductsTable
         categoryId={categoryId}
         className={clsxm(activeTab !== t('categories.goods') && 'hidden')}

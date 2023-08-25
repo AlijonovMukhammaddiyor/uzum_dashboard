@@ -12,6 +12,7 @@ import UzLocale from '@/assets/localeuzbek.json';
 
 interface TableProps<T> extends AgGridReactProps {
   className?: string;
+  setCount?: (count: number) => void;
   fetchData: (
     startRow: number,
     endRow: number,
@@ -38,22 +39,73 @@ interface TableProps<T> extends AgGridReactProps {
   id?: any;
   rowHeight?: number;
   pageSize?: number;
+  shouldRefetch?: boolean;
 }
 
 const PAGE_SIZE = 20;
 
-const PaginatedTable = <T,>({
+const InfiniteTable = <T,>({
   className,
   fetchData,
   rowHeight,
   pageSize = PAGE_SIZE,
   id,
+  shouldRefetch = false,
+  setCount,
   setLoading,
   ...props
 }: TableProps<T>) => {
   const [modules, setModules] = React.useState<any[]>([]);
   const gridApiRef = React.useRef<GridApi | null>(null);
   const { i18n } = useTranslation('common');
+
+  let sortColumn: {
+    colId: string;
+    sort: string;
+  } | null = null;
+
+  let searchColumn: {
+    [key: string]: {
+      filterType: string;
+      type: string;
+      filter: string;
+    };
+  } | null = null;
+
+  const dataSource = {
+    getRows: async function ({
+      startRow,
+      endRow,
+      successCallback,
+    }: {
+      startRow: number;
+      endRow: number;
+      successCallback: <T>(data: T[], totalCount: number) => void;
+    }) {
+      try {
+        if (!fetchData) return;
+        const response = await fetchData(
+          startRow,
+          endRow,
+          sortColumn,
+          searchColumn
+        );
+        if (setLoading) setLoading(false);
+        if (setCount) setCount(response.data.count);
+        successCallback(response.data.results ?? [], response.data.count);
+        // params.api.setRowCount(response.data.results.length);
+      } catch (err) {
+        setLoading && setLoading(false);
+      }
+    },
+  };
+
+  React.useEffect(() => {
+    if (gridApiRef.current) {
+      gridApiRef.current.setDatasource(dataSource);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldRefetch]);
 
   React.useEffect(() => {
     async function loadModules() {
@@ -70,47 +122,6 @@ const PaginatedTable = <T,>({
   }, []);
 
   const onGridReady = (params: GridReadyEvent) => {
-    let sortColumn: {
-      colId: string;
-      sort: string;
-    } | null = null;
-
-    let searchColumn: {
-      [key: string]: {
-        filterType: string;
-        type: string;
-        filter: string;
-      };
-    } | null = null;
-
-    const dataSource = {
-      getRows: async function ({
-        startRow,
-        endRow,
-        successCallback,
-      }: {
-        startRow: number;
-        endRow: number;
-        successCallback: <T>(data: T[], totalCount: number) => void;
-      }) {
-        try {
-          if (!fetchData) return;
-          const response = await fetchData(
-            startRow,
-            endRow,
-            sortColumn,
-            searchColumn
-          );
-          if (setLoading) setLoading(false);
-
-          successCallback(response.data.results ?? [], response.data.count);
-          // params.api.setRowCount(response.data.results.length);
-        } catch (err) {
-          setLoading && setLoading(false);
-        }
-      },
-    };
-
     gridApiRef.current = params.api;
     params.api.setDatasource(dataSource);
     params.api.addEventListener('sortChanged', () => {
@@ -192,4 +203,4 @@ const PaginatedTable = <T,>({
   );
 };
 
-export default PaginatedTable;
+export default InfiniteTable;

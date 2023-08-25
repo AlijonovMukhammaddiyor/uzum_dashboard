@@ -1,8 +1,5 @@
 import { useTranslation } from 'next-i18next';
 import React from 'react';
-import { FiChevronRight } from 'react-icons/fi';
-
-import clsxm from '@/lib/clsxm';
 
 import MixedChart from '@/components/pages/home/components/SmallAxisCharts';
 import TreeMap from '@/components/pages/home/components/TreeMap';
@@ -53,12 +50,9 @@ function DataContainer({
   user,
 }: Props) {
   const { t, i18n } = useTranslation('common');
-  const isFree =
-    user.tariff === 'free' && title !== t('dataTable.orders_amount');
-
   return (
-    <div className='border-border h-[500px] min-h-[500px] w-full min-w-[750px] rounded-xl border px-6 py-4 shadow-md'>
-      {isFullScreen && !isFree && (
+    <div className='py- h-[500px] min-h-[500px] w-full min-w-[750px] border-none px-6'>
+      {isFullScreen && (
         <TreeMap
           titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
           data={getData(data, title, i18n.language)}
@@ -73,7 +67,7 @@ function DataContainer({
           main_subtitle={getSubtitle(title)}
         />
       )}
-      <div className='mb-8 flex items-center justify-between'>
+      <div className='mb-4 flex items-center justify-between'>
         <h3
           className='font-primary text-base'
           style={{
@@ -82,19 +76,6 @@ function DataContainer({
         >
           {title}
         </h3>
-        <button
-          className={clsxm(
-            'text-primary border-primary hover:bg-primary flex items-center justify-between gap-3 rounded-md border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner',
-            title === 'Sotuvchilar soni' && 'cursor-not-allowed'
-          )}
-          onClick={() => {
-            if (isFree) alert(t('toPaid'));
-            setFullScreen && setFullScreen(title);
-          }}
-        >
-          {t('dataTable.see_segmentations')}
-          <FiChevronRight className='ml-2 inline-block' />
-        </button>
       </div>
       <div className='flex h-[400px] w-full flex-col items-start justify-start gap-5'>
         {/* <div className='flex w-full max-w-full items-center justify-start gap-5'>

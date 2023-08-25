@@ -14,6 +14,8 @@ import Annotation from 'chartjs-plugin-annotation';
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
 
+import CustomCheckbox from '@/components/shared/CustomCheckbox';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -55,16 +57,28 @@ export interface MixedChartProps {
 }
 
 const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
+  const [visibleDatasets, setVisibleDatasets] = React.useState(
+    data.map(() => true)
+  );
+
+  const toggleDatasetVisibility = (index: number) => {
+    const newVisibility = [...visibleDatasets];
+    newVisibility[index] = !newVisibility[index];
+    setVisibleDatasets(newVisibility);
+  };
+
   const chartData = {
     labels: labels.sort((a, b) => {
       const aDate = new Date(a);
       const bDate = new Date(b);
       return aDate.getTime() - bDate.getTime();
     }),
-    datasets: data.map((dataset, index) => ({
-      ...dataset,
-      yAxisID: `y-axis-${index}`,
-    })),
+    datasets: data
+      .filter((_, index) => visibleDatasets[index])
+      .map((dataset, index) => ({
+        ...dataset,
+        yAxisID: `y-axis-${index}`,
+      })),
   };
 
   // console.log(chartData);
@@ -74,22 +88,23 @@ const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
   } = {};
 
   for (let i = 0; i < data.length; i++) {
-    yAxis[`y-axis-${i}`] = {
-      type: 'linear', // Fixed the axis type here.
-      display: true,
-      position: i % 2 === 0 ? 'left' : 'right',
-      id: `y-axis-${i}`,
-      stacked: true,
-      beginAtZero: true,
-      grace: '10%',
-      grid: {
-        borderColor: data[i].borderColor ?? data[i].backgroundColor,
-      },
-      ticks: {
-        color: data[i].borderColor ?? data[i].backgroundColor,
-        borderColor: data[i].borderColor ?? data[i].backgroundColor,
-      },
-    };
+    if (visibleDatasets[i])
+      yAxis[`y-axis-${i}`] = {
+        type: 'linear', // Fixed the axis type here.
+        display: true,
+        position: i % 2 === 0 ? 'left' : 'right',
+        id: `y-axis-${i}`,
+        stacked: true,
+        beginAtZero: true,
+        grace: '10%',
+        grid: {
+          borderColor: data[i].borderColor ?? data[i].backgroundColor,
+        },
+        ticks: {
+          color: data[i].borderColor ?? data[i].backgroundColor,
+          borderColor: data[i].borderColor ?? data[i].backgroundColor,
+        },
+      };
   }
 
   const defaultOptions = {
@@ -104,11 +119,11 @@ const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
       },
     },
     legend: {
-      display: true,
+      display: false,
       // make solid rectangle with filled color
-      labels: {
-        usePointStyle: true,
-      },
+      // labels: {
+      //   usePointStyle: true,
+      // },
     },
     scales: {
       x: {
@@ -121,14 +136,66 @@ const MixedChart: React.FC<MixedChartProps> = ({ data, labels, options }) => {
       ...yAxis,
     },
     tension: 0,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
+  const legendContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: '10px',
+  };
+
+  const legendItemStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '15px',
+  };
+
+  const legendLabelStyle: React.CSSProperties = {
+    marginLeft: '5px',
   };
 
   return (
     <div className='h-[90%] max-h-full min-h-full w-full min-w-full max-w-full'>
+      {/* Custom Legend */}
+      <div style={legendContainerStyle} className='custom-legend'>
+        {data.map((dataset, index) => (
+          <div key={index} style={legendItemStyle} className='legend-item'>
+            {/* <input
+              type='checkbox'
+              checked={visibleDatasets[index]}
+              onChange={() => toggleDatasetVisibility(index)}
+            /> */}
+            <CustomCheckbox
+              checked={visibleDatasets[index]}
+              onChange={() => toggleDatasetVisibility(index)}
+              color={dataset.borderColor ?? dataset.backgroundColor}
+            />
+            <span
+              style={{
+                ...legendLabelStyle,
+                color: dataset.borderColor ?? dataset.backgroundColor,
+              }}
+            >
+              {dataset.label}
+            </span>
+          </div>
+        ))}
+      </div>
+
       <Chart
         type='bar'
         data={chartData as any}
-        options={options || defaultOptions}
+        options={{
+          ...defaultOptions,
+          ...options,
+          legend: { display: false },
+        }}
         style={{
           width: '100%',
           height: '90%',

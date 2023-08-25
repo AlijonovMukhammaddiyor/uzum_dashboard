@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import { useRouter } from 'next/router';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiPurchaseTagAlt } from 'react-icons/bi';
@@ -15,14 +14,10 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import {
-  getTopProductsColDefs,
-  getTopShopsColDefs,
-} from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import DataContainer from '@/components/pages/home/components/DataContainer';
-import RoseGraph from '@/components/shared/RoseGraph';
-import Table from '@/components/shared/Table';
+import TreeMap from '@/components/pages/home/components/TreeMap';
+import Button from '@/components/shared/buttons/Button';
 
 import { UserType } from '@/types/user';
 
@@ -424,16 +419,15 @@ function HomeStatisticsContainer({
     }
     return loading.shops;
   };
-  const router = useRouter();
-  const canSee = user.tariff === 'seller' || user.tariff === 'business';
+
   return (
     <div
       className={clsxm(
-        'relative flex h-full w-full flex-col gap-10',
+        'relative flex h-full w-full flex-col gap-10 pb-6',
         className
       )}
     >
-      {!canSee && (
+      {/* {!canSee && (
         <p className='absolute -top-5 left-[125px] px-2 py-1 text-xs'>
           {i18n.language === 'uz'
             ? "Qolgan ma'lumotlardan foydalanish uchun, iltimos boshqa tarifga o'ting -> Shaxsiy kabinet"
@@ -441,93 +435,237 @@ function HomeStatisticsContainer({
             ? 'Для получения доступа к остальным данным, пожалуйста, перейдите на другой тариф -> Moй кабинет'
             : 'To get access to the rest of the data, please switch to another tariff -> Personal account'}
         </p>
+      )} */}
+      {isFullScreen && (
+        <TreeMap
+          titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
+          data={getData(tree as any, isFullScreen, i18n.language)}
+          min={getMinMax(tree, isFullScreen)?.min}
+          max={getMinMax(tree, isFullScreen)?.max}
+          open={isFullScreen === isFullScreen}
+          closeModal={() => {
+            setIsFullScreen(null);
+          }}
+          title={isFullScreen}
+          main_title={getTitles(isFullScreen)}
+          main_subtitle={getSubtitle(isFullScreen)}
+        />
       )}
-      <div
-        className='no-scrollbar flex w-full items-center justify-start gap-6 overflow-x-scroll py-3'
-        ref={draggableRef}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-      >
-        <GeneralsContainer
-          shops={shops}
-          orders={orders}
-          revenue={revenue}
-          products={products}
-          lang={i18n.language}
-          reviews={reviews}
-          t={t}
-          title={t('dataTable.orders_amount')}
-          loading={loading}
-        />
-        {/* </div> */}
-        <GeneralsContainer
-          shops={shops}
-          orders={orders}
-          revenue={revenue}
-          products={products}
-          reviews={reviews}
-          lang={i18n.language}
-          t={t}
-          title={t('dataTable.revenue')}
-          loading={loading}
-        />
-        <GeneralsContainer
-          shops={shops}
-          orders={orders}
-          revenue={revenue}
-          products={products}
-          lang={i18n.language}
-          reviews={reviews}
-          loading={loading}
-          t={t}
-          title={t('dataTable.products_amount')}
-        />
+      <div className='w-full max-w-full'>
+        <p className='font-primary mb-3 text-xl font-bold'>
+          {i18n.language === 'uz'
+            ? 'Barcha kategoriyalar segmentatsiyasi'
+            : 'Сегментация всех категорий'}
+        </p>
+        <div className='mt-2 flex w-full max-w-full items-center justify-start gap-4'>
+          <Button
+            className={clsxm(
+              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+            )}
+            onClick={() => {
+              // if (!canSee) alert(t('toPaid'));
+              setIsFullScreen(t('dataTable.revenue'));
+            }}
+            spinnerColor='primary'
+            isLoading={loading.segments}
+          >
+            <>
+              {t('dataTable.see_segmentationsbyrevenue')}
+              <FiChevronRight className='ml-2 inline-block' />
+            </>
+          </Button>
+          <Button
+            className={clsxm(
+              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+            )}
+            onClick={() => {
+              // if (!canSee) alert(t('toPaid'));
+              setIsFullScreen(t('dataTable.orders_amount'));
+            }}
+            spinnerColor='primary'
+            isLoading={loading.segments}
+          >
+            <>
+              {t('dataTable.see_segmentationsbyorders_amount')}
+              <FiChevronRight className='ml-2 inline-block' />
+            </>
+          </Button>
+          <Button
+            className={clsxm(
+              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+            )}
+            onClick={() => {
+              // if (!canSee) alert(t('toPaid'));
+              setIsFullScreen(t('dataTable.products_amount'));
+            }}
+            spinnerColor='primary'
+            isLoading={loading.segments}
+          >
+            <>
+              {t('dataTable.see_segmentationsbyproducts_amount')}
+              <FiChevronRight className='ml-2 inline-block' />
+            </>
+          </Button>
+          <Button
+            className={clsxm(
+              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+            )}
+            onClick={() => {
+              // if (!canSee) alert(t('toPaid'));
+              setIsFullScreen(t('dataTable.shops_amount'));
+            }}
+            spinnerColor='primary'
+            isLoading={loading.segments}
+          >
+            <>
+              {t('dataTable.see_segmentationsbyshops_amount')}
+              <FiChevronRight className='ml-2 inline-block' />
+            </>
+          </Button>
+        </div>
+      </div>
 
-        <GeneralsContainer
-          shops={shops}
-          orders={orders}
-          revenue={revenue}
-          loading={loading}
-          products={products}
-          reviews={reviews}
-          t={t}
-          title={t('dataTable.shops_amount')}
-          lang={i18n.language}
+      <div className='-mt-10 w-full max-w-full'>
+        <p className='font-primary py-6 pb-6 text-2xl font-bold'>
+          {i18n.language === 'uz'
+            ? 'Uzum uchun umumiy statistikalar'
+            : 'Общая статистика для Uzum'}
+        </p>
+        <Container className='font-primary w-full border-none shadow-none'></Container>
+        <div
+          className='w- max-w-full gap-6'
+          ref={draggableRef}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+        >
+          <div className='flex w-full max-w-full items-start justify-start gap-4'>
+            <GeneralsContainer
+              shops={shops}
+              orders={orders}
+              revenue={revenue}
+              products={products}
+              lang={i18n.language}
+              reviews={reviews}
+              t={t}
+              title={t('dataTable.orders_amount')}
+              loading={loading}
+            />
+            {/* </div> */}
+            <GeneralsContainer
+              shops={shops}
+              orders={orders}
+              revenue={revenue}
+              products={products}
+              reviews={reviews}
+              lang={i18n.language}
+              t={t}
+              title={t('dataTable.revenue')}
+              loading={loading}
+            />
+            <GeneralsContainer
+              shops={shops}
+              orders={orders}
+              revenue={revenue}
+              products={products}
+              lang={i18n.language}
+              reviews={reviews}
+              loading={loading}
+              t={t}
+              title={t('dataTable.products_amount')}
+            />
+          </div>
+          <div className='mt-4 flex w-full items-start justify-start gap-4'>
+            <GeneralsContainer
+              shops={shops}
+              orders={orders}
+              revenue={revenue}
+              loading={loading}
+              products={products}
+              reviews={reviews}
+              t={t}
+              title={t('dataTable.shops_amount')}
+              lang={i18n.language}
+            />
+            <GeneralsContainer
+              shops={shops}
+              orders={orders}
+              revenue={revenue}
+              products={products}
+              loading={loading}
+              reviews={reviews}
+              t={t}
+              title={t('dataTable.sellers_amount')}
+              lang={i18n.language}
+            />
+            <GeneralsContainer
+              shops={shops}
+              orders={orders}
+              revenue={revenue}
+              products={products}
+              reviews={reviews}
+              lang={i18n.language}
+              loading={loading}
+              t={t}
+              title={t('dataTable.reviews_amount')}
+            />
+          </div>
+        </div>
+      </div>
+      <div className='flex items-start justify-start gap-4'>
+        <SalesContainer
+          title1={
+            i18n.language == 'uz'
+              ? "Savdosiz do'konlar soni"
+              : 'Количество магазинов без продаж'
+          }
+          title2={
+            i18n.language == 'uz'
+              ? "Kecha savdo qilgan do'konlar soni"
+              : 'Количество магазинов с продажами вчера'
+          }
+          value1={topShops.shop_with_no_sales}
+          value2={topShops.shops_with_sales_yesterday}
+          loading={loading.topShops}
         />
-        <GeneralsContainer
-          shops={shops}
-          orders={orders}
-          revenue={revenue}
-          products={products}
-          loading={loading}
-          reviews={reviews}
-          t={t}
-          title={t('dataTable.sellers_amount')}
-          lang={i18n.language}
-        />
-        <GeneralsContainer
-          shops={shops}
-          orders={orders}
-          revenue={revenue}
-          products={products}
-          reviews={reviews}
-          lang={i18n.language}
-          loading={loading}
-          t={t}
-          title={t('dataTable.reviews_amount')}
+        <SalesContainer
+          title1={
+            i18n.language == 'uz'
+              ? 'Savdosiz mahsulotlar soni'
+              : 'Количество товаров без продаж'
+          }
+          title2={
+            i18n.language == 'uz'
+              ? "Kecha sotuvi bo'lgan mahsulotlar soni"
+              : 'Количество товаров с продажами вчера'
+          }
+          value1={topProducts.product_with_no_sales}
+          value2={topProducts.products_with_sales_yesterday}
+          loading={loading.topProducts}
         />
       </div>
-      <div className='flex h-[500px] w-full items-start justify-start gap-6'>
+      <div className='w-full items-start justify-start gap-6'>
         <Container
-          className='relative min-h-[500px] w-2/3'
+          className='relative min-h-[500px] w-full max-w-full bg-white py-6 shadow-lg'
           loading={isLoading()}
         >
-          <>
-            <div className='absolute left-8 top-0 flex items-center justify-start gap-2'>
+          <div className='w-full'>
+            <div className='mb-4 w-full'>
+              <p className='w-full text-center text-xl font-bold'>
+                {i18n.language === 'uz'
+                  ? "Davr mobaynida turli xil ma'lumotlar"
+                  : 'Различные данные по периодам'}
+              </p>
+            </div>
+            <div className='flex w-full items-center justify-center gap-2'>
+              <p className=''>
+                {i18n.language === 'uz'
+                  ? "Qaysi ma'lumotlarni ko'rishni xohlaysiz?"
+                  : 'Какие данные вы хотите увидеть?'}
+              </p>
               <Select
-                className='basic-single right-5 top-4 z-10 w-[300px] cursor-pointer rounded-md'
+                className='z-10 w-[300px] cursor-pointer rounded-md'
                 classNamePrefix='select'
                 defaultValue={currentTab}
                 isDisabled={false}
@@ -587,11 +725,6 @@ function HomeStatisticsContainer({
                   },
                 ]}
               />
-              <p className='mt-7'>
-                {i18n.language === 'uz'
-                  ? "Ma'lumot turini tanlang"
-                  : 'Выберите тип данных'}
-              </p>
             </div>
             {!isLoading() &&
               getCurrentDataContainer(
@@ -605,179 +738,9 @@ function HomeStatisticsContainer({
                 user,
                 tree,
                 isFullScreen,
-                setIsFullScreen,
-                loading
+                setIsFullScreen
               )}
-          </>
-        </Container>
-        <Container
-          loading={loading.segments}
-          className='h-full w-1/3 rounded-md border p-4 shadow-lg'
-        >
-          {!loading.segments ? (
-            <RoseGraph
-              data={prepareRoseData()}
-              isRevenue={currentTab.label === t('dataTable.revenue')}
-              title={`${
-                i18n.language === 'uz'
-                  ? "Asosiy toifalar bo'yicha"
-                  : 'По основным категориям'
-              }\n ${
-                currentTab.label === t('dataTable.sellers_amount')
-                  ? t('dataTable.shops_amount')
-                  : currentTab.label
-              }`}
-            />
-          ) : (
-            <></>
-          )}
-        </Container>
-      </div>
-      <div className='no-scrollbar flex w-full items-start justify-start gap-6 overflow-x-auto py-3'>
-        <SalesContainer
-          title1={
-            i18n.language == 'uz'
-              ? "Savdosiz do'konlar soni"
-              : 'Количество магазинов без продаж'
-          }
-          title2={
-            i18n.language == 'uz'
-              ? "Kecha savdo qilgan do'konlar soni"
-              : 'Количество магазинов с продажами вчера'
-          }
-          value1={topShops.shop_with_no_sales}
-          value2={topShops.shops_with_sales_yesterday}
-          loading={loading.topShops}
-        />
-        <SalesContainer
-          title1={
-            i18n.language == 'uz'
-              ? 'Savdosiz mahsulotlar soni'
-              : 'Количество товаров без продаж'
-          }
-          title2={
-            i18n.language == 'uz'
-              ? "Kecha sotuvi bo'lgan mahsulotlar soni"
-              : 'Количество товаров с продажами вчера'
-          }
-          value1={topProducts.product_with_no_sales}
-          value2={topProducts.products_with_sales_yesterday}
-          loading={loading.topProducts}
-        />
-        <SalesContainer
-          title1={
-            i18n.language == 'uz'
-              ? "Izohsiz do'konlar soni"
-              : 'Количество магазинов без отзывов'
-          }
-          title2={
-            i18n.language == 'uz'
-              ? "Kecha izoh olgan do'konlar soni"
-              : 'Количество магазинов с отзывами вчера'
-          }
-          value1={topShops.shops_with_no_reviews}
-          value2={topShops.shops_with_reviews_yesterday}
-          loading={loading.topShops}
-        />
-        <SalesContainer
-          title1={
-            i18n.language == 'uz'
-              ? 'Izohsiz mahsulotlar soni'
-              : 'Количество товаров без отзывов'
-          }
-          title2={
-            i18n.language == 'uz'
-              ? 'Kecha izoh olgan mahsulotlar soni'
-              : 'Количество товаров с отзывами вчера'
-          }
-          value1={topProducts.products_with_no_reviews}
-          value2={topProducts.products_with_reviews_yesterday}
-          loading={loading.topProducts}
-        />
-      </div>
-      <div className='flex w-full items-start justify-start gap-6'>
-        <Container
-          loading={loading.topShops}
-          className='min-h-[450px] w-1/2 rounded-lg border p-3 shadow-lg'
-        >
-          {!loading.topShops ? (
-            <div className='mb-3 flex h-full w-full items-center justify-between'>
-              <p className='mb-3 flex-1 text-sm font-semibold'>
-                {i18n.language === 'uz'
-                  ? "Kecha eng ko'p daromad olgan 5 ta do'konlar"
-                  : 'Топ 5 магазинов с наибольшим доходом вчера'}
-              </p>
-              <button
-                className={clsxm(
-                  'text-primary border-primary hover:bg-primary flex items-center justify-between gap-3 rounded-md border bg-white px-3 py-1 transition-colors duration-200 hover:text-white active:shadow-inner'
-                )}
-                onClick={() => {
-                  return router.push('/sellers');
-                }}
-              >
-                {t('seeAllShops')}
-                <FiChevronRight className='ml-2 inline-block' />
-              </button>
-            </div>
-          ) : (
-            <></>
-          )}
-
-          {!loading.topShops ? (
-            <Table
-              columnDefs={getTopShopsColDefs(t2)}
-              className='h-[370px] min-w-full rounded-sm'
-              rowData={topShops.shops}
-              isBalham={true}
-              setLoading={(l) => {
-                setLoading((prev) => ({ ...prev, topShops: l }));
-              }}
-              rowHeight={60}
-            />
-          ) : (
-            <></>
-          )}
-        </Container>
-        <Container
-          loading={loading.topProducts}
-          className='min-h-[450px] w-1/2 rounded-lg border p-3 shadow-lg'
-        >
-          {!loading.topProducts ? (
-            <div className='mb-3 flex h-full w-full items-center justify-between'>
-              <p className='mb-3 flex-1 text-sm font-semibold'>
-                {i18n.language === 'uz'
-                  ? "Kecha eng ko'p daromad qilgan 5 ta mahsulotlar"
-                  : 'Вчера наибольшую выручку получили 5 товаров'}
-              </p>
-              <button
-                className={clsxm(
-                  'text-primary border-primary hover:bg-primary flex items-center justify-between gap-3 rounded-md border bg-white px-3 py-1 transition-colors duration-200 hover:text-white active:shadow-inner'
-                )}
-                onClick={() => {
-                  return router.push('/products');
-                }}
-              >
-                {t('seeAllProducts')}
-                <FiChevronRight className='ml-2 inline-block' />
-              </button>
-            </div>
-          ) : (
-            <></>
-          )}
-          {!loading.topProducts ? (
-            <Table
-              columnDefs={getTopProductsColDefs(t2, i18n.language)}
-              className='h-[370px] min-w-full rounded-sm'
-              rowData={topProducts.top_products}
-              isBalham={true}
-              setLoading={(l) => {
-                setLoading((prev) => ({ ...prev, topProducts: l }));
-              }}
-              rowHeight={60}
-            />
-          ) : (
-            <></>
-          )}
+          </div>
         </Container>
       </div>
     </div>
@@ -800,11 +763,11 @@ function SalesContainer({
   return (
     <Container
       loading={loading}
-      className='flex h-[80px] min-w-[350px] shrink-0 flex-col items-start justify-between rounded-md border p-3 shadow-lg'
+      className='flex h-[110px] min-w-[350px] flex-1 shrink-0 flex-col items-start justify-between rounded-md border bg-white p-6 shadow-lg'
     >
       {!loading ? (
         <div className='flex w-full items-center justify-between gap-4'>
-          <p className='text-sm font-semibold'>{title1}</p>
+          <p className='font-semibold'>{title1}</p>
           <p className='text-primary font-semibold'>
             {value1?.toLocaleString()}
           </p>
@@ -813,8 +776,8 @@ function SalesContainer({
         <></>
       )}
       {!loading ? (
-        <div className='flex w-full items-center justify-between gap-4'>
-          <p className='text-sm font-semibold'>{title2}</p>
+        <div className='mt-2 flex w-full items-center justify-between gap-4'>
+          <p className='font-semibold'>{title2}</p>
           <p className='text-primary font-semibold'>
             {value2?.toLocaleString()}
           </p>
@@ -1032,10 +995,10 @@ function GeneralsContainer({
     if (title === t('dataTable.revenue')) {
       if (yesterday > 0) {
         return (
-          <div className='flex w-full flex-wrap items-center justify-between gap-2'>
+          <div className='flex flex-wrap items-center justify-between gap-2'>
             <div className='flex items-center justify-start gap-1'>
-              <div className='text-green-600'>+</div>
-              <div className='font-semibold text-green-600'>
+              <div className='text-green-500'>+</div>
+              <div className='font-semibold text-green-500'>
                 {yesterday > 1000000
                   ? `${(yesterday / 1000000).toFixed(1)} `
                   : yesterday > 1000
@@ -1076,10 +1039,10 @@ function GeneralsContainer({
         );
       } else {
         return (
-          <div className='flex w-full flex-wrap items-center justify-between gap-2'>
+          <div className='flex flex-wrap items-center justify-between gap-2'>
             <div className='flex shrink-0 items-center justify-start gap-1'>
-              <p className='text-green-600'>+</p>
-              <p className='font-semibold text-green-600'>
+              <p className='text-green-500'>+</p>
+              <p className='font-semibold text-green-500'>
                 {yesterday > 1000000
                   ? `${(yesterday / 1000000).toFixed(1)}`
                   : yesterday > 1000
@@ -1122,8 +1085,8 @@ function GeneralsContainer({
       return (
         <div className='flex w-full items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p className='text-green-500'>+</p>
+            <p className='font-semibold text-green-500'>
               {yesterday.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1141,7 +1104,7 @@ function GeneralsContainer({
     return (
       <div className='flex w-full items-center justify-between gap-2'>
         <div className='flex items-center justify-start gap-1'>
-          <p className='font-semibold text-red-600'>
+          <p className='font-semibold text-red-400'>
             {yesterday.toLocaleString()}
           </p>
           <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1328,7 +1291,7 @@ function GeneralsContainer({
 
   return (
     <Container
-      className='flex h-[200px] min-w-[350px] shrink-0 flex-col items-start justify-between gap-6 rounded-md border p-4 shadow-lg'
+      className='max-w-1/3 flex h-[200px] flex-1 shrink-0 flex-col items-start justify-between gap-6 rounded-none border-none bg-white p-4 shadow-md'
       loading={isLoading()}
     >
       {!isLoading() ? (
@@ -1337,7 +1300,7 @@ function GeneralsContainer({
             {getLogo()}
           </div>
           <div className='flex flex-col items-start justify-start gap-1'>
-            <div className='font-primary font-semibold'>{title}</div>
+            <div className='font-primary font-bold'>{title}</div>
             <div className='text-2xl font-semibold'>{getData()}</div>
           </div>
         </div>
@@ -1399,14 +1362,7 @@ function getCurrentDataContainer(
   user: any,
   tree: any,
   isFullScreen: string | null,
-  setIsFullScreen: any,
-  loading: {
-    shops: boolean;
-    products: boolean;
-    reviews: boolean;
-    revenue: boolean;
-    orders: boolean;
-  }
+  setIsFullScreen: any
 ) {
   if (currentTab === t('dataTable.revenue')) {
     return (
@@ -1679,4 +1635,101 @@ function getCurrentDataContainer(
       />
     );
   }
+}
+
+function getData(
+  data: {
+    revenue: {
+      data: any;
+    };
+    orders: {
+      data: any;
+    };
+    products: {
+      data: any;
+    };
+    shops: {
+      data: any;
+    };
+    reviews: {
+      data: any;
+    };
+  },
+  title: string,
+  lang: string
+) {
+  if (!data.orders) return [];
+
+  if (title === 'Daromad miqdori' || title === 'Выручка') {
+    return data.revenue.data;
+  }
+  if (title === 'Buyurtmalar soni' || title === 'Продаж') {
+    return data.orders.data;
+  }
+  if (title === 'Mahsulotlar soni' || title === 'Продукты') {
+    return data.products.data;
+  }
+  if (title === "Do'konlar soni" || title === 'Магазины') {
+    return data.shops.data;
+  }
+  if (title === 'Izohlar soni' || title === 'Отзывы') {
+    return data.reviews.data;
+  }
+}
+
+function getMinMax(data: any, title: string) {
+  if (!data.orders) return [];
+
+  if (title === 'Daromad miqdori' || title === 'Выручка') {
+    return data.revenue.min_max;
+  }
+  if (title === 'Buyurtmalar soni' || title === 'Продаж') {
+    return data.orders.min_max;
+  }
+  if (title === 'Mahsulotlar soni' || title === 'Продукты') {
+    return data.products.min_max;
+  }
+  if (title === "Do'konlar soni" || title === 'Магазины') {
+    return data.shops.min_max;
+  }
+  if (title === 'Izohlar soni' || title === 'Отзывы') {
+    return data.reviews.min_max;
+  }
+}
+
+function getTitles(title: string) {
+  if (title === 'Daromad miqdori') {
+    return "Quyida barcha kategoriyalarning daromad miqdori va shu daromadga qarab ularning ulushi ko'rsatilgan.";
+  }
+  if (title === 'Buyurtmalar soni') {
+    return "Quyida barcha kategoriyalarning buyurtmalar soni va shu buyurtmalar soniga qarab ularning ulushi  ko'rsatilgan.";
+  }
+  if (title === 'Mahsulotlar soni') {
+    return "Quyida barcha kategoriyalarning mahsulotlar soni va shu mahsulotlar soniga qarab ularning ulushi ko'rsatilgan.";
+  }
+  if (title === "Do'konlar soni") {
+    return "Quyida barcha kategoriyalarning do'konlar soni va shu do'konlar soniga qarab ularning ulushi ko'rsatilgan.";
+  }
+  if (title === 'Izohlar soni') {
+    return "Quyida barcha kategoriyalarning izohlar soni va shu izohlar soniga qarab ularning ulushi ko'rsatilgan.";
+  }
+  if (title === 'Выручка') {
+    return 'Ниже приведены суммы доходов всех категорий и их доля исходя из этого дохода';
+  }
+  if (title === 'Заказы') {
+    return 'Ниже указано количество заказов всех категорий и их доля в зависимости от количества заказов.';
+  }
+  if (title === 'Продукты') {
+    return 'Ниже указано количество товаров всех категорий и их доля в зависимости от количества этих товаров.';
+  }
+  if (title === 'Магазины') {
+    return 'Ниже указано количество магазинов всех категорий и их доля исходя из количества этих магазинов.';
+  }
+  if (title === 'Отзывы') {
+    return 'Ниже указано количество комментариев всех категорий и их доля в зависимости от количества комментариев.';
+  }
+}
+
+function getSubtitle(title: string) {
+  return 'Agar ma\'lum bir kategoriyani chuqurroq o\'rganishni istasangiz, "Kategoriyalar" bo\'limiga o\'ting va shu kategoriyani tanlang.\n Если вы хотите узнать больше об определенной категории, перейдите в "Категории" и выберите эту категорию.';
 }

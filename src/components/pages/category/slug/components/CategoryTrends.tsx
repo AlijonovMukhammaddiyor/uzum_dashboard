@@ -75,7 +75,12 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         className
       )}
     >
-      <div className='flex items-center justify-start gap-5'>
+      <div className='flex items-center justify-end gap-5'>
+        <p className='text-xl font-bold'>
+          {i18n.language === 'uz'
+            ? "Qaysi ma'lumotlar ko'rsatilsin? - "
+            : 'Какие данные показывать? - '}
+        </p>
         <Select
           className='basic-single w-[300px] cursor-pointer rounded-md'
           classNamePrefix='select'
@@ -119,7 +124,6 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
             { value: t2('shops'), label: t2('shops') },
           ]}
         />
-        <p className='text-sm text-blue-400'>{t2('select_graph_type')}</p>
       </div>
 
       <Container
@@ -139,9 +143,16 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
           />
         )}
       </Container>
+      <p className='w-full text-center text-lg font-semibold'>
+        {i18n.language === 'uz'
+          ? "Ushbu jadvalda yuqoridagi grafikdagi ma'lumotlar batafsil ko'rsatilgan"
+          : 'В этой таблице подробно показаны данные из графика выше'}
+      </p>
       <Table
         columnDefs={getCategoryTrendstableColumnDefs(t, i18n.language) as any}
         className=''
+        rowHeight={80}
+        headerHeight={60}
         rowData={
           data
             ? data

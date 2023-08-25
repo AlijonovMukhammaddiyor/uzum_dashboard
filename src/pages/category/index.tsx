@@ -62,16 +62,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
-    if (res.tariff === 'free') {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/home',
-        },
-        props: {},
-      };
-    }
-
     return {
       props: {
         ...(await serverSideTranslations(context.locale || 'uz', [

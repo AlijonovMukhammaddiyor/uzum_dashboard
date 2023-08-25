@@ -75,33 +75,38 @@ function Category({ user }: Props) {
   return (
     <Layout>
       <Seo />
+      <div className='w-ful h-full flex-1'>
+        <div className='flex w-max items-center justify-start gap-3 rounded-md border border-slate-400 px-2 py-1'>
+          <p className='text-sm font-semibold'>URL:</p>
+          <a
+            href={`https://uzum.uz/uz/category/${title}-${id}`}
+            className='text-sm text-blue-500 hover:underline'
+            target='_blank'
+          >
+            https://uzum.uz/{i18n.language}/category/{title}-{id}
+          </a>
+        </div>
 
-      <div className='flex w-max items-center justify-start gap-3 rounded-md border border-slate-400 px-2 py-1'>
-        <p className='text-sm font-semibold'>URL:</p>
-        <a
-          href={`https://uzum.uz/uz/category/${title}-${id}`}
-          className='text-sm text-blue-500 hover:underline'
-          target='_blank'
-        >
-          https://uzum.uz/{i18n.language}/category/{title}-{id}
-        </a>
+        <Tabs
+          tabs={[
+            t('categories.goods'),
+            t('categories.trend'),
+            t('categories.subcategories'),
+            t('categories.segmentation'),
+            t('categories.sellers'),
+            // 'Kunlik',
+          ]}
+          setNotAllowedTab={setNotAllowedTab}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          className='mb-6 mt-4'
+        />
+        <CategoryComponent
+          activeTab={activeTab}
+          categoryId={id}
+          title={title}
+        />
       </div>
-
-      <Tabs
-        tabs={[
-          t('categories.goods'),
-          t('categories.trend'),
-          t('categories.subcategories'),
-          t('categories.segmentation'),
-          t('categories.sellers'),
-          // 'Kunlik',
-        ]}
-        setNotAllowedTab={setNotAllowedTab}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        className='mb-6 mt-4'
-      />
-      <CategoryComponent activeTab={activeTab} categoryId={id} title={title} />
     </Layout>
   );
 }

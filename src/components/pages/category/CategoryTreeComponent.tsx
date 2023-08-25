@@ -211,7 +211,7 @@ function CategoryTreeComponent() {
     .sort();
 
   return (
-    <div className='min-h-full overflow-scroll pb-16'>
+    <div className='mt-3 min-h-full w-full pb-16'>
       <Button
         className='mb-3 flex items-center rounded bg-green-500 px-4 py-2 text-white transition duration-200 ease-in-out hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50'
         onClick={exportToExcel}

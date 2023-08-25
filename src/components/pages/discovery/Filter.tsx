@@ -37,7 +37,7 @@ function Filter({ title, type, className, setValues, min, max }: FilterProps) {
         <input
           type='number'
           min={0}
-          value={min ?? undefined}
+          value={min !== null ? min : ''}
           placeholder='Min'
           className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border-b border-slate-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
           onChange={(e) => {
@@ -48,7 +48,7 @@ function Filter({ title, type, className, setValues, min, max }: FilterProps) {
         <input
           type='number'
           min={0}
-          value={max ?? undefined}
+          value={max !== null ? max : ''}
           placeholder='Max'
           className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border-b border-slate-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
           onChange={(e) => {

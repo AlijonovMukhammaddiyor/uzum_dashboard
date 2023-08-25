@@ -61,14 +61,14 @@ function Subcategories({ className, categoryId, isActive }: Props) {
   return (
     <div
       className={clsxm(
-        'flex h-full min-w-[1200px] flex-col gap-6 overflow-x-scroll',
+        'flex h-full w-full min-w-[1200px] max-w-full flex-col gap-6 overflow-hidden',
         className
       )}
     >
       {loading ? (
         <div
           className={clsxm(
-            'h-[600px] w-full min-w-[1200px] overflow-scroll rounded-md'
+            'h-[600px] min-w-[1200px] max-w-[100vw] overflow-scroll rounded-md'
           )}
         >
           <SubCategoriesPieChartData
@@ -88,7 +88,7 @@ function Subcategories({ className, categoryId, isActive }: Props) {
       ) : (
         <div
           className={clsxm(
-            'h-[600px] w-full min-w-[1200px] overflow-scroll rounded-md'
+            'h-[600px] w-full min-w-[1200px] max-w-[100vw] overflow-scroll rounded-md'
           )}
         >
           <SubCategoriesPieChartData
@@ -98,16 +98,24 @@ function Subcategories({ className, categoryId, isActive }: Props) {
           />
         </div>
       )}
+      <p className='text-center text-lg font-semibold'>
+        {i18n.language === 'uz'
+          ? 'Ushbu jadvalda ichki kategoriyalar batafsil statistikalari keltirilgan'
+          : 'В этой таблице представлена подробная статистика по подкатегориям'}
+      </p>
       {(loading || data.data.length > 0) && (
         <Container
           loading={loading}
           className={clsxm('w-full overflow-scroll')}
         >
           <Table
+            isBalham
+            headerHeight={60}
             className=''
             columnDefs={
               getSubcategoriesTableColumnDefs(t2, i18n.language) as any
             }
+            rowHeight={80}
             rowData={[...(data.data ?? [])]}
           />
         </Container>
@@ -228,25 +236,13 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={revenue_data} title={t('revenue')} labelType='outer' />
-      </Container>
-      <Container
-        loading={loading}
-        className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
-        )}
-      >
-        <PieChart data={orders_data} title={t('orders')} labelType='outer' />
-      </Container>
-      <Container
-        loading={loading}
-        className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
-        )}
-      >
         <PieChart
-          data={products_data}
-          title={t('products')}
+          data={revenue_data}
+          title={
+            i18n.language === 'uz'
+              ? 'Ichki kategoriyalarning Daromadga nisbatan ulushlari'
+              : 'Успех подкатегорий по доходам'
+          }
           labelType='outer'
         />
       </Container>
@@ -256,7 +252,47 @@ const SubCategoriesPieChartData = ({
           'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
         )}
       >
-        <PieChart data={reviews_data} title={t('reviews')} labelType='outer' />
+        <PieChart
+          data={orders_data}
+          title={
+            i18n.language === 'uz'
+              ? 'Ichki kategoriyalarning Buyurtmalar soniga nisbatan ulushlari'
+              : 'Успех подкатегорий по количеству заказов'
+          }
+          labelType='outer'
+        />
+      </Container>
+      <Container
+        loading={loading}
+        className={clsxm(
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
+        )}
+      >
+        <PieChart
+          data={products_data}
+          title={
+            i18n.language === 'uz'
+              ? 'Ichki kategoriyalarning Mahsulotlar soniga nisbatan ulushlari'
+              : 'Успех подкатегорий по количеству товаров'
+          }
+          labelType='outer'
+        />
+      </Container>
+      <Container
+        loading={loading}
+        className={clsxm(
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
+        )}
+      >
+        <PieChart
+          data={reviews_data}
+          title={
+            i18n.language === 'uz'
+              ? 'Ichki kategoriyalarning Sharhlar soniga nisbatan ulushlari'
+              : 'Успех подкатегорий по количеству отзывов'
+          }
+          labelType='outer'
+        />
       </Container>
     </div>
   );
