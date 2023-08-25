@@ -372,6 +372,8 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { i18n } = useTranslation('common');
+  const [isCopied, setIsCopied] = useState(false);
+
   if (!value) return '';
 
   // replace / with dash
@@ -380,9 +382,19 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
   //   ?.split('((')[0]
   //   .replace(/\//g, '-')
   //   .replace(/ /g, '-');
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(title);
+      setIsCopied(true);
+
+      // Reset after 2 seconds
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
   const product_id = value?.split('((')[1]?.split('))')[0];
   const isFreeUser = state.user?.tariff === 'free';
-
   return (
     <div className='flex h-full w-full items-center justify-start gap-1'>
       {isFreeUser ? (
@@ -401,6 +413,13 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
         </a>
       )}
+      <button onClick={handleCopyToClipboard} className='p-1'>
+        {isCopied ? (
+          <BiCheckDouble className='h-5 w-5 text-green-500' />
+        ) : (
+          <MdContentCopy className='h-5 w-5' />
+        )}
+      </button>
       <div
         onClick={() => {
           dispatch({
@@ -420,7 +439,7 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
           }
         }}
       >
-        <p className='text-blue-500 hover:underline'>{title}</p>
+        <p className='line-clamp-2 text-blue-500 hover:underline'>{title}</p>
       </div>
     </div>
   );
@@ -2212,6 +2231,9 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 500,
       minWidth: 300,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('category'),
@@ -2226,6 +2248,9 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 500,
       minWidth: 200,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('shop_name'),
@@ -2237,6 +2262,9 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 500,
       minWidth: 150,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('banner_created'),
@@ -2245,6 +2273,9 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       filter: false,
       maxWidth: 200,
       sortable: false,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('banner_ended'),
@@ -2253,6 +2284,9 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       filter: false,
       maxWidth: 200,
       sortable: false,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('position_in_subcategory'),
@@ -2263,6 +2297,7 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       headerTooltip: t('tooltip.position_in_category'),
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -2276,6 +2311,7 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -2288,6 +2324,7 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -2299,6 +2336,7 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -2311,6 +2349,7 @@ export const getBannerProductsColDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
   ];

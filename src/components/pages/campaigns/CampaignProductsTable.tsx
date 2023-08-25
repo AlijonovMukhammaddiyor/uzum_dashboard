@@ -62,6 +62,9 @@ function CampaignProductsTable() {
       >
         {products.length > 0 ? (
           <Table
+            isBalham={true}
+            rowHeight={70}
+            headerHeight={60}
             rowData={products.sort(
               (a, b) =>
                 new Date(b.first_date).getTime() -
