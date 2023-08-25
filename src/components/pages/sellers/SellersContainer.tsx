@@ -241,6 +241,9 @@ function SellersTable({ className, user }: Props) {
         <PaginatedTable
           columnDefs={getShopTableColumnDefs(t2)}
           className='h-[1016px] min-w-full'
+          headerHeight={60}
+          rowHeight={80}
+          isBalham={true}
           fetchData={loadData}
           setLoading={setLoading}
         />

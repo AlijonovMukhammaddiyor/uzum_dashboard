@@ -245,6 +245,8 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
           </div>
           <Table
             rowData={categoryProducts || []}
+            headerHeight={60}
+            rowHeight={80}
             columnDefs={getCategoryProductsColDefs(t2, i18n.language)}
             className='h-[1000px] w-full'
           />

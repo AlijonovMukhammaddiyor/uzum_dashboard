@@ -34,7 +34,7 @@ interface SellerType {
 }
 
 function ShopOverall({ className, sellerId, isActive }: Props) {
-  const { t } = useTranslation('sellers');
+  const { t, i18n } = useTranslation('sellers');
   const { t: t2 } = useTranslation('tableColumns');
   const [data, setData] = React.useState<SellerType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -60,12 +60,15 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
 
   return (
     <div
-      className={clsxm(
-        'flex min-w-[1200px] flex-col gap-6 overflow-scroll pb-12',
-        className
-      )}
+      className={clsxm('flex min-w-[1200px] flex-col gap-6 pb-12', className)}
     >
-      <div className='flex items-center justify-start gap-5'>
+      {' '}
+      <div className='flex items-center justify-end gap-5'>
+        <p className='text-xl font-bold'>
+          {i18n.language === 'uz'
+            ? "Qaysi ma'lumotlar ko'rsatilsin? - "
+            : 'Какие данные показывать? - '}
+        </p>
         <Select
           // components={{ DropdownIndicator }}
           className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
@@ -80,16 +83,16 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
             dropdownIndicator: (provided) => ({
               ...provided,
               svg: {
-                fill: 'white',
+                fill: 'rgba(97, 75, 195, 1)',
               },
             }),
             control: (provided) => ({
               ...provided,
-              backgroundColor: 'rgba(119, 67, 219, 1)',
+              borderColor: 'rgba(97, 75, 195, 1)',
             }),
             singleValue: (provided) => ({
               ...provided,
-              color: 'white', // This changes the text color of the selected value
+              color: 'rgba(97, 75, 195, 1)', // This changes the text color of the selected value
             }),
             option: (provided) => ({
               ...provided,
@@ -111,11 +114,10 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
             { value: t('reviews'), label: t('reviews') },
           ]}
         />
-        <p className='text-sm text-blue-500'>{t('select_graph_type')}</p>
+        {/* <p className='text-sm text-blue-500'>{t('select_graph_type')}</p> */}
       </div>
-
       <Container
-        className='flex h-[480px] w-full flex-col items-end justify-end  rounded-md bg-white px-5 py-2'
+        className='flex h-[480px] w-full flex-col items-end justify-end rounded-md bg-white px-5 py-2 pt-5'
         loading={loading}
         // title="Sotuvchining kunlik daromadi, buyurtmalari, izohlari, va mahsulotlari soni, hamda o'rtacha mahsulot narxi"
         titleContainerStyle={{
@@ -138,44 +140,54 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           )}
         </>
       </Container>
+      {null && (
+        <Container
+          className='mt-4 flex h-[350px] w-full flex-col rounded-md bg-white p-5'
+          loading={loading}
+        >
+          <div className='flex w-full items-center justify-center'>
+            <p className='text-primary'>{t('seller_position_by_revenue')}</p>
+          </div>
+          <>
+            {isActive && (
+              <LineChart
+                data={data.map((item) => {
+                  return {
+                    y: item.position,
+                    x: item.date_pretty,
+                    label: t('position'),
+                  };
+                })}
+                style={{
+                  height: '300px',
+                  maxHeight: '300px',
+                  minHeight: '300px',
+                  width: '100%',
+                }}
+                isStep
+                xAxisTitle={t('date')}
+                yAxisTitle={t('position')}
+              />
+            )}
+          </>
+        </Container>
+      )}
+      <p className='mt-5 w-full text-center text-lg font-semibold'>
+        {i18n.language === 'uz'
+          ? "Ushbu jadvalda yuqoridagi grafikdagi ma'lumotlar batafsil ko'rsatilgan"
+          : 'В этой таблице подробно показаны данные из графика выше'}
+      </p>
       <Container
-        className='mt-4 flex h-[350px] w-full flex-col rounded-md bg-white p-5'
-        loading={loading}
-      >
-        <div className='flex w-full items-center justify-center'>
-          <p className='text-primary'>{t('seller_position_by_revenue')}</p>
-        </div>
-        <>
-          {isActive && (
-            <LineChart
-              data={data.map((item) => {
-                return {
-                  y: item.position,
-                  x: item.date_pretty,
-                  label: t('position'),
-                };
-              })}
-              style={{
-                height: '300px',
-                maxHeight: '300px',
-                minHeight: '300px',
-                width: '100%',
-              }}
-              isStep
-              xAxisTitle={t('date')}
-              yAxisTitle={t('position')}
-            />
-          )}
-        </>
-      </Container>
-      <Container
-        className='mt-10 flex h-[1000px] w-full flex-col gap-6 rounded-md bg-white'
+        className=' flex h-[1000px] w-full flex-col gap-6 rounded-md bg-white'
         loading={loading}
       >
         <Table
           columnDefs={getShopOverallColumnDefs(t2)}
           rowData={data}
           className='h-[1200px] min-w-full'
+          isBalham={true}
+          rowHeight={80}
+          headerHeight={60}
         />
       </Container>
     </div>

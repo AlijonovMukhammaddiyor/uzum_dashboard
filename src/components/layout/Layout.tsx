@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           'ml-20 flex h-full w-screen items-start justify-start overflow-scroll'
         )}
       >
-        <div className='flex h-full w-full flex-1 py-3 pr-4'>
+        <div className='flex h-full w-full flex-1 flex-col py-3 pr-4'>
           <Toaster
             position='top-center'
             reverseOrder={false}

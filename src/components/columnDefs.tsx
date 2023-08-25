@@ -282,6 +282,15 @@ const AvatarCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
+const BasicCellRenderer = ({ value }: { value: string }) => {
+  if (!value) return '';
+  return (
+    <div className='flex h-full w-full items-center justify-center gap-1'>
+      <p className='line-clamp-2'>{value}</p>
+    </div>
+  );
+};
+
 export const ProductNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
@@ -669,7 +678,7 @@ export const FullPriceCellRenderer = ({ value }: { value: string }) => {
     );
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex h-full w-full items-center justify-center gap-1'>
       <p className=''>
         {Math.floor(average_full_price)?.toLocaleString()} so'm
       </p>
@@ -872,10 +881,10 @@ export function DailyOrdersCellRenderer(props: { value: any }) {
   const ChangeIcon = value?.change < 0 ? HiMinusSm : HiOutlinePlusSm;
 
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex h-full items-center justify-center'>
       <p className='text-center'>{value?.target?.toLocaleString()}</p>
       {value?.change !== 0 && (
-        <div className='flex items-center justify-start'>
+        <div className='flex  items-center justify-start'>
           <p
             className={clsxm(
               'text-sm',
@@ -918,7 +927,7 @@ export function DailyRatingCellRenderer(props: { value: any }) {
   const ChangeIcon = value?.change < 0 ? HiMinusSm : HiOutlinePlusSm;
 
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex h-full items-center justify-center'>
       <p className='text-center'>{value?.target}</p>
       {value?.change !== 0 && (
         <div className='flex items-center justify-start'>
@@ -950,7 +959,7 @@ function DailyPositionCellRenderer(props: { value: any }) {
   const ss = value?.change !== 0 && value?.before;
 
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex h-full items-center justify-center'>
       <p className='text-center'>{value?.target}</p>
       {ss && (
         <div className='flex items-center justify-start'>
@@ -981,7 +990,7 @@ function PriceChangeCellRenderer(props: { value: any }) {
   const ChangeIcon = value?.change < 0 ? HiMinusSm : HiOutlinePlusSm;
   const sss = value?.before && value?.change !== 0;
   return (
-    <div className='flex items-center justify-start gap-1'>
+    <div className='flex h-full items-center justify-center gap-1'>
       <p className='text-center'>
         {Math.round(value?.target)?.toLocaleString()} so'm
       </p>
@@ -2357,6 +2366,7 @@ export const getCategoryProductsColDefs = (t: any, lang: string) => {
     {
       headerName: t('id'),
       field: 'product_id',
+      cellRenderer: BasicCellRenderer,
       minWidth: 150,
       filter: false,
       maxWidth: 200,
@@ -2397,6 +2407,7 @@ export const getCategoryProductsColDefs = (t: any, lang: string) => {
     {
       headerName: t('last_active_date'),
       field: 'latest_product_analytics_date',
+      cellRenderer: BasicCellRenderer,
       sortable: false,
       minWidth: 150,
       filter: false,
@@ -2408,6 +2419,7 @@ export const getCategoryProductsColDefs = (t: any, lang: string) => {
     {
       headerName: t('orders'),
       field: 'latest_product_analytics_orders_amount',
+      cellRenderer: BasicCellRenderer,
       sortable: false,
       minWidth: 150,
       filter: false,
@@ -2418,6 +2430,7 @@ export const getCategoryProductsColDefs = (t: any, lang: string) => {
     {
       headerName: t('reviews'),
       field: 'latest_product_analytics_reviews_amount',
+      cellRenderer: BasicCellRenderer,
       sortable: false,
       filter: false,
       minWidth: 150,
@@ -2428,6 +2441,7 @@ export const getCategoryProductsColDefs = (t: any, lang: string) => {
     {
       headerName: t('available_amount'),
       field: 'latest_product_analytics_available_amount',
+      cellRenderer: BasicCellRenderer,
       sortable: false,
       filter: false,
       minWidth: 150,
@@ -2941,6 +2955,7 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       headerName: t('id'),
       field: 'product_id',
       filter: false,
+      cellRenderer: BasicCellRenderer,
       flex: 1,
       minWidth: 150,
     },
@@ -2978,6 +2993,7 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       field: 'position_in_category',
       flex: 1,
       filter: false,
+      cellRenderer: BasicCellRenderer,
       minWidth: 150,
       headerTooltip: t('tooltip.position_in_category'),
       cellStyle: {
@@ -2990,6 +3006,7 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       field: 'orders_amount',
       sortable: true,
       filter: false,
+      cellRenderer: BasicCellRenderer,
       flex: 1,
       minWidth: 150,
       cellStyle: {
@@ -3064,6 +3081,7 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       sortable: true,
       filter: false,
       flex: 1,
+      cellRenderer: BasicCellRenderer,
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
@@ -3076,6 +3094,7 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       filter: false,
       // filter: 'agNumberColumnFilter',
       // floatingFilter: true,
+      cellRenderer: BasicCellRenderer,
       flex: 1,
       minWidth: 150,
       cellStyle: {
@@ -3102,6 +3121,7 @@ export const getShopDailySaleColumnDefs = (t: any, lang: string) => {
     {
       headerName: t('id'),
       field: 'product__product_id',
+      cellRenderer: BasicCellRenderer,
       flex: 1,
       sortable: false,
       filter: false,
@@ -3230,6 +3250,7 @@ export const getShopStoppedProductTableColumnDefs = (t: any, lang: string) => {
     {
       headerName: t('id'),
       field: 'product_id',
+      cellRenderer: BasicCellRenderer,
       flex: 1,
       minWidth: 150,
       filter: false,
@@ -3268,6 +3289,7 @@ export const getShopStoppedProductTableColumnDefs = (t: any, lang: string) => {
       field: 'date_pretty',
       flex: 1,
       filter: false,
+      cellRenderer: BasicCellRenderer,
       minWidth: 200,
       headerTooltip: t('tooltip.last_active_date'),
       cellStyle: {
@@ -3280,6 +3302,7 @@ export const getShopStoppedProductTableColumnDefs = (t: any, lang: string) => {
       field: 'position_in_category',
       floatingFilter: true,
       filter: 'agNumberColumnFilter',
+      cellRenderer: BasicCellRenderer,
       flex: 1,
       minWidth: 150,
       cellStyle: {
@@ -3305,6 +3328,7 @@ export const getShopStoppedProductTableColumnDefs = (t: any, lang: string) => {
       field: 'orders_amount',
       sortable: true,
       flex: 1,
+      cellRenderer: BasicCellRenderer,
       minWidth: 150,
       filter: false,
       cellStyle: {
@@ -3342,6 +3366,7 @@ export const getShopStoppedProductTableColumnDefs = (t: any, lang: string) => {
       field: 'available_amount',
       sortable: true,
       flex: 1,
+      cellRenderer: BasicCellRenderer,
       filter: false,
       minWidth: 150,
       cellStyle: {
@@ -3356,6 +3381,7 @@ export const getShopStoppedProductTableColumnDefs = (t: any, lang: string) => {
       // floatingFilter: true,
       flex: 1,
       minWidth: 150,
+      cellRenderer: BasicCellRenderer,
       filter: false,
       cellStyle: {
         textAlign: 'center',
@@ -3800,6 +3826,7 @@ export const getShopOverallColumnDefs = (t: any) => {
     {
       headerName: t('date'),
       field: 'date_pretty',
+      cellRenderer: BasicCellRenderer,
       sortable: false,
       minWidth: 150,
       filter: false,
@@ -3893,6 +3920,7 @@ export const getShopTableColumnDefs = (t: any) => {
     {
       headerName: t('position'),
       field: 'position',
+      cellRenderer: BasicCellRenderer,
       sortable: true,
       filter: false,
       maxWidth: 200,

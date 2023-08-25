@@ -229,16 +229,14 @@ function ShopProducts({ sellerId, className }: Props) {
   return (
     <div
       className={clsxm(
-        'flex w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll pb-12',
+        'flex w-full min-w-[1200px] flex-col items-start justify-start gap-5  pb-12',
         className
       )}
     >
-      <div className='flex w-full items-start justify-start gap-5 overflow-x-scroll'>
+      <div className='flex w-full items-start justify-start gap-5 overflow-scroll '>
         <Container
           loading={loadingTopProducts}
-          className={clsxm(
-            'h-[600px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
-          )}
+          className={clsxm('h-[500px] min-w-[1100px] rounded-md bg-white p-6')}
         >
           <PieChart
             data={revenueData}
@@ -246,15 +244,15 @@ function ShopProducts({ sellerId, className }: Props) {
             labelType='outer'
             style={{
               width: '100%',
-              height: '550px',
-              maxHeight: '550px',
+              height: '400px',
+              maxHeight: '400px',
             }}
           />
         </Container>
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'white h-[600px] min-w-[1100px] overflow-scroll rounded-md p-6'
+            'white h-[500px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
           )}
         >
           <PieChart
@@ -263,15 +261,15 @@ function ShopProducts({ sellerId, className }: Props) {
             labelType='outer'
             style={{
               width: '100%',
-              height: '550px',
-              maxHeight: '550px',
+              height: '400px',
+              maxHeight: '400px',
             }}
           />
         </Container>
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'white h-[600px] min-w-[1100px] overflow-scroll rounded-md p-6'
+            'white h-[500px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
           )}
         >
           <PieChart
@@ -280,8 +278,8 @@ function ShopProducts({ sellerId, className }: Props) {
             labelType='outer'
             style={{
               width: '100%',
-              height: '550px',
-              maxHeight: '550px',
+              height: '400px',
+              maxHeight: '400px',
             }}
           />
         </Container>
@@ -301,6 +299,8 @@ function ShopProducts({ sellerId, className }: Props) {
 
         <PaginatedTable
           columnDefs={getShopProductTableColumnDefs(t2, i18n.language)}
+          rowHeight={80}
+          headerHeight={60}
           className={clsxm(
             'h-[1016px] min-w-full',
             activeProducts === t('sellers_current_products') ? '' : 'hidden'
@@ -310,6 +310,8 @@ function ShopProducts({ sellerId, className }: Props) {
           id={sellerId}
         />
         <Table
+          rowHeight={80}
+          headerHeight={60}
           columnDefs={getShopStoppedProductTableColumnDefs(t2, i18n.language)}
           className={clsxm(
             'h-[1016px] min-w-full',
