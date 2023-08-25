@@ -147,7 +147,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
   };
 
   return (
-    <div className='min-h-full w-full min-w-[1300px]'>
+    <div className='mt-5 min-h-full w-full min-w-[1300px]'>
       <Tabs
         tabs={[
           t('home.overview'),

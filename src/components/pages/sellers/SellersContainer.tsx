@@ -239,9 +239,6 @@ function SellersTable({ className, user }: Props) {
           </Button>
         </div>
         <PaginatedTable
-          isBalham={true}
-          rowHeight={70}
-          headerHeight={60}
           columnDefs={getShopTableColumnDefs(t2)}
           className='h-[1016px] min-w-full'
           headerHeight={60}
