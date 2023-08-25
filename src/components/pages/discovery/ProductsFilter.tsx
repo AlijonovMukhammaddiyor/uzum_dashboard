@@ -41,7 +41,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='w-[300px] py-3'>
-          <p className='text-lg font-semibold'>
+          <p className='text-base font-semibold'>
             {i18n.language === 'uz' ? 'Sotuvga chiqqan sanasi' : 'Дата запуска'}
           </p>
           <p>
@@ -58,7 +58,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='flex w-[300px] items-start justify-start gap-2 pt-6'>
-          <p className='text-lg font-semibold'>
+          <p className='text-base font-semibold'>
             {i18n.language === 'uz'
               ? "Sotuv soniga ko'ra filtrlash"
               : 'Фильтрация по количеству продаж'}
@@ -89,7 +89,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='flex w-[300px] items-start justify-start gap-2 py-6'>
-          <p className='text-lg font-semibold'>
+          <p className='text-base font-semibold'>
             {/* Daromad miqdoriga ko'ra filtrlash
              */}
             {i18n.language === 'uz'
@@ -124,7 +124,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='flex w-[300px] items-start justify-start gap-2 py-6'>
-          <p className='text-lg font-semibold'>
+          <p className='text-base font-semibold'>
             {/* Izohlar soniga ko'ra filtrlash */}
             {i18n.language === 'uz'
               ? "Izohlar soniga ko'ra filtrlash"
@@ -156,7 +156,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='flex w-[300px] items-start justify-start gap-2 py-6'>
-          <p className='text-lg font-semibold'>
+          <p className='text-base font-semibold'>
             {i18n.language === 'uz'
               ? "Narxiga ko'ra filtrlash"
               : 'Фильтрация по цене'}

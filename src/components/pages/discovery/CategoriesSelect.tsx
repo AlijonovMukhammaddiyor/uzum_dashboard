@@ -126,7 +126,7 @@ function CategoriesSelect({
     <Container
       loading={loading}
       className={clsxm(
-        'relative z-10 flex h-full min-h-[calc(100vh-100px)] w-[480px] flex-col items-start justify-start gap-4 rounded-none border-none bg-white pb-6 shadow-none',
+        'relative z-10 flex h-full min-h-[calc(100vh)] w-[480px] flex-col items-start justify-start gap-4 rounded-none border-none bg-white pb-6 shadow-none',
         className
       )}
     >
