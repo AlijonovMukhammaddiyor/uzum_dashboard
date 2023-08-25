@@ -6,7 +6,7 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { getNewProductsColDefs } from '@/components/columnDefs';
+import { getWeeklyBestProductsColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import Table from '@/components/shared/Table';
 
@@ -46,13 +46,13 @@ function MonthlyBestProducts({ className }: HomeStatisticsContainerProps) {
       .get<
         unknown,
         AxiosResponse<{
-          results: ProductsReponseType[];
+          data: ProductsReponseType[];
           count: number;
         }>
       >(url)
       .then((res) => {
         setLoading(false);
-        logger(res, 'monthly best products');
+        setData(res.data.data);
       })
       .catch((err) => {
         setLoading(false);
@@ -61,21 +61,26 @@ function MonthlyBestProducts({ className }: HomeStatisticsContainerProps) {
   }, []);
 
   return (
-    <div className='flex h-full w-full flex-col gap-5'>
+    <div
+      className={clsxm('monthly flex h-full w-full flex-col gap-5', className)}
+    >
       <Container
-        className={clsxm(
-          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md border-none',
-          className
-        )}
+        className={clsxm('w-full rounded-md border-none', className)}
         loading={loading}
       >
+        <p className='w-full py-4 text-center text-base font-semibold'>
+          {i18n.language === 'uz'
+            ? "Quyidagi jadvalda oxirgi 30 kun ichida eng ko'p daromad keltirgan mahsulotlar ro'yhati keltirilgan"
+            : 'В таблице ниже представлен список товаров, которые за последние 30 дней принесли наибольшую выручку'}
+        </p>
         <Table
-          columnDefs={getNewProductsColDefs(t, i18n.language)}
+          columnDefs={getWeeklyBestProductsColDefs(t, i18n.language)}
           className='h-[1520px] min-w-full'
           setLoading={setLoading}
           headerHeight={60}
+          rowData={data ?? []}
           isBalham={true}
-          rowHeight={70}
+          rowHeight={80}
         />
       </Container>
     </div>

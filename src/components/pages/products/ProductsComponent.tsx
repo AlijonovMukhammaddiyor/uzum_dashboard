@@ -195,7 +195,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               ? "Ma'lumotlar yuklanmoqda..."
               : 'Загрузка данных...'
           }
-          className='min-h-full w-full gap-5 overflow-scroll rounded-none border-none shadow-none'
+          className='min-h-full w-full gap-5 rounded-none border-none shadow-none'
         >
           <div className='mb-8 flex min-h-[calc(100vh-200px)] w-full items-start justify-start gap-2'>
             <CategoriesSelect
@@ -223,7 +223,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               ? "Ma'lumotlar yuklanmoqda..."
               : 'Загрузка данных...'
           }
-          className='h-[calc(100vh-200px) w-full overflow-scroll rounded-none border-none shadow-none'
+          className='h-[calc(100vh-200px) w-full rounded-none border-none shadow-none'
         >
           <p className='w-full py-3 text-center text-xl font-semibold'>
             {i18n.language === 'uz'

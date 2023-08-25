@@ -31,10 +31,14 @@
   "orders": "Продаж",
   "monthly_orders.tooltip": "Количество продаж за последние 30 дней",
   "monthly_orders": "Продаж (30 дней)",
+  "weekly_orders.tooltip": "Количество продаж за последние 7 дней",
+  "weekly_orders": "Продаж (7 дней)",
 
   "revenue": "Выручка",
   "monthly_revenue.tooltip": "Выручка за последние 30 дней",
   "monthly_revenue": "Выручка (30 дней)",
+  "weekly_revenue.tooltip": "Выручка за последние 7 дней",
+  "weekly_revenue": "Выручка (7 дней)",
   "sku": "SKU",
   "average_price": "Средняя цена",
 
@@ -56,6 +60,8 @@
   "reviews_amount": "Комментарии",
   "monthly_reviews": "Комментарии (30 дней)",
   "monthly_reviews.tooltip": "Количество комментариев за последние 30 дней",
+  "weekly_reviews": "Комментарии (7 дней)",
+  "weekly_reviews.tooltip": "Количество комментариев за последние 7 дней",
   "date_added": "Дата выхода",
 
   "daily_revenue": "Дневная выручка",

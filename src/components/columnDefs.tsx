@@ -634,7 +634,7 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
 const TrendPriceCellRenderer = ({ value }: { value: string }) => {
   if (value === null) return <p>-</p>;
 
-  const value_number = Number(Number(value).toFixed(0));
+  const value_number = Math.round(Number(Number(value) / 1000)) * 1000;
   return (
     <div className='flex h-full w-full items-center justify-center'>
       <p className=''>{value_number?.toLocaleString()} so'm</p>
@@ -1796,6 +1796,236 @@ export const getGrowingProductsColDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+  ];
+};
+
+export const getWeeklyBestProductsColDefs = (t: any, lang: string) => {
+  return [
+    {
+      headerName: t('id'),
+      field: 'product_id',
+      cellRenderer: BasicCellRenderer,
+      minWidth: 150,
+      filter: false,
+      maxWidth: 200,
+      sortable: false,
+    },
+    {
+      headerName: t('image'),
+      field: 'photos',
+      cellRenderer: ProductImageCellRenderer,
+      sortable: false,
+      minWidth: 150,
+      filter: false,
+      maxWidth: 200,
+    },
+    {
+      headerName: t('product_name'),
+      field: lang === 'uz' ? 'product_title' : 'product_title_ru',
+      cellRenderer: ProductNameCellRenderer,
+      filter: true,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 300,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('category'),
+      field: lang === 'uz' ? 'category_title' : 'category_title_ru',
+      cellRenderer: CategoryNameCellRenderer,
+      filter: true,
+      sortable: false,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 200,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('shop_name'),
+      field: 'shop_title',
+      cellRenderer: SellerNameCellRenderer,
+      filter: true,
+      sortable: false,
+      floatingFilter: true,
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 200,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('rating'),
+      field: 'rating',
+      cellRenderer: RatingCellRenderer,
+      filter: false,
+      floatingFilter: true,
+      flex: 1,
+      minWidth: 80,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('revenue'),
+      field: 'orders_money',
+      sortable: true,
+      cellRenderer: RevenueCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_revenue'),
+      field: 'diff_orders_money',
+      sortable: true,
+      cellRenderer: RevenueCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_revenue.tooltip'),
+    },
+    {
+      headerName: t('weekly_revenue'),
+      field: 'weekly_orders_money',
+      sortable: true,
+      cellRenderer: RevenueCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('weekly_revenue.tooltip'),
+    },
+    {
+      headerName: t('orders'),
+      field: 'orders_amount',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: false,
+      minWidth: 150,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_orders'),
+      field: 'diff_orders_amount',
+      sortable: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('diff_orders_amount.tooltip'),
+    },
+    {
+      headerName: t('weekly_orders'),
+      field: 'weekly_orders_amount',
+      sortable: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('weekly_orders.tooltip'),
+    },
+    {
+      headerName: t('reviews'),
+      field: 'reviews_amount',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: false,
+      filter: false,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_reviews'),
+      field: 'diff_reviews_amount',
+      sortable: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('diff_reviews_amount.tooltip'),
+    },
+    {
+      headerName: t('weekly_reviews'),
+      field: 'weekly_reviews_amount',
+      sortable: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('weekly_reviews.tooltip'),
+    },
+    {
+      headerName: t('average_price'),
+      field: 'avg_purchase_price',
+      sortable: true,
+      cellRenderer: TrendPriceCellRenderer,
+      minWidth: 150,
+      maxWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('available_amount'),
+      field: 'product_available_amount',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: false,
+      filter: false,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
     },
   ];

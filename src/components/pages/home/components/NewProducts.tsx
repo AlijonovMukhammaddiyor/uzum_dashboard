@@ -74,17 +74,19 @@ function NewProducts({ className }: HomeStatisticsContainerProps) {
   };
 
   return (
-    <div className='flex h-full w-full flex-col gap-5'>
+    <div
+      className={clsxm('flex h-full w-full flex-col gap-5 pb-10', className)}
+    >
       <Container
         className={clsxm(
-          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md border-none',
+          'flex w-full items-start justify-start rounded-md border-none pb-10',
           className
         )}
         loading={loading}
       >
         <PaginatedTable
           columnDefs={getNewProductsColDefs(t, i18n.language)}
-          className='h-[1520px] min-w-full'
+          className='h-[1600px] min-w-full'
           setLoading={setLoading}
           fetchData={loadData}
           rowHeight={70}
