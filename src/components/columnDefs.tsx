@@ -1445,6 +1445,9 @@ export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 500,
       minWidth: 300,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('orders'),
@@ -1457,6 +1460,7 @@ export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
       cellStyle: {
         textAlign: 'center',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -1489,11 +1493,12 @@ export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
       headerName: t('average_price'),
       field: 'average_purchase_price',
       sortable: true,
-      cellRenderer: PriceRenderer,
+      cellRenderer: TrendPriceCellRenderer,
       minWidth: 150,
       filter: false,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1505,8 +1510,10 @@ export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
       minWidth: 300,
       filter: false,
       maxWidth: 600,
+      cellRenderer: LocaleNumberCellRenderer,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1521,6 +1528,7 @@ export const getGrowingCategoriesColDefs = (t: any, lang: string) => {
       headerTooltip: 'Kategoriyadagi mahsulotlarning o`rtacha reytingi',
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },

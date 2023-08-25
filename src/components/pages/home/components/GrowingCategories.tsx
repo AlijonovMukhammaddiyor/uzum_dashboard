@@ -92,18 +92,36 @@ function GrowingCategories({ className }: HomeStatisticsContainerProps) {
   return (
     <div className='flex h-full w-full flex-col gap-5'>
       <Container
-        className={clsxm(
-          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md border-none',
-          className
-        )}
+        className={clsxm('w-full rounded-md border-none pb-10', className)}
         loading={loading}
       >
+        <div className='py-3'>
+          <p className='text-center font-semibold'>
+            {i18n.language === 'uz'
+              ? "Quyidagi jadvalda eng so'ngi istiqbolli kategoriyalarni ko'rish mumkin"
+              : 'В таблице ниже вы можете увидеть последние перспективные категории.'}
+          </p>
+          <div className='flex w-full items-center justify-center gap-3'>
+            <p className='font-semibold'>
+              {i18n.language === 'uz'
+                ? 'Bu qanday hisoblanadi?'
+                : 'Как это считается?'}
+            </p>
+            <p className=''>
+              {i18n.language === 'uz'
+                ? "Biz har kuni barcha kategoriyalar uchun oxirgi 100 kun mobaynidagi statistikalarni qayta ishlaymiz va eng o'sayotgan 20 tagacha kategpriyalarni tanlaymiz."
+                : 'Каждый день мы обрабатываем статистику за последние 100 дней по всем категориям и отбираем до 20 наиболее перспективных категорий.'}
+            </p>
+          </div>
+        </div>
         <Table
           columnDefs={getGrowingCategoriesColDefs(t, i18n.language)}
-          className='h-[1290px] min-w-full'
+          className='h-[1700px] min-w-full'
           rowData={categories}
           setLoading={setLoading}
-          rowHeight={60}
+          rowHeight={80}
+          headerHeight={60}
+          isBalham={true}
         />
       </Container>
     </div>

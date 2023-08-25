@@ -211,6 +211,8 @@
     "Osayotgan_mahsulotlar": "O'sayotgan mahsulotlar",
     "Yangi_mahsulotlar": "Yangi mahsulotlar",
     "Osayotgan_kategoriyalar": "O'sayotgan kategoriyalar",
+    "weekly_best_products": "Haftalik eng yaxshi mahsulotlar",
+    "monthly_best_products": "Oylik eng yaxshi mahsulotlar",
 
     "Kategoriyalar": "Kategoriyalar",
     "Barcha_Kategoriyalar": "Barcha Kategoriyalar ",
@@ -236,6 +238,7 @@
     "Mahsulot_tahlili": "Mahsulot tahlili",
     "Mahsulot_raqobatchilari": "Mahsulot raqobatchilari",
     "Mahsulot_raqobatchilari_taqqoslash": "Mahsulot raqobatchilari to'g'ridan-to'g'ri taqqoslash",
+    "filters": "Batafsil filtrlar",
 
     "Reklamalar": "Reklamalar",
     "addsImpactCheck": "Reklamalar tasirini o'rganish.",

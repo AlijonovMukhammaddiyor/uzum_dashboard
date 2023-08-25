@@ -170,6 +170,8 @@ function Pricing({ className }: { className?: string }) {
               // t('tariffs.Barcha_mahsulotlar'),
               // t('tariffs.Mahsulot_tahlili'),
               t('tariffs.Mahsulot_raqobatchilari'),
+              t('tariffs.weekly_best_products'),
+              t('tariffs.monthly_best_products'),
               t('tariffs.24/7_doimiy_yordam'),
               // t('tariffs.Yangi_mahsulotlar'),
               t('tariffs.Osayotgan_mahsulotlar'),
@@ -193,6 +195,8 @@ function Pricing({ className }: { className?: string }) {
               t('tariffs.90_kunlik'),
               // t('tariffs.Umumiy_malumotlar'),
               t('tariffs.Barcha_Kategoriyalar'),
+              t('tariffs.weekly_best_products'),
+              t('tariffs.monthly_best_products'),
               // t('tariffs.Kategoriya_trendi'),
               // t('tariffs.Kategoriya_mahsulotlari'),
               // t('tariffs.Ichki_kategoriyalar'),
@@ -226,7 +230,11 @@ function Pricing({ className }: { className?: string }) {
         </div>
         <div className='min-h-screen pb-16'>
           <div className='my-24 w-full border bg-slate-200 p-4 text-center font-semibold text-black'>
-            <p>Tariflarni taqqoslash</p>
+            <p>
+              {i18n.language === 'uz'
+                ? 'Tariflarni taqqoslash'
+                : 'Сравнение тарифов'}
+            </p>
           </div>
           <PricingTable featuresData={getPricingData(t)} t={t} />
         </div>
@@ -292,6 +300,8 @@ function Tarif({
     t('tariffs.Yangi_mahsulotlar'),
     t('tariffs.Osayotgan_mahsulotlar'),
     t('tariffs.Osayotgan_kategoriyalar'),
+    t('tariffs.weekly_best_products'),
+    t('tariffs.monthly_best_products'),
     t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
     t('tariffs.Barcha_nishalar'),
     t('tariffs.addsImpactCheck'),
@@ -567,6 +577,21 @@ const getPricingData = (t: any) => {
       business: '✓',
     },
     {
+      title: t('tariffs.weekly_best_products'),
+      free: '',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.monthly_best_products'),
+
+      free: '',
+      beginner: '',
+      seller: '✓',
+      business: '✓',
+    },
+    {
       title: t('tariffs.Kategoriyalar'),
       free: '',
       beginner: '',
@@ -680,6 +705,13 @@ const getPricingData = (t: any) => {
     },
     {
       title: t('tariffs.Barcha_mahsulotlar'),
+      free: '',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.filters'),
       free: '',
       beginner: '✓',
       seller: '✓',

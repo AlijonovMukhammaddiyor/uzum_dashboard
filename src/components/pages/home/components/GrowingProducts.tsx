@@ -80,18 +80,34 @@ function GrowingProducts({ className }: HomeStatisticsContainerProps) {
   return (
     <div className='flex h-full w-full flex-col gap-5'>
       <Container
-        className={clsxm(
-          'flex h-max min-h-[550px] w-full items-start justify-start overflow-x-scroll rounded-md border-none',
-          className
-        )}
+        className={clsxm('w-full rounded-md border-none pb-10', className)}
         loading={loading}
       >
+        <div className='py-3'>
+          <p className='text-center font-semibold'>
+            {i18n.language === 'uz'
+              ? "Quyidagi jadvalda eng so'ngi istiqbolli o'sayotgan mahsulotlarni ko'rish mumkin"
+              : 'В таблице ниже вы можете увидеть последние перспективные продукты.'}
+          </p>
+          <div className='flex w-full items-center justify-center gap-3'>
+            <p className='font-semibold'>
+              {i18n.language === 'uz'
+                ? 'Bu qanday hisoblanadi?'
+                : 'Как это считается?'}
+            </p>
+            <p className=''>
+              {i18n.language === 'uz'
+                ? "Biz har kuni barcha mahsulotlar uchun oxirgi 2 oy mobaynidagi statistikalarni qayta ishlaymiz va eng o'sayotgan 500 tagacha mahsulotlarni tanlaymiz."
+                : 'Мы анализируем ежедневную статистику за последние 2 месяца по всем товарам и отбираем до 500 наиболее перспективных товаров.'}
+            </p>
+          </div>
+        </div>
         <PaginatedTable
           columnDefs={getGrowingProductsColDefs(t, i18n.language)}
-          className='h-[1318px] min-w-full'
+          className='h-[1745px] min-w-full'
           fetchData={loadData}
           setLoading={setLoading}
-          rowHeight={60}
+          rowHeight={80}
         />
       </Container>
     </div>

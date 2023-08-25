@@ -211,6 +211,8 @@
     "Yangi_mahsulotlar": "Новые товары",
     "Osayotgan_mahsulotlar": "Перспективные товары",
     "Osayotgan_kategoriyalar": "Перспективные категории",
+    "weekly_best_products": "Еженедельные лучшие продукты",
+    "monthly_best_products": "Ежемесячные лучшие продукты",
 
     "Kategoriyalar": "Категории",
     "Barcha_Kategoriyalar": "Все категории",
@@ -236,6 +238,7 @@
     "Mahsulot_tahlili": "Анализ продукта",
     "Mahsulot_raqobatchilari": "Продукт-конкуренты",
     "Mahsulot_raqobatchilari_taqqoslash": "сравнивать продукты конкурентов напрямую",
+    "filters": "Детальная фильтрация товаров",
 
     "Reklamalar": "Реклама",
     "addsImpactCheck": "Проверка влияния рекламы",
