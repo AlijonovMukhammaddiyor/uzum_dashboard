@@ -37,7 +37,7 @@ export default function Sellers({ user }: ShopsProps) {
   return (
     <Layout>
       <Seo />
-      <div className='overflow-scroll'>
+      <div className='w-full'>
         <SellersTable
           user={user}
           className={clsxm(activeTab === 'Sotuvchilar' ? '' : 'hidden')}

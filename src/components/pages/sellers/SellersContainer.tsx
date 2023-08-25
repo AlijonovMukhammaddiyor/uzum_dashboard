@@ -156,7 +156,7 @@ function SellersTable({ className, user }: Props) {
   return (
     <div
       className={clsxm(
-        'flex min-h-full w-full min-w-[1200px] shrink-0 flex-col items-start justify-start gap-5 overflow-scroll overflow-x-scroll pb-12',
+        'flex min-h-full w-full min-w-[1200px] shrink-0 flex-col items-start justify-start gap-5 pb-12',
         className
       )}
     >
