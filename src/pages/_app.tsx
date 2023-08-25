@@ -90,7 +90,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Head>
             <meta
               name='viewport'
-              content='width=device-width, initial-scale=0.75 '
+              content='initial-scale=0.8, width=device-width'
             />
             <meta
               name='description'

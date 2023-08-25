@@ -163,6 +163,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     white-space: normal;
+    line-height: 18px;
+    text-align: left;
   }
 
   .control-arrow {

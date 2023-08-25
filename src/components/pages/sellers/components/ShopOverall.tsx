@@ -34,7 +34,7 @@ interface SellerType {
 }
 
 function ShopOverall({ className, sellerId, isActive }: Props) {
-  const { t } = useTranslation('sellers');
+  const { t, i18n } = useTranslation('sellers');
   const { t: t2 } = useTranslation('tableColumns');
   const [data, setData] = React.useState<SellerType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -125,7 +125,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
         <>
           {isActive && (
             <MixedChartSeller
-              data={prepareDataset(data, tab) as any}
+              data={prepareDataset(data, tab, i18n.language) as any}
               labels={data.slice(1).map((item) => item.date_pretty)}
               style={{
                 height: '440px',
@@ -184,23 +184,23 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
 
 export default ShopOverall;
 
-function prepareDataset(data: SellerType[], type = 'Daromad') {
+function prepareDataset(data: SellerType[], type = 'Daromad', lang = 'uz') {
   switch (type) {
     case 'Daromad':
     case 'Выручка':
-      return _prepareRevenue(data);
+      return _prepareRevenue(data, lang);
     case 'Buyurtmalar':
     case 'Продаж':
-      return _prepareOrders(data);
+      return _prepareOrders(data, lang);
     case 'Mahsulotlar':
     case 'Продукты':
-      return _prepareProducts(data);
+      return _prepareProducts(data, lang);
     case 'O`rtacha sotuv narxi':
     case 'Средняя цена продажи':
-      return _preparePrice(data);
+      return _preparePrice(data, lang);
 
     default:
-      return _prepareReviews(data);
+      return _prepareReviews(data, lang);
   }
 }
 
@@ -208,7 +208,7 @@ function prepareDataset(data: SellerType[], type = 'Daromad') {
  * Return all orders and daily orders
  * @param orders
  */
-function _prepareOrders(orders: SellerType[]) {
+function _prepareOrders(orders: SellerType[], lang: string) {
   const allOrders: {
     y: number;
     x: string;
@@ -236,7 +236,7 @@ function _prepareOrders(orders: SellerType[]) {
       fill: false,
       borderColor: '#FF5733',
       backgroundColor: '#FF5733',
-      label: '',
+      label: lang === 'uz' ? 'Jami buyurtmalar' : 'Общее количество продаж',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#FF5733',
@@ -247,7 +247,8 @@ function _prepareOrders(orders: SellerType[]) {
       fill: true,
       borderColor: '#F3AA60',
       backgroundColor: '#F3AA60',
-      label: 'Kunlik buyurtmalar',
+      label:
+        lang === 'uz' ? 'Kunlik buyurtmalar' : 'Ежедневное количество продаж',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#F3AA60',
@@ -255,7 +256,7 @@ function _prepareOrders(orders: SellerType[]) {
   ];
 }
 
-function _prepareRevenue(revenue: SellerType[]) {
+function _prepareRevenue(revenue: SellerType[], lang: string) {
   const allRevenue: {
     y: number;
     x: string;
@@ -286,7 +287,7 @@ function _prepareRevenue(revenue: SellerType[]) {
       fill: false,
       borderColor: '#0D1282',
       backgroundColor: '#0D1282',
-      label: 'Jami daromad',
+      label: lang === 'uz' ? 'Jami daromad' : 'Общая выручка',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#0D1282',
@@ -297,7 +298,7 @@ function _prepareRevenue(revenue: SellerType[]) {
       fill: true,
       borderColor: '#75C2F6',
       backgroundColor: '#75C2F6',
-      label: 'Kunlik daromad',
+      label: lang === 'uz' ? 'Kunlik daromad' : 'Ежедневная выручка',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#75C2F6',
@@ -305,7 +306,7 @@ function _prepareRevenue(revenue: SellerType[]) {
   ];
 }
 
-function _prepareProducts(products: SellerType[]) {
+function _prepareProducts(products: SellerType[], lang: string) {
   const allProducts: {
     y: number;
     x: string;
@@ -333,7 +334,7 @@ function _prepareProducts(products: SellerType[]) {
       fill: false,
       borderColor: '#1A5D1A',
       backgroundColor: '#1A5D1A',
-      label: 'Jami mahsulotlar',
+      label: lang === 'uz' ? 'Jami mahsulotlar' : 'Общее количество продуктов',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#1A5D1A',
@@ -344,7 +345,10 @@ function _prepareProducts(products: SellerType[]) {
       fill: true,
       borderColor: 'rgb(62, 199, 11)',
       backgroundColor: 'rgba(62, 199, 11, 0.25)',
-      label: "Kunlik mahsulotlar soni o'zgarishi",
+      label:
+        lang === 'uz'
+          ? "Kunlik mahsulotlar soni o'zgarishi"
+          : 'Ежедневное количество продуктов',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: 'rgb(62, 199, 11)',
@@ -352,7 +356,7 @@ function _prepareProducts(products: SellerType[]) {
   ];
 }
 
-function _prepareReviews(reviews: SellerType[]) {
+function _prepareReviews(reviews: SellerType[], lang: string) {
   const allReviews: {
     y: number;
     x: string;
@@ -380,7 +384,7 @@ function _prepareReviews(reviews: SellerType[]) {
       fill: false,
       borderColor: '#2192FF',
       backgroundColor: '#2192FF',
-      label: 'Jami izohlar',
+      label: lang === 'uz' ? 'Jami izohlar' : 'Общее количество отзывов',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#2192FF',
@@ -391,7 +395,10 @@ function _prepareReviews(reviews: SellerType[]) {
       fill: true,
       borderColor: '#21E1E1',
       backgroundColor: '#21E1E1',
-      label: 'Kunlik yangi izohlar soni',
+      label:
+        lang === 'uz'
+          ? 'Kunlik yangi izohlar soni'
+          : 'Ежедневное количество новых отзывов',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#21E1E1',
@@ -399,7 +406,7 @@ function _prepareReviews(reviews: SellerType[]) {
   ];
 }
 
-function _preparePrice(price: SellerType[]) {
+function _preparePrice(price: SellerType[], lang: string) {
   const allPrice: {
     y: number;
     x: string;
@@ -416,7 +423,10 @@ function _preparePrice(price: SellerType[]) {
       fill: true,
       borderColor: '#9467bd',
       backgroundColor: 'rgba(148, 103, 189, 0.25)',
-      label: "Do'kondagi barcha mahsulotlar o'rtacha narxi",
+      label:
+        lang === 'uz'
+          ? "Do'kondagi barcha mahsulotlar o'rtacha narxi"
+          : 'Средняя цена всех продуктов в магазине',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: '#9467bd',

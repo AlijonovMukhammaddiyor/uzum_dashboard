@@ -17,6 +17,8 @@ import { Chart } from 'react-chartjs-2';
 
 import clsxm from '@/lib/clsxm';
 
+import CustomCheckbox from '@/components/shared/CustomCheckbox';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -59,6 +61,15 @@ function AreaChart({
   title,
   className,
 }: AreaChartProps) {
+  const [visibleDatasets, setVisibleDatasets] = React.useState(
+    data.map(() => true)
+  );
+
+  const toggleDatasetVisibility = (index: number) => {
+    const newVisibility = [...visibleDatasets];
+    newVisibility[index] = !newVisibility[index];
+    setVisibleDatasets(newVisibility);
+  };
   const [data_, setData] = useState(data);
   const [sliderValues, setSliderValues] = useState([0, labels.length]);
 
@@ -67,8 +78,8 @@ function AreaChart({
   }, [labels]);
 
   useEffect(() => {
-    setData(data);
-  }, [data]);
+    setData(data.filter((_, index) => visibleDatasets[index]));
+  }, [data, visibleDatasets]);
 
   const onSliderChange = (values: number[]) => {
     setSliderValues(values);
@@ -78,11 +89,13 @@ function AreaChart({
     [key: string]: any;
   } = {};
 
+  let c = 0;
+
   for (let i = 0; i < data_.length; i++) {
     yAxis[`y-axis-${i}`] = {
       type: 'linear',
       display: true,
-      position: i % 2 === 0 ? 'left' : 'right',
+      position: c % 2 === 0 ? 'left' : 'right',
       id: `y-axis-${i}`,
       stacked: true,
       beginAtZero: true,
@@ -96,6 +109,7 @@ function AreaChart({
         borderColor: data_[i].borderColor,
       },
     };
+    c += 1;
   }
 
   const options: any = {
@@ -110,6 +124,7 @@ function AreaChart({
       },
       legend: {
         position: 'top',
+        display: false,
       },
       title: {
         display: title ? true : false,
@@ -129,6 +144,23 @@ function AreaChart({
     tension: 0.3,
   };
 
+  const legendContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: '10px',
+  };
+
+  const legendItemStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '15px',
+  };
+
+  const legendLabelStyle: React.CSSProperties = {
+    marginLeft: '5px',
+  };
+
   return (
     <div
       className={clsxm(
@@ -136,21 +168,47 @@ function AreaChart({
         className
       )}
     >
+      <div style={legendContainerStyle} className='custom-legend w-full'>
+        {data.map((dataset, index) => (
+          <div key={index} style={legendItemStyle} className='legend-item'>
+            {/* <input
+              type='checkbox'
+              checked={visibleDatasets[index]}
+              onChange={() => toggleDatasetVisibility(index)}
+            /> */}
+            <CustomCheckbox
+              checked={visibleDatasets[index]}
+              onChange={() => toggleDatasetVisibility(index)}
+              color={dataset.borderColor ?? dataset.backgroundColor}
+            />
+            <span
+              style={{
+                ...legendLabelStyle,
+                color: dataset.borderColor ?? dataset.backgroundColor,
+              }}
+            >
+              {dataset.label}
+            </span>
+          </div>
+        ))}
+      </div>
       <Chart
         type='bar'
         options={{ ...options, ...customOptions }}
         data={{
           labels: labels?.slice(sliderValues[0], sliderValues[1]),
-          datasets: data_?.map((dataset, index) => ({
-            ...dataset,
-            yAxisID: `y-axis-${index}`,
-            type: dataset.type ?? 'line',
-            data: dataset.data.filter(
-              (data_q) =>
-                !labels.slice(0, sliderValues[0]).includes(data_q.x) &&
-                !labels.slice(sliderValues[1]).includes(data_q.x)
-            ),
-          })) as any,
+          datasets: data_
+            // ?.filter((_, index) => visibleDatasets[index])
+            ?.map((dataset, index) => ({
+              ...dataset,
+              yAxisID: `y-axis-${index}`,
+              type: dataset.type ?? 'line',
+              data: dataset.data.filter(
+                (data_q) =>
+                  !labels.slice(0, sliderValues[0]).includes(data_q.x) &&
+                  !labels.slice(sliderValues[1]).includes(data_q.x)
+              ),
+            })) as any,
         }}
         style={{
           width: '100%',

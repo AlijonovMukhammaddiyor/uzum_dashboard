@@ -91,7 +91,11 @@ function Segmentation({ className, categoryId, isActive }: Props) {
               {t('procucts_segmentation_by_price_in_category')}
             </h4>
             <p className='m-0 text-sm text-slate-500'>
-              {t('data_info_price_range')}
+              {/* {t('data_info_price_range')}
+               */}
+              {i18n.language === 'uz'
+                ? "Ushbu grafikda Kategoriyada mavjud barcha mahsulotlar narxlariga ko'ra segmentlarga bo'lingan. Va shu segmentlarga kiruvchi mahsulotlarning soni, buyurtmalar soni va jami daromadlari ko'rsatilgan."
+                : 'В этой диаграмме все товары в категории разделены на сегменты по ценам. И показано количество товаров, количество заказов и общая выручка, входящих в эти сегменты.'}
             </p>
           </div>
           <div className='flex items-center justify-end'>
@@ -140,11 +144,19 @@ function Segmentation({ className, categoryId, isActive }: Props) {
         />
         {/* )} */}
       </Container>
+      <p className='text-center text-base font-semibold'>
+        {i18n.language === 'uz'
+          ? "Ushbu jadval orqali har bir segmentni to'liq o'rganishingiz mumkin. Bu sizga ushbu kategoriyada qaysi narx oralig'idagi tovarlar yaxshi daromad keltirishini ko'rsatadi"
+          : 'С помощью этой таблицы вы можете изучить каждый сегмент. Это покажет, какие товары в этой категории приносят хорошую прибыль в каком ценовом диапазоне.'}
+      </p>
       <Container
         loading={loading}
         className={clsxm('w-full overflow-scroll border-none')}
       >
         <Table
+          rowHeight={70}
+          headerHeight={60}
+          isBalham={true}
           className='max-h-[800px] min-h-max'
           columnDefs={getSegmentationTableColumnDefs(t2, i18n.language) as any}
           rowData={data}

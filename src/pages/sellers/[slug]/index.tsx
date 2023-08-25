@@ -112,18 +112,19 @@ function Category({ user, seller }: ShopsProps) {
   return (
     <Layout>
       <Seo />
-      <div className=''>
-        <div className='flex w-full items-center justify-start gap-10 '>
-          <div className='flex items-center justify-start gap-3 rounded-md border border-gray-400 p-1 px-2'>
-            <p className='text-sm font-semibold'>URL:</p>
-            <a
-              href={`https://uzum.uz/uz/${seller.link}`}
-              className='text-sm text-blue-500 hover:underline'
-            >
-              https://uzum.uz/uz/{seller.link}
-            </a>
-          </div>
-          {/* <div className='flex items-center justify-start gap-3 rounded-md border border-gray-400 p-1 px-2'>
+      <div className='flex w-full flex-col'>
+        <div className=''>
+          <div className='flex w-full items-center justify-start gap-10 '>
+            <div className='flex items-center justify-start gap-3 rounded-md border border-gray-400 p-1 px-2'>
+              <p className='text-sm font-semibold'>URL:</p>
+              <a
+                href={`https://uzum.uz/uz/${seller.link}`}
+                className='text-sm text-blue-500 hover:underline'
+              >
+                https://uzum.uz/uz/{seller.link}
+              </a>
+            </div>
+            {/* <div className='flex items-center justify-start gap-3 rounded-md border border-gray-400 p-1 px-2'>
             <p className='text-sm font-semibold'>
               Sotuvchining Ro'yxatdan o'tgan sanasi:
             </p>
@@ -131,74 +132,77 @@ function Category({ user, seller }: ShopsProps) {
               {new Date(seller.registration_date).toISOString().slice(0, 10)}
             </p>
           </div> */}
+          </div>
+          <div className='flex items-start justify-start gap-8'>
+            <p></p>
+          </div>
         </div>
-        <div className='flex items-start justify-start gap-8'>
-          <p></p>
-        </div>
+        {!canSee && (
+          <p className='top- absolute left-[330px] top-20 px-2 py-1 text-xs'>
+            {i18n.language === 'uz'
+              ? "Qolgan ma'lumotlar bepul yoki sinov versiyada mavjud emas."
+              : 'Остальные данные доступны только в платной версии.'}
+          </p>
+        )}
+        <Tabs
+          tabs={[
+            t('sellers.overview'),
+            t('sellers.goods'),
+            t('sellers.daily_sales'),
+            t('sellers.competitors'),
+            t('sellers.categories'),
+          ]}
+          disbaledTabs={
+            canSee
+              ? []
+              : [
+                  t('sellers.overview'),
+                  t('sellers.daily_sales'),
+                  t('sellers.competitors'),
+                  t('sellers.categories'),
+                ]
+          }
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          setNotAllowedTab={setNotAllowedTab}
+          className='mb-6 mt-4'
+        />
+        <ShopOverall
+          className={clsxm(activeTab === t('sellers.overview') ? '' : 'hidden')}
+          sellerId={seller.seller_id}
+          isActive={activeTab === t('sellers.overview') ? true : false}
+        />
+
+        <ShopProducts
+          className={clsxm(activeTab === t('sellers.goods') ? '' : 'hidden')}
+          sellerId={seller.seller_id}
+        />
+
+        <ShopCompetitors
+          className={clsxm(
+            activeTab === t('sellers.competitors') ? '' : 'hidden'
+          )}
+          sellerId={seller.seller_id}
+          title={seller.title}
+          isActive={activeTab === t('sellers.competitors') ? true : false}
+        />
+
+        <ShopDailySales
+          className={clsxm(
+            activeTab === t('sellers.daily_sales') ? '' : 'hidden'
+          )}
+          sellerId={seller.seller_id}
+          isActive={activeTab === t('sellers.daily_sales') ? true : false}
+        />
+
+        <ShopCategories
+          className={clsxm(
+            activeTab === t('sellers.categories') ? '' : 'hidden'
+          )}
+          sellerId={seller.seller_id}
+          isActive={activeTab === t('sellers.categories') ? true : false}
+        />
       </div>
-      {!canSee && (
-        <p className='top- absolute left-[330px] top-20 px-2 py-1 text-xs'>
-          {i18n.language === 'uz'
-            ? "Qolgan ma'lumotlar bepul yoki sinov versiyada mavjud emas."
-            : 'Остальные данные доступны только в платной версии.'}
-        </p>
-      )}
-      <Tabs
-        tabs={[
-          t('sellers.overview'),
-          t('sellers.goods'),
-          t('sellers.daily_sales'),
-          t('sellers.competitors'),
-          t('sellers.categories'),
-        ]}
-        disbaledTabs={
-          canSee
-            ? []
-            : [
-                t('sellers.overview'),
-                t('sellers.daily_sales'),
-                t('sellers.competitors'),
-                t('sellers.categories'),
-              ]
-        }
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        setNotAllowedTab={setNotAllowedTab}
-        className='mb-6 mt-4'
-      />
-      <ShopOverall
-        className={clsxm(activeTab === t('sellers.overview') ? '' : 'hidden')}
-        sellerId={seller.seller_id}
-        isActive={activeTab === t('sellers.overview') ? true : false}
-      />
-
-      <ShopProducts
-        className={clsxm(activeTab === t('sellers.goods') ? '' : 'hidden')}
-        sellerId={seller.seller_id}
-      />
-
-      <ShopCompetitors
-        className={clsxm(
-          activeTab === t('sellers.competitors') ? '' : 'hidden'
-        )}
-        sellerId={seller.seller_id}
-        title={seller.title}
-        isActive={activeTab === t('sellers.competitors') ? true : false}
-      />
-
-      <ShopDailySales
-        className={clsxm(
-          activeTab === t('sellers.daily_sales') ? '' : 'hidden'
-        )}
-        sellerId={seller.seller_id}
-        isActive={activeTab === t('sellers.daily_sales') ? true : false}
-      />
-
-      <ShopCategories
-        className={clsxm(activeTab === t('sellers.categories') ? '' : 'hidden')}
-        sellerId={seller.seller_id}
-        isActive={activeTab === t('sellers.categories') ? true : false}
-      />
     </Layout>
   );
 }

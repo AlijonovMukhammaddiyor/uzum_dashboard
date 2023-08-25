@@ -614,7 +614,7 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
           }
         }}
       >
-        <p className='line-clamp-2 text-blue-500 hover:underline'>
+        <p className='line-clamp-2 text-left text-blue-500 hover:underline'>
           {seller_title}
         </p>
       </div>
@@ -2938,13 +2938,6 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
 export const getShopProductTableColumnDefs = (t: any, lang: string) => {
   return [
     {
-      headerName: t('id'),
-      field: 'product_id',
-      filter: false,
-      flex: 1,
-      minWidth: 150,
-    },
-    {
       headerName: t('image'),
       field: 'photos',
       cellRenderer: ProductImageCellRenderer,
@@ -2962,6 +2955,9 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 500,
       minWidth: 300,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('category'),
@@ -2972,6 +2968,22 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 500,
       minWidth: 300,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('rating'),
+      field: 'rating',
+      cellRenderer: RatingCellRenderer,
+      sortable: false,
+      filter: false,
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('position_in_subcategory'),
@@ -2979,10 +2991,12 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       filter: false,
       minWidth: 150,
+      cellRenderer: LocaleNumberCellRenderer,
       headerTooltip: t('tooltip.position_in_category'),
       cellStyle: {
         textAlign: 'center',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -2990,10 +3004,12 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       field: 'orders_amount',
       sortable: true,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       flex: 1,
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
@@ -3007,21 +3023,11 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
-    {
-      headerName: t('sku'),
-      field: 'sku_analytics',
-      cellRenderer: SkusCountCellRenderer,
-      flex: 1,
-      filter: false,
-      sortable: false,
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
-      } as CellStyle,
-    },
+
     {
       headerName: t('average_price'),
       field: 'sku_analytics',
@@ -3032,6 +3038,7 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 200,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
@@ -3045,6 +3052,49 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 150,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+
+    {
+      headerName: t('available_amount'),
+      field: 'product_available_amount',
+      sortable: true,
+      filter: false,
+      flex: 1,
+      minWidth: 150,
+      cellRenderer: LocaleNumberCellRenderer,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('reviews'),
+      field: 'reviews_amount',
+      filter: false,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      minWidth: 150,
+      cellRenderer: LocaleNumberCellRenderer,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('sku'),
+      field: 'sku_analytics',
+      cellRenderer: SkusCountCellRenderer,
+      flex: 1,
+      filter: false,
+      sortable: false,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3056,42 +3106,7 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
       minWidth: 200,
       cellStyle: {
         textAlign: 'center',
-      } as CellStyle,
-    },
-    {
-      headerName: t('available_amount'),
-      field: 'product_available_amount',
-      sortable: true,
-      filter: false,
-      flex: 1,
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-      } as CellStyle,
-    },
-    {
-      headerName: t('reviews'),
-      field: 'reviews_amount',
-      filter: false,
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
-      } as CellStyle,
-    },
-    {
-      headerName: t('rating'),
-      field: 'rating',
-      cellRenderer: RatingCellRenderer,
-      sortable: false,
-      filter: false,
-      flex: 1,
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
     },
   ];
@@ -3500,6 +3515,7 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       maxWidth: 200,
       cellStyle: {
         // backgroundColor: 'rgba(46, 139, 87, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3513,6 +3529,7 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       maxWidth: 200,
       cellStyle: {
         // backgroundColor: 'rgba(46, 139, 87, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3523,6 +3540,9 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       filter: false,
       minWidth: 150,
       sortable: true,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('products_count'),
@@ -3531,6 +3551,9 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       filter: false,
       minWidth: 100,
       sortable: true,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('shops_count'),
@@ -3539,7 +3562,9 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       minWidth: 100,
       filter: false,
       sortable: true,
-      cellStyle: {} as CellStyle,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('orders'),
@@ -3549,7 +3574,9 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       minWidth: 100,
       filter: false,
       sortable: true,
-      cellStyle: {} as CellStyle,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('reviews'),
@@ -3559,6 +3586,9 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
       filter: false,
       minWidth: 100,
       sortable: true,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
   ];
 };
@@ -3576,7 +3606,7 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       // pinned: 'left',
       maxWidth: 400,
       cellStyle: {
-        // backgroundColor: 'rgba(46, 139, 87, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3588,6 +3618,7 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       maxWidth: 500,
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -3597,9 +3628,11 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       flex: 1,
       minWidth: 100,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       sortable: true,
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -3610,9 +3643,11 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       flex: 1,
       filter: false,
       minWidth: 100,
+      cellRenderer: LocaleNumberCellRenderer,
       sortable: true,
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
       headerTooltip: 'Ushbu kategoriyadagi buyurtmalar soni.',
@@ -3621,6 +3656,10 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       headerName: t('reviews'),
       field: 'total_reviews',
       flex: 1,
+      cellRenderer: LocaleNumberCellRenderer,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
       minWidth: 100,
       filter: false,
       sortable: true,
@@ -3634,6 +3673,9 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       sortable: true,
       filter: false,
       headerTooltip: t('tooltip.revenue_in_category'),
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('average_rating'),
@@ -3643,6 +3685,9 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       sortable: true,
       filter: false,
       cellRenderer: RatingCellRenderer,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('average_price'),
@@ -3650,6 +3695,9 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       cellRenderer: TrendPriceCellRenderer,
       flex: 1,
       minWidth: 200,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
       sortable: true,
       filter: false,
       headerTooltip: t('tooltip.average_price_in_category'),
@@ -3895,9 +3943,10 @@ export const getShopTableColumnDefs = (t: any) => {
       field: 'position',
       sortable: true,
       filter: false,
-      maxWidth: 200,
+      maxWidth: 100,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -3908,8 +3957,12 @@ export const getShopTableColumnDefs = (t: any) => {
       sortable: false,
       cellRenderer: SellerNameCellRenderer,
       flex: 1,
-      minWidth: 220,
+      minWidth: 300,
       maxWidth: 400,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
     },
 
     {
@@ -3923,6 +3976,7 @@ export const getShopTableColumnDefs = (t: any) => {
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -3938,6 +3992,7 @@ export const getShopTableColumnDefs = (t: any) => {
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -3951,6 +4006,7 @@ export const getShopTableColumnDefs = (t: any) => {
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -3964,6 +4020,7 @@ export const getShopTableColumnDefs = (t: any) => {
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
       headerTooltip: t('tooltip.categories_count'),
@@ -3974,6 +4031,9 @@ export const getShopTableColumnDefs = (t: any) => {
       filter: false,
       cellRenderer: RatingCellRenderer,
       flex: 1,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('reviews'),
@@ -3982,6 +4042,9 @@ export const getShopTableColumnDefs = (t: any) => {
       filter: false,
       sortable: true,
       flex: 1,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
   ];
 };

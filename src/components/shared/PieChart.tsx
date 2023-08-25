@@ -82,7 +82,7 @@ const PieChart = ({
     ],
   };
   return (
-    <div className='h-full w-full'>
+    <div className='h-full max-h-full w-full'>
       {title && <h3 className='text-primary text-center text-base'>{title}</h3>}
       <Pie
         data={data}

@@ -51,7 +51,7 @@ function DataContainer({
 }: Props) {
   const { t, i18n } = useTranslation('common');
   return (
-    <div className='py- h-[500px] min-h-[500px] w-full min-w-[750px] border-none px-6'>
+    <div className='py- h-[400px] min-h-[500px] w-full min-w-[750px] border-none px-6'>
       {isFullScreen && (
         <TreeMap
           titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
@@ -78,104 +78,6 @@ function DataContainer({
         </h3>
       </div>
       <div className='flex h-[400px] w-full flex-col items-start justify-start gap-5'>
-        {/* <div className='flex w-full max-w-full items-center justify-start gap-5'>
-          <div className='flex items-center justify-start gap-6'>
-            <div className=''>
-              <div className='flex max-w-full items-center justify-start gap-6'>
-                <p className='font-primary text-sm font-bold'>
-                  {t('dataTable.total')}:{' '}
-                </p>
-                <p className='-ml-4 shrink-0 text-2xl font-bold'>
-                  {isCount
-                    ? all.toLocaleString()
-                    : Math.round(all / 1000000) + ' mlrd'}
-                  <span className='text-sm font-normal'>
-                    {isCount ? t('dataTable.count') : t('dataTable.currency')}
-                  </span>
-                </p>
-
-                <div
-                  className={clsxm(
-                    '-ml-3 flex shrink-0 items-center  justify-start gap-1 rounded-2xl bg-opacity-25 px-2 py-1',
-                    Number(all) > Number(all_last)
-                      ? 'bg-green-600'
-                      : 'bg-red-600'
-                  )}
-                >
-                  {Number(all) > Number(all_last) ? (
-                    <BsPlus className='h-5 w-5 text-green-600' />
-                  ) : (
-                    <HiMinus className='h-5 w-5 text-red-600' />
-                  )}
-                  <p
-                    className={clsxm(
-                      'text-xs',
-                      Number(all) > Number(all_last)
-                        ? 'text-green-600'
-                        : 'text-red-600'
-                    )}
-                  >
-                    {isCount
-                      ? Math.abs(all - all_last).toLocaleString()
-                      : Math.abs(all - all_last) / 1000000 > 1
-                      ? (Math.abs(all - all_last) / 1000000).toFixed(2) +
-                        ' mlrd'
-                      : (Math.abs(all - all_last) / 1000).toFixed(2) + ' mln'}
-                  </p>
-                </div>
-              </div>
-
-              <p className='text-sm text-slate-500'>
-                {t('dataTable.updated_at')}: {last_date}
-              </p>
-            </div>
-            <div className='ml-10 flex flex-col items-start  justify-start'>
-              <div className='flex max-w-full items-center justify-start gap-6'>
-                <p className='font-primary text-sm font-bold '>
-                  {t('dataTable.yesterday')}:{' '}
-                </p>
-                <p className='-ml-4 shrink-0 text-2xl font-bold '>
-                  {isCount
-                    ? daily.toLocaleString()
-                    : Math.abs(daily) / 1000000 > 1
-                    ? Math.abs(daily / 1000000).toFixed(1) + ' mlrd'
-                    : Math.abs(daily / 1000).toFixed(1) + ' mln'}
-                  <span className='text-sm font-normal'>
-                    {isCount ? t('dataTable.count') : t('dataTable.currency')}
-                  </span>
-                </p>
-
-                <div
-                  className={clsxm(
-                    '-ml-3 flex shrink-0 items-center  justify-start gap-1 rounded-2xl bg-opacity-25 px-2 py-1',
-                    Number(daily) > Number(daily_last)
-                      ? 'bg-green-600'
-                      : 'bg-red-600'
-                  )}
-                >
-                  {Number(daily) > Number(daily_last) ? (
-                    <BiTrendingUp className='h-5 w-5 text-green-600' />
-                  ) : (
-                    <BiTrendingDown className='h-5 w-4 text-red-600' />
-                  )}
-                  <p
-                    className={clsxm(
-                      'text-xs',
-                      Number(daily) > Number(daily_last)
-                        ? 'text-green-600'
-                        : 'text-red-600'
-                    )}
-                  >
-                    {calculateChange(daily, daily_last)} %
-                  </p>
-                </div>
-              </div>
-              <p className='text-sm text-slate-500'>
-                {t('dataTable.compared_to_yesterday')}
-              </p>
-            </div>
-          </div>
-        </div> */}
         <div className='h-[400px] w-full flex-1'>
           <MixedChart
             data={[

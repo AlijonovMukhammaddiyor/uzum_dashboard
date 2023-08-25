@@ -1,10 +1,8 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BsRobot } from 'react-icons/bs';
 import { BsPerson } from 'react-icons/bs';
 import {
-  HiLanguage,
   HiMagnifyingGlass,
   HiOutlineBuildingStorefront,
   HiOutlineHome,
@@ -12,7 +10,7 @@ import {
   HiOutlineSquares2X2,
   HiOutlineTag,
 } from 'react-icons/hi2';
-import { MdChevronRight, MdOutlineCompare } from 'react-icons/md';
+import { MdChevronRight } from 'react-icons/md';
 import { TbViewfinder } from 'react-icons/tb';
 
 import clsxm from '@/lib/clsxm';
@@ -252,62 +250,6 @@ function Sidebar({
             // disabled
           />
 
-          <SidebarItem
-            href='/ai'
-            label={t('sidebar.ai')}
-            icon={
-              <BsRobot
-                className={clsxm(
-                  ' h-6 w-6 flex-shrink-0 ',
-                  activeTab === 'Suniy Intellekt' && 'text-white'
-                )}
-              />
-            }
-            activeTab={activeTab}
-            isSidebarOpen={isSidebarOpen}
-            onClick={() => {
-              setActiveTab('Suniy Intellekt');
-            }}
-            disabled
-          />
-
-          <SidebarItem
-            href='/words'
-            label='SEO'
-            icon={
-              <HiLanguage
-                className={clsxm(
-                  'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'So`zlar' && 'text-white'
-                )}
-              />
-            }
-            isSidebarOpen={isSidebarOpen}
-            activeTab={activeTab}
-            onClick={() => {
-              setActiveTab('Qidiruvlar');
-            }}
-            disabled
-          />
-          {/* <div className='mt-5 h-[1px] w-full bg-slate-300'></div> */}
-          <SidebarItem
-            href='/compare'
-            label={t('sidebar.compare')}
-            icon={
-              <MdOutlineCompare
-                className={clsxm(
-                  'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Taqqoslash' && 'text-white'
-                )}
-              />
-            }
-            isSidebarOpen={isSidebarOpen}
-            activeTab={activeTab}
-            onClick={() => {
-              setActiveTab('Taqqoslash');
-            }}
-            disabled
-          />
           <div>
             <div className='mt-5 h-[1px] w-full bg-slate-500'></div>
           </div>

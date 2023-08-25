@@ -457,20 +457,6 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
         loading={loading}
         className={clsxm('w-full border-none shadow-none')}
       >
-        <div className='mb-4 w-full rounded-md bg-white p-5'>
-          <CategoryProductsFilters
-            filters={filters}
-            setShouldRefetch={() => {
-              setShouldRefetch(!shouldRefetch);
-              setIsInstantFilter(false);
-              setInstantFilter(null);
-            }}
-            setFilters={setFilters}
-            nameFilters={nameFilters}
-            setNameFilters={setNameFilters}
-          />
-        </div>
-
         <div className='mb-4 flex w-full items-center justify-between rounded-md bg-white p-5'>
           <p className='font-semibold'>
             {i18n.language === 'uz' ? 'Tez Filtrlar' : 'Мгновенные фильтры'}
@@ -535,6 +521,20 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
             </div>
           </div>
         </div>
+        <div className='mb-4 w-full rounded-md bg-white p-5'>
+          <CategoryProductsFilters
+            filters={filters}
+            setShouldRefetch={() => {
+              setShouldRefetch(!shouldRefetch);
+              setIsInstantFilter(false);
+              setInstantFilter(null);
+            }}
+            setFilters={setFilters}
+            nameFilters={nameFilters}
+            setNameFilters={setNameFilters}
+          />
+        </div>
+
         <p className='mb-4 font-semibold'>
           {i18n.language === 'uz' ? 'Mahsulotlar' : 'Товары'} ({count})
         </p>

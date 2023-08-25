@@ -93,6 +93,9 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
         className={clsxm('w-full overflow-scroll border-none')}
       >
         <Table
+          isBalham={true}
+          rowHeight={70}
+          headerHeight={60}
           className='max-h-[800px] min-h-max'
           columnDefs={getCategoryShopsTableColumnDefs(t2) as any}
           rowData={data}

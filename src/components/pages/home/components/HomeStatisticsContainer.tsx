@@ -358,49 +358,6 @@ function HomeStatisticsContainer({
       });
   }, [i18n.language, t]);
 
-  const prepareRoseData = () => {
-    const data: {
-      type: string;
-      value: number;
-    }[] = [];
-
-    for (let i = 0; i < categoriesRevenue.length; i++) {
-      const item = categoriesRevenue[i];
-      if (currentTab.label === t('dataTable.revenue'))
-        data.push({
-          type: i18n.language === 'uz' ? item.title : item.title_ru,
-          value: item.revenue * 1000,
-        });
-      if (currentTab.label === t('dataTable.orders_amount'))
-        data.push({
-          type: i18n.language === 'uz' ? item.title : item.title_ru,
-          value: item.orders,
-        });
-      if (currentTab.label === t('dataTable.products_amount'))
-        data.push({
-          type: i18n.language === 'uz' ? item.title : item.title_ru,
-          value: item.products,
-        });
-      if (currentTab.label === t('dataTable.shops_amount'))
-        data.push({
-          type: i18n.language === 'uz' ? item.title : item.title_ru,
-          value: item.shops,
-        });
-      if (currentTab.label === t('dataTable.reviews_amount'))
-        data.push({
-          type: i18n.language === 'uz' ? item.title : item.title_ru,
-          value: item.reviews,
-        });
-      if (currentTab.label === t('dataTable.sellers_amount'))
-        data.push({
-          type: i18n.language === 'uz' ? item.title : item.title_ru,
-          value: item.shops,
-        });
-    }
-
-    return data;
-  };
-
   const isLoading = () => {
     if (currentTab.label === t('dataTable.shops_amount')) {
       return loading.shops;
@@ -427,15 +384,6 @@ function HomeStatisticsContainer({
         className
       )}
     >
-      {/* {!canSee && (
-        <p className='absolute -top-5 left-[125px] px-2 py-1 text-xs'>
-          {i18n.language === 'uz'
-            ? "Qolgan ma'lumotlardan foydalanish uchun, iltimos boshqa tarifga o'ting -> Shaxsiy kabinet"
-            : i18n.language === 'ru'
-            ? 'Для получения доступа к остальным данным, пожалуйста, перейдите на другой тариф -> Moй кабинет'
-            : 'To get access to the rest of the data, please switch to another tariff -> Personal account'}
-        </p>
-      )} */}
       {isFullScreen && (
         <TreeMap
           titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
@@ -452,7 +400,7 @@ function HomeStatisticsContainer({
         />
       )}
       <div className='w-full max-w-full'>
-        <p className='font-primary mb-3 text-xl font-bold'>
+        <p className='font-primary mb-3 text-base font-bold'>
           {i18n.language === 'uz'
             ? 'Barcha kategoriyalar segmentatsiyasi'
             : 'Сегментация всех категорий'}
@@ -526,7 +474,7 @@ function HomeStatisticsContainer({
       </div>
 
       <div className='-mt-10 w-full max-w-full'>
-        <p className='font-primary py-6 pb-6 text-2xl font-bold'>
+        <p className='font-primary py-6 pb-6 text-base font-bold'>
           {i18n.language === 'uz'
             ? 'Uzum uchun umumiy statistikalar'
             : 'Общая статистика для Uzum'}
@@ -647,12 +595,12 @@ function HomeStatisticsContainer({
       </div>
       <div className='w-full items-start justify-start gap-6'>
         <Container
-          className='relative min-h-[500px] w-full max-w-full bg-white py-6 shadow-lg'
+          className='relative min-h-[400px] w-full max-w-full bg-white py-6 shadow-lg'
           loading={isLoading()}
         >
           <div className='w-full'>
             <div className='mb-4 w-full'>
-              <p className='w-full text-center text-xl font-bold'>
+              <p className='w-full text-center text-base font-bold'>
                 {i18n.language === 'uz'
                   ? "Davr mobaynida turli xil ma'lumotlar"
                   : 'Различные данные по периодам'}
