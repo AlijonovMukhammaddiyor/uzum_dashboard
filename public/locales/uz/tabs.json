@@ -13,7 +13,9 @@
       "title": "O'sayotgan kategoriyalar",
       "info": "Bu xizmat Uzumda qaysi kategoriyalar o'sib borayotganini ko'rsatadi, va sizga trend bo'lgan tarmoqlarni aniqlashga va o'z investitsiyalaringizni shunga mos ravishda yo'naltirishga yordam beradi."
     },
-    "filter": "Saralash"
+    "filter": "Saralash",
+    "weekly_best_products": "Haftalik eng yaxshi mahsulotlar",
+    "monthly_best_products": "Oylik eng yaxshi mahsulotlar"
   },
   "categories": {
     "goods": "Tovarlar",

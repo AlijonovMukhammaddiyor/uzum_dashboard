@@ -58,7 +58,7 @@ function ProductsFilters({
   return (
     <div
       className={clsxm(
-        'relative z-10 flex h-full max-h-full max-w-[1100px] flex-col items-start justify-between gap-4 rounded-none border-none bg-white shadow-none',
+        'relative z-10 flex  h-full max-h-full max-w-[1100px] flex-col items-start justify-between gap-4 rounded-none border-none bg-white pb-3 shadow-none',
         className
       )}
     >
@@ -79,7 +79,7 @@ function ProductsFilters({
           </div>
           <div
             className={clsxm(
-              'flex h-full max-w-full flex-1 flex-col gap-1 overflow-y-scroll p-6 pl-1 transition-all duration-300'
+              'flex h-full max-w-full flex-1  flex-col gap-1 overflow-y-scroll p-6 px-4 pr-4 transition-all duration-300'
             )}
           >
             <ProductsFilter filters={filters} setFilters={setFilters} />
@@ -95,7 +95,7 @@ function ProductsFilters({
           </div>
           <div
             className={clsxm(
-              'flex h-full max-w-full flex-1 flex-col gap-1 overflow-y-scroll p-6 pl-1 transition-all duration-300'
+              'flex h-full max-w-full flex-1 flex-col gap-1 overflow-y-scroll p-6 px-3 transition-all duration-300'
             )}
           >
             <AdditionalProductsFilter
@@ -106,8 +106,8 @@ function ProductsFilters({
         </div>
       </div>
 
-      <div className='relative flex w-full items-center justify-end gap-6'>
-        <p className='absolute -top-6 right-0 text-sm text-slate-400'>
+      <div className='relative flex w-full items-center justify-end gap-6 p-5'>
+        <p className='absolute -top-3 right-4 text-sm text-slate-400'>
           {i18n.language === 'uz'
             ? '10,000 tagacha mahsulot'
             : 'До 10,000 товаров'}

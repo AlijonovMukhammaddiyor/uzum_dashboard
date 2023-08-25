@@ -11,7 +11,9 @@ import { ProductAnalyticsViewType } from '@/components/pages/category/slug/compo
 import CategoriesSelect from '@/components/pages/discovery/CategoriesSelect';
 import GrowingCategories from '@/components/pages/home/components/GrowingCategories';
 import GrowingProducts from '@/components/pages/home/components/GrowingProducts';
+import MonthlyBestProducts from '@/components/pages/home/components/MonthlyBestProducts';
 import NewProducts from '@/components/pages/home/components/NewProducts';
+import WeeklyBestProducts from '@/components/pages/home/components/WeeklyBestProducts';
 import ProductsFilters from '@/components/pages/products/components/ProductsFilters';
 import { RenderAlert } from '@/components/shared/AlertComponent';
 import Table from '@/components/shared/Table';
@@ -149,20 +151,27 @@ function ProductsComponent({ user }: ProductsComponentProps) {
       <Tabs
         tabs={[
           t('home.overview'),
+          t('home.weekly_best_products'),
+          t('home.monthly_best_products'),
           t('home.new_products.title'),
           t('home.promising_products.title'),
           t('home.promising_categories.title'),
+
           // 'Asosiy kategoriyalar',
         ]}
         premiumTabs={[
           t('home.new_products.title'),
           t('home.promising_products.title'),
           t('home.promising_categories.title'),
+          t('home.weekly_best_products'),
+          t('home.monthly_best_products'),
         ]}
         disbaledTabs={
           isProPlus
             ? []
             : [
+                t('home.weekly_best_products'),
+                t('home.monthly_best_products'),
                 t('home.promising_products.title'),
                 t('home.promising_categories.title'),
                 t('home.new_products.title'),
@@ -230,16 +239,29 @@ function ProductsComponent({ user }: ProductsComponentProps) {
           <Table
             rowData={data ?? []}
             setLoading={setLoading}
-            rowHeight={70}
+            rowHeight={75}
             isBalham={true}
             headerHeight={50}
             columnDefs={
               getCategoryProductTableColumnDefs(t2, i18n.language) as any
             }
-            className='h-[calc(100vh-200px)]'
+            className='h-[calc(100vh-0px)]'
           />
         </Container>
       </div>
+
+      <WeeklyBestProducts
+        className={clsxm(
+          activeTab === t('home.weekly_best_products') ? 'mt-0' : 'hidden'
+        )}
+      />
+
+      <MonthlyBestProducts
+        className={clsxm(
+          activeTab === t('home.monthly_best_products') ? 'mt-0' : 'hidden'
+        )}
+      />
+
       <NewProducts
         className={clsxm(
           activeTab === t('home.new_products.title') ? 'mt-0' : 'hidden'
