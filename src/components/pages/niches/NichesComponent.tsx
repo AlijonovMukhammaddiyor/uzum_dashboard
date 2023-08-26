@@ -278,6 +278,9 @@ function NichesComponent() {
         </div>
 
         <Table
+          isBalham={true}
+          rowHeight={70}
+          headerHeight={60}
           columnDefs={getNichesColDefs(t2, i18n.language) as any}
           className='h-screen min-w-full'
           rowData={data}

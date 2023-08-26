@@ -106,8 +106,8 @@ function ProductsFilters({
         </div>
       </div>
 
-      <div className='relative flex w-full items-center justify-end gap-6 p-5'>
-        <p className='absolute -top-3 right-4 text-sm text-slate-400'>
+      <div className='relative flex w-full items-center justify-start gap-6 p-5'>
+        <p className='absolute -top-3 left-52 text-sm text-slate-400'>
           {i18n.language === 'uz'
             ? '10,000 tagacha mahsulot'
             : 'До 10,000 товаров'}

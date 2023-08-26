@@ -358,11 +358,11 @@ function prepareDailyOrdersDataset(
 
   dataset.push({
     data: revenue,
-    type: 'bar' as const,
+    type: 'line' as const,
     fill: true,
-    hidden: true,
+    // hidden: true,
     borderColor: 'rgb(101, 40, 247)',
-    backgroundColor: 'rgba(101, 40, 247, 0.6)',
+    backgroundColor: 'rgba(101, 40, 247, 0.2)',
     label: lang === 'uz' ? 'Kunlik daromad' : 'Ежедневный доход',
     pointRadius: 3,
     pointBackgroundColor: 'rgb(101, 40, 247)',
@@ -457,10 +457,10 @@ function prepareAllOrdersDataset(
   dataset.push({
     data: revenue,
     fill: true,
-    hidden: true,
-    type: 'bar' as const,
+    // hidden: true,
+    type: 'line' as const,
     borderColor: 'rgba(101, 40, 247, 1)',
-    backgroundColor: 'rgba(101, 40, 247, 0.6)',
+    backgroundColor: 'rgba(101, 40, 247, 0.2)',
     label: lang === 'uz' ? 'Jami daromad' : 'Всего доход',
     pointRadius: 3,
     pointBackgroundColor: 'rgb(101, 40, 247)',

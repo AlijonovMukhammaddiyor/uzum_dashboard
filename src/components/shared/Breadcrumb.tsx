@@ -57,7 +57,7 @@ function Breadcrumb({ className }: BeradcrumbProps) {
               >
                 <p
                   className={clsxm(
-                    'ml-2 text-sm text-slate-500',
+                    'ml-2 line-clamp-1 text-sm text-slate-500 ',
                     index == Object.entries(state.path ?? {}).length - 1 &&
                       'text-primary',
                     index != Object.entries(state.path ?? {}).length - 1 &&

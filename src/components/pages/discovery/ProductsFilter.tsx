@@ -47,7 +47,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
           <p>
             {i18n.language === 'uz'
               ? "Ushbu filtrlar orqali eng so'nggi mahsulotlarni yoki ma'lum bir sanalarda (jumladan bayramlarda) sotuvga chiqqan mahsulotlarni topishingiz mumkin."
-              : 'С помощью этих фильтров вы можете найти новейшие продукты или продукты, выпущенные в определенные даты (например, в праздничные дни).'}
+              : 'С помощью этих фильтров вы можете найти продукты, выпущенные между определенными датами, или продукты, выпущенные в особые дни (например, праздники).'}
           </p>
         </div>
         <DateFilter

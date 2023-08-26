@@ -564,8 +564,8 @@ const CategoryAncestorsCellRenderer = ({ value }: { value: string }) => {
   if (res.length > 0) res = res.slice(0, -2);
 
   return (
-    <div>
-      <p className='text-slate-500'>{res}</p>
+    <div className='flex h-full w-full items-center justify-start'>
+      <p className=' text-slate-500'>{res}</p>
     </div>
   );
 };
@@ -666,7 +666,7 @@ export const PriceRenderer = ({ value }: { value: number }) => {
 
   const value_number = Number(Number(value).toFixed(0));
   return (
-    <div className=''>
+    <div className='flex h-full w-full items-center justify-center'>
       <p className=''>{value_number?.toLocaleString()} so'm</p>
     </div>
   );
@@ -887,7 +887,7 @@ export const PercentageCellRenderer = ({ value }: { value: string }) => {
   if (value === null) return '';
   const value_number = Number(value);
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex h-full w-full flex-col items-center justify-center gap-1'>
       <p className=''>{value_number?.toLocaleString()} %</p>
     </div>
   );
@@ -1566,6 +1566,9 @@ export const getNichesColDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 500,
       minWidth: 200,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: '',
@@ -1576,6 +1579,9 @@ export const getNichesColDefs = (t: any, lang: string) => {
       floatingFilter: true,
       flex: 1,
       minWidth: 400,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
     },
     {
       headerName: t('revenue'),
@@ -1586,6 +1592,7 @@ export const getNichesColDefs = (t: any, lang: string) => {
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1594,9 +1601,11 @@ export const getNichesColDefs = (t: any, lang: string) => {
       field: 'total_orders',
       sortable: true,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1604,11 +1613,13 @@ export const getNichesColDefs = (t: any, lang: string) => {
       headerName: t('products_count'),
       field: 'total_products',
       sortable: true,
+      cellRenderer: LocaleNumberCellRenderer,
 
       filter: false,
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1621,6 +1632,7 @@ export const getNichesColDefs = (t: any, lang: string) => {
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1629,9 +1641,12 @@ export const getNichesColDefs = (t: any, lang: string) => {
       field: 'total_shops',
       sortable: true,
       filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
+
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1663,11 +1678,12 @@ export const getNichesColDefs = (t: any, lang: string) => {
       headerName: t('reviews'),
       field: 'total_reviews',
       sortable: true,
-      // cellRenderer: ReviewsAmountTinyChartCellRenderer,
+      cellRenderer: LocaleNumberCellRenderer,
       filter: false,
       maxWidth: 300,
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },
@@ -1682,6 +1698,7 @@ export const getNichesColDefs = (t: any, lang: string) => {
       headerTooltip: 'Kategoriyadagi mahsulotlarning o`rtacha reytingi',
       cellStyle: {
         textAlign: 'center',
+        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
       } as CellStyle,
     },

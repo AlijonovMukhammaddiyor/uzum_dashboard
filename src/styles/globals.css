@@ -167,6 +167,15 @@
     text-align: left;
   }
 
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    text-align: left;
+  }
+
   .control-arrow {
     background-color: rgba(0, 0, 0, 0.5) !important;
   }

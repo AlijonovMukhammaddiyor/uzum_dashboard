@@ -75,7 +75,7 @@ function CategoryTrends({ className, categoryId, isActive }: Props) {
         className
       )}
     >
-      <div className='flex items-center justify-end gap-5'>
+      <div className='flex items-center justify-center gap-5'>
         <p className='text-xl font-bold'>
           {i18n.language === 'uz'
             ? "Qaysi ma'lumotlar ko'rsatilsin? - "

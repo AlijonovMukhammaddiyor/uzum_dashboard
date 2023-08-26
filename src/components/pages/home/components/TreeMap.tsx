@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
 import { LuShrink } from 'react-icons/lu';
 import Popup from 'reactjs-popup';
@@ -35,7 +36,7 @@ function TreeMap({
   titleField,
 }: Props) {
   const [filteredData, setFilteredData] = useState<any[]>(data);
-
+  const { i18n } = useTranslation('common');
   useEffect(() => {
     setFilteredData(data);
   }, [data]);
@@ -115,6 +116,12 @@ function TreeMap({
           className='absolute right-5 top-5 z-[100] h-6 w-6 cursor-pointer'
           onClick={closeModal}
         />
+
+        <p className='absolute right-1/2 top-24'>
+          {i18n.language === 'uz'
+            ? 'Iltimos, kuting...'
+            : 'Пожалуйста, подождите...'}
+        </p>
 
         <div className='h-full min-h-[1200px] w-full min-w-[1200px] flex-1'>
           <AgChartsReact

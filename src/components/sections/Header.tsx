@@ -62,12 +62,11 @@ export default function Header() {
         </div>
 
         <nav>
-          <ul className='flex items-center justify-between space-x-8'>
+          <ul className='flex items-center justify-between space-x-5'>
             <li className='flex items-center justify-end gap-3'>
-              <div className='bg-primary fonnt-primary mr-3 rounded-md border px-3 py-2 text-sm font-bold text-white'>
-                {' '}
+              <div className='bg-primary font-primary mr-3 shrink-0 rounded-md border px-3 py-2 text-sm font-bold text-white'>
                 {state.user?.tariff === 'free' ? (
-                  <p>
+                  <p className=''>
                     {i18n.language === 'uz'
                       ? 'Tarif: Bepul'
                       : 'Тариф: Бесплатный'}
