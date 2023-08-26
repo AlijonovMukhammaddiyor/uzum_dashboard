@@ -123,7 +123,7 @@ const NamesAndEmailComponent = ({
     <div className={clsxm('flex w-[350px] max-w-[350px] flex-col gap-6', '')}>
       <div className='flex flex-col gap-4'>
         <div
-          className='flex cursor-pointer items-center justify-center gap-2 rounded-sm border py-1 hover:bg-gray-100'
+          className='flex cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-200 py-1 hover:bg-gray-200'
           onClick={() => {
             handleGoogleLogin();
           }}
