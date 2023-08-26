@@ -65,15 +65,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     // console.log(res);
 
-    if (res.tariff === 'free') {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/home',
-        },
-        props: {},
-      };
-    }
+    // if (res.tariff === 'free') {
+    //   return {
+    //     redirect: {
+    //       permanent: false,
+    //       destination: '/home',
+    //     },
+    //     props: {},
+    //   };
+    // }
 
     return {
       props: {

@@ -400,11 +400,19 @@ function HomeStatisticsContainer({
         />
       )}
       <div className='w-full max-w-full'>
-        <p className='font-primary mb-3 text-base font-bold'>
-          {i18n.language === 'uz'
-            ? 'Barcha kategoriyalar segmentatsiyasi'
-            : 'Сегментация всех категорий'}
-        </p>
+        <div className='w-full'>
+          <p className='font-primary mb-3 text-base font-bold'>
+            {i18n.language === 'uz'
+              ? 'Barcha kategoriyalar segmentatsiyasi'
+              : 'Сегментация всех категорий'}
+          </p>
+          <p className='font-primary mb-3 text-sm'>
+            {i18n.language === 'uz'
+              ? "Daromad, buyurtma hajmlari, mahsulot turlari va toifalar bo'yicha do'kon konsentratsiyasi haqida tasavvurga ega bo'lish uchun interaktiv xaritalarimizga sho'ng'ing. Qaysi imkoniyatlar mavjudligini bilish va keyingi qadamlaringizni samarali rejalashtirish uchun bosing va ko'ring."
+              : 'Погрузитесь в наши интерактивные карты, чтобы получить представление о доходах, объемах заказов, разнообразии продуктов и концентрации магазинов по категориям. Нажмите и перейдите, чтобы узнать, где открываются возможности, и эффективно спланировать свои следующие шаги.'}
+          </p>
+        </div>
+
         <div className='mt-2 flex w-full max-w-full items-center justify-start gap-4'>
           <Button
             className={clsxm(

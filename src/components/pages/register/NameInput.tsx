@@ -122,32 +122,6 @@ const NamesAndEmailComponent = ({
   return (
     <div className={clsxm('flex w-[350px] max-w-[350px] flex-col gap-6', '')}>
       <div className='flex flex-col gap-4'>
-        <div className='flex h-10 items-center gap-2'>
-          <input
-            type='checkbox'
-            checked={addReferral}
-            onClick={() => setAddReferral((prev) => !prev)}
-          />
-          <p>
-            {i18n.language == 'uz' ? 'Taklif kodi kiritish:' : 'С реферером'}
-          </p>
-          {addReferral && (
-            <CustomInput
-              containerStyle='rounded-md flex-1'
-              labelStyle='text-primary'
-              inputStyle='w-full h-10 px-3 text-base placeholder-slate-400 rounded-sm border border-primary placeholder:text-xs'
-              placeholder={t('referral.placeholder')}
-              name='referred_by'
-              type='text'
-              value={referral_code ?? ''}
-              onChange={(e) => {
-                setReferralCode(e.target.value);
-              }}
-              required={false}
-            />
-          )}
-        </div>
-
         <div
           className='flex cursor-pointer items-center justify-center gap-2 rounded-sm border py-1 hover:bg-gray-100'
           onClick={() => {

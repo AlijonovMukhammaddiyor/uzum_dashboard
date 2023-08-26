@@ -315,7 +315,10 @@ function SidebarItem({
           if (
             state.user?.tariff === 'free' &&
             href !== '/profile' &&
-            href !== '/home'
+            href !== '/home' &&
+            href !== '/category' &&
+            href !== '/sellers' &&
+            href !== '/products'
           ) {
             RenderAlert({
               alertTitle:

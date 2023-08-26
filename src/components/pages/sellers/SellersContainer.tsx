@@ -187,8 +187,8 @@ function SellersTable({ className, user }: Props) {
           <></>
         )
       ) : (
-        <p className='bg-primary text-centera rounded-lg p-4 text-white'>
-          {t('selectShops')}
+        <p className='bg-primary text-centera hidden rounded-lg text-white'>
+          {/* {t('selectShops')} */}
         </p>
       )}
       <Container
