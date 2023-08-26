@@ -288,6 +288,11 @@ function ShopProducts({ sellerId, className }: Props) {
         loading={loading}
         className={clsxm('w-full overflow-scroll border-none px-0')}
       >
+        <p className='mt-6 text-center font-semibold'>
+          {i18n.language === 'uz'
+            ? "Do'konning sotuvdagi va sotuvi to'xtagan mahsulotlari"
+            : 'Проданные и остановленные товары магазина'}
+        </p>
         <Tabs
           tabs={[t('sellers_current_products'), t('sellers_stopped_products')]}
           activeTab={activeProducts}

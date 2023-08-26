@@ -220,15 +220,25 @@ function SellersTable({ className, user }: Props) {
         <p className='text-primary h-10 w-full text-center font-semibold'>
           {t('allShops')}
         </p>
-        <div className='flex w-full items-center justify-end'>
+        <div className='flex w-full items-center justify-start'>
           <Button
             className='mb-3 mt-6 flex items-center justify-start rounded-md bg-green-500 px-3 text-white hover:bg-green-700'
-            onClick={exportToExcel}
+            onClick={() => {
+              if (user.tariff === 'free' || user.tariff === 'trial') {
+                alert(
+                  i18n?.language === 'uz'
+                    ? "Bu funktsiyadan foydalanish uchun boshqa tarifga o'ting"
+                    : 'Для использования этой функции перейдите на другой тариф'
+                );
+                return;
+              }
+              exportToExcel;
+            }}
             isLoading={loading}
             spinnerColor='rgb(126 34 206)'
-            disabled={
-              user.tariff === 'free' || user.tariff === 'trial' ? true : false
-            }
+            // disabled={
+            //   user.tariff === 'free' || user.tariff === 'trial' ? true : false
+            // }
           >
             <PiMicrosoftExcelLogoFill className='mr-2' />
             <>

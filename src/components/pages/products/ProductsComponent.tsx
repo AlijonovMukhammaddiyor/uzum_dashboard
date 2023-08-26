@@ -84,6 +84,30 @@ function ProductsComponent({ user }: ProductsComponentProps) {
         });
         setNotAllowedTab('');
         break;
+      case t('home.weekly_best_products'):
+        RenderAlert({
+          alertTitle: t('tariffs.change_tariff'),
+          alertSubtitle:
+            i18n.language === 'uz'
+              ? "Oxirgi 7 kun mobaynida eng ko'p daromad keltirgan mahsulotlar va ularning haftalik va oylik daromadlari"
+              : 'Продукты, которые приносят наибольший доход за последние 7 дней и их еженедельный и ежемесячный доход',
+          buttonTitle: t('tariffs.tariffs'),
+          buttonLink: '/profile',
+        });
+        setNotAllowedTab('');
+        break;
+      case t('home.monthly_best_products'):
+        RenderAlert({
+          alertTitle: t('tariffs.change_tariff'),
+          alertSubtitle:
+            i18n.language === 'uz'
+              ? "Oxirgi 30 kunda eng ko'p daromad keltirgan mahsulotlar va ularning oylik va haftalik daromadi"
+              : 'Продукты, которые приносят наибольший доход за последние 30 дней и их еженедельный и ежемесячный доход',
+          buttonTitle: t('tariffs.tariffs'),
+          buttonLink: '/profile',
+        });
+        setNotAllowedTab('');
+        break;
       default:
         break;
     }

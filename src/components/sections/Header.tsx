@@ -49,6 +49,17 @@ export default function Header() {
     router.push({ pathname, query }, router.asPath, { locale: newLocale });
   };
 
+  const is30Day =
+    state.user?.tariff === 'trial'
+      ? true
+      : state.user?.tariff === 'free'
+      ? true
+      : state.user?.tariff === 'base'
+      ? true
+      : false;
+
+  const isHome = router.pathname === '/home' ? true : false;
+
   return (
     <header className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'>
       <div className='flex h-10 items-center justify-between gap-4 p-3'>
@@ -64,7 +75,7 @@ export default function Header() {
         <nav>
           <ul className='flex items-center justify-between space-x-5'>
             <li className='flex items-center justify-end gap-3'>
-              <div className='bg-primary font-primary mr-3 shrink-0 rounded-md border px-3 py-2 text-sm font-bold text-white'>
+              <div className='bg-primary font-primary mr-3 flex shrink-0 items-center rounded-md border px-3 py-2 text-sm font-bold text-white'>
                 {state.user?.tariff === 'free' ? (
                   <p className=''>
                     {i18n.language === 'uz'
@@ -100,15 +111,25 @@ export default function Header() {
                       : 'Тариф: Бесплатный'}
                   </p>
                 )}
+                {is30Day && isHome && (
+                  <li>
+                    <div className='ml-2 text-white'>
+                      {i18n.language === 'uz'
+                        ? '  - 30 kunlik ma;lumotlar'
+                        : '  - 30 дневные данные'}
+                    </div>
+                  </li>
+                )}
               </div>
 
               <div className='flex max-w-[200px] items-center justify-start overflow-hidden '>
                 <HiOutlineUserCircle className='h-6 w-6 flex-shrink-0 rounded-full text-black' />
-                <div className='ml-1 flex flex-col items-start justify-start'>
-                  <span className='m-0 max-w-[200px] text-xs'>
-                    {state.user?.username}
-                  </span>
-                </div>
+                <p className='ml-1 line-clamp-1 text-sm'>
+                  {state.user?.username?.slice(0, 15)}
+                  {state.user?.username && state.user?.username?.length > 15
+                    ? '...'
+                    : ''}
+                </p>
                 {state.user?.tariff === 'seller' ? (
                   <Image
                     src={star}
@@ -157,6 +178,7 @@ export default function Header() {
                   </div>
                 </li>
               )}
+
             <li>
               <div className='flex h-7 w-[70px] items-center justify-center rounded-md border border-black px-2'>
                 {i18n.language === 'uz' ? (
