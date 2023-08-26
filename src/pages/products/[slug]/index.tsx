@@ -71,6 +71,7 @@ function Product({ user, product_id, product_title }: ProductProps) {
           t('tabs.about_product'),
           t('tabs.graph_analysis'),
           t('tabs.similar_products'),
+          t('tabs.position'),
         ]}
         setNotAllowedTab={setNotAllowedTab}
         activeTab={activeTab}

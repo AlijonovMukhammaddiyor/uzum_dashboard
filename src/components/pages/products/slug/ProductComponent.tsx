@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import AboutProduct from '@/components/pages/products/slug/components/AboutProduct';
 import ProductAnalytics from '@/components/pages/products/slug/components/ProductAnalytics';
+import ProductPosition from '@/components/pages/products/slug/components/ProductPosition';
 import SimilarProducts from '@/components/pages/products/slug/components/SimilarProducts';
 
 import { UserType } from '@/types/user';
@@ -35,6 +36,11 @@ function ProductComponent({
         product_id={product_id}
         className={activeTab !== t('tabs.similar_products') ? 'hidden' : ''}
         isActive={activeTab === t('tabs.similar_products') ? true : false}
+      />
+      <ProductPosition
+        product_id={product_id}
+        className={activeTab !== t('tabs.position') ? 'hidden' : ''}
+        isActive={activeTab === t('tabs.position') ? true : false}
       />
     </div>
   );

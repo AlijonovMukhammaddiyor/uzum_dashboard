@@ -39,7 +39,8 @@
   "products": {
     "about_product": "О продукте",
     "graph_analiz": "Графический анализ",
-    "similar_products": "Похожие продукты"
+    "similar_products": "Похожие продукты",
+    "position": "Позиция"
   },
   "profile": {
     "payments": "Платежи",

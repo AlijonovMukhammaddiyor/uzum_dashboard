@@ -8,7 +8,6 @@ import logger from '@/lib/logger';
 
 import Container from '@/components/layout/Container';
 import AreaChart from '@/components/shared/AreaChart';
-import LineChart from '@/components/shared/LineChart';
 
 interface AboutProductProps {
   product_id: string;
@@ -92,7 +91,7 @@ function ProductAnalytics({
   return (
     <div
       className={clsxm(
-        'flex h-full w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll',
+        'flex h-full w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll pb-5',
         className
       )}
     >
@@ -144,91 +143,6 @@ function ProductAnalytics({
             ) : (
               <></>
             )}
-
-            <div className='mt-8 flex w-full items-center justify-start'>
-              <p className='w-full text-center text-sm'>
-                {t('product_in_uzum')}
-              </p>
-              <p></p>
-            </div>
-            <>
-              {product && product.recent_analytics && isActive && (
-                <LineChart
-                  data={
-                    product.recent_analytics.map((item) => ({
-                      x: item.date_pretty,
-                      y: item.position,
-                      label: t('position'),
-                    })) || []
-                  }
-                  isStep
-                  // yAxisTitle='Kunlik buyurtmalar soni'
-                  xAxisTitle=''
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    maxHeight: '300px',
-                    minHeight: '300px',
-                  }}
-                />
-              )}
-            </>
-            <div className='mt-8 flex w-full items-center justify-start'>
-              <p className='w-full text-center text-sm'>
-                {t('product_in_category')}
-              </p>
-              <p></p>
-            </div>
-            <>
-              {product && isActive && (
-                <LineChart
-                  data={
-                    product.recent_analytics.map((item) => ({
-                      x: item.date_pretty,
-                      y: item.position_in_category,
-                      label: t('position'),
-                    })) || []
-                  }
-                  isStep
-                  // yAxisTitle='Kunlik buyurtmalar soni'
-                  xAxisTitle=''
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    maxHeight: '300px',
-                    minHeight: '300px',
-                  }}
-                />
-              )}
-            </>
-            <div className='mt-8 flex w-full items-center justify-start'>
-              <p className='w-full text-center text-sm'>
-                {t('product_in_shop')}
-              </p>
-              <p></p>
-            </div>
-            <>
-              {product && isActive && (
-                <LineChart
-                  data={
-                    product.recent_analytics.map((item) => ({
-                      x: item.date_pretty,
-                      y: item.position_in_shop,
-                      label: t('position'),
-                    })) || []
-                  }
-                  isStep
-                  yAxisTitle={t('daily_orders_amount')}
-                  xAxisTitle=''
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    maxHeight: '300px',
-                    minHeight: '300px',
-                  }}
-                />
-              )}
-            </>
           </Container>
         ) : (
           <div className=''>
