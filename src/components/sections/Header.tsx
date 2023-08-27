@@ -115,7 +115,7 @@ export default function Header() {
                   <li>
                     <div className='ml-2 text-white'>
                       {i18n.language === 'uz'
-                        ? '  - 30 kunlik ma;lumotlar'
+                        ? "  - 30 kunlik ma'lumotlar"
                         : '  - 30 дневные данные'}
                     </div>
                   </li>
