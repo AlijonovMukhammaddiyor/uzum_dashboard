@@ -4,6 +4,8 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
+import logger from '@/lib/logger';
+
 import Layout from '@/components/layout/Layout';
 import CampaignProductsTable from '@/components/pages/campaigns/CampaignProductsTable';
 
@@ -58,6 +60,26 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         jti: string;
         user_id: number;
       };
+
+      if (!decoded.user) {
+        try {
+          // remove refresh and access token from cookies and redirect to login
+          context.res.setHeader(
+            'Set-Cookie',
+            'refresh=; access=; HttpOnly; Path=/; Max-Age=0'
+          );
+
+          return {
+            redirect: {
+              permanent: false,
+              destination: '/login',
+            },
+            props: {},
+          };
+        } catch (e) {
+          logger(e, 'Error in redirect');
+        }
+      }
 
       if (
         decoded.user.tariff !== 'seller' &&
