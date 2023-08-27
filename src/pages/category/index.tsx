@@ -68,7 +68,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
       return {
         props: {
-          ...(await serverSideTranslations(locale ?? '', [
+          ...(await serverSideTranslations(locale ?? 'uz', [
             'common',
             'tabs',
             'tableColumns',

@@ -68,6 +68,7 @@ function Category({ user }: Props) {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, id]);
+
   useEffect(() => {
     setActiveTab(t('categories.goods'));
   }, [t, i18n.language]);

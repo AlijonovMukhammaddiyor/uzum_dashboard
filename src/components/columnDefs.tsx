@@ -318,6 +318,11 @@ export const ProductNameCellRenderer = ({ value }: { value: string }) => {
   };
   const product_id = value?.split('((')[1]?.split('))')[0];
   const isFreeUser = state.user?.tariff === 'free';
+
+  let lang = '';
+  if (i18n.language === 'uz') lang = '/uz/';
+  const newPath = lang + `/products/${product_id}`;
+
   return (
     <div className='flex h-full w-full items-center justify-start gap-1'>
       {isFreeUser ? (
@@ -332,7 +337,7 @@ export const ProductNameCellRenderer = ({ value }: { value: string }) => {
           className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
         />
       ) : (
-        <a href={`/products/${product_id}`} target='_blank'>
+        <a href={newPath} target='_blank' rel='noopener noreferrer'>
           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
         </a>
       )}
@@ -395,6 +400,11 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
   };
   const product_id = value?.split('((')[1]?.split('))')[0];
   const isFreeUser = state.user?.tariff === 'free';
+
+  let lang = '';
+  if (i18n.language === 'uz') lang = '/uz/';
+  const newPath = lang + `/campaigns/${product_id}`;
+
   return (
     <div className='flex h-full w-full items-center justify-start gap-1'>
       {isFreeUser ? (
@@ -409,7 +419,7 @@ const BannerProductNameCellRenderer = ({ value }: { value: string }) => {
           className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
         />
       ) : (
-        <a href={`/campaigns/${product_id}`} target='_blank'>
+        <a href={newPath} target='_blank'>
           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
         </a>
       )}
@@ -454,6 +464,10 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
   const title = value?.split('((')[0].trim();
   const category_id = value?.split('((')[1]?.split('))')[0];
   const isFreeUser = state.user?.tariff === 'free';
+
+  let lang = '';
+  if (i18n.language === 'uz') lang = '/uz/';
+  const newPath = lang + `/category/${title}--${category_id}`;
   return (
     <div className='flex h-full w-full items-center justify-start gap-1'>
       {isFreeUser ? (
@@ -468,7 +482,7 @@ const SubcategoryCellRenderer = ({ value }: { value: string }) => {
           className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
         />
       ) : (
-        <a href={`/category/${title}--${category_id}`} target='_blank'>
+        <a href={newPath} target='_blank'>
           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
         </a>
       )}
@@ -508,6 +522,10 @@ export const CategoryNameCellRenderer = ({ value }: { value: string }) => {
   const category_id = value?.split('((')[1]?.trim().split('))')[0];
   const isFreeUser = state.user?.tariff === 'free';
 
+  let lang = '';
+  if (i18n.language === 'uz') lang = '/uz/';
+  const newPath = lang + `/category/${title}--${category_id}`;
+
   return (
     <div className='flex h-full w-full items-center justify-start gap-1'>
       {isFreeUser ? (
@@ -522,7 +540,7 @@ export const CategoryNameCellRenderer = ({ value }: { value: string }) => {
           className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
         />
       ) : (
-        <a href={`/category/${title}--${category_id}`} target='_blank'>
+        <a href={newPath} target='_blank'>
           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
         </a>
       )}
@@ -582,6 +600,10 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const seller_title = value?.split('((')[0].trim();
   const isFreeUser = state.user?.tariff === 'free';
 
+  let lang = '';
+  if (i18n.language === 'uz') lang = '/uz/';
+  const newPath = lang + `/sellers/${seller_link}`;
+
   if (!seller_link || !seller_title)
     return <p className='text-black'>{seller_title}</p>;
 
@@ -619,7 +641,7 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
           className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
         />
       ) : (
-        <a href={`/sellers/${seller_link}`} target='_blank'>
+        <a href={newPath} target='_blank'>
           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
         </a>
       )}

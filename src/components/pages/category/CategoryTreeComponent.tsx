@@ -314,7 +314,7 @@ function RenderChildren({
   const categoryPath = {
     ...parentPath,
     [i18n.language === 'uz' ? category.title : category.title_ru]: `/category/${
-      i18n.language === 'uz' ? category.title : category.title_ru
+      i18n.language === 'uz' ? `uz/${category.title}` : category.title_ru
     }--${category.categoryId}`,
   };
 
