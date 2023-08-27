@@ -108,15 +108,7 @@ const NamesAndEmailComponent = ({
   });
 
   const handleGoogleLogin = () => {
-    if (addReferral == true) {
-      if (referral_code != null) {
-        login();
-      } else {
-        alert('Enter referral code or uncheck referral code');
-      }
-    } else {
-      login();
-    }
+    login();
   };
 
   return (
