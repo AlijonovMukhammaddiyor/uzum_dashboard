@@ -1,7 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 import PhoneInput from 'react-phone-input-2';
@@ -30,7 +30,16 @@ const NamesAndEmailComponent = ({
   const [passwordShow, setPasswordShow] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
-  const [addReferral, setAddReferral] = useState<boolean>(true);
+
+  useEffect(() => {
+    // check url params for referral code
+    const urlParams = new URLSearchParams(window.location.search);
+    const referralCode = urlParams.get('referral');
+    if (referralCode && referralCode.length === 6) {
+      setReferralCode(referralCode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typeof window]);
 
   const { t, i18n } = useTranslation('register');
 
