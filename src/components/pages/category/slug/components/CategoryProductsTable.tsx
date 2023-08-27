@@ -13,6 +13,7 @@ import logger from '@/lib/logger';
 import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import CategoryProductsFilters from '@/components/pages/category/slug/components/CategoryProductsFilters';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
 import InfiniteTable from '@/components/shared/InfiniteTable';
 
@@ -472,6 +473,22 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
                 onColor='#614bc3'
                 offColor='#c3c1c9'
                 onChange={(e) => {
+                  if (
+                    state.user?.tariff === 'free' ||
+                    state.user?.tariff === 'trial'
+                  ) {
+                    RenderAlert({
+                      alertTitle:
+                        i18n.language === 'uz'
+                          ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                          : 'Для использования этой страницы перейдите на другой тариф',
+                      buttonTitle:
+                        i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                      buttonLink: '/profile',
+                    });
+                    return;
+                  }
+
                   setIsInstantFilter(e);
                   if (!e) setInstantFilter(null);
                   else setInstantFilter('revenue');
@@ -491,6 +508,22 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
                 onColor='#614bc3'
                 offColor='#c3c1c9'
                 onChange={(e) => {
+                  if (
+                    state.user?.tariff === 'free' ||
+                    state.user?.tariff === 'trial'
+                  ) {
+                    RenderAlert({
+                      alertTitle:
+                        i18n.language === 'uz'
+                          ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                          : 'Для использования этой страницы перейдите на другой тариф',
+                      buttonTitle:
+                        i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                      buttonLink: '/profile',
+                    });
+                    return;
+                  }
+
                   setIsInstantFilter(e);
                   if (!e) setInstantFilter(null);
                   else setInstantFilter('created_at');
@@ -510,6 +543,21 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
                 onColor='#614bc3'
                 offColor='#c3c1c9'
                 onChange={(e) => {
+                  if (
+                    state.user?.tariff === 'free' ||
+                    state.user?.tariff === 'trial'
+                  ) {
+                    RenderAlert({
+                      alertTitle:
+                        i18n.language === 'uz'
+                          ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+                          : 'Для использования этой страницы перейдите на другой тариф',
+                      buttonTitle:
+                        i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                      buttonLink: '/profile',
+                    });
+                    return;
+                  }
                   setIsInstantFilter(e);
                   if (!e) setInstantFilter(null);
                   else setInstantFilter('monthly_revenue');

@@ -110,7 +110,7 @@ class API {
           }; Max-Age=${14 * 60};`,
           `refresh=${response.data.refresh}; HttpOnly; Path=/; SameSite=Lax; ${
             isProd ? 'Secure' : ''
-          }; Max-Age=${7 * 24 * 60 * 60};`,
+          }; Max-Age=${1 * 24 * 60 * 60};`,
         ]);
       }
 

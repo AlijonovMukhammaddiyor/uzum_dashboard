@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsPerson } from 'react-icons/bs';
@@ -233,18 +233,6 @@ function Sidebar({
             activeTab={activeTab}
             isSidebarOpen={isSidebarOpen}
             onClick={() => {
-              if (
-                state.user?.tariff === 'base' ||
-                state.user?.tariff === 'trial'
-              ) {
-                RenderAlert({
-                  alertTitle:
-                    i18n.language === 'uz'
-                      ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
-                      : 'Для использования этой страницы перейдите на другой тариф',
-                });
-                return;
-              }
               setActiveTab('Aksiyalar');
             }}
             // disabled
@@ -298,83 +286,84 @@ function SidebarItem({
   isNew?: boolean;
 }) {
   const { dispatch, state } = useContextState();
-  const router = useRouter();
-  const { t, i18n } = useTranslation('common');
+  const { i18n } = useTranslation('common');
+
+  const handleSidebarItemClick = (e: React.MouseEvent) => {
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
+
+    if (
+      state.user?.tariff === 'free' &&
+      href !== '/profile' &&
+      href !== '/home' &&
+      href !== '/category' &&
+      href !== '/sellers' &&
+      href !== '/products'
+    ) {
+      RenderAlert({
+        alertTitle:
+          i18n.language === 'uz'
+            ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+            : 'Для использования этой страницы перейдите на другой тариф',
+        buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+        buttonLink: '/profile',
+      });
+      e.preventDefault();
+      return;
+    }
+
+    if (state.user?.tariff === 'trial' && href === '/campaigns') {
+      RenderAlert({
+        alertTitle:
+          i18n.language === 'uz'
+            ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
+            : 'Для использования этой страницы перейдите на другой тариф',
+        buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+        buttonLink: '/profile',
+      });
+      e.preventDefault();
+      return;
+    }
+
+    dispatch({
+      type: 'PATH',
+      payload: { path: null },
+    });
+  };
 
   return (
     <li
       className={clsxm('min-h-9 relative h-9 max-h-9', className)}
       onClick={() => {
         if (disabled) return;
-        onClick;
+        onClick && onClick();
       }}
     >
-      <p
-        onClick={() => {
-          if (disabled) return;
-          if (
-            state.user?.tariff === 'free' &&
-            href !== '/profile' &&
-            href !== '/home' &&
-            href !== '/category' &&
-            href !== '/sellers' &&
-            href !== '/products'
-          ) {
-            RenderAlert({
-              alertTitle:
-                i18n.language === 'uz'
-                  ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
-                  : 'Для использования этой страницы перейдите на другой тариф',
-              buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
-              buttonLink: '/profile',
-            });
-
-            return;
-          }
-
-          if (state.user?.tariff === 'trial' && href === '/campaigns') {
-            RenderAlert({
-              alertTitle:
-                i18n.language === 'uz'
-                  ? "Bu sahifadan foydalanish uchun boshqa tarifga o'ting"
-                  : 'Для использования этой страницы перейдите на другой тариф',
-              buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
-              buttonLink: '/profile',
-            });
-
-            return;
-          }
-
-          dispatch({
-            type: 'PATH',
-            payload: { path: null },
-          });
-          router.push(href);
-        }}
-        className={clsxm(
-          'group relative flex h-full flex-1 cursor-pointer items-center rounded-md px-2 text-black hover:bg-slate-400 hover:text-white',
-          activeTab === label && 'bg-primary hover:bg-primary text-white',
-          disabled &&
-            'cursor-not-allowed bg-slate-100 text-slate-300 hover:bg-slate-100 hover:text-slate-300'
-        )}
-      >
-        {icon}
-        <span className='ml-5 w-[200px] shrink-0 text-base transition-all group-hover:block'>
-          {label}
-        </span>
-        {/* {isSidebarOpen && <span className='ml-3 text-base'>{label}</span>} */}
-        {/* {!isSidebarOpen && !disabled && (
-          <div className='absolute -right-full z-10 hidden bg-white text-black shadow-lg group-hover:inline-block'>
+      <Link href={href}>
+        <p
+          onClick={handleSidebarItemClick}
+          className={clsxm(
+            'group relative flex h-full flex-1 cursor-pointer items-center rounded-md px-2 text-black hover:bg-slate-400 hover:text-white',
+            activeTab === label && 'bg-primary hover:bg-primary text-white',
+            disabled &&
+              'cursor-not-allowed bg-slate-100 text-slate-300 hover:bg-slate-100 hover:text-slate-300'
+          )}
+        >
+          {icon}
+          <span className='ml-5 w-[200px] shrink-0 text-base transition-all group-hover:block'>
             {label}
-          </div>
-        )} */}
-        {/* Conditionally render the "New" label based on isNew */}
-        {isNew && (
-          <span className='absolute -left-5 -top-2 ml-2 rounded-lg bg-yellow-500 px-1 text-[10px] font-semibold text-white'>
-            New
           </span>
-        )}
-      </p>
+          {/* ... other content ... */}
+          {isNew && (
+            <span className='absolute -left-5 -top-2 ml-2 rounded-lg bg-yellow-500 px-1 text-[10px] font-semibold text-white'>
+              New
+            </span>
+          )}
+        </p>
+      </Link>
+
       <MdChevronRight
         className={clsxm(
           'absolute right-2 top-1/2 hidden -translate-y-1/2 transform text-black group-hover:inline',

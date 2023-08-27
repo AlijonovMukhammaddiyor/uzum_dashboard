@@ -40,10 +40,10 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
       res.setHeader('Set-Cookie', [
         `access=${tokens.access}; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${14 * 60};`,
+        }; Max-Age=${14 * 60};`, // 14 minutes
         `refresh=${tokens.refresh}; HttpOnly; Path=/; SameSite=Lax; ${
           isSecure ? 'Secure' : ''
-        }; Max-Age=${7 * 24 * 60 * 60};`,
+        }; Max-Age=${1 * 24 * 60 * 60};`, // 1 day
       ]);
 
       res.status(200).json({ access: tokens.access, refresh: tokens.refresh });

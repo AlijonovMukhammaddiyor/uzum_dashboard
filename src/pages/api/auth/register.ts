@@ -56,7 +56,7 @@ export default async function handler(
         httpOnly: true,
         sameSite: 'lax',
         secure: isSecure,
-        maxAge: 7 * 24 * 60 * 60,
+        maxAge: 1 * 24 * 60 * 60,
       });
 
       return res.status(200).json({ detail: 'Success' });

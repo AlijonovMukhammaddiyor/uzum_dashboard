@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   );
 
   const checkScreenWidth = () => {
-    if (window.innerWidth < 1500 || window.innerHeight < 940) {
+    if (window.innerWidth < 1500 || window.innerHeight < 840) {
       setIsWarningVisible(true);
     } else {
       setIsWarningVisible(false);

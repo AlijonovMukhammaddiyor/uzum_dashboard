@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -142,11 +143,60 @@ export default Category;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
-    const api = new API(context);
-    // check if user is logged in
-    const res: UserType = await api.getCurrentUser();
+    const refresh = context.req.cookies.refresh;
+    try {
+      if (!refresh) throw new Error('No refresh token');
 
-    if (!res) {
+      // SECRET_KEY should be the same secret key you used to sign the JWT.
+      const SECRET_KEY = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
+
+      // To decode and verify
+      const decoded = jsonwebtoken.verify(refresh, SECRET_KEY as string) as {
+        user: UserType;
+        token_type: string;
+        exp: number;
+        iat: number;
+        jti: string;
+        user_id: number;
+      };
+
+      if (decoded.user.tariff === 'free') {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/category',
+          },
+          props: {},
+        };
+      }
+
+      const slug = context.query.slug as string;
+
+      const id = slug.split('--')[1].trim();
+      if (!id) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/category',
+          },
+          props: {},
+        };
+      }
+
+      return {
+        props: {
+          ...(await serverSideTranslations(context.locale || 'uz', [
+            'common',
+            'tabs',
+            'categories',
+            'tableColumns',
+          ])),
+          user: decoded.user,
+        },
+      };
+    } catch (error) {
+      console.error('Invalid token:', error);
+
       return {
         redirect: {
           permanent: false,
@@ -155,41 +205,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {},
       };
     }
-
-    if (res.tariff === 'free') {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/category',
-        },
-        props: {},
-      };
-    }
-
-    const slug = context.query.slug as string;
-
-    const id = slug.split('--')[1].trim();
-    if (!id) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/category',
-        },
-        props: {},
-      };
-    }
-
-    return {
-      props: {
-        ...(await serverSideTranslations(context.locale || 'uz', [
-          'common',
-          'tabs',
-          'categories',
-          'tableColumns',
-        ])),
-        user: res,
-      },
-    };
   } catch (e) {
     return {
       redirect: {

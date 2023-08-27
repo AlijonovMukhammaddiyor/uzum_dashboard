@@ -1,3 +1,4 @@
+import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
@@ -18,20 +19,32 @@ import { UserType } from '@/types/user';
 interface ProductProps {
   user: UserType;
   product_id: string;
-  product_title: string;
 }
 
-function Product({ user, product_id, product_title }: ProductProps) {
+function Product({ user, product_id }: ProductProps) {
   const { t, i18n } = useTranslation('products');
   const [rendered, setRendered] = React.useState(false);
+  const [product_title, setTitle] = React.useState<string>('');
   const [activeTab, setActiveTab] = React.useState<string>(
     t('tabs.about_product')
   );
   const { dispatch } = useContextState();
   const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
+
   React.useEffect(() => {
     setActiveTab(t('tabs.about_product'));
-  }, [t, i18n?.language]);
+
+    const api = new API(null);
+
+    api
+      .get('/product/' + product_id + '/')
+      .then((res) => {
+        setTitle(res.data.title);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [t, i18n.language, product_id]);
   React.useEffect(() => {
     setRendered(true);
     dispatch({ type: 'USER', payload: { user } });
@@ -62,7 +75,11 @@ function Product({ user, product_id, product_title }: ProductProps) {
           target='_blank'
         >
           https://uzum.uz/uz/product/
-          {product_title.replace(/\//g, '').replace(/ /g, '-')}-{product_id}
+          {product_title
+            .replace(/\//g, '')
+            .replace(/ /g, '-')
+            .replace(/,/g, '')}
+          -{product_id}
         </a>
       </div>
 
@@ -91,10 +108,59 @@ export default Product;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
-    const api = new API(context);
-    // check if user is logged in
-    const res: UserType = await api.getCurrentUser();
-    if (!res) {
+    const refresh = context.req.cookies.refresh;
+    try {
+      if (!refresh) throw new Error('No refresh token');
+
+      // SECRET_KEY should be the same secret key you used to sign the JWT.
+      const SECRET_KEY = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
+
+      // To decode and verify
+      const decoded = jsonwebtoken.verify(refresh, SECRET_KEY as string) as {
+        user: UserType;
+        token_type: string;
+        exp: number;
+        iat: number;
+        jti: string;
+        user_id: number;
+      };
+
+      if (decoded.user.tariff === 'free') {
+        return {
+          redirect: {
+            destination: context.req.headers.referer || '/products', // Redirect back to the current page
+            permanent: false,
+          },
+          props: {},
+        };
+      }
+
+      const slug = context.query.slug as string;
+
+      const id = slug;
+      if (!id) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/products',
+          },
+          props: {},
+        };
+      }
+
+      return {
+        props: {
+          ...(await serverSideTranslations(context.locale || 'uz', [
+            'common',
+            'tabs',
+            'products',
+            'tableColumns',
+          ])),
+          user: decoded.user,
+          product_id: id,
+        },
+      };
+    } catch (error) {
       return {
         redirect: {
           permanent: false,
@@ -103,54 +169,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {},
       };
     }
-
-    if (res.tariff === 'free') {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/home',
-        },
-        props: {},
-      };
-    }
-
-    const { slug } = context.query;
-    if (!slug) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/products',
-        },
-        props: {},
-      };
-    }
-
-    const product_id = slug as string;
-
-    if (!product_id) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/products',
-        },
-        props: {},
-      };
-    }
-
-    const product = await api.get('/product/' + product_id + '/');
-
-    return {
-      props: {
-        ...(await serverSideTranslations(context.locale || 'uz', [
-          'common',
-          'products',
-          'tableColumns',
-        ])),
-        user: res,
-        product_id,
-        product_title: product.data.title,
-      },
-    };
   } catch (e) {
     return {
       redirect: {

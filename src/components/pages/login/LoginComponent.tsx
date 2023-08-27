@@ -156,7 +156,7 @@ function LoginComponent() {
           <LoginHeader activeTab={activeTab} />
 
           <div
-            className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-200 py-1 hover:bg-gray-200'
+            className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-400 py-1 hover:bg-gray-200'
             onClick={() => {
               login();
             }}
