@@ -62,6 +62,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         user_id: number;
       };
 
+      console.log('decoded', decoded);
+
       const { locale } = context;
 
       return {
