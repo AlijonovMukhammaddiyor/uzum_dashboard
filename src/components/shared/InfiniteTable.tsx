@@ -40,6 +40,7 @@ interface TableProps<T> extends AgGridReactProps {
   rowHeight?: number;
   pageSize?: number;
   shouldRefetch?: boolean;
+  setTotal?: (total: number) => void;
 }
 
 const PAGE_SIZE = 20;
@@ -48,6 +49,7 @@ const InfiniteTable = <T,>({
   className,
   fetchData,
   rowHeight,
+  setTotal,
   pageSize = PAGE_SIZE,
   id,
   shouldRefetch = false,
@@ -58,8 +60,15 @@ const InfiniteTable = <T,>({
   const [modules, setModules] = React.useState<any[]>([]);
   const gridApiRef = React.useRef<GridApi | null>(null);
   const { i18n } = useTranslation('common');
+  const [sortColumns, setSortColumns] = React.useState<{
+    colId: string;
+    sort: string;
+  } | null>(null);
+  const sortColumnRef = React.useRef<{ colId: string; sort: string } | null>(
+    null
+  );
 
-  let sortColumn: {
+  const sortColumn: {
     colId: string;
     sort: string;
   } | null = null;
@@ -84,15 +93,19 @@ const InfiniteTable = <T,>({
     }) {
       try {
         if (!fetchData) return;
+
+        console.log(sortColumn, sortColumns);
+
         const response = await fetchData(
           startRow,
           endRow,
-          sortColumn,
+          sortColumnRef.current ?? sortColumns,
           searchColumn
         );
         if (setLoading) setLoading(false);
         if (setCount) setCount(response.data.count);
         successCallback(response.data.results ?? [], response.data.count);
+        setTotal && setTotal(response.data.count);
         // params.api.setRowCount(response.data.results.length);
       } catch (err) {
         setLoading && setLoading(false);
@@ -124,18 +137,24 @@ const InfiniteTable = <T,>({
   const onGridReady = (params: GridReadyEvent) => {
     gridApiRef.current = params.api;
     params.api.setDatasource(dataSource);
+
     params.api.addEventListener('sortChanged', () => {
       const colState = params.columnApi.getColumnState();
       const sortState = colState.filter(function (s) {
         return s.sort != null;
       });
 
+      console.log('SORT STATE', sortState);
+
       if (sortState.length > 0) {
         const sortModel = sortState[0];
-        sortColumn = {
+        const updatedSortColumn = {
           colId: sortModel.colId,
           sort: sortModel.sort ?? 'asc',
         };
+
+        sortColumnRef.current = updatedSortColumn;
+        setSortColumns(updatedSortColumn);
         // params.api.refreshServerSide({ purge: true });
       }
     });

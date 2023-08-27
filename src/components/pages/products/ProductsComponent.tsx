@@ -16,7 +16,7 @@ import NewProducts from '@/components/pages/home/components/NewProducts';
 import WeeklyBestProducts from '@/components/pages/home/components/WeeklyBestProducts';
 import ProductsFilters from '@/components/pages/products/components/ProductsFilters';
 import { RenderAlert } from '@/components/shared/AlertComponent';
-import Table from '@/components/shared/Table';
+import InfiniteTable from '@/components/shared/InfiniteTable';
 import Tabs from '@/components/shared/Tabs';
 
 import { UserType } from '@/types/user';
@@ -49,6 +49,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
   >(new Set());
   const [activeTab, setActiveTab] = React.useState<string>(t('home.overview'));
   const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
+  const [shouldRefetch, setShouldRefetch] = React.useState<boolean>(false);
   const isProPlus = user.tariff === 'seller' || user.tariff === 'business';
 
   React.useEffect(() => {
@@ -111,39 +112,84 @@ function ProductsComponent({ user }: ProductsComponentProps) {
       default:
         break;
     }
-  }, [notAllowedTab, t]);
+  }, [i18n.language, notAllowedTab, t]);
 
-  const getData = () => {
+  // const getData = () => {
+  //   if (selectedCategories.size === 0)
+  //     return alert(
+  //       i18n.language === 'uz'
+  //         ? 'Kategoriya(lar)ni tanlang'
+  //         : 'Выберите категорию(и)'
+  //     );
+  //   const api = new API(null);
+  //   setLoading(true);
+  //   let url = `/product/`;
+  //   const params = makeUrlParams();
+  //   url += `?categories=${Array.from(selectedCategories).join(',')}${params}`;
+
+  //   api
+  //     .get<
+  //       unknown,
+  //       AxiosResponse<{ data: ProductAnalyticsViewType[]; count: number }>
+  //     >(url)
+  //     .then((res) => {
+  //       if (res.data.count > 10000) {
+  //         setLoading(false);
+  //         return alert(
+  //           i18n.language === 'uz'
+  //             ? `Jami filtrlangan mahsulotlar soni 10 000 dan oshdi. Iltimos, qidiruv filtrlari yoki tanlangan kategoriyalarni o'zgartiring- (${res.data.count} ta mahsulot)`
+  //             : `Общее количество отфильтрованных продуктов превысило 10 000. Пожалуйста, измените фильтры поиска или выбранные категории - (${res.data.count} продуктов)`
+  //         );
+  //       }
+  //       setData(res.data.data);
+  //       setTotal(res.data.count);
+  //       setLoading(false);
+  //     });
+  // };
+
+  const loadData = (
+    startRow: number,
+    endRow: number,
+    sortModel: {
+      colId: string;
+      sort: string;
+    } | null,
+    filterModel: {
+      [key: string]: {
+        filterType: string;
+        type: string;
+        filter: string;
+      };
+    } | null
+  ) => {
     if (selectedCategories.size === 0)
-      return alert(
-        i18n.language === 'uz'
-          ? 'Kategoriya(lar)ni tanlang'
-          : 'Выберите категорию(и)'
-      );
+      return Promise.resolve({
+        results: [],
+        count: 0,
+
+        // next: '',
+        // previous: '',
+      }) as any;
+
     const api = new API(null);
     setLoading(true);
-    let url = `/product/`;
-    const params = makeUrlParams();
-    url += `?categories=${Array.from(selectedCategories).join(',')}${params}`;
+    let url = `/product/` + `?offset=${startRow}&limit=${endRow - startRow}`;
+    if (sortModel) {
+      url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
+    }
 
-    api
-      .get<
-        unknown,
-        AxiosResponse<{ data: ProductAnalyticsViewType[]; count: number }>
-      >(url)
-      .then((res) => {
-        if (res.data.count > 10000) {
-          setLoading(false);
-          return alert(
-            i18n.language === 'uz'
-              ? `Jami filtrlangan mahsulotlar soni 10 000 dan oshdi. Iltimos, qidiruv filtrlari yoki tanlangan kategoriyalarni o'zgartiring- (${res.data.count} ta mahsulot)`
-              : `Общее количество отфильтрованных продуктов превысило 10 000. Пожалуйста, измените фильтры поиска или выбранные категории - (${res.data.count} продуктов)`
-          );
-        }
-        setData(res.data.data);
-        setTotal(res.data.count);
-        setLoading(false);
-      });
+    const params = makeUrlParams();
+    url += `&categories=${Array.from(selectedCategories).join(',')}${params}`;
+
+    return api.get<
+      unknown,
+      AxiosResponse<{
+        results: ProductAnalyticsViewType[];
+        count: number;
+        next?: string;
+        previous?: string;
+      }>
+    >(url);
   };
 
   const clearFilters = () => {
@@ -228,7 +274,10 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               setSelectedCategories={setSelectedCategories}
             />
             <ProductsFilters
-              getData={getData}
+              setShouldRefetch={() => {
+                setShouldRefetch(!shouldRefetch);
+              }}
+              // getData={getData}
               clearFilters={clearFilters}
               className='flex-1 shrink-0'
               loading={loading}
@@ -260,11 +309,13 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               {total.toLocaleString()}
             </p>
           </div>
-          <Table
+          <InfiniteTable
+            setTotal={setTotal}
+            shouldRefetch={shouldRefetch}
             rowData={data ?? []}
             setLoading={setLoading}
             rowHeight={75}
-            isBalham={true}
+            fetchData={loadData}
             headerHeight={50}
             columnDefs={
               getCategoryProductTableColumnDefs(t2, i18n.language) as any

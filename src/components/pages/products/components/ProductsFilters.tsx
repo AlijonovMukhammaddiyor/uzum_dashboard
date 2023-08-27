@@ -37,7 +37,7 @@ interface ProductsFiltersProps {
       }[]
     >
   >;
-  getData: () => void;
+  setShouldRefetch: () => void;
   clearFilters: () => void;
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -48,7 +48,7 @@ function ProductsFilters({
   setFilters,
   nameFilters,
   setNameFilters,
-  getData,
+  setShouldRefetch,
   clearFilters,
   setLoading,
   loading,
@@ -107,11 +107,6 @@ function ProductsFilters({
       </div>
 
       <div className='relative flex w-full items-center justify-start gap-6 p-5'>
-        <p className='absolute -top-3 left-52 text-sm text-slate-400'>
-          {i18n.language === 'uz'
-            ? '10,000 tagacha mahsulot'
-            : 'До 10,000 товаров'}
-        </p>
         <Button
           onClick={() => {
             clearFilters();
@@ -126,7 +121,7 @@ function ProductsFilters({
         </Button>
         <Button
           onClick={() => {
-            getData();
+            setShouldRefetch();
           }}
           className={clsxm(
             `w-[150px] rounded bg-purple-700 px-4 py-2 text-white hover:bg-purple-800`

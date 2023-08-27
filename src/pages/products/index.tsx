@@ -61,8 +61,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         user_id: number;
       };
 
-      const { locale } = context;
-
       if (decoded.user.tariff === 'free')
         return {
           redirect: {
