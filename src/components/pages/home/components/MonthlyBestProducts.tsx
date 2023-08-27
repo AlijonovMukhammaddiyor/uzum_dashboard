@@ -46,13 +46,13 @@ function MonthlyBestProducts({ className }: HomeStatisticsContainerProps) {
       .get<
         unknown,
         AxiosResponse<{
-          data: ProductsReponseType[];
+          results: ProductsReponseType[];
           count: number;
         }>
       >(url)
       .then((res) => {
         setLoading(false);
-        setData(res.data.data);
+        setData(res.data.results);
       })
       .catch((err) => {
         setLoading(false);
