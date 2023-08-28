@@ -59,6 +59,14 @@ export default function Header() {
       : false;
 
   const isHome = router.pathname === '/home' ? true : false;
+  const trialMessage =
+    state.user?.referred_by === 'invest'
+      ? i18n.language === 'uz'
+        ? '7 kunlik sinov'
+        : '7 дневный тест'
+      : i18n.language === 'uz'
+      ? '1 kunlik sinov'
+      : '1 дневный тест';
 
   return (
     <header className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'>
@@ -85,8 +93,8 @@ export default function Header() {
                 ) : state.user?.tariff === 'trial' ? (
                   <p>
                     {i18n.language === 'uz'
-                      ? 'Tarif: 1 kunlik sinov'
-                      : 'Тариф: 1 дневный тест'}
+                      ? 'Tarif: ' + trialMessage
+                      : 'Тариф: ' + trialMessage}
                   </p>
                 ) : state.user?.tariff === 'base' ? (
                   <p>
