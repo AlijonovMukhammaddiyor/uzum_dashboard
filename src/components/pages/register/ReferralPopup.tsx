@@ -53,15 +53,15 @@ const ReferralPopup = ({
           value={referralCode}
           onChange={(e) => setReferralCode(e.target.value)}
         />
-        <div>
+        <div className='flex w-full items-center justify-between'>
           <button
-            className='mr-4 rounded-md border bg-gradient-to-r from-purple-500 to-indigo-500 p-2 text-white transition duration-200 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600'
+            className='text-primary border-primary mr-4 shrink-0 rounded-md border bg-white p-2 transition-colors duration-200 hover:border-purple-900 hover:text-purple-900'
             onClick={closeModal}
           >
             {i18n.language === 'uz' ? "Yo'q, davom etish" : 'Нет, продолжить'}
           </button>
           <button
-            className='mr-4 rounded-md border bg-gradient-to-r from-purple-500 to-indigo-500 p-2 text-white transition duration-200 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600'
+            className='mr-4 shrink-0 rounded-md border bg-gradient-to-r from-purple-500 to-indigo-500 p-2 text-white transition duration-200 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600'
             onClick={closeModal}
           >
             {i18n.language === 'uz' ? 'Ha, kiritdim' : 'Да, уже введено'}
