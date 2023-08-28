@@ -57,7 +57,7 @@ function ShopsSelect({
     [key: string]: number;
   }>({});
   const router = useRouter();
-  const { t } = useTranslation('sellers');
+  const { t, i18n } = useTranslation('sellers');
   const { t: t2 } = useTranslation('tableColumns');
   React.useEffect(() => {
     const api = new API(null);
@@ -208,7 +208,7 @@ function ShopsSelect({
               {t('myShops')}
             </p>
             <Table
-              columnDefs={getShopTableColumnDefs(t2)}
+              columnDefs={getShopTableColumnDefs(t2, i18n.language)}
               className={clsxm(
                 'min-w-full rounded-none',
                 user.tariff === 'base' &&
