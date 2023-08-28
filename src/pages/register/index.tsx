@@ -1,3 +1,4 @@
+import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,7 +7,6 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 
-import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
 import Loading from '@/components/Loading';
@@ -137,29 +137,21 @@ export default Register;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
+    const refresh = context.req.cookies.refresh;
     try {
-      const api = new API(context);
-      // check if user is logged in
-      const res = await api.getCurrentUser();
+      if (!refresh) throw new Error('No refresh token');
 
-      if (res) {
-        return {
-          redirect: {
-            permanent: false,
-            destination: '/home',
-          },
-          props: {
-            ...(await serverSideTranslations(
-              context.locale || 'uz',
-              ['common', 'register', 'landing'],
-              null,
-              ['uz', 'ru']
-            )),
-          },
-        };
-      }
+      // SECRET_KEY should be the same secret key you used to sign the JWT.
+      const SECRET_KEY = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
+
+      // To decode and verify
+      const _ = jsonwebtoken.verify(refresh, SECRET_KEY as string);
 
       return {
+        redirect: {
+          permanent: false,
+          destination: '/home',
+        },
         props: {
           ...(await serverSideTranslations(
             context.locale || 'uz',
@@ -169,7 +161,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           )),
         },
       };
-    } catch (e) {
+    } catch (error) {
       return {
         props: {
           ...(await serverSideTranslations(

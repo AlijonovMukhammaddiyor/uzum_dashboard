@@ -10,6 +10,7 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
+import ReferralPopup from '@/components/pages/register/ReferralPopup';
 import RegisterFooter from '@/components/pages/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
@@ -30,6 +31,8 @@ const NamesAndEmailComponent = ({
   const [passwordShow, setPasswordShow] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
+  const [popupOpen, setPopupOpen] = useState<boolean>(false);
+  const [popupOpenGoogle, setPopupOpenGoogle] = useState<boolean>(false);
 
   useEffect(() => {
     // check url params for referral code
@@ -47,6 +50,7 @@ const NamesAndEmailComponent = ({
     if (!username) return alert(t('nousername.validate.error'));
 
     setSendingRequest(true);
+
     const api = new API(null);
     try {
       const res = await api.register({
@@ -84,7 +88,9 @@ const NamesAndEmailComponent = ({
         setSendingRequest(true);
         const res = await api.register({
           code: codeResponse.access_token,
+          referred_by: referral_code as string | undefined,
           isGoogle: true,
+
           // referred_by: referral_code as string | undefined,
         });
 
@@ -122,11 +128,29 @@ const NamesAndEmailComponent = ({
 
   return (
     <div className={clsxm('flex w-[350px] max-w-[350px] flex-col gap-6', '')}>
+      <ReferralPopup
+        open={popupOpen}
+        closeModal={() => {
+          setPopupOpen(false);
+          return onRegister();
+        }}
+        referralCode={referral_code ?? ''}
+        setReferralCode={setReferralCode}
+      />
+      <ReferralPopup
+        open={popupOpenGoogle}
+        closeModal={() => {
+          setPopupOpenGoogle(false);
+          handleGoogleLogin();
+        }}
+        referralCode={referral_code ?? ''}
+        setReferralCode={setReferralCode}
+      />
       <div className='flex flex-col gap-4'>
         <div
           className='flex cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-200 py-1 hover:bg-gray-200'
           onClick={() => {
-            handleGoogleLogin();
+            setPopupOpenGoogle(true);
           }}
         >
           <FcGoogle className='text-primary text-4xl' />
@@ -216,29 +240,11 @@ const NamesAndEmailComponent = ({
             }
           />
         </div>
-        <div className='flex h-10 items-center justify-start gap-2'>
-          <p className='flex h-full items-center justify-center rounded-sm bg-blue-400 px-2 text-xs text-white'>
-            {t('referral.title')}
-          </p>
 
-          <CustomInput
-            containerStyle='rounded-md flex-1'
-            labelStyle='text-primary'
-            inputStyle='w-full h-10 px-3 text-base placeholder-slate-400 rounded-sm border border-primary placeholder:text-xs'
-            placeholder={t('referral.placeholder')}
-            name='referred_by'
-            type='text'
-            value={referral_code ?? ''}
-            onChange={(e) => {
-              setReferralCode(e.target.value);
-            }}
-            required={false}
-          />
-        </div>
         <Button
           className='bg-primary mt-6 w-full text-white hover:bg-purple-700'
           onClick={() => {
-            return onRegister();
+            setPopupOpen(true);
           }}
           isLoading={sendingRequest}
           spinnerColor='primary'
