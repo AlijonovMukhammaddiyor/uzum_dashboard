@@ -1,7 +1,10 @@
+import { useTranslation } from 'next-i18next';
 import React, { useEffect } from 'react';
 import { HiOutlineArrowLongRight } from 'react-icons/hi2';
 
 import clsxm from '@/lib/clsxm';
+
+import { RenderAlert } from '@/components/shared/AlertComponent';
 
 interface FilterProps {
   title: string;
@@ -10,10 +13,21 @@ interface FilterProps {
   min: number | null;
   max: number | null;
   type: string;
+  isDisabled?: boolean;
   setValues: (type: string, min: number | null, max: number | null) => void;
 }
 
-function Filter({ title, type, className, setValues, min, max }: FilterProps) {
+function Filter({
+  title,
+  type,
+  className,
+  setValues,
+  min,
+  max,
+  isDisabled,
+}: FilterProps) {
+  const { t, i18n } = useTranslation('common');
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     document.addEventListener('wheel', function (event) {
@@ -41,7 +55,22 @@ function Filter({ title, type, className, setValues, min, max }: FilterProps) {
           placeholder='Min'
           className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border-b border-slate-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
           onChange={(e) => {
+            if (isDisabled) {
+              return;
+            }
             setValues(type, Number(e.target.value), max);
+          }}
+          onClick={() => {
+            if (isDisabled)
+              RenderAlert({
+                alertTitle:
+                  i18n.language === 'uz'
+                    ? 'Ushbu filtrdan foydalanish sinov versiyasida mavjud emas'
+                    : 'Этот фильтр недоступен в пробной версии.',
+                alertSubtitle: '',
+                buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                buttonLink: '/profile',
+              });
           }}
         />
         <HiOutlineArrowLongRight className='text-blue-700' />
@@ -52,7 +81,22 @@ function Filter({ title, type, className, setValues, min, max }: FilterProps) {
           placeholder='Max'
           className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border-b border-slate-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
           onChange={(e) => {
+            if (isDisabled) {
+              return;
+            }
             setValues(type, min, Number(e.target.value));
+          }}
+          onClick={() => {
+            if (isDisabled)
+              RenderAlert({
+                alertTitle:
+                  i18n.language === 'uz'
+                    ? 'Ushbu filtrdan foydalanish sinov versiyasida mavjud emas'
+                    : 'Этот фильтр недоступен в пробной версии.',
+                alertSubtitle: '',
+                buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                buttonLink: '/profile',
+              });
           }}
         />
       </div>

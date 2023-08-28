@@ -3930,7 +3930,7 @@ export const getSegmentationTableColumnDefs = (t: any, lang: string) => {
   ];
 };
 
-export const getCategoryShopsTableColumnDefs = (t: any) => {
+export const getCategoryShopsTableColumnDefs = (t: any, lang: string) => {
   return [
     {
       headerName: t('shop_name'),
@@ -3957,7 +3957,10 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning ushbu kategoriyadagi o'rni."
+          : 'Позиция магазина в этой категории.',
     },
     {
       headerName: t('products_count'),
@@ -3971,7 +3974,10 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning ushbu kategoriyadagi mahsulotlar soni."
+          : 'Количество товаров магазина в этой категории.',
     },
 
     {
@@ -3986,8 +3992,10 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
-      headerTooltip: 'Ushbu kategoriyadagi buyurtmalar soni.',
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning ushbu kategoriyadan buyurtmalar soni."
+          : 'Количество заказов магазина из этой категории.',
     },
     {
       headerName: t('reviews'),
@@ -4000,6 +4008,10 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       minWidth: 100,
       filter: false,
       sortable: true,
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning ushbu kategoriyadagi mahsulotlarining jami izohlar soni"
+          : 'Количество отзывов на товары магазина из этой категории.',
     },
     {
       headerName: t('revenue'),
@@ -4025,6 +4037,10 @@ export const getCategoryShopsTableColumnDefs = (t: any) => {
       cellStyle: {
         fontSize: '14px',
       } as CellStyle,
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning ushbu kategoriyadagi mahsulotlari o'rtacha reytingi"
+          : 'Средний рейтинг товаров магазина из этой категории.',
     },
     {
       headerName: t('average_price'),
@@ -4274,7 +4290,7 @@ export const getShopOverallColumnDefs = (t: any) => {
   ];
 };
 
-export const getShopTableColumnDefs = (t: any) => {
+export const getShopTableColumnDefs = (t: any, lang: string) => {
   return [
     {
       headerName: t('position'),
@@ -4287,6 +4303,8 @@ export const getShopTableColumnDefs = (t: any) => {
         textAlign: 'center',
         fontSize: '14px',
       } as CellStyle,
+      headerTooltip:
+        lang === 'uz' ? "Daromadiga ko'ra o'rni." : 'Позиция по доходу.',
     },
     {
       headerName: t('shop_name'),
@@ -4317,7 +4335,10 @@ export const getShopTableColumnDefs = (t: any) => {
         textAlign: 'center',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning jami buyurtmalar soni"
+          : 'Количество заказов магазина.',
     },
 
     {
@@ -4333,7 +4354,8 @@ export const getShopTableColumnDefs = (t: any) => {
         textAlign: 'center',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
+      headerTooltip:
+        lang === 'uz' ? "Do'konning barcha daromadi" : 'Доход магазина.',
     },
     {
       headerName: t('products_count'),
@@ -4347,7 +4369,10 @@ export const getShopTableColumnDefs = (t: any) => {
         textAlign: 'center',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning mahsulotlari soni"
+          : 'Количество товаров магазина.',
     },
     {
       headerName: t('categories_count'),
@@ -4361,7 +4386,6 @@ export const getShopTableColumnDefs = (t: any) => {
         textAlign: 'center',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
       headerTooltip: t('tooltip.categories_count'),
     },
     {
@@ -4384,6 +4408,10 @@ export const getShopTableColumnDefs = (t: any) => {
       cellStyle: {
         fontSize: '14px',
       } as CellStyle,
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning jami izohlar soni"
+          : 'Количество отзывов магазина.',
     },
   ];
 };

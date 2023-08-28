@@ -51,12 +51,14 @@ function LandingMain() {
               src={Pia}
               alt='futbolka'
               width={500}
+              priority
               className='all_side_shadow1 absolute -bottom-5 right-2 min-w-[150px] max-w-[180px] rounded-md border'
             />
             <Image
               src={graph}
               alt='graph'
               width={500}
+              priority
               className='absolute -left-2 -top-10 w-[60%] rounded-md shadow-xl'
             />
             <div className='flex h-full w-full items-center justify-center'>
@@ -103,17 +105,20 @@ function LandingMain() {
         <div className='base:flex relative mt-12 hidden h-[500px] min-h-[500px] w-3/4 rounded-md bg-transparent'>
           <Image
             src={dashboard}
+            priority
             alt='dashboard'
             className='h-auto w-full max-w-full rounded-md object-cover object-left'
           />
           <Image
             src={Pia}
+            priority
             alt='futbolka'
             width={1500}
             className='all_side_shadow1 absolute -bottom-16 -right-5 z-50 w-[250px]  max-w-[45%] rounded-md'
           />
           <Image
             src={graph}
+            priority
             alt='graph'
             width={1500}
             className='all_side_shadow1 absolute -left-[30px] -top-10 z-50 w-[650px] min-w-[400px] max-w-[65%] rounded-md'

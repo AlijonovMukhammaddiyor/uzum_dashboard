@@ -13,6 +13,7 @@ import logger from '@/lib/logger';
 
 import Container from '@/components/layout/Container';
 import { goToCategory } from '@/components/pages/category/utils';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
 
 import { useContextState } from '@/context/Context';
@@ -214,14 +215,23 @@ function CategoryTreeComponent() {
     <div className='mt-3 min-h-full w-full pb-16'>
       <Button
         className='mb-3 flex items-center rounded bg-green-500 px-4 py-2 text-white transition duration-200 ease-in-out hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50'
-        onClick={exportToExcel}
+        onClick={() => {
+          if (state.user?.tariff === 'free' || state.user?.tariff === 'trial') {
+            RenderAlert({
+              alertTitle:
+                i18n.language === 'uz'
+                  ? "Excel faylga yuklab olish uchun boshqa tarifga o'ting"
+                  : 'Для загрузки в Excel перейдите на другой тариф',
+              alertSubtitle: '',
+              buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+              buttonLink: '/profile',
+            });
+            return;
+          }
+          exportToExcel();
+        }}
         isLoading={loading}
         spinnerColor='rgb(126 34 206)'
-        disabled={
-          state.user?.tariff === 'free' || state.user?.tariff === 'trial'
-            ? true
-            : false
-        }
       >
         <FaFileExcel className='mr-2' />
         <p>Скачать в Excel</p>

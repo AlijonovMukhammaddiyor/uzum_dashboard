@@ -77,6 +77,7 @@ function CategoryProductsFilters({
                 : 'Количество продаж за последние 30 дней'
             }
             setValues={setFilter}
+            isDisabled
           />
           <Filter
             title={
@@ -110,6 +111,7 @@ function CategoryProductsFilters({
             type='diff_orders_money'
             min={getFilter(filters, 'diff_orders_money')[0]}
             max={getFilter(filters, 'diff_orders_money')[1]}
+            isDisabled
           />
           <Filter
             title={
@@ -144,6 +146,7 @@ function CategoryProductsFilters({
             type='diff_reviews_amount'
             min={getFilter(filters, 'diff_reviews_amount')[0]}
             max={getFilter(filters, 'diff_reviews_amount')[1]}
+            isDisabled
           />
           <Filter
             title={

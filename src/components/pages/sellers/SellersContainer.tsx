@@ -171,7 +171,7 @@ function SellersTable({ className, user }: Props) {
             </p>
             {user.tariff !== 'trial' ? (
               <Table
-                columnDefs={getShopTableColumnDefs(t2)}
+                columnDefs={getShopTableColumnDefs(t2, i18n.language)}
                 className={clsxm(
                   'min-w-full rounded-none',
                   user.tariff === 'base' && 'h-[155px]',
@@ -249,7 +249,7 @@ function SellersTable({ className, user }: Props) {
           </Button>
         </div>
         <PaginatedTable
-          columnDefs={getShopTableColumnDefs(t2)}
+          columnDefs={getShopTableColumnDefs(t2, i18n.language)}
           className='h-[1016px] min-w-full'
           headerHeight={60}
           rowHeight={80}

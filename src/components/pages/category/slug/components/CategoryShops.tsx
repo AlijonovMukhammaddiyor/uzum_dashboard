@@ -29,7 +29,7 @@ interface CategoryShopsType {
 }
 
 function CategoryShops({ className, categoryId, activeTab }: Props) {
-  const { t } = useTranslation('categories');
+  const { t, i18n } = useTranslation('categories');
   const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -97,7 +97,7 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
           rowHeight={70}
           headerHeight={60}
           className='max-h-[800px] min-h-max'
-          columnDefs={getCategoryShopsTableColumnDefs(t2) as any}
+          columnDefs={getCategoryShopsTableColumnDefs(t2, i18n.language) as any}
           rowData={data}
         />
       </Container>

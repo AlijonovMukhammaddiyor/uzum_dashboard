@@ -437,14 +437,26 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       <div className=''>
         <Button
           className='flex items-center rounded bg-green-500 px-4 py-2 text-white transition duration-200 ease-in-out hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50'
-          onClick={exportToExcel}
+          onClick={() => {
+            if (
+              state.user?.tariff === 'free' ||
+              state.user?.tariff === 'trial'
+            ) {
+              RenderAlert({
+                alertTitle:
+                  i18n.language === 'uz'
+                    ? "Excel faylga yuklab olish uchun boshqa tarifga o'ting"
+                    : 'Для загрузки в Excel перейдите на другой тариф',
+                alertSubtitle: '',
+                buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                buttonLink: '/profile',
+              });
+              return;
+            }
+            exportToExcel();
+          }}
           isLoading={loading}
           spinnerColor='rgb(126 34 206)'
-          disabled={
-            state.user?.tariff === 'free' || state.user?.tariff === 'trial'
-              ? true
-              : false
-          }
         >
           <FaFileExcel className='mr-2' />
           <p>
