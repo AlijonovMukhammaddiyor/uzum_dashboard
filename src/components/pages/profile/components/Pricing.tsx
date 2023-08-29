@@ -90,7 +90,7 @@ function Pricing({ className }: { className?: string }) {
           </div>
         </div>
 
-        {state.user?.tariff !== 'trial' && (
+        {state.user?.tariff === 'trial' && (
           <div className='flex items-center justify-start gap-3'>
             <IoWarningOutline className='inline-block h-5 w-5 text-green-500' />
             <p className='font-semibold'>
