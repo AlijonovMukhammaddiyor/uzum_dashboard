@@ -97,8 +97,14 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
         className
       )}
     >
-      <div className='mb-8 flex h-full w-full items-center justify-end'>
+      <div className='flex h-full w-full items-center justify-between'>
         {/* <DropDown values={dates} activeTab={date} setActiveTab={setDate} /> */}
+        <div className='mb-10 flex items-start justify-start'>
+          <VscDebugBreakpointData className='text-primary text-2xl' />
+          <p className='text-sm text-slate-500'>
+            {t('product_info_changed_instruction')}
+          </p>
+        </div>
         <Select
           className='basic-single w-[300px] cursor-pointer rounded-md border border-blue-500'
           classNamePrefix='select'
@@ -145,13 +151,6 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
             })),
           ]}
         />
-      </div>
-
-      <div className='mb-10 flex items-start justify-start'>
-        <VscDebugBreakpointData className='text-primary text-2xl' />
-        <p className='text-sm text-slate-500'>
-          {t('product_info_changed_instruction')}
-        </p>
       </div>
 
       <Container loading={loading} className={clsxm('h-[calc(100%)] w-full')}>

@@ -388,7 +388,13 @@ function Tarif({
             : price === 0
             ? 0
             : Math.floor(price * 0.85).toLocaleString()}{' '}
-          {i18n.language === 'uz' ? "so'm" : 'сум'}
+          {i18n.language === 'uz'
+            ? isEnterprise
+              ? ''
+              : "so'm"
+            : isEnterprise
+            ? ''
+            : 'сум'}
           <span className={clsxm(' text-xs  ', isEnterprise && 'hidden')}>
             /{t('tariffs.month')}
           </span>
