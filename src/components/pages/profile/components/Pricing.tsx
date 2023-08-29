@@ -359,13 +359,6 @@ function Tarif({
         isProPlus && 'border-primary border'
       )}
     >
-      {state.user?.tariff === 'trial' && title === t('tariffs.beginner') && (
-        <p className='absolute -top-12 text-center text-sm'>
-          {i18n.language === 'uz'
-            ? 'Sizda ushbu tarifning 1 kunlik sinov versiyasi mavjud'
-            : 'У вас есть 1-дневная пробная версия этого тарифа'}
-        </p>
-      )}
       <div className=' flex items-center justify-start gap-3'>
         <p className='font-primary font-semibold'>{title}</p>
 
