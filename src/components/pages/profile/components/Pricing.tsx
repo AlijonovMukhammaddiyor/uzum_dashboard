@@ -189,7 +189,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.business')}
             isCurrentPlan={state.user?.tariff === 'business'}
             setCurrentPlan={setCurrentPlan}
-            price={899000}
+            price={1000000}
             features={[
               t('tariffs.Barcha_dokonlar_full'),
               t('tariffs.90_kunlik'),
@@ -366,20 +366,26 @@ function Tarif({
         )}
       </div>
       <div className='relative flex flex-col gap-1 text-3xl font-medium'>
-        <p className=' '>
+        <p className={clsxm(isEnterprise ? 'text-base' : 'text-3xl')}>
           {/* {months === 3 && (
             <span className='text-base text-slate-500 line-through'>
               {price}
               {i18n.language === 'uz' ? "so'm/oyiga" : 'сум/месяц'}
             </span>
           )} */}
-          {months === 1
+          {isEnterprise
+            ? i18n.language === 'uz'
+              ? "Biz bilan bog'laning"
+              : 'Свяжитесь с нами'
+            : months === 1
             ? price.toLocaleString()
             : price === 0
             ? 0
             : Math.floor(price * 0.85).toLocaleString()}{' '}
           {i18n.language === 'uz' ? "so'm" : 'сум'}
-          <span className=' text-xs  '>/{t('tariffs.month')}</span>
+          <span className={clsxm(' text-xs  ', isEnterprise && 'hidden')}>
+            /{t('tariffs.month')}
+          </span>
         </p>
         {price !== 0 ? (
           <p className='text-sm font-light text-blue-400'>
@@ -418,7 +424,8 @@ function Tarif({
             !isCurrentPlan && 'hover:bg-purple-700'
           )}
           disabled={
-            (isCurrentPlan || loading) && state.user?.tariff !== 'trial'
+            ((isCurrentPlan || loading) && state.user?.tariff !== 'trial') ||
+            isEnterprise
           }
           isLoading={loading}
         >
