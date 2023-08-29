@@ -1,6 +1,8 @@
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
+// import notice icon from react icons
+import { IoWarningOutline } from 'react-icons/io5';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -87,6 +89,17 @@ function Pricing({ className }: { className?: string }) {
             </div>
           </div>
         </div>
+
+        {state.user?.tariff !== 'trial' && (
+          <div className='flex items-center justify-start gap-3'>
+            <IoWarningOutline className='inline-block h-5 w-5 text-green-500' />
+            <p className='font-semibold'>
+              {i18n.language === 'uz'
+                ? 'Hozirda siz sinov versiyasini ishlatmoqdasiz'
+                : 'Вы используете пробную версию'}
+            </p>
+          </div>
+        )}
 
         <div
           className={clsxm(
@@ -529,9 +542,9 @@ const getPricingData = (t: any) => {
     {
       title: t('tariffs.Malumotlar'),
       free: t('tariffs.30_kunlik'),
-      beginner: t('tariffs.30_kunlik'),
-      seller: t('tariffs.60_kunlik'),
-      business: t('tariffs.90_kunlik'),
+      beginner: t('tariffs.60_kunlik'),
+      seller: t('tariffs.90_kunlik'),
+      business: t('tariffs.90_kunlikplus'),
     },
     {
       title: t('tariffs.Jami_buyurtmalar_va_daromad_tahlili'),

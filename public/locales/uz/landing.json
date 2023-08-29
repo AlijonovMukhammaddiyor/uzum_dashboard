@@ -250,7 +250,8 @@
     "Malumotlar": "Malumot va trendlar",
     "30_kunlik": "So'nggi 30 kun uchun",
     "60_kunlik": "So'nggi 60 kun uchun",
-    "90_kunlik": "So'nggi 90+ kun uchun"
+    "90_kunlik": "So'nggi 90 kun uchun",
+    "90_kunlikplus": "So'nggi 90+ kun uchun"
   },
   "footer": {
     "footer_links": [
