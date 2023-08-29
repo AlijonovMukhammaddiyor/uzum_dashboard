@@ -53,7 +53,7 @@ function Filter({
           min={0}
           value={min !== null ? min : ''}
           placeholder='Min'
-          className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border-b border-slate-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
+          className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border border-slate-700 p-2 outline-none focus:ring-0'
           onChange={(e) => {
             if (isDisabled) {
               return;
@@ -79,7 +79,7 @@ function Filter({
           min={0}
           value={max !== null ? max : ''}
           placeholder='Max'
-          className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border-b border-slate-700 border-l-transparent border-r-transparent border-t-transparent p-2 outline-none focus:border-l-transparent focus:border-r-transparent focus:border-t-transparent focus:ring-0'
+          className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border border-slate-700 p-2 outline-none focus:ring-0'
           onChange={(e) => {
             if (isDisabled) {
               return;

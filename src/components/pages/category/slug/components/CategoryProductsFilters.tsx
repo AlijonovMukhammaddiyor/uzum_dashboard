@@ -7,6 +7,8 @@ import clsxm from '@/lib/clsxm';
 
 import Filter from '@/components/pages/discovery/Filter';
 import Button from '@/components/shared/buttons/Button';
+
+import { useContextState } from '@/context/Context';
 interface HomeStatisticsContainerProps {
   filters: {
     min: number | null;
@@ -47,6 +49,7 @@ function CategoryProductsFilters({
   setNameFilters,
 }: HomeStatisticsContainerProps) {
   const { i18n } = useTranslation('common');
+  const { state } = useContextState();
 
   const setFilter = (type: string, min: number | null, max: number | null) => {
     const newFilters = filters.filter((filter) => filter.type !== type);
@@ -77,7 +80,13 @@ function CategoryProductsFilters({
                 : 'Количество продаж за последние 30 дней'
             }
             setValues={setFilter}
-            isDisabled
+            isDisabled={
+              state.user?.tariff === 'free'
+                ? true
+                : state.user?.tariff === 'trial'
+                ? true
+                : false
+            }
           />
           <Filter
             title={
@@ -111,7 +120,13 @@ function CategoryProductsFilters({
             type='diff_orders_money'
             min={getFilter(filters, 'diff_orders_money')[0]}
             max={getFilter(filters, 'diff_orders_money')[1]}
-            isDisabled
+            isDisabled={
+              state.user?.tariff === 'free'
+                ? true
+                : state.user?.tariff === 'trial'
+                ? true
+                : false
+            }
           />
           <Filter
             title={
@@ -146,7 +161,13 @@ function CategoryProductsFilters({
             type='diff_reviews_amount'
             min={getFilter(filters, 'diff_reviews_amount')[0]}
             max={getFilter(filters, 'diff_reviews_amount')[1]}
-            isDisabled
+            isDisabled={
+              state.user?.tariff === 'free'
+                ? true
+                : state.user?.tariff === 'trial'
+                ? true
+                : false
+            }
           />
           <Filter
             title={
