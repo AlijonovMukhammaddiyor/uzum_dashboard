@@ -303,16 +303,16 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               ? 'Filtrlangan mahsulotlar'
               : 'Отфильтрованные продукты'}
           </p>
-          <div className='flex items-center justify-end pr-3'>
+          <div className='flex items-center justify-start pr-3'>
             <p className='text-lg font-semibold'>
-              {i18n.language === 'uz' ? 'Jami: ' : 'Всего: '}
+              {i18n.language === 'uz' ? 'Jami natijalar soni: ' : 'Всего: '}
               {total.toLocaleString()}
             </p>
           </div>
           <InfiniteTable
             setTotal={setTotal}
             shouldRefetch={shouldRefetch}
-            rowData={data ?? []}
+            rowData={data ? (data.length > 0 ? data : null) : null}
             setLoading={setLoading}
             rowHeight={75}
             fetchData={loadData}
@@ -320,7 +320,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
             columnDefs={
               getCategoryProductTableColumnDefs(t2, i18n.language) as any
             }
-            className='h-[calc(100vh-0px)]'
+            className='h-[calc(100vh-0px)] w-full'
           />
         </Container>
       </div>

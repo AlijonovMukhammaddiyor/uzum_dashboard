@@ -94,8 +94,6 @@ const InfiniteTable = <T,>({
       try {
         if (!fetchData) return;
 
-        console.log(sortColumn, sortColumns);
-
         const response = await fetchData(
           startRow,
           endRow,
@@ -104,7 +102,10 @@ const InfiniteTable = <T,>({
         );
         if (setLoading) setLoading(false);
         if (setCount) setCount(response.data.count);
-        successCallback(response.data.results ?? [], response.data.count);
+        console.log(response.data.count, 'count');
+        const results = response.data.results ?? [];
+        const count = results.length ? response.data.count : 0;
+        successCallback(results, count);
         setTotal && setTotal(response.data.count);
         // params.api.setRowCount(response.data.results.length);
       } catch (err) {

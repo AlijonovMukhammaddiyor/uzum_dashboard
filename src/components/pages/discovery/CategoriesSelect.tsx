@@ -126,7 +126,7 @@ function CategoriesSelect({
     <Container
       loading={loading}
       className={clsxm(
-        'relative z-10 flex h-full min-h-[calc(100vh)] w-[480px] flex-col items-start justify-start gap-4 rounded-none border-none bg-white pb-6 shadow-none',
+        'relative z-10 flex h-full max-h-[1270px] min-h-max w-[480px] flex-col items-start justify-start gap-4 rounded-none border-none bg-white pb-6 shadow-none',
         className
       )}
     >
@@ -143,7 +143,7 @@ function CategoriesSelect({
       </div>
       <div
         className={clsxm(
-          'flex max-h-[calc(100vh-100px)]  flex-1 flex-col gap-1 overflow-y-scroll p-6 pb-6 pl-3 pt-2'
+          'flex max-h-[1188px] min-h-[800px] flex-1 flex-col gap-1 overflow-y-scroll p-6 pb-6 pl-3 pt-2'
         )}
       >
         <p className='text-sm'>
@@ -288,18 +288,23 @@ function RenderChildren({
           // style={{ marginLeft: `${depth * 25}px` }} // Indent children
         >
           <div
-            className={clsxm('flex cursor-pointer items-center justify-start')}
+            className={clsxm(
+              'flex cursor-pointer items-center justify-start gap-1'
+            )}
           >
             <p
               className={clsxm(
                 'hover:text-primary ellipsis group flex cursor-pointer items-center justify-start gap-2 rounded-md p-1 text-sm font-medium',
-                hasChildren && 'font-semibold'
+                hasChildren && 'font-semibold',
+                'line-clamp-1'
                 // isExpanded && 'text-primary'
               )}
             >
               {i18n.language === 'uz' ? category.title : category.title_ru}
             </p>
-            <p className='text-sm text-slate-400'>({category.analytics} шт)</p>
+            <p className='shrink-0 text-sm text-slate-400'>
+              ({category.analytics} шт)
+            </p>
           </div>
 
           {hasChildren ? (

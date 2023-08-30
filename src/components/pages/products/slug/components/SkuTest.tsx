@@ -8,6 +8,7 @@ import logger from '@/lib/logger';
 
 import Container from '@/components/layout/Container';
 import AreaChart from '@/components/shared/AreaChart';
+import SingleAxisAreaChart from '@/components/shared/SingleAxisAreaChart';
 
 interface AboutProductProps {
   product_id: string;
@@ -53,11 +54,7 @@ interface ProductAnalyticsType {
   created_at: string;
 }
 
-function ProductAnalytics({
-  product_id,
-  className,
-  isActive,
-}: AboutProductProps) {
+function SkuTest({ product_id, className, isActive }: AboutProductProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [product, setProduct] = React.useState<ProductAnalyticsType | null>(
     null
@@ -143,6 +140,26 @@ function ProductAnalytics({
             ) : (
               <></>
             )}
+            {isActive ? (
+              <SingleAxisAreaChart
+                data={prepareSkusDecreaseDataset(product) || []}
+                title={t('daily_info')}
+                style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+                className='h-[460px] max-h-[460px] w-full'
+              />
+            ) : (
+              <></>
+            )}
+            {isActive ? (
+              <SingleAxisAreaChart
+                data={prepareSkusAvailabilityDataset(product) || []}
+                title={t('daily_info')}
+                style={{ width: '100%', height: '100%', maxHeight: '460px' }}
+                className='h-[460px] max-h-[460px] w-full'
+              />
+            ) : (
+              <></>
+            )}
           </Container>
         ) : (
           <div className=''>
@@ -196,7 +213,7 @@ function prepareDailyOrdersDataset(
 
   let prev_revenue = 0;
   if (data.recent_analytics.length > 0)
-    prev_revenue = Math.round(data.recent_analytics[0].orders_money);
+    prev_revenue = data.recent_analytics[0].orders_money;
 
   let analytics = data.recent_analytics.slice();
 
@@ -226,14 +243,14 @@ function prepareDailyOrdersDataset(
     prev_rev = item.reviews_amount;
     prices.push({
       x: item.date_pretty,
-      y: Math.round(item.average_purchase_price / 1000) * 1000,
+      y: item.average_purchase_price,
       label: lang === 'uz' ? "O'rtacha sotuv narxi" : 'Средняя цена продажи',
     });
 
     if (item.date_pretty !== '2023-07-23')
       revenue.push({
         x: item.date_pretty,
-        y: Math.round(item.orders_money - prev_revenue) * 1000,
+        y: (item.orders_money - prev_revenue) * 1000,
         label: lang === 'uz' ? 'Kunlik daromad' : 'Ежедневный доход',
       });
     prev_revenue = item.orders_money;
@@ -328,7 +345,7 @@ function prepareAllOrdersDataset(
     if (item.date_pretty !== '2023-07-23')
       revenue.push({
         x: item.date_pretty,
-        y: Math.round(item.orders_money) * 1000,
+        y: item.orders_money * 1000,
       });
 
     // prices.push({
@@ -393,23 +410,104 @@ function prepareAllOrdersDataset(
   return dataset;
 }
 
-function prepareSkusDataset(data: ProductAnalyticsType) {
-  const dataset = [];
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function prepareSkusAvailabilityDataset(
+  data: ProductAnalyticsType,
+  lang = 'uz'
+) {
+  const datasets = [];
 
   for (let i = 0; i < data.skus.length; i++) {
-    for (let j = 0; j < data.skus[i].recent_analytics.length; j++) {
-      const item = data.skus[i].recent_analytics[j];
-      dataset.push({
-        x: item.date_pretty,
-        y: item.available_amount,
-        label: data.skus[i].sku.toString(),
+    const skuData = data.skus[i];
+    const color = getRandomColor();
+    const skuDataset: {
+      data: {
+        x: Date;
+        y: number;
+      }[];
+      fill: boolean;
+      borderColor: string;
+      backgroundColor?: string;
+      label: string;
+      pointRadius: number;
+      pointBackgroundColor: string;
+    } = {
+      data: [],
+      fill: true,
+      borderColor: color,
+      backgroundColor: 'transparent',
+      label: `${lang === 'uz' ? 'SKU' : 'SKU'}: ${skuData.sku}`,
+      pointRadius: 3,
+      pointBackgroundColor: color,
+    };
+
+    for (let j = 0; j < skuData.recent_analytics.length; j++) {
+      const analyticItem = skuData.recent_analytics[j];
+      skuDataset.data.push({
+        x: new Date(analyticItem.date_pretty),
+        y: analyticItem.available_amount,
       });
+    }
+
+    datasets.push(skuDataset);
+  }
+
+  return datasets;
+}
+
+function prepareSkusDecreaseDataset(data: ProductAnalyticsType, lang = 'uz') {
+  const datasets = [];
+  const lastAvailableAmounts: { [sku: number]: number } = {}; // Store the last available amount for each SKU
+  const totalDecreases: { [date: string]: number } = {}; // Store total decrease for each date
+
+  for (let i = 0; i < data.skus.length; i++) {
+    const skuData = data.skus[i];
+    const sku = skuData.sku;
+
+    for (let j = 0; j < skuData.recent_analytics.length; j++) {
+      const analyticItem = skuData.recent_analytics[j];
+      const date = analyticItem.date_pretty;
+      const currentAvailable = analyticItem.available_amount;
+
+      // Calculate decrease
+      if (lastAvailableAmounts[sku] !== undefined) {
+        const decrease = lastAvailableAmounts[sku] - currentAvailable;
+        totalDecreases[date] = (totalDecreases[date] || 0) + decrease;
+      }
+
+      // Update the last available amount for this SKU
+      lastAvailableAmounts[sku] = currentAvailable;
     }
   }
 
-  return dataset;
-}
+  // Convert the totalDecreases object into the dataset format
+  const totalDecreaseData = Object.entries(totalDecreases).map(
+    ([date, decrease]) => ({
+      x: new Date(date),
+      y: decrease,
+    })
+  );
 
+  datasets.push({
+    data: totalDecreaseData,
+    fill: false,
+    borderColor: '#FF0000', // Red color for decrease
+    backgroundColor: '#FF0000',
+    label: lang === 'uz' ? 'Jami kamayish' : 'Общее снижение',
+    pointRadius: 3,
+    pointBackgroundColor: '#FF0000',
+  });
+
+  return datasets;
+}
 function preparePriceDataset(data: ProductAnalyticsType) {
   const dataset = [];
 
@@ -427,4 +525,4 @@ function preparePriceDataset(data: ProductAnalyticsType) {
   return dataset;
 }
 
-export default ProductAnalytics;
+export default SkuTest;
