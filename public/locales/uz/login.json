@@ -11,7 +11,7 @@
   "password.reset.title": "Parolni tiklash",
   "forgot.password": "Parolni unutdingizmi?",
   "forgot.password.link": "Parolni tiklash",
-  "error": "Foydalanuvchi nomi yoki parol noto'g'ri. Agar buni xatolik deb o'ylasangiz, biz bilan bog'laning.",
+  "error": "Foydalanuvchi nomi yoki parol noto'g'ri. Agar buni xatolik deb o'ylasangiz, biz bilan bog'laning. Agar Google orqali ro'yhatdan o'tgan bo'lsangiz, iltimos, Google orqali kirish tugmasini bosing.",
   "success": "Siz tizimga muvaffaqiyatli kirdingiz!",
   "nousername.validate.error": "Foydalanuvchi nomini kiriting!",
   "password.reset.subtitle": "Yangi parol olish uchun, telefon raqamingizni tasdiqlang.",
