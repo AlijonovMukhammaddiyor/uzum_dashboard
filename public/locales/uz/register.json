@@ -18,7 +18,7 @@
   "login.ask": "Ro'yxatdan o'tmaganmisiz?",
   "login.title": "Kirish",
   "phone.error": "Bunday telefon raqamli foydalanuvchi allaqachon mavjud!",
-  "username.error": "Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting! Agar Google orqali ro'yxatdan o'tgan bo'lsangiz, iltimos, Google orqali kirish tugmasini bosing!",
+  "username.error": "Bunday nomli foydalanuvchi allaqachon mavjud. Iltimos boshqa nom kiriting! Agar Google orqali ro'yxatdan o'tgan bo'lsangiz, iltimos, Google orqali kirish tugmasini bosing! Agar siz allaqachon ro'yxatdan o'tgan bo'lsangiz, iltimos, kirish sahifasiga o'ting!",
   "email.validate.erorr": "Iltimos, to`g`ri email kiriting!",
   "phone.validate.error": "Iltimos, to`g`ri telefon raqam kiriting!",
   "nousername.validate.error": "Foydalanuvchi nomini kiriting!",
