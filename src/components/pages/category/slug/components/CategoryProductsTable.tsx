@@ -219,11 +219,19 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       category_title_ru: item.category_title_ru ?? item.category_title,
       shop_title: item.shop_title,
       revenue: Math.round((item.orders_money * 1000) / 1000) * 1000,
-      position_in_subcategory: item.position_in_category,
+      monthly_revenue:
+        Math.round((item.diff_orders_money * 1000) / 1000) * 1000,
+      weekly_revenue:
+        Math.round((item.weekly_orders_money * 1000) / 1000) * 1000,
       orders: item.orders_amount,
+      monthly_orders_amount: item.diff_orders_amount,
+      weekly_orders_amount: item.weekly_orders_amount,
+      reviews_amount: item.reviews_amount,
+      monthly_reviews_amount: item.diff_reviews_amount,
+      weekly_reviews_amount: item.weekly_reviews_amount,
+      position_in_subcategory: item.position_in_category,
       available_in_stock: item.product_available_amount,
       rating: item.rating,
-      reviews_amount: item.reviews_amount,
       average_purchase_price: Math.round(item.avg_purchase_price / 1000) * 1000,
     }));
 
@@ -238,12 +246,18 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       D1: 'Название категории',
       E1: 'Название магазина',
       F1: 'Выручка',
-      G1: 'Позиция в подкатегории',
-      H1: 'Заказы',
-      I1: 'Количество в наличии',
-      J1: 'Рейтинг',
-      K1: 'Отзывы',
-      L1: 'Средняя цена покупки',
+      G1: 'Выручка (месяц)',
+      H1: 'Выручка (неделя)',
+      I1: 'Заказы',
+      J1: 'Заказы (месяц)',
+      K1: 'Заказы (неделя)',
+      L1: 'Отзывы',
+      M1: 'Отзывы (месяц)',
+      N1: 'Отзывы (неделя)',
+      O1: 'Позиция в подкатегории',
+      P1: 'Количество в наличии',
+      Q1: 'Рейтинг',
+      R1: 'Средняя цена покупки',
     };
 
     // Map custom headers to the sheet
@@ -268,12 +282,18 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       { wch: 40 }, // D: Название категории
       { wch: 30 }, // E: Название магазина
       { wch: 20 }, // F: Выручка
-      { wch: 20 }, // G: Заказы
-      { wch: 30 }, // H: Позиция в категории
-      { wch: 30 }, // I: Количество в наличии
-      { wch: 15 }, // J: Рейтинг
-      { wch: 20 }, // K: Отзывы
-      { wch: 25 }, // L: Средняя цена покупки
+      { wch: 20 }, // G: Выручка (месяц)
+      { wch: 20 }, // H: Выручка (неделя)
+      { wch: 20 }, // I: Заказы
+      { wch: 20 }, // J: Заказы (месяц)
+      { wch: 20 }, // K: Заказы (неделя)
+      { wch: 20 }, // L: Отзывы
+      { wch: 20 }, // M: Отзывы (месяц)
+      { wch: 20 }, // N: Отзывы (неделя)
+      { wch: 30 }, // O: Позиция в категории
+      { wch: 30 }, // P: Количество в наличии
+      { wch: 15 }, // Q: Рейтинг
+      { wch: 25 }, // R: Средняя цена покупки
     ];
 
     ws['!rows'] = [
@@ -330,18 +350,18 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     };
 
     applyGradient(
-      'F',
-      filteredData.map((item: any) => item.revenue),
-      greenGradient
-    );
-    applyGradient(
-      'H',
+      'J',
       filteredData.map((item: any) => item.orders),
       orangeGradient
     );
     applyGradient(
-      'K',
+      'L',
       filteredData.map((item: any) => item.reviews_amount),
+      greenGradient
+    );
+    applyGradient(
+      'G',
+      filteredData.map((item: any) => item.monthly_revenue),
       greenGradient
     );
 
