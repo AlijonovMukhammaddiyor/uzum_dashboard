@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { GrLanguage } from 'react-icons/gr';
 import {
   HiOutlineArrowRightOnRectangle,
@@ -25,7 +26,7 @@ export interface HeaderProps {
 
 export default function Header() {
   const { state } = useContextState();
-
+  const [openMessage, setOpenMessage] = React.useState<boolean>(true);
   const handleUserLogout = async () => {
     try {
       const api = new API(null);
@@ -79,6 +80,20 @@ export default function Header() {
             <div></div>
           )}
         </div>
+
+        {state.user?.tariff === 'trial' && openMessage && (
+          <div className='absolute left-[calc(50%-300px)] top-1 w-[600px] rounded bg-yellow-300 p-6 shadow-lg'>
+            {i18n.language === 'uz'
+              ? "Hozirda sinov versiyasini ishlatyapsiz. Barcha mavjud xizmatlar haqida Shaxsiy kabinet sahifasida o'rganishingiz mumkin."
+              : 'Вы используете пробную версию. Вы можете узнать все доступные услуги на странице Мой кабинета.'}
+            <AiOutlineCloseCircle
+              onClick={() => {
+                setOpenMessage(false);
+              }}
+              className='absolute right-3 top-3 h-5 w-5 flex-shrink-0 cursor-pointer text-black hover:scale-[1.1]'
+            />
+          </div>
+        )}
 
         <nav>
           <ul className='flex items-center justify-between space-x-5'>
