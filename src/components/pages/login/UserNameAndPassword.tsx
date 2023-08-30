@@ -64,7 +64,7 @@ const UserNameAndPassword = ({
       .then((res) => {
         if (res) {
           setSuccess(true);
-          router.push('/home');
+          router.push('/products');
         } else {
           setSuccess(false);
         }
