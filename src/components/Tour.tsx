@@ -149,11 +149,9 @@ const Tour = () => {
   ];
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setTimeout(() => {
-        setRendered((prev) => true);
-      }, 1000);
-    }
+    setTimeout(() => {
+      setRendered((prev) => true);
+    }, 1500);
 
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
