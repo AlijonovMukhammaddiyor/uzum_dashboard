@@ -1,20 +1,27 @@
 // import { STATUS } from 'react-joyride';
+// import { Steps } from 'intro.js-react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import React, { useContext, useEffect, useState } from 'react';
-import { ShepherdTour, ShepherdTourContext } from 'react-shepherd';
+import React, { useEffect, useState } from 'react';
+const StepsNoSSR = dynamic(
+  () => import('intro.js-react').then((mod) => mod.Steps),
+
+  { ssr: false }
+);
 
 const Tour = () => {
   const [runTour, setRunTour] = useState(false);
-  const [rendered, setRendered] = useState(false);
   const { i18n } = useTranslation('common');
   const router = useRouter();
-  const tour = useContext(ShepherdTourContext);
+
   const isUz = i18n.language === 'uz';
 
   const steps = [
     {
-      attachTo: { element: '.my-first-step', on: 'right' },
+      element: '.my-first-step',
+      disableBeacon: true,
+      position: 'right' as const,
       intro: (
         <div className='flex flex-col gap-2 '>
           <p className=''>
@@ -146,15 +153,6 @@ const Tour = () => {
     },
   ];
 
-  const tourOptions = {
-    defaultStepOptions: {
-      cancelIcon: {
-        enabled: true,
-      },
-    },
-    useModalOverlay: true,
-  };
-
   useEffect(() => {
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
@@ -208,12 +206,12 @@ const Tour = () => {
           skip: isUz ? "O'tkazib yuborish" : 'Пропустить', // Custom button text for the "skip" button
         }}
       /> */}
-      {/* {document &&
+      {document &&
         document.getElementsByClassName('my-first-step') &&
         router.pathname !== '/' &&
         router.pathname !== '/login' &&
         router.pathname !== '/register' && (
-          <Steps
+          <StepsNoSSR
             enabled={runTour}
             steps={steps}
             onExit={() => {
@@ -247,13 +245,6 @@ const Tour = () => {
               },
             }}
           />
-        )} */}
-      {document &&
-        document.getElementsByClassName('my-first-step') &&
-        router.pathname !== '/' &&
-        router.pathname !== '/login' &&
-        router.pathname !== '/register' && (
-          <ShepherdTour steps={steps} tourOptions={tourOptions} />
         )}
     </>
   );
