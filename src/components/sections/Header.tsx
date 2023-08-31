@@ -31,6 +31,7 @@ export default function Header() {
     try {
       const api = new API(null);
       const res = await api.logout();
+      window.localStorage.clear();
       if (res) router.push('/');
     } catch (e) {
       logger(e, 'Error in Header');
