@@ -1191,7 +1191,7 @@ function GeneralsContainer({
       const beginning = products.find(
         (order: any) => order.date_pretty === '2023-08-31'
       );
-      const change = current.total_products - (beginning?.total_products || 0);
+      const change = current?.total_products - (beginning?.total_products || 0);
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
