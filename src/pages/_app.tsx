@@ -30,9 +30,8 @@ import 'reactjs-popup/dist/index.css';
 import 'rc-slider/assets/index.css';
 
 import ArrowLink from '@/components/shared/links/ArrowLink';
-// const Tour = dynamic(() => import('../components/Tour'), { ssr: false });
-import Tour from '@/components/Tour';
 
+// const Tour = dynamic(() => import('../components/Tour'), { ssr: false });
 import { GOOGLE_CLIENT_ID } from '@/constant/env';
 import { AuthProvider } from '@/context/Context';
 
@@ -95,7 +94,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
         <main className={ubuntu.className}>
-          {rendered && <Tour />}
+          {/* {rendered && <Tour />} */}
           <Head>
             <meta
               name='viewport'
