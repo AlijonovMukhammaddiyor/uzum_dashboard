@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 
 const Tour = () => {
   const [runTour, setRunTour] = useState(false);
-  const [isRightPage, setIsRightPage] = useState(false);
+  const [rendered, setRendered] = useState(false);
   const { i18n } = useTranslation('common');
   const router = useRouter();
 
@@ -149,10 +149,7 @@ const Tour = () => {
   ];
 
   useEffect(() => {
-    const path = router.pathname;
-    if (path !== '/' && path !== '/login' && path !== '/register') {
-      setIsRightPage(true);
-    }
+    setRendered(true);
 
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
@@ -206,7 +203,8 @@ const Tour = () => {
           skip: isUz ? "O'tkazib yuborish" : 'Пропустить', // Custom button text for the "skip" button
         }}
       /> */}
-      {router.pathname !== '/' &&
+      {rendered &&
+        router.pathname !== '/' &&
         router.pathname !== '/login' &&
         router.pathname !== '/register' && (
           <Steps
