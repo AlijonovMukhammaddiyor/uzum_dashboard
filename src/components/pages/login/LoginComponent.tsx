@@ -61,7 +61,7 @@ function LoginComponent() {
       .then((res) => {
         if (res) {
           setSuccess(true);
-          router.push('/home');
+          router.push('/products');
         } else {
           setSuccess(false);
         }
@@ -85,7 +85,7 @@ function LoginComponent() {
         });
 
         if (res) {
-          router.push('/home');
+          router.push('/products');
           setSendingRequest(false);
         } else {
           setSendingRequest(false);

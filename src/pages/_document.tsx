@@ -17,6 +17,10 @@ export default function Document() {
           href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap'
           rel='stylesheet'
         />
+        <meta
+          name='google-site-verification'
+          content='--5d16QptJcItSVg5YOZR0acxC2WwR07J13FTeDqnEA'
+        />
 
         <style>
           {`

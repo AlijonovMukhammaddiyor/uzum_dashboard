@@ -27,7 +27,7 @@ function RegisterFooter({ onPrevious }: RegisterFooterComponentProps) {
       <div className=''>
         <p className='text-sm text-slate-500'>
           {t('login.ask')}{' '}
-          <Link className='text-primary cursor-pointer' href='/login'>
+          <Link className='text-primary cursor-pointer text-base' href='/login'>
             {t('login.title')}
           </Link>
         </p>

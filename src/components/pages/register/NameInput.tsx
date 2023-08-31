@@ -61,7 +61,7 @@ const NamesAndEmailComponent = ({
       });
 
       if (res) {
-        router.push('/home');
+        router.push('/products');
         setSendingRequest(false);
       } else {
         setSendingRequest(false);
@@ -95,7 +95,7 @@ const NamesAndEmailComponent = ({
         });
 
         if (res) {
-          router.push('/home');
+          router.push('/products');
           setSendingRequest(false);
         } else {
           setSendingRequest(false);
