@@ -5,6 +5,7 @@ import AboutProduct from '@/components/pages/products/slug/components/AboutProdu
 import ProductAnalytics from '@/components/pages/products/slug/components/ProductAnalytics';
 import ProductPosition from '@/components/pages/products/slug/components/ProductPosition';
 import SimilarProducts from '@/components/pages/products/slug/components/SimilarProducts';
+import SkuTest from '@/components/pages/products/slug/components/SkuTest';
 
 import { UserType } from '@/types/user';
 
@@ -44,11 +45,11 @@ function ProductComponent({
         isActive={activeTab === t('tabs.position') ? true : false}
       />
 
-      {/* <SkuTest
+      <SkuTest
         product_id={product_id}
         className={activeTab !== 'Test' ? 'hidden' : ''}
         isActive={activeTab === 'Test' ? true : false}
-      /> */}
+      />
     </div>
   );
 }
