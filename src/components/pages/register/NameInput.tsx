@@ -50,6 +50,7 @@ const NamesAndEmailComponent = ({
     if (!username) return alert(t('nousername.validate.error'));
 
     setSendingRequest(true);
+    alert('Sending request');
 
     const api = new API(null);
     try {
@@ -220,7 +221,7 @@ const NamesAndEmailComponent = ({
             }}
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                return onRegister();
+                setPopupOpen(true);
               }
             }}
             required
