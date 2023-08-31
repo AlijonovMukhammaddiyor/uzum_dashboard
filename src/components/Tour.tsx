@@ -149,10 +149,6 @@ const Tour = () => {
   ];
 
   useEffect(() => {
-    setTimeout(() => {
-      setRendered((prev) => true);
-    }, 5000);
-
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
       setRunTour(true);
@@ -205,7 +201,8 @@ const Tour = () => {
           skip: isUz ? "O'tkazib yuborish" : 'Пропустить', // Custom button text for the "skip" button
         }}
       /> */}
-      {rendered &&
+      {document &&
+        document.getElementsByClassName('my-first-step') &&
         router.pathname !== '/' &&
         router.pathname !== '/login' &&
         router.pathname !== '/register' && (
