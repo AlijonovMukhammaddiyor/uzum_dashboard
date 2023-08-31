@@ -12,6 +12,7 @@ import { registerLocale } from 'react-datepicker';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 registerLocale('ru', ru);
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
+import 'intro.js/introjs.css';
 import '@/styles/colors.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -29,6 +30,8 @@ import 'reactjs-popup/dist/index.css';
 import 'rc-slider/assets/index.css';
 
 import ArrowLink from '@/components/shared/links/ArrowLink';
+// const Tour = dynamic(() => import('../components/Tour'), { ssr: false });
+import Tour from '@/components/Tour';
 
 import { GOOGLE_CLIENT_ID } from '@/constant/env';
 import { AuthProvider } from '@/context/Context';
@@ -54,6 +57,7 @@ const ubuntu = Ubuntu({
 function MyApp({ Component, pageProps }: AppProps) {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+  const [rendered, setRendered] = useState(false);
 
   const checkMobile = () => {
     const userAgent =
@@ -83,10 +87,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [router.pathname]);
 
+  useEffect(() => {
+    setRendered(true);
+  }, []);
+
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
         <main className={ubuntu.className}>
+          {rendered && <Tour />}
           <Head>
             <meta
               name='viewport'

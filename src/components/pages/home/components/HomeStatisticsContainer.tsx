@@ -1086,7 +1086,6 @@ function GeneralsContainer({
         (order: any) => order.date_pretty === '2023-08-01'
       );
 
-      console.log(current, beginning, revenue);
       const change = current?.total_revenue - beginning?.total_revenue;
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>

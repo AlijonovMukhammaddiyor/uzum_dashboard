@@ -53,7 +53,6 @@ function WeeklyBestProducts({ className }: HomeStatisticsContainerProps) {
       .then((res) => {
         setLoading(false);
         setData(res.data.results);
-        logger(res, 'weekly best products');
       })
       .catch((err) => {
         setLoading(false);

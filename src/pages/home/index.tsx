@@ -22,8 +22,6 @@ export default function HomePage({ user }: HomeProps) {
   const { dispatch } = useContextState();
   const { t } = useTranslation('tabs');
 
-  console.log('user', user);
-
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
     dispatch({
@@ -48,7 +46,6 @@ export default function HomePage({ user }: HomeProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     const refresh = context.req.cookies.refresh;
-    console.log('refresh', context.req.cookies);
 
     try {
       if (!refresh) throw new Error('No refresh token');
