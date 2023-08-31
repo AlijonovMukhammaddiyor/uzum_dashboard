@@ -1,22 +1,20 @@
 // import { STATUS } from 'react-joyride';
-import { Steps } from 'intro.js-react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ShepherdTour, ShepherdTourContext } from 'react-shepherd';
 
 const Tour = () => {
   const [runTour, setRunTour] = useState(false);
   const [rendered, setRendered] = useState(false);
   const { i18n } = useTranslation('common');
   const router = useRouter();
-
+  const tour = useContext(ShepherdTourContext);
   const isUz = i18n.language === 'uz';
 
   const steps = [
     {
-      element: '.my-first-step',
-      disableBeacon: true,
-      position: 'right' as const,
+      attachTo: { element: '.my-first-step', on: 'right' },
       intro: (
         <div className='flex flex-col gap-2 '>
           <p className=''>
@@ -148,6 +146,15 @@ const Tour = () => {
     },
   ];
 
+  const tourOptions = {
+    defaultStepOptions: {
+      cancelIcon: {
+        enabled: true,
+      },
+    },
+    useModalOverlay: true,
+  };
+
   useEffect(() => {
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
@@ -201,7 +208,7 @@ const Tour = () => {
           skip: isUz ? "O'tkazib yuborish" : 'Пропустить', // Custom button text for the "skip" button
         }}
       /> */}
-      {document &&
+      {/* {document &&
         document.getElementsByClassName('my-first-step') &&
         router.pathname !== '/' &&
         router.pathname !== '/login' &&
@@ -240,6 +247,13 @@ const Tour = () => {
               },
             }}
           />
+        )} */}
+      {document &&
+        document.getElementsByClassName('my-first-step') &&
+        router.pathname !== '/' &&
+        router.pathname !== '/login' &&
+        router.pathname !== '/register' && (
+          <ShepherdTour steps={steps} tourOptions={tourOptions} />
         )}
     </>
   );
