@@ -47,7 +47,7 @@ const SuccessPage = () => {
             </span>
           </div>
         )}
-        <div className='font-primary mx-auto mt-20 flex w-11/12 flex-col gap-16 pb-10 md:w-4/5 lg:w-1/2'>
+        <div className='font-primary mx-auto mt-20 flex w-11/12 flex-col gap-16 pb-10 md:w-4/5 lg:w-3/5'>
           <div>
             <h1>🎉 Jamoamizga a'zo bo'lganligingiz uchun tashakkur!</h1>
             <div className='border-primary mb-10 mt-6 flex w-full flex-col items-center justify-start gap-6 rounded-md border-2 bg-slate-50 px-6 py-4'>
@@ -82,6 +82,7 @@ const SuccessPage = () => {
                 </div>
               )}
             </div>
+
             <p>
               Yangiliklardan xabardor bo'lish uchun bizni ijtimoiy tarmoqlarda
               ham kuzatib boring:
