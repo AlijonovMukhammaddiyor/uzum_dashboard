@@ -73,7 +73,7 @@ export default function Header() {
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (localStorage.getItem('closedWarning') === 'true') {
+      if (localStorage.getItem('closedWarning2') === 'true') {
         setClosedWarning(true);
       }
     }
@@ -100,7 +100,7 @@ export default function Header() {
               onClick={() => {
                 setOpenMessage(false);
                 setClosedWarning(true);
-                window.localStorage.setItem('closedWarning', 'true');
+                window.localStorage.setItem('closedWarning2', 'true');
               }}
               className='absolute right-3 top-3 h-5 w-5 flex-shrink-0 cursor-pointer text-black hover:scale-[1.1]'
             />
