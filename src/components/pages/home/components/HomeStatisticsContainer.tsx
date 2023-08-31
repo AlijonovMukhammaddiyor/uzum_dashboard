@@ -1085,7 +1085,9 @@ function GeneralsContainer({
       const beginning = revenue.find(
         (order: any) => order.date_pretty === '2023-08-01'
       );
-      const change = current.total_revenue - beginning.total_revenue;
+
+      console.log(current, beginning, revenue);
+      const change = current?.total_revenue - beginning?.total_revenue;
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
