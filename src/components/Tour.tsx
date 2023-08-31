@@ -151,7 +151,7 @@ const Tour = () => {
   useEffect(() => {
     setTimeout(() => {
       setRendered((prev) => true);
-    }, 1500);
+    }, 5000);
 
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
