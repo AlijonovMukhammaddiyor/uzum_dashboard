@@ -1,12 +1,17 @@
 // import { STATUS } from 'react-joyride';
-import { Steps } from 'intro.js-react';
+// import { Steps } from 'intro.js-react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
+const StepsNoSSR = dynamic(
+  () => import('intro.js-react').then((mod) => mod.Steps),
+
+  { ssr: false }
+);
 
 const Tour = () => {
   const [runTour, setRunTour] = useState(false);
-  const [isRightPage, setIsRightPage] = useState(false);
   const { i18n } = useTranslation('common');
   const router = useRouter();
 
@@ -149,11 +154,6 @@ const Tour = () => {
   ];
 
   useEffect(() => {
-    const path = router.pathname;
-    if (path !== '/' && path !== '/login' && path !== '/register') {
-      setIsRightPage(true);
-    }
-
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
       setRunTour(true);
@@ -206,10 +206,12 @@ const Tour = () => {
           skip: isUz ? "O'tkazib yuborish" : 'Пропустить', // Custom button text for the "skip" button
         }}
       /> */}
-      {router.pathname !== '/' &&
+      {document &&
+        document.getElementsByClassName('my-first-step') &&
+        router.pathname !== '/' &&
         router.pathname !== '/login' &&
         router.pathname !== '/register' && (
-          <Steps
+          <StepsNoSSR
             enabled={runTour}
             steps={steps}
             onExit={() => {

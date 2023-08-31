@@ -12,7 +12,6 @@ import { registerLocale } from 'react-datepicker';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 registerLocale('ru', ru);
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
-import 'intro.js/introjs.css';
 import '@/styles/colors.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -28,6 +27,7 @@ import 'react-phone-input-2/lib/style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import 'reactjs-popup/dist/index.css';
 import 'rc-slider/assets/index.css';
+import 'intro.js/introjs.css';
 
 import ArrowLink from '@/components/shared/links/ArrowLink';
 

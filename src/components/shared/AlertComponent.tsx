@@ -20,7 +20,7 @@ export const RenderAlert = ({
   toast.custom((t) => (
     <div
       className={clsxm(
-        `tracling-wide duration-300, relative flex  w-1/2 justify-between  gap-3 overflow-hidden rounded-lg border border-blue-300 bg-blue-50 px-5 py-3  shadow-lg transition-all`,
+        `tracling-wide duration-300, relative flex  w-1/2 justify-between  gap-3 overflow-hidden rounded-lg border border-yellow-400 bg-yellow-300 px-5 py-3  shadow-lg transition-all`,
         !alertSubtitle ? 'items-center' : 'items-start'
       )}
     >
@@ -34,7 +34,7 @@ export const RenderAlert = ({
           {buttonLink && buttonTitle && (
             <Link
               href={buttonLink}
-              className='rounded-md border border-blue-500 bg-white px-2 py-1 text-sm text-blue-500'
+              className='rounded-md border border-yellow-500 bg-blue-500 px-2 py-1  text-sm text-white '
               onClick={() => toast.remove(t.id)}
             >
               {buttonTitle}

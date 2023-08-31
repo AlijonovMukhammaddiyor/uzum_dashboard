@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
+import { FaQuoteLeft } from 'react-icons/fa';
 // import notice icon from react icons
 import { IoWarningOutline } from 'react-icons/io5';
 
@@ -91,12 +92,12 @@ function Pricing({ className }: { className?: string }) {
         </div>
 
         {state.user?.tariff === 'trial' && (
-          <div className='flex items-center justify-start gap-3'>
-            <IoWarningOutline className='inline-block h-5 w-5 text-green-500' />
-            <p className='font-semibold'>
+          <div className='flex max-w-fit items-center justify-start gap-3 bg-yellow-300 p-3 shadow-lg'>
+            <IoWarningOutline className='inline-block text-xl  text-green-500' />
+            <p className='text-xl font-medium'>
               {i18n.language === 'uz'
-                ? 'Hozirda siz sinov versiyasini ishlatmoqdasiz'
-                : 'Вы используете пробную версию'}
+                ? 'Ayni paytda siz  "Boshlang`ich"  tarifini 1 kunlik sinov sifatida ishlatmoqdasiz.'
+                : 'Вы сейчас используете тариф "Стартер" в качестве пробной версии на 1 день.'}
             </p>
           </div>
         )}
@@ -242,12 +243,59 @@ function Pricing({ className }: { className?: string }) {
           />
         </div>
         <div className='min-h-screen pb-16'>
-          <div className='my-24 w-full border bg-slate-200 p-4 text-center font-semibold text-black'>
+          <div className='mb-10 mt-24 w-full border bg-slate-200 p-4 text-center font-semibold text-black'>
             <p>
               {i18n.language === 'uz'
                 ? 'Tariflarni taqqoslash'
                 : 'Сравнение тарифов'}
             </p>
+          </div>
+          <div className='mb-10 flex items-center justify-between gap-12 bg-white px-32 py-10'>
+            <div className='h-full flex-1'>
+              {/* <p>! Eslatib o'tamiz:</p>
+              <p>Siz Sinov muddatida Boshlang'ich tarifdan foydalanasiz.</p> */}
+              <Testimonials
+                className=' max-w-fit'
+                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
+                tarif='Sotuvchi'
+                name='UyBop'
+                profession='Uzumda sotuvchi'
+              />
+              <Testimonials
+                className=' ml-40 mt-16 max-w-fit'
+                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
+                tarif='Biznes'
+                name='Uzum Invest'
+                profession='Marketolog'
+              />
+              <Testimonials
+                className='mt-16 max-w-fit'
+                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
+                tarif='Sotuvchi'
+                name='Emil'
+                profession='Uzumda sotuvchi'
+              />
+            </div>
+            <div className='relative  flex h-[500px] w-[500px] items-end justify-start bg-blue-500 '>
+              <span className=' absolute right-2 top-0 text-4xl text-white'>
+                Biznes
+              </span>
+              <div className='relative  flex h-[350px] w-[350px] items-end justify-start bg-blue-400 '>
+                <span className=' absolute  right-2 top-0 text-3xl text-white'>
+                  Sotuvchi
+                </span>
+                <div className='relative  flex h-[200px] w-[200px] items-end justify-start bg-blue-300  '>
+                  <span className=' absolute  right-2 top-0 text-xl text-white'>
+                    Boshlang'ich
+                  </span>
+                  <div className='relative  flex h-[70px] w-[70px] items-end justify-start bg-blue-200 '>
+                    <span className=' absolute right-1 top-0 text-white'>
+                      Bepul
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <PricingTable featuresData={getPricingData(t)} t={t} />
         </div>
@@ -484,7 +532,7 @@ const PricingTable = ({
   const { i18n } = useTranslation('common');
 
   return (
-    <div className='flex w-full flex-col border border-b-0 px-10'>
+    <div className='flex w-full flex-col border border-b-0  px-10'>
       <div className='flex h-24 shrink-0 '>
         <div className='  flex w-[500px] items-center justify-start  font-medium'>
           {t('tariffs.Umumiy_malumotlar')}
@@ -801,4 +849,34 @@ const getPricingData = (t: any) => {
       business: '✓',
     },
   ];
+};
+
+const Testimonials = ({
+  className,
+  tarif,
+  name,
+  text,
+  profession,
+}: {
+  className: string;
+  tarif: string;
+  name: string;
+  text: string;
+  profession: string;
+}) => {
+  return (
+    <div className={clsxm(' relative   border p-4 shadow-xl', className)}>
+      <div className='absolute -left-10 -top-8  rounded-full p-2  text-blue-500'>
+        <FaQuoteLeft className=' text-5xl ' />
+      </div>
+      <div className='flex items-start justify-between'>
+        <div className='flex flex-col'>
+          <h3>{name}</h3>
+          <p className='text-sm text-gray-500'>{profession}</p>
+        </div>
+        <span className='rounded-md bg-blue-500 px-2 text-white '>{tarif}</span>
+      </div>
+      <p className='mt-4 text-gray-500'>{text}</p>
+    </div>
+  );
 };
