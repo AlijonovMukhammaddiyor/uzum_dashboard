@@ -17,9 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
   const { i18n } = useTranslation('common');
   const [isWarningVisible, setIsWarningVisible] = React.useState(false);
-  const [hasClosedWarning, setHasClosedWarning] = React.useState(
-    localStorage.getItem('closedWarning') === 'true'
-  );
+  const [hasClosedWarning, setHasClosedWarning] = React.useState(true);
 
   const checkScreenWidth = () => {
     if (window.innerWidth < 1500 || window.innerHeight < 840) {
@@ -30,7 +28,36 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   React.useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+
+      const closedWarning = localStorage.getItem('closedWarning');
+      if (closedWarning === 'true') {
+        setHasClosedWarning(false);
+        window.localStorage.removeItem('closedWarning');
+      }
+      const closedWarning2 = localStorage.getItem('closedWarning');
+
+      if (closedWarning2) {
+        const parsed = JSON.parse(closedWarning2);
+        if (parsed.hasClosedWarning !== 'true') {
+          setHasClosedWarning(false);
+          return;
+        }
+        if (parsed.expiresAt > new Date().getTime()) {
+          setHasClosedWarning(true);
+        } else {
+          setHasClosedWarning(false);
+        }
+      } else {
+        setHasClosedWarning(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
     checkScreenWidth();
+
     window.addEventListener('resize', checkScreenWidth);
 
     return () => {
@@ -42,7 +69,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const closeWarning = () => {
     setIsWarningVisible(false);
     setHasClosedWarning(true);
-    localStorage.setItem('closedWarning', 'true');
+    localStorage.setItem(
+      'closedWarning',
+      JSON.stringify({
+        hasClosedWarning: 'true',
+        expiresAt: new Date().getTime() + 1000 * 60 * 60 * 24 * 1,
+      })
+    );
   };
 
   function getOS() {
@@ -63,7 +96,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className='main_layout_container flex h-screen w-screen items-start justify-start overflow-hidden  bg-slate-100 pt-10'>
-      {isWarningVisible && (
+      {isWarningVisible && !hasClosedWarning && (
         <div className='fixed left-1/2 top-4 z-[1999] -translate-x-1/2 transform rounded bg-yellow-300 p-6 shadow-lg'>
           <div className='mb-4 flex items-center justify-start'>
             <Image src={alarm} width={32} height={32} alt='Warning' />

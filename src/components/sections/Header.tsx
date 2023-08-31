@@ -37,6 +37,7 @@ export default function Header() {
       alert(e);
     }
   };
+  const [closedWarning, setClosedWarning] = React.useState<boolean>(false);
   const { t, i18n } = useTranslation('common');
   const router = useRouter();
 
@@ -69,6 +70,14 @@ export default function Header() {
       ? '1 kunlik sinov'
       : '1 дневный тест';
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('closedWarning') === 'true') {
+        setClosedWarning(true);
+      }
+    }
+  }, [state.user?.tariff]);
+
   return (
     <header className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'>
       <div className='flex h-10 items-center justify-between gap-4 p-3'>
@@ -81,7 +90,7 @@ export default function Header() {
           )}
         </div>
 
-        {state.user?.tariff === 'trial' && openMessage && (
+        {state.user?.tariff === 'trial' && openMessage && !closedWarning && (
           <div className='absolute left-[calc(50%-300px)] top-1 w-[600px] rounded bg-yellow-300 p-6 shadow-lg'>
             {i18n.language === 'uz'
               ? "Hozirda sinov versiyasini ishlatyapsiz. Barcha mavjud xizmatlar haqida Shaxsiy kabinet sahifasida o'rganishingiz mumkin."
@@ -89,6 +98,8 @@ export default function Header() {
             <AiOutlineCloseCircle
               onClick={() => {
                 setOpenMessage(false);
+                setClosedWarning(true);
+                window.localStorage.setItem('closedWarning', 'true');
               }}
               className='absolute right-3 top-3 h-5 w-5 flex-shrink-0 cursor-pointer text-black hover:scale-[1.1]'
             />
