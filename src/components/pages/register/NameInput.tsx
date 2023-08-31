@@ -220,7 +220,7 @@ const NamesAndEmailComponent = ({
             }}
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                return onRegister();
+                return setPopupOpen(true);
               }
             }}
             required
