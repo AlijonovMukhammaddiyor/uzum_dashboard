@@ -818,7 +818,7 @@ function GeneralsContainer({
                 new Date(b.date_pretty).getTime() -
                 new Date(a.date_pretty).getTime()
             )[0]
-            .total_products.toLocaleString()}{' '}
+            ?.total_products.toLocaleString()}{' '}
           {lang === 'uz' ? 'ta' : 'шт'}
         </span>
       );
