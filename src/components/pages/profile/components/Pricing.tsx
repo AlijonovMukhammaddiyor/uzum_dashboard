@@ -378,9 +378,11 @@ function Tarif({
       </div>
       <div className='relative flex flex-col gap-1 text-3xl font-medium'>
         <p className={clsxm(isEnterprise ? 'text-base' : 'text-3xl')}>
-          <span className='text-2xl line-through'>
-            ${between ? realPrice : ''}{' '}
-          </span>
+          {between && (
+            <span className='text-2xl line-through'>
+              ${between ? realPrice : ''}{' '}
+            </span>
+          )}
           $
           {isEnterprise
             ? i18n.language === 'uz'
