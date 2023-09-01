@@ -129,7 +129,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.beginner')}
             isCurrentPlan={state.user?.tariff === 'base'}
             setCurrentPlan={setCurrentPlan}
-            price={24.9}
+            price={25}
             months={months}
             features={[
               t('tariffs.1_dukon'),
@@ -163,7 +163,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.seller')}
             isCurrentPlan={state.user?.tariff === 'seller'}
             setCurrentPlan={setCurrentPlan}
-            price={40}
+            price={39.9}
             months={months}
             features={[
               t('tariffs.4_dukon'),
