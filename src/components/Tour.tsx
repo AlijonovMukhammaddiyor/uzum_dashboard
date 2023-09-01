@@ -154,6 +154,10 @@ const Tour = () => {
   ];
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     const tourCompleted = localStorage.getItem('tourCompleted');
     if (!tourCompleted) {
       setRunTour(true);

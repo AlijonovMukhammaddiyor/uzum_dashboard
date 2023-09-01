@@ -57,7 +57,6 @@ const ubuntu = Ubuntu({
 function MyApp({ Component, pageProps }: AppProps) {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
-  const [rendered, setRendered] = useState(false);
 
   const checkMobile = () => {
     const userAgent =
@@ -87,15 +86,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [router.pathname]);
 
-  useEffect(() => {
-    setRendered(true);
-  }, []);
-
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
         <main className={ubuntu.className}>
-          {rendered && <Tour />}
+          <Tour />
           <Head>
             <meta
               name='viewport'
