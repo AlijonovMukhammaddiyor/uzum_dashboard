@@ -49,6 +49,14 @@ const NamesAndEmailComponent = ({
   const onRegister = async () => {
     if (!username) return alert(t('nousername.validate.error'));
 
+    // if password is less than 8 characters, alert user
+    if (password.length < 8)
+      return alert(
+        i18n.language === 'uz'
+          ? "Parol kamida 8 ta belgidan iborat bo'lishi kerak"
+          : 'Пароль должен содержать не менее 8 символов'
+      );
+
     if (!isValidUsername(username))
       return alert(
         i18n.language === 'uz'
