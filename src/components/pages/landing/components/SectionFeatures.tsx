@@ -25,7 +25,7 @@ function SectionFeatures() {
   const [isShown, setIsShown] = React.useState<boolean>(false);
 
   return (
-    <div className=' relative w-full bg-[#F3F5F7] py-8 md:py-28' id='services'>
+    <div className='relative w-full bg-[#F3F5F7] py-8 md:py-28' id='services'>
       <div className='layout'>
         <h1 className='font-primary text-2xl font-semibold leading-8 tracking-wider md:mb-6 md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
           {t('features.title')}

@@ -28,6 +28,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a lo
 import 'reactjs-popup/dist/index.css';
 import 'rc-slider/assets/index.css';
 import 'intro.js/introjs.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 
 import ArrowLink from '@/components/shared/links/ArrowLink';
 import Tour from '@/components/Tour';

@@ -61,11 +61,11 @@ function LandingHeader() {
   return (
     <nav
       className={clsxm(
-        'fixed top-2 z-[10000] w-full bg-transparent transition-all duration-500',
+        'fixed top-5 z-[10000] w-full bg-transparent transition-all duration-500',
         !isVisible ? '-top-full' : ''
       )}
     >
-      <div className='layout base:px-10 z-[10000] flex items-center justify-between rounded-xl bg-white px-2 py-3 shadow-xl'>
+      <div className='layout base:px-10 z-[10000] flex items-center justify-between rounded-xl bg-white px-4 py-3 shadow-xl'>
         <Link href='/' className=''>
           <Image
             src={logo}
