@@ -85,7 +85,7 @@ function Pricing({ className }: { className?: string }) {
 
               {/* Discount Tag */}
               <span className='absolute right-[-0px] top-[-20px] rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white'>
-                -15%
+                -10%
               </span>
             </div>
           </div>
