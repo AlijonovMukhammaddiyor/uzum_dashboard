@@ -250,53 +250,7 @@ function Pricing({ className }: { className?: string }) {
                 : 'Сравнение тарифов'}
             </p>
           </div>
-          <div className='mb-10 flex items-center justify-between gap-12 bg-white px-32 py-10'>
-            <div className='h-full flex-1'>
-              {/* <p>! Eslatib o'tamiz:</p>
-              <p>Siz Sinov muddatida Boshlang'ich tarifdan foydalanasiz.</p> */}
-              <Testimonials
-                className=' max-w-fit'
-                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
-                tarif='Sotuvchi'
-                name='UyBop'
-                profession='Uzumda sotuvchi'
-              />
-              <Testimonials
-                className=' ml-40 mt-16 max-w-fit'
-                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
-                tarif='Biznes'
-                name='Uzum Invest'
-                profession='Marketolog'
-              />
-              <Testimonials
-                className='mt-16 max-w-fit'
-                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
-                tarif='Sotuvchi'
-                name='Emil'
-                profession='Uzumda sotuvchi'
-              />
-            </div>
-            <div className='relative  flex h-[500px] w-[500px] items-end justify-start bg-blue-500 '>
-              <span className=' absolute right-2 top-0 text-4xl text-white'>
-                Biznes
-              </span>
-              <div className='relative  flex h-[350px] w-[350px] items-end justify-start bg-blue-400 '>
-                <span className=' absolute  right-2 top-0 text-3xl text-white'>
-                  Sotuvchi
-                </span>
-                <div className='relative  flex h-[200px] w-[200px] items-end justify-start bg-blue-300  '>
-                  <span className=' absolute  right-2 top-0 text-xl text-white'>
-                    Boshlang'ich
-                  </span>
-                  <div className='relative  flex h-[70px] w-[70px] items-end justify-start bg-blue-200 '>
-                    <span className=' absolute right-1 top-0 text-white'>
-                      Bepul
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
           <PricingTable featuresData={getPricingData(t)} t={t} />
         </div>
       </div>
