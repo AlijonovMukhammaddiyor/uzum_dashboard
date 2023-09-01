@@ -36,7 +36,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
 
   return (
     <div className='flex h-full w-full flex-col items-start justify-start gap-0 divide-y-4'>
-      <div className='pb-3 text-lg'>
+      <div className='pb-3'>
         {i18n.language === 'uz'
           ? 'Kerakli mahsulotlar topish uchun quyidagi filtrlardan foydalaning'
           : 'Используйте следующие фильтры для поиска нужных товаров'}

@@ -86,16 +86,16 @@ function ProductsFilters({
           </div>
         </div>
         <div className='w-full'>
-          <div className='z-10 flex h-16 w-full items-center justify-start gap-5 bg-slate-200 px-3 text-lg font-semibold '>
+          {/* <div className='z-10 flex h-16 w-full items-center justify-start gap-5 bg-slate-200 px-3 text-lg font-semibold '>
             <p>
               {i18n.language === 'uz'
                 ? "Qo'shimcha Filtrlar"
                 : 'Дополнительные фильтры'}
             </p>
-          </div>
+          </div> */}
           <div
             className={clsxm(
-              'flex h-full max-w-full flex-1 flex-col gap-1 overflow-y-scroll p-6 px-3 transition-all duration-300'
+              'flex h-full max-w-full flex-1 flex-col gap-1 overflow-y-scroll p-3 px-3 transition-all duration-300'
             )}
           >
             <AdditionalProductsFilter

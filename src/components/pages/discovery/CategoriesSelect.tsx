@@ -126,7 +126,7 @@ function CategoriesSelect({
     <Container
       loading={loading}
       className={clsxm(
-        'relative z-10 flex h-full max-h-[1270px] min-h-max w-[480px] flex-col items-start justify-start gap-4 rounded-none border-none bg-white pb-6 shadow-none',
+        'relative z-10 flex h-[1110px] min-h-max w-[480px] flex-col items-start justify-start gap-4 rounded-none border-none bg-white pb-6 shadow-none',
         className
       )}
     >
@@ -143,7 +143,7 @@ function CategoriesSelect({
       </div>
       <div
         className={clsxm(
-          'flex max-h-[1188px] min-h-[800px] flex-1 flex-col gap-1 overflow-y-scroll p-6 pb-6 pl-3 pt-2'
+          'flex h-[calc(100%-64px)] flex-1 flex-col gap-1 overflow-y-scroll p-6 pb-6 pl-3 pt-2'
         )}
       >
         <p className='text-sm'>

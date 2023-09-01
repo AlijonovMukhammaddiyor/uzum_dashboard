@@ -303,11 +303,18 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               ? 'Filtrlangan mahsulotlar'
               : 'Отфильтрованные продукты'}
           </p>
-          <div className='flex items-center justify-start pr-3'>
+          <div className='flex items-center justify-between gap-6 pr-3'>
             <p className='text-lg font-semibold'>
               {i18n.language === 'uz' ? 'Jami natijalar soni: ' : 'Всего: '}
               {total.toLocaleString()}
             </p>
+            {total > 100 && (
+              <p className=''>
+                {i18n.language === 'uz'
+                  ? `Mahsulotlarni yaxshiroq tahlil qilish uchun qidiruv maydonini yanada toraytirishni tavsiya qilamiz`
+                  : `Мы рекомендуем еще больше сузить пространство поиска, чтобы лучше анализировать продукты.`}
+              </p>
+            )}
           </div>
           <InfiniteTable
             setTotal={setTotal}
