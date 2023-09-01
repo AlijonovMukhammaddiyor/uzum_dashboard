@@ -170,6 +170,7 @@ const Tour = () => {
       return;
     }
     localStorage.setItem('tourCompleted', 'true');
+    setRunTour(false);
   };
 
   return (
