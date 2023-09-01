@@ -49,6 +49,13 @@ const NamesAndEmailComponent = ({
   const onRegister = async () => {
     if (!username) return alert(t('nousername.validate.error'));
 
+    if (!isValidUsername(username))
+      return alert(
+        i18n.language === 'uz'
+          ? "Foydalanuvchi nomi faqat lotin harflari, raqamlar va @ . + - _ belgilaridan iborat bo'lishi kerak"
+          : 'Имя пользователя должно содержать только буквы латинского алфавита, цифры и символы @ . + - _'
+      );
+
     setSendingRequest(true);
 
     const api = new API(null);
@@ -124,6 +131,11 @@ const NamesAndEmailComponent = ({
 
   const handleGoogleLogin = () => {
     login();
+  };
+
+  const isValidUsername = (username: string) => {
+    const usernamePattern = /^[a-zA-Z0-9@.+-_]+$/;
+    return usernamePattern.test(username);
   };
 
   return (
