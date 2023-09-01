@@ -1121,8 +1121,18 @@ function GeneralsContainer({
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1147,8 +1157,18 @@ function GeneralsContainer({
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1171,8 +1191,18 @@ function GeneralsContainer({
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1195,8 +1225,18 @@ function GeneralsContainer({
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
