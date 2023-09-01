@@ -316,12 +316,6 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               </p>
             )}
           </div>
-          <div className='flex items-center justify-between gap-6 pr-3'>
-            <p className='text-lg font-semibold'>
-              {i18n.language === 'uz' ? 'Jami natijalar soni: ' : 'Всего: '}
-              {total.toLocaleString()}
-            </p>
-          </div>
           <InfiniteTable
             setTotal={setTotal}
             shouldRefetch={shouldRefetch}
