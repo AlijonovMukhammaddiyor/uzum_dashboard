@@ -332,7 +332,7 @@ function Tarif({
 
     api
       .post('/payments/paylink/', {
-        amount: price * months * 12000,
+        amount: Math.floor(price * months * 12000),
         months,
         tariff:
           title === t('tariffs.free')
