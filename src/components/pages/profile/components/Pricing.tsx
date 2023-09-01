@@ -129,7 +129,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.beginner')}
             isCurrentPlan={state.user?.tariff === 'base'}
             setCurrentPlan={setCurrentPlan}
-            price={299000}
+            price={24.9}
             months={months}
             features={[
               t('tariffs.1_dukon'),
@@ -163,7 +163,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.seller')}
             isCurrentPlan={state.user?.tariff === 'seller'}
             setCurrentPlan={setCurrentPlan}
-            price={499000}
+            price={40}
             months={months}
             features={[
               t('tariffs.4_dukon'),
@@ -378,7 +378,7 @@ function Tarif({
 
     api
       .post('/payments/paylink/', {
-        amount: price * months,
+        amount: price * months * 12000,
         months,
         tariff:
           title === t('tariffs.free')
@@ -427,6 +427,7 @@ function Tarif({
               {i18n.language === 'uz' ? "so'm/oyiga" : 'сум/месяц'}
             </span>
           )} */}
+          $
           {isEnterprise
             ? i18n.language === 'uz'
               ? "Biz bilan bog'laning"
@@ -436,13 +437,13 @@ function Tarif({
             : price === 0
             ? 0
             : Math.floor(price * 0.85).toLocaleString()}{' '}
-          {i18n.language === 'uz'
+          {/* {i18n.language === 'uz'
             ? isEnterprise
               ? ''
               : "so'm"
             : isEnterprise
             ? ''
-            : 'сум'}
+            : 'сум'} */}
           <span className={clsxm(' text-xs  ', isEnterprise && 'hidden')}>
             /{t('tariffs.month')}
           </span>
