@@ -3142,31 +3142,6 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       } as CellStyle,
     },
 
-    // {
-    //   headerName: t('position_in_subcategory'),
-    //   field: 'position_in_category',
-    //   flex: 1,
-    //   // filter: 'agNumberColumnFilter',
-    //   // floatingFilter: true,
-    //   cellRenderer: LocaleNumberCellRenderer,
-    //   minWidth: 150,
-    //   // filterParams: {
-    //   //   alwaysShowBothConditions: true,
-    //   //   buttons: ['reset', 'apply'],
-    //   // },
-
-    //   // flloatingFilterComponentParams: {
-    //   //   suppressFilterButton: true,
-    //   //   buttons: ['reset', 'apply'],
-    //   // },
-    //   headerTooltip: t('tooltip.position_in_category'),
-    //   cellStyle: {
-    //     textAlign: 'center',
-    //     backgroundColor: 'rgba(119, 67, 219, 0.1)',
-    //   } as CellStyle,
-    //   filter: false,
-    // },
-
     {
       headerName: t('orders'),
       field: 'orders_amount',
