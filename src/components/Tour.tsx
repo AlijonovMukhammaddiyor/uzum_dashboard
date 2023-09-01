@@ -179,38 +179,6 @@ const Tour = () => {
 
   return (
     <>
-      {/* <JoyRideNoSSR
-        steps={steps}
-        run={runTour}
-        continuous={true}
-        callback={(data) => {
-          const { status } = data;
-          if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status as any)) {
-            handleTourComplete();
-          }
-        }}
-        showSkipButton={true}
-        showProgress={true}
-        styles={{
-          tooltipContainer: {
-            textAlign: 'left',
-            marginLeft: 0,
-          },
-          buttonNext: {
-            backgroundColor: 'green',
-          },
-          buttonBack: {
-            marginRight: 10,
-          },
-        }}
-        locale={{
-          back: isUz ? 'Ortga' : 'Назад', // Custom button text for the "back" button
-          close: isUz ? 'Yopish' : 'Закрыть', // Custom button text for the "close" button
-          last: isUz ? 'Tugatish' : 'Завершить', // Custom button text for the "last" button
-          next: isUz ? 'Keyingi' : 'Далее', // Custom button text for the "next" button
-          skip: isUz ? "O'tkazib yuborish" : 'Пропустить', // Custom button text for the "skip" button
-        }}
-      /> */}
       {document &&
         document.getElementsByClassName('my-first-step') &&
         router.pathname !== '/' &&
