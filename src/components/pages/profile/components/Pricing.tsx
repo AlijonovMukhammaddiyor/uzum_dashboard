@@ -94,10 +94,10 @@ function Pricing({ className }: { className?: string }) {
         {state.user?.tariff === 'trial' && (
           <div className='flex max-w-fit items-center justify-start gap-3 bg-yellow-300 p-3 shadow-lg'>
             <IoWarningOutline className='inline-block text-xl  text-green-500' />
-            <p className='text-xl font-medium'>
+            <p className='font-medium'>
               {i18n.language === 'uz'
-                ? 'Ayni paytda siz  "Boshlang`ich"  tarifini 1 kunlik sinov sifatida ishlatmoqdasiz.'
-                : 'Вы сейчас используете тариф "Стартер" в качестве пробной версии на 1 день.'}
+                ? `Siz hozirda "Boshlang'ich" tarifini ma'lum cheklovlar bilan sinov tariqasida foydalanmoqdasiz.`
+                : 'В настоящее время вы используете тариф «Стартовый» с некоторыми ограничениями в качестве пробного периода.'}
             </p>
           </div>
         )}
