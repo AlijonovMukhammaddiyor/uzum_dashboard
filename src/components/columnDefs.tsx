@@ -833,7 +833,17 @@ export const WeeklyRevenueCellRenderer = ({ value }: { value: number }) => {
 
   if (!value)
     return (
-      <div className='flex h-full w-full items-center justify-center'>0</div>
+      <div
+        className={clsxm(
+          'flex h-full flex-col items-center justify-center gap-1',
+          // if user tariff is not seller or business, blur this column
+          state.user?.tariff !== 'seller' &&
+            state.user?.tariff !== 'business' &&
+            'blur-sm filter'
+        )}
+      >
+        0
+      </div>
     );
   const value_ = value * 1000;
   // check if it is int billion
@@ -892,7 +902,17 @@ export const MonthlyRevenueCellRenderer = ({ value }: { value: number }) => {
 
   if (!value)
     return (
-      <div className='flex h-full w-full items-center justify-center'>0</div>
+      <div
+        className={clsxm(
+          'flex h-full flex-col items-center justify-center gap-1',
+          // if user tariff is not seller or business, blur this column
+          state.user?.tariff !== 'seller' &&
+            state.user?.tariff !== 'business' &&
+            'blur-sm filter'
+        )}
+      >
+        0
+      </div>
     );
   const value_ = value * 1000;
   // check if it is int billion
