@@ -3,6 +3,8 @@ import React from 'react';
 
 import DateFilter from '@/components/pages/discovery/DateFilter';
 import Filter from '@/components/pages/discovery/Filter';
+
+import { useContextState } from '@/context/Context';
 export interface HomeStatisticsContainerProps {
   className?: string;
   filters: {
@@ -23,7 +25,7 @@ export interface HomeStatisticsContainerProps {
 
 function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
   const { t, i18n } = useTranslation('tableColumns');
-
+  const { state } = useContextState();
   const setFilter = (type: string, min: number | null, max: number | null) => {
     const newFilters = filters.filter((filter) => filter.type !== type);
     if (min || max) {
@@ -74,6 +76,13 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
                 ? 'Oxirgi 30 kundagi sotuvlar soni'
                 : 'Количество продаж за последние 30 дней'
             }
+            isDisabled={
+              state.user?.tariff === 'free'
+                ? true
+                : state.user?.tariff === 'trial'
+                ? true
+                : false
+            }
             setValues={setFilter}
           />
           <Filter
@@ -108,6 +117,13 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
             type='diff_orders_money'
             min={getFilter(filters, 'diff_orders_money')[0]}
             max={getFilter(filters, 'diff_orders_money')[1]}
+            isDisabled={
+              state.user?.tariff === 'free'
+                ? true
+                : state.user?.tariff === 'trial'
+                ? true
+                : false
+            }
           />
           <Filter
             title={
