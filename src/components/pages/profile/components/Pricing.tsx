@@ -129,7 +129,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.beginner')}
             isCurrentPlan={state.user?.tariff === 'base'}
             setCurrentPlan={setCurrentPlan}
-            price={25}
+            price={19.9}
             months={months}
             features={[
               t('tariffs.1_dukon'),
@@ -163,7 +163,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.seller')}
             isCurrentPlan={state.user?.tariff === 'seller'}
             setCurrentPlan={setCurrentPlan}
-            price={39.9}
+            price={33}
             months={months}
             features={[
               t('tariffs.4_dukon'),
@@ -354,6 +354,9 @@ function Tarif({
       });
   };
 
+  const realPrice = isPro ? 25 : isProPlus ? 40 : 1000000;
+  const between = isPro || isProPlus;
+
   return (
     <div
       className={clsxm(
@@ -375,12 +378,9 @@ function Tarif({
       </div>
       <div className='relative flex flex-col gap-1 text-3xl font-medium'>
         <p className={clsxm(isEnterprise ? 'text-base' : 'text-3xl')}>
-          {/* {months === 3 && (
-            <span className='text-base text-slate-500 line-through'>
-              {price}
-              {i18n.language === 'uz' ? "so'm/oyiga" : 'сум/месяц'}
-            </span>
-          )} */}
+          <span className='text-2xl line-through'>
+            ${between ? realPrice : ''}{' '}
+          </span>
           $
           {isEnterprise
             ? i18n.language === 'uz'
@@ -390,14 +390,7 @@ function Tarif({
             ? price.toLocaleString()
             : price === 0
             ? 0
-            : Math.floor(price * 0.85).toLocaleString()}{' '}
-          {/* {i18n.language === 'uz'
-            ? isEnterprise
-              ? ''
-              : "so'm"
-            : isEnterprise
-            ? ''
-            : 'сум'} */}
+            : Math.ceil(price * 0.9).toLocaleString()}{' '}
           <span className={clsxm(' text-xs  ', isEnterprise && 'hidden')}>
             /{t('tariffs.month')}
           </span>
@@ -453,17 +446,6 @@ function Tarif({
           </>
         </Button>
       </div>
-      {/* <ul className=' flex flex-col gap-2  '>
-        {ff.map((f: string) => {
-          if (!features.includes(f)) return null;
-          return (
-            <li key={f} className='flex items-start justify-start'>
-              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
-              {f}
-            </li>
-          );
-        })}
-      </ul> */}
     </div>
   );
 }
