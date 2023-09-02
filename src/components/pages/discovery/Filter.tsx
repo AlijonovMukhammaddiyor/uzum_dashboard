@@ -53,7 +53,10 @@ function Filter({
           min={0}
           value={min !== null ? min : ''}
           placeholder='Min'
-          className='noscroll ring-none active:ring-none h-8 w-[120px] appearance-none rounded-none border border-slate-700 outline-none focus:ring-0'
+          className={clsxm(
+            'noscroll ring-none active:ring-none h-8 w-[120px] appearance-none rounded-none border border-slate-700 outline-none focus:ring-0',
+            isDisabled && 'bg-slate-200'
+          )}
           onChange={(e) => {
             if (isDisabled) {
               return;
@@ -79,7 +82,10 @@ function Filter({
           min={0}
           value={max !== null ? max : ''}
           placeholder='Max'
-          className='noscroll ring-none active:ring-none h-8 w-[120px] appearance-none rounded-none border border-slate-700 p-2 outline-none focus:ring-0'
+          className={clsxm(
+            'noscroll ring-none active:ring-none h-8 w-[120px] appearance-none rounded-none border border-slate-700 p-2 outline-none focus:ring-0',
+            isDisabled && 'bg-slate-200'
+          )}
           onChange={(e) => {
             if (isDisabled) {
               return;

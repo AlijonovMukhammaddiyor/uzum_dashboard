@@ -13,6 +13,7 @@ import Layout from '@/components/layout/Layout';
 import CategoryComponent from '@/components/pages/category/slug/CategoryComponent';
 import { reverseSlug } from '@/components/pages/category/utils';
 import Seo from '@/components/Seo';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Tabs from '@/components/shared/Tabs';
 
 import { useContextState } from '@/context/Context';
@@ -40,10 +41,22 @@ function Category({ user }: Props) {
   const { slug } = router.query as { slug: string };
   const { title, id } = reverseSlug(slug);
   const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (notAllowedTab && state.user?.tariff === 'trial')
+      RenderAlert({
+        alertTitle: t('tariffs.only_selected_shops'),
+        // alertSubtitle: t('home.new_products.info'),
+        buttonTitle: t('tariffs.tariffs'),
+        buttonLink: '/profile',
+      });
+  }, [notAllowedTab, state.user?.tariff, t]);
+
   React.useEffect(() => {
     setRendered(true);
     dispatch({ type: 'USER', payload: { user } });
     const api = new API(null);
+
     api
       .get<unknown, AxiosResponse<CategoryType>>(
         `/category/current/` + id + '/'
@@ -74,6 +87,11 @@ function Category({ user }: Props) {
   }, [t, i18n.language]);
   if (!rendered) return <></>;
 
+  const canSee =
+    state.user?.tariff === 'business' ||
+    state.user?.tariff === 'seller' ||
+    state.user?.tariff === 'base';
+
   return (
     <Layout>
       <Seo />
@@ -98,7 +116,23 @@ function Category({ user }: Props) {
             t('categories.sellers'),
             // 'Kunlik',
           ]}
+          disbaledTabs={
+            canSee
+              ? []
+              : [
+                  t('categories.trend'),
+                  t('categories.subcategories'),
+                  t('categories.segmentation'),
+                  t('categories.sellers'),
+                ]
+          }
           setNotAllowedTab={setNotAllowedTab}
+          premiumTabs={[
+            t('categories.trend'),
+            t('categories.subcategories'),
+            t('categories.segmentation'),
+            t('categories.sellers'),
+          ]}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           className='mb-6 mt-4'

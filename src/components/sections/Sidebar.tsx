@@ -320,7 +320,10 @@ function SidebarItem({
       return;
     }
 
-    if (state.user?.tariff === 'trial' && href === '/campaigns') {
+    if (
+      state.user?.tariff === 'trial' &&
+      (href === '/campaigns' || href === '/niches')
+    ) {
       RenderAlert({
         alertTitle:
           i18n.language === 'uz'

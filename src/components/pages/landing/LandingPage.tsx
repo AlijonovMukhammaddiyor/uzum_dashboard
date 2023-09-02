@@ -7,7 +7,6 @@ import Footer1 from '@/components/pages/landing/components/Footer1';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 import LandingMain from '@/components/pages/landing/components/LandingMain';
 import Referral from '@/components/pages/landing/components/Referral';
-import SectionFeatures from '@/components/pages/landing/components/SectionFeatures';
 import SectionWhy from '@/components/pages/landing/components/SectionWhy';
 import Tops from '@/components/pages/landing/components/Tops';
 function LandingPage() {
@@ -42,7 +41,7 @@ function LandingPage() {
       {/* <SectionOverview /> */}
       {/* <Cards /> */}
       <SectionWhy />
-      <SectionFeatures />
+      {/* <SectionFeatures /> */}
       <Tops />
       <Referral />
       <Footer1 />
