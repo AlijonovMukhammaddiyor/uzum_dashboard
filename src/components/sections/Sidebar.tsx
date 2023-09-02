@@ -110,7 +110,8 @@ function Sidebar({
               <HiOutlineHome
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Umumiy' && 'text-white'
+                  activeTab === 'Umumiy' && 'text-white',
+                  'my-fourth-step'
                 )}
               />
             }
@@ -128,7 +129,8 @@ function Sidebar({
               <HiOutlineSquares2X2
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Kategoriyalar' && 'text-white'
+                  activeTab === 'Kategoriyalar' && 'text-white',
+                  'my-third-step'
                 )}
               />
             }
@@ -147,7 +149,8 @@ function Sidebar({
               <HiOutlineBuildingStorefront
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Sotuvchilar' && 'text-white'
+                  activeTab === 'Sotuvchilar' && 'text-white',
+                  'my-second-step'
                 )}
               />
             }
@@ -165,7 +168,8 @@ function Sidebar({
               <HiOutlineShoppingBag
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Mahsulotlar' && 'text-white'
+                  activeTab === 'Mahsulotlar' && 'text-white',
+                  'my-first-step'
                 )}
               />
             }
@@ -203,7 +207,8 @@ function Sidebar({
               <HiMagnifyingGlass
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Niches' && 'text-white'
+                  activeTab === 'Niches' && 'text-white',
+                  'my-fifth-step'
                 )}
               />
             }
@@ -226,7 +231,8 @@ function Sidebar({
               <HiOutlineTag
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === 'Aksiyalar' && 'text-white'
+                  activeTab === 'Aksiyalar' && 'text-white',
+                  'my-sixth-step'
                 )}
               />
             }
@@ -314,7 +320,10 @@ function SidebarItem({
       return;
     }
 
-    if (state.user?.tariff === 'trial' && href === '/campaigns') {
+    if (
+      state.user?.tariff === 'trial' &&
+      (href === '/campaigns' || href === '/niches')
+    ) {
       RenderAlert({
         alertTitle:
           i18n.language === 'uz'

@@ -85,7 +85,7 @@ function Pricing({ className }: { className?: string }) {
 
               {/* Discount Tag */}
               <span className='absolute right-[-0px] top-[-20px] rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white'>
-                -15%
+                -10%
               </span>
             </div>
           </div>
@@ -94,10 +94,10 @@ function Pricing({ className }: { className?: string }) {
         {state.user?.tariff === 'trial' && (
           <div className='flex max-w-fit items-center justify-start gap-3 bg-yellow-300 p-3 shadow-lg'>
             <IoWarningOutline className='inline-block text-xl  text-green-500' />
-            <p className='text-xl font-medium'>
+            <p className='font-medium'>
               {i18n.language === 'uz'
-                ? 'Ayni paytda siz  "Boshlang`ich"  tarifini 1 kunlik sinov sifatida ishlatmoqdasiz.'
-                : 'Вы сейчас используете тариф "Стартер" в качестве пробной версии на 1 день.'}
+                ? `Siz hozirda "Boshlang'ich" tarifini ma'lum cheklovlar bilan sinov tariqasida foydalanmoqdasiz.`
+                : 'В настоящее время вы используете тариф «Стартовый» с некоторыми ограничениями в качестве пробного периода.'}
             </p>
           </div>
         )}
@@ -129,7 +129,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.beginner')}
             isCurrentPlan={state.user?.tariff === 'base'}
             setCurrentPlan={setCurrentPlan}
-            price={299000}
+            price={19.9}
             months={months}
             features={[
               t('tariffs.1_dukon'),
@@ -163,7 +163,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.seller')}
             isCurrentPlan={state.user?.tariff === 'seller'}
             setCurrentPlan={setCurrentPlan}
-            price={499000}
+            price={33}
             months={months}
             features={[
               t('tariffs.4_dukon'),
@@ -250,53 +250,7 @@ function Pricing({ className }: { className?: string }) {
                 : 'Сравнение тарифов'}
             </p>
           </div>
-          <div className='mb-10 flex items-center justify-between gap-12 bg-white px-32 py-10'>
-            <div className='h-full flex-1'>
-              {/* <p>! Eslatib o'tamiz:</p>
-              <p>Siz Sinov muddatida Boshlang'ich tarifdan foydalanasiz.</p> */}
-              <Testimonials
-                className=' max-w-fit'
-                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
-                tarif='Sotuvchi'
-                name='UyBop'
-                profession='Uzumda sotuvchi'
-              />
-              <Testimonials
-                className=' ml-40 mt-16 max-w-fit'
-                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
-                tarif='Biznes'
-                name='Uzum Invest'
-                profession='Marketolog'
-              />
-              <Testimonials
-                className='mt-16 max-w-fit'
-                text='Biz Biznes tarifdan foydalanamiz. Boshqa tariflardan ko`ra ancha ko`p ma`lumotlar boligi uchun'
-                tarif='Sotuvchi'
-                name='Emil'
-                profession='Uzumda sotuvchi'
-              />
-            </div>
-            <div className='relative  flex h-[500px] w-[500px] items-end justify-start bg-blue-500 '>
-              <span className=' absolute right-2 top-0 text-4xl text-white'>
-                Biznes
-              </span>
-              <div className='relative  flex h-[350px] w-[350px] items-end justify-start bg-blue-400 '>
-                <span className=' absolute  right-2 top-0 text-3xl text-white'>
-                  Sotuvchi
-                </span>
-                <div className='relative  flex h-[200px] w-[200px] items-end justify-start bg-blue-300  '>
-                  <span className=' absolute  right-2 top-0 text-xl text-white'>
-                    Boshlang'ich
-                  </span>
-                  <div className='relative  flex h-[70px] w-[70px] items-end justify-start bg-blue-200 '>
-                    <span className=' absolute right-1 top-0 text-white'>
-                      Bepul
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
           <PricingTable featuresData={getPricingData(t)} t={t} />
         </div>
       </div>
@@ -378,7 +332,7 @@ function Tarif({
 
     api
       .post('/payments/paylink/', {
-        amount: price * months,
+        amount: Math.floor(price * months * 12000),
         months,
         tariff:
           title === t('tariffs.free')
@@ -399,6 +353,9 @@ function Tarif({
         setLoading(false);
       });
   };
+
+  const realPrice = isPro ? 25 : isProPlus ? 40 : 1000000;
+  const between = isPro || isProPlus;
 
   return (
     <div
@@ -421,12 +378,12 @@ function Tarif({
       </div>
       <div className='relative flex flex-col gap-1 text-3xl font-medium'>
         <p className={clsxm(isEnterprise ? 'text-base' : 'text-3xl')}>
-          {/* {months === 3 && (
-            <span className='text-base text-slate-500 line-through'>
-              {price}
-              {i18n.language === 'uz' ? "so'm/oyiga" : 'сум/месяц'}
+          {between && (
+            <span className='text-2xl line-through'>
+              ${between ? realPrice : ''}{' '}
             </span>
-          )} */}
+          )}
+          $
           {isEnterprise
             ? i18n.language === 'uz'
               ? "Biz bilan bog'laning"
@@ -435,14 +392,7 @@ function Tarif({
             ? price.toLocaleString()
             : price === 0
             ? 0
-            : Math.floor(price * 0.85).toLocaleString()}{' '}
-          {i18n.language === 'uz'
-            ? isEnterprise
-              ? ''
-              : "so'm"
-            : isEnterprise
-            ? ''
-            : 'сум'}
+            : Math.ceil(price * 0.9).toLocaleString()}{' '}
           <span className={clsxm(' text-xs  ', isEnterprise && 'hidden')}>
             /{t('tariffs.month')}
           </span>
@@ -498,17 +448,6 @@ function Tarif({
           </>
         </Button>
       </div>
-      {/* <ul className=' flex flex-col gap-2  '>
-        {ff.map((f: string) => {
-          if (!features.includes(f)) return null;
-          return (
-            <li key={f} className='flex items-start justify-start'>
-              <IoCheckmarkSharp className='mr-2 inline-block h-5 w-5 text-green-500' />
-              {f}
-            </li>
-          );
-        })}
-      </ul> */}
     </div>
   );
 }

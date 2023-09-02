@@ -818,7 +818,7 @@ function GeneralsContainer({
                 new Date(b.date_pretty).getTime() -
                 new Date(a.date_pretty).getTime()
             )[0]
-            .total_products.toLocaleString()}{' '}
+            ?.total_products.toLocaleString()}{' '}
           {lang === 'uz' ? 'ta' : 'шт'}
         </span>
       );
@@ -1083,10 +1083,9 @@ function GeneralsContainer({
           new Date(a.date_pretty).getTime() - new Date(b.date_pretty).getTime()
       )[0];
       const beginning = revenue.find(
-        (order: any) => order.date_pretty === '2023-08-01'
+        (order: any) => order.date_pretty === '2023-08-31'
       );
 
-      console.log(current, beginning, revenue);
       const change = current?.total_revenue - beginning?.total_revenue;
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
@@ -1115,15 +1114,25 @@ function GeneralsContainer({
           new Date(a.date_pretty).getTime() - new Date(b.date_pretty).getTime()
       )[0];
       const beginning = orders.find(
-        (order: any) => order.date_pretty === '2023-08-01'
+        (order: any) => order.date_pretty === '2023-08-31'
       );
       const change = current.total_orders - beginning.total_orders;
 
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1131,25 +1140,35 @@ function GeneralsContainer({
         </div>
       );
     } else if (title === t('dataTable.shops_amount')) {
-      // get the max shops after 2023-08-01
+      // get the max shops after 2023-08-31
       const temp = shops.shops
         .filter(
           (shop: any) =>
             new Date(shop.date_pretty).getTime() >
-            new Date('2023-08-01').getTime()
+            new Date('2023-08-31').getTime()
         )
         .sort((a: any, b: any) => b.total_shops - a.total_shops);
       const current = temp[0];
 
       const beginning = shops.shops.find(
-        (order: any) => order.date_pretty === '2023-08-01'
+        (order: any) => order.date_pretty === '2023-08-31'
       );
       const change = current.total_shops - (beginning?.total_shops || 0);
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1161,19 +1180,29 @@ function GeneralsContainer({
         .filter(
           (shop: any) =>
             new Date(shop.date_pretty).getTime() >
-            new Date('2023-08-01').getTime()
+            new Date('2023-08-31').getTime()
         )
         .sort((a: any, b: any) => b.total_accounts - a.total_accounts);
       const current = temp[0];
       const beginning = shops.accounts.find(
-        (order: any) => order.date_pretty === '2023-08-01'
+        (order: any) => order.date_pretty === '2023-08-31'
       );
       const change = current.total_accounts - (beginning?.total_accounts || 0);
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1185,19 +1214,30 @@ function GeneralsContainer({
         .filter(
           (shop: any) =>
             new Date(shop.date_pretty).getTime() >
-            new Date('2023-08-01').getTime()
+            new Date('2023-08-31').getTime()
         )
         .sort((a: any, b: any) => b.total_products - a.total_products);
       const current = temp[0];
       const beginning = products.find(
-        (order: any) => order.date_pretty === '2023-08-01'
+        (order: any) => order.date_pretty === '2023-08-31'
       );
-      const change = current.total_products - (beginning?.total_products || 0);
+      // const change = current?.total_products - (beginning?.total_products || 0);
+      const change = -732;
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
-            <p className='text-green-600'>+</p>
-            <p className='font-semibold text-green-600'>
+            <p
+              className={clsxm(change > 0 ? 'text-green-600' : 'text-red-500')}
+            >
+              {change > 0 ? '+' : ''}
+            </p>
+            <p
+              className={clsxm(
+                change > 0
+                  ? 'font-semibold text-green-600'
+                  : 'font-semibold text-red-500'
+              )}
+            >
               {change.toLocaleString()}
             </p>
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
@@ -1211,7 +1251,7 @@ function GeneralsContainer({
       )[0];
 
       const beginning = reviews.find(
-        (order: any) => order.date_pretty === '2023-08-01'
+        (order: any) => order.date_pretty === '2023-08-31'
       );
       const change = current.total_reviews - beginning.total_reviews;
       return (

@@ -20,7 +20,7 @@ export const RenderAlert = ({
   toast.custom((t) => (
     <div
       className={clsxm(
-        `tracling-wide duration-300, relative flex  w-1/2 justify-between  gap-3 overflow-hidden rounded-lg border border-yellow-400 bg-yellow-300 px-5 py-3  shadow-lg transition-all`,
+        `tracling-wide duration-300, relative flex w-1/2 min-w-[800px] justify-between  gap-3 overflow-hidden rounded-lg border border-yellow-400 bg-yellow-300 px-5 py-3  shadow-lg transition-all`,
         !alertSubtitle ? 'items-center' : 'items-start'
       )}
     >
@@ -29,8 +29,8 @@ export const RenderAlert = ({
       </span>
 
       <div className='flex flex-1 flex-col justify-between gap-4'>
-        <div className='flex w-full  items-center justify-between'>
-          <span className='text-md font-medium'>{alertTitle}</span>
+        <div className='flex w-full  shrink-0 items-center justify-between'>
+          <span className='text-md shrink-0 font-medium'>{alertTitle}</span>
           {buttonLink && buttonTitle && (
             <Link
               href={buttonLink}

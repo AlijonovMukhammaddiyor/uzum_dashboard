@@ -5,7 +5,7 @@
 :root {
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
-  --tw-color-primary: 97 75 195;
+  --tw-color-primary: 77 55 175;
   --tw-color-secondary: 223 204 251;
   --tw-color-accent: 255 233 177;
   --tw-color-image: 239 239 239;
@@ -411,6 +411,7 @@
     rgba(254, 240, 255, 1) 100%
   );
 }
+
 ._gradient {
   background: rgb(254, 240, 255);
   background: radial-gradient(
@@ -429,13 +430,35 @@
 }
 
 .text_gradient {
-  @apply from-primary  bg-gradient-to-r to-orange-500 bg-clip-text text-transparent;
+  background: linear-gradient(
+    to right,
+    #ffcccc 20%,
+    #e25e3e 30%,
+    #45ffca 70%,
+    #33bbc5 80%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  background-size: 500% auto;
+  animation: textShine 5s ease-in-out infinite alternate;
 }
+
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
 .all_side_shadow {
   box-shadow: 0 0 50px rgb(230, 230, 230);
 }
 .all_side_shadow1 {
-  box-shadow: 0 0 30px rgb(186, 186, 186);
+  box-shadow: 0 0 30px rgb(77, 45, 183);
 }
 
 .bg_orange_gradient {

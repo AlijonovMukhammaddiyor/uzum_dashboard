@@ -21,7 +21,6 @@ const ReferralPopup = ({
     <Popup
       open={open}
       closeOnDocumentClick
-      onClose={closeModal}
       contentStyle={{
         width: '350px',
         padding: '24px',

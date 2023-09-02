@@ -43,7 +43,7 @@ function Filter({
 
   return (
     <div className={clsxm('w-[340px]', className)}>
-      <div className='mb-4 flex items-center justify-start gap-2 font-semibold'>
+      <div className='mb-2 flex items-center justify-start gap-2 font-semibold'>
         <p className='text-sm'>{title}</p>
         {/* <LiaQuestionCircleSolid className='h-5 w-5 cursor-pointer text-blue-700' /> */}
       </div>
@@ -53,7 +53,10 @@ function Filter({
           min={0}
           value={min !== null ? min : ''}
           placeholder='Min'
-          className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border border-slate-700 p-2 outline-none focus:ring-0'
+          className={clsxm(
+            'noscroll ring-none active:ring-none h-8 w-[120px] appearance-none rounded-none border border-slate-700 outline-none focus:ring-0',
+            isDisabled && 'bg-slate-200'
+          )}
           onChange={(e) => {
             if (isDisabled) {
               return;
@@ -79,7 +82,10 @@ function Filter({
           min={0}
           value={max !== null ? max : ''}
           placeholder='Max'
-          className='noscroll ring-none active:ring-none w-[120px] appearance-none rounded-none border border-slate-700 p-2 outline-none focus:ring-0'
+          className={clsxm(
+            'noscroll ring-none active:ring-none h-8 w-[120px] appearance-none rounded-none border border-slate-700 p-2 outline-none focus:ring-0',
+            isDisabled && 'bg-slate-200'
+          )}
           onChange={(e) => {
             if (isDisabled) {
               return;

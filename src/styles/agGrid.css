@@ -43,3 +43,9 @@
 .ag-paging-panel {
   background-color: #f1e9fd !important;
 }
+
+.introjs-tooltip {
+  max-width: 500px !important;
+  width: auto !important;
+  width: 500px !important; /* Set width */
+}

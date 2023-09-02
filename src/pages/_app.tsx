@@ -27,9 +27,13 @@ import 'react-phone-input-2/lib/style.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import 'reactjs-popup/dist/index.css';
 import 'rc-slider/assets/index.css';
+import 'intro.js/introjs.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 
 import ArrowLink from '@/components/shared/links/ArrowLink';
+import Tour from '@/components/Tour';
 
+// const Tour = dynamic(() => import('../components/Tour'), { ssr: false });
 import { GOOGLE_CLIENT_ID } from '@/constant/env';
 import { AuthProvider } from '@/context/Context';
 
@@ -87,6 +91,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
         <main className={ubuntu.className}>
+          <Tour />
           <Head>
             <meta
               name='viewport'

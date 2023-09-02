@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaTelegramPlane } from 'react-icons/fa';
@@ -8,13 +7,11 @@ import Footer1 from '@/components/pages/landing/components/Footer1';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 import LandingMain from '@/components/pages/landing/components/LandingMain';
 import Referral from '@/components/pages/landing/components/Referral';
-import SectionFeatures from '@/components/pages/landing/components/SectionFeatures';
 import SectionWhy from '@/components/pages/landing/components/SectionWhy';
 import Tops from '@/components/pages/landing/components/Tops';
-
 function LandingPage() {
   const { t, i18n } = useTranslation('landing');
-  const router = useRouter();
+  const [open, setOpen] = React.useState<boolean>(false);
 
   return (
     <div className='relative w-screen'>
@@ -39,11 +36,12 @@ function LandingPage() {
         </a>
       </div>
 
-      <LandingHeader />
-      <LandingMain />
+      {!open && <LandingHeader />}
+      <LandingMain open={open} setOpen={setOpen} />
       {/* <SectionOverview /> */}
+      {/* <Cards /> */}
       <SectionWhy />
-      <SectionFeatures />
+      {/* <SectionFeatures /> */}
       <Tops />
       <Referral />
       <Footer1 />

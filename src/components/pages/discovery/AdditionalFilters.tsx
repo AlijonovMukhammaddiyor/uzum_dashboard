@@ -34,14 +34,14 @@ function AdditionalProductsFilter({
 
   return (
     <div className='flex h-full w-full flex-col items-start justify-start gap-0 divide-y-4'>
-      <div className='pb-3 text-lg'>
+      <div className='pb-3'>
         {i18n.language === 'uz'
           ? "Malum bir mahsulot(lar)ni so'zlar orqali topish uchun quyidagi filtrlardan foydalaning"
           : 'Используйте следующие фильтры для поиска конкретного продукта (продуктов) по словам'}
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='flex w-[300px] items-start justify-start gap-2 py-3'>
-          <p className='text-lg font-semibold'>
+          <p className='font-semibold'>
             {i18n.language === 'uz' ? 'Mahsulot nomi' : 'Название продукта'}
           </p>
         </div>
@@ -58,7 +58,7 @@ function AdditionalProductsFilter({
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='flex w-[300px] items-start justify-start gap-2 py-3'>
-          <p className='text-lg font-semibold'>
+          <p className='font-semibold'>
             {i18n.language === 'uz' ? 'Kategoriya nomi' : 'Название категории'}
           </p>
         </div>
@@ -77,7 +77,7 @@ function AdditionalProductsFilter({
       </div>
       <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
         <div className='flex w-[300px] items-start justify-start gap-2 py-3'>
-          <p className='text-lg font-semibold'>
+          <p className='font-semibold'>
             {' '}
             {i18n.language === 'uz' ? "Do'kon nomi" : 'Название магазина'}
           </p>

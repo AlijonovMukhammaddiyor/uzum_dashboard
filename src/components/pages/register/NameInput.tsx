@@ -49,6 +49,21 @@ const NamesAndEmailComponent = ({
   const onRegister = async () => {
     if (!username) return alert(t('nousername.validate.error'));
 
+    // if password is less than 8 characters, alert user
+    if (password.length < 8)
+      return alert(
+        i18n.language === 'uz'
+          ? "Parol kamida 8 ta belgidan iborat bo'lishi kerak"
+          : 'Пароль должен содержать не менее 8 символов'
+      );
+
+    if (!isValidUsername(username))
+      return alert(
+        i18n.language === 'uz'
+          ? "Foydalanuvchi nomi faqat lotin harflari, raqamlar va @ . + - _ belgilaridan iborat bo'lishi kerak"
+          : 'Имя пользователя должно содержать только буквы латинского алфавита, цифры и символы @ . + - _'
+      );
+
     setSendingRequest(true);
 
     const api = new API(null);
@@ -124,6 +139,11 @@ const NamesAndEmailComponent = ({
 
   const handleGoogleLogin = () => {
     login();
+  };
+
+  const isValidUsername = (username: string) => {
+    const usernamePattern = /^[a-zA-Z0-9@.+-_]+$/;
+    return usernamePattern.test(username);
   };
 
   return (
@@ -220,7 +240,7 @@ const NamesAndEmailComponent = ({
             }}
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                return onRegister();
+                return setPopupOpen(true);
               }
             }}
             required

@@ -136,14 +136,19 @@ function AboutProduct({
         <div className={clsxm('relative h-full w-full', !isProPlus && '')}>
           {!isProPlus && (
             <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
-              <span className='w-full text-center'>🌟 Premium</span>
+              <span className='w-full text-center'>
+                {i18n.language === 'uz'
+                  ? 'Ushbu tarifda mavjud emas'
+                  : 'Этот тариф недоступен'}
+              </span>
             </div>
           )}
 
           {!isProPlus && (
             <p className='absolute top-10 z-50 w-full text-center font-semibold'>
-              Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar
-              bilan barcha jihatdan solishtiring (3 tagacha)
+              {i18n.language === 'uz'
+                ? 'Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar bilan barcha jihatdan solishtiring (3 tagacha)'
+                : 'Сравните этот товар по всем параметрам с конкурирующими товарами в таблице ниже (до 3)'}
             </p>
           )}
           {!isProPlus && (

@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import React, { useEffect } from 'react';
 import Zoom from 'react-medium-image-zoom';
+import { Carousel } from 'react-responsive-carousel';
 
 import clsxm from '@/lib/clsxm';
 
@@ -24,13 +25,61 @@ function SectionFeatures() {
 
   const [isShown, setIsShown] = React.useState<boolean>(false);
 
+  const extractFeaturesImages = () => {
+    const allFeatures: {
+      [key: string]: {
+        title: string;
+        description: string;
+        image: string;
+        children?: {
+          [key: string]: {
+            title: string;
+            description: string;
+            image: string;
+          };
+        };
+      };
+    } = t('features', { returnObjects: true });
+
+    const imagesList: {
+      image: string;
+      title: string;
+      description: string;
+    }[] = [];
+
+    Object.keys(allFeatures).forEach((featureKey) => {
+      const feature = allFeatures[featureKey];
+      if (feature.children) {
+        Object.keys(feature.children).forEach((childKey) => {
+          if (!feature.children) return;
+          const child = feature.children[childKey];
+          imagesList.push({
+            image: child.image,
+            title: child.title,
+            description: child.description,
+          });
+        });
+      } else {
+        imagesList.push({
+          image: feature.image,
+          title: feature.title,
+          description: feature.description,
+        });
+      }
+    });
+
+    return imagesList;
+  };
+
+  const imagesData = extractFeaturesImages();
+
   return (
-    <div className=' relative w-full bg-[#F3F5F7] py-8 md:py-28' id='services'>
+    <div className='relative w-full bg-[#F3F5F7] py-8 md:py-28' id='services'>
       <div className='layout'>
         <h1 className='font-primary text-2xl font-semibold leading-8 tracking-wider md:mb-6 md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
           {t('features.title')}
         </h1>
-        <div className='mg:gap-16 relative flex w-full flex-col items-start justify-start gap-10 md:flex-row'>
+        <div className='mg:gap-16 base:flex relative hidden w-full flex-col items-start justify-start gap-10 md:flex-row'>
           <div
             className={clsxm(
               'md:four-sided-shadow relative w-full bg-white pl-4 pt-7 transition-all md:z-10 md:w-[300px] md:rounded-xl  md:bg-transparent md:py-10 md:pt-10 md:shadow-none'
@@ -124,32 +173,53 @@ function SectionFeatures() {
             </div>
           </div>
         </div>
+        <div>
+          <Carousel
+            autoPlay
+            infiniteLoop
+            showStatus={false}
+            showThumbs={false}
+            interval={5000}
+            className='relative'
+          >
+            {imagesData.map((imageData) => {
+              return (
+                <div
+                  key={imageData.image}
+                  className='relative h-[500px] w-full'
+                >
+                  <div
+                    className='legend'
+                    style={{
+                      bottom: '-100px',
+                    }}
+                  >
+                    <h2 className='text-xl font-bold text-white'>
+                      {imageData.title}
+                    </h2>
+                    <p className='text-left text-sm text-white'>
+                      {imageData.description}
+                    </p>
+                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    style={
+                      {
+                        // marginTop: '200px',
+                      }
+                    }
+                    src={imageData.image}
+                    alt={imageData.title}
+                    className='object-contain'
+                  />
+                </div>
+              );
+            })}
+          </Carousel>
+        </div>
       </div>
     </div>
   );
 }
-
-// function ListItem({
-//   title,
-//   image,
-//   setCurrentImage,
-//   setActiveTab,
-//   setIsShown,
-//   activeTab,
-// }: {
-//   title: string;
-//   image: string;
-//   setCurrentImage: React.Dispatch<React.SetStateAction<string>>;
-//   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
-//   setIsShown: React.Dispatch<React.SetStateAction<boolean>>;
-//   activeTab: string;
-// }) {
-//   const { t } = useTranslation('landing');
-//   console.log('title', title);
-
-//   return (
-
-//   );
-// }
 
 export default SectionFeatures;
