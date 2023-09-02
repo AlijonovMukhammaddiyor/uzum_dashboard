@@ -10,7 +10,7 @@ const Cards = () => {
       <div className='h-auto w-auto transform rounded-xl bg-[#E9FFC2] p-8 shadow-2xl transition-transform duration-200 ease-in-out hover:scale-105 lg:min-h-[450px] lg:w-1/3'>
         <h1 className='font-primary mb-6 text-2xl font-bold text-[#49852d] lg:text-4xl'>
           {isUz
-            ? 'Uzumga Marketga endigina kirib keldingizmi?'
+            ? 'Uzum Marketga endigina kirib keldingizmi?'
             : 'Начинаете продавать на Uzum?'}
         </h1>
         <p className='font-primary mb-4 text-lg text-gray-800'>
