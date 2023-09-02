@@ -145,8 +145,9 @@ function ShopsSelect({
             <IoWarningOutline className='text-primary text-2xl' />
             <p className='text-primary text-center font-semibold'>
               {/* write "You can select up to 3 shops" */}
-              Yodda tuting! Do'konlarni faqat 30 kundan so'ng almashtirishingiz
-              mumkin.
+              {i18n.language === 'uz'
+                ? "Yodda tuting! Do'konlarni faqat 30 kundan so'ng almashtirishingiz mumkin."
+                : 'Пожалуйста помни! Сменить магазин можно только через 30 дней.'}
             </p>
           </div>
 
@@ -156,15 +157,15 @@ function ShopsSelect({
             value={selectedRows}
             onChange={(selectedRows) => {
               // make sure all selected shops have the same account_id
-              const account_ids = selectedRows.map(
-                (row) => account_map[row.value]
-              );
+              // const account_ids = selectedRows.map(
+              //   (row) => account_map[row.value]
+              // );
 
-              if (new Set(account_ids).size > 1) {
-                return alert(
-                  "Iltimos, faqat bir xisobga tegishli do'konlarni tanlang"
-                );
-              }
+              // if (new Set(account_ids).size > 1) {
+              //   return alert(
+              //     "Iltimos, faqat bir xisobga tegishli do'konlarni tanlang"
+              //   );
+              // }
 
               setSelectedRows(selectedRows as any);
             }}
