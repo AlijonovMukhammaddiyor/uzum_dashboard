@@ -76,14 +76,13 @@ function LandingMain({
               className='relative'
             >
               <div>
-                <Zoom>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <Image
-                    src={growing}
-                    alt='Growing Image'
-                    className='rounded-md'
-                  />
-                </Zoom>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <Image
+                  priority
+                  src={growing}
+                  alt='Growing Image'
+                  className='rounded-md'
+                />
                 <p
                   className='legend'
                   style={{
@@ -96,28 +95,8 @@ function LandingMain({
                 </p>
               </div>
               <div>
-                <Image src={best} alt='Best Image' className='rounded-md' />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? 'Haftaning eng yaxshi mahsulotlari'
-                    : 'Лучшие продукты недели'}
-                </p>
-              </div>
-
-              <div>
                 <Image
-                  src={filters}
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? "O'zingiz istagan daromadli mahsulotlarni toping"
-                    : 'Найдите самые прибыльные продукты'}
-                </p>
-              </div>
-              <div>
-                <Image
+                  priority
                   src={product}
                   alt='Growing Image'
                   className='rounded-md'
@@ -129,6 +108,34 @@ function LandingMain({
                 </p>
               </div>
               <div>
+                <Image
+                  src={best}
+                  alt='Best Image'
+                  className='rounded-md'
+                  priority
+                />
+                <p className='legend'>
+                  {i18n.language === 'uz'
+                    ? 'Haftaning eng yaxshi mahsulotlari'
+                    : 'Лучшие продукты недели'}
+                </p>
+              </div>
+
+              <div>
+                <Image
+                  priority
+                  src={filters}
+                  alt='Growing Image'
+                  className='rounded-md'
+                />
+                <p className='legend'>
+                  {i18n.language === 'uz'
+                    ? "O'zingiz istagan daromadli mahsulotlarni toping"
+                    : 'Найдите самые прибыльные продукты'}
+                </p>
+              </div>
+
+              <div>
                 <Image src={main} alt='Growing Image' className='rounded-md' />
                 <p className='legend'>
                   {i18n.language === 'uz'
@@ -139,6 +146,7 @@ function LandingMain({
               <div>
                 <Image
                   src={segments}
+                  priority
                   alt='Growing Image'
                   className='rounded-md'
                 />
@@ -151,6 +159,7 @@ function LandingMain({
               <div>
                 <Image
                   src={shop_products_pie}
+                  priority
                   alt='Growing Image'
                   className='rounded-md'
                 />
@@ -163,6 +172,7 @@ function LandingMain({
               <div>
                 <Image
                   src={shop_products}
+                  priority
                   alt='Shop Products Image'
                   className='rounded-md'
                 />
@@ -353,14 +363,13 @@ function LandingMain({
             className='mt-[100px]'
           >
             <div>
-              <Zoom>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <Image
-                  src={growing}
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-              </Zoom>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <Image
+                src={growing}
+                priority
+                alt='Growing Image'
+                className='rounded-md'
+              />
               <p
                 className='legend'
                 style={{
@@ -373,6 +382,19 @@ function LandingMain({
               </p>
             </div>
             <div>
+              <Image
+                src={product}
+                priority
+                alt='Growing Image'
+                className='rounded-md'
+              />
+              <p className='legend'>
+                {i18n.language === 'uz'
+                  ? 'Mahsulotlar tahlili'
+                  : 'Анализ продуктов'}
+              </p>
+            </div>
+            <div>
               <Image src={best} alt='Best Image' className='rounded-md' />
               <p className='legend'>
                 {i18n.language === 'uz'
@@ -382,23 +404,26 @@ function LandingMain({
             </div>
 
             <div>
-              <Image src={filters} alt='Growing Image' className='rounded-md' />
+              <Image
+                src={filters}
+                priority
+                alt='Growing Image'
+                className='rounded-md'
+              />
               <p className='legend'>
                 {i18n.language === 'uz'
                   ? "O'zingiz istagan daromadli mahsulotlarni toping"
                   : 'Найдите самые прибыльные продукты'}
               </p>
             </div>
+
             <div>
-              <Image src={product} alt='Growing Image' className='rounded-md' />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? 'Mahsulotlar tahlili'
-                  : 'Анализ продуктов'}
-              </p>
-            </div>
-            <div>
-              <Image src={main} alt='Growing Image' className='rounded-md' />
+              <Image
+                src={main}
+                priority
+                alt='Growing Image'
+                className='rounded-md'
+              />
               <p className='legend'>
                 {i18n.language === 'uz'
                   ? "Umumiy ma'lumotlar"
@@ -408,6 +433,7 @@ function LandingMain({
             <div>
               <Image
                 src={segments}
+                priority
                 alt='Growing Image'
                 className='rounded-md'
               />
@@ -420,6 +446,7 @@ function LandingMain({
             <div>
               <Image
                 src={shop_products_pie}
+                priority
                 alt='Growing Image'
                 className='rounded-md'
               />
@@ -432,6 +459,7 @@ function LandingMain({
             <div>
               <Image
                 src={shop_products}
+                priority
                 alt='Shop Products Image'
                 className='rounded-md'
               />
