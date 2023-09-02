@@ -116,9 +116,10 @@ function Pricing({ className }: { className?: string }) {
             months={months}
             features={[
               t('tariffs.Umumiy_malumotlar'),
+              t('tariffs.30_kunlik'),
               // t('tariffs.Barcha_Kategoriyalar'),
-              t('tariffs.Barcha_dokonlar'),
-              t('tariffs.Barcha_mahsulotlar'),
+              // t('tariffs.Barcha_dokonlar'),
+              // t('tariffs.Barcha_mahsulotlar'),
               t('tariffs.24/7_doimiy_yordam'),
             ]}
             color='primary'
@@ -133,9 +134,9 @@ function Pricing({ className }: { className?: string }) {
             months={months}
             features={[
               t('tariffs.1_dukon'),
-              t('tariffs.30_kunlik'),
+              t('tariffs.60_kunlik'),
               // t('tariffs.Umumiy_malumotlar'),
-              t('tariffs.Barcha_Kategoriyalar'),
+              // t('tariffs.Barcha_Kategoriyalar'),
               // t('tariffs.Kategoriya_trendi'),
               // t('tariffs.Kategoriya_mahsulotlari'),
               // t('tariffs.Ichki_kategoriyalar'),
@@ -146,12 +147,12 @@ function Pricing({ className }: { className?: string }) {
               // t('tariffs.Dokon_mahsulotlari'),
               // t('tariffs.Dokon_kategoriyalari'),
               // t('tariffs.Dokon_raqobatchilari'),
-              t('tariffs.Dokon_kunlik_sotuvlari'),
+              // t('tariffs.Dokon_kunlik_sotuvlari'),
               // t('tariffs.Barcha_mahsulotlar'),
               // t('tariffs.Mahsulot_tahlili'),
-              t('tariffs.Mahsulot_raqobatchilari'),
+              // t('tariffs.Mahsulot_raqobatchilari'),
               t('tariffs.24/7_doimiy_yordam'),
-              t('tariffs.Barcha_nishalar'),
+              // t('tariffs.Barcha_nishalar'),
             ]}
             color='primary'
             isPro
@@ -167,9 +168,9 @@ function Pricing({ className }: { className?: string }) {
             months={months}
             features={[
               t('tariffs.4_dukon'),
-              t('tariffs.60_kunlik'),
+              t('tariffs.90_kunlik'),
               // t('tariffs.Umumiy_malumotlar'),
-              t('tariffs.Barcha_Kategoriyalar'),
+              // t('tariffs.Barcha_Kategoriyalar'),
               // t('tariffs.Kategoriya_trendi'),
               // t('tariffs.Kategoriya_mahsulotlari'),
               // t('tariffs.Ichki_kategoriyalar'),
@@ -179,20 +180,20 @@ function Pricing({ className }: { className?: string }) {
               // t('tariffs.Dokon_tahlili'),
               // t('tariffs.Dokon_mahsulotlari'),
               // t('tariffs.Dokon_kategoriyalari'),
-              t('tariffs.Dokon_raqobatchilari'),
-              t('tariffs.Dokon_kunlik_sotuvlari'),
+              // t('tariffs.Dokon_raqobatchilari'),
+              // t('tariffs.Dokon_kunlik_sotuvlari'),
               // t('tariffs.Barcha_mahsulotlar'),
               // t('tariffs.Mahsulot_tahlili'),
-              t('tariffs.Mahsulot_raqobatchilari'),
-              t('tariffs.weekly_best_products'),
-              t('tariffs.monthly_best_products'),
+              // t('tariffs.Mahsulot_raqobatchilari'),
+              // t('tariffs.weekly_best_products'),
+              // t('tariffs.monthly_best_products'),
               t('tariffs.24/7_doimiy_yordam'),
               // t('tariffs.Yangi_mahsulotlar'),
-              t('tariffs.Osayotgan_mahsulotlar'),
-              t('tariffs.Osayotgan_kategoriyalar'),
-              t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-              t('tariffs.Barcha_nishalar'),
-              t('tariffs.addsImpactCheck'),
+              // t('tariffs.Osayotgan_mahsulotlar'),
+              // t('tariffs.Osayotgan_kategoriyalar'),
+              // t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
+              // t('tariffs.Barcha_nishalar'),
+              // t('tariffs.addsImpactCheck'),
             ]}
             color='primary'
             buttonTitle={t('tariffs.select')}
@@ -206,11 +207,11 @@ function Pricing({ className }: { className?: string }) {
             price={1000000}
             features={[
               t('tariffs.Barcha_dokonlar_full'),
-              t('tariffs.90_kunlik'),
+              t('tariffs.90_kunlikplus'),
               // t('tariffs.Umumiy_malumotlar'),
-              t('tariffs.Barcha_Kategoriyalar'),
-              t('tariffs.weekly_best_products'),
-              t('tariffs.monthly_best_products'),
+              // t('tariffs.Barcha_Kategoriyalar'),
+              // t('tariffs.weekly_best_products'),
+              // t('tariffs.monthly_best_products'),
               // t('tariffs.Kategoriya_trendi'),
               // t('tariffs.Kategoriya_mahsulotlari'),
               // t('tariffs.Ichki_kategoriyalar'),
@@ -218,20 +219,20 @@ function Pricing({ className }: { className?: string }) {
               // t('tariffs.Kategoriya_dokonlari'),
               // t('tariffs.Barcha_dokonlar'),
               // t('tariffs.Dokon_tahlili'),
-              t('tariffs.Dokon_mahsulotlari'),
+              // t('tariffs.Dokon_mahsulotlari'),
               // t('tariffs.Dokon_kategoriyalari'),
-              t('tariffs.Dokon_raqobatchilari'),
-              t('tariffs.Dokon_kunlik_sotuvlari'),
+              // t('tariffs.Dokon_raqobatchilari'),
+              // t('tariffs.Dokon_kunlik_sotuvlari'),
               // t('tariffs.Barcha_mahsulotlar'),
               // t('tariffs.Mahsulot_tahlili'),
               // t('tariffs.Mahsulot_raqobatchilari'),
 
               // t('tariffs.Yangi_mahsulotlar'),
-              t('tariffs.Osayotgan_mahsulotlar'),
-              t('tariffs.Osayotgan_kategoriyalar'),
-              t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-              t('tariffs.Barcha_nishalar'),
-              t('tariffs.addsImpactCheck'),
+              // t('tariffs.Osayotgan_mahsulotlar'),
+              // t('tariffs.Osayotgan_kategoriyalar'),
+              // t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
+              // t('tariffs.Barcha_nishalar'),
+              // t('tariffs.addsImpactCheck'),
               t('tariffs.24/7_doimiy_yordam'),
             ]}
             months={months}
@@ -246,7 +247,7 @@ function Pricing({ className }: { className?: string }) {
           <div className='mb-10 mt-24 w-full border bg-slate-200 p-4 text-center font-semibold text-black'>
             <p>
               {i18n.language === 'uz'
-                ? 'Tariflarni taqqoslash'
+                ? 'Tariflarni batafsil taqqoslash'
                 : 'Сравнение тарифов'}
             </p>
           </div>
@@ -360,12 +361,12 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        'four-sided-shadow relative mt-10 flex h-[350px] max-h-[350px] w-[300px] shrink-0 flex-grow  flex-col gap-7 border  bg-white px-5  py-8',
+        'four-sided-shadow relative mt-10 flex  w-[300px] shrink-0 flex-grow  flex-col gap-7 border  bg-white px-5  py-8',
         isProPlus && 'border-primary border'
       )}
     >
       <div className=' flex items-center justify-start gap-3'>
-        <p className='font-primary font-semibold'>{title}</p>
+        <p className='font-primary text-lg font-semibold'>{title}</p>
 
         {/* Best Offer Label  */}
         {isProPlus && (
@@ -377,17 +378,17 @@ function Tarif({
         )}
       </div>
       <div className='relative flex flex-col gap-1 text-3xl font-medium'>
-        <p className={clsxm(isEnterprise ? 'text-base' : 'text-3xl')}>
+        <p className={clsxm(isEnterprise ? 'py-[6px] text-base' : 'text-3xl')}>
           {between && (
-            <span className='text-2xl line-through'>
+            <span className='text-2xl text-gray-400 line-through'>
               ${between ? realPrice : ''}{' '}
             </span>
           )}
-          $
+          {!isEnterprise && '$'}
           {isEnterprise
             ? i18n.language === 'uz'
-              ? "Biz bilan bog'laning"
-              : 'Свяжитесь с нами'
+              ? 'Biz bilan bog`laning'
+              : 'Через контакт'
             : months === 1
             ? price.toLocaleString()
             : price === 0
@@ -424,18 +425,25 @@ function Tarif({
           </p>
         )}
       </div>
-      <div className='w-full '>
+
+      <div className='w-full'>
         <Button
           onClick={() => {
-            if (!isCurrentPlan) handlePayment();
+            if (!isCurrentPlan) {
+              if (isEnterprise) {
+                window.open('https://t.me/Alijonov_md', '_blank');
+              } else {
+                handlePayment();
+              }
+            }
           }}
           className={clsxm(
             `w-full bg-${color}  px-4 py-4 text-white`,
-            !isCurrentPlan && 'hover:bg-purple-700'
+            !isCurrentPlan && 'hover:bg-purple-700',
+            isEnterprise && 'bg-blue-500 hover:bg-blue-600'
           )}
           disabled={
-            ((isCurrentPlan || loading) && state.user?.tariff !== 'trial') ||
-            isEnterprise
+            (isCurrentPlan || loading) && state.user?.tariff !== 'trial'
           }
           isLoading={loading}
         >
@@ -444,10 +452,28 @@ function Tarif({
               ? i18n.language === 'uz'
                 ? 'Hozirgi'
                 : 'Текущий'
+              : isEnterprise
+              ? i18n.language === 'uz'
+                ? "Biz bilan bog'laning"
+                : 'Свяжитесь с нами'
               : t('tariffs.select')}
           </>
         </Button>
       </div>
+      {/* <div className='w-full'>
+        {features.map((feature, idx) => (
+          <div
+            className={clsxm(
+              ' flex items-center justify-start gap-3 text-sm font-light',
+              idx === 0 && 'mt-4'
+            )}
+            key={idx}
+          >
+            <span>✅</span>
+            <p>{feature}</p>
+          </div>
+        ))}
+      </div> */}
     </div>
   );
 }
@@ -471,7 +497,7 @@ const PricingTable = ({
   const { i18n } = useTranslation('common');
 
   return (
-    <div className='flex w-full flex-col border border-b-0  px-10'>
+    <div className='flex w-full flex-col  border-b-0  bg-white px-10 py-16'>
       <div className='flex h-24 shrink-0 '>
         <div className='  flex w-[500px] items-center justify-start  font-medium'>
           {t('tariffs.Umumiy_malumotlar')}
