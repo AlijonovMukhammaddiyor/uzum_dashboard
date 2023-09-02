@@ -7,6 +7,7 @@ interface Props {
   closeModal: () => void;
   referralCode: string;
   setReferralCode: (value: string) => void;
+  setOpen: (value: boolean) => void;
 }
 
 const ReferralPopup = ({
@@ -14,6 +15,7 @@ const ReferralPopup = ({
   closeModal,
   referralCode,
   setReferralCode,
+  setOpen,
 }: Props) => {
   const { i18n } = useTranslation('register');
 
@@ -21,6 +23,7 @@ const ReferralPopup = ({
     <Popup
       open={open}
       closeOnDocumentClick
+      onClose={() => setOpen(false)}
       contentStyle={{
         width: '350px',
         padding: '24px',

@@ -47,7 +47,15 @@ const NamesAndEmailComponent = ({
   const { t, i18n } = useTranslation('register');
 
   const onRegister = async () => {
+    console.log(username, password, phone);
     if (!username) return alert(t('nousername.validate.error'));
+
+    if (!phone || phone.length < 12)
+      return alert(
+        i18n.language === 'uz'
+          ? "Telefon nomer kiritilmagan yoki noto'g'ri nomer kiritilgan. Iltimos tekshirib qaytadan urinib ko'ring"
+          : 'Номер телефона не введен или введен неверно. Пожалуйста, проверьте и попробуйте еще раз'
+      );
 
     // if password is less than 8 characters, alert user
     if (password.length < 8)
@@ -150,6 +158,7 @@ const NamesAndEmailComponent = ({
     <div className={clsxm('flex w-[350px] max-w-[350px] flex-col gap-6', '')}>
       <ReferralPopup
         open={popupOpen}
+        setOpen={setPopupOpen}
         closeModal={() => {
           setPopupOpen(false);
           return onRegister();
@@ -159,6 +168,7 @@ const NamesAndEmailComponent = ({
       />
       <ReferralPopup
         open={popupOpenGoogle}
+        setOpen={setPopupOpenGoogle}
         closeModal={() => {
           setPopupOpenGoogle(false);
           handleGoogleLogin();
