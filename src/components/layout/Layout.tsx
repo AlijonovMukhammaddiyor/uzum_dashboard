@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useTranslation } from 'next-i18next';
 import * as React from 'react';
 import { Toaster } from 'react-hot-toast';
-import { FaTelegramPlane } from 'react-icons/fa';
 
 import clsxm from '@/lib/clsxm';
 
@@ -97,15 +96,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className='main_layout_container flex h-screen w-screen items-start justify-start overflow-hidden  bg-slate-100 pt-10'>
-      <div className='shadow-3xl fixed bottom-5 right-5 z-[999999] flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-blue-500'>
-        <a
-          href='https://t.me/uzum_uzanalitika'
-          target='_blank'
-          className='items-center justify-center'
-        >
-          <FaTelegramPlane className='text-2xl text-white' />
-        </a>
-      </div>
       {isWarningVisible && !hasClosedWarning && (
         <div className='fixed left-1/2 top-4 z-[1999] -translate-x-1/2 transform rounded bg-yellow-300 p-6 shadow-lg'>
           <div className='mb-4 flex items-center justify-start'>

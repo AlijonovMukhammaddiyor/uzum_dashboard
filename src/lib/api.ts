@@ -85,6 +85,15 @@ class API {
     );
   }
 
+  public async updateUserTokens() {
+    try {
+      const res = await this.refreshTokens();
+      return res;
+    } catch (err) {
+      logger(err, 'Error in updateUserTokens');
+    }
+  }
+
   private async refreshTokens() {
     try {
       const isProd = process.env.NODE_ENV === 'production';

@@ -1,8 +1,11 @@
 import axios from 'axios';
+import jsonwebtoken from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nookies from 'nookies';
 
 import { SERVER_URL } from '@/constant/env';
+
+import { UserType } from '@/types/user';
 
 const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -36,6 +39,23 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
       if (!tokens) {
         return res.status(401).json({ error: 'No refresh token found' });
       }
+
+      const SECRET_KEY = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
+
+      // To decode and verify
+      const decoded = jsonwebtoken.verify(
+        tokens.refresh,
+        SECRET_KEY as string
+      ) as {
+        user: UserType;
+        token_type: string;
+        exp: number;
+        iat: number;
+        jti: string;
+        user_id: number;
+      };
+
+      console.log('decoded222', decoded, 'refresh', tokens);
 
       res.setHeader('Set-Cookie', [
         `access=${tokens.access}; Path=/; SameSite=Lax; ${
