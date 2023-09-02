@@ -1,8 +1,7 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { HiOutlineChevronDoubleDown } from 'react-icons/hi';
-import { LiaAngleDoubleUpSolid } from 'react-icons/lia';
+import { VscGraph } from 'react-icons/vsc';
 import Select from 'react-select';
 
 import API from '@/lib/api';
@@ -11,6 +10,7 @@ import logger from '@/lib/logger';
 
 import { getSimilarProductsColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import GroupedColumnChart from '@/components/shared/ColumnChart';
 import LineChart from '@/components/shared/LineChart';
 import SingleAxisAreaChart from '@/components/shared/SingleAxisAreaChart';
@@ -72,6 +72,7 @@ function AboutProduct({
   >([]);
   const { t } = useTranslation('products');
   const [open, setOpen] = React.useState<boolean>(false);
+  const [compareOpen, setCompareOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -94,7 +95,7 @@ function AboutProduct({
 
         // get first 3 product_ids
         setSelectedRows(
-          data.data.slice(0, 3).map((product) => ({
+          data.data.slice(0, 2).map((product) => ({
             value: product.product_id.toString(),
             label: product.analytics[0]?.product__title,
           }))
@@ -128,13 +129,42 @@ function AboutProduct({
   return (
     <div
       className={clsxm(
-        'flex min-h-full w-full min-w-[1000px] flex-col items-start justify-start gap-5 overflow-scroll pb-16',
+        'relative flex min-h-full w-full min-w-[1000px] flex-col items-start justify-start gap-5 pb-16',
         className
       )}
     >
+      <div className='flex w-full items-center justify-center'>
+        <button
+          className='bg-primary my-5 flex w-[300px] items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-white hover:bg-purple-900'
+          onClick={() => {
+            if (!isProPlus)
+              return RenderAlert({
+                alertTitle:
+                  i18n.language === 'uz'
+                    ? 'Ushbu tarifda mavjud emas'
+                    : 'Недоступно по данному тарифу',
+                buttonLink: '/profile',
+                buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+              });
+            setCompareOpen(!compareOpen);
+          }}
+        >
+          <p className=''>
+            {i18n.language === 'uz'
+              ? 'Raqobatchi mahsulotlarni taqqoslash'
+              : 'Сравнить с конкурирующими товарами'}
+          </p>
+          <VscGraph className='text-base' />
+        </button>
+      </div>
       {shouldRender && (
-        <div className={clsxm('relative h-full w-full', !isProPlus && '')}>
-          {!isProPlus && (
+        <div
+          className={clsxm(
+            'duratio-300 absolute top-20 z-[200] h-full w-[calc(100%-0px)] transition',
+            compareOpen ? 'left-[0px]' : 'left-full'
+          )}
+        >
+          {isProPlus && (
             <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
               <span className='w-full text-center'>
                 {i18n.language === 'uz'
@@ -144,21 +174,21 @@ function AboutProduct({
             </div>
           )}
 
-          {!isProPlus && (
+          {isProPlus && (
             <p className='absolute top-10 z-50 w-full text-center font-semibold'>
               {i18n.language === 'uz'
                 ? 'Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar bilan barcha jihatdan solishtiring (3 tagacha)'
                 : 'Сравните этот товар по всем параметрам с конкурирующими товарами в таблице ниже (до 3)'}
             </p>
           )}
-          {!isProPlus && (
+          {isProPlus && (
             <div className='absolute inset-0 z-10 bg-white bg-opacity-30 backdrop-blur-md backdrop-filter'></div>
           )}
           <Container
             loading={loading}
             className={clsxm(
               'z-0 flex min-h-[400px] w-full flex-col items-start justify-start gap-5 overflow-hidden rounded-md bg-white p-3',
-              open ? 'h-[2000px]' : 'h-[700px] overflow-hidden'
+              ''
             )}
           >
             <p className='z-50 w-full text-center font-semibold'>
@@ -197,17 +227,6 @@ function AboutProduct({
                   // yAxisTitle='Kunlik sotuvlar'
                   // xAxisTitle='Sana'
                 />
-              )}
-              {!open && (
-                <div
-                  className='mb-16 flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'
-                  onClick={() => setOpen(true)}
-                >
-                  <button className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'>
-                    <p>{t('see_all')}</p>
-                    <HiOutlineChevronDoubleDown className='text-base' />
-                  </button>
-                </div>
               )}
 
               {isActive && (
@@ -264,18 +283,6 @@ function AboutProduct({
                   xAxisTitle={t('date')}
                 />
               )}
-
-              {open && (
-                <div className='flex w-full items-center justify-center bg-blue-100 py-2 transition-colors hover:bg-blue-200'>
-                  <button
-                    className='flex flex-col items-center justify-center gap-0 text-sm font-semibold text-blue-500'
-                    onClick={() => setOpen(false)}
-                  >
-                    <LiaAngleDoubleUpSolid className='text-base' />
-                    <p>{t('see_less')}</p>
-                  </button>
-                </div>
-              )}
             </>
           </Container>
         </div>
@@ -287,6 +294,9 @@ function AboutProduct({
         <>
           {products.length > 0 && (
             <Table
+              rowHeight={80}
+              headerHeight={60}
+              isBalham={true}
               rowData={prepareTableData(products, product_id)}
               columnDefs={getSimilarProductsColDefs(t2, i18n.language) as any}
               className='h-[1200px]'

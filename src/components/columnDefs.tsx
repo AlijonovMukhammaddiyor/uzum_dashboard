@@ -2745,6 +2745,9 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     flex: 1,
     maxWidth: 500,
     minWidth: 300,
+    cellStyle: {
+      fontSize: '14px',
+    } as CellStyle,
   },
   {
     headerName: t('category'),
@@ -2756,6 +2759,9 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     flex: 1,
     maxWidth: 500,
     minWidth: 300,
+    cellStyle: {
+      fontSize: '14px',
+    } as CellStyle,
   },
   {
     headerName: t('shop_name'),
@@ -2767,6 +2773,9 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     flex: 1,
     maxWidth: 500,
     minWidth: 300,
+    cellStyle: {
+      fontSize: '14px',
+    } as CellStyle,
   },
   {
     headerName: t('position_in_subcategory'),
@@ -2774,10 +2783,12 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     sortable: true,
     minWidth: 150,
     filter: false,
+    cellRenderer: LocaleNumberCellRenderer,
     maxWidth: 200,
     headerTooltip: "Mahsulotning o'z kategoriyasidagi pozitsiyasi.",
     cellStyle: {
       textAlign: 'center',
+      fontSize: '14px',
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
     } as CellStyle,
   },
@@ -2787,11 +2798,13 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     field: 'orders_amount',
     sortable: true,
     minWidth: 150,
+    cellRenderer: LocaleNumberCellRenderer,
     maxWidth: 200,
     filter: false,
     cellStyle: {
       textAlign: 'center',
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      fontSize: '14px',
     } as CellStyle,
   },
   {
@@ -2805,6 +2818,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     cellStyle: {
       textAlign: 'center',
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      fontSize: '14px',
     } as CellStyle,
   },
   {
@@ -2813,10 +2827,12 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     sortable: true,
     minWidth: 150,
     filter: false,
+    cellRenderer: LocaleNumberCellRenderer,
     maxWidth: 200,
     cellStyle: {
       textAlign: 'center',
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      fontSize: '14px',
     } as CellStyle,
   },
   {
@@ -2824,11 +2840,13 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     field: 'available_amount',
     sortable: true,
     minWidth: 150,
+    cellRenderer: LocaleNumberCellRenderer,
     filter: false,
     maxWidth: 200,
     cellStyle: {
       textAlign: 'center',
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      fontSize: '14px',
     } as CellStyle,
   },
   {
@@ -2842,6 +2860,7 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     cellStyle: {
       textAlign: 'center',
       backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      fontSize: '14px',
     } as CellStyle,
   },
   {
@@ -2852,6 +2871,9 @@ export const getSimilarProductsColDefs = (t: any, lang: string) => [
     maxWidth: 200,
     sortable: false,
     headerTooltip: 'Ushbu mahsulotning ID raqami.',
+    cellStyle: {
+      fontSize: '14px',
+    } as CellStyle,
   },
 ];
 

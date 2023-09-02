@@ -34,6 +34,7 @@ export const RenderAlert = ({
           {buttonLink && buttonTitle && (
             <Link
               href={buttonLink}
+              target='_blank'
               className='rounded-md border border-yellow-500 bg-blue-500 px-2 py-1  text-sm text-white '
               onClick={() => toast.remove(t.id)}
             >
