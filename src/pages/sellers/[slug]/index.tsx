@@ -67,7 +67,10 @@ function Category({ user, seller }: ShopsProps) {
       case t('sellers.overview'):
         RenderAlert({
           alertTitle: t('tariffs.only_selected_shops'),
-          // alertSubtitle: t('home.new_products.info'),
+          alertSubtitle:
+            i18n.language === 'uz'
+              ? 'Do’kon haqida ohirgi 100 kun mobaynidagi barcha umumiy malumotlarni ko’ring'
+              : 'Посмотреть все общие данные по магазину за последние 100 дней.',
           buttonTitle: t('tariffs.add_shop'),
           buttonLink: '/profile',
         });
@@ -76,7 +79,10 @@ function Category({ user, seller }: ShopsProps) {
       case t('sellers.daily_sales'):
         RenderAlert({
           alertTitle: t('tariffs.only_selected_shops'),
-
+          alertSubtitle:
+            i18n.language === 'uz'
+              ? "Oxirgi 100 kundan birini tanlang va shu kun uchun do'konning qanday sotuv qilganligini va qaysi mahsulotlardan qanchadan yoki nechta sotilganligini batafsil ko'ring"
+              : 'Выберите один из последних 100 дней и посмотрите, какие продажи были в магазине в этот день и сколько и какие товары были проданы.',
           buttonTitle: t('tariffs.add_shop'),
           buttonLink: '/profile',
         });
@@ -85,7 +91,10 @@ function Category({ user, seller }: ShopsProps) {
       case t('sellers.competitors'):
         RenderAlert({
           alertTitle: t('tariffs.only_selected_shops'),
-
+          alertSubtitle:
+            i18n.language === 'uz'
+              ? "Do'konning TOP 10 raqobatchilari biling va ular bilan har bir kategoriya bo'yicha barcha jihatdan taqqoslang"
+              : 'Узнайте ТОП-10 конкурентов магазина и сравните их в каждой категории по выручке, заказам, отзывам, цене и товарам.',
           buttonTitle: t('tariffs.add_shop'),
           buttonLink: '/profile',
         });
@@ -94,7 +103,10 @@ function Category({ user, seller }: ShopsProps) {
       case t('sellers.categories'):
         RenderAlert({
           alertTitle: t('tariffs.only_selected_shops'),
-
+          alertSubtitle:
+            i18n.language === 'uz'
+              ? "Do'konning har bir toifada qanday ishlashini tekshiring "
+              : 'Проверьте, как магазин работает в каждой категории.',
           buttonTitle: t('tariffs.add_shop'),
           buttonLink: '/profile',
         });
