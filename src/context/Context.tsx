@@ -2,6 +2,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { createContext, useEffect, useReducer } from 'react';
 
+import API from '@/lib/api';
+
 import Reducer from '@/context/reducer';
 
 import { Actions } from '@/types/actions';
@@ -23,6 +25,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setTimeout(() => {
       setMounted(true);
     }, 200);
+    const api = new API(null);
+    api.updateUserTokens();
   }, []);
 
   // save the state to local storage when it changes

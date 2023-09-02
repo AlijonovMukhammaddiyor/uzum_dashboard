@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { FaTelegramPlane } from 'react-icons/fa';
 import { GrLanguage } from 'react-icons/gr';
 import {
   HiOutlineArrowRightOnRectangle,
@@ -109,6 +110,20 @@ export default function Header() {
 
         <nav>
           <ul className='flex items-center justify-between space-x-5'>
+            <a
+              href='https://t.me/Alijonov_md'
+              target='_blank'
+              className='shadow-3xl flex cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 px-2 py-2'
+            >
+              <p className='text-xs font-bold text-white'>
+                {i18n.language === 'uz'
+                  ? 'Trening olish(bepul)'
+                  : 'Получить тренинг(бесплатно)'}
+              </p>
+              <p className='flex items-center justify-center'>
+                <FaTelegramPlane className='text-2xl text-white' />
+              </p>
+            </a>
             <li className='flex items-center justify-end gap-3'>
               <div className='bg-primary font-primary mr-3 flex shrink-0 items-center rounded-md border px-3 py-2 text-sm font-bold text-white'>
                 {state.user?.tariff === 'free' ? (
@@ -156,63 +171,7 @@ export default function Header() {
                   </li>
                 )}
               </div>
-
-              <div className='flex max-w-[200px] items-center justify-start overflow-hidden '>
-                <HiOutlineUserCircle className='h-6 w-6 flex-shrink-0 rounded-full text-black' />
-                <p className='ml-1 line-clamp-1 text-sm'>
-                  {state.user?.username?.slice(0, 15)}
-                  {state.user?.username && state.user?.username?.length > 15
-                    ? '...'
-                    : ''}
-                </p>
-                {state.user?.tariff === 'seller' ? (
-                  <Image
-                    src={star}
-                    alt='premium-star'
-                    className='ml-2 h-5 w-5'
-                  />
-                ) : state.user?.tariff === 'base' ? (
-                  <Image
-                    src={starter}
-                    alt='premium-star'
-                    className='ml-2 h-5 w-5'
-                  />
-                ) : state.user?.tariff === 'business' ? (
-                  <Image
-                    src={crown}
-                    alt='premium-star'
-                    className='ml-2 h-5 w-5'
-                  />
-                ) : state.user?.tariff === 'trial' ? (
-                  <Image
-                    src={starter}
-                    alt='premium-star'
-                    className='ml-2 h-5 w-5'
-                  />
-                ) : (
-                  <Image
-                    src={free}
-                    alt='premium-star'
-                    className='ml-2 h-5 w-5'
-                  />
-                )}
-              </div>
             </li>
-            {state.user?.tariff !== 'trial' &&
-              state.user?.tariff !== 'free' && (
-                <li>
-                  <div className='border-primary bg-primary flex max-w-[200px] items-center justify-start rounded-md border px-2 py-2 text-white'>
-                    <p className='text-sm tracking-wide'>
-                      {t('header.referralCode')}:
-                    </p>
-                    <div className='ml-1 flex flex-col items-start justify-start'>
-                      <span className='m-0 text-sm font-bold tracking-wide'>
-                        {state.user?.referral_code}
-                      </span>
-                    </div>
-                  </div>
-                </li>
-              )}
 
             <li>
               <div className='flex h-7 w-[70px] items-center justify-center rounded-md border border-black px-2'>
@@ -235,6 +194,38 @@ export default function Header() {
                 )}
               </div>
             </li>
+            <div className='flex max-w-[200px] items-center justify-start overflow-hidden '>
+              <HiOutlineUserCircle className='h-6 w-6 flex-shrink-0 rounded-full text-black' />
+              <p className='ml-1 line-clamp-1 text-sm'>
+                {state.user?.username?.slice(0, 10)}
+                {state.user?.username && state.user?.username?.length > 15
+                  ? '...'
+                  : ''}
+              </p>
+              {state.user?.tariff === 'seller' ? (
+                <Image src={star} alt='premium-star' className='ml-2 h-5 w-5' />
+              ) : state.user?.tariff === 'base' ? (
+                <Image
+                  src={starter}
+                  alt='premium-star'
+                  className='ml-2 h-5 w-5'
+                />
+              ) : state.user?.tariff === 'business' ? (
+                <Image
+                  src={crown}
+                  alt='premium-star'
+                  className='ml-2 h-5 w-5'
+                />
+              ) : state.user?.tariff === 'trial' ? (
+                <Image
+                  src={starter}
+                  alt='premium-star'
+                  className='ml-2 h-5 w-5'
+                />
+              ) : (
+                <Image src={free} alt='premium-star' className='ml-2 h-5 w-5' />
+              )}
+            </div>
             {/* <li className='relative'>
               <div className='hover:text-gray-600'>
                 <HiOutlineBell className='hover:text-primary h-5 w-5 flex-shrink-0 text-black' />
