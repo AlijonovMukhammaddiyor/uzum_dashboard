@@ -36,7 +36,7 @@ function LandingMain({
         <div className='base:gap-20 base:w-1/2 flex h-full w-full flex-col justify-start gap-10  py-5'>
           <div className='base:text-start mt-28 flex max-w-full flex-col justify-center md:mt-12  '>
             <div className='flex max-w-full'>
-              <h1 className='font-primary text_gradient text-[36px] font-extrabold leading-[40px] lg:text-[52px]'>
+              <h1 className='font-primary text_gradient base:leading-[50px] text-[36px] font-extrabold leading-[40px] lg:text-[52px]'>
                 Специализированная аналитика для маркетплейса Uzum
               </h1>
             </div>
