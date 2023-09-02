@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
-import React from 'react';
+import Image from 'next/image';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
@@ -18,6 +19,8 @@ import ProductsFilters from '@/components/pages/products/components/ProductsFilt
 import { RenderAlert } from '@/components/shared/AlertComponent';
 import InfiniteTable from '@/components/shared/InfiniteTable';
 import Tabs from '@/components/shared/Tabs';
+
+import noresults from '@/assets/no-results.webp';
 
 import { UserType } from '@/types/user';
 
@@ -40,7 +43,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
   >([]);
   const [nameFilters, setNameFilters] = React.useState<
     {
-      value: string | null;
+      value: string[] | null;
       type: string;
     }[]
   >([]);
@@ -51,6 +54,12 @@ function ProductsComponent({ user }: ProductsComponentProps) {
   const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
   const [shouldRefetch, setShouldRefetch] = React.useState<boolean>(false);
   const isProPlus = user.tariff === 'seller' || user.tariff === 'business';
+
+  const [searched, setSearched] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    if (loading) setSearched(true);
+  }, [loading]);
 
   React.useEffect(() => {
     setActiveTab(t('home.overview'));
@@ -153,13 +162,6 @@ function ProductsComponent({ user }: ProductsComponentProps) {
     sortModel: {
       colId: string;
       sort: string;
-    } | null,
-    filterModel: {
-      [key: string]: {
-        filterType: string;
-        type: string;
-        filter: string;
-      };
     } | null
   ) => {
     if (selectedCategories.size === 0)
@@ -210,11 +212,13 @@ function ProductsComponent({ user }: ProductsComponentProps) {
     });
 
     nameFilters.forEach((filter) => {
-      if (filter.value) params += `&${filter.type}__icontains=${filter.value}`;
+      if (filter.value) params += `&${filter.type}=${filter.value.join('---')}`;
     });
 
     return params;
   };
+
+  console.log(shouldRefetch);
 
   return (
     <div className='mt-5 min-h-full w-full min-w-[1300px]'>
@@ -254,7 +258,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
       />
       <div
         className={clsxm(
-          'h-full w-full',
+          'h-full w-full pb-10',
           activeTab === t('home.overview') ? '' : 'hidden'
         )}
       >
@@ -267,7 +271,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
           }
           className='min-h-full w-full gap-5 rounded-none border-none shadow-none'
         >
-          <div className='mb-8 flex min-h-[calc(100vh-200px)] w-full items-start justify-start gap-2'>
+          <div className='mb-8 flex min-h-[calc(100vh-200px)] w-full items-start justify-start gap-2 bg-white'>
             <CategoriesSelect
               className='shrink-0'
               selectedCategories={selectedCategories}
@@ -308,14 +312,19 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               {i18n.language === 'uz' ? 'Jami natijalar soni: ' : 'Всего: '}
               {total.toLocaleString()}
             </p>
-            {total > 100 && (
-              <p className=''>
+          </div>
+          {total > 100 ? (
+            <div className='flex items-center justify-between gap-6 pr-3'>
+              <p className='text-center font-semibold text-slate-600'>
                 {i18n.language === 'uz'
                   ? `Mahsulotlarni yaxshiroq tahlil qilish uchun qidiruv maydonini yanada toraytirishni tavsiya qilamiz`
                   : `Мы рекомендуем еще больше сузить пространство поиска, чтобы лучше анализировать продукты.`}
               </p>
-            )}
-          </div>
+            </div>
+          ) : (
+            <></>
+          )}
+
           <InfiniteTable
             setTotal={setTotal}
             shouldRefetch={shouldRefetch}
@@ -327,8 +336,23 @@ function ProductsComponent({ user }: ProductsComponentProps) {
             columnDefs={
               getCategoryProductTableColumnDefs(t2, i18n.language) as any
             }
-            className='h-[calc(100vh-0px)] w-full'
+            className={clsxm(
+              'h-[calc(100vh-0px)] w-full',
+              total === 0 && 'hidden'
+            )}
           />
+
+          {total === 0 ? (
+            <div className='mx-auto mt-10 h-[400px] w-[100%] bg-white'>
+              <Image
+                src={noresults}
+                alt='No results'
+                className='mx-auto h-[500px] w-[500px]'
+              />
+            </div>
+          ) : (
+            <></>
+          )}
         </Container>
       </div>
 

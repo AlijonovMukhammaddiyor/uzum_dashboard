@@ -188,6 +188,24 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
           />
         </div>
       </div>
+      <div className='flex w-full items-start justify-start gap-5 divide-x-4'>
+        <div className='flex w-[300px] items-start justify-start gap-2 py-6'>
+          <p className='text-base font-semibold'>
+            {i18n.language === 'uz'
+              ? "Reytingga ko'ra filtrlash"
+              : 'Фильтрация по рейтингу'}
+          </p>
+        </div>
+        <div className='flex py-6 pl-5'>
+          <Filter
+            title=''
+            setValues={setFilter}
+            type='rating'
+            min={getFilter(filters, 'rating')[0]}
+            max={getFilter(filters, 'rating')[1]}
+          />
+        </div>
+      </div>
     </div>
   );
 }

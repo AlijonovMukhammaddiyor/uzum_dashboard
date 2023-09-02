@@ -80,6 +80,7 @@ function Filter({
         <input
           type='number'
           min={0}
+          max={type === 'rating' ? 5 : 100000000000}
           value={max !== null ? max : ''}
           placeholder='Max'
           className={clsxm(

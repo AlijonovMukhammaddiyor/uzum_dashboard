@@ -26,13 +26,13 @@ interface ProductsFiltersProps {
     >
   >;
   nameFilters: {
-    value: string | null;
+    value: string[] | null;
     type: string;
   }[];
   setNameFilters: React.Dispatch<
     React.SetStateAction<
       {
-        value: string | null;
+        value: string[] | null;
         type: string;
       }[]
     >

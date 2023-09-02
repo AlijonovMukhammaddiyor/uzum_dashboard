@@ -3060,7 +3060,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       sortable: false,
       minWidth: 180,
       filter: false,
-      // pinned: 'left',
+      pinned: 'left',
       maxWidth: 200,
     },
     {

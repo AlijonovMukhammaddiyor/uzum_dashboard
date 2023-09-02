@@ -115,6 +115,7 @@ const InfiniteTable = <T,>({
   };
 
   React.useEffect(() => {
+    console.log('REFETCHING');
     if (gridApiRef.current) {
       gridApiRef.current.setDatasource(dataSource);
     }
@@ -210,7 +211,7 @@ const InfiniteTable = <T,>({
         rowModelType='infinite'
         tooltipShowDelay={0}
         modules={modules}
-        cacheBlockSize={200}
+        cacheBlockSize={100}
         cacheOverflowSize={100}
         maxBlocksInCache={10}
         maxConcurrentDatasourceRequests={2}
