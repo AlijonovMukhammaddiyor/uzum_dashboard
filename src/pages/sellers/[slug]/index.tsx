@@ -137,13 +137,7 @@ function Category({ user, seller }: ShopsProps) {
             <p></p>
           </div>
         </div>
-        {!canSee && (
-          <p className='top- absolute left-[330px] top-20 px-2 py-1 text-xs'>
-            {i18n.language === 'uz'
-              ? "Qolgan ma'lumotlar bepul yoki sinov versiyada mavjud emas."
-              : 'Остальные данные доступны только в платной версии.'}
-          </p>
-        )}
+
         <Tabs
           tabs={[
             t('sellers.overview'),
