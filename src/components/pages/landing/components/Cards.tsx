@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 const Cards = () => {
   const { i18n } = useTranslation('landing');
+  const router = useRouter();
 
   const isUz = i18n.language === 'uz'; // only Russian and Uzbek
 
@@ -18,7 +20,10 @@ const Cards = () => {
             ? "Biz sizga Marketni tushunishga, to'g'ri tovarlarni topishga, raqobati kam kategoriyalarni aniqlashga va shuningdek raqobatchilarni o'rganishga yordam beramiz."
             : 'Наши аналитические услуги направлены на то, чтобы помочь новичкам лучше понять рынок, найти категории с низкой конкуренцией, изучить потенциальных конкурентов и опережать их.'}
         </p>
-        <button className='mt-4 rounded-full bg-[#49852d] px-4 py-2 font-bold text-white transition-colors duration-200 hover:bg-green-600'>
+        <button
+          onClick={() => router.push('/register')}
+          className='mt-4 rounded-full bg-[#49852d] px-4 py-2 font-bold text-white transition-colors duration-200 hover:bg-green-600'
+        >
           {isUz ? 'Hoziroq boshlang' : 'Начать сейчас'}
         </button>
       </div>
@@ -34,7 +39,10 @@ const Cards = () => {
             ? 'Biz sizga savdoni optimallashtirish, bozorning yangi tendentsiyalarini aniqlash, raqobatchilar tahlili asosida mahsulot takliflarini oshirish, eng istiqbolli mahsulotlarga sarmoyangizni oshirish va foyda keltirmaydigan mahsulotlarga sarmoya kiritishni to‘xtatish hamda mahsulot narxini optimallashtirishda yordam beramiz.'
             : 'Мы поможем вам оптимизировать продажи, выявить новые тенденции рынка, увеличить товарное предложение на основе анализа конкурентов, увеличить инвестиции в наиболее перспективные продукты и прекратить вкладывать средства в убыточные продукты, а также оптимизировать цены на продукты.'}
         </p>
-        <button className='mt-4 rounded-full bg-blue-600 px-4 py-2 font-bold text-white transition-colors duration-200 hover:bg-blue-700'>
+        <button
+          onClick={() => router.push('/register')}
+          className='mt-4 rounded-full bg-blue-600 px-4 py-2 font-bold text-white transition-colors duration-200 hover:bg-blue-700'
+        >
           {isUz ? 'Hoziroq boshlang' : 'Начать сейчас'}
         </button>
       </div>
@@ -50,7 +58,10 @@ const Cards = () => {
             ? "Etakchi brend yoki yetkazib beruvchi sifatida sizning bozordagi mavqeingiz hal qiluvchi ahamiyatga ega. Biz sizning ustunligingizni mustahkamlash, yangi tarqatish kanallarini ochish va turli xil iste'molchi bazangizning nozik afzalliklarini tushunish uchun sizga strategik tushunchalar bilan kuch beramiz. Bizning tahlillarimiz yordamida siz ta'minot zanjiri jarayonlarini soddalashtirishingiz, talabni yuqori aniqlik bilan prognoz qilishingiz va rivojlanayotgan iste'molchilar xatti-harakatlariga mos keladigan marketing strategiyalarini ishlab chiqishingiz mumkin. Raqobatbardosh bozorda o'z qamrovingizni kengaytirish va brendingiz rezonansini oshirish uchun biz bilan hamkorlik qiling."
             : 'Ваша позиция на рынке, как ведущего бренда или поставщика, имеет решающее значение. Мы даем вам стратегические идеи, которые помогут укрепить ваше доминирование, открыть новые каналы сбыта и понять нюансы предпочтений вашей разнообразной потребительской базы. С помощью нашей аналитики вы можете оптимизировать процессы цепочки поставок, прогнозировать спрос с большей точностью и разрабатывать маркетинговые стратегии, которые резонируют с меняющимся поведением потребителей. Сотрудничайте с нами, чтобы расширить свой охват и повысить резонанс вашего бренда на конкурентном рынке.'}
         </p>
-        <button className='mt-4 rounded-full bg-purple-800 px-4 py-2 font-bold text-white transition-colors duration-200 hover:bg-purple-900'>
+        <button
+          onClick={() => router.push('/register')}
+          className='mt-4 rounded-full bg-purple-800 px-4 py-2 font-bold text-white transition-colors duration-200 hover:bg-purple-900'
+        >
           {isUz ? 'Hoziroq boshlang' : 'Начать сейчас'}
         </button>
       </div>
