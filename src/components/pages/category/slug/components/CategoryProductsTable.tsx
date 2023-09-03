@@ -490,19 +490,39 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
         loading={loading}
         className={clsxm('w-full border-none shadow-none')}
       >
-        <div className='mb-4 flex w-full items-center justify-between rounded-md bg-white p-5'>
+        <div className='mb-4 w-full rounded-md bg-white p-5'>
+          <CategoryProductsFilters
+            filters={filters}
+            setShouldRefetch={() => {
+              setShouldRefetch(!shouldRefetch);
+              setIsInstantFilter(false);
+              setInstantFilter(null);
+            }}
+            setFilters={setFilters}
+            nameFilters={nameFilters}
+            setNameFilters={setNameFilters}
+          />
+        </div>
+
+        <p className='mb-4 font-semibold'>
+          {i18n.language === 'uz' ? 'Mahsulotlar' : 'Товары'} ({count})
+        </p>
+        <div className='flex w-full items-center justify-between rounded-t-md p-5'>
           <p className='font-semibold'>
             {i18n.language === 'uz' ? 'Tez Filtrlar' : 'Мгновенные фильтры'}
           </p>
           <div className='flex items-center justify-end gap-8'>
             <div className='flex items-center justify-start gap-2'>
-              <p className='text-sm font-semibold'>
+              <p className='text-xs font-semibold'>
                 {i18n.language === 'uz'
                   ? "Eng ko'p daromad keltirgan 100 ta"
                   : '100 товаров с наибольшей выручкой'}
               </p>
               <Switch
-                onColor='#614bc3'
+                height={16}
+                width={32}
+                handleDiameter={14}
+                onColor='#17594A'
                 offColor='#c3c1c9'
                 onChange={(e) => {
                   if (
@@ -531,13 +551,16 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
               />
             </div>
             <div className='flex items-center justify-start gap-2'>
-              <p className='text-sm font-semibold'>
+              <p className='text-xs font-semibold'>
                 {i18n.language === 'uz'
                   ? "Eng so'nggi sotuvga qo'shilgan 100 ta"
                   : 'Последние 100 товаров, добавленных в продажу'}
               </p>
               <Switch
-                onColor='#614bc3'
+                height={16}
+                width={32}
+                handleDiameter={14}
+                onColor='#17594A'
                 offColor='#c3c1c9'
                 onChange={(e) => {
                   if (
@@ -566,13 +589,16 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
               />
             </div>
             <div className='flex items-center justify-start gap-2'>
-              <p className='text-sm font-semibold'>
+              <p className='text-xs font-semibold'>
                 {i18n.language === 'uz'
                   ? '30 kunlik yuqori daromadli 100 ta'
                   : '100 товаров с максимальной выручкой за 30 дней'}
               </p>
               <Switch
-                onColor='#614bc3'
+                height={16}
+                width={32}
+                handleDiameter={14}
+                onColor='#17594A'
                 offColor='#c3c1c9'
                 onChange={(e) => {
                   if (
@@ -601,23 +627,6 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
             </div>
           </div>
         </div>
-        <div className='mb-4 w-full rounded-md bg-white p-5'>
-          <CategoryProductsFilters
-            filters={filters}
-            setShouldRefetch={() => {
-              setShouldRefetch(!shouldRefetch);
-              setIsInstantFilter(false);
-              setInstantFilter(null);
-            }}
-            setFilters={setFilters}
-            nameFilters={nameFilters}
-            setNameFilters={setNameFilters}
-          />
-        </div>
-
-        <p className='mb-4 font-semibold'>
-          {i18n.language === 'uz' ? 'Mahsulotlar' : 'Товары'} ({count})
-        </p>
         <InfiniteTable
           columnDefs={
             getCategoryProductTableColumnDefs(t, i18n.language) as any

@@ -41,7 +41,7 @@ function MonthlyBestProducts({ className }: HomeStatisticsContainerProps) {
   React.useEffect(() => {
     const api = new API(null);
     setLoading(true);
-    const url = `/product/` + `?monthly=${true}`;
+    const url = `/product/` + `?monthly=${true}&offset=0&limit=100`;
     api
       .get<
         unknown,

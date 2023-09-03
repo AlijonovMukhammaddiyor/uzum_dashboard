@@ -41,7 +41,7 @@ function WeeklyBestProducts({ className }: HomeStatisticsContainerProps) {
   React.useEffect(() => {
     const api = new API(null);
     setLoading(true);
-    const url = `/product/` + `?weekly=${true}`;
+    const url = `/product/` + `?weekly=${true}&offset=0&limit=100`;
     api
       .get<
         unknown,
