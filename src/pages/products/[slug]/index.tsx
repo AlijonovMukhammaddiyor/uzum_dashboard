@@ -10,6 +10,7 @@ import API from '@/lib/api';
 import Layout from '@/components/layout/Layout';
 import ProductComponent from '@/components/pages/products/slug/ProductComponent';
 import Seo from '@/components/Seo';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Tabs from '@/components/shared/Tabs';
 
 import { useContextState } from '@/context/Context';
@@ -45,6 +46,20 @@ function Product({ user, product_id }: ProductProps) {
         console.log(err);
       });
   }, [t, i18n.language, product_id]);
+
+  React.useEffect(() => {
+    if (notAllowedTab && user?.tariff === 'trial')
+      RenderAlert({
+        alertTitle:
+          i18n.language === 'uz'
+            ? 'Ushbu tarifda mavjud emas'
+            : 'Недоступно по этому тарифу',
+        // alertSubtitle: t('home.new_products.info'),
+        buttonTitle: t('tariffs.tariffs'),
+        buttonLink: '/profile',
+      });
+  }, [notAllowedTab, user?.tariff, t, i18n.language]);
+
   React.useEffect(() => {
     setRendered(true);
     dispatch({ type: 'USER', payload: { user } });
@@ -61,6 +76,8 @@ function Product({ user, product_id }: ProductProps) {
   }, [product_id, product_title]);
 
   if (!rendered || !product_id || !product_title) return <></>;
+
+  const isPaid = user.tariff !== 'free' && user.tariff !== 'trial';
 
   return (
     <Layout>
@@ -92,6 +109,8 @@ function Product({ user, product_id }: ProductProps) {
           // 'Test',
         ]}
         setNotAllowedTab={setNotAllowedTab}
+        premiumTabs={[t('tabs.position')]}
+        disbaledTabs={isPaid ? [] : [t('tabs.position')]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4 '
