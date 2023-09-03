@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { VscGraph } from 'react-icons/vsc';
+import { HiOutlineCursorClick } from 'react-icons/hi';
 import Select from 'react-select';
 
 import API from '@/lib/api';
@@ -135,7 +135,7 @@ function AboutProduct({
     >
       <div className='flex w-full items-center justify-center'>
         <button
-          className='bg-primary my-5 flex w-[300px] items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-white hover:bg-purple-900'
+          className='bg-primary my-5 flex w-[370px] transform items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-md transition-transform hover:scale-105 hover:bg-purple-900 hover:shadow-lg'
           onClick={() => {
             if (!isProPlus)
               return RenderAlert({
@@ -144,17 +144,28 @@ function AboutProduct({
                     ? 'Ushbu tarifda mavjud emas'
                     : 'Недоступно по данному тарифу',
                 buttonLink: '/profile',
+                alertSubtitle:
+                  i18n.language === 'uz'
+                    ? "Ushbu jadvalda mavjud barcha mahsulotlar bilan sotuv soni, daromad, izohlar, narx va pozitsiya bo'yicha Oxirgi 100 kunlik ma'lumotlarni taqqoslash "
+                    : 'Сравните продажи, доходы, комментарии, цены и продукты за последние 100 дней со всеми конкурентами, доступными в этой таблице.',
                 buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
               });
             setCompareOpen(!compareOpen);
           }}
+          title={
+            i18n.language === 'uz' ? "Bosing va ko'ring" : 'Нажмите и узнайте'
+          }
         >
-          <p className=''>
+          <p>
             {i18n.language === 'uz'
-              ? 'Raqobatchi mahsulotlarni taqqoslash'
-              : 'Сравнить с конкурирующими товарами'}
+              ? 'Raqobatchi mahsulotlarni taqqoslash(bosing)'
+              : 'Сравнить с конкурирующими товарами(нажмите)'}
           </p>
-          <VscGraph className='text-base' />
+          {compareOpen ? (
+            <HiOutlineCursorClick className='text-xl' />
+          ) : (
+            <HiOutlineCursorClick className='text-xl' />
+          )}
         </button>
       </div>
       {shouldRender && (
@@ -166,7 +177,7 @@ function AboutProduct({
         >
           {isProPlus && (
             <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
-              <span className='w-full text-center'>
+              <span className='w-full text-center font-semibold'>
                 {i18n.language === 'uz'
                   ? 'Ushbu tarifda mavjud emas'
                   : 'Этот тариф недоступен'}
@@ -174,16 +185,12 @@ function AboutProduct({
             </div>
           )}
 
-          {isProPlus && (
-            <p className='absolute top-10 z-50 w-full text-center font-semibold'>
-              {i18n.language === 'uz'
-                ? 'Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar bilan barcha jihatdan solishtiring (3 tagacha)'
-                : 'Сравните этот товар по всем параметрам с конкурирующими товарами в таблице ниже (до 3)'}
-            </p>
-          )}
-          {isProPlus && (
-            <div className='absolute inset-0 z-10 bg-white bg-opacity-30 backdrop-blur-md backdrop-filter'></div>
-          )}
+          <p className='absolute top-10 z-50 w-full text-center font-semibold'>
+            {i18n.language === 'uz'
+              ? 'Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar bilan barcha jihatdan solishtiring (3 tagacha)'
+              : 'Сравните этот товар по всем параметрам с конкурирующими товарами в таблице ниже (до 3)'}
+          </p>
+
           <Container
             loading={loading}
             className={clsxm(

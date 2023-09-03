@@ -89,11 +89,12 @@ function ProductAnalytics({
   }, [product_id]);
 
   return (
-    <div
+    <Container
       className={clsxm(
-        'flex h-full w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll pb-5',
+        'flex h-full min-h-screen w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll pb-5',
         className
       )}
+      loading={loading}
     >
       {product ? (
         product.recent_analytics.length > 1 ? (
@@ -156,7 +157,7 @@ function ProductAnalytics({
       ) : (
         <></>
       )}
-    </div>
+    </Container>
   );
 }
 

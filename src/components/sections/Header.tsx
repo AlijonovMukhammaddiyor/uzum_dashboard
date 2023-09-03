@@ -108,22 +108,25 @@ export default function Header() {
           </div>
         )}
 
-        <nav>
+        <nav className='shrink-0'>
           <ul className='flex items-center justify-between space-x-5'>
-            <a
-              href='https://t.me/Alijonov_md'
-              target='_blank'
-              className='shadow-3xl flex cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 px-2 py-2'
-            >
-              <p className='text-xs font-bold text-white'>
-                {i18n.language === 'uz'
-                  ? 'Trening olish(bepul)'
-                  : 'Получить тренинг(бесплатно)'}
-              </p>
-              <p className='flex items-center justify-center'>
-                <FaTelegramPlane className='text-2xl text-white' />
-              </p>
-            </a>
+            <li className='shrink-0'>
+              <a
+                href='https://t.me/Alijonov_md'
+                target='_blank'
+                className='shadow-3xl flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 px-2 py-2'
+              >
+                <p className='text-xs font-bold text-white'>
+                  {i18n.language === 'uz'
+                    ? 'Trening olish(bepul)'
+                    : 'Получить тренинг(бесплатно)'}
+                </p>
+                <p className='flex items-center justify-center'>
+                  <FaTelegramPlane className='text-2xl text-white' />
+                </p>
+              </a>
+            </li>
+
             <li className='flex items-center justify-end gap-3'>
               <div className='bg-primary font-primary mr-3 flex shrink-0 items-center rounded-md border px-3 py-2 text-sm font-bold text-white'>
                 {state.user?.tariff === 'free' ? (
