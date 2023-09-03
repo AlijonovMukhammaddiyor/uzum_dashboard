@@ -94,10 +94,10 @@
     background: linear-gradient(
       -45deg,
       #6a49c2,
-      #c364c9,
-      #4a8fd7,
-      #4ad7c2,
-      #d1c4e9
+      /* Logo Color 1 */ #c364c9,
+      /* Logo Color 2 */ #2c3e50,
+      /* Reliable Blue */ #4ad7c2,
+      /* Muted Teal */ #7b8d8e
     );
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
