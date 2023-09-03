@@ -280,6 +280,12 @@ function ProductsComponent({ user }: ProductsComponentProps) {
             />
             <ProductsFilters
               setShouldRefetch={() => {
+                if (selectedCategories.size === 0)
+                  return alert(
+                    i18n.language === 'uz'
+                      ? 'Kategoriya(lar)ni tanlang'
+                      : 'Выберите категорию(и)'
+                  );
                 setShouldRefetch(!shouldRefetch);
               }}
               // getData={getData}
