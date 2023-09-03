@@ -196,6 +196,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
 
   const clearFilters = () => {
     setFilters([]);
+    setNameFilters([]);
     setSelectedCategories(new Set());
   };
 
