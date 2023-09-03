@@ -58,7 +58,8 @@ function Product({ user, product_id }: ProductProps) {
         buttonTitle: t('tariffs.tariffs'),
         buttonLink: '/profile',
       });
-  }, [notAllowedTab, user?.tariff, t, i18n.language]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notAllowedTab, user?.tariff]);
 
   React.useEffect(() => {
     setRendered(true);
