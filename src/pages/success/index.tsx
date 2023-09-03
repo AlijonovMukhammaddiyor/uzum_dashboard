@@ -1,149 +1,203 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { AiFillRead } from 'react-icons/ai';
-import { AiFillInstagram, AiFillYoutube } from 'react-icons/ai';
-import { BiCheckCircle } from 'react-icons/bi';
+import { AiFillInstagram } from 'react-icons/ai';
+import { AiOutlineHome } from 'react-icons/ai';
 import { BsTelegram } from 'react-icons/bs';
-import { FiCopy } from 'react-icons/fi';
-import { GrClose } from 'react-icons/gr';
-import { IoCheckmarkDoneOutline } from 'react-icons/io5';
+import { BsPerson } from 'react-icons/bs';
+import { FiCheck } from 'react-icons/fi';
+import { HiOutlineArrowDown, HiOutlineShoppingBag } from 'react-icons/hi2';
 
 import clsxm from '@/lib/clsxm';
 
-import LandingHeader from '@/components/pages/landing/components/LandingHeader';
+import starter from '@/assets/landing/starter.png';
 
 const SuccessPage = () => {
-  const [alertOpen, setAlertOpen] = React.useState(true);
-  const [copied, setCopied] = React.useState(false);
-
-  const handleCopy = async () => {
-    try {
-      setCopied(true);
-      setTimeout(() => {
-        setCopied(false);
-      }, 4000);
-      if (window.localStorage.getItem('referral_code') === null) {
-        return;
-      }
-      await navigator.clipboard.writeText(
-        window.localStorage.getItem('referral_code') as string
-      );
-    } catch (error) {
-      // console.error('Copy failed:', error);
-    }
+  const router = useRouter();
+  const [t, i18n] = useTranslation('common');
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    onToggleLanguageClick(lng);
   };
 
+  const onToggleLanguageClick = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  };
   return (
-    <div className='bg-gradient flex min-h-screen w-full items-start justify-center'>
-      <div className='layout relative pt-5'>
-        <LandingHeader />
-        {alertOpen && (
-          <div className='mx-auto  flex w-full items-center justify-between rounded-lg border border-green-500 bg-green-500 bg-opacity-10 px-4 py-2 font-medium text-green-600 md:w-4/5 lg:w-1/2'>
-            <div className='flex items-center gap-2'>
-              <BiCheckCircle className='text-xl' />
-              <p className='text-sm'>Siz ro`yxatdan muvaffaqiyatli o`tdingiz</p>
-            </div>
-            <span className='cursor-pointer px-2 text-black'>
-              <GrClose onClick={() => setAlertOpen(false)} />
-            </span>
+    <div className=' flex min-h-screen w-full items-start justify-center'>
+      <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
+        <div
+          className={clsxm(
+            'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm font-semibold transition-colors duration-200',
+            i18n.language === 'uz' && 'bg-primary text-white'
+          )}
+          onClick={() => changeLanguage('uz')}
+        >
+          Uz
+        </div>
+        <div
+          className={clsxm(
+            'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm font-semibold transition-colors duration-200',
+            i18n.language === 'ru' && 'bg-primary text-white'
+          )}
+          onClick={() => changeLanguage('ru')}
+        >
+          Рус
+        </div>
+      </div>
+      <div className='font-primary mx-auto mt-20  flex w-11/12 flex-col gap-16 text-center md:w-[760px]'>
+        <div>
+          <div className='mx-auto mb-10 flex h-24 w-24 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl md:h-32 md:w-32'>
+            <FiCheck className='text-7xl text-white' />
           </div>
-        )}
-        <div className='font-primary mx-auto mt-20 flex w-11/12 flex-col gap-16 pb-10 md:w-4/5 lg:w-3/5'>
-          <div>
-            <h1>🎉 Jamoamizga a'zo bo'lganligingiz uchun tashakkur!</h1>
-            <div className='border-primary mb-10 mt-6 flex w-full flex-col items-center justify-start gap-6 rounded-md border-2 bg-slate-50 px-6 py-4'>
-              <div className=''>
-                <p>
-                  Ushbu kod orqali siz do'stlaringizni taklif qilsangiz, har bir
-                  obuna bo'lgan do'stingiz uchun{' '}
-                  <span className='font-bold'>$3</span> miqdorda chegirmaga ega
-                  bo'lasiz.
-                </p>
-                <p>
-                  Kodni ko'chirib olish esingizdan chiqmasin. Xizmatimiz ishga
-                  tushgunga qadar, bu kodni qayta ko'ra olmaysiz.
-                </p>
+
+          <h1 className='mb-2 tracking-normal'>
+            {i18n.language === 'uz'
+              ? " Siz ro'yxatdan muvaffaqiyatli o'tdingiz!"
+              : 'Вы успешно зарегистрировались!'}
+          </h1>
+          <p>
+            {i18n.language === 'uz'
+              ? "Jamoamizga a'zo bo'lganligingiz uchun tashakkur!"
+              : 'Спасибо за то, что присоединились к нашему сообществу!'}
+          </p>
+          {/* <p>
+            Hozirdan boshlab siz bizning xizmatlarimizdan foydalanishingiz
+            mumkin!
+          </p> */}
+
+          <p className=''>
+            {i18n.language === 'uz'
+              ? "Yangiliklardan xabardor bo'lish uchun bizni ijtimoiy tarmoqlarda ham kuzatib boring:"
+              : 'Чтобы быть в курсе новостей, следите за нами и в социальных сетях:'}
+          </p>
+          <div className='mt-3 flex justify-center gap-4'>
+            <Link href='https://t.me/uzum_uzanalitika' target='_blank'>
+              <div className='flex  cursor-pointer items-center justify-end gap-1 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-100 hover:bg-blue-200 hover:text-blue-500 lg:px-6'>
+                <BsTelegram className='text-2xl' />
+                <p className='lg:inline'>Telegram</p>
               </div>
-              {window.localStorage.getItem('referral_code') && (
-                <div className='flex w-full items-center justify-start gap-6'>
-                  <p className='font-bold'>Sizning Taklif Kodingiz</p>
-                  <p className='flex h-full min-w-[120px] flex-1 items-center justify-between rounded-md border-2 border-slate-400 py-2 pl-4 pr-2 shadow-inner'>
-                    <span>{window.localStorage.getItem('referral_code')}</span>
-                    {!copied ? (
-                      <FiCopy
-                        className='cursor-pointer text-xl'
-                        onClick={() => {
-                          handleCopy();
-                        }}
+            </Link>
+
+            <Link href='https://www.instagram.com/uzanalitika/' target='_blank'>
+              <div className='flex cursor-pointer items-center justify-end gap-1 rounded-md bg-pink-600 px-3 py-2 text-white transition-all duration-100 hover:bg-pink-200 hover:text-pink-500 lg:px-6'>
+                <AiFillInstagram className='text-2xl' />
+                <p className='lg:inline'>Instagram</p>
+              </div>
+            </Link>
+          </div>
+
+          <div className='mb-10 mt-6 flex w-full flex-col items-center justify-start gap-6 rounded-md border border-green-500  bg-green-100 px-3 py-4 md:px-6'>
+            <div>
+              {i18n.language === 'uz' ? (
+                <div>
+                  <p>
+                    Hozirdan boshlab siz bizning{' '}
+                    <span className='mx-1 rounded-md bg-green-50 p-1 pl-2'>
+                      Boshlang'ich{' '}
+                      <Image
+                        src={starter}
+                        alt='starter'
+                        width={20}
+                        height={20}
+                        className='mb-1 inline-block'
                       />
-                    ) : (
-                      <IoCheckmarkDoneOutline className='text-xl text-green-500' />
-                    )}
+                    </span>
+                    tarifimizdan (bazi bir cheklovlar bilan ) sinov sifatida
+                    foydalanishingiz mumkin.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  <p>
+                    Теперь вы можете использовать наш сайт с тарифом
+                    <span className='mx-1 rounded-md bg-green-50 p-1 pl-2'>
+                      Стартер{' '}
+                      <Image
+                        src={starter}
+                        alt='starter'
+                        width={20}
+                        height={20}
+                        className='mb-1 inline-block'
+                      />
+                    </span>{' '}
+                    (с некоторыми ограничениями) в качестве бесплатного пробного
+                    периода.
                   </p>
                 </div>
               )}
             </div>
-
-            <p>
-              Yangiliklardan xabardor bo'lish uchun bizni ijtimoiy tarmoqlarda
-              ham kuzatib boring:
-            </p>
-            <div className='mt-3 flex gap-3'>
-              <div className='flex  cursor-pointer items-center justify-end gap-4 rounded-md bg-blue-500 px-3 py-2 text-white transition-all duration-100 hover:bg-blue-200 hover:text-blue-500 lg:px-6'>
-                <BsTelegram className='text-2xl' />
-                <p className='lg:inline'>Kanalga Qo'shilish</p>
-              </div>
-              <div
-                className={clsxm(
-                  'flex cursor-pointer items-center justify-end gap-4 rounded-md bg-red-600 px-3 py-2 text-white transition-all duration-100 hover:bg-red-200 hover:text-red-500 lg:px-6',
-                  'hidden'
-                )}
+          </div>
+          <HiOutlineArrowDown className=' mx-auto my-12 text-5xl' />
+          <div className=' flex items-center justify-center gap-12'>
+            <div className='flex items-center justify-start gap-2 '>
+              {/* <MdArrowForwardIos className=' text-4xl' /> */}
+              <Link
+                href='/home'
+                className='text-md flex items-center gap-1 border-b-2 border-white transition-all duration-100 hover:text-blue-500 md:text-2xl '
               >
-                <AiFillYoutube className='text-2xl' />
-                <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
-              </div>
-              <div
-                className={clsxm(
-                  'flex cursor-pointer items-center justify-end gap-4 rounded-md bg-pink-700 px-3 py-2 text-white transition-all duration-100 hover:bg-pink-200 hover:text-pink-500 lg:px-6',
-                  'hidden'
-                )}
+                <AiOutlineHome className='' />
+                {i18n.language === 'uz' ? 'Boshlash' : 'Начните здесь'}
+              </Link>
+            </div>
+            <div className='flex items-center justify-start gap-2 '>
+              {/* <MdArrowForwardIos className=' text-4xl ' /> */}
+              <Link
+                href='/products'
+                className='text-md flex items-center gap-1 border-b-2 border-white transition-all duration-100 hover:text-blue-500 md:text-2xl '
               >
-                <AiFillInstagram className='text-2xl' />
-                <p className='hidden lg:inline'>Kanalga Qo'shilish</p>
-              </div>
+                <HiOutlineShoppingBag className='' />{' '}
+                {i18n.language === 'uz' ? 'Mahsulotlar' : 'Продукты'}
+              </Link>
+            </div>
+            <div className='flex items-center justify-start gap-2 '>
+              {/* <MdArrowForwardIos className=' text-4xl ' /> */}
+              <Link
+                href='/profile'
+                className='text-md flex items-center gap-1 border-b-2 border-white transition-all duration-100 hover:text-blue-500 md:text-2xl '
+              >
+                <BsPerson className='' />
+                {i18n.language === 'uz' ? 'Shaxsiy kabinet' : 'Мой кабинет'}
+              </Link>
             </div>
           </div>
-          <div className={clsxm('flex flex-col gap-8', 'hidden')}>
-            <div className='flex flex-col gap-3 rounded-lg border border-black p-5 '>
-              <div className='flex justify-between'>
-                <p className='flex items-center gap-2 text-green-800'>
-                  <AiFillRead className='text-2xl' /> blog
-                </p>
-                <p>o`qish</p>
-              </div>
-              <h3 className='font-semibold md:text-xl '>
-                Online bozorda muvaffaqiyatni ta'minlash: Analitika
-              </h3>
-              <p className='text-slate-500'>
-                Zamonaviy online bozorda muvaffaqiyatli bo`lish uchun nimalarga
-                e'tibor berish kerakligini bilish juda muhim.
+        </div>
+        <div className={clsxm('flex flex-col gap-8', 'hidden')}>
+          <div className='flex flex-col gap-3 rounded-lg border border-black p-5 '>
+            <div className='flex justify-between'>
+              <p className='flex items-center gap-2 text-green-800'>
+                <AiFillRead className='text-2xl' /> blog
               </p>
+              <p>o`qish</p>
             </div>
+            <h3 className='font-semibold md:text-xl '>
+              Online bozorda muvaffaqiyatni ta'minlash: Analitika
+            </h3>
+            <p className='text-slate-500'>
+              Zamonaviy online bozorda muvaffaqiyatli bo`lish uchun nimalarga
+              e'tibor berish kerakligini bilish juda muhim.
+            </p>
+          </div>
 
-            <div className='flex flex-col gap-3 rounded-lg border border-black p-5 '>
-              <div className='flex justify-between'>
-                <p className='flex items-center gap-2 text-green-800'>
-                  <AiFillRead className='text-2xl' /> blog
-                </p>
-                <p>o`qish</p>
-              </div>
-              <h3 className='font-semibold md:text-xl'>
-                Online bozorda muvaffaqiyatni ta'minlash: Analitika
-              </h3>
-              <p className='text-slate-500'>
-                Zamonaviy online bozorda muvaffaqiyatli bo`lish uchun nimalarga
-                e'tibor berish kerakligini bilish juda muhim.
+          <div className='flex flex-col gap-3 rounded-lg border border-black p-5 '>
+            <div className='flex justify-between'>
+              <p className='flex items-center gap-2 text-green-800'>
+                <AiFillRead className='text-2xl' /> blog
               </p>
+              <p>o`qish</p>
             </div>
+            <h3 className='font-semibold md:text-xl'>
+              Online bozorda muvaffaqiyatni ta'minlash: Analitika
+            </h3>
+            <p className='text-slate-500'>
+              Zamonaviy online bozorda muvaffaqiyatli bo`lish uchun nimalarga
+              e'tibor berish kerakligini bilish juda muhim.
+            </p>
           </div>
         </div>
       </div>
@@ -152,3 +206,14 @@ const SuccessPage = () => {
 };
 
 export default SuccessPage;
+
+export async function getStaticProps({ locale }: { locale: any }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale || 'uz', ['common'], null, [
+        'uz',
+        'ru',
+      ])),
+    },
+  };
+}

@@ -24,6 +24,7 @@ interface ProductProps {
 
 function Product({ user, product_id }: ProductProps) {
   const { t, i18n } = useTranslation('products');
+  const { t: t2 } = useTranslation('tabs');
   const [rendered, setRendered] = React.useState(false);
   const [product_title, setTitle] = React.useState<string>('');
   const [activeTab, setActiveTab] = React.useState<string>(
@@ -50,14 +51,12 @@ function Product({ user, product_id }: ProductProps) {
   React.useEffect(() => {
     if (notAllowedTab && user?.tariff === 'trial')
       RenderAlert({
-        alertTitle:
-          i18n.language === 'uz'
-            ? 'Ushbu tarifda mavjud emas'
-            : 'Недоступно по этому тарифу',
+        alertTitle: t2('tariffs.not_allowed'),
         // alertSubtitle: t('home.new_products.info'),
-        buttonTitle: t('tariffs.tariffs'),
+        buttonTitle: t2('tariffs.tariffs'),
         buttonLink: '/profile',
       });
+    setNotAllowedTab('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notAllowedTab, user?.tariff]);
 
