@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 // import to double right icon from react icons
-import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { FaExpandAlt } from 'react-icons/fa';
 import { ImShrink2 } from 'react-icons/im';
 import Zoom from 'react-medium-image-zoom';
@@ -20,6 +19,7 @@ import product from '@/assets/new_landing/product.png';
 import segments from '@/assets/new_landing/segments.png';
 import shop_products from '@/assets/new_landing/shop_products.png';
 import shop_products_pie from '@/assets/new_landing/shop_products_pie.png';
+import play from '@/assets/play.png';
 
 function LandingMain({
   open,
@@ -31,12 +31,12 @@ function LandingMain({
   const { t, i18n } = useTranslation('landing');
   //
   return (
-    <div className='bg-primary h-auto w-full overflow-hidden md:py-48'>
+    <div className='moving_bg h-auto w-full overflow-hidden md:py-48'>
       <div className='layout relative flex h-full items-start justify-between gap-10  pb-10'>
         <div className='base:gap-20 base:w-1/2 flex h-full w-full flex-col justify-start gap-10  py-5'>
           <div className='base:text-start mt-28 flex max-w-full flex-col justify-center md:mt-12  '>
             <div className='flex max-w-full'>
-              <h1 className='font-primary text_gradient base:leading-[50px] text-[36px] font-extrabold leading-[40px] lg:text-[52px]'>
+              <h1 className='font-primary text_gradient base:leading-[58px] text-[36px] font-extrabold leading-[40px] lg:text-[52px]'>
                 Специализированная аналитика для маркетплейса Uzum
               </h1>
             </div>
@@ -184,17 +184,23 @@ function LandingMain({
               </div>
             </Carousel>
           </div>
-          <div className='w-full '>
+          <div className='w-full'>
             <div className='base:flex-row flex w-full flex-col items-center justify-start gap-4'>
               <Link href='/register' className='base:w-auto w-full'>
                 <div
                   className={clsxm(
-                    'base:mt-0 mx-auto flex w-full shrink-0 cursor-pointer items-center justify-center border-white bg-white',
-                    'text-primary relative rounded-sm border-2 py-3 pl-3 pr-9 text-[18px] shadow-xl transition-all duration-200'
+                    'base:mt-0 mx-auto flex w-full cursor-pointer items-center justify-center',
+                    'get_started_button relative rounded-md border-2 py-4 pl-8 pr-16 text-[18px] shadow-xl transition-all duration-200'
                   )}
                 >
                   <p className=''>{t('main.button.signup')}</p>
-                  <AiOutlineDoubleRight className='absolute right-2 ml-2 h-5 w-5' />
+                  {/* <AiOutlineDoubleRight className='absolute right-2 ml-2 h-5 w-5' />
+                   */}
+                  <Image
+                    src={play}
+                    alt='play'
+                    className='absolute right-2 ml-2 h-5 w-5'
+                  />
                 </div>
               </Link>
               {/* <div className='bg-primary hover:text-primary mt-10 flex cursor-pointer items-center justify-center rounded-lg px-6 py-4 text-3xl text-white transition-all duration-200 hover:bg-purple-300'>
