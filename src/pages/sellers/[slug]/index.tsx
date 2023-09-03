@@ -66,7 +66,7 @@ function Category({ user, seller }: ShopsProps) {
     switch (notAllowedTab) {
       case t('sellers.overview'):
         RenderAlert({
-          alertTitle: t('tariffs.only_selected_shops'),
+          alertTitle: t('tariffs.not_allowed'),
           alertSubtitle:
             i18n.language === 'uz'
               ? 'Do’kon haqida ohirgi 100 kun mobaynidagi barcha umumiy malumotlarni ko’ring'
@@ -78,7 +78,7 @@ function Category({ user, seller }: ShopsProps) {
         break;
       case t('sellers.daily_sales'):
         RenderAlert({
-          alertTitle: t('tariffs.only_selected_shops'),
+          alertTitle: t('tariffs.not_allowed'),
           alertSubtitle:
             i18n.language === 'uz'
               ? "Oxirgi 100 kundan birini tanlang va shu kun uchun do'konning qanday sotuv qilganligini va qaysi mahsulotlardan qanchadan yoki nechta sotilganligini batafsil ko'ring"
@@ -90,7 +90,7 @@ function Category({ user, seller }: ShopsProps) {
         break;
       case t('sellers.competitors'):
         RenderAlert({
-          alertTitle: t('tariffs.only_selected_shops'),
+          alertTitle: t('tariffs.not_allowed'),
           alertSubtitle:
             i18n.language === 'uz'
               ? "Do'konning TOP 10 raqobatchilari biling va ular bilan har bir kategoriya bo'yicha barcha jihatdan taqqoslang"
@@ -102,7 +102,7 @@ function Category({ user, seller }: ShopsProps) {
         break;
       case t('sellers.categories'):
         RenderAlert({
-          alertTitle: t('tariffs.only_selected_shops'),
+          alertTitle: t('tariffs.not_allowed'),
           alertSubtitle:
             i18n.language === 'uz'
               ? "Do'konning har bir toifada qanday ishlashini tekshiring "

@@ -45,7 +45,7 @@ function Category({ user }: Props) {
   React.useEffect(() => {
     if (notAllowedTab && state.user?.tariff === 'trial')
       RenderAlert({
-        alertTitle: t('tariffs.only_selected_shops'),
+        alertTitle: t('tariffs.not_allowed'),
         // alertSubtitle: t('home.new_products.info'),
         buttonTitle: t('tariffs.tariffs'),
         buttonLink: '/profile',

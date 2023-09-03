@@ -84,7 +84,7 @@ const NamesAndEmailComponent = ({
       });
 
       if (res) {
-        router.push('/products');
+        router.push('/success');
         setSendingRequest(false);
       } else {
         setSendingRequest(false);
@@ -118,7 +118,7 @@ const NamesAndEmailComponent = ({
         });
 
         if (res) {
-          router.push('/products');
+          router.push('/success');
           setSendingRequest(false);
         } else {
           setSendingRequest(false);
