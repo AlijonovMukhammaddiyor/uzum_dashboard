@@ -122,6 +122,11 @@ function CategoriesSelect({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  React.useEffect(() => {
+    if (selectedCategories.size === 0) setCurrentParent(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategories]);
+
   return (
     <Container
       loading={loading}
