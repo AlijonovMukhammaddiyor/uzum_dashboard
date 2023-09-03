@@ -3,12 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
-import logger from '@/lib/logger';
 
 import UserNameAndPassword from '@/components/pages/login/UserNameAndPassword';
 
@@ -31,6 +30,23 @@ function LoginComponent() {
   const [sending, setSendingRequest] = React.useState(false);
   const [success, setSuccess] = React.useState<boolean | null>(null);
   const { i18n } = useTranslation('landing');
+  const [referralCode, setReferralCode] = React.useState<string>('');
+
+  useEffect(() => {
+    // check url params for referral code
+    const referralCode = router.query.referral;
+    if (referralCode && referralCode.length === 6) {
+      setReferralCode(referralCode as string);
+    } else {
+      if (typeof window !== 'undefined') {
+        const referral = localStorage.getItem('referral');
+        if (referral) {
+          setReferralCode(referral);
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typeof window]);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -42,38 +58,6 @@ function LoginComponent() {
     router.push({ pathname, query }, router.asPath, { locale: newLocale });
   };
 
-  const onTelegramAuth = (user: {
-    first_name: string;
-    last_name: string;
-    username: string;
-    id: number;
-    hash: string;
-  }) => {
-    const api = new API();
-    console.log(user, 'user');
-    // alert(JSON.stringify(user));
-    setSendingRequest(true);
-    api
-      .login({
-        username: user.username,
-        password: user.id.toString(),
-      })
-      .then((res) => {
-        if (res) {
-          setSuccess(true);
-          router.push('/products');
-        } else {
-          setSuccess(false);
-        }
-        setSendingRequest(false);
-      })
-      .catch((err) => {
-        logger(err, 'Error in onLogin');
-        setSuccess(false);
-        setSendingRequest(false);
-      });
-  };
-
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       const api = new API(null);
@@ -82,6 +66,7 @@ function LoginComponent() {
         const res = await api.register({
           code: codeResponse.access_token,
           isGoogle: true,
+          referred_by: referralCode,
         });
 
         if (res) {

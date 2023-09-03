@@ -10,7 +10,6 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import ReferralPopup from '@/components/pages/register/ReferralPopup';
 import RegisterFooter from '@/components/pages/register/RegisterFooter';
 import Button from '@/components/shared/buttons/Button';
 import CustomInput from '@/components/shared/InputField';
@@ -31,15 +30,19 @@ const NamesAndEmailComponent = ({
   const [passwordShow, setPasswordShow] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [username, setUsername] = useState<string>('');
-  const [popupOpen, setPopupOpen] = useState<boolean>(false);
-  const [popupOpenGoogle, setPopupOpenGoogle] = useState<boolean>(false);
 
   useEffect(() => {
     // check url params for referral code
-    const urlParams = new URLSearchParams(window.location.search);
-    const referralCode = urlParams.get('referral');
+    const referralCode = router.query.referral;
     if (referralCode && referralCode.length === 6) {
-      setReferralCode(referralCode);
+      setReferralCode(referralCode as string);
+    } else {
+      if (typeof window !== 'undefined') {
+        const referral = localStorage.getItem('referral');
+        if (referral) {
+          setReferralCode(referral);
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typeof window]);
@@ -47,7 +50,6 @@ const NamesAndEmailComponent = ({
   const { t, i18n } = useTranslation('register');
 
   const onRegister = async () => {
-    console.log(username, password, phone);
     if (!username) return alert(t('nousername.validate.error'));
 
     if (!phone || phone.length < 12)
@@ -113,7 +115,6 @@ const NamesAndEmailComponent = ({
           code: codeResponse.access_token,
           referred_by: referral_code as string | undefined,
           isGoogle: true,
-
           // referred_by: referral_code as string | undefined,
         });
 
@@ -156,7 +157,7 @@ const NamesAndEmailComponent = ({
 
   return (
     <div className={clsxm('flex w-[350px] max-w-[350px] flex-col gap-6', '')}>
-      <ReferralPopup
+      {/* <ReferralPopup
         open={popupOpen}
         setOpen={setPopupOpen}
         closeModal={() => {
@@ -175,12 +176,13 @@ const NamesAndEmailComponent = ({
         }}
         referralCode={referral_code ?? ''}
         setReferralCode={setReferralCode}
-      />
+      /> */}
       <div className='flex flex-col gap-4'>
         <div
           className='flex cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-200 py-1 hover:bg-gray-200'
           onClick={() => {
-            setPopupOpenGoogle(true);
+            // setPopupOpenGoogle(true);
+            handleGoogleLogin();
           }}
         >
           <FcGoogle className='text-primary text-4xl' />
@@ -250,7 +252,7 @@ const NamesAndEmailComponent = ({
             }}
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
-                return setPopupOpen(true);
+                return onRegister();
               }
             }}
             required
@@ -274,7 +276,8 @@ const NamesAndEmailComponent = ({
         <Button
           className='bg-primary mt-6 w-full text-white hover:bg-purple-700'
           onClick={() => {
-            setPopupOpen(true);
+            // setPopupOpen(true);
+            onRegister();
           }}
           isLoading={sendingRequest}
           spinnerColor='primary'

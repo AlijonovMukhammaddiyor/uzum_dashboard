@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaTelegramPlane } from 'react-icons/fa';
 
@@ -12,6 +13,19 @@ import Tops from '@/components/pages/landing/components/Tops';
 function LandingPage() {
   const { t, i18n } = useTranslation('landing');
   const [open, setOpen] = React.useState<boolean>(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // get
+      const referral = router.query.referral;
+      console.log(referral);
+      if (referral) {
+        localStorage.setItem('referral', referral.toString());
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [typeof window]);
 
   return (
     <div className='relative w-screen'>
