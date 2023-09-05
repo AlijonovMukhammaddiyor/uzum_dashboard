@@ -115,6 +115,7 @@ function Category({ user, seller }: ShopsProps) {
       default:
         break;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notAllowedTab, t]);
 
   if (!rendered) return <></>;

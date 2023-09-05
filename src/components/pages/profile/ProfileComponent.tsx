@@ -52,6 +52,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
         tabs={[
           t('profile.payments'),
           t('profile.shops'),
+          // i18n.language === 'uz' ? "Mening ma'lumotlarim" : 'Мои данные',
           // t('profile.others'),
           // 'Asosiy kategoriyalar',
         ]}
@@ -75,6 +76,15 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
         user={user}
         className={clsxm(activeTab === t('profile.shops') ? '' : 'hidden')}
       />
+      {/* <MyPage
+        user={user}
+        className={clsxm(
+          activeTab ===
+            (i18n.language === 'uz' ? "Mening ma'lumotlarim" : 'Мои данные')
+            ? ''
+            : 'hidden'
+        )}
+      /> */}
     </div>
   );
 };

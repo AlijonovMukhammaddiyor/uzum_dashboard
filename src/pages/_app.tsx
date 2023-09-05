@@ -145,7 +145,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           {isMobile &&
           router.pathname !== '/' &&
           !router.pathname.startsWith('/login') &&
-          !router.pathname.startsWith('/success') &&
           !router.pathname.startsWith('/register') ? (
             <div>
               <main>

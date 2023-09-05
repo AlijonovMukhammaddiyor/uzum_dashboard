@@ -68,6 +68,10 @@ export default function Header() {
       ? i18n.language === 'uz'
         ? '7 kunlik sinov'
         : '7 дневный тест'
+      : state.user?.referred_by === '681332'
+      ? i18n.language === 'uz'
+        ? '7 kunlik sinov'
+        : '7 дневный тест'
       : i18n.language === 'uz'
       ? '1 kunlik sinov'
       : '1 дневный тест';
