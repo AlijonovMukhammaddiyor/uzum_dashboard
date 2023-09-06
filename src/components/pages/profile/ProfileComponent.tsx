@@ -52,7 +52,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
       <Tabs
         tabs={[
           t('profile.payments'),
-          i18n.language === 'uz' ? "Mening ma'lumotlarim" : 'Мои данные',
+          // i18n.language === 'uz' ? "Mening ma'lumotlarim" : 'Мои данные',
           t('profile.shops'),
 
           // t('profile.others'),

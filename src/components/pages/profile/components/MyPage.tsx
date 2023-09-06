@@ -9,7 +9,7 @@ import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import {
-  getShopTableColumnDefs,
+  getFavouriteShopTableColumnDefs,
   getWeeklyBestProductsColDefs,
 } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
@@ -76,13 +76,22 @@ function MyPage({ className, user }: { className?: string; user: UserType }) {
   React.useEffect(() => {
     const api = new API(null);
     api
-      .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/user/reports/')
+      .get<unknown, AxiosResponse<{ shops: SellerType[] }>>('/user/shops/get')
       .then((res) => {
-        logger(res.data, 'my shops');
+        setSavedShops(res.data.shops);
       })
       .catch((err) => {
         // console.log(err);
-        logger(err, 'Error in reports');
+        logger(err, 'Error in shops');
+      });
+    api
+      .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/user/products/get')
+      .then((res) => {
+        logger(res.data, 'my products');
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in products');
       });
   }, []);
 
@@ -164,7 +173,7 @@ function MyPage({ className, user }: { className?: string; user: UserType }) {
 
           {savedShops.length > 0 ? (
             <Table
-              columnDefs={getShopTableColumnDefs(t2, i18n.language)}
+              columnDefs={getFavouriteShopTableColumnDefs(t2, i18n.language)}
               className={clsxm(
                 'min-w-full rounded-none',
                 user.tariff === 'base' &&

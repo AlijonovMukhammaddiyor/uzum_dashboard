@@ -660,9 +660,9 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
         <div className='flex items-end gap-1'>
           <div onClick={handleFavorite}>
             {isFavoriteSeller ? (
-              <AiFillHeart className='text-2xl text-red-500' />
+              <AiFillHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-red-500 shadow-md' />
             ) : (
-              <AiOutlineHeart className='text-2xl' />
+              <AiOutlineHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-2xl shadow-md' />
             )}
           </div>
           <a href={newPath} target='_blank'>
@@ -696,6 +696,56 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
     </div>
   );
 };
+
+// export const SellerFavouriteCellRenderer = ({ value }: { value: string }) => {
+//   const { dispatch, state } = useContextState();
+//   const router = useRouter();
+//   const { i18n } = useTranslation('common');
+
+//   // get seller link from value = "title (link)""
+//   if (!value) return '';
+//   // try{
+//   const seller_link = value?.split('((')[1]?.trim().split('))')[0];
+//   const seller_title = value?.split('((')[0].trim();
+//   const isFreeUser = state.user?.tariff === 'free';
+
+//   let favourites = [];
+
+//   if (typeof window !== 'undefined') {
+//     const ff = localStorage.getItem('favourite_shops');
+//     if (ff) favourites = JSON.parse(ff);
+//   }
+
+//   // Example user_favorites = ['seller_link1', 'seller_link2']
+//   const isFavoriteSeller = favourites.includes(seller_link);
+
+//   const handleFavorite = () => {
+//     if (isFavoriteSeller) {
+//       setUserFavorites((prev) =>
+//         prev.filter((seller) => seller !== seller_link)
+//       );
+//     } else {
+//       setUserFavorites((prev) => [...prev, seller_link]);
+//     }
+//   };
+
+//   return (
+//     <div className='flex h-full w-full items-center justify-start gap-1'>
+//       <div className='flex items-end gap-1'>
+//         <div onClick={handleFavorite}>
+//           {isFavoriteSeller ? (
+//             <AiFillHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-red-500 shadow-md' />
+//           ) : (
+//             <AiOutlineHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-2xl shadow-md' />
+//           )}
+//         </div>
+//         <a href={newPath} target='_blank'>
+//           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
+//         </a>
+//       </div>
+//     </div>
+//   );
+// };
 
 const TrendPriceCellRenderer = ({ value }: { value: string }) => {
   if (value === null) return <p>-</p>;
@@ -4683,6 +4733,120 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
       cellRenderer: LocaleNumberCellRenderer,
       filter: false,
       sortable: true,
+      flex: 1,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning jami izohlar soni"
+          : 'Количество отзывов магазина.',
+    },
+  ];
+};
+
+export const getFavouriteShopTableColumnDefs = (t: any, lang: string) => {
+  return [
+    {
+      headerName: t('position'),
+      field: 'position',
+      cellRenderer: BasicCellRenderer,
+      sortable: true,
+      filter: false,
+      maxWidth: 100,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip:
+        lang === 'uz' ? "Daromadiga ko'ra o'rni." : 'Позиция по доходу.',
+    },
+
+    {
+      headerName: t('shop_name'),
+      field: 'title',
+      filter: 'agTextColumnFilter',
+      floatingFilter: false,
+      sortable: false,
+      cellRenderer: SellerNameCellRenderer,
+      flex: 1,
+      minWidth: 300,
+      maxWidth: 400,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+
+    {
+      headerName: t('orders'),
+      field: 'total_orders',
+      sortable: false,
+      filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
+
+      flex: 1,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning jami buyurtmalar soni"
+          : 'Количество заказов магазина.',
+    },
+
+    {
+      headerName: t('revenue'),
+      field: 'total_revenue',
+      sortable: false,
+      filter: false,
+      cellRenderer: RevenueCellRenderer,
+
+      flex: 1,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip:
+        lang === 'uz' ? "Do'konning barcha daromadi" : 'Доход магазина.',
+    },
+    {
+      headerName: t('products_count'),
+      field: 'total_products',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: false,
+      filter: false,
+      flex: 1,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning mahsulotlari soni"
+          : 'Количество товаров магазина.',
+    },
+
+    {
+      headerName: t('rating'),
+      field: 'rating',
+      filter: false,
+      cellRenderer: RatingCellRenderer,
+      flex: 1,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('reviews'),
+      field: 'total_reviews',
+      cellRenderer: LocaleNumberCellRenderer,
+      filter: false,
+      sortable: false,
       flex: 1,
       cellStyle: {
         fontSize: '14px',

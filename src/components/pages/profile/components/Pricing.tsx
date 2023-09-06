@@ -210,7 +210,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.business')}
             isCurrentPlan={state.user?.tariff === 'business'}
             setCurrentPlan={setCurrentPlan}
-            price={100}
+            price={70}
             features={[
               t('tariffs.Barcha_dokonlar_full'),
               t('tariffs.90_kunlikplus'),
