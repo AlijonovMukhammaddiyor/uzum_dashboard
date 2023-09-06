@@ -9,6 +9,8 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
+import BusinessAccess from '@/components/pages/profile/components/BusinessAccess';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
 
 import { useContextState } from '@/context/Context';
@@ -20,6 +22,8 @@ function Pricing({ className }: { className?: string }) {
     t('tariffs.choosePlan')
   );
   const [months, setMonths] = React.useState<number>(1);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [businessCode, setBusinessCode] = useState('');
 
   const sendToRegister = (plan: string) => {
     Router.push({
@@ -90,6 +94,8 @@ function Pricing({ className }: { className?: string }) {
             </div>
           </div>
         </div>
+
+        {/* Popup for Business Access */}
 
         {state.user?.tariff === 'trial' && (
           <div className='flex max-w-fit items-center justify-start gap-3 bg-yellow-300 p-3 shadow-lg'>
@@ -204,7 +210,7 @@ function Pricing({ className }: { className?: string }) {
             title={t('tariffs.business')}
             isCurrentPlan={state.user?.tariff === 'business'}
             setCurrentPlan={setCurrentPlan}
-            price={1000000}
+            price={100}
             features={[
               t('tariffs.Barcha_dokonlar_full'),
               t('tariffs.90_kunlikplus'),
@@ -241,6 +247,8 @@ function Pricing({ className }: { className?: string }) {
             buttonTitle={t('tariffs.select')}
             sendToRegister={sendToRegister}
             isFreeTrial={true}
+            // setPopupOpen={setPopupOpen}
+            // businessCode={businessCode}
           />
         </div>
         <div className='min-h-screen pb-16'>
@@ -273,7 +281,9 @@ function Tarif({
   isEnterprise,
   setCurrentPlan,
   months = 1,
-}: {
+}: // setPopupOpen,
+// businessCode,
+{
   isCurrentPlan?: boolean;
   title: string;
   price: number;
@@ -287,6 +297,8 @@ function Tarif({
   isEnterprise?: boolean;
   isFreeTrial?: boolean;
   months?: number;
+  // setPopupOpen?: (value: boolean) => void;
+  // businessCode?: string;
 }) {
   const { t, i18n } = useTranslation('landing');
   const { state } = useContextState();
@@ -325,12 +337,12 @@ function Tarif({
     t('tariffs.1_dukon'),
     t('tariffs.24/7_doimiy_yordam'),
   ];
-
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [businessCode, setBusinessCode] = useState('');
   const handlePayment = () => {
     const api = new API(null);
     if (price === 0) return;
     setLoading(true);
-
     api
       .post('/payments/paylink/', {
         amount: Math.floor(price * months * 12000),
@@ -365,6 +377,36 @@ function Tarif({
         isProPlus && 'border-primary border'
       )}
     >
+      <BusinessAccess
+        open={popupOpen}
+        setOpen={setPopupOpen}
+        closeModal={() => {
+          setPopupOpen(false);
+          if (businessCode === '777777') {
+            handlePayment();
+          } else {
+            RenderAlert({
+              alertTitle:
+                i18n.language === 'uz'
+                  ? 'Iltimos, kodni tekshirib qayta kiriting!'
+                  : 'Пожалуйста, проверьте код и повторите попытку!',
+              alertSubtitle:
+                i18n.language === 'uz'
+                  ? 'Agar sizda maxsus kod bo`lmasa, biz bilan bog`laning.'
+                  : 'Если у вас нет специального кода, свяжитесь с нами.',
+              buttonTitle:
+                i18n.language === 'uz'
+                  ? 'Biz bilan bog`lanish'
+                  : 'Свяжитесь с нами',
+              buttonLink: 'https://t.me/Alijonov_md',
+            });
+            setBusinessCode('');
+            return;
+          }
+        }}
+        businessCode={businessCode ?? ''}
+        setBusinessCode={setBusinessCode}
+      />
       <div className=' flex items-center justify-start gap-3'>
         <p className='font-primary text-lg font-semibold'>{title}</p>
 
@@ -431,7 +473,7 @@ function Tarif({
           onClick={() => {
             if (!isCurrentPlan) {
               if (isEnterprise) {
-                window.open('https://t.me/Alijonov_md', '_blank');
+                setPopupOpen(true);
               } else {
                 handlePayment();
               }
@@ -452,11 +494,11 @@ function Tarif({
               ? i18n.language === 'uz'
                 ? 'Hozirgi'
                 : 'Текущий'
-              : isEnterprise
-              ? i18n.language === 'uz'
-                ? "Biz bilan bog'laning"
-                : 'Свяжитесь с нами'
-              : t('tariffs.select')}
+              : // : isEnterprise
+                // ? i18n.language === 'uz'
+                //   ? "Biz bilan bog'laning"
+                //   : 'Свяжитесь с нами'
+                t('tariffs.select')}
           </>
         </Button>
       </div>

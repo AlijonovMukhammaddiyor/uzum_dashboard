@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import clsxm from '@/lib/clsxm';
 
+import MyPage from '@/components/pages/profile/components/MyPage';
 import Pricing from '@/components/pages/profile/components/Pricing';
 import ShopsSelect from '@/components/pages/profile/components/ShopsSelect';
 import { RenderAlert } from '@/components/shared/AlertComponent';
@@ -51,8 +52,9 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
       <Tabs
         tabs={[
           t('profile.payments'),
+          i18n.language === 'uz' ? "Mening ma'lumotlarim" : 'Мои данные',
           t('profile.shops'),
-          // i18n.language === 'uz' ? "Mening ma'lumotlarim" : 'Мои данные',
+
           // t('profile.others'),
           // 'Asosiy kategoriyalar',
         ]}
@@ -76,7 +78,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
         user={user}
         className={clsxm(activeTab === t('profile.shops') ? '' : 'hidden')}
       />
-      {/* <MyPage
+      <MyPage
         user={user}
         className={clsxm(
           activeTab ===
@@ -84,7 +86,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
             ? ''
             : 'hidden'
         )}
-      /> */}
+      />
     </div>
   );
 };

@@ -40,6 +40,11 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [tab, setTab] = React.useState<string>(t('revenue'));
 
+  const [totalOrders, setTotalOrders] = React.useState<number>(0);
+  const [totalProducts, setTotalProducts] = React.useState<number>(0);
+  const [reviewsAmount, setReviewsAmount] = React.useState<number>(0);
+  const [revenue, setRevenue] = React.useState<number>(0);
+
   useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -49,6 +54,12 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
       )
       .then((res) => {
         setData(res.data.slice(0));
+
+        setTotalOrders(res.data[res.data.length - 1]?.total_orders ?? 0);
+        setTotalProducts(res.data[res.data.length - 1]?.total_products ?? 0);
+        setReviewsAmount(res.data[res.data.length - 1]?.total_reviews ?? 0);
+        setRevenue(res.data[res.data.length - 1]?.total_revenue ?? 0);
+
         setLoading(false);
       })
       .catch((err) => {
@@ -63,6 +74,48 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
       className={clsxm('flex min-w-[1200px] flex-col gap-6 pb-12', className)}
     >
       {' '}
+      <div className='flex items-center justify-between gap-3'>
+        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
+          <p className='font-semibold'>
+            {i18n.language === 'uz' ? 'Daromad' : 'Выручка'}:
+          </p>
+          <p className='text-primary font-semibold'>
+            {revenue / 1000000 > 1 ? (
+              <span>{(revenue / 1000000).toFixed(1)} mlrd so'm</span>
+            ) : revenue / 1000 > 1 ? (
+              <span>{(revenue / 1000).toFixed(1)} mln so'm</span>
+            ) : (
+              <span>{Number(revenue.toFixed(1)).toLocaleString()} so'm</span>
+            )}
+          </p>
+        </div>
+        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
+          <p className='font-semibold'>
+            {i18n.language === 'uz' ? 'Mahsulotlar' : 'Продукты'}:
+          </p>
+          <p className='text-primary font-semibold'>
+            {totalProducts?.toLocaleString()}
+          </p>
+        </div>
+        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
+          <p className='font-semibold'>
+            {i18n.language === 'uz' ? 'Buyurtmalar' : 'Продажи'}:
+          </p>
+          <p className='text-primary font-semibold'>
+            {totalOrders?.toLocaleString()}
+          </p>
+        </div>
+
+        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
+          <p className='font-semibold'>
+            {' '}
+            {i18n.language === 'uz' ? 'Izohlar' : 'Отзывы'}:
+          </p>
+          <p className='text-primary font-semibold'>
+            {reviewsAmount?.toLocaleString()}
+          </p>
+        </div>
+      </div>
       <div className='flex items-center justify-end gap-5'>
         <p className='text-xl font-bold'>
           {i18n.language === 'uz'

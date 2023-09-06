@@ -593,7 +593,7 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { i18n } = useTranslation('common');
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [user_favorites, setUserFavorites] = useState<string[]>([]);
 
   // get seller link from value = "title (link)""
   if (!value) return '';
@@ -602,9 +602,8 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const seller_title = value?.split('((')[0].trim();
   const isFreeUser = state.user?.tariff === 'free';
 
-  // Example USER_FAVORITES: ["intouch","mzone"]
-  const USER_FAVORITES = ['intouch', 'mzone'];
-  const isFavoriteSeller = USER_FAVORITES.includes(seller_link);
+  // Example user_favorites = ['seller_link1', 'seller_link2']
+  const isFavoriteSeller = user_favorites.includes(seller_link);
 
   let lang = '';
   if (i18n.language === 'uz') lang = '/uz/';
@@ -612,6 +611,17 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
 
   if (!seller_link || !seller_title)
     return <p className='text-black'>{seller_title}</p>;
+
+  // Handle Toggle Favorites
+  const handleFavorite = () => {
+    if (isFavoriteSeller) {
+      setUserFavorites((prev) =>
+        prev.filter((seller) => seller !== seller_link)
+      );
+    } else {
+      setUserFavorites((prev) => [...prev, seller_link]);
+    }
+  };
 
   return (
     // <div
@@ -648,11 +658,13 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
         />
       ) : (
         <div className='flex items-end gap-1'>
-          {isFavoriteSeller ? (
-            <AiFillHeart className='text-2xl text-red-500' />
-          ) : (
-            <AiOutlineHeart className='text-2xl' />
-          )}
+          <div onClick={handleFavorite}>
+            {isFavoriteSeller ? (
+              <AiFillHeart className='text-2xl text-red-500' />
+            ) : (
+              <AiOutlineHeart className='text-2xl' />
+            )}
+          </div>
           <a href={newPath} target='_blank'>
             <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
           </a>
@@ -1545,6 +1557,7 @@ export const getTopShopsColDefs = (t: any) => {
       flex: 1,
       minWidth: 200,
     },
+
     {
       headerName: t('revenue'),
       field: 'total_revenue',
@@ -4571,6 +4584,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz' ? "Daromadiga ko'ra o'rni." : 'Позиция по доходу.',
     },
+
     {
       headerName: t('shop_name'),
       field: 'shop_title',

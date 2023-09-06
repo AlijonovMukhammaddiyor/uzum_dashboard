@@ -57,6 +57,7 @@ const ubuntu = Ubuntu({
 });
 function MyApp({ Component, pageProps }: AppProps) {
   const [isMobile, setIsMobile] = useState(false);
+
   const router = useRouter();
 
   const checkMobile = () => {
