@@ -94,6 +94,15 @@ function ShopsSelect({
         logger(err, 'Error in my shops');
         setLoading(false);
       });
+    api
+      .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/user/reports/')
+      .then((res) => {
+        logger(res.data, 'my shops');
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in reports');
+      });
   }, []);
 
   const options = React.useMemo(() => {
