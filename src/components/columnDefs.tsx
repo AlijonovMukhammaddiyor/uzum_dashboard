@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import React from 'react';
 import { useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { BiCheckDouble } from 'react-icons/bi';
 import { BsArrowDownShort, BsArrowUpShort } from 'react-icons/bs';
 import { HiMinusSm, HiOutlinePlusSm } from 'react-icons/hi';
@@ -592,6 +593,7 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { i18n } = useTranslation('common');
+  const [isFavorite, setIsFavorite] = useState(false);
 
   // get seller link from value = "title (link)""
   if (!value) return '';
@@ -599,6 +601,10 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const seller_link = value?.split('((')[1]?.trim().split('))')[0];
   const seller_title = value?.split('((')[0].trim();
   const isFreeUser = state.user?.tariff === 'free';
+
+  // Example USER_FAVORITES: ["intouch","mzone"]
+  const USER_FAVORITES = ['intouch', 'mzone'];
+  const isFavoriteSeller = USER_FAVORITES.includes(seller_link);
 
   let lang = '';
   if (i18n.language === 'uz') lang = '/uz/';
@@ -641,9 +647,16 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
           className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
         />
       ) : (
-        <a href={newPath} target='_blank'>
-          <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
-        </a>
+        <div className='flex items-end gap-1'>
+          {isFavoriteSeller ? (
+            <AiFillHeart className='text-2xl text-red-500' />
+          ) : (
+            <AiOutlineHeart className='text-2xl' />
+          )}
+          <a href={newPath} target='_blank'>
+            <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
+          </a>
+        </div>
       )}
       <div
         onClick={() => {
