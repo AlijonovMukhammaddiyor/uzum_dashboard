@@ -55,16 +55,20 @@ function TelegramComponent() {
     api
       .get<unknown, AxiosResponse<{ shops: any[] }>>('/bot/shops/get')
       .then((res) => {
-        // setSavedShops(res.data.shops);
-        logger(res.data, 'my shops 222');
-        setLoading((prev) => ({ ...prev, shops: false }));
-        // dispatch({
-        //   type: 'FAVOURITE_SHOPS',
-        //   payload: {
-        //     favourite_sellers: res.data.shops,
-        //   },
-        // });
-        setShops(res.data.shops);
+        try {
+          // setSavedShops(res.data.shops);
+          logger(res.data, 'my shops 222');
+          setLoading((prev) => ({ ...prev, shops: false }));
+          // dispatch({
+          //   type: 'FAVOURITE_SHOPS',
+          //   payload: {
+          //     favourite_sellers: res.data.shops,
+          //   },
+          // });
+          setShops(res.data.shops);
+        } catch (e) {
+          console.log(e);
+        }
       })
       .catch((err) => {
         // console.log(err);
@@ -73,15 +77,19 @@ function TelegramComponent() {
     api
       .get<unknown, AxiosResponse<{ products: any[] }>>('/bot/products/get')
       .then((res) => {
-        logger(res.data, 'my products222');
-        setLoading((prev) => ({ ...prev, products: false }));
-        // dispatch({
-        //   type: 'FAVOURITE_PRODUCTS',
-        //   payload: {
-        //     favourite_products: res.data.products,
-        //   },
-        // });
-        setProducts(res.data.products);
+        try {
+          logger(res.data, 'my products222');
+          setLoading((prev) => ({ ...prev, products: false }));
+          // dispatch({
+          //   type: 'FAVOURITE_PRODUCTS',
+          //   payload: {
+          //     favourite_products: res.data.products,
+          //   },
+          // });
+          setProducts(res.data.products);
+        } catch (e) {
+          console.log(e);
+        }
       })
       .catch((err) => {
         // console.log(err);
@@ -94,7 +102,16 @@ function TelegramComponent() {
     <div className='h-full w-full pb-10'>
       <div className='mt-4 flex w-full items-center justify-start gap-4'>
         <p className='shrink-0 text-xl font-bold text-blue-600'>
-          {i18n.language === 'uz' ? 'UzAnalitika Bot' : 'UzAnalitika Бот'}
+          {i18n.language === 'uz' ? 'UzAnalitika Bot' : 'UzAnalitika Бот'}(
+          <a
+            href='https://t.me/uzanalitikabot'
+            target='_blank'
+            className='hover:underline'
+          >
+            {' '}
+            t.me/uzanalitikabot
+          </a>
+          )
         </p>
         <p className='text-gray-600'>-</p>
         <p className='text-gray-700'>
@@ -191,7 +208,7 @@ function TelegramComponent() {
             ? "Siz kuzatayotgan do'konlar"
             : 'магазины, которые вы отслеживаете.'}
         </p>
-        {shops.length > 0 ? (
+        {shops?.length > 0 ? (
           <Table
             rowData={shops ?? []}
             rowHeight={75}
@@ -199,13 +216,13 @@ function TelegramComponent() {
             columnDefs={getShopTableColumnDefs(t2, i18n.language)}
             className={clsxm(
               'h-[calc(500px)] w-full',
-              products.length === 0 && 'hidden'
+              shops?.length === 0 && 'hidden'
             )}
           />
         ) : (
           <></>
         )}
-        {shops.length === 0 ? (
+        {shops?.length === 0 ? (
           <div className='mx-auto mt-10 h-[400px] w-[100%] bg-white'>
             <Image
               src={noresults}
@@ -219,14 +236,14 @@ function TelegramComponent() {
       </Container>
       <Container
         className='mt-10 border-none shadow-none'
-        loading={loading.shops}
+        loading={loading.products}
       >
         <p className='mb-4 text-center text-xl font-bold'>
           {i18n.language === 'uz'
             ? 'Siz kuzatayotgan mahsulotlar'
             : 'товары, которые вы отслеживаете.'}
         </p>
-        {products.length > 0 ? (
+        {products?.length > 0 ? (
           <Table
             rowData={products ?? []}
             rowHeight={75}
@@ -236,13 +253,13 @@ function TelegramComponent() {
             }
             className={clsxm(
               'h-[calc(500px)] w-full',
-              products.length === 0 && 'hidden'
+              products?.length === 0 && 'hidden'
             )}
           />
         ) : (
           <></>
         )}
-        {products.length === 0 ? (
+        {products?.length === 0 ? (
           <div className='mx-auto mt-10 h-[400px] w-[100%] bg-white'>
             <Image
               src={noresults}
