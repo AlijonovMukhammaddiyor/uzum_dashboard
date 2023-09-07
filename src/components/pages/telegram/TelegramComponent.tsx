@@ -114,10 +114,10 @@ function TelegramComponent() {
           )
         </p>
         <p className='text-gray-600'>-</p>
-        <p className='text-gray-700'>
+        <p className='text-lg font-semibold text-gray-700'>
           {i18n.language === 'uz'
-            ? "Bizning bot orqali sizga qiziq bo'lgan barcha raqobatchi yoki o'zingizning (1) do'konlaringizni (2) mahsulotlaringizni doimiy kuzatib borishingiz mumkin boladi."
-            : 'Наш бот позволяет вам всегда следить за всеми вашими конкурентами или вашими (1) магазинами (2) товарами.'}
+            ? "Bizning bot orqali O'ZINGIZNING yoki barcha RAQOBATCHI  (1) do'konlar (2) mahsulotlarni doimiy kuzatib borishingiz mumkin boladi."
+            : 'Через нашего бота вы можете постоянно следить за ВАШИМИ или всеми КОНКУРЕНТАМИ (1) магазинов (2) товаров.'}
         </p>
       </div>
       <div className='mt-4 flex w-full items-start justify-start gap-4'>
