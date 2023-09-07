@@ -219,8 +219,6 @@ function ProductsComponent({ user }: ProductsComponentProps) {
     return params;
   };
 
-  console.log(selectedCategories);
-
   return (
     <div className='mt-5 min-h-full w-full min-w-[1300px]'>
       <Tabs

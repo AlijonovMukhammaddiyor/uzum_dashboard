@@ -68,7 +68,7 @@ function Product({ user, product_id }: ProductProps) {
       payload: {
         path: {
           Mahsulotlar: '/products',
-          [product_title]: `/products/${product_title}--${product_id}`,
+          [product_title]: `/products/${product_id}`,
         },
       },
     });
