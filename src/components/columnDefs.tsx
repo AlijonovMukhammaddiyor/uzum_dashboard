@@ -3,7 +3,7 @@ import { CellStyle } from 'ag-grid-community';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -15,8 +15,10 @@ import { TbExternalLink } from 'react-icons/tb';
 import { Carousel } from 'react-responsive-carousel';
 import Popup from 'reactjs-popup';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
+import Button from '@/components/shared/buttons/Button';
 import TinyColumnGraph from '@/components/shared/TinyColumnGraph';
 import TinyLineGraph from '@/components/shared/TinyLineGraph';
 
@@ -612,17 +614,6 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   if (!seller_link || !seller_title)
     return <p className='text-black'>{seller_title}</p>;
 
-  // Handle Toggle Favorites
-  const handleFavorite = () => {
-    if (isFavoriteSeller) {
-      setUserFavorites((prev) =>
-        prev.filter((seller) => seller !== seller_link)
-      );
-    } else {
-      setUserFavorites((prev) => [...prev, seller_link]);
-    }
-  };
-
   return (
     // <div
     //   // href={`/sellers/${seller_link}`}
@@ -658,13 +649,6 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
         />
       ) : (
         <div className='flex items-end gap-1'>
-          <div onClick={handleFavorite}>
-            {isFavoriteSeller ? (
-              <AiFillHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-red-500 shadow-md' />
-            ) : (
-              <AiOutlineHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-2xl shadow-md' />
-            )}
-          </div>
           <a href={newPath} target='_blank'>
             <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
           </a>
@@ -697,55 +681,216 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
-// export const SellerFavouriteCellRenderer = ({ value }: { value: string }) => {
-//   const { dispatch, state } = useContextState();
-//   const router = useRouter();
-//   const { i18n } = useTranslation('common');
+export const ProductsFavouriteCellRenderer = ({ value }: { value: string }) => {
+  const { dispatch, state } = useContextState();
+  const { i18n } = useTranslation('common');
+  const [loading, setLoading] = useState(false);
+  const [isFaourite, setIsFavourite] = useState(
+    state.favourite_products?.includes(value)
+  );
 
-//   // get seller link from value = "title (link)""
-//   if (!value) return '';
-//   // try{
-//   const seller_link = value?.split('((')[1]?.trim().split('))')[0];
-//   const seller_title = value?.split('((')[0].trim();
-//   const isFreeUser = state.user?.tariff === 'free';
+  const isFreeUser = state.user?.tariff === 'free';
 
-//   let favourites = [];
+  const handleFavorite = () => {
+    const api = new API(null);
+    setLoading(true);
+    if (isFaourite) {
+      api
+        .post('/bot/products/remove/', {
+          product_id: value,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch((prevState: any) => {
+              const favourites = prevState.favourite_products;
+              if (!favourites) return;
+              const index = favourites.indexOf(value);
+              return {
+                type: 'FAVOURITE_PRODUCTS',
+                payload: {
+                  favourite_products: [
+                    ...favourites.slice(0, index),
+                    ...favourites.slice(index + 1),
+                  ],
+                },
+              };
+            });
 
-//   if (typeof window !== 'undefined') {
-//     const ff = localStorage.getItem('favourite_shops');
-//     if (ff) favourites = JSON.parse(ff);
-//   }
+            setIsFavourite(false);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          let message = err?.response?.data?.message;
+          if (i18n.language === 'ru') {
+            message = err?.response?.data?.message_ru;
+          }
+          setLoading(false);
+          alert(message);
+        });
+    } else {
+      api
+        .post('/bot/products/add/', {
+          product_id: value,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch((prevState: any) => {
+              const favourites = prevState.favourite_products;
+              if (!favourites) return;
+              return {
+                type: 'FAVOURITE_PRODUCTS',
+                payload: {
+                  favourite_products: [...favourites, value],
+                },
+              };
+            });
 
-//   // Example user_favorites = ['seller_link1', 'seller_link2']
-//   const isFavoriteSeller = favourites.includes(seller_link);
+            setIsFavourite(true);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          let message = err?.response?.data?.message;
+          if (i18n.language === 'ru') {
+            message = err?.response?.data?.message_ru;
+          }
+          setLoading(false);
+          alert(message);
+        });
+    }
+  };
 
-//   const handleFavorite = () => {
-//     if (isFavoriteSeller) {
-//       setUserFavorites((prev) =>
-//         prev.filter((seller) => seller !== seller_link)
-//       );
-//     } else {
-//       setUserFavorites((prev) => [...prev, seller_link]);
-//     }
-//   };
+  return (
+    <div className='flex h-full w-full items-center justify-start gap-1'>
+      <Button
+        onClick={handleFavorite}
+        className=''
+        isLoading={loading}
+        spinnerColor='primary'
+      >
+        {isFaourite ? (
+          <AiFillHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-red-500 shadow-md' />
+        ) : (
+          <AiOutlineHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-2xl shadow-md' />
+        )}
+      </Button>
+    </div>
+  );
+};
 
-//   return (
-//     <div className='flex h-full w-full items-center justify-start gap-1'>
-//       <div className='flex items-end gap-1'>
-//         <div onClick={handleFavorite}>
-//           {isFavoriteSeller ? (
-//             <AiFillHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-red-500 shadow-md' />
-//           ) : (
-//             <AiOutlineHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-2xl shadow-md' />
-//           )}
-//         </div>
-//         <a href={newPath} target='_blank'>
-//           <TbExternalLink className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md' />
-//         </a>
-//       </div>
-//     </div>
-//   );
-// };
+export const SellerFavouriteCellRenderer = ({ value }: { value: string }) => {
+  const { dispatch, state } = useContextState();
+  const router = useRouter();
+  const { i18n } = useTranslation('common');
+  const [loading, setLoading] = useState(false);
+  const seller_link = value?.split('((')[1]?.trim().split('))')[0].trim();
+  const [isFaourite, setIsFavourite] = useState(
+    state.favourite_sellers?.includes(seller_link)
+  );
+
+  useEffect(() => {
+    setIsFavourite(state.favourite_sellers?.includes(seller_link));
+  }, [state.favourite_sellers, seller_link]);
+
+  // get seller link from value = "title (link)""
+  if (!value) return '';
+  // try{
+
+  const isFreeUser = state.user?.tariff === 'free';
+
+  const handleFavorite = () => {
+    const api = new API(null);
+    setLoading(true);
+    if (isFaourite) {
+      api
+        .post('/bot/shops/remove/', {
+          link: seller_link,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            const favourites = state.favourite_sellers;
+            if (!favourites) return;
+            const index = favourites?.indexOf(seller_link);
+            dispatch((prevState: any) => {
+              const favourites = prevState.favourite_sellers;
+              if (!favourites) return;
+              const index = favourites.indexOf(seller_link);
+              return {
+                type: 'FAVOURITE_SHOPS',
+                payload: {
+                  favourite_sellers: [
+                    ...favourites.slice(0, index),
+                    ...favourites.slice(index + 1),
+                  ],
+                },
+              };
+            });
+
+            setIsFavourite(false);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          let message = err?.response?.data?.message;
+          if (i18n.language === 'ru') {
+            message = err?.response?.data?.message_ru;
+          }
+          setLoading(false);
+          alert(message);
+        });
+    } else {
+      api
+        .post('/bot/shops/add/', {
+          link: seller_link,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            const favourites = state.favourite_sellers;
+            if (!favourites) return;
+            dispatch((prevState: any) => {
+              const favourites = prevState.favourite_sellers;
+              if (!favourites) return;
+              return {
+                type: 'FAVOURITE_SHOPS',
+                payload: {
+                  favourite_sellers: [...favourites, seller_link],
+                },
+              };
+            });
+
+            setIsFavourite(true);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          let message = err?.response?.data?.message;
+          if (i18n.language === 'ru') {
+            message = err?.response?.data?.message_ru;
+          }
+          setLoading(false);
+          alert(message);
+        });
+    }
+  };
+
+  return (
+    <div className='flex h-full w-full items-center justify-start gap-1'>
+      <Button
+        onClick={handleFavorite}
+        className=''
+        isLoading={loading}
+        spinnerColor='primary'
+      >
+        {isFaourite ? (
+          <AiFillHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-red-500 shadow-md' />
+        ) : (
+          <AiOutlineHeart className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 text-2xl shadow-md' />
+        )}
+      </Button>
+    </div>
+  );
+};
 
 const TrendPriceCellRenderer = ({ value }: { value: string }) => {
   if (value === null) return <p>-</p>;
@@ -3132,25 +3277,6 @@ export const CategoryProductsColDefs = [
 
 export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
   return [
-    // {
-    //   headerName: t('id'),
-    //   field: 'product_id',
-    //   flex: 1,
-    //   sortable: false,
-    //   minWidth: 100,
-    //   filter: 'agNumberColumnFilter',
-    //   filterParams: {
-    //     alwaysShowBothConditions: true,
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   flloatingFilterComponentParams: {
-    //     suppressFilterButton: true,
-    //     buttons: ['reset', 'apply'],
-    //   },
-    //   floatingFilter: true,
-    //   maxWidth: 120,
-    //   // pinned: 'left',
-    // },
     {
       headerName: t('image'),
       field: 'photos',
@@ -3185,6 +3311,19 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       flex: 1,
       maxWidth: 300,
       minWidth: 300,
+    },
+    {
+      headerName: lang === 'uz' ? 'Kuzatish' : 'Просмотр',
+      field: 'product_id',
+      flex: 1,
+      sortable: false,
+      minWidth: 100,
+      filter: false,
+      cellRenderer: ProductsFavouriteCellRenderer,
+      headerTooltip:
+        lang === 'uz'
+          ? 'Mahsulotni Telegram bot orqali kuzatish.'
+          : 'Просмотр товара через Telegram бот.',
     },
     {
       headerName: t('category'),
@@ -4650,7 +4789,24 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
         fontSize: '14px',
       } as CellStyle,
     },
-
+    {
+      headerName: lang === 'uz' ? 'Kuzatish' : 'Просмотр',
+      field: 'shop_title',
+      filter: false,
+      floatingFilter: false,
+      sortable: false,
+      cellRenderer: SellerFavouriteCellRenderer,
+      flex: 1,
+      maxWidth: 80,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip:
+        lang === 'uz'
+          ? "Telegram bot orqali do'konni kuzatish"
+          : 'Просмотр магазина через Telegram бот.',
+    },
     {
       headerName: t('orders'),
       field: 'total_orders',

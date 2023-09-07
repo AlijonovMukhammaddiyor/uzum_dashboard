@@ -6,7 +6,7 @@ import * as React from 'react';
 import API from '@/lib/api';
 
 import Layout from '@/components/layout/Layout';
-import DiscoveryComponent from '@/components/pages/discovery/DiscoveryComponent';
+import TelegramComponent from '@/components/pages/telegram/TelegramComponent';
 import Seo from '@/components/Seo';
 
 import { useContextState } from '@/context/Context';
@@ -19,7 +19,7 @@ export interface HomeProps {
 
 export default function Discovery({ user }: HomeProps) {
   const { dispatch } = useContextState();
-  const { t } = useTranslation('tabs');
+  const { t, i18n } = useTranslation('tabs');
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
@@ -27,7 +27,8 @@ export default function Discovery({ user }: HomeProps) {
       type: 'PATH',
       payload: {
         path: {
-          [t('home.overview')]: '/home',
+          [i18n.language === 'uz' ? 'Telegram Bot' : 'Telegram Бот']:
+            '/telegram',
         },
       },
     });
@@ -37,7 +38,7 @@ export default function Discovery({ user }: HomeProps) {
   return (
     <Layout>
       <Seo />
-      <DiscoveryComponent user={user} />
+      <TelegramComponent />
     </Layout>
   );
 }

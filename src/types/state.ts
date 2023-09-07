@@ -6,6 +6,8 @@ export interface State {
   lang: string;
   access_token?: string;
   path: Record<string, string> | null;
+  favourite_sellers?: string[];
+  favourite_products?: string[];
 }
 
 let state = null;

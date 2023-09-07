@@ -13,6 +13,16 @@ const Reducer = (state: State, action: Actions): State => {
         ...state,
         user: action.payload.user,
       };
+    case 'FAVOURITE_SHOPS':
+      return {
+        ...state,
+        favourite_sellers: action.payload.favourite_sellers,
+      };
+    case 'FAVOURITE_PRODUCTS':
+      return {
+        ...state,
+        favourite_products: action.payload.favourite_products,
+      };
     case 'ACCESS_TOKEN':
       return {
         ...state,

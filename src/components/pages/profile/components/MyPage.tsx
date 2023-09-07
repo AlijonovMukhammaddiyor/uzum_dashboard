@@ -76,7 +76,7 @@ function MyPage({ className, user }: { className?: string; user: UserType }) {
   React.useEffect(() => {
     const api = new API(null);
     api
-      .get<unknown, AxiosResponse<{ shops: SellerType[] }>>('/user/shops/get')
+      .get<unknown, AxiosResponse<{ shops: SellerType[] }>>('/bot/shops/get')
       .then((res) => {
         setSavedShops(res.data.shops);
       })
@@ -85,7 +85,7 @@ function MyPage({ className, user }: { className?: string; user: UserType }) {
         logger(err, 'Error in shops');
       });
     api
-      .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/user/products/get')
+      .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/bot/products/get')
       .then((res) => {
         logger(res.data, 'my products');
       })

@@ -55,7 +55,7 @@ const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
         user_id: number;
       };
 
-      console.log('decoded222', decoded, 'refresh', tokens);
+      // console.log('decoded222', decoded, 'refresh', tokens);
 
       res.setHeader('Set-Cookie', [
         `access=${tokens.access}; Path=/; SameSite=Lax; ${

@@ -4,4 +4,4 @@ export interface AnyAction {
   payload?: any;
 }
 
-export type Actions = AnyAction;
+export type Actions = any;

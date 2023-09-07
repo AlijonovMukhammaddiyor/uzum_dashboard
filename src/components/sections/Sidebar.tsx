@@ -10,8 +10,8 @@ import {
   HiOutlineSquares2X2,
   HiOutlineTag,
 } from 'react-icons/hi2';
+import { LiaTelegramPlane } from 'react-icons/lia';
 import { MdChevronRight } from 'react-icons/md';
-import { TbViewfinder } from 'react-icons/tb';
 
 import clsxm from '@/lib/clsxm';
 
@@ -71,10 +71,10 @@ function Sidebar({
       } else if (path.startsWith('/words') || path.startsWith('/uz/words')) {
         setActiveTab(t('sidebar.searches'));
       } else if (
-        path.startsWith('/discovery') ||
-        path.startsWith('/uz/discovery')
+        path.startsWith('/telegram') ||
+        path.startsWith('/uz/telegram')
       ) {
-        setActiveTab(t('sidebar.discovery'));
+        setActiveTab(t('sidebar.telegram'));
       } else if (
         path.startsWith('/compare') ||
         path.startsWith('/uz/compare')
@@ -182,22 +182,22 @@ function Sidebar({
             // disabled
           />
           <SidebarItem
-            href='/discovery'
-            label={t('sidebar.discovery')}
+            href='/telegram'
+            label={t('sidebar.telegram')}
             icon={
-              <TbViewfinder
+              <LiaTelegramPlane
                 className={clsxm(
                   'h-5 w-5 flex-shrink-0 ',
-                  activeTab === t('sidebar.discovery') && 'text-white'
+                  activeTab === t('sidebar.telegram') && 'text-white'
                 )}
               />
             }
             activeTab={activeTab}
             isSidebarOpen={isSidebarOpen}
             onClick={() => {
-              setActiveTab(t('sidebar.discovery'));
+              setActiveTab(t('sidebar.telegram'));
             }}
-            disabled
+            isNew={true}
           />
 
           <SidebarItem
