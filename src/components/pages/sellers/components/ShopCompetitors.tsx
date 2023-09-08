@@ -562,11 +562,11 @@ function _prepareAllRevenue(
   shop: CompetitorsType
 ) {
   const allOrdersCompetitor = data.map((item) => ({
-    y: Math.round(item.total_revenue * 1000),
+    y: Math.round((item.total_revenue * 1000) / 1000) * 1000,
     x: new Date(item.date_pretty),
   }));
   const allOrdersShop = shopData.map((item) => ({
-    y: Math.round(item.total_revenue * 1000),
+    y: Math.round((item.total_revenue * 1000) / 1000) * 1000,
     x: new Date(item.date_pretty),
   }));
 

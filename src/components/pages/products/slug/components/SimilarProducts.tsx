@@ -621,7 +621,8 @@ function prepareTableData(
       orders_money: latest.orders_money,
       reviews_amount: latest.reviews_amount,
       rating: latest.rating,
-      average_purchase_price: latest.average_purchase_price,
+      average_purchase_price:
+        Math.round(latest.average_purchase_price / 100) * 100,
       available_amount: latest.available_amount,
       shop:
         latest.product__shop__title + ' (' + latest.product__shop__link + ')',
