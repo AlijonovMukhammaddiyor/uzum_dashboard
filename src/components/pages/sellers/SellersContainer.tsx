@@ -130,7 +130,7 @@ function SellersTable({ className, user }: Props) {
     setLoading(true);
     let url = `/shop` + `?page=${page}`;
     if (sortModel) {
-      url += `&sort=${sortModel.colId}&order=${sortModel.sort}`;
+      url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
     }
     if (filterModel) {
       const columns = Object.keys(filterModel);
@@ -231,7 +231,7 @@ function SellersTable({ className, user }: Props) {
                 );
                 return;
               }
-              exportToExcel;
+              exportToExcel();
             }}
             isLoading={loading}
             spinnerColor='rgb(126 34 206)'
