@@ -11,7 +11,6 @@ import logger from '@/lib/logger';
 
 import { getShopTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import RangeChartShops from '@/components/pages/sellers/components/RangeChartShops';
 import Button from '@/components/shared/buttons/Button';
 import PaginatedTable from '@/components/shared/PaginatedTable';
 import Table from '@/components/shared/Table';
@@ -60,18 +59,18 @@ function SellersTable({ className, user }: Props) {
 
   React.useEffect(() => {
     const api = new API(null);
-    setLoadingTops(true);
-    api
-      .get<unknown, AxiosResponse<TopsType[]>>('/shop/yesterday-tops/')
-      .then((res) => {
-        setTops(res.data);
-        setLoadingTops(false);
-      })
-      .catch((err) => {
-        // console.log(err);
-        logger(err, 'Error in top 20 shops');
-        setLoadingTops(false);
-      });
+    // setLoadingTops(true);
+    // api
+    //   .get<unknown, AxiosResponse<TopsType[]>>('/shop/yesterday-tops/')
+    //   .then((res) => {
+    //     setTops(res.data);
+    //     setLoadingTops(false);
+    //   })
+    //   .catch((err) => {
+    //     // console.log(err);
+    //     logger(err, 'Error in top 20 shops');
+    //     setLoadingTops(false);
+    //   });
     setShopsLoading(true);
     api
       .get<unknown, AxiosResponse<{ data: SellerType[] }>>('/shop/mine/')
@@ -191,7 +190,7 @@ function SellersTable({ className, user }: Props) {
           {/* {t('selectShops')} */}
         </p>
       )}
-      <Container
+      {/* <Container
         loading={loadingTops}
         title={t('shops_with_top_revenue')}
         explanation={t('no_info')}
@@ -211,15 +210,15 @@ function SellersTable({ className, user }: Props) {
             maxHeight: 'calc(100% - 60px)',
           }}
         />
-      </Container>
+      </Container> */}
 
       <Container
         loading={loading}
         className={clsxm('w-full overflow-scroll border-none')}
       >
-        <p className='text-primary h-10 w-full text-center font-semibold'>
+        {/* <p className='text-primary h-10 w-full text-center font-semibold'>
           {t('allShops')}
-        </p>
+        </p> */}
         <div className='flex w-full items-center justify-start'>
           <Button
             className='mb-3 mt-6 flex items-center justify-start rounded-md bg-green-500 px-3 text-white hover:bg-green-700'
@@ -250,10 +249,11 @@ function SellersTable({ className, user }: Props) {
         </div>
         <PaginatedTable
           columnDefs={getShopTableColumnDefs(t2, i18n.language)}
-          className='h-[1016px] min-w-full'
+          className='h-[1783px] min-w-full'
           headerHeight={60}
           rowHeight={80}
-          isBalham={true}
+          // isBalham={true}
+          isMaterial={true}
           fetchData={loadData}
           setLoading={setLoading}
         />

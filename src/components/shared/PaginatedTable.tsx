@@ -37,6 +37,7 @@ interface TableProps<T> extends AgGridReactProps {
   rowHeight?: number;
   pageSize?: number;
   isBalham?: boolean;
+  isMaterial?: boolean;
 }
 
 const PAGE_SIZE = 20;
@@ -48,6 +49,7 @@ const PaginatedTable = <T,>({
   pageSize = PAGE_SIZE,
   id,
   isBalham,
+  isMaterial,
   setLoading,
   ...props
 }: TableProps<T>) => {
@@ -140,9 +142,13 @@ const PaginatedTable = <T,>({
   return (
     <div
       className={clsxm(
-        'min-w-full overflow-hidden rounded-lg border border-gray-200 shadow-sm',
+        'min-w-full overflow-hidden rounded-lg shadow-sm',
         className,
-        isBalham ? 'ag-theme-balham' : 'ag-theme-alpine'
+        isBalham
+          ? 'ag-theme-balham'
+          : isMaterial
+          ? 'ag-theme-material'
+          : 'ag-theme-alpine'
       )}
     >
       <AgGridReact
@@ -162,7 +168,7 @@ const PaginatedTable = <T,>({
         pagination={true}
         headerHeight={props.headerHeight ?? 55}
         rowSelection='multiple'
-        floatingFiltersHeight={35}
+        floatingFiltersHeight={isMaterial ? 65 : 35}
         suppressMenuHide={true}
         // enableCharts={true}
         paginationPageSize={pageSize}
