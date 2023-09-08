@@ -100,105 +100,77 @@ function TelegramComponent() {
 
   return (
     <div className='h-full w-full pb-10'>
-      <div className='mt-4 flex w-full items-center justify-start gap-4'>
-        <p className='shrink-0 text-xl font-bold text-blue-600'>
-          {i18n.language === 'uz' ? 'UzAnalitika Bot' : 'UzAnalitika Бот'}(
-          <a
-            href='https://t.me/uzanalitikabot'
-            target='_blank'
-            className='hover:underline'
-          >
-            {' '}
-            t.me/uzanalitikabot
-          </a>
-          )
-        </p>
-        <p className='text-gray-600'>-</p>
-        <p className='text-lg font-semibold text-gray-700'>
-          {i18n.language === 'uz'
-            ? "Bizning bot orqali O'ZINGIZNING yoki barcha RAQOBATCHI  (1) do'konlar (2) mahsulotlarni doimiy kuzatib borishingiz mumkin boladi."
-            : 'Через нашего бота вы можете постоянно следить за ВАШИМИ или всеми КОНКУРЕНТАМИ (1) магазинов (2) товаров.'}
-        </p>
-      </div>
-      <div className='mt-4 flex w-full items-start justify-start gap-4'>
-        <p className='text-xl font-bold'>
-          {i18n.language === 'uz'
-            ? 'Bot Qanday Ishlaydi?'
-            : 'Как Работает Бот?'}
-        </p>
-      </div>
-      <div className='mt-3 w-full'>
-        <p className='mb-3 text-lg font-semibold text-slate-600'>
-          {i18n.language === 'uz'
-            ? 'Botdan foydalanish uchun quyidagi qadamlarni bajaring:'
-            : 'Чтобы воспользоваться ботом, выполните следующие шаги:'}
-        </p>
-        <ul className='list-disc pl-5'>
-          <li className='mb-2'>
-            <p className='text-gray-700'>
-              {i18n.language === 'uz'
-                ? "Mahsulotlar yoki Sotuvchilar sahifasiga o'ting"
-                : 'Перейдите на страницу Товары или Продавцы'}
-            </p>
-          </li>
-          <li className='mb-2'>
-            <p className='text-gray-700'>
-              {i18n.language === 'uz'
-                ? "O'zingiz tanlamoqchi bo'lgan mahsulot yoki sotuvchini toping"
-                : 'Найдите товар или продавца, который вы хотите отслеживать'}
-            </p>
-          </li>
-          <li className='mb-2'>
-            <p className='text-gray-700'>
-              <AiOutlineHeart className='mr-2 inline-block font-bold' />
-              {i18n.language === 'uz'
-                ? 'belgisini bosing'
-                : 'нажмите на значок'}
-            </p>
-          </li>
-        </ul>
-      </div>
-      <div className='mt-6 w-full'>
-        <p className='font-semibold text-slate-600'>
-          {i18n.language === 'uz'
-            ? 'Avtomatik Xabar Yuborish:'
-            : 'Автоматическая Отправка Отчетов:'}
-        </p>
-        <p className='text-gray-700'>
-          {i18n.language === 'uz'
-            ? "Sizga har kuni ertalab avtomatik ravishda xabar yuboriladi, so'rov yuborishingiz shart emas."
-            : 'Вам будет автоматически отправляться отчет каждое утро, вам не нужно делать запрос.'}
-        </p>
-      </div>
-      <div className='mt-8 flex w-full items-start justify-start gap-4'>
-        <p className='text-xl font-bold'>
-          {i18n.language === 'uz'
-            ? 'Sizning Maxfiy Tokeningiz'
-            : 'Ваш Уникальный Токен'}
-        </p>
+      {/* Title and Link */}
+      <div className='mb-6 flex items-center justify-between'>
+        <h1 className='text-2xl font-bold text-blue-600'>UzAnalitika Bot</h1>
+        <a
+          href='https://t.me/uzanalitikabot'
+          target='_blank'
+          className='underline hover:text-blue-600'
+        >
+          t.me/uzanalitikabot
+        </a>
       </div>
 
-      <div className='mt-2 w-full'>
-        <p className='font-semibold text-slate-600'>
+      {/* Description */}
+      <p className='mb-8 text-lg'>
+        {i18n.language === 'uz'
+          ? "Bizning bot orqali O'ZINGIZNING yoki barcha RAQOBATCHI  (1) do'konlar (2) mahsulotlarni doimiy kuzatib borishingiz mumkin boladi."
+          : 'Через нашего бота вы можете постоянно следить за ВАШИМИ или всеми КОНКУРЕНТАМИ (1) магазинов (2) товаров.'}
+      </p>
+
+      {/* How the Bot Works */}
+      <h2 className='mb-4 text-xl font-bold'>
+        {i18n.language === 'uz' ? 'Bot Qanday Ishlaydi?' : 'Как Работает Бот?'}
+      </h2>
+      <ol className='mb-8 list-inside list-decimal'>
+        <li>
           {i18n.language === 'uz'
-            ? 'Botga ulanish uchun quyidagi maxfiy tokeningizni ishlatishingiz kerak:'
-            : 'Чтобы подключиться к боту, используйте следующий уникальный токен:'}
-        </p>
-        <div className='mt-2 shrink-0 rounded-lg bg-gray-100 py-2'>
-          <Container
-            loading={loading.token}
-            className='p-2 font-mono text-gray-700'
-          >
-            {/* Replace `userToken` with the variable that holds the user's token */}
-            <p className='h-8 shrink-0'>{token}</p>
-          </Container>
-        </div>
-        <p className='mt-4 text-red-500'>
+            ? "Mahsulotlar yoki Sotuvchilar sahifasiga o'ting"
+            : 'Перейдите на страницу Товары или Продавцы'}
+        </li>
+        <li>
           {i18n.language === 'uz'
-            ? "Eslatma: Ushbu token maxfiy va faqat sizga ma'lum. Ushbu tokenni hech kimga bermang!"
-            : 'Внимание: Этот токен является секретным и известен только вам. Не передавайте этот токен никому!'}
-        </p>
+            ? "O'zingiz tanlamoqchi bo'lgan mahsulot yoki sotuvchini toping"
+            : 'Найдите товар или продавца, который вы хотите отслеживать'}
+        </li>
+        <li>
+          <AiOutlineHeart className='mr-2 inline-block font-bold' />
+          {i18n.language === 'uz' ? 'belgisini bosing' : 'нажмите на значок'}
+        </li>
+      </ol>
+
+      {/* Automatic Report Sending */}
+      <h3 className='mb-4 font-semibold'>
+        {i18n.language === 'uz'
+          ? 'Avtomatik Xabar Yuborish:'
+          : 'Автоматическая Отправка Отчетов:'}
+      </h3>
+      <p className='mb-8'>
+        {i18n.language === 'uz'
+          ? "Sizga har kuni ertalab avtomatik ravishda xabar yuboriladi, so'rov yuborishingiz shart emas."
+          : 'Вам будет автоматически отправляться отчет каждое утро, вам не нужно делать запрос.'}
+      </p>
+
+      {/* Unique Token */}
+      <h2 className='mb-4 text-xl font-bold'>
+        {i18n.language === 'uz'
+          ? 'Sizning Maxfiy Tokeningiz'
+          : 'Ваш Уникальный Токен'}
+      </h2>
+      <p className='mb-4'>
+        {i18n.language === 'uz'
+          ? 'Botga ulanish uchun quyidagi maxfiy tokeningizni ishlatishingiz kerak:'
+          : 'Чтобы подключиться к боту, используйте следующий уникальный токен:'}
+      </p>
+      <div className='mb-4 rounded bg-gray-100 p-4'>
+        <code className='font-mono text-gray-700'>{token}</code>
       </div>
+      <p className='mb-8 text-red-500'>
+        {i18n.language === 'uz'
+          ? "Eslatma: Ushbu token maxfiy va faqat sizga ma'lum. Ushbu tokenni hech kimga bermang!"
+          : 'Внимание: Этот токен является секретным и известен только вам. Не передавайте этот токен никому!'}
+      </p>
       <Container
         className='mt-6 border-none shadow-none'
         loading={loading.shops}
