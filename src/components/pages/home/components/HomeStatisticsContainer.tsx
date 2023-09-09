@@ -1656,6 +1656,7 @@ function getData(
   title: string,
   lang: string
 ) {
+  console.log(title);
   if (!data.orders) return [];
 
   if (title === 'Daromad miqdori' || title === 'Выручка') {

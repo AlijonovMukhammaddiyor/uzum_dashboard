@@ -41,7 +41,8 @@ function TreeMap({
     setFilteredData(data);
   }, [data]);
 
-  const isSum = title === 'Daromad miqdori' ? true : false;
+  const isSum =
+    title === 'Daromad miqdori' || title === 'Выручка' ? true : false;
 
   const formatRevenue = (value: number) => {
     const value_ = value * 1000;
@@ -55,6 +56,8 @@ function TreeMap({
       return `${value_} so'm`;
     }
   };
+
+  console.log(min, max);
 
   const options = {
     data: filteredData,
