@@ -185,12 +185,6 @@ function AboutProduct({
             </div>
           )}
 
-          <p className='absolute top-10 z-50 w-full text-center font-semibold'>
-            {i18n.language === 'uz'
-              ? 'Ushbu mahsulotni quyida berilgan jadvaldagi raqobatchi mahsulotlar bilan barcha jihatdan solishtiring (3 tagacha)'
-              : 'Сравните этот товар по всем параметрам с конкурирующими товарами в таблице ниже (до 3)'}
-          </p>
-
           <Container
             loading={loading}
             className={clsxm(
