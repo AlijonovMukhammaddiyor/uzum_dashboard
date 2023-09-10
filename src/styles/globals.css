@@ -104,6 +104,37 @@
     height: 100vh;
   }
 
+  .toggle-label {
+    position: relative;
+    cursor: pointer;
+    display: block;
+    width: 36px;
+    height: 18px;
+    background-color: #c4c4c4;
+    border-radius: 18px;
+    transition: background-color 0.2s;
+  }
+
+  .toggle-label::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+
+  #billingToggle:checked + .toggle-label {
+    background-color: #4caf50;
+  }
+
+  #billingToggle:checked + .toggle-label::after {
+    transform: translateX(28px);
+  }
+
   .get_started_button {
     background-color: #fff;
     color: #6a49c2;

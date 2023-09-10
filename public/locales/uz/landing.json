@@ -248,10 +248,10 @@
 
     "24/7_doimiy_yordam": "24/7 doimiy yordam",
     "Malumotlar": "Malumot va trendlar",
-    "30_kunlik": "So'nggi 101 kun uchun",
-    "60_kunlik": "So'nggi 101 kun uchun",
-    "90_kunlik": "So'nggi 101 kun uchun",
-    "90_kunlikplus": "So'nggi 101+ kun uchun"
+    "30_kunlik": "So'nggi 30 kun uchun",
+    "60_kunlik": "So'nggi 90 kun uchun",
+    "90_kunlik": "So'nggi 110 kun uchun",
+    "90_kunlikplus": "So'nggi 110+ kun uchun"
   },
   "footer": {
     "footer_links": [
@@ -343,8 +343,8 @@
   "tariffs.month": "oy",
   "tariffs.save_15%": "3 oyda 10% tejang",
   "tariffs.always_free": "Doimiy bepul",
-  "tariffs.about_free": "Sinab ko'rish, asosiy market ma'lumotlari bilan tanishib, ularni kuzatib bormoqchilar uchun.",
-  "tariffs.about_pro": "Marketda yangi ish boshlagan va sotuv miqdori ko'p bo'lmagan sotuvchilar uchun optimal tanlov.",
-  "tariffs.about_premium": "Bir necha do'konlarga ega bo'lgan yoki marketda eng yuqori o'rinlarga harakat qilayotgan sotuvchilar uchun.",
+  "tariffs.about_free": "Asosiy market ma'lumotlari bilan tanishib, ularni kuzatib bormoqchilar uchun.",
+  "tariffs.about_pro": "Marketda yangi ish boshlamoqchilar uchun tanlov.",
+  "tariffs.about_premium": "Sotuvchilar uchun eng yaxshi imkoniyatlar.",
   "tariffs.about_enterprise": "Marketshunoslar, yirik do'konlar yoki brand egalari uchun eng yaxshi imkoniyatlar."
 }

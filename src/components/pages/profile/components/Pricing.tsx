@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
+import { BsChevronDown } from 'react-icons/bs';
 import { FaQuoteLeft } from 'react-icons/fa';
 // import notice icon from react icons
 import { IoWarningOutline } from 'react-icons/io5';
@@ -9,8 +10,6 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import BusinessAccess from '@/components/pages/profile/components/BusinessAccess';
-import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
 
 import { useContextState } from '@/context/Context';
@@ -46,61 +45,68 @@ function Pricing({ className }: { className?: string }) {
   return (
     <div
       id="ta'riflar"
-      className={clsxm('flex w-full justify-center ', className)}
+      className={clsxm('mt-8 flex w-full justify-center', className)}
     >
-      <div className='w-full overflow-hidden'>
-        <div className='mb-4 mt-10 flex w-full items-center justify-between'>
-          <div className='flex max-w-max gap-12 rounded-md'></div>
-          <div className='border-primary flex h-10 w-[200px] items-center justify-between rounded-md border'>
-            {/* 1 Month Option */}
-            {/* {state.user?.tariff === 'trial' && (
-              <p className='absolute left-[380px] top-16 text-xs'>
+      <div className='container mx-auto rounded-md bg-transparent px-4 py-8'>
+        {/* 1. Our Promise */}
+        <div className='relative mb-20 rounded-md bg-blue-50 p-6 shadow-md'>
+          <h2 className='text-primary mb-4 text-center text-3xl font-bold'>
+            {i18n.language === 'uz'
+              ? "Bizning va'damiz"
+              : i18n.language === 'ru'
+              ? 'Наше обещание вам'
+              : 'Our Promise to You'}
+          </h2>
+          <ul className='list-inside list-disc space-y-2 text-gray-700'>
+            <li>
+              <strong className='mr-2'>
                 {i18n.language === 'uz'
-                  ? "1 kunlik sinov versiyasida do'konlarni tanlash imkoniyati mavjud emas"
-                  : 'Возможность выбора магазинов недоступна в пробной версии на 1 день'}
-              </p>
-            )} */}
-            <div
-              className={clsxm(
-                'flex h-full w-1/2 cursor-pointer items-center justify-center',
-                months === 1
-                  ? 'bg-primary rounded-l-md text-white'
-                  : 'hover:rounded-l-md hover:bg-purple-100'
-              )}
-              onClick={() => setMonths(1)}
-            >
-              {i18n.language === 'uz' ? '1 oy' : '1 месяц'}
-            </div>
-
-            {/* Divider */}
-            <div className='bg-primary h-full w-px self-center'></div>
-
-            {/* 3 Months Option */}
-            <div
-              className={clsxm(
-                'relative flex h-full w-1/2 cursor-pointer items-center justify-center',
-                months === 3
-                  ? 'bg-primary rounded-r-md text-white'
-                  : 'hover:rounded-r-md hover:bg-purple-100'
-              )}
-              onClick={() => setMonths(3)}
-            >
-              {i18n.language === 'uz' ? '3 oy' : '3 месяца'}
-
-              {/* Discount Tag */}
-              <span className='absolute right-[-0px] top-[-20px] rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white'>
-                -10%
-              </span>
-            </div>
-          </div>
+                  ? 'Doimiy yordam:'
+                  : i18n.language === 'ru'
+                  ? 'Посвященная поддержка:'
+                  : 'Dedicated Support:'}
+              </strong>
+              {i18n.language === 'uz'
+                ? 'Bizning mutaxassislar jamoamiz sizga har qanday qadamda yordam beradi - 24/7'
+                : i18n.language === 'ru'
+                ? 'Наша команда специалистов готова помочь вам на каждом этапе - 24/7'
+                : 'Our expert team is here to help you at every step.'}
+            </li>
+            <li>
+              <strong className='mr-2'>
+                {i18n.language === 'uz'
+                  ? 'Davomli yangiliklar:'
+                  : i18n.language === 'ru'
+                  ? 'Постоянные обновления:'
+                  : 'Continuous Updates:'}
+              </strong>
+              {i18n.language === 'uz'
+                ? "Muntazam yangilanish va yaxshilanishlar qo'shib boramiz."
+                : i18n.language === 'ru'
+                ? 'Мы регулярно обновляем и улучшаем наш сервис.'
+                : 'Benefit from regular feature updates and enhancements.'}
+            </li>
+            <li>
+              <strong className='mr-2'>
+                {i18n.language === 'uz'
+                  ? '100% kafolat:'
+                  : i18n.language === 'ru'
+                  ? '100% Гарантия удовлетворения:'
+                  : '100% Satisfaction Guarantee:'}
+              </strong>
+              {i18n.language === 'uz'
+                ? 'Biz xizmatimizning qiymatiga ishonamiz. Agar qoniqmasangiz, pulingizni darhol qaytarib beramiz.'
+                : i18n.language === 'ru'
+                ? 'Мы уверены в ценности наших услуг. Если вы не удовлетворены, мы немедленно вернем вам деньги.'
+                : "We're confident in our service's value. If you're not satisfied, we'll refund your money immediately."}
+            </li>
+          </ul>
         </div>
 
-        {/* Popup for Business Access */}
-
         {state.user?.tariff === 'trial' && (
-          <div className='flex max-w-fit items-center justify-start gap-3 bg-yellow-300 p-3 shadow-lg'>
-            <IoWarningOutline className='inline-block text-xl  text-green-500' />
-            <p className='font-medium'>
+          <div className='mb-8 flex items-center space-x-4 rounded-md border border-yellow-500 bg-yellow-100 p-4 shadow-md'>
+            <IoWarningOutline className='text-2xl text-yellow-500' />
+            <p className='font-medium text-gray-700'>
               {i18n.language === 'uz'
                 ? `Siz hozirda "Boshlang'ich" tarifini ma'lum cheklovlar bilan sinov tariqasida foydalanmoqdasiz.`
                 : 'В настоящее время вы используете тариф «Стартовый» с некоторыми ограничениями в качестве пробного периода.'}
@@ -108,160 +114,141 @@ function Pricing({ className }: { className?: string }) {
           </div>
         )}
 
-        <div
-          className={clsxm(
-            'flex w-full max-w-full flex-1 items-center gap-5 overflow-x-auto p-3 px-0 lg:justify-center',
-            'no-scrollbar overflow-scroll'
-          )}
-        >
-          <Tarif
-            title={t('tariffs.free')}
-            price={0}
-            isCurrentPlan={state.user?.tariff === 'free'}
-            setCurrentPlan={setCurrentPlan}
-            months={months}
-            features={[
-              t('tariffs.Umumiy_malumotlar'),
-              t('tariffs.30_kunlik'),
-              // t('tariffs.Barcha_Kategoriyalar'),
-              // t('tariffs.Barcha_dokonlar'),
-              // t('tariffs.Barcha_mahsulotlar'),
-              t('tariffs.24/7_doimiy_yordam'),
-            ]}
-            color='primary'
-            buttonTitle={t('tariffs.select')}
-            sendToRegister={sendToRegister}
-          />
-          <Tarif
-            title={t('tariffs.beginner')}
-            isCurrentPlan={state.user?.tariff === 'base'}
-            setCurrentPlan={setCurrentPlan}
-            price={19.9}
-            months={months}
-            features={[
-              t('tariffs.1_dukon'),
-              t('tariffs.60_kunlik'),
-              // t('tariffs.Umumiy_malumotlar'),
-              // t('tariffs.Barcha_Kategoriyalar'),
-              // t('tariffs.Kategoriya_trendi'),
-              // t('tariffs.Kategoriya_mahsulotlari'),
-              // t('tariffs.Ichki_kategoriyalar'),
-              // t('tariffs.Kategoriya_narx_segmentatsiyasi'),
-              // t('tariffs.Kategoriya_dokonlari'),
-              // t('tariffs.Barcha_dokonlar'),
-              // t('tariffs.Dokon_tahlili'),
-              // t('tariffs.Dokon_mahsulotlari'),
-              // t('tariffs.Dokon_kategoriyalari'),
-              // t('tariffs.Dokon_raqobatchilari'),
-              // t('tariffs.Dokon_kunlik_sotuvlari'),
-              // t('tariffs.Barcha_mahsulotlar'),
-              // t('tariffs.Mahsulot_tahlili'),
-              // t('tariffs.Mahsulot_raqobatchilari'),
-              t('tariffs.24/7_doimiy_yordam'),
-              // t('tariffs.Barcha_nishalar'),
-            ]}
-            color='primary'
-            isPro
-            buttonTitle={t('tariffs.select')}
-            sendToRegister={sendToRegister}
-            isFreeTrial={true}
-          />
-          <Tarif
-            title={t('tariffs.seller')}
-            isCurrentPlan={state.user?.tariff === 'seller'}
-            setCurrentPlan={setCurrentPlan}
-            price={33}
-            months={months}
-            features={[
-              t('tariffs.4_dukon'),
-              t('tariffs.90_kunlik'),
-              // t('tariffs.Umumiy_malumotlar'),
-              // t('tariffs.Barcha_Kategoriyalar'),
-              // t('tariffs.Kategoriya_trendi'),
-              // t('tariffs.Kategoriya_mahsulotlari'),
-              // t('tariffs.Ichki_kategoriyalar'),
-              // t('tariffs.Kategoriya_narx_segmentatsiyasi'),
-              // t('tariffs.Kategoriya_dokonlari'),
-              // t('tariffs.Barcha_dokonlar'),
-              // t('tariffs.Dokon_tahlili'),
-              // t('tariffs.Dokon_mahsulotlari'),
-              // t('tariffs.Dokon_kategoriyalari'),
-              // t('tariffs.Dokon_raqobatchilari'),
-              // t('tariffs.Dokon_kunlik_sotuvlari'),
-              // t('tariffs.Barcha_mahsulotlar'),
-              // t('tariffs.Mahsulot_tahlili'),
-              // t('tariffs.Mahsulot_raqobatchilari'),
-              // t('tariffs.weekly_best_products'),
-              // t('tariffs.monthly_best_products'),
-              t('tariffs.24/7_doimiy_yordam'),
-              // t('tariffs.Yangi_mahsulotlar'),
-              // t('tariffs.Osayotgan_mahsulotlar'),
-              // t('tariffs.Osayotgan_kategoriyalar'),
-              // t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-              // t('tariffs.Barcha_nishalar'),
-              // t('tariffs.addsImpactCheck'),
-            ]}
-            color='primary'
-            buttonTitle={t('tariffs.select')}
-            isProPlus
-            sendToRegister={sendToRegister}
-          />
-          <Tarif
-            title={t('tariffs.business')}
-            isCurrentPlan={state.user?.tariff === 'business'}
-            setCurrentPlan={setCurrentPlan}
-            price={70}
-            features={[
-              t('tariffs.Barcha_dokonlar_full'),
-              t('tariffs.90_kunlikplus'),
-              // t('tariffs.Umumiy_malumotlar'),
-              // t('tariffs.Barcha_Kategoriyalar'),
-              // t('tariffs.weekly_best_products'),
-              // t('tariffs.monthly_best_products'),
-              // t('tariffs.Kategoriya_trendi'),
-              // t('tariffs.Kategoriya_mahsulotlari'),
-              // t('tariffs.Ichki_kategoriyalar'),
-              // t('tariffs.Kategoriya_narx_segmentatsiyasi'),
-              // t('tariffs.Kategoriya_dokonlari'),
-              // t('tariffs.Barcha_dokonlar'),
-              // t('tariffs.Dokon_tahlili'),
-              // t('tariffs.Dokon_mahsulotlari'),
-              // t('tariffs.Dokon_kategoriyalari'),
-              // t('tariffs.Dokon_raqobatchilari'),
-              // t('tariffs.Dokon_kunlik_sotuvlari'),
-              // t('tariffs.Barcha_mahsulotlar'),
-              // t('tariffs.Mahsulot_tahlili'),
-              // t('tariffs.Mahsulot_raqobatchilari'),
+        {/* 3. Billing Option */}
 
-              // t('tariffs.Yangi_mahsulotlar'),
-              // t('tariffs.Osayotgan_mahsulotlar'),
-              // t('tariffs.Osayotgan_kategoriyalar'),
-              // t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-              // t('tariffs.Barcha_nishalar'),
-              // t('tariffs.addsImpactCheck'),
-              t('tariffs.24/7_doimiy_yordam'),
-            ]}
-            months={months}
-            color='primary'
-            isEnterprise
-            buttonTitle={t('tariffs.select')}
-            sendToRegister={sendToRegister}
-            isFreeTrial={true}
-            // setPopupOpen={setPopupOpen}
-            // businessCode={businessCode}
-          />
-        </div>
-        <div className='min-h-screen pb-16'>
-          <div className='mb-10 mt-24 w-full border bg-slate-200 p-4 text-center font-semibold text-black'>
-            <p>
-              {i18n.language === 'uz'
-                ? 'Tariflarni batafsil taqqoslash'
-                : 'Сравнение тарифов'}
-            </p>
+        <div className='mb-8 grid grid-cols-5 gap-4'>
+          <div className='flex items-center justify-center'>
+            <div className='h-[200px] rounded-2xl border border-slate-300 p-6'>
+              <div className='mb-4 text-center font-medium text-green-600'>
+                {i18n.language === 'uz'
+                  ? "3 oylik to'lov tanlaganingizda 20% chegirma!"
+                  : i18n.language === 'ru'
+                  ? 'Сэкономьте 20% при выборе оплаты на 3 месяца!'
+                  : 'Save 20% when you choose 3-month billing!'}
+              </div>
+              <div className='flex items-center justify-center space-x-4'>
+                <span className='font-medium'>
+                  {i18n.language === 'uz'
+                    ? 'Oylik'
+                    : i18n.language === 'ru'
+                    ? 'Ежемесячно'
+                    : 'Monthly'}
+                </span>
+                <div className='relative inline-block w-14 select-none align-middle transition duration-200 ease-in'>
+                  <input
+                    type='checkbox'
+                    id='billingToggle'
+                    className='absolute h-0 w-0 opacity-0'
+                    checked={months === 3}
+                    onChange={() => setMonths(months === 1 ? 3 : 1)}
+                  />
+                  <label
+                    htmlFor='billingToggle'
+                    className='toggle-label block h-6 w-14 cursor-pointer rounded-full transition duration-200 ease-in'
+                  ></label>
+                </div>
+                <span className='font-medium'>
+                  {i18n.language === 'uz'
+                    ? 'Har 3 oyda'
+                    : i18n.language === 'ru'
+                    ? 'Каждые 3 месяца'
+                    : 'Every 3 Months'}
+                </span>
+              </div>
+            </div>
           </div>
-
-          <PricingTable featuresData={getPricingData(t)} t={t} />
+          <div className='flex items-center justify-center'>
+            <Tarif
+              title={t('tariffs.free')}
+              price={0}
+              isCurrentPlan={state.user?.tariff === 'free'}
+              setCurrentPlan={setCurrentPlan}
+              months={months}
+              features={[
+                t('tariffs.Umumiy_malumotlar'),
+                t('tariffs.30_kunlik'),
+                t('tariffs.24/7_doimiy_yordam'),
+              ]}
+              color='primary'
+              buttonTitle={t('tariffs.select')}
+              sendToRegister={sendToRegister}
+            />
+          </div>
+          <div className='flex items-center justify-center'>
+            <Tarif
+              title={t('tariffs.beginner')}
+              isCurrentPlan={state.user?.tariff === 'base'}
+              setCurrentPlan={setCurrentPlan}
+              price={19}
+              months={months}
+              features={[
+                t('tariffs.1_dukon'),
+                t('tariffs.60_kunlik'),
+                t('tariffs.24/7_doimiy_yordam'),
+              ]}
+              color='primary'
+              isPro
+              buttonTitle={t('tariffs.select')}
+              sendToRegister={sendToRegister}
+              isFreeTrial={true}
+            />
+          </div>
+          <div className='flex items-center justify-center'>
+            <Tarif
+              title={t('tariffs.seller')}
+              isCurrentPlan={state.user?.tariff === 'seller'}
+              setCurrentPlan={setCurrentPlan}
+              price={33}
+              months={months}
+              features={[
+                t('tariffs.4_dukon'),
+                t('tariffs.90_kunlik'),
+                t('tariffs.24/7_doimiy_yordam'),
+              ]}
+              color='primary'
+              buttonTitle={t('tariffs.select')}
+              isProPlus
+              sendToRegister={sendToRegister}
+            />
+          </div>
+          <div className='flex items-center justify-center'>
+            <Tarif
+              title={t('tariffs.business')}
+              isCurrentPlan={state.user?.tariff === 'business'}
+              setCurrentPlan={setCurrentPlan}
+              price={70}
+              features={[
+                t('tariffs.Barcha_dokonlar_full'),
+                t('tariffs.90_kunlikplus'),
+                t('tariffs.24/7_doimiy_yordam'),
+              ]}
+              months={months}
+              color='primary'
+              isEnterprise
+              buttonTitle={
+                i18n.language === 'uz' ? 'Aloqaga chiqmoq' : 'связаться сейчас'
+              }
+              sendToRegister={sendToRegister}
+              isFreeTrial={true}
+            />
+          </div>
         </div>
+        <div className='grid w-full grid-cols-5 gap-4 border-b'>
+          <div></div>
+          <div className='flex items-center justify-center border-t p-4 text-sm'>
+            {t('tariffs.30_kunlik')}
+          </div>
+          <div className='flex items-center justify-center border-t p-4 text-sm'>
+            {t('tariffs.60_kunlik')}
+          </div>
+          <div className='flex items-center justify-center border-t p-4 text-sm'>
+            {t('tariffs.90_kunlik')}
+          </div>
+          <div className='flex items-center justify-center border-t p-4 text-sm'>
+            {t('tariffs.90_kunlikplus')}
+          </div>
+        </div>
+        <PricingTable featuresData={getPricingData(t)} t={t} />
       </div>
     </div>
   );
@@ -275,15 +262,9 @@ function Tarif({
   color,
   buttonTitle,
   isPro,
-  sendToRegister,
   isProPlus,
-  isFreeTrial,
-  isEnterprise,
-  setCurrentPlan,
   months = 1,
-}: // setPopupOpen,
-// businessCode,
-{
+}: {
   isCurrentPlan?: boolean;
   title: string;
   price: number;
@@ -297,55 +278,19 @@ function Tarif({
   isEnterprise?: boolean;
   isFreeTrial?: boolean;
   months?: number;
-  // setPopupOpen?: (value: boolean) => void;
-  // businessCode?: string;
 }) {
   const { t, i18n } = useTranslation('landing');
-  const { state } = useContextState();
   const [loading, setLoading] = useState(false);
-  const features_ = [
-    t('tariffs.60_kunlik'),
-    t('tariffs.90_kunlik'),
-    t('tariffs.30_kunlik'),
-    t('tariffs.Barcha_dokonlar_full'),
-    t('tariffs.Umumiy_malumotlar'),
-    t('tariffs.Barcha_Kategoriyalar'),
-    t('tariffs.Kategoriya_trendi'),
-    t('tariffs.Kategoriya_mahsulotlari'),
-    t('tariffs.Ichki_kategoriyalar'),
-    t('tariffs.Kategoriya_narx_segmentatsiyasi'),
-    t('tariffs.Kategoriya_dokonlari'),
-    t('tariffs.Barcha_dokonlar'),
-    t('tariffs.Dokon_tahlili'),
-    t('tariffs.Dokon_mahsulotlari'),
-    t('tariffs.Dokon_kategoriyalari'),
-    t('tariffs.Dokon_raqobatchilari'),
-    t('tariffs.Dokon_kunlik_sotuvlari'),
-    t('tariffs.Barcha_mahsulotlar'),
-    t('tariffs.Mahsulot_tahlili'),
-    t('tariffs.Mahsulot_raqobatchilari'),
 
-    t('tariffs.Yangi_mahsulotlar'),
-    t('tariffs.Osayotgan_mahsulotlar'),
-    t('tariffs.Osayotgan_kategoriyalar'),
-    t('tariffs.weekly_best_products'),
-    t('tariffs.monthly_best_products'),
-    t('tariffs.Mahsulot_raqobatchilari_taqqoslash'),
-    t('tariffs.Barcha_nishalar'),
-    t('tariffs.addsImpactCheck'),
-    t('tariffs.4_dukon'),
-    t('tariffs.1_dukon'),
-    t('tariffs.24/7_doimiy_yordam'),
-  ];
-  const [popupOpen, setPopupOpen] = useState(false);
-  const [businessCode, setBusinessCode] = useState('');
   const handlePayment = () => {
     const api = new API(null);
+    if (isCurrentPlan) return;
     if (price === 0) return;
+    const price_ = isPro ? 19.9 : isProPlus ? 33 : price;
     setLoading(true);
     api
       .post('/payments/paylink/', {
-        amount: Math.floor(price * months * 12000),
+        amount: Math.floor(price_ * months * 12000),
         months,
         tariff:
           title === t('tariffs.free')
@@ -367,227 +312,193 @@ function Tarif({
       });
   };
 
-  const realPrice = isPro ? 25 : isProPlus ? 40 : 1000000;
-  const between = isPro || isProPlus;
+  const realPrice = isPro ? 25 : isProPlus ? 45 : price === 0 ? 0 : 100;
+  const showPrice = months === 3 ? price * 0.8 : price;
+  const isPromotion = realPrice > showPrice;
+  const discountedPercentage = isPromotion
+    ? (((realPrice - showPrice) / realPrice) * 100).toFixed(0)
+    : 0;
+
+  const isBusiness = title === t('tariffs.business');
+  const isFree = title === t('tariffs.free');
 
   return (
-    <div
-      className={clsxm(
-        'four-sided-shadow relative mt-10 flex  w-[300px] shrink-0 flex-grow  flex-col gap-7 border  bg-white px-5  py-8',
-        isProPlus && 'border-primary border'
-      )}
-    >
-      <BusinessAccess
-        open={popupOpen}
-        setOpen={setPopupOpen}
-        closeModal={() => {
-          setPopupOpen(false);
-          if (businessCode === '777777') {
-            handlePayment();
-          } else {
-            RenderAlert({
-              alertTitle:
-                i18n.language === 'uz'
-                  ? 'Iltimos, kodni tekshirib qayta kiriting!'
-                  : 'Пожалуйста, проверьте код и повторите попытку!',
-              alertSubtitle:
-                i18n.language === 'uz'
-                  ? 'Agar sizda maxsus kod bo`lmasa, biz bilan bog`laning.'
-                  : 'Если у вас нет специального кода, свяжитесь с нами.',
-              buttonTitle:
-                i18n.language === 'uz'
-                  ? 'Biz bilan bog`lanish'
-                  : 'Свяжитесь с нами',
-              buttonLink: 'https://t.me/Alijonov_md',
-            });
-            setBusinessCode('');
-            return;
-          }
-        }}
-        businessCode={businessCode ?? ''}
-        setBusinessCode={setBusinessCode}
-      />
-      <div className=' flex items-center justify-start gap-3'>
-        <p className='font-primary text-lg font-semibold'>{title}</p>
-
-        {/* Best Offer Label  */}
-        {isProPlus && (
-          <span className='absolute left-0 top-0 flex h-8 w-full items-center justify-center bg-blue-500 text-xs uppercase text-white'>
-            {i18n.language === 'uz'
-              ? 'eng yaxshi qiymat'
-              : 'лучшее предложение'}
-          </span>
-        )}
-      </div>
-      <div className='relative flex flex-col gap-1 text-3xl font-medium'>
-        <p className={clsxm(isEnterprise ? 'py-[6px] text-base' : 'text-3xl')}>
-          {between && (
-            <span className='text-2xl text-gray-400 line-through'>
-              ${between ? realPrice : ''}{' '}
-            </span>
-          )}
-          {!isEnterprise && '$'}
-          {isEnterprise
-            ? i18n.language === 'uz'
-              ? 'Biz bilan bog`laning'
-              : 'Через контакт'
-            : months === 1
-            ? price.toLocaleString()
-            : price === 0
-            ? 0
-            : Math.ceil(price * 0.9).toLocaleString()}{' '}
-          <span className={clsxm(' text-xs  ', isEnterprise && 'hidden')}>
-            /{t('tariffs.month')}
-          </span>
-        </p>
-        {price !== 0 ? (
-          <p className='text-sm font-light text-blue-400'>
-            {t('tariffs.save_15%')}
-          </p>
-        ) : (
-          <p className='text-sm font-light text-blue-400'>
-            {t('tariffs.always_free')}
-          </p>
-        )}
-        {title === t('tariffs.free') ? (
-          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
-            {t('tariffs.about_free')}
-          </p>
-        ) : title === t('tariffs.beginner') ? (
-          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
-            {t('tariffs.about_pro')}
-          </p>
-        ) : title === t('tariffs.seller') ? (
-          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
-            {t('tariffs.about_premium')}
-          </p>
-        ) : (
-          <p className='mt-6 h-[60px] text-sm font-light tracking-wide'>
-            {t('tariffs.about_enterprise')}
-          </p>
-        )}
-      </div>
-
-      <div className='w-full'>
-        <Button
-          onClick={() => {
-            if (!isCurrentPlan) {
-              if (isEnterprise) {
-                setPopupOpen(true);
-              } else {
-                handlePayment();
-              }
-            }
-          }}
-          className={clsxm(
-            `w-full bg-${color}  px-4 py-4 text-white`,
-            !isCurrentPlan && 'hover:bg-purple-700',
-            isEnterprise && 'bg-blue-500 hover:bg-blue-600'
-          )}
-          disabled={
-            (isCurrentPlan || loading) && state.user?.tariff !== 'trial'
-          }
-          isLoading={loading}
+    <div className='relative flex max-w-[220px] flex-col space-y-4 rounded-lg bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl'>
+      {isProPlus && (
+        <div
+          className={`bg-primary absolute -left-8 top-4 rotate-[-35deg] transform bg-${color}-600 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-lg`}
         >
-          <>
-            {isCurrentPlan
-              ? i18n.language === 'uz'
-                ? 'Hozirgi'
-                : 'Текущий'
-              : // : isEnterprise
-                // ? i18n.language === 'uz'
-                //   ? "Biz bilan bog'laning"
-                //   : 'Свяжитесь с нами'
-                t('tariffs.select')}
-          </>
-        </Button>
-      </div>
-      {/* <div className='w-full'>
-        {features.map((feature, idx) => (
-          <div
-            className={clsxm(
-              ' flex items-center justify-start gap-3 text-sm font-light',
-              idx === 0 && 'mt-4'
+          {i18n.language === 'uz' ? 'Энг яхши таклиф' : 'Лучшее предложение'}
+        </div>
+      )}
+      <h3 className='text-primary text-center text-2xl font-semibold'>
+        {title}
+      </h3>
+
+      <div className='flex flex-col items-center space-y-2'>
+        {isBusiness ? (
+          <span className='text-primary text-sm'>
+            {i18n.language === 'uz'
+              ? "Biz bilan bog'laning"
+              : 'Свяжитесь с нами'}
+          </span>
+        ) : (
+          <div className='flex items-center space-x-2'>
+            {isPromotion && (
+              <span className='text-lg text-gray-500 line-through'>
+                ${(realPrice * months).toFixed(2)}
+              </span>
             )}
-            key={idx}
-          >
-            <span>✅</span>
-            <p>{feature}</p>
+            <span className='text-4xl font-bold'>
+              ${(showPrice * months).toFixed(2)}
+            </span>
           </div>
-        ))}
-      </div> */}
+        )}
+        {!isBusiness && !isFree && (
+          <span className='bg-primary inline-block rounded-full px-3 py-1 text-sm text-white'>
+            {months} {t('tariffs.month')}
+          </span>
+        )}
+      </div>
+
+      {!isFree && !isBusiness && (
+        <Button
+          isLoading={loading}
+          onClick={handlePayment}
+          className={clsxm(
+            'w-full transform rounded-md py-2 text-white transition-transform duration-300 hover:scale-105',
+            isCurrentPlan ? 'bg-gray-400' : `bg-${color} hover:bg-${color}-700`
+          )}
+        >
+          <>{isCurrentPlan ? t('tariffs.current') : buttonTitle}</>
+        </Button>
+      )}
+
+      {isBusiness && (
+        <a
+          href='https://t.me/Alijonov_md'
+          target='_blank'
+          className={clsxm(
+            'flex w-full transform items-center justify-center rounded-md py-2 text-white transition-transform duration-300 hover:scale-105',
+            isCurrentPlan ? 'bg-gray-400' : `bg-blue-500 hover:bg-blue-600`
+          )}
+        >
+          {isCurrentPlan ? t('tariffs.current') : buttonTitle}
+        </a>
+      )}
+
+      <p className='text-center text-sm text-slate-500'>
+        {isPro
+          ? t('tariffs.about_pro')
+          : isProPlus
+          ? t('tariffs.about_premium')
+          : isBusiness
+          ? t('tariffs.about_enterprise')
+          : t('tariffs.about_free')}
+      </p>
+
+      {isPromotion && !isBusiness && (
+        <span
+          className={clsxm(
+            'absolute -top-6 right-0 mr-2 mt-2 rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white',
+            months === 3 && 'text-green-300'
+          )}
+        >
+          {discountedPercentage}% OFF
+        </span>
+      )}
     </div>
   );
 }
 
 export default Pricing;
 
-const PricingTable = ({
-  featuresData,
-  t,
-}: {
-  featuresData: {
-    title: string;
-    free: string;
-    beginner: string;
-    seller: string;
-    business: string;
-    isTitle?: boolean;
-  }[];
-  t: any;
-}) => {
-  const { i18n } = useTranslation('common');
+const PricingTable = ({ featuresData, t }: { featuresData: any; t: any }) => {
+  const [openedSections, setOpenedSections] = useState<Record<number, boolean>>(
+    {}
+  );
+
+  const sections = featuresData.reduce((acc: any, feature: any) => {
+    if (feature.isTitle) {
+      acc.push({
+        title: feature.title,
+        rows: [],
+      });
+    } else {
+      acc[acc.length - 1].rows.push(feature);
+    }
+    return acc;
+  }, []);
+
+  const toggleSection = (sectionIdx: number) => {
+    setOpenedSections((prev) => ({
+      ...prev,
+      [sectionIdx]: !prev[sectionIdx],
+    }));
+  };
 
   return (
-    <div className='flex w-full flex-col  border-b-0  bg-white px-10 py-16'>
-      <div className='flex h-24 shrink-0 '>
-        <div className='  flex w-[500px] items-center justify-start  font-medium'>
-          {t('tariffs.Umumiy_malumotlar')}
-        </div>
-        <div className=' flex  w-64  flex-grow items-center justify-center border-x  font-medium'>
-          {t('tariffs.free')}
-        </div>
-        <div className=' b flex  w-64  flex-grow items-center justify-center font-medium'>
-          {t('tariffs.beginner')}
-        </div>
-        <div className=' flex  w-64 flex-grow  items-center justify-center border-x font-medium'>
-          {t('tariffs.seller')}
-        </div>
-        <div className=' flex  w-64 flex-grow  items-center justify-center  font-medium'>
-          {t('tariffs.business')}
-        </div>
-      </div>
-      {featuresData.map((data, idx) => (
-        <div
-          className={clsxm(
-            'flex h-12 shrink-0 border-b',
-            data.isTitle && 'h-28 border-b-0'
-          )}
-          key={idx}
-        >
+    <div className='grid grid-cols-5 border-b'>
+      {sections.map((section: any, sectionIdx: number) => (
+        <React.Fragment key={sectionIdx}>
+          {/* Title Row */}
           <div
             className={clsxm(
-              'flex w-[500px] items-center justify-start text-sm',
-              data.isTitle && 'text-md font-medium'
+              'text-primary col-span-5 flex cursor-pointer items-center justify-start gap-6 border-t p-4 font-bold transition-all duration-300 hover:bg-gray-100',
+              sectionIdx === 0 ? 'border-t-0' : ''
+            )}
+            onClick={() => toggleSection(sectionIdx)}
+          >
+            <p className='w-[200px]'>{section.title}</p>
+
+            <span className='ml-2 transform transition-transform duration-300'>
+              <BsChevronDown
+                size={20}
+                className={openedSections[sectionIdx] ? 'rotate-180' : ''}
+              />
+            </span>
+          </div>
+          {/* Details Rows */}
+          <div
+            className={clsxm(
+              'col-span-5 grid grid-cols-5 gap-4 overflow-hidden transition-all duration-300 ease-in-out',
+              openedSections[sectionIdx] ? 'max-h-[1000px]' : 'max-h-0'
             )}
           >
-            {data.title}
+            {section.rows.map((rowFeature: any, rowIdx: number) => (
+              <FeatureAccordion key={rowIdx} feature={rowFeature} />
+            ))}
           </div>
-          <div className='flex w-64 flex-grow items-center justify-center border-x text-sm'>
-            {data.free}
-          </div>
-          <div className='flex w-64 flex-grow items-center justify-center  text-sm'>
-            {data.beginner}
-          </div>
-          <div className='flex w-64 flex-grow items-center justify-center border-x text-sm'>
-            {data.seller}
-          </div>
-          <div className=' flex w-64 flex-grow items-center justify-center  text-sm'>
-            {data.business}
-          </div>
-        </div>
+        </React.Fragment>
       ))}
     </div>
+  );
+};
+
+const FeatureAccordion: React.FC<any> = ({ feature }) => {
+  return (
+    <>
+      <div
+        className={clsxm(
+          'cursor-pointer border-t p-4 text-sm transition-all duration-300 hover:bg-gray-100',
+          'text-gray-700'
+        )}
+      >
+        {feature.title}
+      </div>
+      <div className='flex items-center justify-center border-t p-4 text-sm'>
+        {feature.free}
+      </div>
+      <div className='flex items-center justify-center border-t p-4 text-sm'>
+        {feature.beginner}
+      </div>
+      <div className='flex items-center justify-center border-t p-4 text-sm'>
+        {feature.seller}
+      </div>
+      <div className='flex items-center justify-center border-t p-4 text-sm'>
+        {feature.business}
+      </div>
+    </>
   );
 };
 
@@ -599,6 +510,7 @@ const getPricingData = (t: any) => {
       beginner: t('tariffs.60_kunlik'),
       seller: t('tariffs.90_kunlik'),
       business: t('tariffs.90_kunlikplus'),
+      isTitle: true,
     },
     {
       title: t('tariffs.Jami_buyurtmalar_va_daromad_tahlili'),
@@ -684,14 +596,14 @@ const getPricingData = (t: any) => {
     {
       title: t('tariffs.Kategoriya_trendi'),
       free: '',
-      beginner: t('tariffs.30_kunlik'),
-      seller: t('tariffs.60_kunlik'),
-      business: t('tariffs.90_kunlik'),
+      beginner: t('tariffs.60_kunlik'),
+      seller: t('tariffs.90_kunlik'),
+      business: t('tariffs.90_kunlikplus'),
     },
     {
       title: t('tariffs.Kategoriya_mahsulotlari'),
       free: '',
-      beginner: '',
+      beginner: '✓',
       seller: '✓',
       business: '✓',
     },
@@ -794,9 +706,9 @@ const getPricingData = (t: any) => {
     {
       title: t('tariffs.Mahsulot_tahlili'),
       free: '',
-      beginner: t('tariffs.30_kunlik'),
-      seller: t('tariffs.60_kunlik'),
-      business: t('tariffs.90_kunlik'),
+      beginner: t('tariffs.60_kunlik'),
+      seller: t('tariffs.90_kunlik'),
+      business: t('tariffs.90_kunlikplus'),
     },
 
     {

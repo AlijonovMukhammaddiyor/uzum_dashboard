@@ -230,7 +230,7 @@ function ShopsSelect({
             />
           </Container>
         ) : (
-          <p>{t('selectShops')}</p>
+          <p></p>
         )
       ) : (
         <></>
