@@ -230,7 +230,7 @@
     "Dokon_raqobatchilari": "Магазин конкурентов",
     "Dokon_kunlik_sotuvlari": "Ежедневные продажи магазина",
     "1_dukon": "По одному магазину",
-    "4_dukon": "По четырем магазинам",
+    "4_dukon": "По 5 магазинам",
     "Barcha_dokonlar_full": "Для всех магазинов",
 
     "Mahsulotlar": "Товары",
@@ -242,6 +242,20 @@
 
     "Reklamalar": "Реклама",
     "addsImpactCheck": "Проверка влияния рекламы",
+
+    "bot": "Telegram бот",
+    "bot_report": "Постоянные отчеты",
+    "bot_description": "Упростите управление своими магазинами с помощью Telegram бота",
+    "bot_1_shop": "Для одного магазина",
+    "bot_4_shop": "Для 5 магазинов",
+    "bot_10_shops": "Для 10 магазинов",
+
+    "bot_10_products": "Для 10 товаров",
+    "bot_50_products": "Для 50 товаров",
+    "bot_100_products": "Для 100 товаров",
+
+    "bot_shop_reports": "Отчеты по магазинам",
+    "bot_product_reports": "Отчеты по товарам",
 
     "Nishalar": "Ниши",
     "Barcha_nishalar": "Все ниши и их анализ",

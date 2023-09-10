@@ -230,8 +230,21 @@
     "Dokon_raqobatchilari": "Do'kon raqobatchilari",
     "Dokon_kunlik_sotuvlari": "Do'kon kunlik sotuvlari",
     "1_dukon": "1ta do'kon uchun ",
-    "4_dukon": "4ta do'kon uchun ",
+    "4_dukon": "5ta do'kon uchun ",
     "Barcha_dokonlar_full": "Barcha do'konlar uchun ",
+
+    "bot": "Telegram bot",
+    "bot_report": "Doimiy hisobotlar",
+    "bot_shop_reports": "Do'kon hisobotlari",
+    "bot_product_reports": "Mahsulot hisobotlari",
+    "bot_description": "Telegram bot orqali do'konlaringizni boshqarishni osonlashtiring",
+    "bot_1_shop": "1ta do'kon uchun ",
+    "bot_4_shop": "5ta do'kon uchun ",
+    "bot_10_shops": "10ta do'kon uchun ",
+
+    "bot_10_products": "10ta mahsulot uchun ",
+    "bot_50_products": "50ta mahsulot uchun ",
+    "bot_100_products": "100ta mahsulot uchun ",
 
     "Mahsulotlar": "Mahsulotlar",
     "Barcha_mahsulotlar": "Barcha mahsulotlar uchun umumiy analitika",

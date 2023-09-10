@@ -578,6 +578,36 @@ const getPricingData = (t: any) => {
       business: '✓',
     },
     {
+      title: t('tariffs.bot'),
+      free: '',
+      beginner: '',
+      seller: '',
+      business: '',
+      isTitle: true,
+    },
+    {
+      title: t('tariffs.bot_report'),
+      free: '',
+      beginner: '✓',
+      seller: '✓',
+      business: '✓',
+    },
+    {
+      title: t('tariffs.bot_shop_reports'),
+      free: '',
+      beginner: t('tariffs.bot_1_shop'),
+      seller: t('tariffs.bot_4_shop'),
+      business: t('tariffs.bot_10_shops'),
+    },
+
+    {
+      title: t('tariffs.bot_product_reports'),
+      free: '',
+      beginner: t('tariffs.bot_10_products'),
+      seller: t('tariffs.bot_50_products'),
+      business: t('tariffs.bot_100_products'),
+    },
+    {
       title: t('tariffs.Kategoriyalar'),
       free: '',
       beginner: '',
