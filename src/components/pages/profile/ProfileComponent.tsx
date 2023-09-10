@@ -30,7 +30,6 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
   const ShopsSelectDisabled =
     user.tariff === 'free' ||
     user.tariff === 'business' ||
-    !more_than_30_days ||
     user.tariff === 'trial';
 
   React.useEffect(() => {
