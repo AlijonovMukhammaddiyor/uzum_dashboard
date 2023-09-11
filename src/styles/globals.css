@@ -127,6 +127,48 @@
     transition: transform 0.2s;
   }
 
+  .youtube-btn a {
+    display: flex;
+    align-items: center;
+    padding: 9px 20px;
+    background-color: #ff0000;
+    color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+
+  .youtube-btn a:hover {
+    transform: scale(1.05);
+  }
+
+  .youtube-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFFFFF"><path d="M21.8 8.001c0 0-.195-1.378-1.176-1.979-.83-.533-1.768-.537-2.197-.568-3.153-.028-7.883-.028-7.883-.028h-.009s-4.73 0-7.882.028c-.43.031-1.368.035-2.198.568-.982.601-1.176 1.979-1.176 1.979S0 9.593 0 11.186v1.638c0 1.593.22 3.185.22 3.185s.194 1.378 1.176 1.979c.83.533 1.936.508 2.422.568 1.76.069 7.68.029 7.68.029s4.752.009 7.883-.029c.43-.03 1.368-.034 2.197-.567.982-.602 1.177-1.98 1.177-1.98s.22-1.592.22-3.185v-1.638c0-1.593-.22-3.185-.22-3.185zM9.935 15.599V8.997l5.403 3.302-5.403 3.3z"></path></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .aspect-ratio-wrapper {
+    position: relative;
+    width: 100%; /* you can adjust this if needed */
+    padding-top: 54%; /* 16:9 Aspect Ratio */
+    overflow: hidden;
+  }
+
+  .aspect-ratio-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
   #billingToggle:checked + .toggle-label {
     background-color: #4caf50;
   }

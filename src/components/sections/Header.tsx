@@ -115,6 +115,18 @@ export default function Header() {
         <nav className='shrink-0'>
           <ul className='flex items-center justify-between space-x-5'>
             <li className='shrink-0'>
+              <div className='youtube-btn w-[180px]'>
+                <a
+                  href='https://www.youtube.com/watch?v=zsZtVNYyPEc&t=1s'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <div className='youtube-icon'></div>
+                  {i18n.language === 'uz' ? "Qo'llanma" : 'Руководство'}
+                </a>
+              </div>
+            </li>
+            <li className='shrink-0'>
               <a
                 href='https://t.me/Alijonov_md'
                 target='_blank'

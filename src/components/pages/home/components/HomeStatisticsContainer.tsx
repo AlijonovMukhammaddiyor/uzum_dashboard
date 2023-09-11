@@ -482,7 +482,7 @@ function HomeStatisticsContainer({
       </div>
 
       <div className='-mt-10 w-full max-w-full'>
-        <p className='font-primary py-6 pb-6 text-base font-bold'>
+        <p className='font-primary flex items-center justify-start gap-6 py-6 pb-6 text-base font-bold'>
           {i18n.language === 'uz'
             ? 'Uzum uchun umumiy statistikalar'
             : 'Общая статистика для Uzum'}

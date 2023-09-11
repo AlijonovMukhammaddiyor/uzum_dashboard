@@ -5,20 +5,10 @@ import React from 'react';
 // import to double right icon from react icons
 import { FaExpandAlt } from 'react-icons/fa';
 import { ImShrink2 } from 'react-icons/im';
-import Zoom from 'react-medium-image-zoom';
-import { Carousel } from 'react-responsive-carousel';
 import Popup from 'reactjs-popup';
 
 import clsxm from '@/lib/clsxm';
 
-import best from '@/assets/new_landing/best.png';
-import filters from '@/assets/new_landing/filters.png';
-import growing from '@/assets/new_landing/growing.png';
-import main from '@/assets/new_landing/main.png';
-import product from '@/assets/new_landing/product.png';
-import segments from '@/assets/new_landing/segments.png';
-import shop_products from '@/assets/new_landing/shop_products.png';
-import shop_products_pie from '@/assets/new_landing/shop_products_pie.png';
 import play from '@/assets/play.png';
 
 function LandingMain({
@@ -48,7 +38,7 @@ function LandingMain({
             </p>
           </div>
 
-          <div className='base:hidden max-w-ful relative w-full rounded-md bg-transparent'>
+          <div className='base:hidden max-w-ful relative h-full min-h-[400px] w-full rounded-md bg-transparent'>
             <p className='font-primary mb-6 w-[270px] rounded-md bg-black px-3 py-1 text-center text-base text-white'>
               {i18n.language === 'uz'
                 ? 'Xizmatlarimizdan namunalar...'
@@ -67,122 +57,15 @@ function LandingMain({
                 }}
               />
             </div>
-            <Carousel
-              autoPlay
-              infiniteLoop
-              showStatus={false}
-              showThumbs={false}
-              interval={5000}
-              className='relative'
-            >
-              <div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <Image
-                  priority
-                  src={growing}
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-                <p
-                  className='legend'
-                  style={{
-                    opacity: 1,
-                  }}
-                >
-                  {i18n.language === 'uz'
-                    ? "O'sayotgan mahsulotlar"
-                    : 'Перспективные продукты'}
-                </p>
-              </div>
-              <div>
-                <Image
-                  priority
-                  src={product}
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? 'Mahsulotlar tahlili'
-                    : 'Анализ продуктов'}
-                </p>
-              </div>
-              <div>
-                <Image
-                  src={best}
-                  alt='Best Image'
-                  className='rounded-md'
-                  priority
-                />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? 'Haftaning eng yaxshi mahsulotlari'
-                    : 'Лучшие продукты недели'}
-                </p>
-              </div>
-
-              <div>
-                <Image
-                  priority
-                  src={filters}
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? "O'zingiz istagan daromadli mahsulotlarni toping"
-                    : 'Найдите самые прибыльные продукты'}
-                </p>
-              </div>
-
-              <div>
-                <Image src={main} alt='Growing Image' className='rounded-md' />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? "Umumiy ma'lumotlar"
-                    : 'Общая информация'}
-                </p>
-              </div>
-              <div>
-                <Image
-                  src={segments}
-                  priority
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? 'Kategoriyalarning Uzumdagi ulushlari'
-                    : 'Успех категорий на Uzum'}
-                </p>
-              </div>
-              <div>
-                <Image
-                  src={shop_products_pie}
-                  priority
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? "Do'konning eng yaxshi mahsulotlari"
-                    : 'Лучшие продукты магазина'}
-                </p>
-              </div>
-              <div>
-                <Image
-                  src={shop_products}
-                  priority
-                  alt='Shop Products Image'
-                  className='rounded-md'
-                />
-                <p className='legend'>
-                  {i18n.language === 'uz'
-                    ? "Do'konning barcha mahsulotlari tahlili"
-                    : 'Анализ всех продуктов магазина'}
-                </p>
-              </div>
-            </Carousel>
+            <div className='aspect-ratio-wrapper'>
+              <iframe
+                className='aspect-ratio-iframe'
+                src='https://www.youtube.com/embed/zsZtVNYyPEc?si=UZBQQLbH7gs_PYt-'
+                title='YouTube video player'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
           <div className='w-full'>
             <div className='base:flex-row flex w-full flex-col items-center justify-start gap-4'>
@@ -231,104 +114,15 @@ function LandingMain({
               }}
             />
           </div>
-          <Carousel
-            autoPlay
-            infiniteLoop
-            showStatus={false}
-            showThumbs={false}
-            interval={5000}
-            className='relative'
-          >
-            <div>
-              <Zoom>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <Image
-                  src={growing}
-                  alt='Growing Image'
-                  className='rounded-md'
-                />
-              </Zoom>
-              <p
-                className='legend'
-                style={{
-                  opacity: 1,
-                }}
-              >
-                {i18n.language === 'uz'
-                  ? "O'sayotgan mahsulotlar"
-                  : 'Перспективные продукты'}
-              </p>
-            </div>
-            <div>
-              <Image src={best} alt='Best Image' className='rounded-md' />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? 'Haftaning eng yaxshi mahsulotlari'
-                  : 'Лучшие продукты недели'}
-              </p>
-            </div>
-
-            <div>
-              <Image src={filters} alt='Growing Image' className='rounded-md' />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "O'zingiz istagan daromadli mahsulotlarni toping"
-                  : 'Найдите самые прибыльные продукты'}
-              </p>
-            </div>
-            <div>
-              <Image src={product} alt='Growing Image' className='rounded-md' />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? 'Mahsulotlar tahlili'
-                  : 'Анализ продуктов'}
-              </p>
-            </div>
-            <div>
-              <Image src={main} alt='Growing Image' className='rounded-md' />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "Umumiy ma'lumotlar"
-                  : 'Общая информация'}
-              </p>
-            </div>
-            <div>
-              <Image
-                src={segments}
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? 'Kategoriyalarning Uzumdagi ulushlari'
-                  : 'Успех категорий на Uzum'}
-              </p>
-            </div>
-            <div>
-              <Image
-                src={shop_products_pie}
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "Do'konning eng yaxshi mahsulotlari"
-                  : 'Лучшие продукты магазина'}
-              </p>
-            </div>
-            <div>
-              <Image
-                src={shop_products}
-                alt='Shop Products Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "Do'konning barcha mahsulotlari tahlili"
-                  : 'Анализ всех продуктов магазина'}
-              </p>
-            </div>
-          </Carousel>
+          <div className='aspect-ratio-wrapper'>
+            <iframe
+              className='aspect-ratio-iframe'
+              src='https://www.youtube.com/embed/zsZtVNYyPEc?si=UZBQQLbH7gs_PYt-'
+              title='YouTube video player'
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+              allowFullScreen
+            ></iframe>
+          </div>
         </div>
         <Popup
           open={open}
@@ -360,122 +154,15 @@ function LandingMain({
               }}
             />
           </div>
-          <Carousel
-            autoPlay
-            infiniteLoop
-            showStatus={false}
-            showThumbs={false}
-            interval={5000}
-            className='mt-[100px]'
-          >
-            <div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <Image
-                src={growing}
-                priority
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p
-                className='legend'
-                style={{
-                  opacity: 1,
-                }}
-              >
-                {i18n.language === 'uz'
-                  ? "O'sayotgan mahsulotlar"
-                  : 'Перспективные продукты'}
-              </p>
-            </div>
-            <div>
-              <Image
-                src={product}
-                priority
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? 'Mahsulotlar tahlili'
-                  : 'Анализ продуктов'}
-              </p>
-            </div>
-            <div>
-              <Image src={best} alt='Best Image' className='rounded-md' />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? 'Haftaning eng yaxshi mahsulotlari'
-                  : 'Лучшие продукты недели'}
-              </p>
-            </div>
-
-            <div>
-              <Image
-                src={filters}
-                priority
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "O'zingiz istagan daromadli mahsulotlarni toping"
-                  : 'Найдите самые прибыльные продукты'}
-              </p>
-            </div>
-
-            <div>
-              <Image
-                src={main}
-                priority
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "Umumiy ma'lumotlar"
-                  : 'Общая информация'}
-              </p>
-            </div>
-            <div>
-              <Image
-                src={segments}
-                priority
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? 'Kategoriyalarning Uzumdagi ulushlari'
-                  : 'Успех категорий на Uzum'}
-              </p>
-            </div>
-            <div>
-              <Image
-                src={shop_products_pie}
-                priority
-                alt='Growing Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "Do'konning eng yaxshi mahsulotlari"
-                  : 'Лучшие продукты магазина'}
-              </p>
-            </div>
-            <div>
-              <Image
-                src={shop_products}
-                priority
-                alt='Shop Products Image'
-                className='rounded-md'
-              />
-              <p className='legend'>
-                {i18n.language === 'uz'
-                  ? "Do'konning barcha mahsulotlari tahlili"
-                  : 'Анализ всех продуктов магазина'}
-              </p>
-            </div>
-          </Carousel>
+          <iframe
+            width='100%'
+            height='92%'
+            src='https://www.youtube.com/embed/zsZtVNYyPEc?si=UZBQQLbH7gs_PYt-'
+            title='YouTube video player'
+            frameborder='0'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+            allowfullscreen
+          ></iframe>
         </Popup>
       </div>
     </div>
