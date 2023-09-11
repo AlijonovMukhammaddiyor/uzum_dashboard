@@ -106,11 +106,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               name='description'
               content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
             />
-            <link
+            {/* <link
               rel='icon'
               href='https://www.uzanalitika.uz/favicon.ico'
               type='image/x-icon'
-            />
+            /> */}
             <meta
               property='og:title'
               content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'

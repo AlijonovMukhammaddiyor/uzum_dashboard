@@ -22,10 +22,33 @@ export default function Document() {
           content='uW3Oy8QMSpgZN6xHK6D1Gr0ludeQGRMBBueMaopvKFY'
         />
         <link
-          rel='icon'
+          rel='shortcut icon'
           href='https://www.uzanalitika.uz/favicon.ico'
           type='image/x-icon'
         />
+        <link
+          rel='icon'
+          href='/images/favicon-16x16.png'
+          sizes='16x16'
+          type='image/png'
+        />
+        <link
+          rel='icon'
+          href='/images/favicon-32x32.png'
+          sizes='32x32'
+          type='image/png'
+        />
+        <link
+          rel='apple-touch-icon'
+          sizes='180x180'
+          href='/images/apple-touch-icon.png'
+        />
+        <meta
+          name='msapplication-TileImage'
+          content='/images/mstile-150x150.png'
+        />
+        <link rel='manifest' href='/site.webmanifest' />
+
         <style>
           {`
             html {
