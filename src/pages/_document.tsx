@@ -34,7 +34,7 @@ export default function Document() {
           content={
             i18n.language === 'uz'
               ? "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-              : 'Полноценный инструмент аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т.д. А также подробный анализ развивающихся товаров и категорий.'
+              : 'Полноценные инструменты аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т. д. А также детальный анализ перспективных товаров и категорий.'
           }
         />
         <meta
@@ -42,7 +42,7 @@ export default function Document() {
           content={
             i18n.language === 'uz'
               ? 'UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati.'
-              : 'UzAnalitika - Комплексный аналитический сервис для вашего бизнеса на рынке Узбекистана.'
+              : 'UzAnalitika - Полные инструменты анализа для вашего бизнеса на UZUM MARKET.'
           }
         />
         <meta
@@ -50,7 +50,7 @@ export default function Document() {
           content={
             i18n.language === 'uz'
               ? "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-              : 'Полноценный инструмент аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т.д. А также подробный анализ развивающихся товаров и категорий.'
+              : 'Полноценные инструменты аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т. д. А также детальный анализ перспективных товаров и категорий.'
           }
         />
         <meta
