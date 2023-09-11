@@ -323,7 +323,12 @@ function Tarif({
   const isFree = title === t('tariffs.free');
 
   return (
-    <div className='relative flex max-w-[220px] flex-col space-y-4 rounded-lg bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl'>
+    <div
+      className={clsxm(
+        'relative flex max-w-[220px] flex-col space-y-4 rounded-lg bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl',
+        isProPlus && 'scale-[1.15]'
+      )}
+    >
       {isProPlus && (
         <div
           className={`bg-primary absolute -left-8 top-4 rotate-[-35deg] transform bg-${color}-600 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-lg`}
