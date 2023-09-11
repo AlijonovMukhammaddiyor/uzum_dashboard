@@ -91,7 +91,7 @@ function CategoryTreeComponent() {
       total_products: item.total_products,
       total_reviews: item.total_reviews,
       average_purchase_price: item.average_purchase_price,
-      total_shops: item.total_shops,
+      total_shops: item?.total_shops,
       average_product_rating: item.average_product_rating,
     }));
 
