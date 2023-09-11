@@ -5,6 +5,7 @@
 module.exports = {
   siteUrl: 'https://www.uzanalitika.uz',
   generateRobotsTxt: true,
+  exclude: ['/404'],
   robotsTxtOptions: {
     policies: [{ userAgent: '*', allow: '/' }],
   },
