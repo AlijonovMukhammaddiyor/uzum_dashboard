@@ -160,7 +160,7 @@ function LandingMain({
             src='https://www.youtube.com/embed/zsZtVNYyPEc?si=UZBQQLbH7gs_PYt-'
             title='YouTube video player'
             allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-            allowfullscreen
+            allowFullScreen
           ></iframe>
         </Popup>
       </div>
