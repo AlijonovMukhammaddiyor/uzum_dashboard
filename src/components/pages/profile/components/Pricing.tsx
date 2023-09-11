@@ -108,8 +108,8 @@ function Pricing({ className }: { className?: string }) {
             <IoWarningOutline className='text-2xl text-yellow-500' />
             <p className='font-medium text-gray-700'>
               {i18n.language === 'uz'
-                ? `Siz hozirda "Boshlang'ich" tarifini ma'lum cheklovlar bilan sinov tariqasida foydalanmoqdasiz.`
-                : 'В настоящее время вы используете тариф «Стартовый» с некоторыми ограничениями в качестве пробного периода.'}
+                ? `Siz hozirda "Boshlang'ich" tarifini ma'lum cheklovlar bilan sinov tariqasida foydalanmoqdasiz (7 KUN). `
+                : 'В настоящее время вы используете тариф «Стартовый» с некоторыми ограничениями в качестве пробного периода.(7 ДНЕЙ)'}
             </p>
           </div>
         )}
