@@ -241,6 +241,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       };
     }
 
+    if (res.tariff === 'trial') {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/sellers',
+        },
+        props: {},
+      };
+    }
+
     const { slug } = context.query;
 
     const seller_link = slug as string;

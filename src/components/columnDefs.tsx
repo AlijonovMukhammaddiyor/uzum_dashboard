@@ -595,17 +595,14 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
   const { dispatch, state } = useContextState();
   const router = useRouter();
   const { i18n } = useTranslation('common');
-  const [user_favorites, setUserFavorites] = useState<string[]>([]);
+  const isTrial = state.user?.tariff === 'trial';
 
   // get seller link from value = "title (link)""
   if (!value) return '';
   // try{
   const seller_link = value?.split('((')[1]?.trim().split('))')[0];
   const seller_title = value?.split('((')[0].trim();
-  const isFreeUser = state.user?.tariff === 'free';
-
-  // Example user_favorites = ['seller_link1', 'seller_link2']
-  const isFavoriteSeller = user_favorites.includes(seller_link);
+  const isFreeUser = state.user?.tariff === 'free' || isTrial;
 
   let lang = '';
   if (i18n.language === 'uz') lang = '/uz/';
@@ -615,34 +612,14 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
     return <p className='text-black'>{seller_title}</p>;
 
   return (
-    // <div
-    //   // href={`/sellers/${seller_link}`}
-    //   onClick={() => {
-    //     dispatch({
-    //       type: 'PATH',
-    //       payload: {
-    //         path: null,
-    //       },
-    //     });
-    //     if (state.user?.tariff !== 'free')
-    //       router.push(`/sellers/${seller_link}`);
-    //     else {
-    //       alert(
-    //         "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-    //       );
-    //     }
-    //   }}
-    // >
-    //   <p className='text-blue-500 hover:underline'>{seller_title}</p>
-    // </div>
     <div className='flex h-full w-full items-center justify-start gap-1'>
       {isFreeUser ? (
         <TbExternalLink
           onClick={() => {
             alert(
               i18n.language === 'uz'
-                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+                ? 'Bu xizmatdan foydalanish sinov tarifida mavjud emas!'
+                : 'Вы не можете анализировать статистику магазина в течение пробного периода.'
             );
           }}
           className='h-7 w-7 shrink-0 cursor-pointer rounded-md bg-white p-1 shadow-md'
@@ -662,13 +639,13 @@ export const SellerNameCellRenderer = ({ value }: { value: string }) => {
               path: null,
             },
           });
-          if (state.user?.tariff !== 'free')
+          if (state.user?.tariff !== 'free' && !isTrial)
             router.push(`/sellers/${seller_link}`);
           else {
             alert(
               i18n.language === 'uz'
-                ? "Bu xizmatdan foydalanish uchun iltimos boshqa tarifiga o'ting!"
-                : 'Для использования этой услуги, пожалуйста, перейдите на другой тариф!'
+                ? 'Bu xizmatdan foydalanish sinov tarifida mavjud emas!'
+                : 'Вы не можете анализировать статистику магазина в течение пробного периода.'
             );
           }
         }}

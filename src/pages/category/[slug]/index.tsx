@@ -90,7 +90,8 @@ function Category({ user }: Props) {
   const canSee =
     state.user?.tariff === 'business' ||
     state.user?.tariff === 'seller' ||
-    state.user?.tariff === 'base';
+    state.user?.tariff === 'base' ||
+    state.user?.tariff === 'trial';
 
   return (
     <Layout>
