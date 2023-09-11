@@ -21,7 +21,11 @@ export default function Document() {
           name='google-site-verification'
           content='uW3Oy8QMSpgZN6xHK6D1Gr0ludeQGRMBBueMaopvKFY'
         />
-
+        <link
+          rel='icon'
+          href='https://www.uzanalitika.uz/favicon.ico'
+          type='image/x-icon'
+        />
         <style>
           {`
             html {
@@ -88,7 +92,7 @@ export default function Document() {
               '@type': 'Organization',
               name: 'UzAnalitika',
               url: 'https://www.uzanalitika.uz/',
-              logo: 'https://www.uzanalitika.uz/images/og_new.png',
+              logo: 'https://www.uzanalitika.uz/images/favicon.ico',
               contactPoint: {
                 '@type': 'ContactPoint',
                 telephone: '+82 10 3268 2066',
