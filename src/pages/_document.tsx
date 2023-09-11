@@ -68,8 +68,8 @@ export default function Document() {
           property='og:title'
           content={
             i18n.language === 'uz'
-              ? 'UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati.'
-              : 'UzAnalitika - Полные инструменты анализа для вашего бизнеса на UZUM MARKET.'
+              ? 'UzAnalitika - UZUM market tahlili'
+              : 'UzAnalitika - Аналитика UZUM маркет'
           }
         />
         <meta
@@ -85,13 +85,13 @@ export default function Document() {
           content='https://www.uzanalitika.uz/images/og_new.png?v=2'
         />
         <meta property='og:url' content='https://www.uzanalitika.uz/' />
-        <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
+        <meta property='og:site_name' content='uzanalitika.uz' />
         <meta property='og:type' content='website' />
         <meta property='og:locale' content='uz_UZ' />
         <meta property='twitter:card' content='summary_large_image' />
         <meta
           property='twitter:title'
-          content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
+          content='UzAnalitika - UZUM market tahlili'
         />
         <meta
           property='twitter:description'
