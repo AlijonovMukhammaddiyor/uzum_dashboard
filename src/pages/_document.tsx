@@ -19,7 +19,7 @@ export default function Document() {
         />
         <meta
           name='google-site-verification'
-          content='--5d16QptJcItSVg5YOZR0acxC2WwR07J13FTeDqnEA'
+          content='uW3Oy8QMSpgZN6xHK6D1Gr0ludeQGRMBBueMaopvKFY'
         />
 
         <style>
