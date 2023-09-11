@@ -61,7 +61,7 @@ function NichesComponent() {
             (d[i].total_products_with_sales / d[i].total_products) * 100
           );
           d[i].percentage_of_shops_with_sales = Math.round(
-            (d[i].total_shops_with_sales / d[i].total_shops) * 100
+            (d[i]?.total_shops_with_sales / d[i]?.total_shops) * 100
           );
         }
 

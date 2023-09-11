@@ -805,7 +805,7 @@ function GeneralsContainer({
                 new Date(b.date_pretty).getTime() -
                 new Date(a.date_pretty).getTime()
             )[0]
-            .total_shops.toLocaleString()}{' '}
+            ?.total_shops.toLocaleString()}{' '}
           {lang === 'uz' ? 'ta' : 'шт'}
         </span>
       );
@@ -831,7 +831,7 @@ function GeneralsContainer({
                 new Date(b.date_pretty).getTime() -
                 new Date(a.date_pretty).getTime()
             )[0]
-            .total_reviews.toLocaleString()}{' '}
+            ?.total_reviews.toLocaleString()}{' '}
           {lang === 'uz' ? 'ta' : 'шт'}
         </span>
       );
@@ -839,7 +839,7 @@ function GeneralsContainer({
       const r = revenue.sort(
         (a: any, b: any) =>
           new Date(b.date_pretty).getTime() - new Date(a.date_pretty).getTime()
-      )[0].total_revenue;
+      )[0]?.total_revenue;
       if (r > 1000000) {
         return (
           <div>
@@ -857,7 +857,7 @@ function GeneralsContainer({
         );
       } else {
         return (
-          <span>{`${r.toFixed(2)} ${
+          <span>{`${r?.toFixed(2)} ${
             lang === 'uz' ? "ming so'm" : 'тыс. сум'
           }`}</span>
         );
@@ -872,7 +872,7 @@ function GeneralsContainer({
                 new Date(b.date_pretty).getTime() -
                 new Date(a.date_pretty).getTime()
             )[0]
-            .total_orders.toLocaleString()}{' '}
+            ?.total_orders.toLocaleString()}{' '}
           {lang === 'uz' ? 'ta' : 'шт'}
         </span>
       );
@@ -884,7 +884,7 @@ function GeneralsContainer({
               new Date(b.date_pretty).getTime() -
               new Date(a.date_pretty).getTime()
           )[0]
-          .total_accounts.toLocaleString()}{' '}
+          ?.total_accounts.toLocaleString()}{' '}
         {lang === 'uz' ? 'ta' : 'шт'}
       </span>
     );
@@ -896,53 +896,53 @@ function GeneralsContainer({
         (a, b) =>
           new Date(b.date_pretty).getTime() - new Date(a.date_pretty).getTime()
       );
-      const yesterday = temp[0].total_shops - temp[1].total_shops;
+      const yesterday = temp[0]?.total_shops - temp[1]?.total_shops;
 
-      return [yesterday, temp[1].total_shops];
+      return [yesterday, temp[1]?.total_shops];
     }
     if (title === t('dataTable.products_amount')) {
       const temp = products.sort(
         (a: any, b: any) =>
           new Date(b.date_pretty).getTime() - new Date(a.date_pretty).getTime()
       );
-      const yesterday = temp[0].total_products - temp[1].total_products;
+      const yesterday = temp[0]?.total_products - temp[1]?.total_products;
 
-      return [yesterday, temp[1].total_products];
+      return [yesterday, temp[1]?.total_products];
     }
     if (title === t('dataTable.reviews_amount')) {
       const temp = reviews.sort(
         (a: any, b: any) =>
           new Date(b.date_pretty).getTime() - new Date(a.date_pretty).getTime()
       );
-      const yesterday = temp[0].total_reviews - temp[1].total_reviews;
+      const yesterday = temp[0]?.total_reviews - temp[1]?.total_reviews;
 
-      return [yesterday, temp[1].total_reviews];
+      return [yesterday, temp[1]?.total_reviews];
     }
     if (title === t('dataTable.revenue')) {
       const temp = revenue.sort(
         (a: any, b: any) =>
           new Date(b.date_pretty).getTime() - new Date(a.date_pretty).getTime()
       );
-      const yesterday = temp[0].total_revenue - temp[1].total_revenue;
+      const yesterday = temp[0]?.total_revenue - temp[1]?.total_revenue;
 
-      return [yesterday, temp[1].total_revenue];
+      return [yesterday, temp[1]?.total_revenue];
     }
     if (title === t('dataTable.orders_amount')) {
       const temp = orders.sort(
         (a: any, b: any) =>
           new Date(b.date_pretty).getTime() - new Date(a.date_pretty).getTime()
       );
-      const yesterday = temp[0].total_orders - temp[1].total_orders;
+      const yesterday = temp[0]?.total_orders - temp[1]?.total_orders;
 
-      return [yesterday, temp[1].total_orders];
+      return [yesterday, temp[1]?.total_orders];
     }
     const temp = shops.accounts.sort(
       (a: any, b: any) =>
         new Date(b.date_pretty).getTime() - new Date(a.date_pretty).getTime()
     );
-    const yesterday = temp[0].total_accounts - temp[1].total_accounts;
+    const yesterday = temp[0]?.total_accounts - temp[1]?.total_accounts;
 
-    return [yesterday, temp[1].total_accounts];
+    return [yesterday, temp[1]?.total_accounts];
   };
 
   const renderDaily = () => {
@@ -979,7 +979,7 @@ function GeneralsContainer({
                     ? `${(dayBeforeYesterday / 1000000).toFixed(1)} `
                     : dayBeforeYesterday > 1000
                     ? `${(dayBeforeYesterday / 1000).toFixed(2)} `
-                    : dayBeforeYesterday.toFixed(2)}
+                    : dayBeforeYesterday?.toFixed(2)}
                 </span>
                 <p className='text-sm font-semibold'>
                   {dayBeforeYesterday > 1000000
@@ -1022,7 +1022,7 @@ function GeneralsContainer({
                   ? `${(dayBeforeYesterday / 1000000).toFixed(1)} `
                   : dayBeforeYesterday > 1000
                   ? `${(dayBeforeYesterday / 1000).toFixed(2)} `
-                  : dayBeforeYesterday.toFixed(2)}
+                  : dayBeforeYesterday?.toFixed(2)}
               </p>
               <p className='text-sm font-semibold'>
                 {dayBeforeYesterday > 1000000
@@ -1051,7 +1051,7 @@ function GeneralsContainer({
           <div className='flex items-center justify-start gap-1'>
             <p className='text-sm'>{t('comparedToYesterday')}</p>
             <p className='text-sm font-semibold'>
-              ({dayBeforeYesterday.toLocaleString()})
+              ({dayBeforeYesterday?.toLocaleString()})
             </p>
           </div>
         </div>
@@ -1069,7 +1069,7 @@ function GeneralsContainer({
         <div className='flex items-center justify-start gap-1'>
           <p className='text-sm'>{t('comparedToYesterday')}</p>
           <p className='text-sm font-semibold'>
-            ({dayBeforeYesterday.toLocaleString()})
+            ({dayBeforeYesterday?.toLocaleString()})
           </p>
         </div>
       </div>
@@ -1116,7 +1116,7 @@ function GeneralsContainer({
       const beginning = orders.find(
         (order: any) => order.date_pretty === '2023-08-31'
       );
-      const change = current.total_orders - beginning.total_orders;
+      const change = current?.total_orders - beginning?.total_orders;
 
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
@@ -1153,7 +1153,7 @@ function GeneralsContainer({
       const beginning = shops.shops.find(
         (order: any) => order.date_pretty === '2023-08-31'
       );
-      const change = current.total_shops - (beginning?.total_shops || 0);
+      const change = current?.total_shops - (beginning?.total_shops || 0);
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
@@ -1187,7 +1187,7 @@ function GeneralsContainer({
       const beginning = shops.accounts.find(
         (order: any) => order.date_pretty === '2023-08-31'
       );
-      const change = current.total_accounts - (beginning?.total_accounts || 0);
+      const change = current?.total_accounts - (beginning?.total_accounts || 0);
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
@@ -1253,7 +1253,7 @@ function GeneralsContainer({
       const beginning = reviews.find(
         (order: any) => order.date_pretty === '2023-08-31'
       );
-      const change = current.total_reviews - beginning.total_reviews;
+      const change = current?.total_reviews - beginning?.total_reviews;
       return (
         <div className='flex w-full flex-wrap items-center justify-between gap-2'>
           <div className='flex items-center justify-start gap-1'>
@@ -1422,7 +1422,7 @@ function getCurrentDataContainer(
         }
         daily_last={
           orders[orders.length - 2]?.total_orders -
-            orders[orders.length - 3].total_orders ?? 0
+            orders[orders.length - 3]?.total_orders ?? 0
         }
         last_date={
           orders[orders.length - 1]?.date_pretty ?? new Date().toDateString()
@@ -1466,7 +1466,7 @@ function getCurrentDataContainer(
         }
         daily_last={
           shops.shops[shops.shops.length - 2]?.total_shops -
-            shops.shops[shops.shops.length - 3].total_shops ?? 0
+            shops.shops[shops.shops.length - 3]?.total_shops ?? 0
         }
         last_date={
           shops.shops[shops.shops.length - 1]?.date_pretty ??

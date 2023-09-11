@@ -139,7 +139,9 @@ function LoginComponent() {
           )}
         >
           <LoginHeader activeTab={activeTab} />
-
+          <p className='-mb-4 text-sm text-slate-400'>
+            Если вы зарегистрированы в Google
+          </p>
           <div
             className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-400 py-1 hover:bg-gray-200'
             onClick={() => {

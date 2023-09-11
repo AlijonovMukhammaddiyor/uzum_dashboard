@@ -606,23 +606,23 @@ function _prepareDailyRevenue(
   competitor: CompetitorsType,
   shop: CompetitorsType
 ) {
-  let prev = data[0].total_revenue;
+  let prev = data[0]?.total_revenue;
   const dailyOrdersCompetitor = data.slice(1).map((item) => {
     const res = {
-      y: Math.round((item.total_revenue - prev) * 1000),
+      y: Math.round((item?.total_revenue - prev) * 1000),
       x: new Date(item.date_pretty),
     };
-    prev = item.total_revenue;
+    prev = item?.total_revenue;
     return res;
   });
 
-  prev = shopData[0].total_revenue;
+  prev = shopData[0]?.total_revenue;
   const dailyOrdersShop = shopData.slice(1).map((item) => {
     const res = {
-      y: Math.round((item.total_revenue - prev) * 1000),
+      y: Math.round((item?.total_revenue - prev) * 1000),
       x: new Date(item.date_pretty),
     };
-    prev = item.total_revenue;
+    prev = item?.total_revenue;
     return res;
   });
 
