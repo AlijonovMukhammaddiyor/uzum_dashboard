@@ -73,8 +73,8 @@ export default function Header() {
         ? '7 kunlik sinov'
         : '7 дневный тест'
       : i18n.language === 'uz'
-      ? '1 kunlik sinov'
-      : '1 дневный тест';
+      ? '7 kunlik sinov'
+      : '7 дневный тест';
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
