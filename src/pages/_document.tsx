@@ -107,6 +107,21 @@ export default function Document() {
         <meta property='og:image:width' content='1200' />
         <meta property='og:image:height' content='630' />
         <link rel='canonical' href='https://www.uzanalitika.uz/' />
+        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
+        <script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=G-WKZG4TWHPK'
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-WKZG4TWHPK');
+              `,
+          }}
+        />
         <script
           type='application/ld+json'
           dangerouslySetInnerHTML={{
