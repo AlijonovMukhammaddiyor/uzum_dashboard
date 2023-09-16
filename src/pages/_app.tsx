@@ -122,6 +122,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               name='google-site-verification'
               content='uW3Oy8QMSpgZN6xHK6D1Gr0ludeQGRMBBueMaopvKFY'
             />
+
             <meta
               property='og:title'
               content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
