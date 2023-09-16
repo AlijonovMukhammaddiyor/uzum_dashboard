@@ -1,20 +1,17 @@
 import { useTranslation } from 'next-i18next';
 import React from 'react';
 
-import Cards from '@/components/pages/landing/components/Cards';
-
 function SectionWhy() {
   const { t } = useTranslation('landing');
   return (
-    <div className=' bg-gradient  relative w-full bg-white py-16 md:py-32'>
+    <div className='relative w-full  bg-slate-200 py-16 md:py-32'>
       <div className='layout relative flex h-full flex-col items-start justify-start gap-16 md:gap-32'>
-        <Cards />
         <div className='flex h-full flex-col items-center justify-between gap-16 md:gap-32 lg:flex-row'>
           <div className=' flex h-full w-full flex-col justify-center overflow-hidden text-center md:w-11/12  lg:w-1/2  lg:items-start'>
-            <h1 className=' font-primary w-full text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
+            <h1 className='font-merri w-full text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
               {t('why.title.line1')}
             </h1>
-            <h1 className=' font-primary w-full text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
+            <h1 className='font-merri w-full text-2xl font-semibold leading-8 tracking-wider sm:text-3xl md:text-[35px] md:leading-[40px] xl:text-[43px] xl:leading-[60px]'>
               {t('why.title.line2')}
             </h1>
 

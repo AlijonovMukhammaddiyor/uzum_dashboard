@@ -2,7 +2,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Analytics } from '@vercel/analytics/react';
 import ru from 'date-fns/locale/ru';
 import { AppProps } from 'next/app';
-import { Ubuntu } from 'next/font/google';
+import { Merriweather, Raleway, Ubuntu } from 'next/font/google';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { appWithTranslation } from 'next-i18next';
@@ -49,12 +49,30 @@ import { AuthProvider } from '@/context/Context';
 //   display: 'swap',
 // });
 
+const merri = Merriweather({
+  subsets: ['cyrillic', 'latin', 'latin-ext'],
+  weight: ['300', '400', '900', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-merri',
+});
+
 const ubuntu = Ubuntu({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext', 'cyrillic'],
   weight: ['300', '400', '500', '700'],
   style: ['normal', 'italic'],
   display: 'swap',
+  variable: '--font-ubuntu',
 });
+
+const raleway = Raleway({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['300', '400', '500', '700', '900'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-raleway',
+});
+
 function MyApp({ Component, pageProps }: AppProps) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -91,7 +109,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
-        <main className={ubuntu.className}>
+        <main
+          className={`${ubuntu.variable} ${merri.variable} ${raleway.variable}`}
+        >
           <Tour />
           <Head>
             <meta

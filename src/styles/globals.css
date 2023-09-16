@@ -5,8 +5,8 @@
 :root {
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
-  --tw-color-primary: 77 55 175;
-  --tw-color-secondary: 223 204 251;
+  --tw-color-primary: 138 57 225;
+  --tw-color-secondary: 10 111 232;
   --tw-color-accent: 255 233 177;
   --tw-color-image: 239 239 239;
   --tw-color-border: 221 221 221;
@@ -130,7 +130,7 @@
   .youtube-btn a {
     display: flex;
     align-items: center;
-    padding: 9px 20px;
+    padding: 12px 20px;
     background-color: #ff0000;
     color: #ffffff;
     border-radius: 6px;
@@ -140,8 +140,8 @@
     transition: transform 0.2s;
   }
 
-  .youtube-btn a:hover {
-    transform: scale(1.05);
+  .youtube-btn a:active {
+    transform: scale(0.95);
   }
 
   .youtube-icon {
@@ -227,7 +227,7 @@
     border-bottom-width: 0;
     background-image: linear-gradient(transparent, transparent),
       linear-gradient(#000, #000);
-    background-size: 0 30px;
+    background-size: 0 3px;
     background-position: 0 100%;
     background-repeat: no-repeat;
     transition: background-size 0.2s ease-in-out;
@@ -243,7 +243,7 @@
 
   .link-underline:hover {
     /* color: #fff; */
-    background-size: 100% 30px;
+    background-size: 100% 3px;
     background-position: 0 100%;
   }
 
@@ -567,6 +567,10 @@
 }
 .all_side_shadow1 {
   box-shadow: 0 0 30px rgb(77, 45, 183);
+}
+
+.all_side_shadow2 {
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.15);
 }
 
 .bg_orange_gradient {

@@ -15,7 +15,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        primary: ['Poppins', ...defaultTheme.fontFamily.sans],
+        merri: ['var(--font-merri)', ...defaultTheme.fontFamily.sans],
+        ubuntu: ['var(--font-ubuntu)', ...defaultTheme.fontFamily.sans],
+        primary: ['var(--font-ubuntu)', ...defaultTheme.fontFamily.sans],
+        raleway: ['var(--font-raleway)', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         primary: 'rgb(var(--tw-color-primary) / <alpha-value>)',

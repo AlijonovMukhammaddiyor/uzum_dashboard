@@ -4,11 +4,12 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaTelegramPlane } from 'react-icons/fa';
 
+import Cards from '@/components/pages/landing/components/Cards';
+import Features from '@/components/pages/landing/components/Features';
 import Footer1 from '@/components/pages/landing/components/Footer1';
 import LandingHeader from '@/components/pages/landing/components/LandingHeader';
 import LandingMain from '@/components/pages/landing/components/LandingMain';
-import Referral from '@/components/pages/landing/components/Referral';
-import SectionWhy from '@/components/pages/landing/components/SectionWhy';
+import TelegramBot from '@/components/pages/landing/components/TelegramBot';
 import Tops from '@/components/pages/landing/components/Tops';
 function LandingPage() {
   const { t, i18n } = useTranslation('landing');
@@ -39,7 +40,6 @@ function LandingPage() {
           }
         />
       </Head>
-
       <div className='shadow-3xl fixed bottom-5 right-5 z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-blue-500'>
         <a
           href='https://t.me/uzum_uzanalitika'
@@ -49,15 +49,17 @@ function LandingPage() {
           <FaTelegramPlane className='text-2xl text-white' />
         </a>
       </div>
-
       {!open && <LandingHeader />}
       <LandingMain open={open} setOpen={setOpen} />
+      <TelegramBot />
       {/* <SectionOverview /> */}
       {/* <Cards /> */}
-      <SectionWhy />
+      {/* <SectionWhy /> */}
+      <Cards />
+      <Features />
       {/* <SectionFeatures /> */}
       <Tops />
-      <Referral />
+      {/* <Referral /> */}
       <Footer1 />
     </div>
   );
