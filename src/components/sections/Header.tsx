@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import * as React from 'react';
@@ -15,10 +16,6 @@ import logger from '@/lib/logger';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
 
-import crown from '@/assets/landing/crown.png';
-import free from '@/assets/landing/free.png';
-import star from '@/assets/landing/star.png';
-import starter from '@/assets/landing/starter.png';
 import Logo from '@/assets/logo/main_logo_only.png';
 import { useContextState } from '@/context/Context';
 export interface HeaderProps {
@@ -222,27 +219,35 @@ export default function Header() {
                   : ''}
               </p>
               {state.user?.tariff === 'seller' ? (
-                <Image src={star} alt='premium-star' className='ml-2 h-5 w-5' />
+                <img
+                  src='/images/tariffs/star.png'
+                  alt='premium-star'
+                  className='ml-2 h-5 w-5'
+                />
               ) : state.user?.tariff === 'base' ? (
-                <Image
-                  src={starter}
+                <img
+                  src='/images/tariffs/starter.png'
                   alt='premium-star'
                   className='ml-2 h-5 w-5'
                 />
               ) : state.user?.tariff === 'business' ? (
-                <Image
-                  src={crown}
+                <img
+                  src='/images/tariffs/crown.png'
                   alt='premium-star'
                   className='ml-2 h-5 w-5'
                 />
               ) : state.user?.tariff === 'trial' ? (
                 <Image
-                  src={starter}
+                  src='/images/tariffs/starter.png'
                   alt='premium-star'
                   className='ml-2 h-5 w-5'
                 />
               ) : (
-                <Image src={free} alt='premium-star' className='ml-2 h-5 w-5' />
+                <img
+                  src='/images/tariffs/free.png'
+                  alt='premium-star'
+                  className='ml-2 h-5 w-5'
+                />
               )}
             </div>
             {/* <li className='relative'>

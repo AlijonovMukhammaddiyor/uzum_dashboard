@@ -1,4 +1,4 @@
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import { useTranslation } from 'next-i18next';
 import * as React from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -7,10 +7,6 @@ import clsxm from '@/lib/clsxm';
 
 import Header from '@/components/sections/Header';
 import Sidebar from '@/components/sections/Sidebar';
-
-import alarm from '@/assets/alarm.png';
-import mac from '@/assets/apple.png';
-import windows from '@/assets/windows.png';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = React.useState('');
@@ -99,7 +95,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {isWarningVisible && !hasClosedWarning && (
         <div className='fixed left-1/2 top-4 z-[1999] -translate-x-1/2 transform rounded bg-yellow-300 p-6 shadow-lg'>
           <div className='mb-4 flex items-center justify-start'>
-            <Image src={alarm} width={32} height={32} alt='Warning' />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src='/images/layout/alarm.png'
+              width={32}
+              height={32}
+              alt='Warning'
+            />
             <p className='ml-4'>
               {i18n.language === 'uz'
                 ? "Ekraningiz o'lchami ozgina kichik. Saytdan qulay foydalanish uchun ekraningiz o'lchami quyidagicha kattalashtiring"
@@ -109,7 +111,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {(getOS() === 'Windows' || getOS() === 'Linux') && (
             <div className='mb-3 flex items-center justify-start gap-4'>
-              <Image src={windows} width={32} height={32} alt='Windows' />
+              <img
+                src='/images/layout/windows.png'
+                width={32}
+                height={32}
+                alt='Windows'
+              />
               <p>
                 {i18n.language === 'uz' ? 'Klaviaturadan' : 'Нажмите'}{' '}
                 <strong>{i18n.language === 'uz' ? 'Ctrl' : 'Ctrl'}</strong>{' '}
@@ -122,7 +129,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {getOS() === 'Macintosh' && (
             <div className='mb-3 flex items-center justify-start gap-4'>
-              <Image src={mac} width={32} height={32} alt='Mac' />
+              <img
+                src='/images/layout/apple.png'
+                width={32}
+                height={32}
+                alt='Mac'
+              />
               <p>
                 {i18n.language === 'uz' ? 'Klaviaturadan' : 'Нажмите'}{' '}
                 <strong>{i18n.language === 'uz' ? '⌘' : '⌘'}</strong>{' '}

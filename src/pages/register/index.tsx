@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
@@ -14,7 +15,6 @@ import NamesAndEmailComponent from '@/components/pages/register/NameInput';
 import Seo from '@/components/Seo';
 
 import Logo from '@/assets/landing/main.png';
-import starter from '@/assets/landing/starter.png';
 
 const Register = () => {
   const router = useRouter();
@@ -113,7 +113,11 @@ function RegisterHeader({ plan }: { plan: string }) {
             'text-blue-500'
           )}
         >
-          <Image src={starter} alt='premium-star' className='h-5 w-5' />
+          <img
+            src='/images/tariffs/starter.png'
+            alt='premium-star'
+            className='h-5 w-5'
+          />
 
           {t2('tariffs.beginner')}
         </p>

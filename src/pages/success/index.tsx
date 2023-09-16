@@ -1,4 +1,4 @@
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -13,8 +13,6 @@ import { FiCheck } from 'react-icons/fi';
 import { HiOutlineArrowDown, HiOutlineShoppingBag } from 'react-icons/hi2';
 
 import clsxm from '@/lib/clsxm';
-
-import starter from '@/assets/landing/starter.png';
 
 const SuccessPage = () => {
   const router = useRouter();
@@ -100,8 +98,8 @@ const SuccessPage = () => {
                     Hozirdan boshlab siz bizning{' '}
                     <span className='mx-1 rounded-md bg-green-50 p-1 pl-2'>
                       Boshlang'ich{' '}
-                      <Image
-                        src={starter}
+                      <img
+                        src='/images/tariffs/starter.png'
                         alt='starter'
                         width={20}
                         height={20}
@@ -118,8 +116,8 @@ const SuccessPage = () => {
                     Теперь вы можете использовать наш сайт с тарифом
                     <span className='mx-1 rounded-md bg-green-50 p-1 pl-2'>
                       Стартер{' '}
-                      <Image
-                        src={starter}
+                      <img
+                        src='/images/tariffs/starter.png'
                         alt='starter'
                         width={20}
                         height={20}

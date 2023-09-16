@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import React, { useRef } from 'react';
 import { BsCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 
@@ -64,11 +63,10 @@ function ImagesCarousel({ images }: ImagesCarouselProps) {
                 : 'scale-90 transform'
             }`}
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={image}
               alt=''
-              layout='fill'
-              objectFit='cover'
               className='h-full w-full shrink-0 select-none object-cover transition-opacity duration-500'
               style={{ opacity: activeImage === index ? 1 : 0.5 }}
             />

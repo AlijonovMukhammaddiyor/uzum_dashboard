@@ -99,19 +99,6 @@ function LandingMain({
           </div>
         </div>
 
-        {/* <div
-          onClick={() => {
-            setOpen(false);
-          }}
-          className='absolute right-10 top-16 z-[10000] flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full bg-black bg-opacity-25'
-        >
-          <ImShrink2
-            className='h-5 w-5 cursor-pointer text-black'
-            onClick={() => {
-              setOpen(false);
-            }}
-          />
-        </div> */}
         <div className='all_side_shadow base:p-10 hidden rounded-xl bg-slate-200 p-3 md:block'>
           <p className='font-primary mb-6 w-[270px] rounded-md bg-black px-3 py-1 text-center text-base text-white'>
             {i18n.language === 'uz'

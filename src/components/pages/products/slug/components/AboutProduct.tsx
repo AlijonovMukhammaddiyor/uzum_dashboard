@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -173,7 +172,8 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                 showThumbs={true}
                 renderThumbs={() =>
                   JSON.parse(product?.photos).map((thumbnail: string) => (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                       src={thumbnail}
                       alt={thumbnail}
                       key={thumbnail}
@@ -185,7 +185,8 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
               >
                 {JSON.parse(product?.photos)?.map((image: any) => (
                   <div key={image} className='h-full w-full'>
-                    <Image src={image} alt='' width={500} height={600} />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={image} alt='' />
                   </div>
                 ))}
               </Carousel>
