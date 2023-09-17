@@ -4,12 +4,11 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { FaTelegramPlane } from 'react-icons/fa';
+import { BsChevronRight } from 'react-icons/bs';
+import { FaYoutube } from 'react-icons/fa';
+import { FaTelegram } from 'react-icons/fa';
 import { GrLanguage } from 'react-icons/gr';
-import {
-  HiOutlineArrowRightOnRectangle,
-  HiOutlineUserCircle,
-} from 'react-icons/hi2';
+import { HiChevronDown, HiOutlineUserCircle } from 'react-icons/hi2';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
@@ -25,6 +24,9 @@ export interface HeaderProps {
 export default function Header() {
   const { state } = useContextState();
   const [openMessage, setOpenMessage] = React.useState<boolean>(true);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const dropdownRef = React.useRef(null);
   const handleUserLogout = async () => {
     try {
       const api = new API(null);
@@ -50,28 +52,23 @@ export default function Header() {
     router.push({ pathname, query }, router.asPath, { locale: newLocale });
   };
 
-  const is30Day =
-    state.user?.tariff === 'trial'
-      ? true
-      : state.user?.tariff === 'free'
-      ? true
-      : state.user?.tariff === 'base'
-      ? true
-      : false;
-
-  const isHome = router.pathname === '/home' ? true : false;
-  const trialMessage =
-    state.user?.referred_by === 'invest'
-      ? i18n.language === 'uz'
-        ? '7 kunlik sinov'
-        : '7 дневный тест'
-      : state.user?.referred_by === '681332'
-      ? i18n.language === 'uz'
-        ? '7 kunlik sinov'
-        : '7 дневный тест'
-      : i18n.language === 'uz'
-      ? '7 kunlik sinov'
-      : '7 дневный тест';
+  const getDays = () => {
+    if (state.user?.tariff === 'trial') {
+      return 60;
+    }
+    if (state.user?.tariff === 'base') {
+      return 60;
+    }
+    if (state.user?.tariff === 'seller') {
+      return 90;
+    }
+    if (state.user?.tariff === 'business') {
+      return 120;
+    }
+    if (state.user?.tariff === 'free') {
+      return 30;
+    }
+  };
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -80,6 +77,24 @@ export default function Header() {
       }
     }
   }, [state.user?.tariff]);
+
+  const getTariff = () => {
+    if (state.user?.tariff === 'trial') {
+      return i18n.language === 'uz' ? 'Sinov' : 'Пробный';
+    }
+    if (state.user?.tariff === 'base') {
+      return i18n.language === 'uz' ? "Boshlang'ich" : 'Базовый';
+    }
+    if (state.user?.tariff === 'seller') {
+      return i18n.language === 'uz' ? 'Sotuvchi' : 'Продавец';
+    }
+    if (state.user?.tariff === 'business') {
+      return i18n.language === 'uz' ? 'Biznes' : 'Бизнес';
+    }
+    if (state.user?.tariff === 'free') {
+      return i18n.language === 'uz' ? 'Bepul' : 'Бесплатный';
+    }
+  };
 
   return (
     <header className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'>
@@ -110,162 +125,97 @@ export default function Header() {
         )}
 
         <nav className='shrink-0'>
-          <ul className='flex items-center justify-between space-x-5'>
-            <li className='shrink-0'>
-              <div className='youtube-btn w-[180px]'>
-                <a
-                  href='https://www.youtube.com/watch?v=zsZtVNYyPEc&t=1s'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <div className='youtube-icon'></div>
-                  {i18n.language === 'uz' ? "Qo'llanma" : 'Руководство'}
-                </a>
-              </div>
-            </li>
-            <li className='shrink-0'>
+          <ul className='flex items-center space-x-5'>
+            <li className='flex space-x-4'>
+              <a
+                href='https://www.youtube.com/watch?v=zsZtVNYyPEc&t=1s'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center space-x-2'
+              >
+                <FaYoutube className='text-xl text-red-500' />
+                <span>{i18n.language === 'uz' ? 'Video' : 'Видео'}</span>
+              </a>
+
               <a
                 href='https://t.me/Alijonov_md'
                 target='_blank'
-                className='shadow-3xl flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-blue-500 px-2 py-2'
+                className='flex items-center space-x-2 rounded'
               >
-                <p className='text-xs font-bold text-white'>
-                  {i18n.language === 'uz'
-                    ? 'Trening olish(bepul)'
-                    : 'Получить тренинг(бесплатно)'}
-                </p>
-                <p className='flex items-center justify-center'>
-                  <FaTelegramPlane className='text-2xl text-white' />
-                </p>
+                <FaTelegram className='text-xl text-blue-500' />
+                <span>
+                  {i18n.language === 'uz' ? 'Konsultatsiya' : 'Консультация'}
+                </span>
               </a>
             </li>
-
-            <li className='flex items-center justify-end gap-3'>
-              <div className='bg-primary font-primary mr-3 flex shrink-0 items-center rounded-md border px-3 py-2 text-sm font-bold text-white'>
-                {state.user?.tariff === 'free' ? (
-                  <p className=''>
-                    {i18n.language === 'uz'
-                      ? 'Tarif: Bepul'
-                      : 'Тариф: Бесплатный'}
-                  </p>
-                ) : state.user?.tariff === 'trial' ? (
-                  <p>
-                    {i18n.language === 'uz'
-                      ? 'Tarif: ' + trialMessage
-                      : 'Тариф: ' + trialMessage}
-                  </p>
-                ) : state.user?.tariff === 'base' ? (
-                  <p>
-                    {i18n.language === 'uz'
-                      ? "Tarif: Boshlang'ich"
-                      : 'Тариф: Стартер'}
-                  </p>
-                ) : state.user?.tariff === 'seller' ? (
-                  <p>
-                    {i18n.language === 'uz'
-                      ? 'Tarif: Sotuvchi'
-                      : 'Тариф: Продавец'}
-                  </p>
-                ) : state.user?.tariff === 'business' ? (
-                  <p>
-                    {i18n.language === 'uz' ? 'Tarif: Biznes' : 'Тариф: Бизнес'}
-                  </p>
-                ) : (
-                  <p>
-                    {i18n.language === 'uz'
-                      ? 'Tarif: Bepul'
-                      : 'Тариф: Бесплатный'}
-                  </p>
-                )}
-                {is30Day && isHome && (
-                  <li>
-                    <div className='ml-2 text-white'>
-                      {i18n.language === 'uz'
-                        ? "  - 100 kunlik ma'lumotlar"
-                        : '  - 100 дневные данные'}
-                    </div>
-                  </li>
-                )}
-              </div>
-            </li>
-
             <li>
-              <div className='flex h-7 w-[70px] items-center justify-center rounded-md border border-black px-2'>
-                {i18n.language === 'uz' ? (
-                  <div
-                    className='flex cursor-pointer items-center justify-start gap-2'
-                    onClick={() => changeLanguage('ru')}
-                  >
-                    <GrLanguage className='text-base' />
-                    <p className='text-sm'>Рус</p>
-                  </div>
-                ) : (
-                  <div
-                    className='flex cursor-pointer items-center justify-start gap-2'
-                    onClick={() => changeLanguage('uz')}
-                  >
-                    <GrLanguage className='text-base' />
-                    <p className='text-sm'>Uz</p>
+              <div className='relative'>
+                <div
+                  className='flex h-9 w-[70px] cursor-pointer items-center justify-center gap-2 border-b border-black px-2'
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                  <GrLanguage className='text-xl' />
+                  <p className='text-sm'>
+                    {i18n.language === 'uz' ? 'Uz' : 'Рус'}
+                  </p>
+                </div>
+
+                {dropdownOpen && (
+                  <div className='absolute left-0 top-full mt-2 w-[70px] rounded-sm border border-black bg-white'>
+                    <div
+                      className='cursor-pointer rounded-sm px-2 py-1 hover:bg-gray-200'
+                      onClick={() => {
+                        changeLanguage('uz');
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Uz
+                    </div>
+                    <div
+                      className='cursor-pointer rounded-sm px-2 py-1 hover:bg-gray-200'
+                      onClick={() => {
+                        changeLanguage('ru');
+                        setDropdownOpen(false);
+                      }}
+                    >
+                      Рус
+                    </div>
                   </div>
                 )}
               </div>
             </li>
-            <div className='flex max-w-[200px] items-center justify-start overflow-hidden '>
-              <HiOutlineUserCircle className='h-6 w-6 flex-shrink-0 rounded-full text-black' />
-              <p className='ml-1 line-clamp-1 text-sm'>
-                {state.user?.username?.slice(0, 10)}
-                {state.user?.username && state.user?.username?.length > 15
-                  ? '...'
-                  : ''}
-              </p>
-              {state.user?.tariff === 'seller' ? (
-                <img
-                  src='/images/tariffs/star.png'
-                  alt='premium-star'
-                  className='ml-2 h-5 w-5'
-                />
-              ) : state.user?.tariff === 'base' ? (
-                <img
-                  src='/images/tariffs/starter.png'
-                  alt='premium-star'
-                  className='ml-2 h-5 w-5'
-                />
-              ) : state.user?.tariff === 'business' ? (
-                <img
-                  src='/images/tariffs/crown.png'
-                  alt='premium-star'
-                  className='ml-2 h-5 w-5'
-                />
-              ) : state.user?.tariff === 'trial' ? (
-                <Image
-                  src='/images/tariffs/starter.png'
-                  alt='premium-star'
-                  className='ml-2 h-5 w-5'
-                />
-              ) : (
-                <img
-                  src='/images/tariffs/free.png'
-                  alt='premium-star'
-                  className='ml-2 h-5 w-5'
-                />
-              )}
-            </div>
-            {/* <li className='relative'>
-              <div className='hover:text-gray-600'>
-                <HiOutlineBell className='hover:text-primary h-5 w-5 flex-shrink-0 text-black' />
-              </div>
-            </li> */}
             <li
-              onClick={() => {
-                // logout
-              }}
+              className='relative flex cursor-pointer items-center space-x-2'
+              onClick={() => setIsOpen((prev) => !prev)}
             >
-              <div
-                className=' hover:text-gray-600'
-                onClick={() => handleUserLogout()}
-              >
-                <HiOutlineArrowRightOnRectangle className='hover:text-primary h-7 w-7 flex-shrink-0 cursor-pointer text-black' />
-              </div>
+              <HiOutlineUserCircle className='h-6 w-6' />
+              <span>{state.user?.username?.slice(0, 10)}...</span>
+              <HiChevronDown />
+
+              {isOpen && (
+                <div
+                  ref={dropdownRef}
+                  className='absolute right-0 top-full z-10 mt-4 w-[170px] rounded-md border bg-white shadow-xl'
+                >
+                  <div
+                    className='flex items-center justify-between gap-2 border-b p-2 hover:bg-gray-200'
+                    onClick={() => {
+                      router.push('/profile');
+                    }}
+                  >
+                    <p className='text-sm'>{t(`Tarif: ${getTariff()}`)}</p>
+
+                    <BsChevronRight className='' />
+                  </div>
+                  {/* <div className='p-2'>{state.user?.username}</div> */}
+                  <div
+                    className='cursor-pointer p-2 hover:bg-gray-200'
+                    onClick={handleUserLogout}
+                  >
+                    {t('Logout')}
+                  </div>
+                </div>
+              )}
             </li>
           </ul>
         </nav>
