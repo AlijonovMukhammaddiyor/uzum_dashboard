@@ -300,15 +300,13 @@ function SidebarItem({
       return;
     }
 
-    const isFree =
-      state.user?.tariff === 'free' || state.user?.tariff === 'trial';
+    const isFree = state.user?.tariff === 'free';
 
     if (
       isFree &&
       href !== '/profile' &&
       href !== '/home' &&
-      href !== '/category' &&
-      href !== '/products'
+      href !== '/category'
     ) {
       RenderAlert({
         alertTitle:
@@ -362,15 +360,13 @@ function SidebarItem({
               return;
             }
 
-            const isFree =
-              state.user?.tariff === 'free' || state.user?.tariff === 'trial';
+            const isFree = state.user?.tariff === 'free';
 
             if (
               isFree &&
               href !== '/profile' &&
               href !== '/home' &&
-              href !== '/category' &&
-              href !== '/products'
+              href !== '/category'
             ) {
               e.preventDefault();
               return true;

@@ -8,7 +8,7 @@ import { BsChevronRight } from 'react-icons/bs';
 import { FaYoutube } from 'react-icons/fa';
 import { FaTelegram } from 'react-icons/fa';
 import { GrLanguage } from 'react-icons/gr';
-import { HiChevronDown, HiOutlineUserCircle } from 'react-icons/hi2';
+import { HiChevronDown } from 'react-icons/hi2';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
@@ -207,8 +207,20 @@ export default function Header() {
               className='relative flex cursor-pointer items-center space-x-2'
               onClick={() => setIsOpen((prev) => !prev)}
             >
-              <HiOutlineUserCircle className='h-6 w-6 cursor-pointer' />
-              <span className='cursor-pointer text-sm text-slate-700'>
+              {state.user?.tariff === 'free' ? (
+                <img
+                  src='/images/tariffs/free.png'
+                  alt=''
+                  className='-left-3 -top-2 h-[24px] w-[24px] object-contain'
+                />
+              ) : (
+                <img
+                  src='/images/tariffs/crown.png'
+                  alt=''
+                  className='-left-3 -top-2 h-[24px] w-[24px] object-contain'
+                />
+              )}
+              <span className='relative flex cursor-pointer items-center text-sm text-slate-700'>
                 {state.user?.username?.slice(0, 10)}...
               </span>
               <HiChevronDown />

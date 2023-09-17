@@ -400,84 +400,74 @@ function HomeStatisticsContainer({
         />
       )}
       <div className='w-full max-w-full'>
-        <div className='w-full'>
-          <p className='font-primary mb-3 text-base font-bold'>
+        <div className='mb-6 w-full'>
+          <h2 className='font-primary mb-3 text-lg font-bold'>
             {i18n.language === 'uz'
               ? 'Barcha kategoriyalar segmentatsiyasi'
               : 'Сегментация всех категорий'}
-          </p>
+          </h2>
           <p className='font-primary mb-3 text-sm'>
             {i18n.language === 'uz'
-              ? "Daromad, buyurtma hajmlari, mahsulot turlari va toifalar bo'yicha do'kon konsentratsiyasi haqida tasavvurga ega bo'lish uchun interaktiv xaritalarimizga sho'ng'ing. Qaysi imkoniyatlar mavjudligini bilish va keyingi qadamlaringizni samarali rejalashtirish uchun bosing va ko'ring."
-              : 'Погрузитесь в наши интерактивные карты, чтобы получить представление о доходах, объемах заказов, разнообразии продуктов и концентрации магазинов по категориям. Нажмите и перейдите, чтобы узнать, где открываются возможности, и эффективно спланировать свои следующие шаги.'}
+              ? "Bizning interaktiv xaritalarimiz yordamida do'koningizni rivojlantirish uchun qanday yonalishni tanlash, qaysi kategoriyalarga fokus qilish yoki mahsulotlaringizni kengaytirish haqida qaror qilishingiz mumkinligini ko'ring. Segmentatsiya sizning biznes strategiyangizni tashkil qilish, yangi bozorlarni baholash yoki mavjud bozorlarni kuchaytirishda muhim ahamiyatga ega. Bizning xaritalarimiz sizga daromad, buyurtma hajmi, mahsulot turlari va do'konlar konsentratsiyasi bo'yicha aniq va tushunarli tasavvur beradi."
+              : 'Наши интерактивные карты позволят вам понять, как выбрать направление для развития вашего магазина, на какие категории стоит сосредоточиться или расширить ваш ассортимент продукции. Сегментация играет ключевую роль в формировании вашей бизнес-стратегии, оценке новых рынков или усилении присутствия на существующих рынках. Наши карты предоставляют четкое и понятное представление о доходах, объемах заказов, разнообразии продуктов и концентрации магазинов по категориям.'}
           </p>
         </div>
 
-        <div className='mt-2 flex w-full max-w-full items-center justify-start gap-4'>
-          <Button
-            className={clsxm(
-              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
-            )}
-            onClick={() => {
-              // if (!canSee) alert(t('toPaid'));
-              setIsFullScreen(t('dataTable.revenue'));
-            }}
-            spinnerColor='primary'
-            isLoading={loading.segments}
-          >
-            <>
-              {t('dataTable.see_segmentationsbyrevenue')}
-              <FiChevronRight className='ml-2 inline-block' />
-            </>
-          </Button>
-          <Button
-            className={clsxm(
-              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
-            )}
-            onClick={() => {
-              // if (!canSee) alert(t('toPaid'));
-              setIsFullScreen(t('dataTable.orders_amount'));
-            }}
-            spinnerColor='primary'
-            isLoading={loading.segments}
-          >
-            <>
-              {t('dataTable.see_segmentationsbyorders_amount')}
-              <FiChevronRight className='ml-2 inline-block' />
-            </>
-          </Button>
-          <Button
-            className={clsxm(
-              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
-            )}
-            onClick={() => {
-              // if (!canSee) alert(t('toPaid'));
-              setIsFullScreen(t('dataTable.products_amount'));
-            }}
-            spinnerColor='primary'
-            isLoading={loading.segments}
-          >
-            <>
-              {t('dataTable.see_segmentationsbyproducts_amount')}
-              <FiChevronRight className='ml-2 inline-block' />
-            </>
-          </Button>
-          <Button
-            className={clsxm(
-              'text-primary border-primary hover:bg-primary flex flex-1 items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
-            )}
-            onClick={() => {
-              // if (!canSee) alert(t('toPaid'));
-              setIsFullScreen(t('dataTable.shops_amount'));
-            }}
-            spinnerColor='primary'
-            isLoading={loading.segments}
-          >
-            <>
-              {t('dataTable.see_segmentationsbyshops_amount')}
-              <FiChevronRight className='ml-2 inline-block' />
-            </>
-          </Button>
+        <div className='grid grid-cols-2 gap-4'>
+          {[
+            [
+              'dataTable.see_segmentationsbyrevenue',
+              'dataTable.revenue',
+              i18n.language === 'uz'
+                ? "Qaysi kategoriyalar hozirda eng ko'p yoki eng kam daromad olib kelmoqda?"
+                : 'В каких категориях сейчас наибольший или наименьший доход?',
+            ],
+
+            [
+              'dataTable.see_segmentationsbyproducts_amount',
+              'dataTable.products_amount',
+              i18n.language === 'uz'
+                ? "Qaysi kategoriyalarda mahsulot turlari eng ko'p yoki eng kam? "
+                : 'В каких категориях наибольшее или наименьшее разнообразие товаров?',
+            ],
+
+            [
+              'dataTable.see_segmentationsbyorders_amount',
+              'dataTable.orders_amount',
+              i18n.language === 'uz'
+                ? "Qaysi kategoriyalarda narxidan qatiy nazar, eng ko'p yoki eng oz buyurtmalar mavjud?"
+                : 'В каких категориях наибольшее или наименьшее количество заказов (независимо от цены)?',
+            ],
+
+            [
+              'dataTable.see_segmentationsbyshops_amount',
+              'dataTable.shops_amount',
+              i18n.language === 'uz'
+                ? 'Qaysi kategoriyalarda raqobat eng kuchli yoki eng kam?'
+                : 'В каких категориях наибольшая или наименьшая конкуренция?',
+            ],
+          ].map(([textKey, segment, describtion]) => (
+            <div key={textKey} className='segmentation-container w-full'>
+              <p className='mt-2 text-sm italic text-gray-600'>
+                {/* some descrintion you have to tailor for each */}
+                {describtion}
+              </p>
+              <Button
+                className='text-primary border-primary hover:bg-primary flex w-full items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+                onClick={() => {
+                  // if (!canSee) alert(t('toPaid'));
+                  setIsFullScreen(t(segment));
+                }}
+                spinnerColor='primary'
+                isLoading={loading.segments}
+              >
+                <>
+                  {t(textKey)}
+                  <FiChevronRight className='ml-2 inline-block' />
+                </>
+              </Button>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -1293,30 +1283,27 @@ function GeneralsContainer({
       loading={isLoading()}
     >
       {!isLoading() ? (
-        <div className='flex w-full shrink-0 items-center justify-start gap-4'>
-          <div className='bg-secondary flex h-12 w-12 shrink-0 items-center justify-center rounded-full'>
-            {getLogo()}
-          </div>
-          <div className='flex flex-col items-start justify-start gap-1'>
-            <div className='font-primary font-bold'>{title}</div>
-            <div className='text-2xl font-semibold'>{getData()}</div>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
-      {!isLoading() ? (
-        <div>
-          <div className='mb-2 flex w-full items-center justify-start'>
-            <div className='flex items-center justify-start gap-2'>
-              {renderDaily()}
+        <>
+          <div className='flex w-full items-center gap-6'>
+            <div className='bg-secondary flex h-14 w-14 items-center justify-center rounded-full'>
+              {getLogo()}
+            </div>
+            <div className='flex flex-col gap-2'>
+              <h2 className='font-primary text-lg font-semibold'>{title}</h2>
+              <p className='text-3xl font-bold text-gray-700'>{getData()}</p>
             </div>
           </div>
-          <div className='flex items-center justify-start gap-2'>
-            <div className='text-sm'>{t('InThisMonth')}</div>
-            <div className='font-semibold'>{getThisMonth()}</div>
+
+          <div className='w-full border-t border-gray-200 pt-4'>
+            <div className='mb-4 flex w-full items-center justify-start gap-4'>
+              {renderDaily()}
+            </div>
+            <div className='flex items-center justify-between'>
+              <p className='text-sm text-gray-500'>{t('InThisMonth')}</p>
+              <p className='font-semibold text-gray-700'>{getThisMonth()}</p>
+            </div>
           </div>
-        </div>
+        </>
       ) : (
         <></>
       )}
