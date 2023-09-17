@@ -195,7 +195,7 @@ export default function Header() {
               {isOpen && (
                 <div
                   ref={dropdownRef}
-                  className='absolute right-0 top-full z-10 mt-4 w-[170px] rounded-md border bg-white shadow-xl'
+                  className='absolute right-0 top-full z-10 mt-4 w-[180px] rounded-md border bg-white shadow-xl'
                 >
                   <div
                     className='flex items-center justify-between gap-2 border-b p-2 hover:bg-gray-200'
@@ -203,7 +203,10 @@ export default function Header() {
                       router.push('/profile');
                     }}
                   >
-                    <p className='text-sm'>{t(`Tarif: ${getTariff()}`)}</p>
+                    <p className='text-sm'>
+                      {i18n.language === 'uz' ? 'Tarif' : 'Тариф'}:{' '}
+                      {getTariff()}
+                    </p>
 
                     <BsChevronRight className='' />
                   </div>
@@ -212,7 +215,7 @@ export default function Header() {
                     className='cursor-pointer p-2 hover:bg-gray-200'
                     onClick={handleUserLogout}
                   >
-                    {t('Logout')}
+                    {i18n.language === 'uz' ? 'Chiqish' : 'Выйти'}
                   </div>
                 </div>
               )}
