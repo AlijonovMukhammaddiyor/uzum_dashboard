@@ -143,13 +143,6 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     sortModel: {
       colId: string;
       sort: string;
-    } | null,
-    filterModel: {
-      [key: string]: {
-        filterType: string;
-        type: string;
-        filter: string;
-      };
     } | null
   ) => {
     const api = new API(null);
@@ -525,10 +518,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
                 onColor='#17594A'
                 offColor='#c3c1c9'
                 onChange={(e) => {
-                  if (
-                    state.user?.tariff === 'free' ||
-                    state.user?.tariff === 'trial'
-                  ) {
+                  if (state.user?.tariff === 'free') {
                     RenderAlert({
                       alertTitle:
                         i18n.language === 'uz'
@@ -563,10 +553,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
                 onColor='#17594A'
                 offColor='#c3c1c9'
                 onChange={(e) => {
-                  if (
-                    state.user?.tariff === 'free' ||
-                    state.user?.tariff === 'trial'
-                  ) {
+                  if (state.user?.tariff === 'free') {
                     RenderAlert({
                       alertTitle:
                         i18n.language === 'uz'
@@ -601,10 +588,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
                 onColor='#17594A'
                 offColor='#c3c1c9'
                 onChange={(e) => {
-                  if (
-                    state.user?.tariff === 'free' ||
-                    state.user?.tariff === 'trial'
-                  ) {
+                  if (state.user?.tariff === 'free') {
                     RenderAlert({
                       alertTitle:
                         i18n.language === 'uz'

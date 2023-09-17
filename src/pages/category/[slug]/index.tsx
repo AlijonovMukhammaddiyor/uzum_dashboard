@@ -45,12 +45,16 @@ function Category({ user }: Props) {
   React.useEffect(() => {
     if (notAllowedTab && state.user?.tariff === 'trial')
       RenderAlert({
-        alertTitle: t('tariffs.not_allowed'),
+        alertTitle:
+          i18n.language === 'uz'
+            ? "Ushbu xizmatdan foydalanish uchun boshqa tarifga o'ting."
+            : 'Для использования этой услуги перейдите на другой тариф.',
         // alertSubtitle: t('home.new_products.info'),
         buttonTitle: t('tariffs.tariffs'),
         buttonLink: '/profile',
       });
-  }, [notAllowedTab, state.user?.tariff, t]);
+    setNotAllowedTab('');
+  }, [i18n.language, notAllowedTab, state.user?.tariff, t]);
 
   React.useEffect(() => {
     setRendered(true);
@@ -119,7 +123,9 @@ function Category({ user }: Props) {
           ]}
           disbaledTabs={
             canSee
-              ? []
+              ? state.user?.tariff === 'trial'
+                ? [t('categories.sellers'), t('categories.trend')]
+                : []
               : [
                   t('categories.trend'),
                   t('categories.subcategories'),
@@ -128,12 +134,7 @@ function Category({ user }: Props) {
                 ]
           }
           setNotAllowedTab={setNotAllowedTab}
-          premiumTabs={[
-            t('categories.trend'),
-            t('categories.subcategories'),
-            t('categories.segmentation'),
-            t('categories.sellers'),
-          ]}
+          premiumTabs={[t('categories.trend'), t('categories.sellers')]}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           className='mb-6 mt-4'
