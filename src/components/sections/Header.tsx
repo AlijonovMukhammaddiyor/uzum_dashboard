@@ -9,6 +9,7 @@ import { FaYoutube } from 'react-icons/fa';
 import { FaTelegram } from 'react-icons/fa';
 import { GrLanguage } from 'react-icons/gr';
 import { HiChevronDown } from 'react-icons/hi2';
+import { IoExitOutline } from 'react-icons/io5';
 
 import API from '@/lib/api';
 import logger from '@/lib/logger';
@@ -213,6 +214,12 @@ export default function Header() {
                   alt=''
                   className='-left-3 -top-2 h-[24px] w-[24px] object-contain'
                 />
+              ) : state.user?.tariff === 'trial' ? (
+                <img
+                  src='/images/tariffs/starter.png'
+                  alt=''
+                  className='-left-3 -top-2 h-[24px] w-[24px] object-contain'
+                />
               ) : (
                 <img
                   src='/images/tariffs/crown.png'
@@ -248,19 +255,19 @@ export default function Header() {
                     state.user?.payment_date && (
                       <div className='border-b p-2 text-sm'>
                         {i18n.language === 'uz'
-                          ? 'To‘lov sanasi'
-                          : 'Дата оплаты'}
-
+                          ? 'To‘lov qilish sanasi:'
+                          : 'Дата оплаты:'}{' '}
                         <p>{getPaymentDate()}</p>
                       </div>
                     )}
 
                   {/* <div className='p-2'>{state.user?.username}</div> */}
                   <div
-                    className='cursor-pointer p-2 hover:bg-gray-200'
+                    className='flex cursor-pointer items-center justify-between p-2 hover:bg-gray-200'
                     onClick={handleUserLogout}
                   >
                     {i18n.language === 'uz' ? 'Chiqish' : 'Выйти'}
+                    <IoExitOutline className='text-xl' />
                   </div>
                 </div>
               )}

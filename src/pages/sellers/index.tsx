@@ -68,6 +68,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
       const { locale } = context;
 
+      if (decoded.user.tariff === 'free' || decoded.user.tariff === 'trial')
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/home',
+          },
+          props: {},
+        };
+
       return {
         props: {
           ...(await serverSideTranslations(locale ?? '', [

@@ -322,7 +322,7 @@ function SidebarItem({
 
     if (
       state.user?.tariff === 'trial' &&
-      (href === '/campaigns' || href === '/niches')
+      (href === '/campaigns' || href === '/niches' || href === '/sellers')
     ) {
       RenderAlert({
         alertTitle:
@@ -374,7 +374,9 @@ function SidebarItem({
 
             if (
               state.user?.tariff === 'trial' &&
-              (href === '/campaigns' || href === '/niches')
+              (href === '/campaigns' ||
+                href === '/niches' ||
+                href === '/sellers')
             ) {
               e.preventDefault();
               return true;
