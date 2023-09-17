@@ -234,7 +234,7 @@ function NichesComponent() {
           </p>
           <p className='mb-4 text-gray-700'>
             {i18n.language === 'uz'
-              ? "Nish - bu ma'lum turdagi mahsulot yoki xizmat uchun ixtisoslashgan bozor segmenti. Ushbu bo'limda siz barcha mavjud nishlarni topasiz, ularning har biri bizning keng toifadagi tuzilmamizdan kelib chiqqan."
+              ? "Nish - bu ma'lum turdagi mahsulot yoki xizmat uchun ixtisoslashgan bozor segmenti. Ushbu bo'limda siz barcha mavjud nishalarni topasiz, ularning har biri bizning keng toifadagi tuzilmamizdan kelib chiqqan."
               : 'Ниша представляет собой специализированный сегмент рынка для определенного вида продукта или услуги. В этом разделе вы найдете все доступные ниши, каждая из которых произошла из нашей обширной структуры категорий.'}
           </p>
           <p className='mb-2 ml-2 font-medium text-gray-800'>
@@ -256,7 +256,7 @@ function NichesComponent() {
             </li>
             <li className='mb-2 transition-all duration-200 hover:text-gray-800'>
               {i18n.language === 'uz'
-                ? '3. Potentsial baholash uchun taqdim etilgan nishlarni saralang va tahlil qiling.'
+                ? '3. Potentsial baholash uchun taqdim etilgan nishalarni saralang va tahlil qiling.'
                 : '3. Сортируйте и анализируйте предоставленную аналитику, чтобы оценить потенциал.'}
             </li>
             <li className='transition-all duration-200 hover:text-gray-800'>
