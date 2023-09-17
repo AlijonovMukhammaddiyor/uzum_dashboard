@@ -86,6 +86,26 @@ function Category({ user }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, id]);
 
+  React.useEffect(() => {
+    const api = new API(null);
+    api
+      .getCurrentUser()
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: 'USER',
+            payload: {
+              user: res,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'error');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     setActiveTab(t('categories.goods'));
   }, [t, i18n.language]);

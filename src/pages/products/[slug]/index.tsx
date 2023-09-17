@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
+import logger from '@/lib/logger';
 
 // import { productTableColumnDefs } from '@/components/columnDefs';
 import Layout from '@/components/layout/Layout';
@@ -32,6 +33,26 @@ function Product({ user, product_id }: ProductProps) {
   );
   const { dispatch } = useContextState();
   const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
+
+  React.useEffect(() => {
+    const api = new API(null);
+    api
+      .getCurrentUser()
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: 'USER',
+            payload: {
+              user: res,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'error');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     setActiveTab(t('tabs.about_product'));

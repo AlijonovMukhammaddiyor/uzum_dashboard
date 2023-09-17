@@ -4,7 +4,9 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
+import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
 import Layout from '@/components/layout/Layout';
 import SellersTable from '@/components/pages/sellers/SellersContainer';
@@ -20,6 +22,26 @@ export default function Sellers({ user }: ShopsProps) {
   const [activeTab, setActiveTab] = React.useState<string>('Sotuvchilar');
   const { dispatch } = useContextState();
   const { i18n } = useTranslation('sellers');
+
+  React.useEffect(() => {
+    const api = new API(null);
+    api
+      .getCurrentUser()
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: 'USER',
+            payload: {
+              user: res,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'error');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });

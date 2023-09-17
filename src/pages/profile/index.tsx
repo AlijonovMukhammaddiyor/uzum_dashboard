@@ -4,6 +4,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import API from '@/lib/api';
+import logger from '@/lib/logger';
+
 import Layout from '@/components/layout/Layout';
 import ProfileComponent from '@/components/pages/profile/ProfileComponent';
 import Seo from '@/components/Seo';
@@ -19,6 +22,26 @@ interface ProfileProps {
 export default function Profile({ user }: ProfileProps) {
   const { dispatch } = useContextState();
   const { t } = useTranslation('landing');
+
+  React.useEffect(() => {
+    const api = new API(null);
+    api
+      .getCurrentUser()
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: 'USER',
+            payload: {
+              user: res,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'error');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });

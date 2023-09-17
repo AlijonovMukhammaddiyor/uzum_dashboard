@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import logger from '@/lib/logger';
 
 import Layout from '@/components/layout/Layout';
 import ShopCategories from '@/components/pages/sellers/components/ShopCategories';
@@ -117,6 +118,26 @@ function Category({ user, seller }: ShopsProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notAllowedTab, t]);
+
+  React.useEffect(() => {
+    const api = new API(null);
+    api
+      .getCurrentUser()
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: 'USER',
+            payload: {
+              user: res,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'error');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!rendered) return <></>;
 

@@ -4,6 +4,9 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import * as React from 'react';
 
+import API from '@/lib/api';
+import logger from '@/lib/logger';
+
 import Layout from '@/components/layout/Layout';
 import TelegramComponent from '@/components/pages/telegram/TelegramComponent';
 import Seo from '@/components/Seo';
@@ -19,6 +22,26 @@ export interface HomeProps {
 export default function Discovery({ user }: HomeProps) {
   const { dispatch } = useContextState();
   const { t, i18n } = useTranslation('tabs');
+
+  React.useEffect(() => {
+    const api = new API(null);
+    api
+      .getCurrentUser()
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: 'USER',
+            payload: {
+              user: res,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'error');
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   React.useEffect(() => {
     dispatch({ type: 'USER', payload: { user } });
