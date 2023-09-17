@@ -96,6 +96,23 @@ export default function Header() {
     }
   };
 
+  const getPaymentDate = () => {
+    if (state.user?.tariff !== 'free' && state.user?.payment_date) {
+      const date = new Date(state.user?.payment_date);
+      const formattedDate = new Intl.DateTimeFormat('ru-Ru', {
+        year: 'numeric',
+        month: 'long',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Asia/Tashkent',
+      }).format(date);
+      return formattedDate;
+    }
+
+    return null;
+  };
+
   return (
     <header className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'>
       <div className='flex h-10 items-center justify-between gap-4 p-3'>
@@ -134,7 +151,9 @@ export default function Header() {
                 className='flex items-center space-x-2'
               >
                 <FaYoutube className='text-xl text-red-500' />
-                <span>{i18n.language === 'uz' ? 'Video' : 'Видео'}</span>
+                <span className='cursor-pointer text-sm text-slate-700 hover:underline'>
+                  {i18n.language === 'uz' ? 'Video' : 'Видео'}
+                </span>
               </a>
 
               <a
@@ -143,7 +162,7 @@ export default function Header() {
                 className='flex items-center space-x-2 rounded'
               >
                 <FaTelegram className='text-xl text-blue-500' />
-                <span>
+                <span className='cursor-pointer text-sm text-slate-700 hover:underline'>
                   {i18n.language === 'uz' ? 'Konsultatsiya' : 'Консультация'}
                 </span>
               </a>
@@ -154,8 +173,8 @@ export default function Header() {
                   className='flex h-9 w-[70px] cursor-pointer items-center justify-center gap-2 border-b border-black px-2'
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
-                  <GrLanguage className='text-xl' />
-                  <p className='text-sm'>
+                  <GrLanguage className='' />
+                  <p className='text-sm text-slate-700'>
                     {i18n.language === 'uz' ? 'Uz' : 'Рус'}
                   </p>
                 </div>
@@ -188,8 +207,10 @@ export default function Header() {
               className='relative flex cursor-pointer items-center space-x-2'
               onClick={() => setIsOpen((prev) => !prev)}
             >
-              <HiOutlineUserCircle className='h-6 w-6' />
-              <span>{state.user?.username?.slice(0, 10)}...</span>
+              <HiOutlineUserCircle className='h-6 w-6 cursor-pointer' />
+              <span className='cursor-pointer text-sm text-slate-700'>
+                {state.user?.username?.slice(0, 10)}...
+              </span>
               <HiChevronDown />
 
               {isOpen && (
@@ -205,11 +226,23 @@ export default function Header() {
                   >
                     <p className='text-sm'>
                       {i18n.language === 'uz' ? 'Tarif' : 'Тариф'}:{' '}
-                      {getTariff()}
+                      <span className='text-primary'>{getTariff()}</span>
                     </p>
-
                     <BsChevronRight className='' />
                   </div>
+
+                  {/* Display the payment date in a separate div */}
+                  {state.user?.tariff !== 'free' &&
+                    state.user?.payment_date && (
+                      <div className='border-b p-2 text-sm'>
+                        {i18n.language === 'uz'
+                          ? 'To‘lov sanasi'
+                          : 'Дата оплаты'}
+
+                        <p>{getPaymentDate()}</p>
+                      </div>
+                    )}
+
                   {/* <div className='p-2'>{state.user?.username}</div> */}
                   <div
                     className='cursor-pointer p-2 hover:bg-gray-200'

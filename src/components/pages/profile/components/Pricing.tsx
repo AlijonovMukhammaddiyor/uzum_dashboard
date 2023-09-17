@@ -127,7 +127,7 @@ function Pricing({ className }: { className?: string }) {
                   : 'Save 20% when you choose 3-month billing!'}
               </div>
               <div className='flex items-center justify-center space-x-4'>
-                <span className='font-medium'>
+                <span className='text-sm font-medium'>
                   {i18n.language === 'uz'
                     ? 'Oylik'
                     : i18n.language === 'ru'
@@ -147,12 +147,12 @@ function Pricing({ className }: { className?: string }) {
                     className='toggle-label block h-6 w-14 cursor-pointer rounded-full transition duration-200 ease-in'
                   ></label>
                 </div>
-                <span className='font-medium'>
+                <span className='text-sm font-medium'>
                   {i18n.language === 'uz'
-                    ? 'Har 3 oyda'
+                    ? '3 oylik'
                     : i18n.language === 'ru'
-                    ? 'Каждые 3 месяца'
-                    : 'Every 3 Months'}
+                    ? '3 месяца'
+                    : '3 Months'}
                 </span>
               </div>
             </div>
@@ -248,6 +248,9 @@ function Pricing({ className }: { className?: string }) {
             {t('tariffs.90_kunlikplus')}
           </div>
         </div>
+        <h3 className='font-merri my-5 w-full text-center'>
+          {i18n.language === 'uz' ? 'Tariflarni taqqoslash' : 'Сравнить тарифы'}
+        </h3>
         <PricingTable featuresData={getPricingData(t)} t={t} />
       </div>
     </div>
@@ -325,7 +328,7 @@ function Tarif({
   return (
     <div
       className={clsxm(
-        'relative flex max-w-[220px] flex-col space-y-4 rounded-lg bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl',
+        'relative mt-5 flex max-w-[220px] flex-col space-y-4 rounded-lg bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl',
         isProPlus && 'scale-[1.15]'
       )}
     >
@@ -354,7 +357,7 @@ function Tarif({
                 ${(realPrice * months).toFixed(2)}
               </span>
             )}
-            <span className='text-4xl font-bold'>
+            <span className='text-3xl font-bold'>
               ${(showPrice * months).toFixed(2)}
             </span>
           </div>

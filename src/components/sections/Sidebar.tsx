@@ -300,12 +300,14 @@ function SidebarItem({
       return;
     }
 
+    const isFree =
+      state.user?.tariff === 'free' || state.user?.tariff === 'trial';
+
     if (
-      state.user?.tariff === 'free' &&
+      isFree &&
       href !== '/profile' &&
       href !== '/home' &&
       href !== '/category' &&
-      href !== '/sellers' &&
       href !== '/products'
     ) {
       RenderAlert({
@@ -317,7 +319,7 @@ function SidebarItem({
         buttonLink: '/profile',
       });
       e.preventDefault();
-      return;
+      return true;
     }
 
     if (
@@ -333,7 +335,7 @@ function SidebarItem({
         buttonLink: '/profile',
       });
       e.preventDefault();
-      return;
+      return true;
     }
 
     dispatch({
@@ -345,14 +347,43 @@ function SidebarItem({
   return (
     <li
       className={clsxm('min-h-9 relative h-9 max-h-9', className)}
-      onClick={() => {
+      onClick={(e) => {
         if (disabled) return;
+        const flag = handleSidebarItemClick(e);
+        if (flag) return;
         onClick && onClick();
       }}
     >
       <Link href={href}>
         <p
-          onClick={handleSidebarItemClick}
+          onClick={(e) => {
+            if (disabled) {
+              e.preventDefault();
+              return;
+            }
+
+            const isFree =
+              state.user?.tariff === 'free' || state.user?.tariff === 'trial';
+
+            if (
+              isFree &&
+              href !== '/profile' &&
+              href !== '/home' &&
+              href !== '/category' &&
+              href !== '/products'
+            ) {
+              e.preventDefault();
+              return true;
+            }
+
+            if (
+              state.user?.tariff === 'trial' &&
+              (href === '/campaigns' || href === '/niches')
+            ) {
+              e.preventDefault();
+              return true;
+            }
+          }}
           className={clsxm(
             'group relative flex h-full flex-1 cursor-pointer items-center rounded-md px-2 text-black hover:bg-slate-400 hover:text-white',
             activeTab === label && 'bg-primary hover:bg-primary text-white',

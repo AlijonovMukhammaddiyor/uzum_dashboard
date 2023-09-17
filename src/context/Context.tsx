@@ -28,6 +28,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, 200);
     const api = new API(null);
     api.updateUserTokens();
+    api
+      .getCurrentUser()
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: 'USER',
+            payload: {
+              user: res,
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        logger(err, 'Error in get current user');
+      });
   }, []);
 
   React.useEffect(() => {
