@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.uzanalitika.uz
+
+# Sitemaps
+Sitemap: https://www.uzanalitika.uz/sitemap-0.xml
