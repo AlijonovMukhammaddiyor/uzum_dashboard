@@ -24,4 +24,6 @@ export const INITIAL_STATE: State = state
       fetching: false,
       lang: 'uz',
       path: null,
+      refeered_by: '',
+      is_paid: false,
     };

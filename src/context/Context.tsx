@@ -103,7 +103,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       'state',
       JSON.stringify({
         ...state,
-        user: null,
       })
     );
   }, [state]);

@@ -42,8 +42,6 @@ function Pricing({ className }: { className?: string }) {
     setCurrentPlan(t('tariffs.choosePlan'));
   }, [t, i18n.language]);
 
-  const isSoffAcademy = state.referred_by === '0746b5' && !state.is_paid;
-
   return (
     <div
       id="ta'riflar"
@@ -181,7 +179,13 @@ function Pricing({ className }: { className?: string }) {
               title={t('tariffs.beginner')}
               isCurrentPlan={state.user?.tariff === 'base'}
               setCurrentPlan={setCurrentPlan}
-              price={isSoffAcademy ? 12.5 : 19.0}
+              price={
+                state.referred_by === '0746b5'
+                  ? !state.is_paid
+                    ? 12.5
+                    : 19.0
+                  : 19.0
+              }
               months={months}
               features={[
                 t('tariffs.1_dukon'),
@@ -200,7 +204,13 @@ function Pricing({ className }: { className?: string }) {
               title={t('tariffs.seller')}
               isCurrentPlan={state.user?.tariff === 'seller'}
               setCurrentPlan={setCurrentPlan}
-              price={isSoffAcademy ? 22.5 : 33}
+              price={
+                state.referred_by === '0746b5'
+                  ? !state.is_paid
+                    ? 22.5
+                    : 33.0
+                  : 33.0
+              }
               months={months}
               features={[
                 t('tariffs.4_dukon'),
@@ -327,7 +337,6 @@ function Tarif({
 
   const isBusiness = title === t('tariffs.business');
   const isFree = title === t('tariffs.free');
-  const isSoffAcademy = state.referred_by === '0746b5' && !state.is_paid;
 
   return (
     <div
@@ -416,7 +425,7 @@ function Tarif({
             months === 3 && 'text-green-300'
           )}
         >
-          {isSoffAcademy && 'Soff: '}
+          {state.referred_by === '0746b5' && !state.is_paid && 'Soff: '}
           {discountedPercentage}% OFF
         </span>
       )}
