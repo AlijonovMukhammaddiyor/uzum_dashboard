@@ -1,7 +1,8 @@
 export interface UserType {
   username: string;
   phone_number: string;
-  referred_by: string;
+  referred_by?: string;
+  is_paid?: boolean;
   referral_code: string;
   payment_date?: string;
   email?: string;

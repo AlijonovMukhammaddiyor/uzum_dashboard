@@ -180,8 +180,8 @@ function Pricing({ className }: { className?: string }) {
               isCurrentPlan={state.user?.tariff === 'base'}
               setCurrentPlan={setCurrentPlan}
               price={
-                state.referred_by === '0746b5'
-                  ? !state.is_paid
+                state.user?.referred_by === '0746b5'
+                  ? !state.user?.is_paid
                     ? 12.5
                     : 19.0
                   : 19.0
@@ -205,8 +205,8 @@ function Pricing({ className }: { className?: string }) {
               isCurrentPlan={state.user?.tariff === 'seller'}
               setCurrentPlan={setCurrentPlan}
               price={
-                state.referred_by === '0746b5'
-                  ? !state.is_paid
+                state.user?.referred_by === '0746b5'
+                  ? !state.user?.is_paid
                     ? 22.5
                     : 33.0
                   : 33.0
@@ -302,7 +302,13 @@ function Tarif({
     const api = new API(null);
     if (isCurrentPlan) return;
     if (price === 0) return;
-    const price_ = isPro ? 19.9 : isProPlus ? 33 : price;
+    const price_ = isPro
+      ? state.user?.referred_by === '0746b5' && !state.user?.is_paid
+        ? 13
+        : 19.9
+      : isProPlus
+      ? 33
+      : price;
     setLoading(true);
     api
       .post('/payments/paylink/', {
@@ -425,7 +431,9 @@ function Tarif({
             months === 3 && 'text-green-300'
           )}
         >
-          {state.referred_by === '0746b5' && !state.is_paid && 'Soff: '}
+          {state.user?.referred_by === '0746b5' &&
+            !state.user?.is_paid &&
+            'Soff: '}
           {discountedPercentage}% OFF
         </span>
       )}
