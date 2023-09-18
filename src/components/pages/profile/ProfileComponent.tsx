@@ -46,7 +46,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
   }, [more_than_30_days, notAllowedTab, t, user.tariff]);
 
   return (
-    <div className=''>
+    <div className='w-full'>
       <Tabs
         tabs={[
           t('profile.payments'),

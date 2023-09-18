@@ -13,6 +13,16 @@ const Reducer = (state: State, action: Actions): State => {
         ...state,
         user: action.payload.user,
       };
+    case 'REFERRAL':
+      return {
+        ...state,
+        referred_by: action.payload.referred_by,
+      };
+    case 'ISPAID':
+      return {
+        ...state,
+        is_paid: action.payload.is_paid,
+      };
     case 'FAVOURITE_SHOPS':
       return {
         ...state,

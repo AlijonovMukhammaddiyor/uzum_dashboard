@@ -42,12 +42,14 @@ function Pricing({ className }: { className?: string }) {
     setCurrentPlan(t('tariffs.choosePlan'));
   }, [t, i18n.language]);
 
+  const isSoffAcademy = state.referred_by === '0746b5' && !state.is_paid;
+
   return (
     <div
       id="ta'riflar"
       className={clsxm('mt-8 flex w-full justify-center', className)}
     >
-      <div className='container mx-auto rounded-md bg-transparent px-4 py-8'>
+      <div className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'>
         {/* 1. Our Promise */}
         <div className='relative mb-20 rounded-md bg-blue-50 p-6 shadow-md'>
           <h2 className='text-primary mb-4 text-center text-3xl font-bold'>
@@ -116,7 +118,7 @@ function Pricing({ className }: { className?: string }) {
 
         {/* 3. Billing Option */}
 
-        <div className='mb-8 grid grid-cols-5 gap-4'>
+        <div className='mb-8 grid h-[400px] w-full min-w-[1200px] grid-cols-5 gap-4 overflow-scroll'>
           <div className='flex items-center justify-center'>
             <div className='h-[200px] rounded-2xl border border-slate-300 p-6'>
               <div className='mb-4 text-center font-medium text-green-600'>
@@ -179,7 +181,7 @@ function Pricing({ className }: { className?: string }) {
               title={t('tariffs.beginner')}
               isCurrentPlan={state.user?.tariff === 'base'}
               setCurrentPlan={setCurrentPlan}
-              price={19}
+              price={isSoffAcademy ? 12.5 : 19.0}
               months={months}
               features={[
                 t('tariffs.1_dukon'),
@@ -198,7 +200,7 @@ function Pricing({ className }: { className?: string }) {
               title={t('tariffs.seller')}
               isCurrentPlan={state.user?.tariff === 'seller'}
               setCurrentPlan={setCurrentPlan}
-              price={33}
+              price={isSoffAcademy ? 22.5 : 33}
               months={months}
               features={[
                 t('tariffs.4_dukon'),
@@ -233,7 +235,7 @@ function Pricing({ className }: { className?: string }) {
             />
           </div>
         </div>
-        <div className='grid w-full grid-cols-5 gap-4 border-b'>
+        <div className='grid w-full min-w-[1200px] grid-cols-5 gap-4 overflow-scroll border-b'>
           <div></div>
           <div className='flex items-center justify-center border-t p-4 text-sm'>
             {t('tariffs.30_kunlik')}
@@ -284,6 +286,7 @@ function Tarif({
 }) {
   const { t, i18n } = useTranslation('landing');
   const [loading, setLoading] = useState(false);
+  const { state } = useContextState();
 
   const handlePayment = () => {
     const api = new API(null);
@@ -324,6 +327,7 @@ function Tarif({
 
   const isBusiness = title === t('tariffs.business');
   const isFree = title === t('tariffs.free');
+  const isSoffAcademy = state.referred_by === '0746b5' && !state.is_paid;
 
   return (
     <div
@@ -412,6 +416,7 @@ function Tarif({
             months === 3 && 'text-green-300'
           )}
         >
+          {isSoffAcademy && 'Soff: '}
           {discountedPercentage}% OFF
         </span>
       )}

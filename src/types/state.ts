@@ -2,6 +2,8 @@ import { UserType } from '@/types/user';
 
 export interface State {
   user: UserType | null;
+  referred_by?: string;
+  is_paid?: boolean;
   fetching: boolean;
   lang: string;
   access_token?: string;

@@ -38,6 +38,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               user: res,
             },
           });
+          dispatch({
+            type: 'REFERRAL',
+            payload: {
+              referred_by: res.referred_by,
+            },
+          });
+          dispatch({
+            type: 'ISPAID',
+            payload: {
+              is_paid: res.is_paid,
+            },
+          });
         }
       })
       .catch((err) => {
