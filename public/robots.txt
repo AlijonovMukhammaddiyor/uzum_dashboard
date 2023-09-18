@@ -6,4 +6,4 @@ Allow: /
 Host: https://www.uzanalitika.uz
 
 # Sitemaps
-Sitemap: https://www.uzanalitika.uz/sitemap-0.xml
+Sitemap: https://www.uzanalitika.uz/sitemap.xml

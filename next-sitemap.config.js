@@ -9,4 +9,5 @@ module.exports = {
   robotsTxtOptions: {
     policies: [{ userAgent: '*', allow: '/' }],
   },
+  priority: 1,
 };
