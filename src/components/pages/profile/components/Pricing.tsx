@@ -307,7 +307,9 @@ function Tarif({
         ? 13
         : 19.9
       : isProPlus
-      ? 33
+      ? state.user?.referred_by === '0746b5' && !state.user?.is_paid
+        ? 23
+        : 33
       : price;
     setLoading(true);
     api
