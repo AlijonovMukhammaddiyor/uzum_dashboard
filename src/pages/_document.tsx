@@ -22,27 +22,29 @@ export default function Document() {
           content='uW3Oy8QMSpgZN6xHK6D1Gr0ludeQGRMBBueMaopvKFY'
         />
         <link
-          rel='icon'
-          href='https://www.uzanalitika.uz/favicon.ico'
-          type='image/x-icon'
-        />
-        <link
-          rel='icon'
-          href='https://www.uzanalitika.uz/images/favicon-16x16.png'
-          sizes='16x16'
-          type='image/png'
-        />
-        <link
-          rel='icon'
-          href='https://www.uzanalitika.uz/images/favicon-32x32.png'
-          sizes='32x32'
-          type='image/png'
-        />
-        <link
           rel='apple-touch-icon'
           sizes='180x180'
-          href='https://www.uzanalitika.uz/images/apple-touch-icon.png'
+          href='/apple-touch-icon.png'
         />
+        <link
+          rel='icon'
+          type='image/png'
+          sizes='32x32'
+          href='/favicon-32x32.png'
+        />
+        <link
+          rel='icon'
+          type='image/png'
+          sizes='16x16'
+          href='/favicon-16x16.png'
+        />
+        <link rel='manifest' href='/site.webmanifest' />
+        <link rel='mask-icon' href='/safari-pinned-tab.svg' color='#5bbad5' />
+        <meta name='apple-mobile-web-app-title' content='UzAnalitika' />
+        <meta name='application-name' content='UzAnalitika' />
+        <meta name='msapplication-TileColor' content='#da532c' />
+        <meta name='theme-color' content='#ffffff'></meta>
+
         <meta
           name='msapplication-TileImage'
           content='https://www.uzanalitika.uz/images/mstile-150x150.png'
@@ -130,25 +132,11 @@ export default function Document() {
               '@type': 'Organization',
               name: 'UzAnalitika',
               url: 'https://www.uzanalitika.uz/',
-              logo: 'https://www.uzanalitika.uz/images/favicon.ico',
               contactPoint: {
                 '@type': 'ContactPoint',
                 telephone: '+82 10 3268 2066',
-                contactType: 'Xizmatlar',
+                contactType: "Bo'glanish",
                 availableLanguage: ['Uzbek', 'Russian'],
-              },
-              sameAs: [
-                'https://www.facebook.com/UzAnalitika',
-                'https://www.instagram.com/UzAnalitika',
-                'https://www.twitter.com/UzAnalitika',
-              ],
-              address: {
-                '@type': 'PostalAddress',
-                streetAddress: '123 Main Street',
-                addressLocality: 'Tashkent',
-                addressRegion: 'Tashkent Region',
-                postalCode: '10000',
-                addressCountry: 'UZ',
               },
             }),
           }}
