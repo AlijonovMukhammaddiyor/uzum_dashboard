@@ -151,6 +151,12 @@ const NamesAndEmailComponent = ({
   };
 
   const isValidUsername = (username: string) => {
+    if (username.length < 5)
+      return alert(
+        i18n.language === 'uz'
+          ? "Foydalanuvchi nomi kamida 5 ta belgidan iborat bo'lishi kerak"
+          : 'Имя пользователя должно содержать не менее 5 символов'
+      );
     const usernamePattern = /^[a-zA-Z0-9@.+-_]+$/;
     return usernamePattern.test(username);
   };
