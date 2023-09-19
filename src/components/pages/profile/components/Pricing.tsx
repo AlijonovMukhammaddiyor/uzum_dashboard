@@ -10,6 +10,8 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
+import BusinessAccess from '@/components/pages/profile/components/BusinessAccess';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
 
 import { useContextState } from '@/context/Context';
@@ -231,6 +233,8 @@ function Pricing({ className }: { className?: string }) {
           <div className='flex items-center justify-center'>
             <Tarif
               title={t('tariffs.business')}
+              setPopupOpen={setPopupOpen}
+              popupOpen={popupOpen}
               isCurrentPlan={state.user?.tariff === 'business'}
               setCurrentPlan={setCurrentPlan}
               price={70}
@@ -284,6 +288,8 @@ function Tarif({
   isPro,
   isProPlus,
   months = 1,
+  isEnterprise,
+  isFreeTrial,
 }: {
   isCurrentPlan?: boolean;
   title: string;
@@ -298,10 +304,14 @@ function Tarif({
   isEnterprise?: boolean;
   isFreeTrial?: boolean;
   months?: number;
+  setPopupOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  popupOpen?: boolean;
 }) {
   const { t, i18n } = useTranslation('landing');
   const [loading, setLoading] = useState(false);
   const { state } = useContextState();
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [businessCode, setBusinessCode] = useState('');
 
   const handlePayment = () => {
     const api = new API(null);
@@ -366,6 +376,10 @@ function Tarif({
     // Calculate the regular price
     const regularPrice = basePrices[productType];
 
+    if (productType === 'free') return 0;
+
+    if (productType === 'business') return 70 * months;
+
     // Calculate the show price
     let showPrice = regularPrice * months;
     if (months === 3 && !isReferred) {
@@ -396,6 +410,37 @@ function Tarif({
         isProPlus && 'scale-[1.15]'
       )}
     >
+      <BusinessAccess
+        open={popupOpen}
+        setOpen={setPopupOpen}
+        closeModal={() => {
+          console.log(businessCode);
+          setPopupOpen(false);
+          if (businessCode === '777777') {
+            handlePayment();
+          } else {
+            RenderAlert({
+              alertTitle:
+                i18n.language === 'uz'
+                  ? 'Iltimos, kodni tekshirib qayta kiriting!'
+                  : 'Пожалуйста, проверьте код и повторите попытку!',
+              alertSubtitle:
+                i18n.language === 'uz'
+                  ? 'Agar sizda maxsus kod bo`lmasa, biz bilan bog`laning.'
+                  : 'Если у вас нет специального кода, свяжитесь с нами.',
+              buttonTitle:
+                i18n.language === 'uz'
+                  ? 'Biz bilan bog`lanish'
+                  : 'Свяжитесь с нами',
+              buttonLink: 'https://t.me/Alijonov_md',
+            });
+            setBusinessCode('');
+            return;
+          }
+        }}
+        businessCode={businessCode ?? ''}
+        setBusinessCode={setBusinessCode}
+      />
       {isProPlus && (
         <div
           className={`bg-primary absolute -left-8 top-4 rotate-[-35deg] transform bg-${color}-600 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-lg`}
@@ -458,10 +503,18 @@ function Tarif({
         )}
       </div>
 
-      {!isFree && !isBusiness && (
+      {!isFree && (
         <Button
           isLoading={loading}
-          onClick={handlePayment}
+          onClick={() => {
+            if (!isCurrentPlan) {
+              if (isEnterprise) {
+                setPopupOpen(true);
+              } else {
+                handlePayment();
+              }
+            }
+          }}
           className={clsxm(
             'w-full transform rounded-md py-2 text-white transition-transform duration-300 hover:scale-105',
             isCurrentPlan ? 'bg-gray-400' : `bg-${color} hover:bg-${color}-700`
@@ -480,7 +533,7 @@ function Tarif({
             isCurrentPlan ? 'bg-gray-400' : `bg-blue-500 hover:bg-blue-600`
           )}
         >
-          {isCurrentPlan ? t('tariffs.current') : buttonTitle}
+          {i18n.language === 'uz' ? "Bog'lanish" : 'Связаться'}
         </a>
       )}
 
