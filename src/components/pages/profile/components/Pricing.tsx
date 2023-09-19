@@ -359,7 +359,7 @@ function Tarif({
 
     // Price multipliers
     const oneMonthPromoDiscount = 0.8; // 20% off
-    const referralDiscount = 0.6; // 50% off for the first month
+    const referralDiscount = 0.56; // 50% off for the first month
     const threeMonthMultiplier = 3; // for a 3-month period
     const threeMonthDiscount = 0.7; // 20% off for a 3-month period
 
@@ -444,7 +444,8 @@ function Tarif({
                   ? 'business'
                   : 'free',
                 months,
-                state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
+                // state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
+                true,
                 true, // isReal
                 false // isShow
               ).toFixed(2)}
@@ -545,7 +546,7 @@ function Tarif({
                 true // isShow
               )) *
             100
-          ).toFixed(0)}
+          ).toFixed(1)}
           % OFF
         </span>
       )}
