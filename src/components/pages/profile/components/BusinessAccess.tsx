@@ -1,5 +1,6 @@
 import { useTranslation } from 'next-i18next';
 import React from 'react';
+import { FaTelegram } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
 
 interface Props {
@@ -56,12 +57,13 @@ const BusinessAccess = ({
         />
         <div className='flex w-full items-center justify-between'>
           <button
-            className='text-primary border-primary mr-4 shrink-0 flex-grow rounded-md border bg-white p-2 transition-colors duration-200 hover:border-purple-900 hover:text-purple-900'
+            className='border-primary mr-4 flex shrink-0 flex-grow items-center justify-start rounded-md bg-blue-500 p-2 text-white transition-colors duration-200 hover:bg-blue-600'
             onClick={() => {
               window.open('https://t.me/Alijonov_md', '_blank');
               setOpen(false);
             }}
           >
+            <FaTelegram className='mr-2 text-white' />
             {i18n.language === 'uz' ? 'Maxsus kodni olish' : 'Получить код'}
           </button>
           <button

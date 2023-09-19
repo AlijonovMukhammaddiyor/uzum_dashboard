@@ -524,19 +524,6 @@ function Tarif({
         </Button>
       )}
 
-      {isBusiness && (
-        <a
-          href='https://t.me/Alijonov_md'
-          target='_blank'
-          className={clsxm(
-            'flex w-full transform items-center justify-center rounded-md py-2 text-white transition-transform duration-300 hover:scale-105',
-            isCurrentPlan ? 'bg-gray-400' : `bg-blue-500 hover:bg-blue-600`
-          )}
-        >
-          {i18n.language === 'uz' ? "Bog'lanish" : 'Связаться'}
-        </a>
-      )}
-
       <p className='text-center text-sm text-slate-500'>
         {isPro
           ? t('tariffs.about_pro')
