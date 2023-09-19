@@ -335,11 +335,11 @@ function _prepareRevenue(revenue: SellerType[], lang: string) {
 
   revenue.slice(1).forEach((item) => {
     allRevenue.push({
-      y: Math.round(item.total_revenue * 1000),
+      y: Math.round((item.total_revenue * 1000) / 1000) * 1000,
       x: item.date_pretty,
     });
     dailyRevenue.push({
-      y: Math.round((item.total_revenue - prevRevenue) * 1000),
+      y: Math.round(((item.total_revenue - prevRevenue) * 1000) / 1000) * 1000,
       x: item.date_pretty,
     });
     prevRevenue = item.total_revenue;
