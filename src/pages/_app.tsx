@@ -116,7 +116,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Head>
             <meta
               name='viewport'
-              content='initial-scale=0.8, width=device-width'
+              // it must be 0.8 intial-scale for all
+              content='width=device-width, initial-scale=0.8, maximum-scale=1.0, viewport-fit=cover'
             />
             <meta
               name='google-site-verification'

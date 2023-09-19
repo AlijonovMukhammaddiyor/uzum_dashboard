@@ -31,7 +31,7 @@ function LandingMain({
             Не догадывайтесь — используйте чёткие данные для решений.
           </p>
           <div className='flex w-full flex-col items-start justify-center md:items-center'>
-            <h1 className='font-merri base:text-4xl mb-2 text-2xl font-bold leading-tight text-[#222] lg:text-6xl'>
+            <h1 className='font-merri base:text-4xl mb-2 font-bold leading-tight text-[#222] lg:text-6xl'>
               Специализированная аналитика
             </h1>
             <h1 className='font-merri base:text-4xl font-bold leading-tight text-[#222] lg:text-6xl'>

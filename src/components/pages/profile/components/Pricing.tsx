@@ -50,7 +50,7 @@ function Pricing({ className }: { className?: string }) {
       <div className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'>
         {/* 1. Our Promise */}
         <div className='relative mb-20 rounded-md bg-blue-50 p-6 shadow-md'>
-          <h2 className='text-primary mb-4 text-center text-3xl font-bold'>
+          <h2 className='text-primary base:text-3xl mb-4 text-center text-xl font-bold'>
             {i18n.language === 'uz'
               ? "Bizning va'damiz"
               : i18n.language === 'ru'
@@ -117,43 +117,48 @@ function Pricing({ className }: { className?: string }) {
         {/* 3. Billing Option */}
 
         <div className='mb-8 grid h-[400px] w-full min-w-[1200px] grid-cols-5 gap-4 overflow-scroll'>
-          <div className='flex items-center justify-center'>
+          <div className='mt-3 flex items-center justify-center'>
             <div className='h-[200px] rounded-2xl border border-slate-300 p-6'>
               <div className='mb-4 text-center font-medium text-green-600'>
                 {i18n.language === 'uz'
-                  ? "3 oylik to'lov tanlaganingizda 20% chegirma!"
+                  ? "3 oylik to'lov tanlaganingizda 30% chegirma!"
                   : i18n.language === 'ru'
-                  ? 'Сэкономьте 20% при выборе оплаты на 3 месяца!'
-                  : 'Save 20% when you choose 3-month billing!'}
+                  ? 'Сэкономьте 30% при выборе оплаты на 3 месяца!'
+                  : 'Save 30% when you choose 3-month billing!'}
               </div>
               <div className='flex items-center justify-center space-x-4'>
-                <span className='text-sm font-medium'>
-                  {i18n.language === 'uz'
-                    ? 'Oylik'
-                    : i18n.language === 'ru'
-                    ? 'Ежемесячно'
-                    : 'Monthly'}
-                </span>
-                <div className='relative inline-block w-14 select-none align-middle transition duration-200 ease-in'>
+                <div className='flex items-center gap-1'>
                   <input
                     type='checkbox'
-                    id='billingToggle'
-                    className='absolute h-0 w-0 opacity-0'
-                    checked={months === 3}
-                    onChange={() => setMonths(months === 1 ? 3 : 1)}
+                    id='1month'
+                    className=''
+                    checked={months === 1}
+                    onChange={() => setMonths(1)}
                   />
-                  <label
-                    htmlFor='billingToggle'
-                    className='toggle-label block h-6 w-14 cursor-pointer rounded-full transition duration-200 ease-in'
-                  ></label>
+                  <label htmlFor='1month' className='text-xs font-medium'>
+                    {i18n.language === 'uz'
+                      ? '1 oy'
+                      : i18n.language === 'ru'
+                      ? '1 месяц'
+                      : 'Monthly'}
+                  </label>
                 </div>
-                <span className='text-sm font-medium'>
-                  {i18n.language === 'uz'
-                    ? '3 oylik'
-                    : i18n.language === 'ru'
-                    ? '3 месяца'
-                    : '3 Months'}
-                </span>
+                <div className='flex items-center gap-1'>
+                  <input
+                    type='checkbox'
+                    id='3month'
+                    className=''
+                    checked={months === 3}
+                    onChange={() => setMonths(3)}
+                  />
+                  <label htmlFor='3months' className='text-xs font-medium'>
+                    {i18n.language === 'uz'
+                      ? '3 oy'
+                      : i18n.language === 'ru'
+                      ? '3 месяца'
+                      : '3 Months'}
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -302,15 +307,13 @@ function Tarif({
     const api = new API(null);
     if (isCurrentPlan) return;
     if (price === 0) return;
-    const price_ = isPro
-      ? state.user?.referred_by === '0746b5' && !state.user?.is_paid
-        ? 13
-        : 19.9
-      : isProPlus
-      ? state.user?.referred_by === '0746b5' && !state.user?.is_paid
-        ? 23
-        : 33
-      : price;
+    const price_ = getPrice(
+      isPro ? 'base' : isProPlus ? 'seller' : isBusiness ? 'business' : 'free',
+      months,
+      state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
+      true, // isReal
+      false // isShow
+    );
     setLoading(true);
     api
       .post('/payments/paylink/', {
@@ -336,15 +339,55 @@ function Tarif({
       });
   };
 
-  const realPrice = isPro ? 25 : isProPlus ? 45 : price === 0 ? 0 : 100;
-  const showPrice = months === 3 ? price * 0.8 : price;
-  const isPromotion = realPrice > showPrice;
-  const discountedPercentage = isPromotion
-    ? (((realPrice - showPrice) / realPrice) * 100).toFixed(0)
-    : 0;
-
   const isBusiness = title === t('tariffs.business');
   const isFree = title === t('tariffs.free');
+
+  const getPrice = (
+    productType: 'base' | 'seller' | 'business' | 'free',
+    months: number,
+    isReferred: boolean,
+    isReal: boolean,
+    isShow: boolean
+  ): number => {
+    // Base monthly prices
+    const basePrices = {
+      base: 25,
+      seller: 45,
+      business: 70,
+      free: 0,
+    };
+
+    // Price multipliers
+    const oneMonthPromoDiscount = 0.8; // 20% off
+    const referralDiscount = 0.6; // 50% off for the first month
+    const threeMonthMultiplier = 3; // for a 3-month period
+    const threeMonthDiscount = 0.7; // 20% off for a 3-month period
+
+    // Calculate the regular price
+    const regularPrice = basePrices[productType];
+
+    // Calculate the show price
+    let showPrice = regularPrice * months;
+    if (months === 3 && !isReferred) {
+      showPrice = showPrice * threeMonthDiscount;
+      if (isReal) return showPrice;
+      return regularPrice * threeMonthMultiplier;
+    } else if (months === 1 && !isReferred) {
+      if (isReal) return showPrice * oneMonthPromoDiscount;
+      return regularPrice;
+    } else if (months === 3 && isReferred) {
+      const referredPrice =
+        (showPrice - regularPrice * referralDiscount) * threeMonthDiscount;
+      if (isReal) return referredPrice;
+      return regularPrice * threeMonthMultiplier;
+    } else if (months === 1 && isReferred) {
+      showPrice = regularPrice * referralDiscount;
+      if (isReal) return showPrice;
+      return regularPrice;
+    }
+
+    return 0;
+  };
 
   return (
     <div
@@ -373,13 +416,38 @@ function Tarif({
           </span>
         ) : (
           <div className='flex items-center space-x-2'>
-            {isPromotion && (
-              <span className='text-lg text-gray-500 line-through'>
-                ${(realPrice * months).toFixed(2)}
-              </span>
-            )}
+            <span className='text-lg text-gray-500 line-through'>
+              $
+              {getPrice(
+                isPro
+                  ? 'base'
+                  : isProPlus
+                  ? 'seller'
+                  : isBusiness
+                  ? 'business'
+                  : 'free',
+                months,
+                state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
+                false, // isReal
+                true // isShow
+              ).toFixed(2)}
+            </span>
+
             <span className='text-3xl font-bold'>
-              ${(showPrice * months).toFixed(2)}
+              $
+              {getPrice(
+                isPro
+                  ? 'base'
+                  : isProPlus
+                  ? 'seller'
+                  : isBusiness
+                  ? 'business'
+                  : 'free',
+                months,
+                state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
+                true, // isReal
+                false // isShow
+              ).toFixed(2)}
             </span>
           </div>
         )}
@@ -426,7 +494,7 @@ function Tarif({
           : t('tariffs.about_free')}
       </p>
 
-      {isPromotion && !isBusiness && (
+      {!isBusiness && !isFree && (
         <span
           className={clsxm(
             'absolute -top-6 right-0 mr-2 mt-2 rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white',
@@ -436,7 +504,49 @@ function Tarif({
           {state.user?.referred_by === '0746b5' &&
             !state.user?.is_paid &&
             'Soff: '}
-          {discountedPercentage}% OFF
+          {(
+            ((getPrice(
+              isPro
+                ? 'base'
+                : isProPlus
+                ? 'seller'
+                : isBusiness
+                ? 'business'
+                : 'free',
+              months,
+              state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
+              false, // isReal
+              true // isShow
+            ) -
+              getPrice(
+                isPro
+                  ? 'base'
+                  : isProPlus
+                  ? 'seller'
+                  : isBusiness
+                  ? 'business'
+                  : 'free',
+                months,
+                state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
+                true, // isReal
+                false // isShow
+              )) /
+              getPrice(
+                isPro
+                  ? 'base'
+                  : isProPlus
+                  ? 'seller'
+                  : isBusiness
+                  ? 'business'
+                  : 'free',
+                months,
+                state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
+                false, // isReal
+                true // isShow
+              )) *
+            100
+          ).toFixed(0)}
+          % OFF
         </span>
       )}
     </div>

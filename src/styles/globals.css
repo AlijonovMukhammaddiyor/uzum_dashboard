@@ -174,7 +174,7 @@
   }
 
   #billingToggle:checked + .toggle-label::after {
-    transform: translateX(28px);
+    transform: translateX(48px);
   }
 
   .get_started_button {
