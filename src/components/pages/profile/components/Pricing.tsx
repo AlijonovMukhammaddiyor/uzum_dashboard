@@ -121,10 +121,10 @@ function Pricing({ className }: { className?: string }) {
             <div className='h-[200px] rounded-2xl border border-slate-300 p-6'>
               <div className='mb-4 text-center font-medium text-green-600'>
                 {i18n.language === 'uz'
-                  ? "3 oylik to'lov tanlaganingizda 30% chegirma!"
+                  ? "3 oylik to'lov tanlaganingizda 33% chegirma!"
                   : i18n.language === 'ru'
-                  ? 'Сэкономьте 30% при выборе оплаты на 3 месяца!'
-                  : 'Save 30% when you choose 3-month billing!'}
+                  ? 'Сэкономьте 33% при выборе оплаты на 3 месяца!'
+                  : 'Save 33% when you choose 3-month billing!'}
               </div>
               <div className='flex items-center justify-center space-x-4'>
                 <div className='flex items-center gap-1'>
@@ -358,10 +358,10 @@ function Tarif({
     };
 
     // Price multipliers
-    const oneMonthPromoDiscount = 0.8; // 20% off
+    const oneMonthPromoDiscount = 0.78; // 20% off
     const referralDiscount = 0.56; // 50% off for the first month
     const threeMonthMultiplier = 3; // for a 3-month period
-    const threeMonthDiscount = 0.7; // 20% off for a 3-month period
+    const threeMonthDiscount = 0.67; // 20% off for a 3-month period
 
     // Calculate the regular price
     const regularPrice = basePrices[productType];
@@ -444,8 +444,7 @@ function Tarif({
                   ? 'business'
                   : 'free',
                 months,
-                // state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
-                true,
+                state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
                 true, // isReal
                 false // isShow
               ).toFixed(2)}
