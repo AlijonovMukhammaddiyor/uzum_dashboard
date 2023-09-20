@@ -88,20 +88,6 @@ function Pricing({ className }: { className?: string }) {
                 ? 'Мы регулярно обновляем и улучшаем наш сервис.'
                 : 'Benefit from regular feature updates and enhancements.'}
             </li>
-            <li>
-              <strong className='mr-2'>
-                {i18n.language === 'uz'
-                  ? '100% kafolat:'
-                  : i18n.language === 'ru'
-                  ? '100% Гарантия удовлетворения:'
-                  : '100% Satisfaction Guarantee:'}
-              </strong>
-              {i18n.language === 'uz'
-                ? 'Biz xizmatimizning qiymatiga ishonamiz. Agar qoniqmasangiz, pulingizni darhol qaytarib beramiz.'
-                : i18n.language === 'ru'
-                ? 'Мы уверены в ценности наших услуг. Если вы не удовлетворены, мы немедленно вернем вам деньги.'
-                : "We're confident in our service's value. If you're not satisfied, we'll refund your money immediately."}
-            </li>
           </ul>
         </div>
 
