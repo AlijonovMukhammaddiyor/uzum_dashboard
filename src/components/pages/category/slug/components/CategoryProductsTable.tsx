@@ -184,8 +184,17 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
           : 'Для использования этой функции перейдите на другой тариф'
       );
     }
+    let url = `/product/toexcel/` + categoryId;
+
+    if (isInstantFilter && instantFilter) {
+      url += `?instant_filter=${instantFilter}`;
+    } else {
+      const params = makeUrlParams();
+      url += '?';
+      url += params;
+    }
     api
-      .get<unknown, AxiosResponse<Blob>>('/product/toexcel/' + categoryId)
+      .get<unknown, AxiosResponse<Blob>>(url)
       .then((res) => {
         // download res.data as excel file
         // logger(res, 'Response from export to excel');
@@ -205,7 +214,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     const fileExtension = '.xlsx';
     const data = data_.slice(0, 10000);
     // Filter data to include only the required columns
-    const filteredData = data.slice(0, 10000).map((item: any) => ({
+    const filteredData = data.map((item: any) => ({
       product_id: item.product_id,
       title_ru: item.product_title_ru,
       title: item.product_title,
@@ -295,6 +304,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     ];
 
     const greenGradient = (value: number, min: number, max: number) => {
+      if (value === 0) return 'FFFFFF'; // Return white for 0 value
       if (min === 0) {
         min = 1;
       }
@@ -303,12 +313,26 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     };
 
     const orangeGradient = (value: number, min: number, max: number) => {
+      if (value === 0) return 'FFFFFF'; // Return white for 0 value
+
       if (min === 0) {
         min = 1;
       }
 
       const gradient = Math.round(220 - 50 * ((value - min) / (max - min)));
       return `FF${gradient.toString(16).padStart(2, '0')}A5`;
+    };
+
+    const blueGradient = (value: number, min: number, max: number) => {
+      if (value === 0) return 'FFFFFF'; // Return white for 0 value
+
+      if (min === 0) {
+        min = 1;
+      }
+
+      // Adjusting the gradient to produce a more noticeable blue range
+      const gradient = Math.round(255 * ((max - value) / (max - min)));
+      return `0000${gradient.toString(16).padStart(2, '0')}`;
     };
 
     const applyGradient = (
@@ -344,22 +368,46 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
 
     applyGradient(
       'J',
-      filteredData.map((item: any) => item.orders),
+      filteredData.map((item: any) => item.monthly_orders_amount),
+      greenGradient
+    );
+    applyGradient(
+      'K',
+      filteredData.map((item: any) => item.weekly_orders_amount),
       orangeGradient
     );
+
     applyGradient(
       'L',
       filteredData.map((item: any) => item.reviews_amount),
       greenGradient
     );
+
     applyGradient(
       'G',
       filteredData.map((item: any) => item.monthly_revenue),
       greenGradient
     );
+    applyGradient(
+      'H',
+      filteredData.map((item: any) => item.weekly_revenue),
+      orangeGradient
+    );
+
+    applyGradient(
+      'R',
+      filteredData.map((item: any) => item.average_purchase_price),
+      greenGradient
+    );
+
+    applyGradient(
+      'Q',
+      filteredData.map((item: any) => item.rating),
+      orangeGradient
+    );
 
     // Create the workbook and save it
-    const wb = { Sheets: { shops: ws }, SheetNames: ['shops'] };
+    const wb = { Sheets: { products: ws }, SheetNames: ['products'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const data2 = new Blob([excelBuffer], { type: fileType });
     const currentDate = new Date().toISOString().slice(0, 10);
