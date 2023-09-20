@@ -4519,7 +4519,7 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
     },
     {
       headerName: t('category'),
-      field: 'category_title',
+      field: lang === 'uz' ? 'category_title' : 'category_title_ru',
       cellRenderer: SubcategoryCellRenderer,
       sortable: false,
       filter: false,
