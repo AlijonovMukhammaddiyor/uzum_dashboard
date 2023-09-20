@@ -253,8 +253,6 @@ function SellersTable({ className, user }: Props) {
           className='h-[1783px] min-w-full'
           headerHeight={60}
           rowHeight={80}
-          // isBalham={true}
-          isMaterial={true}
           fetchData={loadData}
           setLoading={setLoading}
         />
