@@ -369,7 +369,7 @@ function Tarif({
 
     // Price multipliers
     const oneMonthPromoDiscount = 0.78; // 20% off
-    const referralDiscount = 0.56; // 50% off for the first month
+    const referralDiscount = 0.5; // 50% off for the first month
     const threeMonthMultiplier = 3; // for a 3-month period
     const threeMonthDiscount = 0.67; // 20% off for a 3-month period
 
