@@ -12,7 +12,7 @@ import logger from '@/lib/logger';
 import { getShopTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import Button from '@/components/shared/buttons/Button';
-import PaginatedTable from '@/components/shared/PaginatedTable';
+import InfiniteTable from '@/components/shared/InfiniteTable';
 import Table from '@/components/shared/Table';
 
 import { UserType } from '@/types/user';
@@ -113,7 +113,8 @@ function SellersTable({ className, user }: Props) {
   };
 
   const loadData = (
-    page: number,
+    startRow: number,
+    endRow: number,
     sortModel: {
       colId: string;
       sort: string;
@@ -128,7 +129,7 @@ function SellersTable({ className, user }: Props) {
   ) => {
     const api = new API(null);
     setLoading(true);
-    let url = `/shop` + `?page=${page}`;
+    let url = `/shop` + `?offset=${startRow}&limit=${endRow - startRow}`;
     if (sortModel) {
       url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
     }
@@ -247,7 +248,7 @@ function SellersTable({ className, user }: Props) {
             </>
           </Button>
         </div>
-        <PaginatedTable
+        <InfiniteTable
           columnDefs={getShopTableColumnDefs(t2, i18n.language)}
           className='h-[1783px] min-w-full'
           headerHeight={60}
