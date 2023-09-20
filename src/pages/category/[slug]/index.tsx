@@ -28,6 +28,8 @@ interface CategoryType {
   categiry_id: number;
   ancestors: string;
   ancestors_ru: string;
+  title: string;
+  title_ru: string;
 }
 
 function Category({ user }: Props) {
@@ -70,7 +72,7 @@ function Category({ user }: Props) {
         const data = res.data;
         const categoryPath = buildPathFromAncestors(
           i18n.language === 'uz' ? data.ancestors : data.ancestors_ru,
-          title,
+          i18n.language === 'uz' ? data.title : data.title_ru,
           id
         );
         if (data.ancestors) {
