@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { BiPurchaseTagAlt } from 'react-icons/bi';
 import { BsShop } from 'react-icons/bs';
@@ -17,7 +17,10 @@ import logger from '@/lib/logger';
 import Container from '@/components/layout/Container';
 import DataContainer from '@/components/pages/home/components/DataContainer';
 import TreeMap from '@/components/pages/home/components/TreeMap';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
+
+import { useContextState } from '@/context/Context';
 
 import { UserType } from '@/types/user';
 
@@ -35,9 +38,15 @@ function HomeStatisticsContainer({
   const [revenue, setRevenue] = React.useState<any[]>([]);
   const [reviews, setReviews] = React.useState<any[]>([]);
   const [tree, setTree] = React.useState<any[]>([]);
-  const [isDown, setIsDown] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
+  const [monthlyTree, setMonthlyTree] = React.useState<any[]>([]);
+  const [weeklyTree, setWeeklyTree] = React.useState<any[]>([]);
+  const [isFullScreen, setIsFullScreen] = React.useState<string | null>(null);
+  const { t, i18n } = useTranslation('common');
+  const [currentTab, setCurrentTab] = React.useState({
+    value: t('dataTable.orders_amount'),
+    label: t('dataTable.orders_amount'),
+  });
+  const { state } = useContextState();
   const [shops, setShops] = React.useState<{
     shops: {
       total_shops: number;
@@ -49,14 +58,16 @@ function HomeStatisticsContainer({
     }[];
   }>({ shops: [], accounts: [] });
   const [loading, setLoading] = React.useState<{
-    orders: boolean;
-    products: boolean;
-    revenue: boolean;
-    reviews: boolean;
-    shops: boolean;
-    segments: boolean;
-    topShops: boolean;
-    topProducts: boolean;
+    orders?: boolean;
+    products?: boolean;
+    revenue?: boolean;
+    reviews?: boolean;
+    shops?: boolean;
+    segments?: boolean;
+    topShops?: boolean;
+    topProducts?: boolean;
+    monthlySegments?: boolean;
+    weeklySegments?: boolean;
   }>({
     orders: true,
     products: true,
@@ -66,63 +77,8 @@ function HomeStatisticsContainer({
     segments: true,
     topShops: true,
     topProducts: true,
-  });
-  const draggableRef = useRef<HTMLDivElement>(null);
-  const handleMouseDown = (e: any) => {
-    setIsDown(true);
-    setStartX(e.pageX - e.currentTarget.offsetLeft);
-    setScrollLeft(draggableRef.current?.scrollLeft ?? 0);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDown(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDown(false);
-  };
-
-  const handleMouseMove = (e: any) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - e.currentTarget.offsetLeft;
-    const walk = x - startX;
-    if (draggableRef.current)
-      draggableRef.current.scrollLeft = scrollLeft - walk;
-  };
-  const [isFullScreen, setIsFullScreen] = React.useState<string | null>(null);
-  const { t, i18n } = useTranslation('common');
-  const { t: t2 } = useTranslation('tableColumns');
-  const [categoriesRevenue, setCategoriesRevenue] = React.useState<any[]>([]);
-  const [currentTab, setCurrentTab] = React.useState({
-    value: t('dataTable.orders_amount'),
-    label: t('dataTable.orders_amount'),
-  });
-  const [topShops, setTopShops] = React.useState<{
-    shop_with_no_sales: number;
-    shops_with_no_reviews: number;
-    shops_with_sales_yesterday: number;
-    shops_with_reviews_yesterday: number;
-    shops: any[];
-  }>({
-    shop_with_no_sales: 0,
-    shops_with_sales_yesterday: 0,
-    shops: [],
-    shops_with_no_reviews: 0,
-    shops_with_reviews_yesterday: 0,
-  });
-  const [topProducts, setTopProducts] = React.useState<{
-    product_with_no_sales: number;
-    products_with_no_reviews: number;
-    products_with_sales_yesterday: number;
-    products_with_reviews_yesterday: number;
-    top_products: any[];
-  }>({
-    product_with_no_sales: 0,
-    products_with_sales_yesterday: 0,
-    top_products: [],
-    products_with_no_reviews: 0,
-    products_with_reviews_yesterday: 0,
+    monthlySegments: true,
+    weeklySegments: true,
   });
 
   React.useEffect(() => {
@@ -131,118 +87,6 @@ function HomeStatisticsContainer({
       value: t('dataTable.orders_amount'),
       label: t('dataTable.orders_amount'),
     });
-    api
-      .get<unknown, AxiosResponse<any>>('/category/segmentation/')
-      .then((res) => {
-        // logger(res.data, 'Segmentation');
-        setTree(res.data);
-        const data: {
-          [key: string]: {
-            title: string;
-            title_ru: string;
-            revenue: number;
-            orders: number;
-            products: number;
-            shops: number;
-            reviews: number;
-          };
-        } = {};
-        const revenue = res.data.revenue.data.children;
-        const orders = res.data.orders.data.children;
-        const products = res.data.products.data.children;
-        const shops = res.data.shops.data.children;
-        const reviews = res.data.reviews.data.children;
-
-        for (let i = 0; i < revenue.length; i++) {
-          const item = revenue[i];
-          const title = item.title;
-          data[title] = {
-            title: item.title,
-            title_ru: item.title_ru,
-            revenue: item.analytics,
-            orders: 0,
-            products: 0,
-            shops: 0,
-            reviews: 0,
-          };
-        }
-        for (let i = 0; i < orders.length; i++) {
-          const item = orders[i];
-          const title = item.title;
-          if (data[title]) {
-            data[title].orders = item.analytics;
-          } else {
-            data[title] = {
-              title: item.title,
-              title_ru: item.title_ru,
-              revenue: 0,
-              orders: item.analytics,
-              products: 0,
-              shops: 0,
-              reviews: 0,
-            };
-          }
-        }
-        for (let i = 0; i < products.length; i++) {
-          const item = products[i];
-          const title = item.title;
-          if (data[title]) {
-            data[title].products = item.analytics;
-          } else {
-            data[title] = {
-              title: item.title,
-              title_ru: item.title_ru,
-              revenue: 0,
-              orders: 0,
-              products: item.analytics,
-              shops: 0,
-              reviews: 0,
-            };
-          }
-        }
-        for (let i = 0; i < shops.length; i++) {
-          const item = shops[i];
-          const title = item.title;
-          if (data[title]) {
-            data[title].shops = item.analytics;
-          } else {
-            data[title] = {
-              title: item.title,
-              title_ru: item.title_ru,
-              revenue: 0,
-              orders: 0,
-              products: 0,
-              shops: item.analytics,
-              reviews: 0,
-            };
-          }
-        }
-        for (let i = 0; i < reviews.length; i++) {
-          const item = reviews[i];
-          const title = item.title;
-          if (data[title]) {
-            data[title].reviews = item.analytics;
-          } else {
-            data[title] = {
-              title: item.title,
-              title_ru: item.title_ru,
-              revenue: 0,
-              orders: 0,
-              products: 0,
-              shops: 0,
-              reviews: item.analytics,
-            };
-          }
-        }
-        setLoading((prev) => ({ ...prev, segments: false }));
-        const children = Object.values(data);
-        setCategoriesRevenue(children);
-      })
-      .catch((err) => {
-        // console.log(err);
-        logger(err, 'Error in orders');
-        setLoading((prev) => ({ ...prev, segments: false }));
-      });
 
     setLoading({
       orders: true,
@@ -253,7 +97,49 @@ function HomeStatisticsContainer({
       segments: true,
       topShops: true,
       topProducts: true,
+      monthlySegments: true,
+      weeklySegments: true,
     });
+
+    api
+      .get<unknown, AxiosResponse<any>>('/category/segmentation/monthly/')
+      .then((res) => {
+        // logger(res.data, 'Segmentation');
+        setMonthlyTree(res.data);
+        setLoading((prev) => ({ ...prev, monthlySegments: false }));
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in monthlySegments');
+        setLoading((prev) => ({ ...prev, monthlySegments: false }));
+      });
+
+    api
+      .get<unknown, AxiosResponse<any>>('/category/segmentation/weekly/')
+      .then((res) => {
+        // logger(res.data, 'Segmentation');
+        setWeeklyTree(res.data);
+        setLoading((prev) => ({ ...prev, weeklySegments: false }));
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in weeklySegments');
+        setLoading((prev) => ({ ...prev, weeklySegments: false }));
+      });
+
+    api
+      .get<unknown, AxiosResponse<any>>('/category/segmentation/')
+      .then((res) => {
+        // logger(res.data, 'Segmentation');
+        setTree(res.data);
+        setLoading((prev) => ({ ...prev, segments: false }));
+      })
+      .catch((err) => {
+        // console.log(err);
+        logger(err, 'Error in orders');
+        setLoading((prev) => ({ ...prev, segments: false }));
+      });
+
     api
       .get<unknown, AxiosResponse<any>>('/uzum/orders/')
       .then((res) => {
@@ -336,26 +222,6 @@ function HomeStatisticsContainer({
         logger(err, 'Error in sellers');
         setLoading((prev) => ({ ...prev, shops: false }));
       });
-    api
-      .get<unknown, AxiosResponse<any>>('/shop/tops/')
-      .then((res) => {
-        setTopShops(res.data);
-        setLoading((prev) => ({ ...prev, topShops: false }));
-      })
-      .catch((err) => {
-        logger(err, 'Error in tops');
-        setLoading((prev) => ({ ...prev, topShops: false }));
-      });
-    api
-      .get<unknown, AxiosResponse<any>>('/product/tops/')
-      .then((res) => {
-        setTopProducts(res.data);
-        setLoading((prev) => ({ ...prev, topProducts: false }));
-      })
-      .catch((err) => {
-        logger(err, 'Error in top products');
-        setLoading((prev) => ({ ...prev, topProducts: false }));
-      });
   }, [i18n.language, t]);
 
   const isLoading = () => {
@@ -377,6 +243,11 @@ function HomeStatisticsContainer({
     return loading.shops;
   };
 
+  const isPaid =
+    state?.user?.tariff === 'base' ||
+    state?.user?.tariff === 'seller' ||
+    state?.user?.tariff === 'business';
+
   return (
     <div
       className={clsxm(
@@ -387,9 +258,31 @@ function HomeStatisticsContainer({
       {isFullScreen && (
         <TreeMap
           titleField={i18n.language === 'uz' ? 'title' : 'title_ru'}
-          data={getData(tree as any, isFullScreen, i18n.language)}
-          min={getMinMax(tree, isFullScreen)?.min}
-          max={getMinMax(tree, isFullScreen)?.max}
+          data={getData(
+            tree as any,
+            monthlyTree as any,
+            weeklyTree as any,
+            isFullScreen,
+            t
+          )}
+          min={
+            getMinMax(
+              tree,
+              monthlyTree as any,
+              weeklyTree as any,
+              isFullScreen,
+              t
+            )?.min
+          }
+          max={
+            getMinMax(
+              tree,
+              monthlyTree as any,
+              weeklyTree as any,
+              isFullScreen,
+              t
+            )?.max
+          }
           open={isFullScreen === isFullScreen}
           closeModal={() => {
             setIsFullScreen(null);
@@ -399,198 +292,322 @@ function HomeStatisticsContainer({
           main_subtitle={getSubtitle(isFullScreen)}
         />
       )}
-      <div className='w-full max-w-full'>
-        <div className='mb-6 w-full'>
-          <h2 className='font-primary mb-3 text-lg font-bold'>
+      <div className='w-full max-w-full rounded-lg bg-gray-50 p-6 shadow'>
+        <div className='w-full max-w-full'>
+          <Container className='font-primary w-full border-none shadow-none'></Container>
+          <div className='w- max-w-full gap-6'>
+            <div className='flex w-full max-w-full items-start justify-start gap-4'>
+              <GeneralsContainer
+                shops={shops}
+                orders={orders}
+                revenue={revenue}
+                products={products}
+                lang={i18n.language}
+                reviews={reviews}
+                t={t}
+                title={t('dataTable.orders_amount')}
+                loading={loading}
+              />
+              {/* </div> */}
+              <GeneralsContainer
+                shops={shops}
+                orders={orders}
+                revenue={revenue}
+                products={products}
+                reviews={reviews}
+                lang={i18n.language}
+                t={t}
+                title={t('dataTable.revenue')}
+                loading={loading}
+              />
+              <GeneralsContainer
+                shops={shops}
+                orders={orders}
+                revenue={revenue}
+                products={products}
+                lang={i18n.language}
+                reviews={reviews}
+                loading={loading}
+                t={t}
+                title={t('dataTable.products_amount')}
+              />
+            </div>
+            <div className='mt-4 flex w-full items-start justify-start gap-4'>
+              <GeneralsContainer
+                shops={shops}
+                orders={orders}
+                revenue={revenue}
+                loading={loading}
+                products={products}
+                reviews={reviews}
+                t={t}
+                title={t('dataTable.shops_amount')}
+                lang={i18n.language}
+              />
+              <GeneralsContainer
+                shops={shops}
+                orders={orders}
+                revenue={revenue}
+                products={products}
+                loading={loading}
+                reviews={reviews}
+                t={t}
+                title={t('dataTable.sellers_amount')}
+                lang={i18n.language}
+              />
+              <GeneralsContainer
+                shops={shops}
+                orders={orders}
+                revenue={revenue}
+                products={products}
+                reviews={reviews}
+                lang={i18n.language}
+                loading={loading}
+                t={t}
+                title={t('dataTable.reviews_amount')}
+              />
+            </div>
+          </div>
+        </div>
+        <div className='mt-10 w-full'>
+          <h2 className='font-primary mb-3 text-2xl font-bold'>
             {i18n.language === 'uz'
               ? 'Barcha kategoriyalar segmentatsiyasi'
               : 'Сегментация всех категорий'}
           </h2>
-          <p className='font-primary mb-3 text-sm'>
+          <p className='font-primary mb-3 text-sm text-gray-600'>
             {i18n.language === 'uz'
-              ? "Bizning interaktiv xaritalarimiz yordamida do'koningizni rivojlantirish uchun qanday yonalishni tanlash, qaysi kategoriyalarga fokus qilish yoki mahsulotlaringizni kengaytirish haqida qaror qilishingiz mumkinligini ko'ring. Segmentatsiya sizning biznes strategiyangizni tashkil qilish, yangi bozorlarni baholash yoki mavjud bozorlarni kuchaytirishda muhim ahamiyatga ega. Bizning xaritalarimiz sizga daromad, buyurtma hajmi, mahsulot turlari va do'konlar konsentratsiyasi bo'yicha aniq va tushunarli tasavvur beradi."
-              : 'Наши интерактивные карты позволят вам понять, как выбрать направление для развития вашего магазина, на какие категории стоит сосредоточиться или расширить ваш ассортимент продукции. Сегментация играет ключевую роль в формировании вашей бизнес-стратегии, оценке новых рынков или усилении присутствия на существующих рынках. Наши карты предоставляют четкое и понятное представление о доходах, объемах заказов, разнообразии продуктов и концентрации магазинов по категориям.'}
+              ? "Segmentatsiya grafikalari sizga qaysi kategoriyalarda turli jihatdan o'sish yoki kamayish bolganligi hamda ulardagi raqobat va daromad haqida qisqacha ma'lumot beradi. "
+              : 'Графики сегментации показывают, в каких категориях произошло увеличение или уменьшение по разным параметрам, а также дают краткую информацию о конкуренции и доходе в них.'}
           </p>
         </div>
+        <div className='divide-y-2 divide-gray-200'>
+          <div className='py-4'>
+            <h3 className='mb-2 text-lg font-bold'>
+              {i18n.language === 'uz' ? 'Barcha davr uchun' : 'За все время'}
+            </h3>
+            <div className='grid grid-cols-2 gap-4'>
+              {[
+                [
+                  'dataTable.see_segmentationsbyrevenue',
+                  'dataTable.revenue',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalar hozirda eng ko'p yoki eng kam daromad olib kelmoqda?"
+                    : 'В каких категориях сейчас наибольший или наименьший доход?',
+                ],
 
-        <div className='grid grid-cols-2 gap-4'>
-          {[
-            [
-              'dataTable.see_segmentationsbyrevenue',
-              'dataTable.revenue',
-              i18n.language === 'uz'
-                ? "Qaysi kategoriyalar hozirda eng ko'p yoki eng kam daromad olib kelmoqda?"
-                : 'В каких категориях сейчас наибольший или наименьший доход?',
-            ],
-
-            [
-              'dataTable.see_segmentationsbyproducts_amount',
-              'dataTable.products_amount',
-              i18n.language === 'uz'
-                ? "Qaysi kategoriyalarda mahsulot turlari eng ko'p yoki eng kam? "
-                : 'В каких категориях наибольшее или наименьшее разнообразие товаров?',
-            ],
-
-            [
-              'dataTable.see_segmentationsbyorders_amount',
-              'dataTable.orders_amount',
-              i18n.language === 'uz'
-                ? "Qaysi kategoriyalarda narxidan qatiy nazar, eng ko'p yoki eng oz buyurtmalar mavjud?"
-                : 'В каких категориях наибольшее или наименьшее количество заказов (независимо от цены)?',
-            ],
-
-            [
-              'dataTable.see_segmentationsbyshops_amount',
-              'dataTable.shops_amount',
-              i18n.language === 'uz'
-                ? 'Qaysi kategoriyalarda raqobat eng kuchli yoki eng kam?'
-                : 'В каких категориях наибольшая или наименьшая конкуренция?',
-            ],
-          ].map(([textKey, segment, describtion]) => (
-            <div key={textKey} className='segmentation-container w-full'>
-              <p className='mt-2 text-sm italic text-gray-600'>
-                {/* some descrintion you have to tailor for each */}
-                {describtion}
-              </p>
-              <Button
-                className='text-primary border-primary hover:bg-primary flex w-full items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
-                onClick={() => {
-                  // if (!canSee) alert(t('toPaid'));
-                  setIsFullScreen(t(segment));
-                }}
-                spinnerColor='primary'
-                isLoading={loading.segments}
-              >
-                <>
-                  {t(textKey)}
-                  <FiChevronRight className='ml-2 inline-block' />
-                </>
-              </Button>
+                [
+                  'dataTable.see_segmentationsbyorders_amount',
+                  'dataTable.orders_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda narxidan qatiy nazar, eng ko'p yoki eng oz buyurtmalar mavjud?"
+                    : 'В каких категориях наибольшее или наименьшее количество заказов?',
+                ],
+                [
+                  'dataTable.see_segmentationsbyproducts_amount',
+                  'dataTable.products_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda mahsulot turlari eng ko'p yoki eng kam? "
+                    : 'В каких категориях наибольшее или наименьшее разнообразие товаров?',
+                ],
+                [
+                  'dataTable.see_segmentationsbyshops_amount',
+                  'dataTable.shops_amount',
+                  i18n.language === 'uz'
+                    ? 'Qaysi kategoriyalarda raqobat eng kuchli yoki eng kam?'
+                    : 'В каких категориях наибольшая или наименьшая конкуренция?',
+                ],
+              ].map(([textKey, segment, describtion]) => (
+                <div key={textKey} className='segmentation-container w-full'>
+                  <p className='mt-2 text-sm italic text-gray-600'>
+                    {/* some descrintion you have to tailor for each */}
+                    {describtion}
+                  </p>
+                  <Button
+                    className='text-primary border-primary hover:bg-primary flex w-full items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+                    onClick={() => {
+                      // if (!canSee) alert(t('toPaid'));
+                      setIsFullScreen(t(segment));
+                    }}
+                    spinnerColor='primary'
+                    isLoading={loading.segments}
+                  >
+                    <>
+                      {t(textKey)}
+                      <FiChevronRight className='ml-2 inline-block' />
+                    </>
+                  </Button>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className='py-4'>
+            <h3 className='mb-2 text-lg font-bold'>
+              {' '}
+              {i18n.language === 'uz' ? 'Oxirgi 30 kun' : 'Последние 30 дней'}
+            </h3>
+            <div className='grid grid-cols-2 gap-4'>
+              {[
+                [
+                  'dataTable.see_segmentationsby30dayrevenue',
+                  'dataTable.30day_revenue',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalar oxirgi 30 kunda eng ko'p yoki eng kam daromad olib keldi?"
+                    : 'В каких категориях самый высокий и самый низкий доход за последние 30 дней?',
+                ],
+                [
+                  'dataTable.see_segmentationsby30dayorders_amount',
+                  'dataTable.30day_orders_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda oxirgi 30 kunda eng ko'p yoki eng oz buyurtmalar bo'ldi?"
+                    : 'В каких категориях было наибольшее или наименьшее количество заказов за последние 30 дней?',
+                ],
+                [
+                  'dataTable.see_segmentationsby30dayproducts_amount',
+                  'dataTable.30day_products_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda oxirgi 30 kunda eng ko'p yoki eng kam yangi mahsulotlar qo'shildi?"
+                    : 'В каких категориях было добавлено наибольшее или наименьшее количество новых товаров за последние 30 дней?',
+                ],
+                [
+                  'dataTable.see_segmentationsby30dayshops_amount',
+                  'dataTable.30day_shops_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda oxirgi 30 kunda eng ko'p yoki eng kam do'konlar qo'shildi?"
+                    : 'В каких категориях было добавлено наибольшее или наименьшее количество новых магазинов за последние 30 дней?',
+                ],
+              ].map(([textKey, segment, describtion]) => (
+                <div
+                  key={textKey}
+                  className='segmentation-container relative w-full'
+                >
+                  <p className='mt-2 text-sm italic text-gray-600'>
+                    {/* some descrintion you have to tailor for each */}
+                    {describtion}
+                  </p>
+                  <Button
+                    className='text-primary border-primary hover:bg-primary flex w-full items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+                    onClick={() => {
+                      if (!isPaid) {
+                        RenderAlert({
+                          alertTitle:
+                            i18n.language === 'uz'
+                              ? "Hozirgi tarifda ushbu ma'lumotlarni ko'rish mumkin emas. Iltimos, tarifni o'zgartiring"
+                              : 'В текущем тарифе невозможно просмотреть эти данные. Пожалуйста, измените тариф',
+                          alertSubtitle: '',
+                          buttonTitle:
+                            i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                          buttonLink: '/profile',
+                        });
+                        return;
+                      }
+                      setIsFullScreen(t(segment));
+                    }}
+                    spinnerColor='primary'
+                    isLoading={loading.segments}
+                  >
+                    <>
+                      {t(textKey)}
+                      <div className='ga-3 flex items-center justify-end'>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src='/images/tariffs/crown.png'
+                          alt='crown'
+                          className='right-8 top-[38px] h-5 w-5'
+                        />
+                        <FiChevronRight className='ml-2 inline-block' />
+                      </div>
+                    </>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className='py-4'>
+            <h3 className='mb-2 text-lg font-bold'>
+              {i18n.language === 'uz' ? 'Oxirgi 7 kun' : 'Последние 7 дней'}
+            </h3>
+            <div className='grid grid-cols-2 gap-4'>
+              {[
+                [
+                  'dataTable.see_segmentationsby7dayrevenue',
+                  'dataTable.7day_revenue',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalar oxirgi 7 kunda eng ko'p yoki eng kam daromad olib keldi?"
+                    : 'В каких категориях самый высокий и самый низкий доход за последние 7 дней?',
+                ],
+                [
+                  'dataTable.see_segmentationsby7dayorders_amount',
+                  'dataTable.7day_orders_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda oxirgi 7 kunda eng ko'p yoki eng oz buyurtmalar bo'ldi?"
+                    : 'В каких категориях было наибольшее или наименьшее количество заказов за последние 7 дней?',
+                ],
+                [
+                  'dataTable.see_segmentationsby7dayproducts_amount',
+                  'dataTable.7day_products_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda oxirgi 7 kunda eng ko'p yoki eng kam yangi mahsulotlar qo'shildi?"
+                    : 'В каких категориях было добавлено наибольшее или наименьшее количество новых товаров за последние 7 дней?',
+                ],
+                [
+                  'dataTable.see_segmentationsby7dayshops_amount',
+                  'dataTable.7day_shops_amount',
+                  i18n.language === 'uz'
+                    ? "Qaysi kategoriyalarda oxirgi 7 kunda eng ko'p yoki eng kam do'konlar qo'shildi?"
+                    : 'В каких категориях было добавлено наибольшее или наименьшее количество новых магазинов за последние 7 дней?',
+                ],
+              ].map(([textKey, segment, describtion]) => (
+                <div
+                  key={textKey}
+                  className='segmentation-container relative w-full'
+                >
+                  <p className='mt-2 text-sm italic text-gray-600'>
+                    {/* some descrintion you have to tailor for each */}
+                    {describtion}
+                  </p>
+                  <Button
+                    className='text-primary border-primary hover:bg-primary flex w-full items-center justify-between gap-3 border bg-white px-3 py-2 transition-colors duration-200 hover:text-white active:shadow-inner'
+                    onClick={() => {
+                      if (!isPaid) {
+                        RenderAlert({
+                          alertTitle:
+                            i18n.language === 'uz'
+                              ? "Hozirgi tarifda ushbu ma'lumotlarni ko'rish mumkin emas. Iltimos, tarifni o'zgartiring"
+                              : 'В текущем тарифе невозможно просмотреть эти данные. Пожалуйста, измените тариф',
+                          alertSubtitle: '',
+                          buttonTitle:
+                            i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                          buttonLink: '/profile',
+                        });
+                        return;
+                      }
+                      // if (!canSee) alert(t('toPaid'));
+                      setIsFullScreen(t(segment));
+                    }}
+                    spinnerColor='primary'
+                    isLoading={loading.segments}
+                  >
+                    <>
+                      {t(textKey)}
+                      <div className='ga-3 flex items-center justify-end'>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src='/images/tariffs/crown.png'
+                          alt='crown'
+                          className='right-8 top-[38px] h-5 w-5'
+                        />
+                        <FiChevronRight className='ml-2 inline-block' />
+                      </div>
+                    </>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className='-mt-10 w-full max-w-full'>
-        <p className='font-primary flex items-center justify-start gap-6 py-6 pb-6 text-base font-bold'>
-          {i18n.language === 'uz'
-            ? 'Uzum uchun umumiy statistikalar'
-            : 'Общая статистика для Uzum'}
-        </p>
-        <Container className='font-primary w-full border-none shadow-none'></Container>
-        <div
-          className='w- max-w-full gap-6'
-          ref={draggableRef}
-          onMouseDown={handleMouseDown}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-        >
-          <div className='flex w-full max-w-full items-start justify-start gap-4'>
-            <GeneralsContainer
-              shops={shops}
-              orders={orders}
-              revenue={revenue}
-              products={products}
-              lang={i18n.language}
-              reviews={reviews}
-              t={t}
-              title={t('dataTable.orders_amount')}
-              loading={loading}
-            />
-            {/* </div> */}
-            <GeneralsContainer
-              shops={shops}
-              orders={orders}
-              revenue={revenue}
-              products={products}
-              reviews={reviews}
-              lang={i18n.language}
-              t={t}
-              title={t('dataTable.revenue')}
-              loading={loading}
-            />
-            <GeneralsContainer
-              shops={shops}
-              orders={orders}
-              revenue={revenue}
-              products={products}
-              lang={i18n.language}
-              reviews={reviews}
-              loading={loading}
-              t={t}
-              title={t('dataTable.products_amount')}
-            />
-          </div>
-          <div className='mt-4 flex w-full items-start justify-start gap-4'>
-            <GeneralsContainer
-              shops={shops}
-              orders={orders}
-              revenue={revenue}
-              loading={loading}
-              products={products}
-              reviews={reviews}
-              t={t}
-              title={t('dataTable.shops_amount')}
-              lang={i18n.language}
-            />
-            <GeneralsContainer
-              shops={shops}
-              orders={orders}
-              revenue={revenue}
-              products={products}
-              loading={loading}
-              reviews={reviews}
-              t={t}
-              title={t('dataTable.sellers_amount')}
-              lang={i18n.language}
-            />
-            <GeneralsContainer
-              shops={shops}
-              orders={orders}
-              revenue={revenue}
-              products={products}
-              reviews={reviews}
-              lang={i18n.language}
-              loading={loading}
-              t={t}
-              title={t('dataTable.reviews_amount')}
-            />
-          </div>
-        </div>
-      </div>
-      <div className='flex items-start justify-start gap-4'>
-        <SalesContainer
-          title1={
-            i18n.language == 'uz'
-              ? "Savdosiz do'konlar soni"
-              : 'Количество магазинов без продаж'
-          }
-          title2={
-            i18n.language == 'uz'
-              ? "Kecha savdo qilgan do'konlar soni"
-              : 'Количество магазинов с продажами вчера'
-          }
-          value1={topShops.shop_with_no_sales}
-          value2={topShops.shops_with_sales_yesterday}
-          loading={loading.topShops}
-        />
-        <SalesContainer
-          title1={
-            i18n.language == 'uz'
-              ? 'Savdosiz mahsulotlar soni'
-              : 'Количество товаров без продаж'
-          }
-          title2={
-            i18n.language == 'uz'
-              ? "Kecha sotuvi bo'lgan mahsulotlar soni"
-              : 'Количество товаров с продажами вчера'
-          }
-          value1={topProducts.product_with_no_sales}
-          value2={topProducts.products_with_sales_yesterday}
-          loading={loading.topProducts}
-        />
-      </div>
       <div className='w-full items-start justify-start gap-6'>
         <Container
           className='relative min-h-[400px] w-full max-w-full bg-white py-6 shadow-lg'
@@ -693,48 +710,6 @@ function HomeStatisticsContainer({
   );
 }
 
-function SalesContainer({
-  title1,
-  title2,
-  value1,
-  value2,
-  loading,
-}: {
-  title1: string;
-  title2: string;
-  value1: number;
-  value2: number;
-  loading?: boolean;
-}) {
-  return (
-    <Container
-      loading={loading}
-      className='flex h-[110px] min-w-[350px] flex-1 shrink-0 flex-col items-start justify-between rounded-md border bg-white p-6 shadow-lg'
-    >
-      {!loading ? (
-        <div className='flex w-full items-center justify-between gap-4'>
-          <p className='font-semibold'>{title1}</p>
-          <p className='text-primary font-semibold'>
-            {value1?.toLocaleString()}
-          </p>
-        </div>
-      ) : (
-        <></>
-      )}
-      {!loading ? (
-        <div className='mt-2 flex w-full items-center justify-between gap-4'>
-          <p className='font-semibold'>{title2}</p>
-          <p className='text-primary font-semibold'>
-            {value2?.toLocaleString()}
-          </p>
-        </div>
-      ) : (
-        <></>
-      )}
-    </Container>
-  );
-}
-
 function GeneralsContainer({
   shops,
   products,
@@ -764,11 +739,12 @@ function GeneralsContainer({
   title: string;
   lang: string;
   loading: {
-    shops: boolean;
-    products: boolean;
-    reviews: boolean;
-    revenue: boolean;
-    orders: boolean;
+    shops?: boolean;
+    products?: boolean;
+    reviews?: boolean;
+    revenue?: boolean;
+    orders?: boolean;
+    segments?: boolean;
   };
 }) {
   const getLogo = () => {
@@ -1038,8 +1014,10 @@ function GeneralsContainer({
             <p className='text-sm'>{lang === 'uz' ? 'ta' : 'шт'}</p>{' '}
           </div>
 
-          <div className='flex items-center justify-start gap-1'>
-            <p className='text-sm'>{t('comparedToYesterday')}</p>
+          <div className='flex max-w-full items-center justify-start gap-1'>
+            <p className='shrink-0 text-xs md:text-sm'>
+              {t('comparedToYesterday')}
+            </p>
             <p className='text-sm font-semibold'>
               ({dayBeforeYesterday?.toLocaleString()})
             </p>
@@ -1298,8 +1276,10 @@ function GeneralsContainer({
             <div className='mb-4 flex w-full items-center justify-start gap-4'>
               {renderDaily()}
             </div>
-            <div className='flex items-center justify-between'>
-              <p className='text-sm text-gray-500'>{t('InThisMonth')}</p>
+            <div className='flex shrink-0 items-center justify-between'>
+              <p className='shrink-0 text-sm text-gray-500'>
+                {t('InThisMonth')}
+              </p>
               <p className='font-semibold text-gray-700'>{getThisMonth()}</p>
             </div>
           </div>
@@ -1640,31 +1620,104 @@ function getData(
       data: any;
     };
   },
+  monthlyTree: any,
+  weeklyTree: any,
   title: string,
-  lang: string
+  t: any
 ) {
-  console.log(title);
   if (!data.orders) return [];
 
-  if (title === 'Daromad miqdori' || title === 'Выручка') {
+  if (title === t('dataTable.7day_revenue')) {
+    return weeklyTree.revenue.data;
+  }
+
+  if (title === t('dataTable.7day_orders_amount')) {
+    return weeklyTree.orders.data;
+  }
+
+  if (title === t('dataTable.7day_products_amount')) {
+    return weeklyTree.products.data;
+  }
+
+  if (title === t('dataTable.7day_shops_amount')) {
+    return weeklyTree.shops.data;
+  }
+
+  if (title === t('dataTable.30day_products_amount')) {
+    return monthlyTree.products.data;
+  }
+
+  if (title === t('dataTable.30day_shops_amount')) {
+    return monthlyTree.shops.data;
+  }
+
+  if (title === t('dataTable.30day_revenue')) {
+    return monthlyTree.revenue.data;
+  }
+
+  if (title === t('dataTable.30day_orders_amount')) {
+    return monthlyTree.orders.data;
+  }
+
+  if (title === t('dataTable.revenue')) {
     return data.revenue.data;
   }
-  if (title === 'Buyurtmalar soni' || title === 'Продаж') {
+  if (title === t('dataTable.orders_amount')) {
     return data.orders.data;
   }
-  if (title === 'Mahsulotlar soni' || title === 'Продукты') {
+  if (title === t('dataTable.products_amount')) {
     return data.products.data;
   }
-  if (title === "Do'konlar soni" || title === 'Магазины') {
+  if (title === t('dataTable.shops_amount')) {
     return data.shops.data;
   }
-  if (title === 'Izohlar soni' || title === 'Отзывы') {
+  if (title === t('dataTable.reviews_amount')) {
     return data.reviews.data;
   }
 }
 
-function getMinMax(data: any, title: string) {
+function getMinMax(
+  data: any,
+  monthlyTree: any,
+  weeklyTree: any,
+  title: string,
+  t: any
+) {
+  console.log(title);
+
   if (!data.orders) return [];
+
+  if (title === t('dataTable.7day_revenue')) {
+    return weeklyTree.revenue.min_max;
+  }
+
+  if (title === t('dataTable.7day_orders_amount')) {
+    return weeklyTree.orders.min_max;
+  }
+
+  if (title === t('dataTable.7day_products_amount')) {
+    return weeklyTree.products.min_max;
+  }
+
+  if (title === t('dataTable.7day_shops_amount')) {
+    return weeklyTree.shops.min_max;
+  }
+
+  if (title === t('dataTable.30day_revenue')) {
+    return monthlyTree.revenue.min_max;
+  }
+
+  if (title === t('dataTable.30day_orders_amount')) {
+    return monthlyTree.orders.min_max;
+  }
+
+  if (title === t('dataTable.30day_products_amount')) {
+    return monthlyTree.products.min_max;
+  }
+
+  if (title === t('dataTable.30day_shops_amount')) {
+    return monthlyTree.shops.min_max;
+  }
 
   if (title === 'Daromad miqdori' || title === 'Выручка') {
     return data.revenue.min_max;

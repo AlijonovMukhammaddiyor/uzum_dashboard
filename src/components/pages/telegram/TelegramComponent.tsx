@@ -78,7 +78,6 @@ function TelegramComponent() {
       .get<unknown, AxiosResponse<{ products: any[] }>>('/bot/products/get')
       .then((res) => {
         try {
-          logger(res.data, 'my products222');
           setLoading((prev) => ({ ...prev, products: false }));
           // dispatch({
           //   type: 'FAVOURITE_PRODUCTS',

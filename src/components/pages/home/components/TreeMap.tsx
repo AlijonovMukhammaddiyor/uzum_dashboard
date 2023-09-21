@@ -36,28 +36,40 @@ function TreeMap({
   titleField,
 }: Props) {
   const [filteredData, setFilteredData] = useState<any[]>(data);
-  const { i18n } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   useEffect(() => {
     setFilteredData(data);
   }, [data]);
 
   const isSum =
-    title === 'Daromad miqdori' || title === 'Выручка' ? true : false;
+    title === t('dataTable.revenue') ||
+    title === t('dataTable.30day_revenue') ||
+    title === t('dataTable.7day_revenue');
 
   const formatRevenue = (value: number) => {
+    const ending = i18n.language === 'uz' ? " so'm" : ' сум';
     const value_ = value * 1000;
     if (value_ >= 1000000000) {
-      return `${(value_ / 1000000000).toFixed(1)} mlrd so'm`;
+      return `${(value_ / 1000000000).toFixed(1)} ${
+        i18n.language === 'uz' ? 'mlrd' : 'млрд'
+      } ${ending}
+      `;
     } else if (value_ >= 1000000) {
-      return `${(value_ / 1000000).toFixed(1)} mln so'm`;
+      return `${(value_ / 1000000).toFixed(1)} ${
+        i18n.language === 'uz' ? 'mln' : 'млн'
+      } ${ending}
+      `;
     } else if (value_ >= 1000) {
-      return `${(value_ / 1000).toFixed(1)} ming so'm`;
+      return `${(value_ / 1000).toFixed(1)} ${
+        i18n.language === 'uz' ? 'ming' : 'тыс'
+      } ${ending}
+      `;
     } else {
-      return `${value_} so'm`;
+      return `${value_} ${ending}`;
     }
   };
 
-  console.log(min, max);
+  console.log('min max', min, max);
 
   const options = {
     data: filteredData,
@@ -75,7 +87,8 @@ function TreeMap({
                   ? formatRevenue(params.datum['analytics'])
                   : Number(
                       params.datum['analytics'].toFixed(0)
-                    ).toLocaleString() + ' ta'
+                    ).toLocaleString() +
+                    ` ${i18n.language === 'uz' ? 'ta' : 'шт'}`
               }`,
             };
           },
@@ -104,7 +117,7 @@ function TreeMap({
       contentStyle={{
         width: '100vw',
         height: '100vh',
-        overflow: 'scroll',
+        overflow: 'auto',
         // padding: '50px 0 0 0',
         position: 'fixed',
         top: 0,

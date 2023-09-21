@@ -30,7 +30,9 @@ export const RenderAlert = ({
 
       <div className='flex flex-1 flex-col justify-between gap-4'>
         <div className='flex w-full  shrink-0 items-center justify-between'>
-          <span className='text-md shrink-0 font-medium'>{alertTitle}</span>
+          <span className='text-md w-[calc(100%-150px)] shrink-0 font-medium'>
+            {alertTitle}
+          </span>
           {buttonLink && buttonTitle && (
             <Link
               href={buttonLink}

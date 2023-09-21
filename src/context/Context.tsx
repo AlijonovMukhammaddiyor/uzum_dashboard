@@ -83,7 +83,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         '/bot/products/get?only_ids=true'
       )
       .then((res) => {
-        logger(res.data, 'my products222');
         dispatch({
           type: 'FAVOURITE_PRODUCTS',
           payload: {
