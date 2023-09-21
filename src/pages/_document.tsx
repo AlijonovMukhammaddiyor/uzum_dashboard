@@ -166,6 +166,54 @@ export default function Document() {
             `,
           }}
         />
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                {
+                  '@type': 'ListItem',
+                  position: 1,
+                  item: {
+                    '@id': 'https://www.uzanalitika.uz/register',
+                    name:
+                      i18n.language === 'uz'
+                        ? "Ro'yhatdan o'tish"
+                        : 'Регистрация',
+                  },
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  item: {
+                    '@id': 'https://www.uzanalitika.uz/category',
+                    name:
+                      i18n.language === 'uz' ? 'Kategoriyalar' : 'Категории',
+                  },
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 3,
+                  item: {
+                    '@id': 'https://www.uzanalitika.uz/sellers',
+                    name: i18n.language === 'uz' ? "Do'konlar" : 'Магазины',
+                  },
+                },
+                {
+                  '@type': 'ListItem',
+                  position: 4,
+                  item: {
+                    '@id': 'https://www.uzanalitika.uz/products',
+                    name: i18n.language === 'uz' ? 'Mahsulotlar' : 'Товары',
+                  },
+                },
+                // ... more pages
+              ],
+            }),
+          }}
+        />
       </Head>
       <body>
         <Main />
