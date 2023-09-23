@@ -45,11 +45,19 @@ function LandingMain({
           </p>
         </div>
         <div className='mt-5 flex w-full flex-col items-center justify-center gap-5 md:mt-10 md:flex-row'>
-          <Link href='/register' className='w-full md:w-auto'>
-            <button className='bg-primary hover:text-primary border-primary w-full rounded-lg border-2 px-5 py-[10px] text-white shadow-md transition duration-200 hover:bg-white active:scale-95 md:w-auto'>
-              {t('main.button.signup')}
-            </button>
-          </Link>
+          <div className='relative w-full md:w-auto'>
+            <p className='absolute -top-5 text-xs text-slate-400'>
+              {i18n.language === 'uz'
+                ? 'Tavsiya: Kompyuter orqali kiring.'
+                : 'Совет: Войдите с компьютера.'}
+            </p>
+            <Link href='/register' className='w-full'>
+              <button className='bg-primary hover:text-primary border-primary w-full rounded-lg border-2 px-5 py-[10px] text-white shadow-md transition duration-200 hover:bg-white active:scale-95 md:w-auto'>
+                {t('main.button.signup')}
+              </button>
+            </Link>
+          </div>
+
           <div
             style={{
               alignItems: 'center',
