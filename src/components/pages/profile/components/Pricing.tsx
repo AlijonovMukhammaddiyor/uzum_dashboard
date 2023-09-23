@@ -364,7 +364,9 @@ function Tarif({
 
     if (productType === 'free') return 0;
 
-    if (productType === 'business') return 70 * months;
+    if (productType === 'business')
+      if (months === 3) return 190;
+      else 70;
 
     // Calculate the show price
     let showPrice = regularPrice * months;
