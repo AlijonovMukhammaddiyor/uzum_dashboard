@@ -1,7 +1,7 @@
 {
-  "top_10_products_revenue": "Eng daromadli mahsulotlar (Top 200)",
+  "top_10_products_revenue": "Eng katta tushumli mahsulotlar (Top 200)",
   "select_graph_type": "Ushbu yerdan ma'lumot turi tanlang",
-  "revenue": "Daromad",
+  "revenue": "Tushum",
   "products_amount": "Mahsulotlar soni",
   "orders_amount": "Buyurtmalar soni",
   "subcategories_amount": "Ichki Kategoriyalar soni",
@@ -12,7 +12,7 @@
   "shops": "Do'konlar",
   "reviews": "Izohlar",
   "procucts_segmentation_by_price_in_category": "Kategoriyadagi mahsulotlar narxlari bo'yicha segmentatsiya",
-  "data_info_price_range": "Ushbu narx oraliqlariga kiruvchi mahsulotlar soni, buyurtmalar soni, va daromad miqdori ko'rsatilgan.",
+  "data_info_price_range": "Ushbu narx oraliqlariga kiruvchi mahsulotlar soni, buyurtmalar soni, va tushum miqdori ko'rsatilgan.",
   "update": "Yangilash",
   "currency": "So'm",
   "top_10_sellers": "Kategoriyadagi Sotuvchilarning ulushlari - Top sotuvchilar (10 tagacha)",

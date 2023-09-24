@@ -102,7 +102,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
             {/* Daromad miqdoriga ko'ra filtrlash
              */}
             {i18n.language === 'uz'
-              ? "Daromad miqdoriga ko'ra filtrlash"
+              ? "Tushum miqdoriga ko'ra filtrlash"
               : 'Фильтрация по объему дохода'}
           </p>
         </div>
@@ -110,7 +110,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
           <Filter
             title={
               i18n.language === 'uz'
-                ? 'Oxirgi 30 kundagi daromadmiqdori'
+                ? 'Oxirgi 30 kundagi tushum miqdori'
                 : 'Объем дохода за последние 30 дней'
             }
             setValues={setFilter}
@@ -128,7 +128,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
           <Filter
             title={
               i18n.language === 'uz'
-                ? 'Jami daromad miqdori'
+                ? 'Jami tushum miqdori'
                 : 'Общий объем дохода'
             }
             setValues={setFilter}

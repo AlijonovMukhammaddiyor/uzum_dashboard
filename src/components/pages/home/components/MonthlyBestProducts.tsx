@@ -70,7 +70,7 @@ function MonthlyBestProducts({ className }: HomeStatisticsContainerProps) {
       >
         <p className='w-full py-4 text-center text-base font-semibold'>
           {i18n.language === 'uz'
-            ? "Quyidagi jadvalda oxirgi 30 kun ichida eng ko'p daromad keltirgan 100 ta mahsulotlar ro'yhati keltirilgan"
+            ? "Quyidagi jadvalda oxirgi 30 kun ichida eng ko'p tushum keltirgan 100 ta mahsulotlar ro'yhati keltirilgan"
             : 'В таблице ниже представлен список 100 продуктов, которые за последние 30 дней принесли наибольший доход'}
         </p>
         <Table

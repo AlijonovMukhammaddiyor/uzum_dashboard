@@ -233,7 +233,7 @@ function Pricing({ className }: { className?: string }) {
               color='primary'
               isEnterprise
               buttonTitle={
-                i18n.language === 'uz' ? 'Aloqaga chiqmoq' : 'связаться сейчас'
+                i18n.language === 'uz' ? 'Aloqaga chiqish' : 'Связаться с нами'
               }
               sendToRegister={sendToRegister}
               isFreeTrial={true}

@@ -556,7 +556,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
             <div className='flex items-center justify-start gap-2'>
               <p className='text-xs font-semibold'>
                 {i18n.language === 'uz'
-                  ? "Eng ko'p daromad keltirgan 100 ta"
+                  ? "Eng ko'p tushum keltirgan 100 ta"
                   : '100 товаров с наибольшей выручкой'}
               </p>
               <Switch

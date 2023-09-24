@@ -105,7 +105,7 @@ function CategoryProductsFilters({
             {/* Daromad miqdoriga ko'ra filtrlash
              */}
             {i18n.language === 'uz'
-              ? "Daromad miqdoriga ko'ra filtrlash"
+              ? "Tushum miqdoriga ko'ra filtrlash"
               : 'Фильтрация по объему дохода'}
           </p>
         </div>
