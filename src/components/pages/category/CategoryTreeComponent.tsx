@@ -244,7 +244,7 @@ function CategoryTreeComponent() {
 
       <Container
         loading={loading}
-        className='flex h-[calc(100vh-89px)] max-h-full items-start justify-start gap-4 overflow-hidden rounded-md bg-white'
+        className='flex h-[calc(100%)] max-h-full items-start justify-start gap-4 overflow-hidden rounded-md bg-white'
       >
         <div className='relative flex h-full w-[300px] flex-col items-start justify-start gap-1 overflow-y-scroll border-b border-gray-300 bg-slate-50 p-6'>
           {parents?.map((parent, index) => (

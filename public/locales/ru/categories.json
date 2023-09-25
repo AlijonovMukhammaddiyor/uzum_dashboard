@@ -2,10 +2,10 @@
   "top_10_products_revenue": "Самые прибыльные продукты (Топ 200)",
   "select_graph_type": "Выберите тип данных здесь",
   "revenue": "Выручка",
-  "products_amount": "Количество продуктов",
+  "products_amount": "Кол-во продуктов",
   "orders_amount": "Продаж",
-  "subcategories_amount": "Количество подкатегорий",
-  "segmentations_amount": "Количество сегментаций",
+  "subcategories_amount": "Кол-во подкатегорий",
+  "segmentations_amount": "Кол-во сегментаций",
   "other_products": "Другие продукты",
   "orders": "Продаж",
   "shops": "Магазины",
@@ -16,6 +16,6 @@
   "update": "Обновить",
   "currency": "сум",
   "top_10_sellers": "Доли продавцов в категории - Лидеры продаж (до 10)",
-  "total_sellers": "Количество магазинов",
+  "total_sellers": "Кол-во магазинов",
   "no_subcategories": "Нет подкатегорий"
 }

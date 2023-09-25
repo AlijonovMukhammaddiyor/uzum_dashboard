@@ -69,8 +69,6 @@ function TreeMap({
     }
   };
 
-  console.log('min max', min, max);
-
   const options = {
     data: filteredData,
     series: [
@@ -115,8 +113,8 @@ function TreeMap({
       closeOnDocumentClick
       onClose={closeModal}
       contentStyle={{
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
         overflow: 'auto',
         // padding: '50px 0 0 0',
         position: 'fixed',

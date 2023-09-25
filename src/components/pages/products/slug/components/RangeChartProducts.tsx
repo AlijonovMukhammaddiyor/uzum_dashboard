@@ -111,10 +111,10 @@ const RangeChartProducts = ({ data, style }: RangeChartProps) => {
       // use a function to map categories to colors
       switch (type) {
         case 'Mahsulotlar soni':
-        case 'Количество товаров':
+        case 'Кол-во товаров':
           return 'rgb(82, 95, 225)'; // specify color for Mahsulotlar soni
         case 'Buyurtmalar soni':
-        case 'Количество заказов':
+        case 'Кол-во заказов':
           return 'rgba(48, 111, 3, 0.6)'; // specify color for Buyurtmalar soni
         default:
           return 'rgba(57, 181, 224, 0.7)'; // default color for other categories

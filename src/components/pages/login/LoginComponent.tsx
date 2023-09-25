@@ -87,8 +87,8 @@ function LoginComponent() {
   });
 
   return (
-    <div className='w-sreen base:bg-none relative flex h-screen overflow-hidden'>
-      <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
+    <div className='base:bg-none relative flex h-full min-h-screen w-full overflow-hidden'>
+      <div className='border-primary fixed right-0 top-20 z-10 flex h-9 items-center justify-center overflow-scroll rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
             'relative flex h-full w-10 cursor-pointer items-center justify-center bg-white p-2 text-sm',
@@ -108,104 +108,75 @@ function LoginComponent() {
           Рус
         </div>
       </div>
-      <div className='layout base:w-1/2 absolute top-5 flex w-full items-center justify-between gap-2 px-3 text-sm'>
-        <Link href='/' className='md:ml-6'>
-          {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
-          <Image
-            src={Logo}
-            alt='logo'
-            width={200}
-            height={50}
-            className='w-28 md:w-36'
-          />
-        </Link>
-        <div className='flex items-center justify-end gap-2'>
-          <p className='hidden text-xs lg:block'>{t('register.ask')}</p>
-          <p>
-            <Link
-              href='/register'
-              className='rounded-2xl border border-slate-400 px-2 py-1'
-            >
-              <span className='text-primary'>{t('register')}</span>
-            </Link>
-          </p>
+      <div className='layout base:w-1/2 top-5 flex h-full min-h-screen w-full flex-col items-center justify-start gap-2 px-3 text-sm'>
+        <div className='mb-6 flex h-12 w-full items-center justify-between p-5'>
+          <Link href='/' className='md:ml-6'>
+            {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
+            <Image
+              src={Logo}
+              alt='logo'
+              width={200}
+              height={50}
+              className='w-28 md:w-36'
+            />
+          </Link>
+          <div className='flex items-center justify-end gap-2'>
+            <p className='hidden text-xs lg:block'>{t('register.ask')}</p>
+            <p>
+              <Link
+                href='/register'
+                className='rounded-2xl border border-slate-400 px-2 py-1'
+              >
+                <span className='text-primary'>{t('register')}</span>
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
-      <div className='base:w-1/2 relative mt-[22vh] flex w-full items-start justify-center px-5 md:mt-[30vh]'>
-        <div
-          className={clsxm(
-            'flex w-[350px] max-w-[350px] flex-col items-center justify-start gap-6  px-2'
-            // activeTab === 3 && '-mt-[400px]'
-          )}
-        >
-          <LoginHeader activeTab={activeTab} />
-          <p className='-mb-4 text-sm text-slate-400'>
-            Если вы зарегистрированы в Google
-          </p>
+        <div className='relative flex w-full flex-1 items-center justify-center px-5 pb-16'>
           <div
-            className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-400 py-1 hover:bg-gray-200'
-            onClick={() => {
-              login();
-            }}
+            className={clsxm(
+              'flex w-[350px] max-w-[350px] flex-col items-center justify-start gap-6  px-2'
+              // activeTab === 3 && '-mt-[400px]'
+            )}
           >
-            <FcGoogle className='text-primary text-4xl' />
-            <p className=''>
-              {i18n.language === 'uz'
-                ? 'Google orqali kirish'
-                : 'Войти через Google'}
+            <LoginHeader activeTab={activeTab} />
+            <p className='-mb-4 text-sm text-slate-400'>
+              Если вы зарегистрированы в Google
             </p>
+            <div
+              className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-gray-400 py-1 hover:bg-gray-200'
+              onClick={() => {
+                login();
+              }}
+            >
+              <FcGoogle className='text-primary text-4xl' />
+              <p className=''>
+                {i18n.language === 'uz'
+                  ? 'Google orqali kirish'
+                  : 'Войти через Google'}
+              </p>
+            </div>
+            <div className='flex w-full items-center justify-between'>
+              <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
+              <p className='text-slate-500'>
+                {i18n.language === 'uz' ? 'Yoki' : 'Или'}
+              </p>
+              <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
+            </div>
+            <UserNameAndPassword
+              activeTab={activeTab}
+              currentTab={1}
+              onNext={() => {
+                setactiveTab(2);
+              }}
+              user={user}
+              setUser={setUser}
+              sending={sending}
+              success={success}
+              setSending={setSendingRequest}
+              setSuccess={setSuccess}
+            />
           </div>
-          <div className='flex w-full items-center justify-between'>
-            <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
-            <p className='text-slate-500'>
-              {i18n.language === 'uz' ? 'Yoki' : 'Или'}
-            </p>
-            <div className='h-[1px] w-[calc(50%-20px)] bg-slate-400'></div>
-          </div>
-          <UserNameAndPassword
-            activeTab={activeTab}
-            currentTab={1}
-            onNext={() => {
-              setactiveTab(2);
-            }}
-            user={user}
-            setUser={setUser}
-            sending={sending}
-            success={success}
-            setSending={setSendingRequest}
-            setSuccess={setSuccess}
-          />
-          {/* <LoginPhoneInputComponent
-            user={user}
-            activeTab={activeTab}
-            currentTab={2}
-            onPrevious={() => {
-              setactiveTab(1);
-            }}
-            onNext={() => {
-              setactiveTab(3);
-            }}
-            setUser={setUser}
-          />
-          <LoginPhoneConfirm
-            activeTab={activeTab}
-            currentTab={3}
-            onPrevious={() => {
-              setactiveTab(2);
-            }}
-            phone={user.phone_number}
-            onNext={() => setactiveTab(4)}
-          />
-          <NewPassword
-            activeTab={activeTab}
-            currentTab={4}
-            onNext={() => {
-              router.push('/login');
-              setactiveTab(1);
-            }}
-            user={user}
-            setUser={setUser}
-          /> */}
         </div>
       </div>
 
@@ -223,7 +194,7 @@ function LoginHeader({ activeTab }: { activeTab: number }) {
     <div className='flex w-full max-w-sm flex-col items-center justify-center gap-6 px-2'>
       <div className=''>
         <div className='flex w-full flex-col items-start'>
-          <h1 className='w-full text-center font-semibold'>
+          <h1 className='base:text-2xl w-full text-center text-xl font-semibold'>
             {activeTab === 1 ? t('title') : t('password.reset.title')}
           </h1>
         </div>

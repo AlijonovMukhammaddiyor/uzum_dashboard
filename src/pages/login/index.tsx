@@ -7,7 +7,7 @@ import LoginComponent from '@/components/pages/login/LoginComponent';
 
 const Login = () => {
   return (
-    <div className='min-h-screen w-screen'>
+    <div className='h-full w-full'>
       <LoginComponent />
     </div>
   );

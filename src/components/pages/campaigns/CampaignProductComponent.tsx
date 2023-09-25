@@ -210,7 +210,7 @@ function prepareDailyOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     reviews.push({
       x: new Date(item.date_pretty),
       y: item.reviews_amount - prev_rev,
-      label: lang === 'uz' ? 'Kunlik izohlar soni' : 'Количество отзывов',
+      label: lang === 'uz' ? 'Kunlik izohlar soni' : 'Кол-во отзывов',
     });
     prev_rev = item.reviews_amount;
     prices.push({
@@ -234,9 +234,7 @@ function prepareDailyOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     borderColor: 'rgba(100, 149, 237, 1)',
     backgroundColor: 'rgba(100, 149, 237, 0.2)',
     label:
-      lang === 'uz'
-        ? 'Kunlik yangi buyurtmalar soni'
-        : 'Количество новых заказов',
+      lang === 'uz' ? 'Kunlik yangi buyurtmalar soni' : 'Кол-во новых заказов',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(100, 149, 237, 1)',
   });
@@ -247,8 +245,7 @@ function prepareDailyOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     hidden: false,
     borderColor: 'rgba(255, 99, 132, 1)',
     backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    label:
-      lang === 'uz' ? 'Kunlik yangi izohlar soni' : 'Количество новых отзывов',
+    label: lang === 'uz' ? 'Kunlik yangi izohlar soni' : 'Кол-во новых отзывов',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(255, 99, 132, 1)',
   });
@@ -321,7 +318,7 @@ function prepareAllOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     fill: true,
     borderColor: 'rgba(100, 149, 237, 1)',
     backgroundColor: 'rgba(100, 149, 237, 0.2)',
-    label: lang === 'uz' ? 'Jami buyurtmalar soni' : 'Количество заказов',
+    label: lang === 'uz' ? 'Jami buyurtmalar soni' : 'Кол-во заказов',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(100, 149, 237, 1)',
   });
@@ -332,7 +329,7 @@ function prepareAllOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     hidden: false,
     borderColor: 'rgba(255, 99, 132, 1)',
     backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    label: lang === 'uz' ? 'Jami izohlar soni' : 'Количество отзывов',
+    label: lang === 'uz' ? 'Jami izohlar soni' : 'Кол-во отзывов',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(255, 99, 132, 1)',
   });
@@ -342,7 +339,7 @@ function prepareAllOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     fill: true,
     borderColor: 'rgba(0, 128, 0, 1)',
     backgroundColor: 'rgba(0, 128, 0, 0.2)',
-    label: lang === 'uz' ? 'Jami mavjud miqdori' : 'Количество доступных',
+    label: lang === 'uz' ? 'Jami mavjud miqdori' : 'Кол-во доступных',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(0, 128, 0, 1)',
   });

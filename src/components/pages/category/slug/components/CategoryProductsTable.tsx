@@ -257,7 +257,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       M1: 'Отзывы (месяц)',
       N1: 'Отзывы (неделя)',
       O1: 'Позиция в подкатегории',
-      P1: 'Количество в наличии',
+      P1: 'Кол-во в наличии',
       Q1: 'Рейтинг',
       R1: 'Средняя цена покупки',
     };
@@ -485,14 +485,6 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
         <div className='flex h-[calc(100%-24px)] w-full flex-1 items-start justify-start p-3'>
           {/* <PieChart data={topProductsData} labelType='spider' />
            */}
-
-          {/* <TreeMapChart
-            data={prepareTreeData(topProductsData, i18n.language)}
-            min={Math.min(...topProductsData.map((product) => product.value))}
-            max={Math.max(...topProductsData.map((product) => product.value))}
-            title={t('revenue')}
-            colors={['#FFC107', '#FF9800', '#FF5722', '#F44336', '#E91E63']}
-          /> */}
         </div>
       </Container>
       <div className=''>
@@ -548,7 +540,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
         <p className='mb-4 font-semibold'>
           {i18n.language === 'uz' ? 'Mahsulotlar' : 'Товары'} ({count})
         </p>
-        <div className='flex w-full items-center justify-between rounded-t-md p-5'>
+        <div className='flex w-full items-center justify-between rounded-t-md py-5'>
           <p className='font-semibold'>
             {i18n.language === 'uz' ? 'Tez Filtrlar' : 'Мгновенные фильтры'}
           </p>
@@ -624,7 +616,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
               />
             </div>
             <div className='flex items-center justify-start gap-2'>
-              <p className='text-xs font-semibold'>
+              <p className='text-[10px] font-semibold'>
                 {i18n.language === 'uz'
                   ? '30 kunlik yuqori daromadli 100 ta'
                   : '100 товаров с максимальной выручкой за 30 дней'}

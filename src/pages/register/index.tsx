@@ -35,7 +35,10 @@ const Register = () => {
   };
 
   return (
-    <div className='relative flex min-h-screen w-screen justify-start'>
+    <div
+      className='min-w-screen relative flex min-h-screen w-full justify-start'
+      id='register'
+    >
       <div className='border-primary fixed right-0 top-5 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
@@ -56,8 +59,11 @@ const Register = () => {
           Рус
         </div>
       </div>
-      <div className='base:w-1/2 base:bg-none relative flex w-full items-center justify-center overflow-hidden px-5'>
-        <Link href='/' className='absolute left-6 top-3 z-10'>
+      <div className='base:w-1/2 base:bg-none relative flex w-full flex-col items-center justify-center overflow-hidden px-5 pb-10'>
+        <Link
+          href='/'
+          className='z-10 mb-6 flex w-full items-center justify-start p-5'
+        >
           {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
           <Image
             src={Logo}
@@ -95,7 +101,9 @@ function RegisterHeader({ plan }: { plan: string }) {
       <Seo />
       <div className=''>
         <div className='flex w-full flex-col items-start'>
-          <h1 className='w-full text-center font-semibold'>{t('title')}</h1>
+          <h1 className='base:text-2xl w-full text-center text-xl font-semibold'>
+            {t('title')}
+          </h1>
         </div>
         <div className='flex items-center justify-start'>
           <p className='mt-2 w-full min-w-[300px] text-center text-sm text-slate-500'>

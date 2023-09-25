@@ -67,11 +67,31 @@ const InfiniteTable = <T,>({
   const sortColumnRef = React.useRef<{ colId: string; sort: string } | null>(
     null
   );
+  const [zoomLevel, setZoomLevel] = React.useState(1);
 
-  const sortColumn: {
-    colId: string;
-    sort: string;
-  } | null = null;
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.9); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  React.useEffect(() => {
+    const uzanalitikaDiv = document.getElementById(
+      'infinitetable'
+    ) as HTMLDivElement;
+    (uzanalitikaDiv.style as any).zoom = zoomLevel;
+  }, [zoomLevel]);
 
   let searchColumn: {
     [key: string]: {
@@ -115,7 +135,6 @@ const InfiniteTable = <T,>({
   };
 
   React.useEffect(() => {
-    console.log('REFETCHING');
     if (gridApiRef.current) {
       gridApiRef.current.setDatasource(dataSource);
     }
@@ -183,6 +202,7 @@ const InfiniteTable = <T,>({
         'ag-theme-balham min-w-full overflow-hidden border border-none shadow-none',
         className
       )}
+      id='infinitetable'
     >
       <AgGridReact
         defaultColDef={{

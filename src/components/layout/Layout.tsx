@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import * as React from 'react';
 import { Toaster } from 'react-hot-toast';
 
+// close icon
 import clsxm from '@/lib/clsxm';
 
 import Header from '@/components/sections/Header';
@@ -14,6 +16,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation('common');
   const [isWarningVisible, setIsWarningVisible] = React.useState(false);
   const [hasClosedWarning, setHasClosedWarning] = React.useState(true);
+  const [hasClosedTelegram, setHasClosedTelegram] = React.useState(true);
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+  const router = useRouter();
 
   const checkScreenWidth = () => {
     if (window.innerWidth < 1500 || window.innerHeight < 840) {
@@ -90,8 +95,48 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return os;
   }
 
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 80% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  React.useEffect(() => {
+    if (router.pathname === '/login') return;
+    if (router.pathname === '/register') return;
+
+    (document.documentElement.style as any).zoom = zoomLevel;
+    document.body.style.width = `${100 / zoomLevel}vw`;
+    document.body.style.height = `${100 / zoomLevel}vh`;
+
+    const nextDiv = document.getElementById('__next') as HTMLDivElement;
+    nextDiv.style.width = `${100 / zoomLevel}vw`;
+    nextDiv.style.height = `${100 / zoomLevel}vh`;
+
+    const uzanalitikaDiv = document.getElementById(
+      'uzanalitika'
+    ) as HTMLDivElement;
+
+    uzanalitikaDiv.style.width = `${100 / zoomLevel}vw`;
+    uzanalitikaDiv.style.height = `${100 / zoomLevel}vh`;
+  }, [zoomLevel]);
+
   return (
-    <div className='main_layout_container flex h-screen w-screen items-start justify-start overflow-hidden  bg-slate-100 pt-10'>
+    <div
+      className='flex h-full w-full items-start justify-start overflow-hidden  bg-slate-100 pt-10'
+      id='uzanalitika'
+    >
       {isWarningVisible && !hasClosedWarning && (
         <div className='fixed left-1/2 top-4 z-[1999] -translate-x-1/2 transform rounded bg-yellow-300 p-6 shadow-lg'>
           <div className='mb-4 flex items-center justify-start'>
@@ -153,6 +198,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </button>
         </div>
       )}
+
       <Sidebar
         className='fixed left-0 top-0 z-50 h-full'
         activeTab={activeTab}
@@ -163,7 +209,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Header />
       <div
         className={clsxm(
-          'ml-20 flex h-full w-screen items-start justify-start overflow-scroll'
+          'ml-20 flex h-full w-full items-start justify-start overflow-scroll'
         )}
       >
         <div className='flex h-full w-full flex-1 flex-col py-3 pr-4'>

@@ -4421,7 +4421,7 @@ export const getCategoryShopsTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning ushbu kategoriyadagi mahsulotlar soni."
-          : 'Количество товаров магазина в этой категории.',
+          : 'Кол-во товаров магазина в этой категории.',
     },
 
     {
@@ -4439,7 +4439,7 @@ export const getCategoryShopsTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning ushbu kategoriyadan buyurtmalar soni."
-          : 'Количество заказов магазина из этой категории.',
+          : 'Кол-во заказов магазина из этой категории.',
     },
     {
       headerName: t('reviews'),
@@ -4455,7 +4455,7 @@ export const getCategoryShopsTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning ushbu kategoriyadagi mahsulotlarining jami izohlar soni"
-          : 'Количество отзывов на товары магазина из этой категории.',
+          : 'Кол-во отзывов на товары магазина из этой категории.',
     },
     {
       headerName: t('revenue'),
@@ -4800,7 +4800,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning jami buyurtmalar soni"
-          : 'Количество заказов магазина.',
+          : 'Кол-во заказов магазина.',
     },
 
     {
@@ -4834,7 +4834,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning mahsulotlari soni"
-          : 'Количество товаров магазина.',
+          : 'Кол-во товаров магазина.',
     },
     {
       headerName: t('categories_count'),
@@ -4873,7 +4873,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning jami izohlar soni"
-          : 'Количество отзывов магазина.',
+          : 'Кол-во отзывов магазина.',
     },
   ];
 };
@@ -4927,7 +4927,7 @@ export const getFavouriteShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning jami buyurtmalar soni"
-          : 'Количество заказов магазина.',
+          : 'Кол-во заказов магазина.',
     },
 
     {
@@ -4961,7 +4961,7 @@ export const getFavouriteShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning mahsulotlari soni"
-          : 'Количество товаров магазина.',
+          : 'Кол-во товаров магазина.',
     },
 
     {
@@ -4987,7 +4987,7 @@ export const getFavouriteShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz'
           ? "Do'konning jami izohlar soni"
-          : 'Количество отзывов магазина.',
+          : 'Кол-во отзывов магазина.',
     },
   ];
 };

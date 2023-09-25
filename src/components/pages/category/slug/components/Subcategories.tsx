@@ -68,7 +68,7 @@ function Subcategories({ className, categoryId, isActive }: Props) {
       {loading ? (
         <div
           className={clsxm(
-            'h-[600px] min-w-[1200px] max-w-[100vw] overflow-scroll rounded-md'
+            'h-[600px] min-w-[1200px] max-w-full overflow-scroll rounded-md'
           )}
         >
           <SubCategoriesPieChartData
@@ -88,7 +88,7 @@ function Subcategories({ className, categoryId, isActive }: Props) {
       ) : (
         <div
           className={clsxm(
-            'h-[600px] w-full min-w-[1200px] max-w-[100vw] overflow-scroll rounded-md'
+            'h-[600px] w-full min-w-[1200px] max-w-full overflow-scroll rounded-md'
           )}
         >
           <SubCategoriesPieChartData

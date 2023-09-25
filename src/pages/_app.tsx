@@ -111,6 +111,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <main
           className={`${ubuntu.variable} ${merri.variable} ${raleway.variable}`}
+          style={{
+            minHeight: '100%',
+            minWidth: '100%',
+          }}
         >
           <Tour />
           <Head>

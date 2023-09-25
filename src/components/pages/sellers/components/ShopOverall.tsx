@@ -236,7 +236,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
       >
         <Table
           columnDefs={getShopOverallColumnDefs(t2)}
-          rowData={data}
+          rowData={getData(data)}
           className='h-[1200px] min-w-full'
           isBalham={true}
           rowHeight={80}
@@ -248,6 +248,15 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
 }
 
 export default ShopOverall;
+
+function getData(data: SellerType[]) {
+  const temp = [...data];
+  return temp.sort((b, a) => {
+    return (
+      new Date(a.date_pretty).getTime() - new Date(b.date_pretty).getTime()
+    );
+  });
+}
 
 function prepareDataset(data: SellerType[], type = 'Daromad', lang = 'uz') {
   switch (type) {
@@ -413,7 +422,7 @@ function _prepareProducts(products: SellerType[], lang: string) {
       label:
         lang === 'uz'
           ? "Kunlik mahsulotlar soni o'zgarishi"
-          : 'Ежедневное количество продуктов',
+          : 'Ежедневное Кол-во продуктов',
       hidden: false,
       pointRadius: 3,
       pointBackgroundColor: 'rgb(62, 199, 11)',

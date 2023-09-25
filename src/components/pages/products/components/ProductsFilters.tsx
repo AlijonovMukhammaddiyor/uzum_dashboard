@@ -58,7 +58,7 @@ function ProductsFilters({
   return (
     <div
       className={clsxm(
-        'relative z-10 flex  h-full max-h-full max-w-[1100px] flex-col items-start justify-between gap-4 rounded-none border-none bg-white pb-3 shadow-none',
+        'relative z-10 flex  h-full max-h-full max-w-[1100px] flex-col items-start justify-between gap-4 rounded-none border-none pb-3 shadow-none',
         className
       )}
     >

@@ -29,7 +29,7 @@ function LandingPage() {
   }, [typeof window]);
 
   return (
-    <div className='relative w-screen'>
+    <div className='min-w-screen relative w-full'>
       <Head>
         <title>Analitika Uzum</title>
         <link rel='icon' href='/favicon.ico' />

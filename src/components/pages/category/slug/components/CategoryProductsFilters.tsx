@@ -77,7 +77,7 @@ function CategoryProductsFilters({
             title={
               i18n.language === 'uz'
                 ? 'Oxirgi 30 kundagi sotuvlar soni'
-                : 'Количество продаж за последние 30 дней'
+                : 'Кол-во продаж за последние 30 дней'
             }
             setValues={setFilter}
             isDisabled={
@@ -155,7 +155,7 @@ function CategoryProductsFilters({
             title={
               i18n.language === 'uz'
                 ? 'Oxirgi 30 kundagi izohlar soni'
-                : 'Количество отзывов за последние 30 дней'
+                : 'Кол-во отзывов за последние 30 дней'
             }
             setValues={setFilter}
             type='diff_reviews_amount'

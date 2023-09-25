@@ -54,7 +54,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
   const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
   const [shouldRefetch, setShouldRefetch] = React.useState<boolean>(false);
   const isProPlus = user.tariff === 'seller' || user.tariff === 'business';
-
+  const [zoomLevel, setZoomLevel] = React.useState(1);
   const [searched, setSearched] = React.useState<boolean>(false);
 
   useEffect(() => {
@@ -123,38 +123,29 @@ function ProductsComponent({ user }: ProductsComponentProps) {
     }
   }, [i18n.language, notAllowedTab, t]);
 
-  // const getData = () => {
-  //   if (selectedCategories.size === 0)
-  //     return alert(
-  //       i18n.language === 'uz'
-  //         ? 'Kategoriya(lar)ni tanlang'
-  //         : 'Выберите категорию(и)'
-  //     );
-  //   const api = new API(null);
-  //   setLoading(true);
-  //   let url = `/product/`;
-  //   const params = makeUrlParams();
-  //   url += `?categories=${Array.from(selectedCategories).join(',')}${params}`;
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.9); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
 
-  //   api
-  //     .get<
-  //       unknown,
-  //       AxiosResponse<{ data: ProductAnalyticsViewType[]; count: number }>
-  //     >(url)
-  //     .then((res) => {
-  //       if (res.data.count > 10000) {
-  //         setLoading(false);
-  //         return alert(
-  //           i18n.language === 'uz'
-  //             ? `Jami filtrlangan mahsulotlar soni 10 000 dan oshdi. Iltimos, qidiruv filtrlari yoki tanlangan kategoriyalarni o'zgartiring- (${res.data.count} ta mahsulot)`
-  //             : `Общее количество отфильтрованных продуктов превысило 10 000. Пожалуйста, измените фильтры поиска или выбранные категории - (${res.data.count} продуктов)`
-  //         );
-  //       }
-  //       setData(res.data.data);
-  //       setTotal(res.data.count);
-  //       setLoading(false);
-  //     });
-  // };
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  React.useEffect(() => {
+    const uzanalitikaDiv = document.getElementById(
+      'productFilters'
+    ) as HTMLDivElement;
+    (uzanalitikaDiv.style as any).zoom = zoomLevel;
+  }, [zoomLevel]);
 
   const loadData = (
     startRow: number,
@@ -270,7 +261,10 @@ function ProductsComponent({ user }: ProductsComponentProps) {
           }
           className='min-h-full w-full gap-5 rounded-none border-none shadow-none'
         >
-          <div className='mb-8 flex min-h-[calc(100vh-200px)] w-full items-start justify-start gap-2 bg-white'>
+          <div
+            className='mb-8 flex min-h-full w-full items-start justify-start gap-2 overflow-scroll bg-white'
+            id='productFilters'
+          >
             <CategoriesSelect
               className='shrink-0'
               selectedCategories={selectedCategories}
@@ -305,7 +299,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               ? "Ma'lumotlar yuklanmoqda..."
               : 'Загрузка данных...'
           }
-          className='h-[calc(100vh-200px) w-full rounded-none border-none shadow-none'
+          className='h-[calc(100%-200px) w-full rounded-none border-none shadow-none'
         >
           <p className='w-full py-3 text-center text-xl font-semibold'>
             {i18n.language === 'uz'
@@ -342,7 +336,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               getCategoryProductTableColumnDefs(t2, i18n.language) as any
             }
             className={clsxm(
-              'h-[calc(100vh-0px)] w-full',
+              'h-[calc(100vh-0px)] min-w-full',
               total === 0 && 'hidden'
             )}
           />
