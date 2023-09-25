@@ -172,10 +172,10 @@ function AboutProduct({
         <div
           className={clsxm(
             'duratio-300 absolute top-20 z-[200] h-full w-[calc(100%-0px)] transition',
-            compareOpen ? 'left-[0px]' : 'left-full'
+            compareOpen ? 'left-[0px]' : '-left-full'
           )}
         >
-          {isProPlus && (
+          {/* {isProPlus && (
             <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
               <span className='w-full text-center font-semibold'>
                 {i18n.language === 'uz'
@@ -183,7 +183,7 @@ function AboutProduct({
                   : 'Этот тариф недоступен'}
               </span>
             </div>
-          )}
+          )} */}
 
           <Container
             loading={loading}

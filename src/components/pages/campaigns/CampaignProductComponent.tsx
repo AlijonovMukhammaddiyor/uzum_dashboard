@@ -223,7 +223,7 @@ function prepareDailyOrdersDataset(data: ProductAnalyticsType[], lang: string) {
       revenue.push({
         x: new Date(item.date_pretty),
         y: (item.orders_money - prev_revenue) * 1000,
-        label: lang === 'uz' ? 'Kunlik daromad' : 'Доход за день',
+        label: lang === 'uz' ? 'Kunlik tushum' : 'Доход за день',
       });
     prev_revenue = item.orders_money;
   }
@@ -267,7 +267,7 @@ function prepareDailyOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     hidden: true,
     borderColor: 'rgba(255, 159, 64, 1)',
     backgroundColor: 'rgba(255, 159, 64, .4)',
-    label: lang === 'uz' ? 'Kunlik daromad' : 'Доход за день',
+    label: lang === 'uz' ? 'Kunlik tushum' : 'Доход за день',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(255, 159, 64, 1)',
   });
@@ -351,7 +351,7 @@ function prepareAllOrdersDataset(data: ProductAnalyticsType[], lang: string) {
     type: 'bar' as const,
     borderColor: 'rgba(255, 159, 64, 1)',
     backgroundColor: 'rgba(255, 159, 64, 0.2)',
-    label: lang === 'uz' ? 'Jami daromad' : 'Доход',
+    label: lang === 'uz' ? 'Jami tushum' : 'Доход',
     pointRadius: 3,
     pointBackgroundColor: 'rgba(255, 159, 64, 1)',
   });

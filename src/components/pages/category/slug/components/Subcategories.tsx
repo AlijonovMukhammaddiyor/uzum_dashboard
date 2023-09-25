@@ -240,7 +240,7 @@ const SubCategoriesPieChartData = ({
           data={revenue_data}
           title={
             i18n.language === 'uz'
-              ? 'Ichki kategoriyalarning Daromadga nisbatan ulushlari'
+              ? 'Ichki kategoriyalarning Tushumga nisbatan ulushlari'
               : 'Успех подкатегорий по доходам'
           }
           labelType='outer'
