@@ -116,12 +116,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           </p>
         </div>
       </div>
-      <div className='flex items-center justify-end gap-5'>
-        <p className='text-xl font-bold'>
-          {i18n.language === 'uz'
-            ? "Qaysi ma'lumotlar ko'rsatilsin? - "
-            : 'Какие данные показывать? - '}
-        </p>
+      <div className='flex items-center justify-start gap-5'>
         <Select
           // components={{ DropdownIndicator }}
           className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
@@ -167,6 +162,11 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
             { value: t('reviews'), label: t('reviews') },
           ]}
         />
+        <p className='text-xl font-bold'>
+          {i18n.language === 'uz'
+            ? " - Qaysi ma'lumotlar ko'rsatilsin? "
+            : ' - Какие данные показывать? '}
+        </p>
         {/* <p className='text-sm text-blue-500'>{t('select_graph_type')}</p> */}
       </div>
       <Container

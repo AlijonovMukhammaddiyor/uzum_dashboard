@@ -11,7 +11,7 @@ import {
   getShopStoppedProductTableColumnDefs,
 } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import PaginatedTable from '@/components/shared/PaginatedTable';
+import InfiniteTable from '@/components/shared/InfiniteTable';
 import PieChart from '@/components/shared/PieChart';
 import Table from '@/components/shared/Table';
 import Tabs from '@/components/shared/Tabs';
@@ -185,8 +185,10 @@ function ShopProducts({ sellerId, className }: Props) {
   React.useEffect(() => {
     setActiveProducts(t('sellers_current_products'));
   }, [t, i18n.language]);
+
   const loadData = (
-    page: number,
+    start: number,
+    end: number,
     sortModel: {
       colId: string;
       sort: string;
@@ -201,7 +203,8 @@ function ShopProducts({ sellerId, className }: Props) {
   ) => {
     const api = new API(null);
     setLoading(true);
-    let url = `/shop/products/` + sellerId + `?page=${page}`;
+    let url =
+      `/shop/products/` + sellerId + `?offset=${start}&limit=${end - start}`;
     if (sortModel) {
       url += `&column=${sortModel.colId}&order=${sortModel.sort}`;
     }
@@ -301,8 +304,7 @@ function ShopProducts({ sellerId, className }: Props) {
           setNotAllowedTab={setNotAllowedTab}
         />
 
-        <PaginatedTable
-          isBalham={true}
+        <InfiniteTable
           rowHeight={70}
           headerHeight={60}
           columnDefs={getShopProductTableColumnDefs(t2, i18n.language)}

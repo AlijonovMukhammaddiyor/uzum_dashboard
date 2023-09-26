@@ -4651,6 +4651,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       filter: false,
       cellStyle: {
         // backgroundColor: '',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -4663,6 +4664,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       filter: false,
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -4677,6 +4679,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         textAlign: 'center',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -4689,6 +4692,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       minWidth: 150,
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
       headerClass: 'bg-purple-100',
     },
@@ -4700,7 +4704,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       cellRenderer: LocaleNumberCellRenderer,
       minWidth: 150,
       headerTooltip: t('tooltip.categories_count'),
-      cellStyle: {} as CellStyle,
+      cellStyle: { fontSize: '14px' } as CellStyle,
     },
     {
       headerName: t('reviews'),
@@ -4709,7 +4713,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       filter: false,
       cellRenderer: LocaleNumberCellRenderer,
       minWidth: 150,
-      cellStyle: {} as CellStyle,
+      cellStyle: { fontSize: '14px' } as CellStyle,
     },
     {
       headerName: t('rating'),
@@ -4718,7 +4722,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       filter: false,
       minWidth: 150,
       headerTooltip: t('tooltip.rating'),
-      cellStyle: {} as CellStyle,
+      cellStyle: { fontSize: '14px' } as CellStyle,
       cellRenderer: RatingCellRenderer,
     },
     {
@@ -4729,7 +4733,7 @@ export const getShopOverallColumnDefs = (t: any) => {
       filter: false,
       minWidth: 150,
       headerTooltip: t('tooltip.average_price'),
-      cellStyle: {} as CellStyle,
+      cellStyle: { fontSize: '14px' } as CellStyle,
     },
   ];
 };
@@ -4785,6 +4789,21 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
           : 'Просмотр магазина через Telegram бот.',
     },
     {
+      headerName: t('monthly_orders'),
+      field: 'monthly_total_orders',
+      sortable: true,
+      filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
+
+      flex: 1,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_orders.tooltip'),
+    },
+    {
       headerName: t('orders'),
       field: 'total_orders',
       sortable: true,
@@ -4801,6 +4820,22 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
         lang === 'uz'
           ? "Do'konning jami buyurtmalar soni"
           : 'Кол-во заказов магазина.',
+    },
+
+    {
+      headerName: t('monthly_revenue'),
+      field: 'monthly_total_revenue',
+      sortable: true,
+      filter: false,
+      cellRenderer: RevenueCellRenderer,
+
+      flex: 1,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_revenue.tooltip'),
     },
 
     {
