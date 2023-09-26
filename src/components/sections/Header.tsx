@@ -167,6 +167,16 @@ export default function Header() {
                   {i18n.language === 'uz' ? 'Konsultatsiya' : 'Консультация'}
                 </span>
               </a>
+              <a
+                href='https://t.me/uzum_uzanalitika'
+                target='_blank'
+                className='flex items-center space-x-2 rounded'
+              >
+                <FaTelegram className='text-xl text-blue-500' />
+                <span className='cursor-pointer text-sm text-slate-700 hover:underline'>
+                  {i18n.language === 'uz' ? 'guruh' : 'группа'}
+                </span>
+              </a>
             </li>
             <li>
               <div className='relative'>
