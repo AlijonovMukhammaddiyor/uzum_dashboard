@@ -261,6 +261,7 @@ function getData(data: SellerType[]) {
 function prepareDataset(data: SellerType[], type = 'Daromad', lang = 'uz') {
   switch (type) {
     case 'Daromad':
+    case 'Tushum':
     case 'Выручка':
       return _prepareRevenue(data, lang);
     case 'Buyurtmalar':

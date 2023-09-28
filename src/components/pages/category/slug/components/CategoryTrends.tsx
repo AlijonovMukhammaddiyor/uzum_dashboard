@@ -241,19 +241,22 @@ const prepareDataset = (
     prevReviews = item.total_reviews;
 
     revenue.push({
-      y: Math.round(item.total_orders_amount * 1000),
+      y: Math.round(Math.round(item.total_orders_amount * 1000) / 1000) * 1000,
       x: item.date_pretty,
     });
 
     dailyRevenue.push({
-      y: Math.round((item.total_orders_amount - prevRevenue) * 1000),
+      y:
+        Math.round(
+          Math.round((item.total_orders_amount - prevRevenue) * 1000) / 1000
+        ) * 1000,
       x: item.date_pretty,
     });
 
     prevRevenue = item.total_orders_amount;
   });
 
-  if (tab === 'Daromad' || tab === 'Выручка')
+  if (tab === 'Daromad' || tab === 'Выручка' || tab === 'Tushum')
     return [
       {
         data: dailyRevenue,

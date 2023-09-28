@@ -7,8 +7,12 @@ import { Toaster } from 'react-hot-toast';
 // close icon
 import clsxm from '@/lib/clsxm';
 
+import FloatingButtons from '@/components/layout/floating/FloatingButtons';
 import Header from '@/components/sections/Header';
 import Sidebar from '@/components/sections/Sidebar';
+
+import telegram from '@/assets/telegram.png';
+import youtube from '@/assets/youtube.png';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [activeTab, setActiveTab] = React.useState('');
@@ -16,9 +20,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation('common');
   const [isWarningVisible, setIsWarningVisible] = React.useState(false);
   const [hasClosedWarning, setHasClosedWarning] = React.useState(true);
-  const [hasClosedTelegram, setHasClosedTelegram] = React.useState(true);
   const [zoomLevel, setZoomLevel] = React.useState(1);
   const router = useRouter();
+  const [isOpen, setIsOpen] = React.useState(true);
 
   const checkScreenWidth = () => {
     if (window.innerWidth < 1500 || window.innerHeight < 840) {
@@ -130,11 +134,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     uzanalitikaDiv.style.width = `${100 / zoomLevel}vw`;
     uzanalitikaDiv.style.height = `${100 / zoomLevel}vh`;
-  }, [zoomLevel]);
+  }, [router.pathname, zoomLevel]);
+
+  const buttonsList = [
+    {
+      onClick: () => alert('clicked instagram'),
+      src: youtube,
+      label: i18n.language === 'uz' ? "Qo'llanma" : 'Руководство',
+      bgColor: '#FE0000',
+      href: 'https://www.youtube.com/watch?v=zsZtVNYyPEc&t=1s',
+    },
+    {
+      onClick: () => alert('clicked medium'),
+      src: telegram,
+      label: 'Guruh',
+      bgColor: '#039BE5',
+      href: 'https://t.me/uzum_uzanalitika',
+    },
+  ];
 
   return (
     <div
-      className='flex h-full w-full items-start justify-start overflow-hidden  bg-slate-100 pt-10'
+      className='relative flex h-full w-full items-start justify-start overflow-hidden  bg-slate-100 pt-10'
       id='uzanalitika'
     >
       {isWarningVisible && !hasClosedWarning && (
@@ -198,6 +219,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </button>
         </div>
       )}
+
+      <FloatingButtons
+        buttonType='plus'
+        buttonsList={buttonsList}
+        left={50}
+        dimension={50}
+        direction='up'
+      />
+
+      {/*  */}
 
       <Sidebar
         className='fixed left-0 top-0 z-50 h-full'

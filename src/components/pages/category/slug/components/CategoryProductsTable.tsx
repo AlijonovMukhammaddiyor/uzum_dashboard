@@ -450,7 +450,9 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       >
         <div className='flex items-center justify-between gap-3'>
           <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-            <p className='font-semibold'>{t('revenue')}:</p>
+            <p className='font-semibold'>
+              {t('revenue')}({i18n.language === 'uz' ? 'Jami' : 'Всего'}):
+            </p>
             <p className='text-primary font-semibold'>
               {revenue / 1000000 > 1 ? (
                 <span>{(revenue / 1000000).toFixed(1)} mlrd so'm</span>
@@ -473,14 +475,6 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
               {totalOrders?.toLocaleString()}
             </p>
           </div>
-          {childrenCount > 0 && (
-            <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-              <p className='font-semibold'>{t('subcategories_count')}:</p>
-              <p className='text-primary font-semibold'>
-                {childrenCount?.toLocaleString()}
-              </p>
-            </div>
-          )}
         </div>
         <div className='flex h-[calc(100%-24px)] w-full flex-1 items-start justify-start p-3'>
           {/* <PieChart data={topProductsData} labelType='spider' />

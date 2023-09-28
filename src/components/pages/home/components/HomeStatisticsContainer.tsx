@@ -1719,7 +1719,11 @@ function getMinMax(
     return monthlyTree.shops.min_max;
   }
 
-  if (title === 'Daromad miqdori' || title === 'Выручка') {
+  if (
+    title === 'Daromad miqdori' ||
+    title === 'Выручка' ||
+    title === 'Tushum miqdori'
+  ) {
     return data.revenue.min_max;
   }
   if (title === 'Buyurtmalar soni' || title === 'Продаж') {
@@ -1737,7 +1741,7 @@ function getMinMax(
 }
 
 function getTitles(title: string) {
-  if (title === 'Daromad miqdori') {
+  if (title === 'Daromad miqdori' || title === 'Tushum miqdori') {
     return "Quyida barcha kategoriyalarning daromad miqdori va shu daromadga qarab ularning ulushi ko'rsatilgan.";
   }
   if (title === 'Buyurtmalar soni') {
