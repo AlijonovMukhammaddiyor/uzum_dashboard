@@ -147,7 +147,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     {
       onClick: () => alert('clicked medium'),
       src: telegram,
-      label: 'Guruh',
+      label: i18n.language === 'uz' ? 'Guruh' : 'Группа',
       bgColor: '#039BE5',
       href: 'https://t.me/uzum_uzanalitika',
     },
