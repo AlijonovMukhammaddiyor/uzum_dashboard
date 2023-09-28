@@ -237,41 +237,41 @@ const UserProfileDropdown = ({
 
     return null;
   };
-  return (
-    isOpen && (
+  return isOpen ? (
+    <div
+      ref={dropdownRef}
+      className='absolute right-0 top-full z-10 mt-4 w-[180px] rounded-md border bg-white shadow-xl'
+    >
       <div
-        ref={dropdownRef}
-        className='absolute right-0 top-full z-10 mt-4 w-[180px] rounded-md border bg-white shadow-xl'
+        className='flex items-center justify-between gap-2 border-b p-2 hover:bg-gray-200'
+        onClick={() => {
+          router.push('/profile');
+        }}
       >
-        <div
-          className='flex items-center justify-between gap-2 border-b p-2 hover:bg-gray-200'
-          onClick={() => {
-            router.push('/profile');
-          }}
-        >
-          <p className='text-sm'>
-            {i18n.language === 'uz' ? 'Tarif' : 'Тариф'}:{' '}
-            <span className='text-primary'>{getTariff()}</span>
-          </p>
-          <BsChevronRight className='' />
-        </div>
-
-        {state.user?.tariff !== 'free' && state.user?.payment_date && (
-          <div className='border-b p-2 text-sm'>
-            {i18n.language === 'uz' ? 'To‘lov qilish sanasi:' : 'Дата оплаты:'}{' '}
-            <p>{getPaymentDate()}</p>
-          </div>
-        )}
-
-        <div
-          className='flex cursor-pointer items-center justify-between p-2 hover:bg-gray-200'
-          onClick={handleUserLogout}
-        >
-          {i18n.language === 'uz' ? 'Chiqish' : 'Выйти'}
-          <IoExitOutline className='text-xl' />
-        </div>
+        <p className='text-sm'>
+          {i18n.language === 'uz' ? 'Tarif' : 'Тариф'}:{' '}
+          <span className='text-primary'>{getTariff()}</span>
+        </p>
+        <BsChevronRight className='' />
       </div>
-    )
+
+      {state.user?.tariff !== 'free' && state.user?.payment_date && (
+        <div className='border-b p-2 text-sm'>
+          {i18n.language === 'uz' ? 'To‘lov qilish sanasi:' : 'Дата оплаты:'}{' '}
+          <p>{getPaymentDate()}</p>
+        </div>
+      )}
+
+      <div
+        className='flex cursor-pointer items-center justify-between p-2 hover:bg-gray-200'
+        onClick={handleUserLogout}
+      >
+        {i18n.language === 'uz' ? 'Chiqish' : 'Выйти'}
+        <IoExitOutline className='text-xl' />
+      </div>
+    </div>
+  ) : (
+    <></>
   );
 };
 
