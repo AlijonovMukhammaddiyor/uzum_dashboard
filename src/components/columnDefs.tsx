@@ -1403,12 +1403,18 @@ function PriceChangeCellRenderer(props: { value: any }) {
   const { value } = props;
 
   const color = value?.change < 0 ? 'red' : 'green';
-  const ChangeIcon = value?.change < 0 ? HiMinusSm : HiOutlinePlusSm;
-  const sss = value?.before && value?.change !== 0;
+
+  const change = Math.round(value?.change / 1000) * 1000;
+
+  const ChangeIcon = change < 0 ? HiMinusSm : HiOutlinePlusSm;
+  const sss = value?.before && change !== 0;
   return (
     <div className='flex h-full items-center justify-center gap-1'>
       <p className='text-center'>
-        {Math.round(value?.target)?.toLocaleString()} so'm
+        {(
+          Math.round(Math.round(value?.target) / 1000) * 1000
+        )?.toLocaleString()}{' '}
+        so'm
       </p>
       {sss && (
         <div className='flex items-center justify-start'>
