@@ -489,6 +489,13 @@ function Tarif({
             {months} {t('tariffs.month')}
           </span>
         )}
+        {isBusiness && (
+          <span className='inline-block rounded-full px-3 text-sm'>
+            {i18n.language === 'uz'
+              ? '3 tagacha foydalanuvchi foydalansa bo`ladi'
+              : 'До 3 пользователей могут пользоваться'}
+          </span>
+        )}
       </div>
 
       {!isFree && (
