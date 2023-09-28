@@ -10,6 +10,8 @@ import logger from '@/lib/logger';
 import Container from '@/components/layout/Container';
 import Button from '@/components/shared/buttons/Button';
 
+import { useContextState } from '@/context/Context';
+
 function SearchContainer({
   open,
   closeModal,
@@ -266,6 +268,7 @@ function SearchResultSection({
   search?: string;
 }) {
   const { i18n } = useTranslation('common');
+  const { state } = useContextState();
   const INITIAL_DISPLAY_COUNT = 3;
   const MAX_DISPLAY_COUNT = 100;
 
@@ -383,6 +386,32 @@ function SearchResultSection({
         </li>
       );
     } else {
+      const tariff = state.user?.tariff;
+      if (tariff !== 'base' && tariff !== 'seller' && tariff !== 'business') {
+        <li
+          key={result.link}
+          className='cursor-pointer px-3 py-2 transition duration-150 ease-in-out hover:bg-gray-50'
+        >
+          <p
+            className='ellipsis block text-blue-500 hover:underline'
+            title={result.name}
+            onClick={() =>
+              alert(
+                i18n.language === 'uz'
+                  ? "Do'konlarni tahlil qilish ushbu tarifda mavjud emas"
+                  : 'Анализ магазинов недоступен в этом тарифе'
+              )
+            }
+          >
+            <Highlighter
+              highlightClassName='bg-yellow-200'
+              searchWords={[search ?? '']}
+              autoEscape={true}
+              textToHighlight={result.name}
+            />
+          </p>
+        </li>;
+      }
       return (
         <li
           key={result.link}
