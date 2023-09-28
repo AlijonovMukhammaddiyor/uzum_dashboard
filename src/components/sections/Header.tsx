@@ -153,7 +153,7 @@ export default function Header() {
             </li>
             <li className='flex space-x-4'>
               <a
-                href='https://t.me/Alijonov_md'
+                href='https://t.me/ulugbek4real'
                 target='_blank'
                 className='flex items-center space-x-2 rounded'
               >
