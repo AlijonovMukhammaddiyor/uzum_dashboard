@@ -14,8 +14,10 @@ import API from '@/lib/api';
 import logger from '@/lib/logger';
 
 import Breadcrumb from '@/components/shared/Breadcrumb';
+import Possibilities from '@/components/shared/Possibilities';
 import SearchContainer from '@/components/shared/SearchContainer';
 
+import knowledge from '@/assets/knowledge.png';
 import Logo from '@/assets/logo/main_logo_only.png';
 import { useContextState } from '@/context/Context';
 export interface HeaderProps {
@@ -44,6 +46,7 @@ export default function Header() {
   const [closedWarning, setClosedWarning] = React.useState<boolean>(false);
   const { t, i18n } = useTranslation('common');
   const router = useRouter();
+  const [servicesOpen, setServicesOpen] = React.useState<boolean>(false);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -68,6 +71,10 @@ export default function Header() {
       <SearchContainer
         open={isSearchOpen}
         closeModal={() => setIsSearchOpen(false)}
+      />
+      <Possibilities
+        open={servicesOpen}
+        closeModal={() => setServicesOpen(false)}
       />
 
       {state.user?.tariff === 'trial' && openMessage && !closedWarning && (
@@ -127,6 +134,23 @@ export default function Header() {
               />
             </li>
             {/* Telegram Consultation Link */}
+            <li
+              className='flex space-x-4'
+              onClick={() => setServicesOpen(true)}
+            >
+              <div className='flex items-center space-x-2 rounded'>
+                <Image
+                  src={knowledge}
+                  alt='knowledge'
+                  width={27}
+                  height={27}
+                  className='mb-2'
+                />
+                <span className='cursor-pointer text-sm text-slate-700 hover:underline'>
+                  {i18n.language === 'uz' ? 'Imkoniyatlar' : 'Возможности'}
+                </span>
+              </div>
+            </li>
             <li className='flex space-x-4'>
               <a
                 href='https://t.me/Alijonov_md'
