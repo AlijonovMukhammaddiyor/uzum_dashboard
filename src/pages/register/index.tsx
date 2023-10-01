@@ -6,13 +6,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import React from 'react';
 
 import clsxm from '@/lib/clsxm';
 
 import Loading from '@/components/Loading';
 import NamesAndEmailComponent from '@/components/pages/register/NameInput';
-import Seo from '@/components/Seo';
 
 import Logo from '@/assets/landing/main.png';
 
@@ -39,6 +39,12 @@ const Register = () => {
       className='min-w-screen relative flex min-h-screen w-full justify-start'
       id='register'
     >
+      <NextSeo
+        title={i18n?.language === 'uz' ? "Ro'yhatdan o'tish" : 'Регистрация'}
+        canonical={`https://www.uzanalitika.uz/${
+          i18n.language
+        }${router.asPath.replace(/\?.*/, '')}`}
+      />
       <div className='border-primary fixed right-0 top-5 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
           className={clsxm(
@@ -98,7 +104,6 @@ function RegisterHeader({ plan }: { plan: string }) {
 
   return (
     <div className='flex w-full max-w-sm flex-col items-center justify-center gap-6 px-2'>
-      <Seo />
       <div className=''>
         <div className='flex w-full flex-col items-start'>
           <h1 className='base:text-2xl w-full text-center text-xl font-semibold'>
