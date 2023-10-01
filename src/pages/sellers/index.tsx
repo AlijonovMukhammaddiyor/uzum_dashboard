@@ -97,6 +97,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         user_id: number;
       };
 
+      if (decoded.user.tariff === 'free') {
+        return {
+          redirect: {
+            permanent: false,
+            destination: context.req.headers.referer || '/home',
+          },
+          props: {},
+        };
+      }
+
       const { locale } = context;
 
       return {
