@@ -297,14 +297,18 @@ function RenderChildren({
         >
           <div
             className={clsxm(
-              'flex w-full max-w-[480px] cursor-pointer items-center justify-start gap-1'
+              'flex cursor-pointer items-center justify-start gap-1'
             )}
+            style={{
+              width: `calc(100% - ${depth * 25}px)`,
+              maxWidth: `calc(100% - ${depth * 25}px)`,
+            }}
           >
             <p
               className={clsxm(
                 'hover:text-primary ellipsis group flex cursor-pointer items-center justify-start gap-2 rounded-md p-1 text-sm font-medium',
                 hasChildren && 'font-semibold',
-                'line-clamp-1 w-[calc(100%-40px)]'
+                'line-clamp-1 w-[calc(100%-40px)] max-w-[calc(100%-40px)]'
                 // isExpanded && 'text-primary'
               )}
             >
