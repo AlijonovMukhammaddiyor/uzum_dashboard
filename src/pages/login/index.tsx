@@ -15,7 +15,7 @@ const Login = () => {
   return (
     <div className='h-full w-full'>
       <NextSeo
-        title={i18n?.language === 'uz' ? 'Kirish' : 'Вход'}
+        title={t('title')}
         canonical={`https://www.uzanalitika.uz/${
           i18n.language
         }${router.asPath.replace(/\?.*/, '')}`}

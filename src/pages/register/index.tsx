@@ -40,7 +40,7 @@ const Register = () => {
       id='register'
     >
       <NextSeo
-        title={i18n?.language === 'uz' ? "Ro'yhatdan o'tish" : 'Регистрация'}
+        title={t('title')}
         canonical={`https://www.uzanalitika.uz/${
           i18n.language
         }${router.asPath.replace(/\?.*/, '')}`}
