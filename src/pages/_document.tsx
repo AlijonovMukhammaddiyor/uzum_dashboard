@@ -59,58 +59,6 @@ export default function Document() {
               scroll-behavior: smooth;
               }`}
         </style>
-
-        <meta
-          name='description'
-          content={
-            i18n.language === 'uz'
-              ? "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-              : 'Полноценные инструменты аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т. д. А также детальный анализ перспективных товаров и категорий.'
-          }
-        />
-        <meta
-          property='og:title'
-          content={
-            i18n.language === 'uz'
-              ? 'UzAnalitika - UZUM market tahlili'
-              : 'UzAnalitika - Аналитика UZUM маркет'
-          }
-        />
-        <meta
-          property='og:description'
-          content={
-            i18n.language === 'uz'
-              ? "Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-              : 'Полноценные инструменты аналитики для вашего бизнеса на Uzum Market. Внешний и внутренний анализ, выбор ниши, анализ товаров и магазинов, сравнение, тенденции, ценовая сегментация и т. д. А также детальный анализ перспективных товаров и категорий.'
-          }
-        />
-        <meta
-          property='og:image'
-          content='https://www.uzanalitika.uz/images/og_new.png?v=2'
-        />
-        <meta property='og:url' content='https://www.uzanalitika.uz/' />
-        <meta property='og:site_name' content='uzanalitika.uz' />
-        <meta property='og:type' content='website' />
-        <meta property='og:locale' content='uz_UZ' />
-        <meta property='twitter:card' content='summary_large_image' />
-        <meta
-          property='twitter:title'
-          content='UzAnalitika - UZUM market tahlili'
-        />
-        <meta
-          property='twitter:description'
-          content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-        />
-        <meta
-          property='twitter:image'
-          content='https://www.uzanalitika.uz/images/og_new.png?v=2'
-        />
-        <meta property='twitter:site' content='@uzanalitika' />
-        <meta property='twitter:creator' content='@uzanalitika' />
-        <meta property='twitter:domain' content='uzanalitika.uz' />
-        <meta property='og:image:width' content='1200' />
-        <meta property='og:image:height' content='630' />
-        <link rel='canonical' href='https://www.uzanalitika.uz/' />
         {/* eslint-disable-next-line @next/next/next-script-for-ga */}
         <script
           async
