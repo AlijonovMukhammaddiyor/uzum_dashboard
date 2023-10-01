@@ -104,9 +104,12 @@ export default function Header() {
         </div>
 
         <div
-          className='flex flex-1 cursor-pointer items-center space-x-2 border-b border-slate-700 pl-2 pr-[3px]'
+          className='flex flex-1 cursor-pointer items-center space-x-2 rounded-md border-b border-slate-700 bg-slate-200 pl-3 pr-[3px]'
           onClick={() => setIsSearchOpen(true)}
         >
+          {/* <div className='gold-gradient threeD-effect -mt-1 flex h-9 items-center justify-center rounded-md px-3 text-[#333]'>
+            {i18n.language === 'uz' ? 'Qidirish' : 'Поиск'}
+          </div> */}
           <input
             type='text'
             placeholder={
@@ -114,7 +117,7 @@ export default function Header() {
                 ? 'Xohlagan narsani qidiring...'
                 : 'ищите все, что хотите...'
             }
-            className='min-w-[200px] rounded-sm border-none text-sm placeholder:text-slate-500 focus:outline-none focus:ring-0'
+            className='min-w-[200px] rounded-sm border-none bg-slate-200 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-0'
           />
           {/* <button className='bg-primary flex items-center justify-center rounded-md px-2 py-1 text-white'>
                 {i18n.language === 'uz' ? 'Tez Qidirish' : 'Быстрый Поиск'}
