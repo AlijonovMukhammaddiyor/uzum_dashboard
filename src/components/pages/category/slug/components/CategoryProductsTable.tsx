@@ -48,18 +48,9 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   const { t: t2 } = useTranslation('categories');
   const { state } = useContextState();
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [topProductsData, setTopProductsData] = React.useState<
-    {
-      type: string;
-      value: number;
-    }[]
-  >([]);
   const [loadingTopProducts, setLoadingTopProducts] =
     React.useState<boolean>(false);
-  const [totalOrders, setTotalOrders] = React.useState<number>(0);
-  const [totalProducts, setTotalProducts] = React.useState<number>(0);
-  const [childrenCount, setChildrenCount] = React.useState<number>(0);
-  const [revenue, setRevenue] = React.useState<number>(0);
+
   const [count, setCount] = React.useState<number>(0);
   const [filters, setFilters] = React.useState<
     {
@@ -114,18 +105,6 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
               value: Math.round(product.orders_money),
             };
           });
-        // if (res.data.total_products > 10)
-        //   data.push({
-        //     type: t2('other_products'),
-        //     value: Math.round(res.data.total_revenue - sum),
-        //   });
-
-        setTopProductsData(data);
-        setTotalProducts(res.data.total_products);
-        setChildrenCount(res.data.descendants);
-        setTotalOrders(res.data.total_orders);
-        setRevenue(res.data.total_revenue);
-
         // setTotalOrders(res.data.total_orders);
         setLoadingTopProducts(false);
       })
@@ -448,34 +427,6 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
         )}
         loading={loadingTopProducts}
       >
-        <div className='flex items-center justify-between gap-3'>
-          <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-            <p className='font-semibold'>
-              {t('revenue')}({i18n.language === 'uz' ? 'Jami' : 'Всего'}):
-            </p>
-            <p className='text-primary font-semibold'>
-              {revenue / 1000000 > 1 ? (
-                <span>{(revenue / 1000000).toFixed(1)} mlrd so'm</span>
-              ) : revenue / 1000 > 1 ? (
-                <span>{(revenue / 1000).toFixed(1)} mln so'm</span>
-              ) : (
-                <span>{Number(revenue.toFixed(1)).toLocaleString()} so'm</span>
-              )}
-            </p>
-          </div>
-          <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-            <p className='font-semibold'>{t('products_count')}:</p>
-            <p className='text-primary font-semibold'>
-              {totalProducts?.toLocaleString()}
-            </p>
-          </div>
-          <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-            <p className='font-semibold'>{t('orders')}:</p>
-            <p className='text-primary font-semibold'>
-              {totalOrders?.toLocaleString()}
-            </p>
-          </div>
-        </div>
         <div className='flex h-[calc(100%-24px)] w-full flex-1 items-start justify-start p-3'>
           {/* <PieChart data={topProductsData} labelType='spider' />
            */}
