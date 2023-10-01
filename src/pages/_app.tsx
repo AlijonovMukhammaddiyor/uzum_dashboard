@@ -134,16 +134,17 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Head>
 
           <DefaultSeo
-            title='Сервис Аналитикa UZUM Market'
+            title='Сервис Аналитика UZUM Market - №1 UZUM Аналитика в Узбекистане'
             titleTemplate='UzAnalitika | %s'
             defaultTitle='UzAnalitika'
-            description='Полный аналитика для вашего бизнеса на маркетплейсе UZUM. Внешняя и внутренняя аналитика, выбор ниши, анализ продуктов и магазинов, трендов, ценовая сегментация и другие услуги. А также подробная аналитика по растущим продуктам и категориям.'
+            description='Аналитика UZUM MARKET. Внешняя и внутренняя аналитика, выбор ниши, анализ продуктов и магазинов, трендов, ценовая сегментация и другие услуги. А также подробная аналитика по растущим продуктам и категориям. '
             canonical={`https://www.uzanalitika.uz/${
               i18n.language
             }${router.asPath.replace(/\?.*/, '')}`}
             openGraph={{
               url: 'https://www.uzanalitika.uz/',
-              title: 'Сервис Аналитикa UZUM Market',
+              title:
+                'Сервис Аналитика UZUM Market - №1 UZUM Аналитика в Узбекистане',
               description:
                 'Полный аналитика для вашего бизнеса на маркетплейсе UZUM. Внешняя и внутренняя аналитика, выбор ниши, анализ продуктов и магазинов, трендов, ценовая сегментация и другие услуги. А также подробная аналитика по растущим продуктам и категориям.',
               images: [
@@ -151,7 +152,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   url: 'https://www.uzanalitika.uz/images/og_new.png?v=2',
                   width: 1200,
                   height: 630,
-                  alt: 'UzAnalitika - Сервис Аналитикa UZUM Market',
+                  alt: 'UzAnalitika - Сервис Аналитика UZUM Market',
                 },
               ],
               site_name: 'uzanalitika.uz',
