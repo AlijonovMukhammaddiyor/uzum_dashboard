@@ -100,15 +100,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         user_id: number;
       };
 
-      if (decoded.user.tariff === 'free')
-        return {
-          redirect: {
-            permanent: false,
-            destination: '/home',
-          },
-          props: {},
-        };
-
       return {
         props: {
           ...(await serverSideTranslations(context.locale || 'uz', [

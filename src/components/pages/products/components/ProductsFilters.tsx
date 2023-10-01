@@ -8,6 +8,8 @@ import clsxm from '@/lib/clsxm';
 import AdditionalProductsFilter from '@/components/pages/discovery/AdditionalFilters';
 import ProductsFilter from '@/components/pages/discovery/ProductsFilter';
 import Button from '@/components/shared/buttons/Button';
+
+import { useContextState } from '@/context/Context';
 interface ProductsFiltersProps {
   className?: string;
   loading?: boolean;
@@ -54,6 +56,7 @@ function ProductsFilters({
   loading,
 }: ProductsFiltersProps) {
   const { i18n } = useTranslation('common');
+  const { state } = useContextState();
 
   return (
     <div
@@ -121,6 +124,13 @@ function ProductsFilters({
         </Button>
         <Button
           onClick={() => {
+            if (state.user?.tariff === 'free') {
+              return alert(
+                i18n.language === 'uz'
+                  ? "Ushbu xizmatlardan fotdalanish uchun, iltimos boshqa tarifga o'ting"
+                  : 'Чтобы воспользоваться этими услугами, пожалуйста, переключитесь на другой тариф.'
+              );
+            }
             setShouldRefetch();
           }}
           className={clsxm(
