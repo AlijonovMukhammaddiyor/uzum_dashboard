@@ -1,6 +1,8 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +12,6 @@ import logger from '@/lib/logger';
 // import { productTableColumnDefs } from '@/components/columnDefs';
 import Layout from '@/components/layout/Layout';
 import ProductComponent from '@/components/pages/products/slug/ProductComponent';
-import Seo from '@/components/Seo';
 import { RenderAlert } from '@/components/shared/AlertComponent';
 import Tabs from '@/components/shared/Tabs';
 
@@ -33,6 +34,7 @@ function Product({ user, product_id }: ProductProps) {
   );
   const { dispatch } = useContextState();
   const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
+  const router = useRouter();
 
   React.useEffect(() => {
     const api = new API(null);
@@ -102,7 +104,12 @@ function Product({ user, product_id }: ProductProps) {
 
   return (
     <Layout>
-      <Seo />
+      <NextSeo
+        title={product_title}
+        canonical={`https://www.uzanalitika.uz/${
+          i18n.language
+        }${router.asPath.replace(/\?.*/, '')}`}
+      />
       <div className='flex w-max items-center justify-start gap-3 rounded-md border border-slate-400 px-2 py-1'>
         <p className='text-sm font-semibold'>URL:</p>
         <a

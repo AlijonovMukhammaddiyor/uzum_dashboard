@@ -1,7 +1,9 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
 import API from '@/lib/api';
@@ -10,7 +12,6 @@ import logger from '@/lib/logger';
 // import { productTableColumnDefs } from '@/components/columnDefs';
 import Layout from '@/components/layout/Layout';
 import ProductsComponent from '@/components/pages/products/ProductsComponent';
-import Seo from '@/components/Seo';
 
 import { useContextState } from '@/context/Context';
 
@@ -22,7 +23,8 @@ interface ProductsProps {
 
 export default function Products({ user }: ProductsProps) {
   const { dispatch } = useContextState();
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
+  const router = useRouter();
 
   React.useEffect(() => {
     const api = new API(null);
@@ -59,7 +61,21 @@ export default function Products({ user }: ProductsProps) {
 
   return (
     <Layout>
-      <Seo />
+      <NextSeo
+        title={
+          i18n?.language === 'uz'
+            ? 'Mahsulotlar Analitikasi'
+            : 'Аналитика Продуктов'
+        }
+        description={
+          i18n?.language === 'uz'
+            ? "Yangi mahsulotlarni kashf eting, tadqiqotlar o'tkazing va sabablarni o'rganing."
+            : 'Найдите возможности для продуктов, проведите исследования рынка и многое другое.'
+        }
+        canonical={`https://www.uzanalitika.uz/${
+          i18n.language
+        }${router.asPath.replace(/\?.*/, '')}`}
+      />
       <ProductsComponent user={user} />
     </Layout>
   );

@@ -50,7 +50,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
       className='floating-buttons'
       style={{
         position: 'absolute',
-        bottom: '30px',
+        bottom: '70px',
         right: '30px',
         zIndex: 9999,
       }}

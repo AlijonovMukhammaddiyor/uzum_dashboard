@@ -1,13 +1,25 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import React from 'react';
 
 import LoginComponent from '@/components/pages/login/LoginComponent';
 
 const Login = () => {
+  const { i18n } = useTranslation('common');
+  const router = useRouter();
+
   return (
     <div className='h-full w-full'>
+      <NextSeo
+        title={i18n?.language === 'uz' ? 'Kirish' : 'Вход'}
+        canonical={`https://www.uzanalitika.uz/${
+          i18n.language
+        }${router.asPath.replace(/\?.*/, '')}`}
+      />
       <LoginComponent />
     </div>
   );
@@ -40,7 +52,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {
           ...(await serverSideTranslations(
             context.locale ?? 'ru',
-            ['login'],
+            ['login', 'common'],
             null,
             ['uz', 'ru']
           )),
@@ -52,7 +64,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         ...(await serverSideTranslations(
           context.locale ?? 'ru',
-          ['login'],
+          ['login', 'common'],
           null,
           ['uz', 'ru']
         )),

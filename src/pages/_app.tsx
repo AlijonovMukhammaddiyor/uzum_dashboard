@@ -5,13 +5,16 @@ import { AppProps } from 'next/app';
 import { Merriweather, Raleway, Ubuntu } from 'next/font/google';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { appWithTranslation } from 'next-i18next';
+import { appWithTranslation, SSRConfig, useTranslation } from 'next-i18next';
 import NextNProgress from 'nextjs-progressbar';
 import { useEffect, useState } from 'react';
 import { registerLocale } from 'react-datepicker';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 registerLocale('ru', ru);
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { DefaultSeo } from 'next-seo';
+
 import '@/styles/colors.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -75,6 +78,7 @@ const raleway = Raleway({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [isMobile, setIsMobile] = useState(false);
+  const { i18n } = useTranslation('seo');
 
   const router = useRouter();
 
@@ -127,46 +131,48 @@ function MyApp({ Component, pageProps }: AppProps) {
               name='google-site-verification'
               content='uW3Oy8QMSpgZN6xHK6D1Gr0ludeQGRMBBueMaopvKFY'
             />
-
-            <meta
-              property='og:title'
-              content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
-            />
-            <meta
-              property='og:description'
-              content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-            />
-            <meta
-              property='og:image'
-              content='https://www.uzanalitika.uz/images/og_new.png?v=2'
-            />
-            <meta property='og:url' content='https://www.uzanalitika.uz/' />
-            <meta property='og:site_name' content='Uzum Analitika Xizmatlari' />
-            <meta property='og:type' content='website' />
-            <meta property='og:locale' content='uz_UZ' />
-            <meta property='twitter:card' content='summary_large_image' />
-            <meta
-              property='twitter:title'
-              content='UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil xizmati'
-            />
-            <meta
-              property='twitter:description'
-              content="Biznesingiz uchun to'liq analitika. Tashqi va ichki analitika, nish tanlash, mahsulotlar va do'konlar tahlili, taqqoslash, trendlar, narx segmentatsiyasi, banner dizayn va hokazo xizmatlar. Shuningdek, o'sayotgan mahsulotlar va kategoriyalar to'g'risidagi batafsil analitika."
-            />
-            <meta
-              property='twitter:image'
-              content='https://www.uzanalitika.uz/images/og_new.png?v=2'
-            />
-            <meta property='twitter:site' content='@uzanalitika' />
-            <meta property='twitter:creator' content='@uzanalitika' />
-            <meta property='twitter:domain' content='uzanalitika.uz' />
-            <meta property='og:image:width' content='1200' />
-            <meta property='og:image:height' content='630' />
-            <title>
-              UzAnalitika - Uzum bozoridagi biznesingiz uchun mukammal tahlil.
-            </title>
-            <link rel='canonical' href='https://www.uzanalitika.uz/' />
           </Head>
+
+          <DefaultSeo
+            title='Сервис Аналитики №1 для маркетплейса UZUM'
+            titleTemplate='UzAnalitika | %s'
+            defaultTitle='UzAnalitika'
+            description='Полный аналитика для вашего бизнеса на маркетплейсе UZUM. Внешняя и внутренняя аналитика, выбор ниши, анализ продуктов и магазинов, трендов, ценовая сегментация и другие услуги. А также подробная аналитика по растущим продуктам и категориям.'
+            canonical={`https://www.uzanalitika.uz/${
+              i18n.language
+            }${router.asPath.replace(/\?.*/, '')}`}
+            openGraph={{
+              url: 'https://www.uzanalitika.uz/',
+              title: 'Сервис Аналитики №1 для маркетплейса UZUM',
+              description:
+                'Полный аналитика для вашего бизнеса на маркетплейсе UZUM. Внешняя и внутренняя аналитика, выбор ниши, анализ продуктов и магазинов, трендов, ценовая сегментация и другие услуги. А также подробная аналитика по растущим продуктам и категориям.',
+              images: [
+                {
+                  url: 'https://www.uzanalitika.uz/images/og_new.png?v=2',
+                  width: 1200,
+                  height: 630,
+                  alt: 'UzAnalitika - Сервис Аналитики №1 для маркетплейса UZUM',
+                },
+              ],
+              site_name: 'uzanalitika.uz',
+              locale: 'ru_RU',
+            }}
+            languageAlternates={[
+              {
+                href: 'https://www.uzanalitika.uz/uz',
+                hrefLang: 'uz',
+              },
+              {
+                href: 'https://www.uzanalitika.uz/ru',
+                hrefLang: 'ru',
+              },
+            ]}
+            twitter={{
+              handle: '@uzanalitika',
+              site: '@uzanalitika',
+              cardType: 'summary_large_image',
+            }}
+          />
 
           <NextNProgress color='rgb(119, 67, 219)' height={8} />
           {isMobile &&
@@ -204,3 +210,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default appWithTranslation(MyApp);
+
+export const getStaticProps = async (ctx: {
+  locale: string;
+}): Promise<{ props: SSRConfig }> => ({
+  props: {
+    ...(await serverSideTranslations(ctx.locale, ['landing', 'common', 'seo'])),
+  },
+});

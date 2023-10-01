@@ -1,16 +1,16 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
 import API from '@/lib/api';
-import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import Layout from '@/components/layout/Layout';
 import SellersTable from '@/components/pages/sellers/SellersContainer';
-import Seo from '@/components/Seo';
 
 import { useContextState } from '@/context/Context';
 
@@ -19,9 +19,9 @@ export interface ShopsProps {
   user: UserType;
 }
 export default function Sellers({ user }: ShopsProps) {
-  const [activeTab, setActiveTab] = React.useState<string>('Sotuvchilar');
   const { dispatch } = useContextState();
   const { i18n } = useTranslation('sellers');
+  const router = useRouter();
 
   React.useEffect(() => {
     const api = new API(null);
@@ -58,12 +58,21 @@ export default function Sellers({ user }: ShopsProps) {
 
   return (
     <Layout>
-      <Seo />
+      <NextSeo
+        title={
+          i18n?.language === 'uz' ? "Do'konlar Tahlili" : 'Анализ Mагазинов'
+        }
+        description={
+          i18n?.language === 'uz'
+            ? "Do'konlarning mahsulotlari, sotuv kategoriyalari, kunlik sotuvlari, va shuningdek raqobatchilar tahlili"
+            : 'Анализ товаров, категорий продаж, ежедневных продаж и конкурентов для каждого магазина.'
+        }
+        canonical={`https://www.uzanalitika.uz/${
+          i18n.language
+        }${router.asPath.replace(/\?.*/, '')}`}
+      />
       <div className='w-full'>
-        <SellersTable
-          user={user}
-          className={clsxm(activeTab === 'Sotuvchilar' ? '' : 'hidden')}
-        />
+        <SellersTable user={user} />
       </div>
     </Layout>
   );

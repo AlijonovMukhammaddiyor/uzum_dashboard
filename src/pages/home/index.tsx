@@ -2,6 +2,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next/types';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
 import API from '@/lib/api';
@@ -9,7 +10,6 @@ import logger from '@/lib/logger';
 
 import Layout from '@/components/layout/Layout';
 import HomeComponent from '@/components/pages/home/HomeComponent';
-import Seo from '@/components/Seo';
 
 import { useContextState } from '@/context/Context';
 
@@ -21,7 +21,7 @@ export interface HomeProps {
 
 export default function HomePage({ user }: HomeProps) {
   const { dispatch } = useContextState();
-  const { t } = useTranslation('tabs');
+  const { t, i18n } = useTranslation('tabs');
 
   React.useEffect(() => {
     const api = new API(null);
@@ -58,7 +58,18 @@ export default function HomePage({ user }: HomeProps) {
 
   return (
     <Layout>
-      <Seo />
+      <NextSeo
+        title={
+          i18n?.language === 'uz'
+            ? 'Kategoriyalar Segmentatsiyalari va Umumiy Statistikalar'
+            : 'Категории Сегментации и Общие Статистики'
+        }
+        description={
+          i18n?.language === 'uz'
+            ? 'Kategoriyalar Segmentatsiyalari va Umumiy Statistikalar'
+            : 'Категории Сегментации и Общие Статистики'
+        }
+      />
       <HomeComponent user={user} />
     </Layout>
   );

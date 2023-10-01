@@ -3,6 +3,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +13,6 @@ import logger from '@/lib/logger';
 import Layout from '@/components/layout/Layout';
 import CategoryComponent from '@/components/pages/category/slug/CategoryComponent';
 import { reverseSlug } from '@/components/pages/category/utils';
-import Seo from '@/components/Seo';
 import { RenderAlert } from '@/components/shared/AlertComponent';
 import Tabs from '@/components/shared/Tabs';
 
@@ -121,7 +121,12 @@ function Category({ user }: Props) {
 
   return (
     <Layout>
-      <Seo />
+      <NextSeo
+        title={title}
+        canonical={`https://www.uzanalitika.uz/${
+          i18n.language
+        }${router.asPath.replace(/\?.*/, '')}`}
+      />
       <div className='w-ful h-full flex-1'>
         <div className='flex w-max items-center justify-start gap-3 rounded-md border border-slate-400 px-2 py-1'>
           <p className='text-sm font-semibold'>URL:</p>

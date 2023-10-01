@@ -1,7 +1,9 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { NextSeo } from 'next-seo';
 import * as React from 'react';
 
 import API from '@/lib/api';
@@ -9,7 +11,6 @@ import logger from '@/lib/logger';
 
 import Layout from '@/components/layout/Layout';
 import CategoryTreeComponent from '@/components/pages/category/CategoryTreeComponent';
-import Seo from '@/components/Seo';
 
 import { useContextState } from '@/context/Context';
 
@@ -23,6 +24,7 @@ export default function Category({ user }: CategoryProps) {
   const [mounted, setMounted] = React.useState(false);
   const { dispatch } = useContextState();
   const { i18n } = useTranslation();
+  const router = useRouter();
 
   React.useEffect(() => {
     setMounted(true);
@@ -62,7 +64,19 @@ export default function Category({ user }: CategoryProps) {
 
   return (
     <Layout>
-      <Seo />
+      <NextSeo
+        title={
+          i18n?.language === 'uz' ? 'Kategoriyalar Tahlili' : 'Анализ Категорий'
+        }
+        description={
+          i18n?.language === 'uz'
+            ? "Har bir kategoriyadagi trendlar, mahsulotlar, va sotuvchilarni batafsil o'rganing"
+            : 'Подробно изучите тренды, продукты и продавцов в каждой категории'
+        }
+        canonical={`https://www.uzanalitika.uz/${
+          i18n.language
+        }${router.asPath.replace(/\?.*/, '')}`}
+      />
       <CategoryTreeComponent />
     </Layout>
   );

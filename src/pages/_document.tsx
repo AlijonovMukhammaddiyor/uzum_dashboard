@@ -1,11 +1,16 @@
 import { Head, Html, Main, NextScript } from 'next/document';
-import { useTranslation } from 'next-i18next';
+import { SSRConfig, useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default function Document() {
   const { i18n } = useTranslation(); // ru and uz
 
   return (
-    <Html lang={i18n.language}>
+    <Html
+      lang={
+        i18n.language === 'uz' ? 'uz' : i18n.language === 'ru' ? 'ru' : 'en'
+      }
+    >
       <Head>
         <link rel='preconnect' href='https://fonts.googleapis.com' />
         <link
@@ -13,14 +18,7 @@ export default function Document() {
           href='https://fonts.gstatic.com'
           crossOrigin='anonymous'
         />
-        <link
-          rel='title'
-          href={
-            i18n.language === 'uz'
-              ? 'UzAnalitika - UZUM market tahlili'
-              : 'UzAnalitika - Аналитика UZUM маркет'
-          }
-        />
+
         <link
           href='https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap'
           rel='stylesheet'
@@ -166,54 +164,6 @@ export default function Document() {
             `,
           }}
         />
-        <script
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'BreadcrumbList',
-              itemListElement: [
-                {
-                  '@type': 'ListItem',
-                  position: 1,
-                  item: {
-                    '@id': 'https://www.uzanalitika.uz/register',
-                    name:
-                      i18n.language === 'uz'
-                        ? "Ro'yhatdan o'tish"
-                        : 'Регистрация',
-                  },
-                },
-                {
-                  '@type': 'ListItem',
-                  position: 2,
-                  item: {
-                    '@id': 'https://www.uzanalitika.uz/category',
-                    name:
-                      i18n.language === 'uz' ? 'Kategoriyalar' : 'Категории',
-                  },
-                },
-                {
-                  '@type': 'ListItem',
-                  position: 3,
-                  item: {
-                    '@id': 'https://www.uzanalitika.uz/sellers',
-                    name: i18n.language === 'uz' ? "Do'konlar" : 'Магазины',
-                  },
-                },
-                {
-                  '@type': 'ListItem',
-                  position: 4,
-                  item: {
-                    '@id': 'https://www.uzanalitika.uz/products',
-                    name: i18n.language === 'uz' ? 'Mahsulotlar' : 'Товары',
-                  },
-                },
-                // ... more pages
-              ],
-            }),
-          }}
-        />
       </Head>
       <body>
         <Main />
@@ -222,3 +172,11 @@ export default function Document() {
     </Html>
   );
 }
+
+export const getStaticProps = async (ctx: {
+  locale: string;
+}): Promise<{ props: SSRConfig }> => ({
+  props: {
+    ...(await serverSideTranslations(ctx.locale, ['landing', 'common', 'seo'])),
+  },
+});
