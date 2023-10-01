@@ -297,7 +297,7 @@ function RenderChildren({
         >
           <div
             className={clsxm(
-              'flex cursor-pointer items-center justify-start gap-1'
+              'flex w-full max-w-[480px] cursor-pointer items-center justify-start gap-1'
             )}
           >
             <p
