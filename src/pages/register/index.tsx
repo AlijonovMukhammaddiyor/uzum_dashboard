@@ -22,7 +22,7 @@ const Register = () => {
   const { plan } = router.query;
   const [sending, setSending] = React.useState(false);
 
-  const { i18n } = useTranslation('landing');
+  const { i18n, t } = useTranslation('seo');
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -44,6 +44,7 @@ const Register = () => {
         canonical={`https://www.uzanalitika.uz/${
           i18n.language
         }${router.asPath.replace(/\?.*/, '')}`}
+        description={t('description')}
       />
       <div className='border-primary fixed right-0 top-5 z-10 flex h-9 items-center justify-center overflow-hidden rounded-l-md border bg-purple-200 bg-opacity-25'>
         <div
@@ -171,8 +172,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
         props: {
           ...(await serverSideTranslations(
-            context.locale || 'uz',
-            ['common', 'register', 'landing'],
+            context.locale || 'ru',
+            ['common', 'register', 'landing', 'seo'],
             null,
             ['uz', 'ru']
           )),
@@ -182,8 +183,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       return {
         props: {
           ...(await serverSideTranslations(
-            context.locale || 'uz',
-            ['common', 'register', 'landing'],
+            context.locale || 'ru',
+            ['common', 'register', 'landing', 'seo'],
             null,
             ['uz', 'ru']
           )),
@@ -194,8 +195,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     return {
       props: {
         ...(await serverSideTranslations(
-          context.locale || 'uz',
-          ['common', 'register', 'landing'],
+          context.locale || 'ru',
+          ['common', 'register', 'landing', 'seo'],
           null,
           ['uz', 'ru']
         )),

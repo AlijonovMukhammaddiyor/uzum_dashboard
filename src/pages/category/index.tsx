@@ -115,8 +115,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         },
       };
     } catch (error) {
-      console.error('Invalid token:', error);
-
       return {
         redirect: {
           permanent: false,

@@ -9,7 +9,7 @@ import React from 'react';
 import LoginComponent from '@/components/pages/login/LoginComponent';
 
 const Login = () => {
-  const { i18n } = useTranslation('common');
+  const { i18n, t } = useTranslation('seo');
   const router = useRouter();
 
   return (
@@ -19,6 +19,7 @@ const Login = () => {
         canonical={`https://www.uzanalitika.uz/${
           i18n.language
         }${router.asPath.replace(/\?.*/, '')}`}
+        description={t('description')}
       />
       <LoginComponent />
     </div>
