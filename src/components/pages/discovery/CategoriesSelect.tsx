@@ -148,7 +148,7 @@ function CategoriesSelect({
       </div>
       <div
         className={clsxm(
-          'flex h-[calc(100%-64px)] max-w-full flex-1 flex-col gap-1 overflow-y-scroll p-6 pb-6 pl-3 pt-2'
+          'flex h-[calc(100%-64px)] w-full max-w-full flex-1 flex-col gap-1 overflow-x-hidden overflow-y-scroll p-6 pb-6 pl-3 pt-2'
         )}
       >
         <p className='text-sm'>
@@ -161,7 +161,7 @@ function CategoriesSelect({
             return (
               <div
                 key={category.categoryId}
-                className='flex max-w-full flex-col gap-3'
+                className='flex w-full max-w-full flex-col gap-3'
               >
                 <RenderChildren
                   category={category}
@@ -175,7 +175,10 @@ function CategoriesSelect({
           }
           if (i18n.language !== 'uz') {
             return (
-              <div key={category.categoryId} className='flex flex-col gap-3'>
+              <div
+                key={category.categoryId}
+                className='flex w-full flex-col gap-3'
+              >
                 <RenderChildren
                   category={category}
                   className=''
