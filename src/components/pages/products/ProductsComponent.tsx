@@ -126,7 +126,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
   React.useEffect(() => {
     function handleResize() {
       if (window.innerWidth < 1500) {
-        setZoomLevel(0.9); // 90% zoom for windows less than 600px wide
+        setZoomLevel(0.7); // 90% zoom for windows less than 600px wide
       } else {
         setZoomLevel(1); // 100% zoom otherwise
       }

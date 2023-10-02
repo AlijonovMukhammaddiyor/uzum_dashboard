@@ -47,6 +47,29 @@ export default function Header() {
   const { t, i18n } = useTranslation('common');
   const router = useRouter();
   const [servicesOpen, setServicesOpen] = React.useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  React.useEffect(() => {
+    const uzanalitikaDiv = document.getElementById('header') as HTMLDivElement;
+    (uzanalitikaDiv.style as any).zoom = zoomLevel;
+  }, [zoomLevel]);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -67,7 +90,10 @@ export default function Header() {
   }, [state.user?.tariff]);
 
   return (
-    <header className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'>
+    <header
+      className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'
+      id='header'
+    >
       <SearchContainer
         open={isSearchOpen}
         closeModal={() => setIsSearchOpen(false)}
