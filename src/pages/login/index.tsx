@@ -53,7 +53,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         props: {
           ...(await serverSideTranslations(
             context.locale ?? 'ru',
-            ['login', 'common'],
+            ['login', 'common', 'seo'],
             null,
             ['uz', 'ru']
           )),
@@ -65,7 +65,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         ...(await serverSideTranslations(
           context.locale ?? 'ru',
-          ['login', 'common'],
+          ['login', 'common', 'seo'],
           null,
           ['uz', 'ru']
         )),
