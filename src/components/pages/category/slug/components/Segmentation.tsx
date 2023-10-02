@@ -38,6 +38,25 @@ function Segmentation({ className, categoryId, isActive }: Props) {
   const [data, setData] = React.useState<SegmentationType[]>([]);
   const [newFetch, setNewFetch] = React.useState<boolean>(false);
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -78,6 +97,9 @@ function Segmentation({ className, categoryId, isActive }: Props) {
         'flex min-w-[1200px] flex-col gap-6 overflow-x-scroll',
         className
       )}
+      style={{
+        zoom: 1,
+      }}
     >
       <Container
         loading={loading}

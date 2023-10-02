@@ -32,6 +32,32 @@ function CategoryTreeComponent() {
 
   const router = useRouter();
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  React.useEffect(() => {
+    const uzanalitikaDiv = document.getElementById(
+      'categorytree'
+    ) as HTMLDivElement;
+    (uzanalitikaDiv.style as any).zoom = zoomLevel;
+  }, [zoomLevel]);
+
   React.useEffect(() => {
     // fetch categories
     const api = new API(null);
@@ -212,7 +238,7 @@ function CategoryTreeComponent() {
     .sort();
 
   return (
-    <div className='mt-3 min-h-full w-full pb-16'>
+    <div className='mt-3 min-h-full w-full pb-16' id='categorytree'>
       <div className='mb-3 flex items-center justify-start gap-6'>
         <Button
           className='flex items-center rounded bg-green-500 px-4 py-2 text-white transition duration-200 ease-in-out hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50'

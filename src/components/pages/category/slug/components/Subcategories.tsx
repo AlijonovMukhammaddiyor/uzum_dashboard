@@ -29,6 +29,24 @@ function Subcategories({ className, categoryId, isActive }: Props) {
     data: CategoryAnalyticsDataType[];
     main: CategoryAnalyticsDataType;
   });
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const api = new API(null);
@@ -64,6 +82,7 @@ function Subcategories({ className, categoryId, isActive }: Props) {
         'flex h-full w-full min-w-[1200px] max-w-full flex-col gap-6 overflow-hidden',
         className
       )}
+      id='subcategories'
     >
       {loading ? (
         <div
@@ -88,7 +107,8 @@ function Subcategories({ className, categoryId, isActive }: Props) {
       ) : (
         <div
           className={clsxm(
-            'h-[600px] w-full min-w-[1200px] max-w-full overflow-scroll rounded-md'
+            'h-[600px] w-full min-w-[1200px] max-w-full overflow-scroll rounded-md',
+            zoomLevel === 0.75 && 'h-[500px]'
           )}
         >
           <SubCategoriesPieChartData
@@ -136,6 +156,26 @@ const SubCategoriesPieChartData = ({
   loading: boolean;
 }) => {
   const { i18n } = useTranslation('categories');
+
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   if (!data || data.length === 0) return null;
 
   const dataSorted = data
@@ -227,13 +267,13 @@ const SubCategoriesPieChartData = ({
       value: main.total_reviews - total_reviews,
     });
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { t } = useTranslation('categories');
   return (
     <div className='flex h-full w-full items-center justify-start gap-5'>
       <Container
         loading={loading}
         className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
+          zoomLevel === 0.75 && 'h-[500px]'
         )}
       >
         <PieChart
@@ -249,7 +289,8 @@ const SubCategoriesPieChartData = ({
       <Container
         loading={loading}
         className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
+          zoomLevel === 0.75 && 'h-[500px]'
         )}
       >
         <PieChart
@@ -265,7 +306,8 @@ const SubCategoriesPieChartData = ({
       <Container
         loading={loading}
         className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
+          zoomLevel === 0.75 && 'h-[500px]'
         )}
       >
         <PieChart
@@ -281,7 +323,8 @@ const SubCategoriesPieChartData = ({
       <Container
         loading={loading}
         className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6'
+          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
+          zoomLevel === 0.75 && 'h-[500px]'
         )}
       >
         <PieChart

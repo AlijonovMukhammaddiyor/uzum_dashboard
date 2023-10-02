@@ -81,6 +81,32 @@ function HomeStatisticsContainer({
     weeklySegments: true,
   });
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  React.useEffect(() => {
+    const uzanalitikaDiv = document.getElementById(
+      'homestat'
+    ) as HTMLDivElement;
+    (uzanalitikaDiv.style as any).zoom = zoomLevel;
+  }, [zoomLevel]);
+
   React.useEffect(() => {
     const api = new API(null);
     setCurrentTab({
@@ -254,6 +280,7 @@ function HomeStatisticsContainer({
         'relative flex h-full w-full flex-col gap-10 pb-6',
         className
       )}
+      id='homestat'
     >
       {isFullScreen && (
         <TreeMap
@@ -1273,7 +1300,7 @@ function GeneralsContainer({
           </div>
 
           <div className='w-full border-t border-gray-200 pt-4'>
-            <div className='mb-4 flex w-full items-center justify-start gap-4'>
+            <div className=' flex w-full items-center justify-start gap-4'>
               {renderDaily()}
             </div>
             <div className='flex shrink-0 items-center justify-between'>

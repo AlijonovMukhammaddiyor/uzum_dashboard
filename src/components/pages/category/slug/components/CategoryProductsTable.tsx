@@ -75,6 +75,32 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   const [instantFilter, setInstantFilter] = React.useState<string | null>(null);
   const [shouldRefetch, setShouldRefetch] = React.useState<boolean>(false);
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // React.useEffect(() => {
+  //   const uzanalitikaDiv = document.getElementById(
+  //     'categoryproducts'
+  //   ) as HTMLDivElement;
+  //   (uzanalitikaDiv.style as any).zoom = zoomLevel;
+  // }, [zoomLevel]);
+
   React.useEffect(() => {
     const api = new API(null);
     setLoadingTopProducts(true);
@@ -435,6 +461,10 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
         'flex h-full w-full min-w-[1200px] flex-col items-start justify-start gap-5 overflow-x-scroll',
         className
       )}
+      id='categoryproducts'
+      style={{
+        zoom: zoomLevel,
+      }}
     >
       <Container
         className={clsxm(

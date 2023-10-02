@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'next-i18next';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LuShrink } from 'react-icons/lu';
 import Popup from 'reactjs-popup';
 
@@ -40,7 +40,6 @@ function TreeMap({
   useEffect(() => {
     setFilteredData(data);
   }, [data]);
-  const tree = useRef<any>(null);
 
   const isSum =
     title === t('dataTable.revenue') ||

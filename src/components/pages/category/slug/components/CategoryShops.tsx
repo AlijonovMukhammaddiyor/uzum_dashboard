@@ -35,6 +35,25 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
 
   const [data, setData] = React.useState<CategoryShopsType[]>([]);
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -76,7 +95,8 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
       <Container
         loading={loading}
         className={clsxm(
-          'flex h-[600px] w-full min-w-[1200px] flex-col items-start justify-start overflow-scroll rounded-md border bg-white p-6 shadow-lg'
+          'flex h-[600px] w-full min-w-[1200px] flex-col items-start justify-start overflow-y-hidden overflow-x-scroll rounded-md border bg-white shadow-lg',
+          zoomLevel === 0.8 ? 'h-[500px] p-3' : 'p-6'
         )}
       >
         <div className='flex w-full items-center justify-between'>

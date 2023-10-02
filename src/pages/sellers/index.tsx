@@ -97,8 +97,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         user_id: number;
       };
 
-      console.log(decoded, 'decoded');
-
       if (decoded.user.tariff === 'free' || decoded.user.tariff === 'trial') {
         return {
           redirect: {
