@@ -908,6 +908,8 @@ export const FullPriceCellRenderer = ({ value }: { value: string }) => {
   const average_full_price =
     skus.reduce((acc, curr) => acc + curr.full_price, 0) / count;
 
+  const average_full_price_ = Math.round(average_full_price / 1000) * 1000;
+
   if (!average_full_price)
     return (
       <div className='flex flex-col gap-1'>
@@ -918,7 +920,7 @@ export const FullPriceCellRenderer = ({ value }: { value: string }) => {
   return (
     <div className='flex h-full w-full items-center justify-center gap-1'>
       <p className=''>
-        {Math.floor(average_full_price)?.toLocaleString()} so'm
+        {Math.floor(average_full_price_)?.toLocaleString()} so'm
       </p>
     </div>
   );
@@ -943,7 +945,7 @@ export const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
 
   // make it divisable by 1000
   const average_purchase_price_ =
-    Math.floor(average_purchase_price / 1000) * 1000;
+    Math.round(average_purchase_price / 1000) * 1000;
 
   return (
     <div className='flex h-full flex-col items-center justify-center gap-1'>
