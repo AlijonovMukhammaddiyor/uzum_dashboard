@@ -204,8 +204,6 @@ function NichesComponent() {
     FileSaver.saveAs(data2, 'Ниши_' + currentDate + fileExtension);
   }
 
-  console.log(data);
-
   return (
     <div className='min-h-full w-full overflow-scroll pb-16'>
       <Button

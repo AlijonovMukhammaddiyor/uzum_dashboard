@@ -102,7 +102,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     function handleResize() {
       if (window.innerWidth < 1500) {
-        setZoomLevel(0.8); // 80% zoom for windows less than 600px wide
+        setZoomLevel(1); // 80% zoom for windows less than 600px wide
       } else {
         setZoomLevel(1); // 100% zoom otherwise
       }
