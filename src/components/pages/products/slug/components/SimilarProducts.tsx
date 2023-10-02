@@ -189,16 +189,6 @@ function AboutProduct({
             compareOpen ? 'left-[0px]' : '-left-full'
           )}
         >
-          {/* {isProPlus && (
-            <div className='absolute top-20 z-[20] flex w-full items-center justify-center'>
-              <span className='w-full text-center font-semibold'>
-                {i18n.language === 'uz'
-                  ? 'Ushbu tarifda mavjud emas'
-                  : 'Этот тариф недоступен'}
-              </span>
-            </div>
-          )} */}
-
           <Container
             loading={loading}
             className={clsxm(
