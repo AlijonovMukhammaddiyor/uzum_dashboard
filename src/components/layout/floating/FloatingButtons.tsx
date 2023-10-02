@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ButtonsList from './ButtonList';
 import Toggler from './Toggler';
@@ -39,9 +39,34 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({
   degree = 180,
   buttonsList,
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(
+    () => {
+      try {
+        const closedFloating = window.localStorage.getItem('closedFloating');
+        if (closedFloating === 'true') {
+          setIsOpen(false);
+        } else {
+          setIsOpen(true);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [typeof window]
+  );
 
   const toggleOpen = () => {
+    if (isOpen) {
+      try {
+        window.localStorage.setItem('closedFloating', 'true');
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 

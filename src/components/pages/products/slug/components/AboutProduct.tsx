@@ -74,6 +74,24 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
   const [selectedTypes, setSelectedTypes] = useState<{ [key: string]: string }>(
     {}
   );
+  const [zoomLevel, setZoomLevel] = React.useState<number>(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -94,6 +112,11 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
 
         const product = {
           ...res.data.product,
+          analytics: res.data.product.analytics.sort(
+            (a, b) =>
+              new Date(b.date_pretty).getTime() -
+              new Date(a.date_pretty).getTime()
+          ),
           characteristics: characteristics,
           skus: res.data.product.skus.map((sku: any) => ({
             ...sku,
@@ -155,17 +178,20 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
   return (
     <div
       className={clsxm(
-        'flex h-screen w-full min-w-[1000px] flex-col items-start justify-start gap-5 overflow-scroll',
+        'flex h-screen w-full min-w-[1000px] flex-col items-start justify-start gap-5 overflow-scroll rounded-md border border-slate-300 bg-white shadow-lg',
         className
       )}
+      style={{
+        zoom: zoomLevel,
+      }}
     >
       <Container
         loading={loading}
-        className='h-full min-h-full w-full rounded-md bg-white p-5'
+        className='h-full min-h-full w-full rounded-md border-none bg-white p-5 shadow-none'
       >
         {product ? (
           <div className='flex items-start justify-start gap-10 lg:grid-cols-2'>
-            <div className='h-[600px] w-[500px]'>
+            <div className='min-h-[600px] w-[500px]'>
               <Carousel
                 className='h-full w-full'
                 showArrows={true}
@@ -192,7 +218,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
               </Carousel>
             </div>
 
-            <div className='flex h-[650px] flex-col items-start justify-start'>
+            <div className='flex min-h-[650px] flex-col items-start justify-start'>
               {isNew && (
                 <div className='flex items-center justify-center gap-2 rounded-lg border border-blue-500 px-2 py-1'>
                   <p>{t('release_date')} </p>
@@ -203,7 +229,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
               )}
               <div
                 className={clsxm(
-                  'flex h-[600px] w-full flex-col items-start justify-between gap-8 space-y-6'
+                  'flex min-h-[600px] w-full flex-col items-start justify-between gap-8 space-y-6'
                 )}
               >
                 <div
@@ -342,12 +368,16 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
         ) : (
           <></>
         )}
-        {/* {product && (
-          <div
-            className='mt-[200px] w-full max-w-[1000px]'
-            dangerouslySetInnerHTML={{ __html: product.description }}
-          ></div>
-        )} */}
+        {product ? (
+          <div className='product-description flex w-full items-center justify-center'>
+            <div
+              className='mt-[100px] max-w-[1000px] bg-white'
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            ></div>
+          </div>
+        ) : (
+          <></>
+        )}
       </Container>
     </div>
   );

@@ -248,7 +248,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
       />
       <div
         className={clsxm(
-          'h-full w-full pb-10',
+          'h-full w-full',
           activeTab === t('home.overview') ? '' : 'hidden'
         )}
       >
@@ -299,7 +299,10 @@ function ProductsComponent({ user }: ProductsComponentProps) {
               ? "Ma'lumotlar yuklanmoqda..."
               : 'Загрузка данных...'
           }
-          className='h-[calc(100%-200px) w-full rounded-none border-none shadow-none'
+          className='h-[calc(100%) w-full rounded-none border-none pb-10 shadow-none'
+          style={{
+            zoom: zoomLevel === 1 ? 1 : 0.9,
+          }}
         >
           <p className='w-full py-3 text-center text-xl font-semibold'>
             {i18n.language === 'uz'
@@ -337,7 +340,8 @@ function ProductsComponent({ user }: ProductsComponentProps) {
             }
             className={clsxm(
               'h-[calc(100vh-0px)] min-w-full',
-              total === 0 && 'hidden'
+              total === 0 && 'hidden',
+              zoomLevel === 0.8 && 'h-[calc(120vh-0px)]'
             )}
           />
 

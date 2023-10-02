@@ -68,6 +68,24 @@ function GrowingCategories({ className }: HomeStatisticsContainerProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [categories, setCategories] = React.useState<GrowingCategoryType[]>([]);
   const { t, i18n } = useTranslation('tableColumns');
+  const [zoomLevel, setZoomLevel] = React.useState<number>(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -90,7 +108,12 @@ function GrowingCategories({ className }: HomeStatisticsContainerProps) {
   }, []);
 
   return (
-    <div className='flex h-full w-full flex-col gap-5'>
+    <div
+      className='flex h-full w-full flex-col gap-5'
+      style={{
+        zoom: zoomLevel,
+      }}
+    >
       <Container
         className={clsxm('w-full rounded-md border-none pb-10', className)}
         loading={loading}

@@ -38,6 +38,25 @@ function MonthlyBestProducts({ className }: HomeStatisticsContainerProps) {
   const { t, i18n } = useTranslation('tableColumns');
   const [data, setData] = React.useState<ProductsReponseType[]>([]);
 
+  const [zoomLevel, setZoomLevel] = React.useState<number>(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   React.useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -63,6 +82,9 @@ function MonthlyBestProducts({ className }: HomeStatisticsContainerProps) {
   return (
     <div
       className={clsxm('monthly flex h-full w-full flex-col gap-5', className)}
+      style={{
+        zoom: zoomLevel,
+      }}
     >
       <Container
         className={clsxm('w-full rounded-md border-none', className)}

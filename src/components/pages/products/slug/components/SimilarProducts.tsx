@@ -16,8 +16,6 @@ import LineChart from '@/components/shared/LineChart';
 import SingleAxisAreaChart from '@/components/shared/SingleAxisAreaChart';
 import Table from '@/components/shared/Table';
 
-import { useContextState } from '@/context/Context';
-
 import { UserType } from '@/types/user';
 
 interface AboutProductProps {
@@ -57,7 +55,24 @@ function AboutProduct({
 }: AboutProductProps) {
   const { t: t2, i18n } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
-  const { state } = useContextState();
+  const [zoomLevel, setZoomLevel] = React.useState<number>(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [products, setProducts] = React.useState<
     {
       product_id: number;
@@ -71,7 +86,6 @@ function AboutProduct({
     }[]
   >([]);
   const { t } = useTranslation('products');
-  const [open, setOpen] = React.useState<boolean>(false);
   const [compareOpen, setCompareOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -135,7 +149,7 @@ function AboutProduct({
     >
       <div className='flex w-full items-center justify-center'>
         <button
-          className='bg-primary my-5 flex w-[370px] transform items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-md transition-transform hover:scale-105 hover:bg-purple-900 hover:shadow-lg'
+          className='bg-primary my-5 flex transform items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-semibold text-white shadow-md transition-transform hover:scale-105 hover:bg-purple-900 hover:shadow-lg'
           onClick={() => {
             if (!isProPlus)
               return RenderAlert({
@@ -191,6 +205,9 @@ function AboutProduct({
               'z-0 flex min-h-[400px] w-full flex-col items-start justify-start gap-5 overflow-hidden rounded-md bg-white p-3',
               ''
             )}
+            style={{
+              zoom: zoomLevel,
+            }}
           >
             <p className='z-50 w-full text-center font-semibold'>
               {t('compare_with_3')}
