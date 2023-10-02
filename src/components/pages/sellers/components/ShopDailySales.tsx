@@ -48,6 +48,24 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<ExtendedProductAnalyticsType[]>([]);
   const { t: t2, i18n } = useTranslation('tableColumns');
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const [dates, setDates] = useState<string[]>(
     Array.from(Array(60).keys())
@@ -96,6 +114,9 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
         'flex min-h-full flex-col items-start justify-start ',
         className
       )}
+      style={{
+        zoom: zoomLevel,
+      }}
     >
       <div className='flex items-start justify-start'>
         <VscDebugBreakpointData className='text-primary text-2xl' />

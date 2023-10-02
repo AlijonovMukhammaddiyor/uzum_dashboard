@@ -40,6 +40,32 @@ const Table = <T,>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.85); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  React.useEffect(() => {
+    const uzanalitikaDiv = document.getElementById(
+      'justtable'
+    ) as HTMLDivElement;
+    (uzanalitikaDiv.style as any).zoom = zoomLevel;
+  }, [zoomLevel]);
+
   React.useEffect(() => {
     const getData = async () => {
       if (!fetchData) return;
@@ -75,6 +101,7 @@ const Table = <T,>({
           ? 'ag-theme-balham'
           : 'ag-theme-alpine'
       )}
+      id='justtable'
     >
       <AgGridReact
         defaultColDef={{

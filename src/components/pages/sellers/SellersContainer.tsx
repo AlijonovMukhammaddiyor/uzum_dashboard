@@ -57,6 +57,25 @@ function SellersTable({ className, user }: Props) {
   const [myShops, setMyShops] = React.useState<SellerType[]>([]);
   const [shopsLoading, setShopsLoading] = React.useState<boolean>(false);
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.87); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   React.useEffect(() => {
     const api = new API(null);
     // setLoadingTops(true);
@@ -159,6 +178,9 @@ function SellersTable({ className, user }: Props) {
         'flex min-h-full w-full min-w-[1200px] shrink-0 flex-col items-start justify-start gap-5 pb-12',
         className
       )}
+      style={{
+        zoom: zoomLevel,
+      }}
     >
       {user.tariff !== 'free' && user.tariff !== 'business' ? (
         myShops.length > 0 ? (

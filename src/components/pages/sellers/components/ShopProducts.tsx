@@ -77,6 +77,24 @@ function ShopProducts({ sellerId, className }: Props) {
 
   const [loadingTopProducts, setLoadingTopProducts] =
     React.useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   React.useEffect(() => {
     const api = new API(null);
@@ -246,8 +264,8 @@ function ShopProducts({ sellerId, className }: Props) {
             labelType='outer'
             style={{
               width: '100%',
-              height: '500px',
-              maxHeight: '500px',
+              height: zoomLevel === 0.8 ? '400px' : '500px',
+              maxHeight: zoomLevel === 0.8 ? '400px' : '500px',
             }}
           />
         </Container>
@@ -263,8 +281,8 @@ function ShopProducts({ sellerId, className }: Props) {
             labelType='outer'
             style={{
               width: '100%',
-              height: '500px',
-              maxHeight: '500px',
+              height: zoomLevel === 0.8 ? '400px' : '500px',
+              maxHeight: zoomLevel === 0.8 ? '400px' : '500px',
             }}
           />
         </Container>
@@ -280,8 +298,8 @@ function ShopProducts({ sellerId, className }: Props) {
             labelType='outer'
             style={{
               width: '100%',
-              height: '500px',
-              maxHeight: '500px',
+              height: zoomLevel === 0.8 ? '400px' : '500px',
+              maxHeight: zoomLevel === 0.8 ? '400px' : '500px',
             }}
           />
         </Container>

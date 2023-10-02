@@ -57,6 +57,24 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
   const [categoryProducts, setCategoryProducts] = useState<
     CategoryProductData[]
   >([]);
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const api = new API(null);
@@ -132,6 +150,9 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
       <Container
         loading={loading}
         className='flex h-[250px] w-full shrink-0 items-start justify-start overflow-x-scroll border-b border-slate-400 bg-transparent'
+        style={{
+          zoom: zoomLevel,
+        }}
       >
         {data.map((category, i) => (
           <CategoryCard
@@ -236,7 +257,10 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
       {categoryId && categoryProducts.length > 0 && (
         <Container
           loading={loadingCategory}
-          className=' flex w-full shrink-0 flex-col items-start justify-start overflow-x-scroll'
+          className=' flex w-full shrink-0 flex-col items-start justify-start overflow-x-scroll border-none shadow-none'
+          style={{
+            zoom: zoomLevel,
+          }}
         >
           <div className='mb-6 flex w-full items-center justify-start gap-2'>
             <p className='text-primary font-semibold'>

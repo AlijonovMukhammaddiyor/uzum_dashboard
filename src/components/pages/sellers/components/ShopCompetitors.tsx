@@ -58,6 +58,25 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
   );
   const [type, setType] = React.useState<string>(t('revenue'));
 
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.8); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   React.useEffect(() => {
     const api = new API(null);
     setLoading(true);
@@ -136,7 +155,12 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
             {t('info_2')}
           </p>
         </div>
-        <>
+        <div
+          style={{
+            zoom: zoomLevel,
+            width: '100%',
+          }}
+        >
           {competitors.length > 0 &&
             competitors
               .sort(
@@ -157,10 +181,15 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
                     />
                   );
               })}
-        </>
+        </div>
       </Container>
 
-      <div className='flex shrink-0 items-center justify-start gap-6'>
+      <div
+        className='flex shrink-0 items-center justify-start gap-6'
+        style={{
+          zoom: zoomLevel,
+        }}
+      >
         <div className='flex items-center justify-start gap-3'>
           <p className='text-sm text-blue-500'>{t('select_competitor_here')}</p>
           {competitor && (
