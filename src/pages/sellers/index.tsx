@@ -103,7 +103,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         return {
           redirect: {
             permanent: false,
-            destination: context.req.headers.referer || '/home',
+            destination: '/home',
           },
           props: {},
         };
