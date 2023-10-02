@@ -11,7 +11,7 @@
   "shops": "Магазины",
   "products": "Товары",
   "reviews": "Комментарии",
-  "procucts_segmentation_by_price_in_category": "Сегментация продуктов по цене в категории",
+  "procucts_segmentation_by_price_in_category": "Сегментация продуктов по цене в категории (30 дней)",
   "data_info_price_range": "Указывается количество товаров, входящих в эти ценовые диапазоны, количество заказов и сумма выручки.",
   "update": "Обновить",
   "currency": "сум",
