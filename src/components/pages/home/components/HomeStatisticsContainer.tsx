@@ -248,7 +248,7 @@ function HomeStatisticsContainer({
         logger(err, 'Error in sellers');
         setLoading((prev) => ({ ...prev, shops: false }));
       });
-  }, [i18n.language, t]);
+  }, [t]);
 
   const isLoading = () => {
     if (currentTab.label === t('dataTable.shops_amount')) {
