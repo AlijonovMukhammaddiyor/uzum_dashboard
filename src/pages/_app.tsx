@@ -133,7 +133,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Head>
 
           <DefaultSeo
-            title='Сервис Аналитика UZUM Market - №1 UZUM Аналитика в Узбекистане'
+            title='Сервис Аналитика UZUM Market - №1 UZUM Аналитика в Узбекистане | Analitika UZUM Market'
             titleTemplate='UzAnalitika | %s'
             defaultTitle='UzAnalitika'
             description='Аналитика UZUM MARKET. Внешняя и внутренняя аналитика, выбор ниши, анализ продуктов и магазинов, трендов, ценовая сегментация и другие услуги. А также подробная аналитика по растущим продуктам и категориям. '
