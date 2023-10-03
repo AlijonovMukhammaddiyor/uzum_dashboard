@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 
-import { getCategoryProductTableColumnDefs } from '@/components/columnDefs';
+import { getCategoryProductTableForProductsColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import { ProductAnalyticsViewType } from '@/components/pages/category/slug/components/CategoryProductsTable';
 import CategoriesSelect from '@/components/pages/discovery/CategoriesSelect';
@@ -336,7 +336,10 @@ function ProductsComponent({ user }: ProductsComponentProps) {
             fetchData={loadData}
             headerHeight={50}
             columnDefs={
-              getCategoryProductTableColumnDefs(t2, i18n.language) as any
+              getCategoryProductTableForProductsColumnDefs(
+                t2,
+                i18n.language
+              ) as any
             }
             className={clsxm(
               'h-[calc(100vh-0px)] min-w-full',

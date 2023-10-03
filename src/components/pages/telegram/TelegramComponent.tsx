@@ -9,7 +9,7 @@ import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import {
-  getCategoryProductTableColumnDefs,
+  getCategoryProductTableForProductsColumnDefs,
   getShopTableColumnDefs,
 } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
@@ -220,7 +220,10 @@ function TelegramComponent() {
             rowHeight={75}
             headerHeight={50}
             columnDefs={
-              getCategoryProductTableColumnDefs(t2, i18n.language) as any
+              getCategoryProductTableForProductsColumnDefs(
+                t2,
+                i18n.language
+              ) as any
             }
             className={clsxm(
               'h-[calc(500px)] w-full',

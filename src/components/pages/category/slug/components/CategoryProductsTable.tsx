@@ -67,7 +67,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   >([]);
   const [nameFilters, setNameFilters] = React.useState<
     {
-      value: string | null;
+      value: string[] | null;
       type: string;
     }[]
   >([]);
@@ -163,6 +163,13 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     sortModel: {
       colId: string;
       sort: string;
+    } | null,
+    filterModel: {
+      [key: string]: {
+        filterType: string;
+        type: string;
+        filter: string;
+      };
     } | null
   ) => {
     const api = new API(null);
@@ -180,6 +187,15 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     } else {
       const params = makeUrlParams();
       url += params;
+    }
+
+    if (filterModel) {
+      const columns = Object.keys(filterModel);
+      const filters = Object.values(filterModel);
+
+      url += `&searches=${columns.join(',')}&filters=${filters
+        .map((filter) => filter.filter)
+        .join('---')}`;
     }
 
     return api.get<
@@ -446,9 +462,11 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       else if (filter.max) params += `&${filter.type}__lte=${filter.max}`;
     });
 
-    nameFilters.forEach((filter) => {
-      if (filter.value) params += `&${filter.type}__icontains=${filter.value}`;
-    });
+    if (nameFilters.length > 0)
+      nameFilters.forEach((filter) => {
+        if (filter.value)
+          params += `&${filter.type}=${filter.value.join('---')}`;
+      });
 
     return params;
   };

@@ -248,7 +248,8 @@ function HomeStatisticsContainer({
         logger(err, 'Error in sellers');
         setLoading((prev) => ({ ...prev, shops: false }));
       });
-  }, [i18n.language, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const isLoading = () => {
     if (currentTab.label === t('dataTable.shops_amount')) {
@@ -411,7 +412,9 @@ function HomeStatisticsContainer({
         <div className='divide-y-2 divide-gray-200'>
           <div className='py-4'>
             <h3 className='mb-2 text-lg font-bold'>
-              {i18n.language === 'uz' ? 'Barcha davr uchun' : 'За все время'}
+              {i18n.language === 'uz'
+                ? '1. Barcha davr uchun'
+                : '1. За все время'}
             </h3>
             <div className='grid grid-cols-2 gap-4'>
               {[
@@ -471,7 +474,9 @@ function HomeStatisticsContainer({
           <div className='py-4'>
             <h3 className='mb-2 text-lg font-bold'>
               {' '}
-              {i18n.language === 'uz' ? 'Oxirgi 30 kun' : 'Последние 30 дней'}
+              {i18n.language === 'uz'
+                ? '2. Oxirgi 30 kun'
+                : '2. Последние 30 дней'}
             </h3>
             <div className='grid grid-cols-2 gap-4'>
               {[
@@ -552,7 +557,9 @@ function HomeStatisticsContainer({
           </div>
           <div className='py-4'>
             <h3 className='mb-2 text-lg font-bold'>
-              {i18n.language === 'uz' ? 'Oxirgi 7 kun' : 'Последние 7 дней'}
+              {i18n.language === 'uz'
+                ? '3. Oxirgi 7 kun'
+                : '3. Последние 7 дней'}
             </h3>
             <div className='grid grid-cols-2 gap-4'>
               {[
@@ -774,6 +781,25 @@ function GeneralsContainer({
     segments?: boolean;
   };
 }) {
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const getLogo = () => {
     if (title === t('dataTable.shops_amount'))
       return <BsShop className='text-primary h-6 w-6' />;
@@ -1286,6 +1312,9 @@ function GeneralsContainer({
     <Container
       className='max-w-1/3 flex h-[200px] flex-1 shrink-0 flex-col items-start justify-between gap-6 rounded-none border-none bg-white p-4 shadow-md'
       loading={isLoading()}
+      style={{
+        height: zoomLevel === 1 ? '200px' : '265px',
+      }}
     >
       {!isLoading() ? (
         <>
