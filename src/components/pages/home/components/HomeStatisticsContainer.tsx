@@ -774,6 +774,25 @@ function GeneralsContainer({
     segments?: boolean;
   };
 }) {
+  const [zoomLevel, setZoomLevel] = React.useState(1);
+
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const getLogo = () => {
     if (title === t('dataTable.shops_amount'))
       return <BsShop className='text-primary h-6 w-6' />;
@@ -1286,6 +1305,9 @@ function GeneralsContainer({
     <Container
       className='max-w-1/3 flex h-[200px] flex-1 shrink-0 flex-col items-start justify-between gap-6 rounded-none border-none bg-white p-4 shadow-md'
       loading={isLoading()}
+      style={{
+        height: zoomLevel === 1 ? '200px' : '265px',
+      }}
     >
       {!isLoading() ? (
         <>
