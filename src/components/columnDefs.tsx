@@ -3735,19 +3735,19 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       headerName: t('product_name'),
       field: lang === 'uz' ? 'product_title' : 'product_title_ru',
       cellRenderer: ProductNameCellRenderer,
-      filter: true,
+      filter: false,
       // // pinned: 'left',
-      floatingFilter: true,
-      filterParams: {
-        alwaysShowBothConditions: true,
-        applyButton: true, // This adds an "Apply" button to the filter
-        clearButton: true,
-        buttons: ['reset', 'apply'],
-      },
-      flloatingFilterComponentParams: {
-        suppressFilterButton: true,
-        buttons: ['reset', 'apply'],
-      },
+      // floatingFilter: false,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   applyButton: true, // This adds an "Apply" button to the filter
+      //   clearButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       cellStyle: {
         fontSize: '14px',
       },
@@ -3797,17 +3797,17 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
     {
       headerName: t('shop_name'),
       field: 'shop_title',
-      filter: true,
+      filter: false,
       sortable: false,
-      floatingFilter: true,
-      filterParams: {
-        alwaysShowBothConditions: true,
-        buttons: ['reset', 'apply'],
-      },
-      flloatingFilterComponentParams: {
-        suppressFilterButton: true,
-        buttons: ['reset', 'apply'],
-      },
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
       cellRenderer: SellerNameCellRenderer,
       flex: 1,
       minWidth: 200,

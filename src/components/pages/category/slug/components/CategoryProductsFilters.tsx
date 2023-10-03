@@ -5,6 +5,7 @@ import { BsSearch } from 'react-icons/bs';
 
 import clsxm from '@/lib/clsxm';
 
+import AdditionalProductsFilter from '@/components/pages/discovery/AdditionalFilters';
 import Filter from '@/components/pages/discovery/Filter';
 import Button from '@/components/shared/buttons/Button';
 
@@ -26,13 +27,13 @@ interface HomeStatisticsContainerProps {
     >
   >;
   nameFilters: {
-    value: string | null;
+    value: string[] | null;
     type: string;
   }[];
   setNameFilters: React.Dispatch<
     React.SetStateAction<
       {
-        value: string | null;
+        value: string[] | null;
         type: string;
       }[]
     >
@@ -198,6 +199,10 @@ function CategoryProductsFilters({
           />
         </div>
       </div>
+      <AdditionalProductsFilter
+        filters={nameFilters}
+        setFilters={setNameFilters}
+      />
       <div className='flex w-full items-center justify-end gap-7'>
         <Button
           onClick={() => {

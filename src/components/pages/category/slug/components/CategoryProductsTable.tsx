@@ -67,7 +67,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   >([]);
   const [nameFilters, setNameFilters] = React.useState<
     {
-      value: string | null;
+      value: string[] | null;
       type: string;
     }[]
   >([]);
@@ -192,6 +192,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     if (filterModel) {
       const columns = Object.keys(filterModel);
       const filters = Object.values(filterModel);
+
       url += `&searches=${columns.join(',')}&filters=${filters
         .map((filter) => filter.filter)
         .join('---')}`;
@@ -461,9 +462,11 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       else if (filter.max) params += `&${filter.type}__lte=${filter.max}`;
     });
 
-    nameFilters.forEach((filter) => {
-      if (filter.value) params += `&${filter.type}__icontains=${filter.value}`;
-    });
+    if (nameFilters.length > 0)
+      nameFilters.forEach((filter) => {
+        if (filter.value)
+          params += `&${filter.type}=${filter.value.join('---')}`;
+      });
 
     return params;
   };
