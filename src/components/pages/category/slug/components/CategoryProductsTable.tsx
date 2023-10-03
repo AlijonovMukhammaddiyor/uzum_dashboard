@@ -163,6 +163,13 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     sortModel: {
       colId: string;
       sort: string;
+    } | null,
+    filterModel: {
+      [key: string]: {
+        filterType: string;
+        type: string;
+        filter: string;
+      };
     } | null
   ) => {
     const api = new API(null);
@@ -180,6 +187,14 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     } else {
       const params = makeUrlParams();
       url += params;
+    }
+
+    if (filterModel) {
+      const columns = Object.keys(filterModel);
+      const filters = Object.values(filterModel);
+      url += `&searches=${columns.join(',')}&filters=${filters
+        .map((filter) => filter.filter)
+        .join('---')}`;
     }
 
     return api.get<

@@ -3260,7 +3260,10 @@ export const CategoryProductsColDefs = [
   },
 ];
 
-export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
+export const getCategoryProductTableForProductsColumnDefs = (
+  t: any,
+  lang: string
+) => {
   return [
     {
       headerName: t('image'),
@@ -3338,7 +3341,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
     {
       headerName: t('shop_name'),
       field: 'shop_title',
-      // filter: true,
+      filter: false,
       sortable: false,
       // floatingFilter: true,
       // filterParams: {
@@ -3352,7 +3355,462 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       cellRenderer: SellerNameCellRenderer,
       flex: 1,
       minWidth: 200,
+
+      cellStyle: {
+        fontSize: '14px',
+      },
+    },
+    {
+      headerName: t('rating'),
+      field: 'rating',
+      cellRenderer: RatingCellRenderer,
+      sortable: false,
+      flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      minWidth: 150,
       filter: false,
+
+      headerTooltip: 'Mahsulot reytingi.',
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+
+    {
+      headerName: t('orders'),
+      field: 'orders_amount',
+      sortable: true,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      filter: false,
+
+      cellRenderer: LocaleNumberCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        fontSize: '14px',
+        textAlign: 'center',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_orders'),
+      field: 'diff_orders_amount',
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      cellRenderer: MonthlyOrdersCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_orders.tooltip'),
+    },
+    {
+      headerName: t('weekly_orders'),
+      field: 'weekly_orders_amount',
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      cellRenderer: WeeklyOrdersCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('weekly_orders.tooltip'),
+    },
+    {
+      headerName: t('revenue'),
+      field: 'orders_money',
+      cellRenderer: RevenueCellRenderer,
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_revenue'),
+      field: 'diff_orders_money',
+      cellRenderer: MonthlyRevenueCellRenderer,
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_revenue.tooltip'),
+    },
+    {
+      headerName: t('weekly_revenue'),
+      field: 'weekly_orders_money',
+      cellRenderer: WeeklyRevenueCellRenderer,
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('weekly_revenue.tooltip'),
+    },
+    {
+      headerName: t('reviews'),
+      field: 'reviews_amount',
+      // floatingFilter: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      filter: false,
+
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('monthly_reviews'),
+      field: 'diff_reviews_amount',
+      // floatingFilter: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      filter: false,
+
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_reviews.tooltip'),
+    },
+    {
+      headerName: t('weekly_reviews'),
+      field: 'weekly_reviews_amount',
+      // floatingFilter: true,
+      cellRenderer: LocaleNumberCellRenderer,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      filter: false,
+
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('weekly_reviews.tooltip'),
+    },
+    {
+      headerName: t('average_price'),
+      field: 'sku_analytics',
+      cellRenderer: PurchasePriceCellRenderer,
+      flex: 1,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      sortable: false,
+      minWidth: 200,
+      filter: false,
+
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('date_added'),
+      field: 'product_created_at',
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      cellRenderer: LaunchDateCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('sku'),
+      filter: false,
+
+      field: 'sku_analytics',
+      cellRenderer: SkusCountCellRenderer,
+      sortable: false,
+      minWidth: 80,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+
+    {
+      headerName: t('promotion'),
+      field: 'badges',
+      cellRenderer: BadgesCellRenderer,
+      flex: 1,
+      minWidth: 200,
+      sortable: false,
+      filter: false,
+
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('available_amount'),
+      field: 'product_available_amount',
+      sortable: true,
+      filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+  ];
+};
+
+export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
+  return [
+    {
+      headerName: t('image'),
+      field: 'photos',
+      cellRenderer: ProductImageCellRenderer,
+      sortable: false,
+      minWidth: 180,
+      filter: false,
+      pinned: 'left',
+      maxWidth: 200,
+    },
+    {
+      headerName: t('product_name'),
+      field: lang === 'uz' ? 'product_title' : 'product_title_ru',
+      cellRenderer: ProductNameCellRenderer,
+      filter: true,
+      // // pinned: 'left',
+      floatingFilter: true,
+      filterParams: {
+        alwaysShowBothConditions: true,
+        applyButton: true, // This adds an "Apply" button to the filter
+        clearButton: true,
+        buttons: ['reset', 'apply'],
+      },
+      flloatingFilterComponentParams: {
+        suppressFilterButton: true,
+        buttons: ['reset', 'apply'],
+      },
+      cellStyle: {
+        fontSize: '14px',
+      },
+      sortable: false,
+      flex: 1,
+      maxWidth: 300,
+      minWidth: 300,
+    },
+    {
+      headerName: lang === 'uz' ? 'Kuzatish' : 'Просмотр',
+      field: 'product_id',
+      flex: 1,
+      sortable: false,
+      minWidth: 100,
+      filter: false,
+      cellRenderer: ProductsFavouriteCellRenderer,
+      headerTooltip:
+        lang === 'uz'
+          ? 'Mahsulotni Telegram bot orqali kuzatish.'
+          : 'Просмотр товара через Telegram бот.',
+    },
+    {
+      headerName: t('category'),
+      field: lang === 'uz' ? 'category_title' : 'category_title_ru',
+      cellRenderer: SubcategoryCellRenderer,
+      // filter: true,
+      // sortable: false,
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      cellStyle: {
+        fontSize: '14px',
+      },
+      filter: false,
+
+      flex: 1,
+      maxWidth: 500,
+      minWidth: 200,
+      headerTooltip: 'Ushbu mahsulotning asosiy ichki kategoriyasi.',
+    },
+    {
+      headerName: t('shop_name'),
+      field: 'shop_title',
+      filter: true,
+      sortable: false,
+      floatingFilter: true,
+      filterParams: {
+        alwaysShowBothConditions: true,
+        buttons: ['reset', 'apply'],
+      },
+      flloatingFilterComponentParams: {
+        suppressFilterButton: true,
+        buttons: ['reset', 'apply'],
+      },
+      cellRenderer: SellerNameCellRenderer,
+      flex: 1,
+      minWidth: 200,
 
       cellStyle: {
         fontSize: '14px',
