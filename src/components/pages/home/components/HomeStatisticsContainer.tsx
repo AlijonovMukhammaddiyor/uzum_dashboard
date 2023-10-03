@@ -411,7 +411,9 @@ function HomeStatisticsContainer({
         <div className='divide-y-2 divide-gray-200'>
           <div className='py-4'>
             <h3 className='mb-2 text-lg font-bold'>
-              {i18n.language === 'uz' ? 'Barcha davr uchun' : 'За все время'}
+              {i18n.language === 'uz'
+                ? '1. Barcha davr uchun'
+                : '1. За все время'}
             </h3>
             <div className='grid grid-cols-2 gap-4'>
               {[
@@ -471,7 +473,9 @@ function HomeStatisticsContainer({
           <div className='py-4'>
             <h3 className='mb-2 text-lg font-bold'>
               {' '}
-              {i18n.language === 'uz' ? 'Oxirgi 30 kun' : 'Последние 30 дней'}
+              {i18n.language === 'uz'
+                ? '2. Oxirgi 30 kun'
+                : '2. Последние 30 дней'}
             </h3>
             <div className='grid grid-cols-2 gap-4'>
               {[
@@ -552,7 +556,9 @@ function HomeStatisticsContainer({
           </div>
           <div className='py-4'>
             <h3 className='mb-2 text-lg font-bold'>
-              {i18n.language === 'uz' ? 'Oxirgi 7 kun' : 'Последние 7 дней'}
+              {i18n.language === 'uz'
+                ? '3. Oxirgi 7 kun'
+                : '3. Последние 7 дней'}
             </h3>
             <div className='grid grid-cols-2 gap-4'>
               {[
