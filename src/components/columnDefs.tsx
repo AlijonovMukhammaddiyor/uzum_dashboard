@@ -3297,7 +3297,7 @@ export const getCategoryProductTableForProductsColumnDefs = (
       },
       sortable: false,
       flex: 1,
-      maxWidth: 300,
+      maxWidth: 500,
       minWidth: 300,
     },
     {
@@ -3753,7 +3753,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       },
       sortable: false,
       flex: 1,
-      maxWidth: 300,
+      maxWidth: 500,
       minWidth: 300,
     },
     {

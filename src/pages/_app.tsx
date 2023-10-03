@@ -34,7 +34,6 @@ import 'intro.js/introjs.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 
 import ArrowLink from '@/components/shared/links/ArrowLink';
-import Tour from '@/components/Tour';
 
 // const Tour = dynamic(() => import('../components/Tour'), { ssr: false });
 import { GOOGLE_CLIENT_ID } from '@/constant/env';
@@ -120,7 +119,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             minWidth: '100%',
           }}
         >
-          <Tour />
+          {/* <Tour /> */}
           <Head>
             <meta
               name='viewport'
