@@ -354,10 +354,10 @@ function Tarif({
     };
 
     // Price multipliers
-    const oneMonthPromoDiscount = 0.65; // 20% off
-    const referralDiscount = 0.5; // 50% off for the first month
+    const oneMonthPromoDiscount = 0.75; // 25% off
+    const referralDiscount = 0.6; // 50% off for the first month
     const threeMonthMultiplier = 3; // for a 3-month period
-    const threeMonthDiscount = 0.67; // 20% off for a 3-month period
+    const threeMonthDiscount = 0.67; // 33% off for a 3-month period
 
     // Calculate the regular price
     const regularPrice = basePrices[productType];
