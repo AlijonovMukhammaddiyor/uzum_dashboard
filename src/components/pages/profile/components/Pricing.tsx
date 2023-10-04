@@ -307,7 +307,8 @@ function Tarif({
       months,
       state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
       true, // isReal
-      false // isShow
+      false, // isShow,
+      state.user?.referred_by === '280cf3' && !state.user?.is_paid
     );
     setLoading(true);
     api
@@ -342,7 +343,8 @@ function Tarif({
     months: number,
     isReferred: boolean,
     isReal: boolean,
-    isShow: boolean
+    isShow: boolean,
+    isKomiljon: boolean
   ): number => {
     // Base monthly prices
     const basePrices = {
@@ -352,9 +354,13 @@ function Tarif({
       free: 0,
     };
 
+    // isKomiljon = true;
+    // isReferred = true;
+
     // Price multipliers
-    const oneMonthPromoDiscount = 0.75; // 25% off
+    const oneMonthPromoDiscount = 0.8; // 25% off
     const referralDiscount = 0.6; // 50% off for the first month
+    const komiljon_discount = 0.7; // 30% off for the first month
     const threeMonthMultiplier = 3; // for a 3-month period
     const threeMonthDiscount = 0.67; // 33% off for a 3-month period
 
@@ -369,20 +375,29 @@ function Tarif({
 
     // Calculate the show price
     let showPrice = regularPrice * months;
-    if (months === 3 && !isReferred) {
+    if (months === 3 && !isReferred && !isKomiljon) {
       showPrice = showPrice * threeMonthDiscount;
       if (isReal) return showPrice;
       return regularPrice * threeMonthMultiplier;
-    } else if (months === 1 && !isReferred) {
+    } else if (months === 1 && !isReferred && !isKomiljon) {
       if (isReal) return showPrice * oneMonthPromoDiscount;
       return regularPrice;
     } else if (months === 3 && isReferred) {
-      const referredPrice =
-        (showPrice - regularPrice * referralDiscount) * threeMonthDiscount;
+      const referredPrice = showPrice * 0.6;
+      // (showPrice - regularPrice * referralDiscount) * threeMonthDiscount;
       if (isReal) return referredPrice;
       return regularPrice * threeMonthMultiplier;
     } else if (months === 1 && isReferred) {
       showPrice = regularPrice * referralDiscount;
+      if (isReal) return showPrice;
+      return regularPrice;
+    } else if (months === 3 && isKomiljon) {
+      const komiljonPrice = showPrice * threeMonthDiscount;
+      // (showPrice - regularPrice * komiljon_discount) * threeMonthDiscount;
+      if (isReal) return komiljonPrice;
+      return regularPrice * threeMonthMultiplier;
+    } else if (months === 1 && isKomiljon) {
+      showPrice = regularPrice * komiljon_discount;
       if (isReal) return showPrice;
       return regularPrice;
     }
@@ -461,7 +476,8 @@ function Tarif({
                 months,
                 state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
                 false, // isReal
-                true // isShow
+                true, // isShow
+                state.user?.referred_by === '280cf3' && !state.user?.is_paid
               ).toFixed(2)}
             </span>
 
@@ -478,7 +494,8 @@ function Tarif({
                 months,
                 state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
                 true, // isReal
-                false // isShow
+                false, // isShow
+                state.user?.referred_by === '280cf3' && !state.user?.is_paid
               ).toFixed(2)}
             </span>
           </div>
@@ -532,12 +549,18 @@ function Tarif({
         <span
           className={clsxm(
             'absolute -top-6 right-0 mr-2 mt-2 rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white',
-            months === 3 && 'text-green-300'
+            months === 3 && 'text-green-300',
+            state.user?.referred_by === '280cf3' &&
+              !state.user?.is_paid &&
+              '-right-10'
           )}
         >
           {state.user?.referred_by === '0746b5' &&
             !state.user?.is_paid &&
             'Soff: '}
+          {state.user?.referred_by === '280cf3' &&
+            !state.user?.is_paid &&
+            'Komiljon: '}
           {(
             ((getPrice(
               isPro
@@ -550,7 +573,8 @@ function Tarif({
               months,
               state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
               false, // isReal
-              true // isShow
+              true, // isShow
+              state.user?.referred_by === '280cf3' && !state.user?.is_paid
             ) -
               getPrice(
                 isPro
@@ -563,7 +587,8 @@ function Tarif({
                 months,
                 state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
                 true, // isReal
-                false // isShow
+                false, // isShow
+                state.user?.referred_by === '280cf3' && !state.user?.is_paid
               )) /
               getPrice(
                 isPro
@@ -576,7 +601,8 @@ function Tarif({
                 months,
                 state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferred
                 false, // isReal
-                true // isShow
+                true, // isShow
+                state.user?.referred_by === '280cf3' && !state.user?.is_paid
               )) *
             100
           ).toFixed(1)}
