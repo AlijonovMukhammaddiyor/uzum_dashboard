@@ -66,9 +66,11 @@ function Pricing({ className }: { className?: string }) {
     <div
       id="ta'riflar"
       className={clsxm('mt-8 flex w-full justify-center', className)}
-      style={{
-        zoom: zoomLevel,
-      }}
+      style={
+        {
+          // zoom: zoomLevel,
+        }
+      }
     >
       <CountingDown discountEndDate={new Date('2023-10-10T23:59:59')} />
       <div className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'>
@@ -318,18 +320,25 @@ function Tarif({
   const [popupOpen, setPopupOpen] = useState(false);
   const [businessCode, setBusinessCode] = useState('');
 
-  const handlePayment = () => {
+  const handlePayment = (discount = 0) => {
     const api = new API(null);
     if (isCurrentPlan) return;
     if (price === 0) return;
-    const price_ = getPrice(
-      isPro ? 'base' : isProPlus ? 'seller' : isBusiness ? 'business' : 'free',
-      months,
-      state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
-      true, // isReal
-      false, // isShow,
-      state.user?.referred_by === '280cf3' && !state.user?.is_paid
-    );
+    const price_ =
+      getPrice(
+        isPro
+          ? 'base'
+          : isProPlus
+          ? 'seller'
+          : isBusiness
+          ? 'business'
+          : 'free',
+        months,
+        state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
+        true, // isReal
+        false, // isShow,
+        state.user?.referred_by === '280cf3' && !state.user?.is_paid
+      ) - discount;
     setLoading(true);
     api
       .post('/payments/paylink/', {
@@ -391,7 +400,7 @@ function Tarif({
 
     if (productType === 'business')
       if (months === 3) return 190;
-      else 70;
+      else return 70;
 
     // Calculate the show price
     let showPrice = regularPrice * months;
@@ -440,6 +449,9 @@ function Tarif({
           setPopupOpen(false);
           if (businessCode === '777777') {
             handlePayment();
+          } else if (businessCode === 'ajoyib') {
+            console.log('ajoyib22');
+            handlePayment(16);
           } else {
             RenderAlert({
               alertTitle:
