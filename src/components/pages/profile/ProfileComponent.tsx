@@ -60,7 +60,7 @@ const ProfileComponent = ({ user }: { user: UserType }) => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         setNotAllowedTab={setNotAllowedTab}
-        className='overflow-auto'
+        className='mt-4 overflow-auto'
       />
       {/* {user.tariff === 'trial' && (
         <p className='mt-4 text-xs'>
