@@ -11,6 +11,7 @@ import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import BusinessAccess from '@/components/pages/profile/components/BusinessAccess';
+import CountingDown from '@/components/pages/profile/components/CountingDown';
 import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
 
@@ -49,6 +50,7 @@ function Pricing({ className }: { className?: string }) {
       id="ta'riflar"
       className={clsxm('mt-8 flex w-full justify-center', className)}
     >
+      <CountingDown discountEndDate={new Date('2023-10-10T23:59:59')} />
       <div className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'>
         {/* 1. Our Promise */}
         <div className='relative mb-20 rounded-md bg-blue-50 p-6 shadow-md'>
@@ -90,7 +92,6 @@ function Pricing({ className }: { className?: string }) {
             </li>
           </ul>
         </div>
-
         {state.user?.tariff === 'trial' && (
           <div className='mb-8 flex items-center space-x-4 rounded-md border border-yellow-500 bg-yellow-100 p-4 shadow-md'>
             <IoWarningOutline className='text-2xl text-yellow-500' />
@@ -101,9 +102,7 @@ function Pricing({ className }: { className?: string }) {
             </p>
           </div>
         )}
-
         {/* 3. Billing Option */}
-
         <div className='mb-8 grid h-[400px] w-full min-w-[1200px] grid-cols-5 gap-4 overflow-scroll'>
           <div className='mt-3 flex items-center justify-center'>
             <div className='h-[200px] rounded-2xl border border-slate-300 p-6'>
