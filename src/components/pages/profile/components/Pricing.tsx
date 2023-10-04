@@ -26,7 +26,24 @@ function Pricing({ className }: { className?: string }) {
   const [months, setMonths] = React.useState<number>(1);
   const [popupOpen, setPopupOpen] = useState(false);
   const [businessCode, setBusinessCode] = useState('');
+  const [zoomLevel, setZoomLevel] = React.useState(1);
 
+  React.useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 1500) {
+        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+      } else {
+        setZoomLevel(1); // 100% zoom otherwise
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const sendToRegister = (plan: string) => {
     Router.push({
       pathname: '/register',
@@ -49,6 +66,9 @@ function Pricing({ className }: { className?: string }) {
     <div
       id="ta'riflar"
       className={clsxm('mt-8 flex w-full justify-center', className)}
+      style={{
+        zoom: zoomLevel,
+      }}
     >
       <CountingDown discountEndDate={new Date('2023-10-10T23:59:59')} />
       <div className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'>
