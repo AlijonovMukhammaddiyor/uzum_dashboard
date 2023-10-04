@@ -69,7 +69,7 @@ const Register = () => {
       <div className='base:w-1/2 base:bg-none relative flex w-full flex-col items-center justify-center overflow-hidden px-5 pb-10'>
         <Link
           href='/'
-          className='z-10 mb-6 flex w-full items-center justify-start p-5'
+          className='absolute top-0 z-10 mb-6 flex w-full items-center justify-start p-5'
         >
           {/* <Logo className='h-[50px] w-28 sm:w-32 md:w-56' /> */}
           <Image
