@@ -221,7 +221,6 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
             <div className='flex min-h-[650px] flex-col items-start justify-start'>
               {isNew && (
                 <div className='flex items-center justify-center gap-2 rounded-lg border border-blue-500 px-2 py-1'>
-                  <p>{t('release_date')} </p>
                   <p className='font-semibold'>
                     {product.created_at.split('T')[0]}
                   </p>
