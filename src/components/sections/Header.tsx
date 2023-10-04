@@ -293,7 +293,7 @@ const UserProfileDropdown = ({
   return isOpen ? (
     <div
       ref={dropdownRef}
-      className='absolute right-0 top-full z-10 mt-4 w-[180px] rounded-md border bg-white shadow-xl'
+      className='fixed right-0 top-10 z-[99999] mt-4 w-[180px] rounded-md border bg-white shadow-xl'
     >
       <div
         className='flex items-center justify-between gap-2 border-b p-2 hover:bg-gray-200'
