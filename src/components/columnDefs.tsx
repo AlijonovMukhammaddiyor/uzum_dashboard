@@ -3678,20 +3678,20 @@ export const getCategoryProductTableForProductsColumnDefs = (
       } as CellStyle,
     },
 
-    {
-      headerName: t('promotion'),
-      field: 'badges',
-      cellRenderer: BadgesCellRenderer,
-      flex: 1,
-      minWidth: 200,
-      sortable: false,
-      filter: false,
+    // {
+    //   headerName: t('promotion'),
+    //   field: 'badges',
+    //   cellRenderer: BadgesCellRenderer,
+    //   flex: 1,
+    //   minWidth: 200,
+    //   sortable: false,
+    //   filter: false,
 
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-    },
+    //   cellStyle: {
+    //     textAlign: 'center',
+    //     fontSize: '14px',
+    //   } as CellStyle,
+    // },
     {
       headerName: t('available_amount'),
       field: 'product_available_amount',
@@ -4134,20 +4134,20 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       } as CellStyle,
     },
 
-    {
-      headerName: t('promotion'),
-      field: 'badges',
-      cellRenderer: BadgesCellRenderer,
-      flex: 1,
-      minWidth: 200,
-      sortable: false,
-      filter: false,
+    // {
+    //   headerName: t('promotion'),
+    //   field: 'badges',
+    //   cellRenderer: BadgesCellRenderer,
+    //   flex: 1,
+    //   minWidth: 200,
+    //   sortable: false,
+    //   filter: false,
 
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-    },
+    //   cellStyle: {
+    //     textAlign: 'center',
+    //     fontSize: '14px',
+    //   } as CellStyle,
+    // },
     {
       headerName: t('available_amount'),
       field: 'product_available_amount',
@@ -4337,18 +4337,18 @@ export const getShopProductTableColumnDefs = (t: any, lang: string) => {
         fontSize: '14px',
       } as CellStyle,
     },
-    {
-      headerName: t('promotion'),
-      field: 'badges',
-      cellRenderer: BadgesCellRenderer,
-      flex: 1,
-      filter: false,
-      minWidth: 200,
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-    },
+    // {
+    //   headerName: t('promotion'),
+    //   field: 'badges',
+    //   cellRenderer: BadgesCellRenderer,
+    //   flex: 1,
+    //   filter: false,
+    //   minWidth: 200,
+    //   cellStyle: {
+    //     textAlign: 'center',
+    //     fontSize: '14px',
+    //   } as CellStyle,
+    // },
   ];
 };
 
