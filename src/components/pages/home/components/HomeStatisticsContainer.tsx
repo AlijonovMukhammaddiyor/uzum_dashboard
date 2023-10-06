@@ -249,7 +249,7 @@ function HomeStatisticsContainer({
         setLoading((prev) => ({ ...prev, shops: false }));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [i18n.language]);
 
   const isLoading = () => {
     if (currentTab.label === t('dataTable.shops_amount')) {
