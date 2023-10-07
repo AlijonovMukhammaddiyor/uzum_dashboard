@@ -13,7 +13,6 @@ import CategoriesSelect from '@/components/pages/discovery/CategoriesSelect';
 import GrowingCategories from '@/components/pages/home/components/GrowingCategories';
 import GrowingProducts from '@/components/pages/home/components/GrowingProducts';
 import MonthlyBestProducts from '@/components/pages/home/components/MonthlyBestProducts';
-import NewProducts from '@/components/pages/home/components/NewProducts';
 import WeeklyBestProducts from '@/components/pages/home/components/WeeklyBestProducts';
 import ProductsFilters from '@/components/pages/products/components/ProductsFilters';
 import { RenderAlert } from '@/components/shared/AlertComponent';
@@ -232,7 +231,7 @@ function ProductsComponent({ user }: ProductsComponentProps) {
         ]}
         disbaledTabs={
           isProPlus
-            ? []
+            ? [t('home.new_products.title')]
             : [
                 t('home.weekly_best_products'),
                 t('home.monthly_best_products'),
@@ -374,11 +373,11 @@ function ProductsComponent({ user }: ProductsComponentProps) {
         )}
       />
 
-      <NewProducts
+      {/* <NewProducts
         className={clsxm(
           activeTab === t('home.new_products.title') ? 'mt-0' : 'hidden'
         )}
-      />
+      /> */}
 
       {activeTab === t('home.promising_products.title') && (
         <GrowingProducts
