@@ -65,7 +65,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       )
       .then((res) => {
         // setSavedShops(res.data.shops);
-        logger(res.data, 'my shops 222');
 
         dispatch({
           type: 'FAVOURITE_SHOPS',

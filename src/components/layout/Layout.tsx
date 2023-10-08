@@ -155,7 +155,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className='relative flex h-full w-full items-start justify-start overflow-hidden  bg-slate-100 pt-10'
+      className='relative flex h-full w-full items-start justify-start overflow-hidden  bg-white pt-10'
       id='uzanalitika'
     >
       {isWarningVisible && !hasClosedWarning && (

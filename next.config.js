@@ -1,8 +1,9 @@
 
 /** @type {import('next').NextConfig} */
 const { i18n } = require('./next-i18next.config');
+const withTM = require("next-transpile-modules")(["echarts", "zrender"]);
 
-const nextConfig = {
+const nextConfig = withTM({
   eslint: {
     dirs: ['src'],
   },
@@ -19,6 +20,8 @@ const nextConfig = {
       'images.umarket.uz'
     ],
   },
+
+  // transpilePackages: ['@ui', '@utils', '@hooks', '@components', '@constants', '@types', '@services', '@utils', '@store', '@config'],
 
   // SVGR
   webpack(config) {
@@ -39,6 +42,6 @@ const nextConfig = {
     return config;
   },
   i18n,
-};
+});
 
 module.exports = nextConfig;

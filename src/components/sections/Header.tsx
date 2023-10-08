@@ -91,7 +91,7 @@ export default function Header() {
 
   return (
     <header
-      className='fixed right-0 top-0 z-[100] h-12 w-full border-b border-slate-300 bg-white py-1'
+      className='fixed right-0 top-0 z-[100] h-12 w-full border border-slate-300 bg-white py-1'
       id='header'
     >
       <SearchContainer
@@ -129,26 +129,28 @@ export default function Header() {
           )}
         </div>
 
-        <div
-          className='flex flex-1 cursor-pointer items-center space-x-2 rounded-md border-b border-slate-700 bg-slate-200 pl-3 pr-[3px]'
-          onClick={() => setIsSearchOpen(true)}
-        >
-          {/* <div className='gold-gradient threeD-effect -mt-1 flex h-9 items-center justify-center rounded-md px-3 text-[#333]'>
+        {router.pathname !== '/home' && (
+          <div
+            className='flex flex-1 cursor-pointer items-center space-x-2 rounded-md border border-slate-700 bg-gray-300 bg-opacity-50 pl-3 pr-[3px]'
+            onClick={() => setIsSearchOpen(true)}
+          >
+            {/* <div className='gold-gradient threeD-effect -mt-1 flex h-9 items-center justify-center rounded-md px-3 text-[#333]'>
             {i18n.language === 'uz' ? 'Qidirish' : 'Поиск'}
           </div> */}
-          <input
-            type='text'
-            placeholder={
-              i18n.language === 'uz'
-                ? 'Xohlagan narsani qidiring...'
-                : 'ищите все, что хотите...'
-            }
-            className='min-w-[200px] rounded-sm border-none bg-slate-200 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-0'
-          />
-          {/* <button className='bg-primary flex items-center justify-center rounded-md px-2 py-1 text-white'>
+            <input
+              type='text'
+              placeholder={
+                i18n.language === 'uz'
+                  ? 'Xohlagan narsani qidiring...'
+                  : 'ищите все, что хотите...'
+              }
+              className='min-w-[200px] rounded-sm border-none bg-gray-200 bg-opacity-50 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-0'
+            />
+            {/* <button className='bg-primary flex items-center justify-center rounded-md px-2 py-1 text-white'>
                 {i18n.language === 'uz' ? 'Tez Qidirish' : 'Быстрый Поиск'}
               </button> */}
-        </div>
+          </div>
+        )}
 
         <nav className='shrink-0'>
           <ul className='flex items-center justify-end space-x-5'>
@@ -293,7 +295,7 @@ const UserProfileDropdown = ({
   return isOpen ? (
     <div
       ref={dropdownRef}
-      className='fixed right-0 top-10 z-[99999] mt-4 w-[180px] rounded-md border bg-white shadow-xl'
+      className='fixed right-0 top-10 z-[9999999] mt-4 w-[180px] rounded-md border bg-white shadow-xl'
     >
       <div
         className='flex items-center justify-between gap-2 border-b p-2 hover:bg-gray-200'

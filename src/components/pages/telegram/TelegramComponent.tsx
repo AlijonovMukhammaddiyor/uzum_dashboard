@@ -57,7 +57,6 @@ function TelegramComponent() {
       .then((res) => {
         try {
           // setSavedShops(res.data.shops);
-          logger(res.data, 'my shops 222');
           setLoading((prev) => ({ ...prev, shops: false }));
           // dispatch({
           //   type: 'FAVOURITE_SHOPS',
