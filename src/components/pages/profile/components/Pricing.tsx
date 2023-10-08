@@ -399,7 +399,7 @@ function Tarif({
     if (productType === 'free') return 0;
 
     if (productType === 'business')
-      if (months === 3) return 190;
+      if (months === 3) return 170;
       else return 70;
 
     // Calculate the show price
