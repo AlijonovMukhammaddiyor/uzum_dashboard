@@ -51,6 +51,7 @@ export interface AreaChartProps {
   style?: React.CSSProperties;
   title?: string;
   className?: string;
+  tension?: number;
 }
 
 function AreaChart({
@@ -60,6 +61,7 @@ function AreaChart({
   style,
   title,
   className,
+  tension = 0.3,
 }: AreaChartProps) {
   const [visibleDatasets, setVisibleDatasets] = React.useState(
     data.map(() => true)
@@ -141,7 +143,7 @@ function AreaChart({
       },
       ...yAxis,
     },
-    tension: 0.3,
+    tension: tension,
   };
 
   const legendContainerStyle: React.CSSProperties = {

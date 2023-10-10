@@ -153,7 +153,10 @@ function ShopProducts({ sellerId, className }: Props) {
         if (res.data.total_revenue - sum > 0)
           data2.push({
             type: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
-            value: Math.round((res.data.total_revenue - sum) * 1000),
+            value:
+              Math.round(
+                Math.round((res.data.total_revenue - sum) * 1000) / 1000
+              ) * 1000,
           });
 
         setRevenueData(data2);
@@ -259,6 +262,7 @@ function ShopProducts({ sellerId, className }: Props) {
           )}
         >
           <PieChart
+            innerRadius={0.6}
             data={revenueData}
             title={t('most_profitable_products')}
             labelType='outer'
@@ -276,6 +280,7 @@ function ShopProducts({ sellerId, className }: Props) {
           )}
         >
           <PieChart
+            innerRadius={0.6}
             data={ordersData}
             title={t('most_sold_products')}
             labelType='outer'
@@ -293,6 +298,7 @@ function ShopProducts({ sellerId, className }: Props) {
           )}
         >
           <PieChart
+            innerRadius={0.6}
             data={reviewsData}
             title={t('most_reviewed_products')}
             labelType='outer'

@@ -4481,6 +4481,146 @@ export const getShopDailySaleColumnDefs = (t: any, lang: string) => {
   ];
 };
 
+export const getProductAnalyticssColDefs = (t: any, lang: string) => {
+  return [
+    {
+      headerName: t('date'),
+      field: 'date_pretty',
+      flex: 1,
+      maxWidth: 300,
+      minWidth: 200,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('orders'),
+      field: 'orders_amount',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: true,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      // with capital letter
+      headerName: lang === 'uz' ? "O'rtacha sotuv narxi" : 'Средняя цена',
+      field: 'average_purchase_price',
+      sortable: true,
+      cellRenderer: TrendPriceCellRenderer,
+      minWidth: 150,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('reviews'),
+      field: 'reviews_amount',
+      sortable: true,
+      // cellRenderer: ReviewsAmountTinyChartCellRenderer,
+      minWidth: 300,
+      filter: false,
+      maxWidth: 600,
+      cellRenderer: LocaleNumberCellRenderer,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('rating'),
+      field: 'rating',
+      cellRenderer: RatingCellRenderer,
+      sortable: true,
+      filter: false,
+      minWidth: 150,
+      maxWidth: 250,
+      headerTooltip: 'Kategoriyadagi mahsulotlarning o`rtacha reytingi',
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+  ];
+};
+
+export const getSkuAnalyticssColDefs = (t: any, lang: string) => {
+  return [
+    {
+      headerName: t('date'),
+      field: 'date_pretty',
+      flex: 1,
+      maxWidth: 300,
+      minWidth: 200,
+      cellStyle: {
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('orders'),
+      field: 'orders_amount',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: true,
+      // filter: true,
+      // floatingFilter: 'agNumberColumnFilter',
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('available_amount'),
+      field: 'available_amount',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: true,
+      filter: false,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: lang === 'uz' ? 'Sotuv narxi' : 'Цена',
+      field: 'purchase_price',
+      sortable: true,
+      cellRenderer: TrendPriceCellRenderer,
+      minWidth: 200,
+      filter: false,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: lang === 'uz' ? 'Chegirmasiz narxi' : 'Цена без скидки',
+      field: 'full_price',
+      sortable: true,
+      // cellRenderer: ReviewsAmountTinyChartCellRenderer,
+      minWidth: 200,
+      filter: false,
+      cellRenderer: TrendPriceCellRenderer,
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+  ];
+};
+
 export const getShopStoppedProductTableColumnDefs = (t: any, lang: string) => {
   return [
     {

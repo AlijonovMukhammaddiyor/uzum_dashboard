@@ -18,6 +18,7 @@ export interface PieChartProps {
   labelType?: 'spider' | 'inner' | 'outer';
   style?: React.CSSProperties;
   isRevenue?: boolean;
+  innerRadius?: number;
 }
 
 const PieChart = ({
@@ -26,6 +27,7 @@ const PieChart = ({
   labelType,
   style,
   isRevenue,
+  innerRadius = 0,
 }: PieChartProps) => {
   const config = {
     appendPadding: 10,
@@ -33,6 +35,7 @@ const PieChart = ({
     angleField: 'value',
     colorField: 'type',
     radius: 0.8,
+    innerRadius: innerRadius,
     title: {
       text: title || 'Ulushlar',
       style: {
@@ -80,6 +83,16 @@ const PieChart = ({
         type: 'element-active',
       },
     ],
+    statistic: {
+      title: false,
+      content: {
+        // disable
+        show: false,
+        style: {
+          display: 'none',
+        },
+      },
+    },
   };
   return (
     <div className='h-full max-h-full w-full'>

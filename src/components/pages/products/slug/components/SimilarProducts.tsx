@@ -143,7 +143,7 @@ function AboutProduct({
   return (
     <div
       className={clsxm(
-        'relative flex min-h-full w-full min-w-[1000px] flex-col items-start justify-start gap-5 pb-16',
+        'relative flex min-h-full w-full min-w-[1000px] flex-col items-start justify-start gap-5',
         className
       )}
     >
@@ -297,7 +297,7 @@ function AboutProduct({
       )}
       <Container
         loading={loading}
-        className='h-full min-h-[800px] w-full border-none bg-transparent p-0'
+        className='h-full min-h-[1500px] w-full border-none bg-transparent p-0'
       >
         <>
           {products.length > 0 && (
@@ -307,7 +307,7 @@ function AboutProduct({
               isBalham={true}
               rowData={prepareTableData(products, product_id)}
               columnDefs={getSimilarProductsColDefs(t2, i18n.language) as any}
-              className='h-[1200px]'
+              className='min-h-1500px h-[1500px]'
               withCheckbox
             />
           )}

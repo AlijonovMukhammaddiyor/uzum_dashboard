@@ -1,21 +1,30 @@
 import { AxiosResponse } from 'axios';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaFileExcel } from 'react-icons/fa';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
+import { getProductAnalyticssColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import { RenderAlert } from '@/components/shared/AlertComponent';
 import AreaChart from '@/components/shared/AreaChart';
+import Button from '@/components/shared/buttons/Button';
+import Table from '@/components/shared/Table';
+
+import { useContextState } from '@/context/Context';
 
 interface AboutProductProps {
   product_id: string;
   className?: string;
   isActive?: boolean;
+  product: ProductAnalyticsType | null;
+  setProduct: React.Dispatch<React.SetStateAction<ProductAnalyticsType | null>>;
 }
 
-interface ProductAnalyticsType {
+export interface ProductAnalyticsType {
   adult: boolean;
   bonus_product: boolean;
   skus_count: number;
@@ -39,7 +48,9 @@ interface ProductAnalyticsType {
     vat_price: number;
     payment_per_month: number;
     sku: number;
+    characteristics: string;
     recent_analytics: {
+      orders_amount: number;
       date_pretty: string;
       available_amount: number;
       created_at: string;
@@ -51,19 +62,20 @@ interface ProductAnalyticsType {
   product_id: number;
   title: string;
   created_at: string;
+  characteristics: string;
 }
 
 function ProductAnalytics({
   product_id,
   className,
   isActive,
+  product,
+  setProduct,
 }: AboutProductProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [product, setProduct] = React.useState<ProductAnalyticsType | null>(
-    null
-  );
   const [iscreatedAfter, setIscreatedAfter] = React.useState<boolean>(false);
   const { t, i18n } = useTranslation('products');
+  const { state } = useContextState();
 
   React.useEffect(() => {
     const api = new API(null);
@@ -86,6 +98,7 @@ function ProductAnalytics({
         logger(err, 'Error in getting competitors');
         setLoading(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product_id]);
 
   return (
@@ -105,6 +118,7 @@ function ProductAnalytics({
             {/* {product && product.recent_analytics && ( */}
             {isActive ? (
               <AreaChart
+                tension={0}
                 data={
                   prepareAllOrdersDataset(
                     product,
@@ -120,30 +134,56 @@ function ProductAnalytics({
             ) : (
               <></>
             )}
-
-            {isActive ? (
-              <AreaChart
-                labels={
-                  product?.recent_analytics
-                    .map((item) => item.date_pretty)
-                    .sort(
-                      (a, b) => new Date(a).getTime() - new Date(b).getTime()
-                    ) ?? []
-                }
-                data={
-                  prepareDailyOrdersDataset(
-                    product,
-                    iscreatedAfter,
-                    i18n.language
-                  ) || []
-                }
-                title={t('daily_info')}
-                style={{ width: '100%', height: '100%', maxHeight: '460px' }}
-                className='h-[460px] max-h-[460px] w-full'
-              />
-            ) : (
-              <></>
-            )}
+            <div className='flex w-full items-center justify-end'>
+              <Button
+                className='flex transform items-center justify-center space-x-2 rounded-md bg-green-500 px-6 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 ease-in-out hover:bg-green-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50'
+                onClick={() => {
+                  if (
+                    state.user?.tariff === 'free' ||
+                    state.user?.tariff === 'trial'
+                  ) {
+                    RenderAlert({
+                      alertTitle:
+                        i18n.language === 'uz'
+                          ? "Excel faylga yuklab olish uchun boshqa tarifga o'ting"
+                          : 'Для загрузки в Excel перейдите на другой тариф',
+                      alertSubtitle: '',
+                      buttonTitle:
+                        i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                      buttonLink: '/profile',
+                    });
+                    return;
+                  }
+                  // exportToExcel();
+                }}
+                // isLoading={loading}
+                spinnerColor='rgb(126 34 206)'
+              >
+                {/* {loading ? (
+          <Spinner size='24px' />
+        ) : ( */}
+                <>
+                  <FaFileExcel className='h-5 w-5' />
+                  <p>{i18n.language === 'uz' ? 'Yuklab olish' : 'Скачать'}</p>
+                </>
+                {/* )} */}
+              </Button>
+            </div>
+            <Table
+              isBalham={true}
+              rowHeight={70}
+              headerHeight={60}
+              rowData={product?.recent_analytics
+                .sort(
+                  (a, b) =>
+                    new Date(a.date_pretty).getTime() -
+                    new Date(b.date_pretty).getTime()
+                )
+                .reverse()}
+              columnDefs={getProductAnalyticssColDefs(t, i18n.language)}
+              className='h-[1200px]'
+              withCheckbox
+            />
           </Container>
         ) : (
           <div className=''>
@@ -394,22 +434,63 @@ function prepareAllOrdersDataset(
   return dataset;
 }
 
-function prepareSkusDataset(data: ProductAnalyticsType) {
-  const dataset = [];
+// function prepareSkusDataset(data: ProductAnalyticsType) {
+//   const dataset = [];
+//   const price = [];
+//   const available = [];
+//   const orders = [];
 
-  for (let i = 0; i < data.skus.length; i++) {
-    for (let j = 0; j < data.skus[i].recent_analytics.length; j++) {
-      const item = data.skus[i].recent_analytics[j];
-      dataset.push({
-        x: item.date_pretty,
-        y: item.available_amount,
-        label: data.skus[i].sku.toString(),
-      });
-    }
-  }
+//   for (let j = 0; j < data.skus[2].recent_analytics.length; j++) {
+//     const item = data.skus[2].recent_analytics[j];
+//     available.push({
+//       x: item.date_pretty,
+//       y: item.available_amount,
+//       label: data.skus[2].sku.toString(),
+//     });
+//     orders.push({
+//       x: item.date_pretty,
+//       y: item.orders_amount,
+//       label: data.skus[2].sku.toString(),
+//     });
+//     price.push({
+//       x: item.date_pretty,
+//       y: item.purchase_price,
+//       label: data.skus[2].sku.toString(),
+//     });
+//   }
 
-  return dataset;
-}
+//   dataset.push({
+//     data: available,
+//     fill: true,
+//     borderColor: 'rgba(0, 128, 0, 1)',
+//     backgroundColor: 'rgba(0, 128, 0, 0.2)',
+//     label: 'Mavjud miqdor',
+//     pointRadius: 3,
+//     pointBackgroundColor: 'rgba(0, 128, 0, 1)',
+//   });
+
+//   dataset.push({
+//     data: orders,
+//     fill: true,
+//     borderColor: 'rgba(100, 149, 237, 1)',
+//     backgroundColor: 'rgba(100, 149, 237, 0.2)',
+//     label: 'Buyurtmalar',
+//     pointRadius: 3,
+//     pointBackgroundColor: 'rgba(100, 149, 237, 1)',
+//   });
+
+//   dataset.push({
+//     data: price,
+//     fill: true,
+//     borderColor: 'rgba(255, 165, 0, 1)',
+//     backgroundColor: 'rgba(255, 165, 0, 0.2)',
+//     label: 'Sotuv narxi',
+//     pointRadius: 3,
+//     pointBackgroundColor: 'rgba(255, 165, 0, 1)',
+//   });
+
+//   return dataset;
+// }
 
 function preparePriceDataset(data: ProductAnalyticsType) {
   const dataset = [];

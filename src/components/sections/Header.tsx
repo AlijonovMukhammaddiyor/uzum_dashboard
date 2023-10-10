@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { BsChevronRight } from 'react-icons/bs';
 import { FaTelegram } from 'react-icons/fa';
+import { GoSearch } from 'react-icons/go';
 import { GrLanguage } from 'react-icons/gr';
 import { HiChevronDown } from 'react-icons/hi2';
 import { IoExitOutline } from 'react-icons/io5';
@@ -137,6 +138,7 @@ export default function Header() {
             {/* <div className='gold-gradient threeD-effect -mt-1 flex h-9 items-center justify-center rounded-md px-3 text-[#333]'>
             {i18n.language === 'uz' ? 'Qidirish' : 'Поиск'}
           </div> */}
+            <GoSearch className='h-5 w-5 ' />
             <input
               type='text'
               placeholder={
@@ -184,7 +186,7 @@ export default function Header() {
             </li>
             <li className='flex space-x-4'>
               <a
-                href='https://t.me/ulugbek4real'
+                href='https://t.me/Alijonov_md'
                 target='_blank'
                 className='flex items-center space-x-2 rounded'
               >

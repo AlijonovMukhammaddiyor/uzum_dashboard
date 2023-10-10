@@ -131,14 +131,19 @@ function Product({ user, product_id }: ProductProps) {
       <Tabs
         tabs={[
           t('tabs.about_product'),
+          t('tabs.sku_analytics'),
           t('tabs.graph_analysis'),
           t('tabs.similar_products'),
           t('tabs.position'),
           // 'Test',
         ]}
         setNotAllowedTab={setNotAllowedTab}
-        premiumTabs={[t('tabs.position')]}
-        disbaledTabs={isPaid ? [] : [t('tabs.position')]}
+        premiumTabs={[t('tabs.position'), t('tabs.sku_analytics')]}
+        disbaledTabs={
+          isPaid
+            ? [t('tabs.sku_analytics')]
+            : [t('tabs.position'), t('tabs.sku_analytics')]
+        }
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4 '
