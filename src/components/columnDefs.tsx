@@ -1027,6 +1027,7 @@ export const RevenueCellRenderer = ({ value }: { value: number }) => {
     </div>
   );
 };
+
 export const WeeklyRevenueCellRenderer = ({ value }: { value: number }) => {
   const { state } = useContextState();
 
@@ -4788,7 +4789,7 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       minWidth: 120,
       maxWidth: 120,
       cellStyle: {
-        backgroundColor: 'rgba(239, 231, 235)',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
     },
     {
@@ -4800,6 +4801,17 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       filter: false,
       sortable: false,
     },
+    {
+      headerName: t('active_products_amount'),
+      field: 'total_products_with_sales',
+      flex: 1,
+      minWidth: 100,
+      filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: false,
+      headerTooltip: t('tooltip.active_products_amount'),
+    },
+
     {
       headerName: t('shops_count'),
       field: 'total_shops',
@@ -4813,51 +4825,6 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       } as CellStyle,
     },
     {
-      headerName: t('orders'),
-      field: 'total_orders',
-      flex: 1,
-      filter: false,
-      minWidth: 100,
-      cellRenderer: LocaleNumberCellRenderer,
-      sortable: false,
-      headerTooltip: 'Ushbu sanagacha kategoriyada berilgan buyurtmalar soni.',
-      cellStyle: {
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-      } as CellStyle,
-    },
-    {
-      headerName: t('revenue'),
-      field: 'total_orders_amount',
-      cellRenderer: RevenueCellRenderer,
-      flex: 1,
-      filter: false,
-      minWidth: 150,
-      sortable: false,
-      headerTooltip: 'Ushbu sanagacha kategoriyadagi jami daromad.',
-      cellStyle: {
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-      } as CellStyle,
-    },
-    {
-      headerName: t('reviews'),
-      field: 'total_reviews',
-      flex: 1,
-      filter: false,
-      minWidth: 100,
-      cellRenderer: LocaleNumberCellRenderer,
-      sortable: false,
-    },
-    {
-      headerName: t('active_products_amount'),
-      field: 'total_products_with_sales',
-      flex: 1,
-      minWidth: 100,
-      filter: false,
-      cellRenderer: LocaleNumberCellRenderer,
-      sortable: false,
-      headerTooltip: t('tooltip.active_products_amount'),
-    },
-    {
       headerName: t('active_shops_count'),
       field: 'total_shops_with_sales',
       flex: 1,
@@ -4866,6 +4833,30 @@ export const getCategoryTrendstableColumnDefs = (t: any, lang: string) => {
       cellRenderer: LocaleNumberCellRenderer,
       sortable: false,
       headerTooltip: t('tooltip.active_shops_count'),
+    },
+    {
+      headerName: t('orders'),
+      field: 'daily_orders',
+      flex: 1,
+      filter: false,
+      minWidth: 100,
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: false,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+    },
+    {
+      headerName: t('revenue'),
+      field: 'daily_revenue',
+      cellRenderer: TrendPriceCellRenderer,
+      flex: 1,
+      filter: false,
+      minWidth: 150,
+      sortable: false,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
     },
     {
       headerName: t('average_rating'),
@@ -5111,19 +5102,6 @@ export const getCategoryShopsTableColumnDefs = (t: any, lang: string) => {
 export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
   return [
     {
-      headerName: t('date'),
-      field: 'date_pretty',
-      sortable: false,
-      minWidth: 150,
-      maxWidth: 200,
-      filter: false,
-      pinned: 'left',
-      cellStyle: {
-        backgroundColor: 'rgba(46, 139, 87, 0.1)',
-        fontSize: '14px',
-      } as CellStyle,
-    },
-    {
       headerName: t('category'),
       field: lang === 'uz' ? 'category_title' : 'category_title_ru',
       cellRenderer: SubcategoryCellRenderer,
@@ -5162,7 +5140,7 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
     },
     {
       headerName: t('orders'),
-      field: 'total_orders',
+      field: 'orders',
       flex: 1,
       filter: false,
       minWidth: 100,
@@ -5175,7 +5153,7 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
     },
     {
       headerName: t('revenue'),
-      field: 'total_orders_amount',
+      field: 'revenue',
       cellRenderer: RevenueCellRenderer,
       flex: 1,
       filter: false,
@@ -5183,52 +5161,6 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
       headerTooltip: 'Ushbu sanagacha kategoriyadagi jami daromad.',
       cellStyle: {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
-        fontSize: '14px',
-      } as CellStyle,
-    },
-    {
-      headerName: t('reviews'),
-      field: 'total_reviews',
-      flex: 1,
-      filter: false,
-      cellRenderer: LocaleNumberCellRenderer,
-      minWidth: 100,
-      cellStyle: {
-        fontSize: '14px',
-      } as CellStyle,
-    },
-    {
-      headerName: t('active_products_amount'),
-      field: 'total_products_with_sales',
-      flex: 1,
-      minWidth: 100,
-      filter: false,
-      cellRenderer: LocaleNumberCellRenderer,
-      headerTooltip: t('tooltip.active_products_amount'),
-      cellStyle: {
-        fontSize: '14px',
-      } as CellStyle,
-    },
-    {
-      headerName: t('active_shops_count'),
-      field: 'total_shops_with_sales',
-      flex: 1,
-      filter: false,
-      minWidth: 100,
-      cellRenderer: LocaleNumberCellRenderer,
-      headerTooltip: t('tooltip.active_shops_count'),
-      cellStyle: {
-        fontSize: '14px',
-      } as CellStyle,
-    },
-    {
-      headerName: t('average_rating'),
-      field: 'average_product_rating',
-      flex: 1,
-      filter: false,
-      minWidth: 100,
-      cellRenderer: RatingCellRenderer,
-      cellStyle: {
         fontSize: '14px',
       } as CellStyle,
     },

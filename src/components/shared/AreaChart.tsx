@@ -52,6 +52,8 @@ export interface AreaChartProps {
   title?: string;
   className?: string;
   tension?: number;
+  withSlider?: boolean;
+  withCheckbox?: boolean;
 }
 
 function AreaChart({
@@ -62,10 +64,14 @@ function AreaChart({
   title,
   className,
   tension = 0.3,
+  withSlider = false,
+  withCheckbox = true,
 }: AreaChartProps) {
   const [visibleDatasets, setVisibleDatasets] = React.useState(
     data.map(() => true)
   );
+
+  console.log(data, withCheckbox);
 
   const toggleDatasetVisibility = (index: number) => {
     const newVisibility = [...visibleDatasets];
@@ -170,30 +176,32 @@ function AreaChart({
         className
       )}
     >
-      <div style={legendContainerStyle} className='custom-legend w-full'>
-        {data.map((dataset, index) => (
-          <div key={index} style={legendItemStyle} className='legend-item'>
-            {/* <input
+      {withCheckbox && (
+        <div style={legendContainerStyle} className='custom-legend w-full'>
+          {data.map((dataset, index) => (
+            <div key={index} style={legendItemStyle} className='legend-item'>
+              {/* <input
               type='checkbox'
               checked={visibleDatasets[index]}
               onChange={() => toggleDatasetVisibility(index)}
             /> */}
-            <CustomCheckbox
-              checked={visibleDatasets[index]}
-              onChange={() => toggleDatasetVisibility(index)}
-              color={dataset.borderColor ?? dataset.backgroundColor}
-            />
-            <span
-              style={{
-                ...legendLabelStyle,
-                color: dataset.borderColor ?? dataset.backgroundColor,
-              }}
-            >
-              {dataset.label}
-            </span>
-          </div>
-        ))}
-      </div>
+              <CustomCheckbox
+                checked={visibleDatasets[index]}
+                onChange={() => toggleDatasetVisibility(index)}
+                color={dataset.borderColor ?? dataset.backgroundColor}
+              />
+              <span
+                style={{
+                  ...legendLabelStyle,
+                  color: dataset.borderColor ?? dataset.backgroundColor,
+                }}
+              >
+                {dataset.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
       <Chart
         type='bar'
         options={{ ...options, ...customOptions }}
@@ -221,19 +229,23 @@ function AreaChart({
           ...style,
         }}
       />
-      <Slider
-        range
-        min={0}
-        max={labels.length}
-        value={sliderValues}
-        onChange={onSliderChange as any}
-        className='custom-slider mx-auto w-[90%]'
-        style={{
-          marginTop: '1rem',
-          maxWidth: '96%',
-          marginInline: 'auto',
-        }}
-      />
+      {withSlider && (
+        <Slider
+          range
+          min={0}
+          max={labels.length}
+          value={sliderValues}
+          onChange={onSliderChange as any}
+          className='custom-slider mx-auto w-[90%]'
+          style={{
+            maxHeight: '100%',
+            marginTop: '1rem',
+            maxWidth: '96%',
+            marginInline: 'auto',
+            ...style,
+          }}
+        />
+      )}
     </div>
   );
 }

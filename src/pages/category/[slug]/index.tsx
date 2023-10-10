@@ -151,7 +151,7 @@ function Category({ user }: Props) {
           disbaledTabs={
             canSee
               ? state.user?.tariff === 'trial'
-                ? [t('categories.sellers'), t('categories.trend')]
+                ? [t('categories.sellers')]
                 : []
               : [
                   t('categories.trend'),
@@ -161,7 +161,7 @@ function Category({ user }: Props) {
                 ]
           }
           setNotAllowedTab={setNotAllowedTab}
-          premiumTabs={[t('categories.trend'), t('categories.sellers')]}
+          premiumTabs={[t('categories.sellers')]}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           className='mb-6 mt-4'

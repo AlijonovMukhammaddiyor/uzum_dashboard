@@ -61,7 +61,7 @@ function DoughnutEcharts({ loading, data, style }: DoughnutEchartsProps) {
     },
     series: [
       {
-        name: 'SKU анализ',
+        name: '',
         type: 'pie',
         radius: ['40%', '70%'],
         center: ['50%', '50%'],

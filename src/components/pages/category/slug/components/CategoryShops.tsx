@@ -8,8 +8,16 @@ import logger from '@/lib/logger';
 
 import { getCategoryShopsTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import PieChart from '@/components/shared/PieChart';
+import {
+  getActiveDateRangeHandler,
+  getDateRangeString,
+} from '@/components/pages/category/slug/components/CategoryTrends';
+import { RenderAlert } from '@/components/shared/AlertComponent';
+import DoughnutEcharts from '@/components/shared/DoughnutEcharts';
+import HorizontalColumnChartHistogram from '@/components/shared/HorizontalBarchartHistogram';
 import Table from '@/components/shared/Table';
+
+import { useContextState } from '@/context/Context';
 
 interface Props {
   className?: string;
@@ -32,10 +40,11 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
   const { t, i18n } = useTranslation('categories');
   const { t: t2 } = useTranslation('tableColumns');
   const [loading, setLoading] = React.useState<boolean>(false);
-
+  const { state } = useContextState();
   const [data, setData] = React.useState<CategoryShopsType[]>([]);
-
+  const [activeDateRange, setActiveDateRange] = React.useState<number>(3);
   const [zoomLevel, setZoomLevel] = React.useState(1);
+  const [tab, setTab] = React.useState(t('revenue'));
 
   React.useEffect(() => {
     function handleResize() {
@@ -86,17 +95,100 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
   if (activeTab !== 'Sotuvchilar' && activeTab !== 'Продавцы') return <></>;
 
   return (
-    <div
+    <Container
       className={clsxm(
-        'flex min-w-[1200px] flex-col gap-6 overflow-x-scroll',
+        'flex min-w-[1200px] flex-col gap-6 overflow-x-scroll rounded-none border-none shadow-none',
         className
       )}
+      loading={loading}
     >
-      <Container
-        loading={loading}
+      <div className='flex w-full items-center justify-between'>
+        <div className='flex gap-0'>
+          {[t('revenue'), t('orders'), t('products')].map((tab_) => (
+            <button
+              className={clsxm(
+                'border border-gray-300 px-4 py-1 transition-colors',
+                tab === tab_ ? 'bg-primary text-white' : 'bg-white'
+              )}
+              key={tab_}
+              onClick={() => setTab(tab_)}
+            >
+              {tab_}
+            </button>
+          ))}
+        </div>
+        <div className='flex w-full items-center justify-end gap-0'>
+          {[
+            i18n.language === 'ru' ? '3 дня' : '3 kun',
+            i18n.language === 'ru' ? '7 дней' : '7 kun',
+            i18n.language === 'ru' ? '30 дней' : '30 kun',
+            i18n.language === 'ru' ? '60 дней' : '60 kun',
+            i18n.language === 'ru' ? '90 дней' : '90 kun',
+            i18n.language === 'ru' ? '120 дней' : '120 kun',
+          ].map((dateRange) => (
+            <button
+              key={dateRange}
+              className={clsxm(
+                'border border-gray-300 px-4 py-1 transition-colors',
+                getDateRangeString(activeDateRange, i18n) === dateRange
+                  ? 'bg-primary text-white'
+                  : 'bg-white'
+              )}
+              onClick={() => {
+                const days = getActiveDateRangeHandler(dateRange);
+                if (
+                  days >= 7 &&
+                  (state.user?.tariff === 'free' ||
+                    state.user?.tariff === 'trial')
+                ) {
+                  RenderAlert({
+                    alertTitle:
+                      i18n.language === 'uz'
+                        ? "Foydalanish uchun boshqa tarifga o'ting"
+                        : 'Для использования перейдите на другой тариф',
+                    alertSubtitle: '',
+                    buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                    buttonLink: '/profile',
+                  });
+                  return;
+                }
+                if (days > 60 && state.user?.tariff === 'base') {
+                  RenderAlert({
+                    alertTitle:
+                      i18n.language === 'uz'
+                        ? "Foydalanish uchun Sotuvchi tarifiga o'ting"
+                        : 'Для использования перейдите на Продавец тариф',
+                    alertSubtitle: '',
+                    buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                    buttonLink: '/profile',
+                  });
+                  return;
+                }
+                if (days > 90 && state.user?.tariff === 'base') {
+                  RenderAlert({
+                    alertTitle:
+                      i18n.language === 'uz'
+                        ? "Foydalanish uchun Biznes tarifiga o'ting"
+                        : 'Для использования перейдите на Бизнес тариф',
+                    alertSubtitle: '',
+                    buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                    buttonLink: '/profile',
+                  });
+                  return;
+                }
+                setActiveDateRange(getActiveDateRangeHandler(dateRange));
+              }}
+            >
+              {dateRange}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div
         className={clsxm(
-          'flex h-[600px] w-full min-w-[1200px] flex-col items-start justify-start overflow-y-hidden overflow-x-scroll rounded-md border bg-white shadow-lg',
-          zoomLevel === 0.8 ? 'h-[500px] p-3' : 'p-6'
+          'flex w-full min-w-[1200px] flex-col items-start justify-start  overflow-y-hidden overflow-x-scroll rounded-md border-none bg-white',
+          zoomLevel === 0.8 ? 'py-3' : 'py-6'
         )}
       >
         <div className='flex w-full items-center justify-between'>
@@ -106,47 +198,133 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
             <p className='text-primary font-semibold'>{data.length}</p>
           </div>
         </div>
-        <PieChart data={preparePieChartData(data)} isRevenue />
-      </Container>
-      <Container
-        loading={loading}
-        className={clsxm('w-full overflow-scroll border-none')}
-      >
-        <Table
-          isBalham={true}
-          rowHeight={70}
-          headerHeight={60}
-          className='max-h-[800px] min-h-max'
-          columnDefs={getCategoryShopsTableColumnDefs(t2, i18n.language) as any}
-          rowData={data}
-        />
-      </Container>
-    </div>
+        <div
+          className={clsxm(
+            'flex min-h-[500px] w-full items-start justify-between',
+            zoomLevel === 0.8 ? 'min-h-[560px]' : 'min-h-[580px]'
+          )}
+        >
+          <DoughnutEcharts
+            data={preparePieChartData(data, tab, t)}
+            style={{
+              width: '50%',
+              height: '500px',
+            }}
+          />
+          <div className='w-1/2'>
+            <p className='text-center font-bold text-slate-600'>
+              {i18n.language === 'uz'
+                ? "Bu grafik do'konlar o'rtasida qanday taqsimlanganligini ko'rsatadi"
+                : 'На этом графике показано, как общая сумма распределяется по магазинам.'}
+            </p>
+            {data.length > 0 && (
+              <HorizontalColumnChartHistogram
+                data={makeHistogramData(data, tab, t)}
+                style={{
+                  width: '100%',
+                  height: '500px',
+                }}
+                withSlider={true}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      <Table
+        isBalham={true}
+        rowHeight={70}
+        headerHeight={60}
+        className='max-h-[800px] min-h-max'
+        columnDefs={getCategoryShopsTableColumnDefs(t2, i18n.language) as any}
+        rowData={data}
+      />
+    </Container>
   );
 }
 
-export default CategoryShops;
+function preparePieChartData(data: CategoryShopsType[], tab: string, t: any) {
+  const index =
+    t('revenue') === tab
+      ? 'total_revenue'
+      : t('orders') === tab
+      ? 'total_orders'
+      : t('products') === tab
+      ? 'total_products'
+      : 'total_reviews';
 
-function preparePieChartData(data: CategoryShopsType[]) {
+  if (tab === t('products')) {
+    return data
+      .sort((a, b) => b.total_products - a.total_products)
+      .slice(0, 20)
+      .map((item) => {
+        return {
+          name: item.title.split('((')[0],
+          value: item.total_products,
+        };
+      });
+  }
+
   const total_revenue = data.reduce((acc, item) => {
-    return acc + item.total_revenue;
+    return acc + item[index];
   }, 0);
 
   let current_revenue = 0;
-  const pieChartData = data.slice(0, 10).map((item) => {
-    current_revenue += item.total_revenue;
-    return {
-      type: item.title.split('((')[0],
-      value: Math.round(item.total_revenue * 1000),
-    };
-  });
+  const pieChartData = data
+    .sort((a, b) => b[index] - a[index])
+    .slice(0, 20)
+    .map((item) => {
+      current_revenue += item[index];
+      return {
+        name: item.title.split('((')[0],
+        value: Math.round(item[index] * 1000),
+      };
+    });
 
   if (total_revenue > current_revenue) {
     pieChartData.push({
-      type: 'Boshqa sotuvchilar',
+      name: 'Boshqa sotuvchilar',
       value: Math.round((total_revenue - current_revenue) * 1000),
     });
   }
 
   return pieChartData;
 }
+
+function makeHistogramData(
+  data: CategoryShopsType[],
+  tab: string,
+  t: any,
+  interval = 10,
+  lang = 'uz'
+) {
+  // make chart.js dataset for given tab
+  const index =
+    t('revenue') === tab
+      ? 'total_revenue'
+      : t('orders') === tab
+      ? 'total_orders'
+      : t('products') === tab
+      ? 'total_products'
+      : 'total_reviews';
+
+  const arr = data.map((item) => {
+    return {
+      y:
+        lang === 'uz'
+          ? item.title.split('((')[0]
+          : item.title.split('((')[1].split(')')[0],
+      x: item[index],
+    };
+  });
+
+  return [
+    {
+      label: t(tab),
+      data: arr,
+      backgroundColor: '#ff7f50',
+    },
+  ];
+}
+
+export default CategoryShops;

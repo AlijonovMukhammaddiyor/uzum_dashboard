@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaFileExcel } from 'react-icons/fa';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -8,9 +9,17 @@ import logger from '@/lib/logger';
 
 import { getSubcategoriesTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import { CategoryAnalyticsDataType } from '@/components/pages/category/slug/components/CategoryTrends';
-import PieChart from '@/components/shared/PieChart';
+import {
+  CategoryAnalyticsDataType,
+  getActiveDateRangeHandler,
+  getDateRangeString,
+} from '@/components/pages/category/slug/components/CategoryTrends';
+import { RenderAlert } from '@/components/shared/AlertComponent';
+import Button from '@/components/shared/buttons/Button';
+import DoughnutEcharts from '@/components/shared/DoughnutEcharts';
 import Table from '@/components/shared/Table';
+
+import { useContextState } from '@/context/Context';
 
 interface Props {
   className?: string;
@@ -18,15 +27,38 @@ interface Props {
   isActive: boolean;
 }
 
+interface SubcategoryType {
+  category_id: number;
+  category_title: string;
+  category_title_ru: string;
+  orders_3_days: number;
+  orders_7_days: number;
+  orders_30_days: number;
+  orders_60_days: number;
+  orders_90_days: number;
+  orders_120_days: number;
+  revenue_3_days: number;
+  revenue_7_days: number;
+  revenue_30_days: number;
+  revenue_60_days: number;
+  revenue_90_days: number;
+  revenue_120_days: number;
+  total_products: number;
+  total_shops: number;
+}
+
 function Subcategories({ className, categoryId, isActive }: Props) {
   const { t: t2, i18n } = useTranslation('tableColumns');
+  const { t } = useTranslation('categories');
   const [loading, setLoading] = React.useState<boolean>(false);
-
+  const [tab, setTab] = React.useState<string>(t2('revenue'));
+  const [activeDateRange, setActiveDateRange] = React.useState<number>(3);
+  const { state } = useContextState();
   const [data, setData] = React.useState<{
-    data: CategoryAnalyticsDataType[];
+    data: SubcategoryType[];
     main: CategoryAnalyticsDataType;
   }>({ data: [], main: {} as CategoryAnalyticsDataType } as {
-    data: CategoryAnalyticsDataType[];
+    data: SubcategoryType[];
     main: CategoryAnalyticsDataType;
   });
   const [zoomLevel, setZoomLevel] = React.useState(1);
@@ -55,7 +87,7 @@ function Subcategories({ className, categoryId, isActive }: Props) {
       .get<
         unknown,
         AxiosResponse<{
-          data: CategoryAnalyticsDataType[];
+          data: SubcategoryType[];
           main: CategoryAnalyticsDataType[];
           total: number;
         }>
@@ -74,269 +106,227 @@ function Subcategories({ className, categoryId, isActive }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
 
-  if (!isActive) return <></>;
+  if (!isActive) return null;
 
-  return (
-    <div
+  const getData = () => {
+    // consider tab, and activeDateRange
+
+    if (tab === t('revenue')) {
+      const index = 'revenue_' + activeDateRange + '_days';
+      return data.data.map((item: { [key: string]: any }) => ({
+        name:
+          i18n.language === 'uz'
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
+        value: item[index] ?? 0,
+      }));
+    } else if (tab === t('orders')) {
+      const index = 'orders_' + activeDateRange + '_days';
+      return data.data.map((item: { [key: string]: any }) => ({
+        name:
+          i18n.language === 'uz'
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
+        value: item[index] ?? 0,
+      }));
+    } else if (tab === t('products')) {
+      return data.data.map((item: { [key: string]: any }) => ({
+        name:
+          i18n.language === 'uz'
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
+        value: item.total_products ?? 0,
+      }));
+    } else {
+      return data.data.map((item: { [key: string]: any }) => ({
+        name:
+          i18n.language === 'uz'
+            ? item.category_title.split('((')[0]
+            : item.category_title_ru.split('((')[0],
+        value: item.total_shops ?? 0,
+      }));
+    }
+  };
+
+  const makeTableData = () => {
+    const revenue_index = 'revenue_' + activeDateRange + '_days';
+    const orders_index = 'orders_' + activeDateRange + '_days';
+
+    return data.data.map((item: { [key: string]: any }) => ({
+      ...item,
+      revenue: item[revenue_index] ?? 0,
+      orders: item[orders_index] ?? 0,
+    }));
+  };
+
+  return loading || data?.data.length > 0 ? (
+    <Container
       className={clsxm(
-        'flex h-full w-full min-w-[1200px] max-w-full flex-col gap-6 overflow-hidden',
+        'flex h-full min-h-full w-full min-w-[1200px] max-w-full flex-col gap-6 overflow-hidden border-none shadow-none',
         className
       )}
       id='subcategories'
+      loading={loading}
     >
-      {loading ? (
-        <div
-          className={clsxm(
-            'h-[600px] min-w-[1200px] max-w-full overflow-scroll rounded-md'
+      <div className='mb-4 flex items-center justify-between'>
+        {/* Tabs on the top-left */}
+        <div className='flex gap-0'>
+          {[t('revenue'), t('orders'), t('products'), t('shops')].map(
+            (tab_) => (
+              <button
+                className={clsxm(
+                  'border border-gray-300 px-4 py-1 transition-colors',
+                  tab === tab_ ? 'bg-primary text-white' : 'bg-white'
+                )}
+                key={tab_}
+                onClick={() => setTab(tab_)}
+              >
+                {tab_}
+              </button>
+            )
           )}
-        >
-          <SubCategoriesPieChartData
-            data={data.data}
-            main={data.main}
-            loading={loading}
-          />
         </div>
-      ) : data.data.length <= 0 ? (
-        <div className='flex h-full items-center justify-center'>
-          <h3 className='h-full text-center text-slate-500'>
-            {i18n.language === 'uz'
-              ? "Ichki kategoriyalar yo'q"
-              : 'Нет подкатегорий'}
-          </h3>
-        </div>
-      ) : (
-        <div
-          className={clsxm(
-            'h-[600px] w-full min-w-[1200px] max-w-full overflow-scroll rounded-md',
-            zoomLevel === 0.75 && 'h-[500px]'
-          )}
-        >
-          <SubCategoriesPieChartData
-            data={data.data}
-            main={data.main}
-            loading={loading}
-          />
-        </div>
-      )}
-      <p className='text-center text-lg font-semibold'>
-        {i18n.language === 'uz'
-          ? 'Ushbu jadvalda ichki kategoriyalar batafsil statistikalari keltirilgan'
-          : 'В этой таблице представлена подробная статистика по подкатегориям'}
-      </p>
-      {(loading || data.data.length > 0) && (
-        <Container
-          loading={loading}
-          className={clsxm('w-full overflow-scroll')}
-        >
-          <Table
-            isBalham
-            headerHeight={60}
-            className=''
-            columnDefs={
-              getSubcategoriesTableColumnDefs(t2, i18n.language) as any
+
+        {/* Date range options on the top-right */}
+        {tab === t('revenue') || tab === t('orders') ? (
+          <div className='flex gap-0'>
+            {[
+              i18n.language === 'ru' ? '3 дня' : '3 kun',
+              i18n.language === 'ru' ? '7 дней' : '7 kun',
+              i18n.language === 'ru' ? '30 дней' : '30 kun',
+              i18n.language === 'ru' ? '60 дней' : '60 kun',
+              i18n.language === 'ru' ? '90 дней' : '90 kun',
+              i18n.language === 'ru' ? '120 дней' : '120 kun',
+            ].map((dateRange) => (
+              <button
+                key={dateRange}
+                className={clsxm(
+                  'border border-gray-300 px-4 py-1 transition-colors',
+                  getDateRangeString(activeDateRange, i18n) === dateRange
+                    ? 'bg-primary text-white'
+                    : 'bg-white'
+                )}
+                onClick={() => {
+                  const days = getActiveDateRangeHandler(dateRange);
+                  if (
+                    days >= 7 &&
+                    (state.user?.tariff === 'free' ||
+                      state.user?.tariff === 'trial')
+                  ) {
+                    RenderAlert({
+                      alertTitle:
+                        i18n.language === 'uz'
+                          ? "Foydalanish uchun boshqa tarifga o'ting"
+                          : 'Для использования перейдите на другой тариф',
+                      alertSubtitle: '',
+                      buttonTitle:
+                        i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                      buttonLink: '/profile',
+                    });
+                    return;
+                  }
+                  if (days > 60 && state.user?.tariff === 'base') {
+                    RenderAlert({
+                      alertTitle:
+                        i18n.language === 'uz'
+                          ? "Foydalanish uchun Sotuvchi tarifiga o'ting"
+                          : 'Для использования перейдите на Продавец тариф',
+                      alertSubtitle: '',
+                      buttonTitle:
+                        i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                      buttonLink: '/profile',
+                    });
+                    return;
+                  }
+                  if (days > 90 && state.user?.tariff === 'base') {
+                    RenderAlert({
+                      alertTitle:
+                        i18n.language === 'uz'
+                          ? "Foydalanish uchun Biznes tarifiga o'ting"
+                          : 'Для использования перейдите на Бизнес тариф',
+                      alertSubtitle: '',
+                      buttonTitle:
+                        i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                      buttonLink: '/profile',
+                    });
+                    return;
+                  }
+                  setActiveDateRange(getActiveDateRangeHandler(dateRange));
+                }}
+              >
+                {dateRange}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
+      <DoughnutEcharts
+        data={getData()}
+        loading={loading}
+        style={{
+          width: '100%',
+          height: '600px',
+        }}
+      />
+      <div className='flex w-full items-center justify-end'>
+        <Button
+          className='flex transform items-center justify-center space-x-2 rounded-md bg-green-500 px-6 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 ease-in-out hover:bg-green-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50'
+          onClick={() => {
+            if (
+              state.user?.tariff === 'free' ||
+              state.user?.tariff === 'trial'
+            ) {
+              RenderAlert({
+                alertTitle:
+                  i18n.language === 'uz'
+                    ? "Excel faylga yuklab olish uchun boshqa tarifga o'ting"
+                    : 'Для загрузки в Excel перейдите на другой тариф',
+                alertSubtitle: '',
+                buttonTitle: i18n.language === 'uz' ? 'Tariflar' : 'Тарифы',
+                buttonLink: '/profile',
+              });
+              return;
             }
-            rowHeight={80}
-            rowData={[...(data.data ?? [])]}
-          />
-        </Container>
+            // exportToExcel();
+          }}
+          // isLoading={loading}
+          spinnerColor='rgb(126 34 206)'
+        >
+          {/* {loading ? (
+          <Spinner size='24px' />
+        ) : ( */}
+          <>
+            <FaFileExcel className='h-5 w-5' />
+            <p>{i18n.language === 'uz' ? 'Yuklab olish' : 'Скачать'}</p>
+          </>
+          {/* )} */}
+        </Button>
+      </div>
+      {loading || data.data.length > 0 ? (
+        <Table
+          isBalham
+          headerHeight={60}
+          className=''
+          columnDefs={getSubcategoriesTableColumnDefs(t2, i18n.language) as any}
+          rowHeight={80}
+          rowData={makeTableData()}
+        />
+      ) : (
+        <></>
       )}
+    </Container>
+  ) : (
+    // otherwise say there is not subcategories
+    <div className='flex h-full items-center justify-center'>
+      <p>
+        {i18n.language === 'uz'
+          ? 'Ichki kategoriyalar mavjud emas'
+          : 'Нет подкатегорий'}
+      </p>
     </div>
   );
 }
 
 export default Subcategories;
-
-const SubCategoriesPieChartData = ({
-  data,
-  main,
-  loading,
-}: {
-  data: CategoryAnalyticsDataType[];
-  main: CategoryAnalyticsDataType;
-  loading: boolean;
-}) => {
-  const { i18n } = useTranslation('categories');
-
-  const [zoomLevel, setZoomLevel] = React.useState(1);
-
-  React.useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth < 1500) {
-        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
-      } else {
-        setZoomLevel(1); // 100% zoom otherwise
-      }
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    // Initial check
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  if (!data || data.length === 0) return null;
-
-  const dataSorted = data
-    .sort((a, b) => b.total_orders - a.total_orders)
-    .slice(0, 10);
-
-  const orders_data = [];
-  let total_orders = 0;
-  dataSorted.forEach((item) => {
-    total_orders += item.total_orders;
-    if (item.total_orders !== 0)
-      orders_data.push({
-        type:
-          i18n.language === 'uz'
-            ? item.category_title.split('((')[0]
-            : item.category_title_ru.split('((')[0],
-        value: item.total_orders,
-      });
-  });
-
-  const revenue_data = [];
-  let total_revenue = 0;
-  dataSorted.forEach((item) => {
-    total_revenue += item.total_orders_amount;
-    if (item.total_orders_amount !== 0)
-      revenue_data.push({
-        type:
-          i18n.language === 'uz'
-            ? item.category_title.split('((')[0]
-            : item.category_title_ru.split('((')[0],
-        value: Math.round(item.total_orders_amount * 1000),
-      });
-  });
-
-  if (main.total_orders_amount - total_revenue !== 0)
-    revenue_data.push({
-      type:
-        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
-      value: Math.round((main.total_orders_amount - total_revenue) * 1000),
-    });
-
-  if (main.total_orders - total_orders !== 0)
-    orders_data.push({
-      type:
-        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
-      value: main.total_orders - total_orders,
-    });
-
-  const products_data = [];
-  let total_products = 0;
-  dataSorted.forEach((item) => {
-    total_products += item.total_products;
-    if (item.total_products !== 0)
-      products_data.push({
-        type:
-          i18n.language === 'uz'
-            ? item.category_title.split('((')[0]
-            : item.category_title_ru.split('((')[0],
-        value: item.total_products,
-      });
-  });
-
-  if (main.total_products - total_products !== 0)
-    products_data.push({
-      type:
-        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
-      value: main.total_products - total_products,
-    });
-
-  const reviews_data = [];
-  let total_reviews = 0;
-  dataSorted.forEach((item) => {
-    total_reviews += item.total_reviews;
-
-    if (item.total_reviews !== 0)
-      reviews_data.push({
-        type:
-          i18n.language === 'uz'
-            ? item.category_title.split('((')[0]
-            : item.category_title_ru.split('((')[0],
-        value: item.total_shops,
-      });
-  });
-
-  if (main.total_reviews - total_reviews !== 0)
-    reviews_data.push({
-      type:
-        i18n.language === 'uz' ? 'Boshqa Kategoriyalar' : 'Другие категории',
-      value: main.total_reviews - total_reviews,
-    });
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return (
-    <div className='flex h-full w-full items-center justify-start gap-5'>
-      <Container
-        loading={loading}
-        className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
-          zoomLevel === 0.75 && 'h-[500px]'
-        )}
-      >
-        <PieChart
-          data={revenue_data}
-          title={
-            i18n.language === 'uz'
-              ? 'Ichki kategoriyalarning Tushumga nisbatan ulushlari'
-              : 'Успех подкатегорий по доходам'
-          }
-          labelType='outer'
-        />
-      </Container>
-      <Container
-        loading={loading}
-        className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
-          zoomLevel === 0.75 && 'h-[500px]'
-        )}
-      >
-        <PieChart
-          data={orders_data}
-          title={
-            i18n.language === 'uz'
-              ? 'Ichki kategoriyalarning Buyurtmalar soniga nisbatan ulushlari'
-              : 'Успех подкатегорий по количеству заказов'
-          }
-          labelType='outer'
-        />
-      </Container>
-      <Container
-        loading={loading}
-        className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
-          zoomLevel === 0.75 && 'h-[500px]'
-        )}
-      >
-        <PieChart
-          data={products_data}
-          title={
-            i18n.language === 'uz'
-              ? 'Ichki kategoriyalarning Mahsulotlar soniga nisbatan ulushlari'
-              : 'Успех подкатегорий по количеству товаров'
-          }
-          labelType='outer'
-        />
-      </Container>
-      <Container
-        loading={loading}
-        className={clsxm(
-          'h-[600px] min-w-[1000px] overflow-scroll rounded-md bg-white p-6',
-          zoomLevel === 0.75 && 'h-[500px]'
-        )}
-      >
-        <PieChart
-          data={reviews_data}
-          title={
-            i18n.language === 'uz'
-              ? 'Ichki kategoriyalarning Sharhlar soniga nisbatan ulushlari'
-              : 'Успех подкатегорий по количеству отзывов'
-          }
-          labelType='outer'
-        />
-      </Container>
-    </div>
-  );
-};
