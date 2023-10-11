@@ -72,7 +72,7 @@ function Pricing({ className }: { className?: string }) {
         }
       }
     >
-      <CountingDown discountEndDate={new Date('2023-10-10T23:59:59')} />
+      <CountingDown discountEndDate={new Date('2023-10-17T23:59:59')} />
       <div className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'>
         {/* 1. Our Promise */}
         <div className='relative mb-20 rounded-md bg-blue-50 p-6 shadow-md'>
@@ -387,7 +387,7 @@ function Tarif({
     // isReferred = true;
 
     // Price multipliers
-    const oneMonthPromoDiscount = 0.8; // 25% off
+    const oneMonthPromoDiscount = 0.85; // 25% off
     const referralDiscount = 0.6; // 50% off for the first month
     const komiljon_discount = 0.7; // 30% off for the first month
     const threeMonthMultiplier = 3; // for a 3-month period
