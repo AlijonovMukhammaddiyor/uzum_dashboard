@@ -585,8 +585,6 @@ function prepareSkusDataset(
     pointBackgroundColor: 'rgba(0, 0, 0, 1)',
   });
 
-  console.log(dataset, data);
-
   return dataset;
 }
 

@@ -38,6 +38,8 @@
   "orders_90days": "Продаж (90 дней)",
   "orders_90days.tooltip": "Кол-во продаж за последние 90 дней",
 
+  "transactions": "Транзакции",
+
   "revenue": "Выручка",
   "monthly_revenue.tooltip": "Выручка за последние 30 дней",
   "monthly_revenue": "Выручка (30 дней)",

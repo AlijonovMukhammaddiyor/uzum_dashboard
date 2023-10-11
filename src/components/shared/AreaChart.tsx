@@ -71,8 +71,6 @@ function AreaChart({
     data.map(() => true)
   );
 
-  console.log(data, withCheckbox);
-
   const toggleDatasetVisibility = (index: number) => {
     const newVisibility = [...visibleDatasets];
     newVisibility[index] = !newVisibility[index];
@@ -145,6 +143,11 @@ function AreaChart({
         ticks: {
           maxRotation: 90,
           minRotation: 0,
+        },
+        grid: {
+          drawOnChartArea: true, // this will ensure grid lines are drawn on the chart area
+          drawBorder: true,
+          color: 'rgba(0,0,0,0.1)', // subtle color for the vertical grid lines
         },
       },
       ...yAxis,

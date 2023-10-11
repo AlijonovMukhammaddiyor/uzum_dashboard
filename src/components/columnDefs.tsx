@@ -4527,6 +4527,30 @@ export const getProductAnalyticssColDefs = (t: any, lang: string) => {
     },
     {
       headerName: t('orders'),
+      field: 'real_orders_amount',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: true,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('revenue'),
+      field: 'daily_revenue',
+      cellRenderer: TrendPriceCellRenderer,
+      sortable: true,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+    },
+    {
+      headerName: t('transactions'),
       field: 'orders_amount',
       cellRenderer: LocaleNumberCellRenderer,
       sortable: true,
@@ -4538,17 +4562,15 @@ export const getProductAnalyticssColDefs = (t: any, lang: string) => {
       } as CellStyle,
     },
     {
-      // with capital letter
-      headerName: lang === 'uz' ? "O'rtacha sotuv narxi" : 'Средняя цена',
-      field: 'average_purchase_price',
-      sortable: true,
+      headerName: t('available_amount'),
+      field: 'available_amount',
       cellRenderer: TrendPriceCellRenderer,
+      sortable: true,
       minWidth: 150,
-      filter: false,
       cellStyle: {
         textAlign: 'center',
-        fontSize: '14px',
         // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+        fontSize: '14px',
       } as CellStyle,
     },
     {
@@ -4567,6 +4589,21 @@ export const getProductAnalyticssColDefs = (t: any, lang: string) => {
       } as CellStyle,
     },
     {
+      headerName: t('position'),
+      field: 'position',
+      cellRenderer: LocaleNumberCellRenderer,
+      sortable: true,
+      filter: false,
+      minWidth: 150,
+      maxWidth: 250,
+      headerTooltip: lang === "uz" ? "Mahsulotning UZUMdagi pozitsiyasi": "Позиция товара в UZUM",
+      cellStyle: {
+        textAlign: 'center',
+        fontSize: '14px',
+        // backgroundColor: 'rgba(43, 215, 229, 0.1)',
+      } as CellStyle,
+    },
+    {
       headerName: t('rating'),
       field: 'rating',
       cellRenderer: RatingCellRenderer,
@@ -4574,7 +4611,6 @@ export const getProductAnalyticssColDefs = (t: any, lang: string) => {
       filter: false,
       minWidth: 150,
       maxWidth: 250,
-      headerTooltip: 'Kategoriyadagi mahsulotlarning o`rtacha reytingi',
       cellStyle: {
         textAlign: 'center',
         fontSize: '14px',
