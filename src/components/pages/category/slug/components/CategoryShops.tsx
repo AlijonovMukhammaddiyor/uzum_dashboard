@@ -205,7 +205,7 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
           )}
         >
           <DoughnutEcharts
-            data={preparePieChartData(data, tab, t)}
+            data={preparePieChartData(data, tab, t, i18n.language)}
             style={{
               width: '50%',
               height: '500px',
@@ -243,7 +243,12 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
   );
 }
 
-function preparePieChartData(data: CategoryShopsType[], tab: string, t: any) {
+function preparePieChartData(
+  data: CategoryShopsType[],
+  tab: string,
+  t: any,
+  lang: string
+) {
   const index =
     t('revenue') === tab
       ? 'total_revenue'
@@ -264,31 +269,63 @@ function preparePieChartData(data: CategoryShopsType[], tab: string, t: any) {
         };
       });
   }
+  if (tab === t('revenue')) {
+    const total_revenue = data.reduce((acc, item) => {
+      return acc + item.total_revenue;
+    }, 0);
 
-  const total_revenue = data.reduce((acc, item) => {
-    return acc + item[index];
-  }, 0);
+    let current_revenue = 0;
+    const pieChartData = data
+      .sort((a, b) => b.total_revenue - a.total_revenue)
+      .slice(0, 20)
+      .map((item) => {
+        current_revenue += item.total_revenue;
+        return {
+          name: item.title.split('((')[0],
+          value:
+            Math.round(Math.round(item.total_revenue * 1000) / 1000) * 1000,
+        };
+      });
 
-  let current_revenue = 0;
-  const pieChartData = data
-    .sort((a, b) => b[index] - a[index])
-    .slice(0, 20)
-    .map((item) => {
-      current_revenue += item[index];
-      return {
-        name: item.title.split('((')[0],
-        value: Math.round(item[index] * 1000),
-      };
-    });
-
-  if (total_revenue > current_revenue) {
-    pieChartData.push({
-      name: 'Boshqa sotuvchilar',
-      value: Math.round((total_revenue - current_revenue) * 1000),
-    });
+    if (total_revenue > current_revenue) {
+      pieChartData.push({
+        name: lang === 'uz' ? 'Boshqa sotuvchilar' : 'Другие продавцы',
+        value:
+          Math.round(
+            Math.round((total_revenue - current_revenue) * 1000) / 1000
+          ) * 1000,
+      });
+    }
+    return pieChartData;
   }
 
-  return pieChartData;
+  if (tab === t('orders')) {
+    const total_orders = data.reduce((acc, item) => {
+      return acc + item.total_orders;
+    }, 0);
+
+    let current_orders = 0;
+    const pieChartData = data
+      .sort((a, b) => b.total_orders - a.total_orders)
+      .slice(0, 20)
+      .map((item) => {
+        current_orders += item.total_orders;
+        return {
+          name: item.title.split('((')[0],
+          value: item.total_orders,
+        };
+      });
+
+    if (total_orders > current_orders) {
+      pieChartData.push({
+        name: lang === 'uz' ? 'Boshqa sotuvchilar' : 'Другие продавцы',
+        value: total_orders - current_orders,
+      });
+    }
+    return pieChartData;
+  }
+
+  return [];
 }
 
 function makeHistogramData(
