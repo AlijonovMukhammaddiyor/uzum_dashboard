@@ -956,6 +956,40 @@ export const PurchasePriceCellRenderer = ({ value }: { value: string }) => {
   );
 };
 
+export const PaidRevenueCellRenderer = ({ value }: { value: number }) => {
+  const { state } = useContextState();
+
+  if (!value)
+    return (
+      <div
+        className={clsxm(
+          'flex h-full flex-col items-center justify-center gap-1',
+          // if user tariff is not seller or business, blur this column
+          state.user?.tariff !== 'seller' &&
+            state.user?.tariff !== 'business' &&
+            'blur-sm filter'
+        )}
+      >
+        0
+      </div>
+    );
+
+  const value_number = Math.round(Number(Number(value) / 1000)) * 1000;
+  return (
+    <div
+      className={clsxm(
+        'flex h-full items-center justify-center gap-1',
+        // if user tariff is not seller or business, blur this column
+        state.user?.tariff !== 'seller' &&
+          state.user?.tariff !== 'business' &&
+          'blur-sm filter'
+      )}
+    >
+      <p className=''>{value_number?.toLocaleString()} so'm</p>
+    </div>
+  );
+};
+
 export const PurchasePriceCellRenderer2 = ({ value }: { value: string }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   if (!value) return '';
@@ -1045,59 +1079,60 @@ export const WeeklyRevenueCellRenderer = ({ value }: { value: number }) => {
         0
       </div>
     );
-  const value_ = value * 1000;
-  // check if it is int billion
-  if (value_ > 1000000000)
-    return (
-      <div
-        className={clsxm(
-          'flex h-full flex-col items-center justify-center gap-1',
-          // if user tariff is not seller or business, blur this column
-          state.user?.tariff !== 'seller' &&
-            state.user?.tariff !== 'business' &&
-            'blur-sm filter'
-        )}
-      >
-        <p className=''>
-          {(Math.round(value_) / 1000000000).toFixed(1)} mlrd so'm
-        </p>
-      </div>
-    );
 
-  // check if it is int million
-  if (value_ > 1000000)
-    return (
-      <div
-        className={clsxm(
-          'flex h-full flex-col items-center justify-center gap-1',
-          // if user tariff is not seller or business, blur this column
-          state.user?.tariff !== 'seller' &&
-            state.user?.tariff !== 'business' &&
-            'blur-sm filter'
-        )}
-      >
-        <p className=''>{(Math.round(value_) / 1000000).toFixed(1)} mln so'm</p>
-      </div>
-    );
-
+  const value_number = Math.round(Number(Number(value) / 1000)) * 1000;
   return (
     <div
       className={clsxm(
-        'flex h-full flex-col items-center justify-center gap-1',
+        'flex h-full items-center justify-center gap-1',
+        // if user tariff is not seller or business, blur this column
+        state.user?.tariff !== 'base' &&
+          state.user?.tariff !== 'seller' &&
+          state.user?.tariff !== 'business' &&
+          'blur-sm filter'
+      )}
+    >
+      <p className=''>{value_number?.toLocaleString()} so'm</p>
+    </div>
+  );
+};
+
+export const MonthlyRevenueCellRenderer = ({ value }: { value: number }) => {
+  const { state } = useContextState();
+
+  if (!value)
+    return (
+      <div
+        className={clsxm(
+          'flex h-full flex-col items-center justify-center gap-1',
+          // if user tariff is not seller or business, blur this column
+          state.user?.tariff !== 'base' &&
+            state.user?.tariff !== 'seller' &&
+            state.user?.tariff !== 'business' &&
+            'blur-sm filter'
+        )}
+      >
+        0
+      </div>
+    );
+
+  const value_number = Math.round(Number(Number(value) / 1000)) * 1000;
+  return (
+    <div
+      className={clsxm(
+        'flex h-full items-center justify-center gap-1',
         // if user tariff is not seller or business, blur this column
         state.user?.tariff !== 'seller' &&
           state.user?.tariff !== 'business' &&
           'blur-sm filter'
       )}
     >
-      <p className=''>
-        {Math.floor(Math.round(value_ / 1000) * 1000)?.toLocaleString()} so'm
-      </p>
+      <p className=''>{value_number?.toLocaleString()} so'm</p>
     </div>
   );
 };
 
-export const MonthlyRevenueCellRenderer = ({ value }: { value: number }) => {
+export const Revenue90DaysCellRenderer = ({ value }: { value: number }) => {
   const { state } = useContextState();
 
   if (!value)
@@ -1114,54 +1149,19 @@ export const MonthlyRevenueCellRenderer = ({ value }: { value: number }) => {
         0
       </div>
     );
-  const value_ = value * 1000;
-  // check if it is int billion
-  if (value_ > 1000000000)
-    return (
-      <div
-        className={clsxm(
-          'flex h-full flex-col items-center justify-center gap-1',
-          // if user tariff is not seller or business, blur this column
-          state.user?.tariff !== 'seller' &&
-            state.user?.tariff !== 'business' &&
-            'blur-sm filter'
-        )}
-      >
-        <p className=''>
-          {(Math.round(value_) / 1000000000).toFixed(1)} mlrd so'm
-        </p>
-      </div>
-    );
 
-  // check if it is int million
-  if (value_ > 1000000)
-    return (
-      <div
-        className={clsxm(
-          'flex h-full flex-col items-center justify-center gap-1',
-          // if user tariff is not seller or business, blur this column
-          state.user?.tariff !== 'seller' &&
-            state.user?.tariff !== 'business' &&
-            'blur-sm filter'
-        )}
-      >
-        <p className=''>{(Math.round(value_) / 1000000).toFixed(1)} mln so'm</p>
-      </div>
-    );
-
+  const value_number = Math.round(Number(Number(value) / 1000)) * 1000;
   return (
     <div
       className={clsxm(
-        'flex h-full flex-col items-center justify-center gap-1',
+        'flex h-full items-center justify-center gap-1',
         // if user tariff is not seller or business, blur this column
         state.user?.tariff !== 'seller' &&
           state.user?.tariff !== 'business' &&
           'blur-sm filter'
       )}
     >
-      <p className=''>
-        {Math.floor(Math.round(value_ / 1000) * 1000)?.toLocaleString()} so'm
-      </p>
+      <p className=''>{value_number?.toLocaleString()} so'm</p>
     </div>
   );
 };
@@ -1254,7 +1254,8 @@ export const WeeklyOrdersCellRenderer = ({ value }: { value: string }) => {
       className={clsxm(
         'flex h-full flex-col items-center justify-center gap-1',
         // if user tariff is not seller or business, blur this column
-        state.user?.tariff !== 'seller' &&
+        state?.user?.tariff !== 'base' &&
+          state.user?.tariff !== 'seller' &&
           state.user?.tariff !== 'business' &&
           'blur-sm filter'
       )}
@@ -1265,6 +1266,27 @@ export const WeeklyOrdersCellRenderer = ({ value }: { value: string }) => {
 };
 
 export const MonthlyOrdersCellRenderer = ({ value }: { value: string }) => {
+  const { state } = useContextState();
+
+  if (value === null) return '';
+  const value_number = Number(value);
+  return (
+    <div
+      className={clsxm(
+        'flex h-full flex-col items-center justify-center gap-1',
+        // if user tariff is not seller or business, blur this column
+        state.user?.tariff !== 'base' &&
+          state.user?.tariff !== 'seller' &&
+          state.user?.tariff !== 'business' &&
+          'blur-sm filter'
+      )}
+    >
+      <p className=''>{value_number?.toLocaleString()}</p>
+    </div>
+  );
+};
+
+export const Orders90DaysCellRenderer = ({ value }: { value: string }) => {
   const { state } = useContextState();
 
   if (value === null) return '';
@@ -3388,8 +3410,8 @@ export const getCategoryProductTableForProductsColumnDefs = (
     },
 
     {
-      headerName: t('orders'),
-      field: 'orders_amount',
+      headerName: t('orders_3days'),
+      field: 'orders_3_days',
       sortable: true,
       // filter: 'agNumberColumnFilter',
       // floatingFilter: true,
@@ -3411,36 +3433,11 @@ export const getCategoryProductTableForProductsColumnDefs = (
         textAlign: 'center',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
-    },
-    {
-      headerName: t('monthly_orders'),
-      field: 'diff_orders_amount',
-      sortable: true,
-      filter: false,
-
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      cellRenderer: MonthlyOrdersCellRenderer,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('monthly_orders.tooltip'),
+      headerTooltip: t('orders_3days.tooltip'),
     },
     {
       headerName: t('weekly_orders'),
-      field: 'weekly_orders_amount',
+      field: 'weekly_orders',
       sortable: true,
       filter: false,
 
@@ -3465,9 +3462,61 @@ export const getCategoryProductTableForProductsColumnDefs = (
       headerTooltip: t('weekly_orders.tooltip'),
     },
     {
-      headerName: t('revenue'),
-      field: 'orders_money',
-      cellRenderer: RevenueCellRenderer,
+      headerName: t('monthly_orders'),
+      field: 'monthly_orders',
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      cellRenderer: MonthlyOrdersCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_orders.tooltip'),
+    },
+    {
+      headerName: t('orders_90days'),
+      field: 'orders_90_days',
+      sortable: true,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      filter: false,
+
+      cellRenderer: Orders90DaysCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        fontSize: '14px',
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+      headerTooltip: t('orders_90days.tooltip'),
+    },
+    {
+      headerName: t('revenue_3days'),
+      field: 'revenue_3_days',
+      cellRenderer: TrendPriceCellRenderer,
       sortable: true,
       filter: false,
 
@@ -3488,36 +3537,11 @@ export const getCategoryProductTableForProductsColumnDefs = (
         fontSize: '14px',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
-    },
-    {
-      headerName: t('monthly_revenue'),
-      field: 'diff_orders_money',
-      cellRenderer: MonthlyRevenueCellRenderer,
-      sortable: true,
-      filter: false,
-
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      flex: 1,
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('monthly_revenue.tooltip'),
+      headerTooltip: t('revenue_3days.tooltip'),
     },
     {
       headerName: t('weekly_revenue'),
-      field: 'weekly_orders_money',
+      field: 'weekly_revenue',
       cellRenderer: WeeklyRevenueCellRenderer,
       sortable: true,
       filter: false,
@@ -3542,6 +3566,58 @@ export const getCategoryProductTableForProductsColumnDefs = (
       headerTooltip: t('weekly_revenue.tooltip'),
     },
     {
+      headerName: t('monthly_revenue'),
+      field: 'monthly_revenue',
+      cellRenderer: MonthlyRevenueCellRenderer,
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_revenue.tooltip'),
+    },
+    {
+      headerName: t('revenue_90days'),
+      field: 'revenue_90_days',
+      cellRenderer: MonthlyRevenueCellRenderer,
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('revenue_90days.tooltip'),
+    },
+    {
       headerName: t('reviews'),
       field: 'reviews_amount',
       // floatingFilter: true,
@@ -3564,56 +3640,6 @@ export const getCategoryProductTableForProductsColumnDefs = (
         textAlign: 'center',
         fontSize: '14px',
       } as CellStyle,
-    },
-    {
-      headerName: t('monthly_reviews'),
-      field: 'diff_reviews_amount',
-      // floatingFilter: true,
-      cellRenderer: LocaleNumberCellRenderer,
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      minWidth: 150,
-      filter: false,
-
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('monthly_reviews.tooltip'),
-    },
-    {
-      headerName: t('weekly_reviews'),
-      field: 'weekly_reviews_amount',
-      // floatingFilter: true,
-      cellRenderer: LocaleNumberCellRenderer,
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      minWidth: 150,
-      filter: false,
-
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('weekly_reviews.tooltip'),
     },
     {
       headerName: t('average_price'),
@@ -3844,8 +3870,8 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
     },
 
     {
-      headerName: t('orders'),
-      field: 'orders_amount',
+      headerName: t('orders_3days'),
+      field: 'orders_3_days',
       sortable: true,
       // filter: 'agNumberColumnFilter',
       // floatingFilter: true,
@@ -3867,36 +3893,11 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
         textAlign: 'center',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
-    },
-    {
-      headerName: t('monthly_orders'),
-      field: 'diff_orders_amount',
-      sortable: true,
-      filter: false,
-
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      cellRenderer: MonthlyOrdersCellRenderer,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      minWidth: 150,
-      cellStyle: {
-        textAlign: 'center',
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('monthly_orders.tooltip'),
+      headerTooltip: t('orders_3days.tooltip'),
     },
     {
       headerName: t('weekly_orders'),
-      field: 'weekly_orders_amount',
+      field: 'weekly_orders',
       sortable: true,
       filter: false,
 
@@ -3921,9 +3922,61 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       headerTooltip: t('weekly_orders.tooltip'),
     },
     {
-      headerName: t('revenue'),
-      field: 'orders_money',
-      cellRenderer: RevenueCellRenderer,
+      headerName: t('monthly_orders'),
+      field: 'monthly_orders',
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      cellRenderer: MonthlyOrdersCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_orders.tooltip'),
+    },
+    {
+      headerName: t('orders_90days'),
+      field: 'orders_90_days',
+      sortable: true,
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      filter: false,
+
+      cellRenderer: Orders90DaysCellRenderer,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      minWidth: 150,
+      cellStyle: {
+        fontSize: '14px',
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+      } as CellStyle,
+      headerTooltip: t('orders_90days.tooltip'),
+    },
+    {
+      headerName: t('revenue_3days'),
+      field: 'revenue_3_days',
+      cellRenderer: TrendPriceCellRenderer,
       sortable: true,
       filter: false,
 
@@ -3944,10 +3997,37 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
         fontSize: '14px',
         // backgroundColor: 'rgba(119, 67, 219, 0.1)',
       } as CellStyle,
+      headerTooltip: t('revenue_3days.tooltip'),
+    },
+    {
+      headerName: t('weekly_revenue'),
+      field: 'weekly_revenue',
+      cellRenderer: WeeklyRevenueCellRenderer,
+      sortable: true,
+      filter: false,
+
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      // filterParams: {
+      //   alwaysShowBothConditions: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      // flloatingFilterComponentParams: {
+      //   suppressFilterButton: true,
+      //   buttons: ['reset', 'apply'],
+      // },
+      flex: 1,
+      minWidth: 150,
+      cellStyle: {
+        textAlign: 'center',
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('weekly_revenue.tooltip'),
     },
     {
       headerName: t('monthly_revenue'),
-      field: 'diff_orders_money',
+      field: 'monthly_revenue',
       cellRenderer: MonthlyRevenueCellRenderer,
       sortable: true,
       filter: false,
@@ -3972,9 +4052,9 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
       headerTooltip: t('monthly_revenue.tooltip'),
     },
     {
-      headerName: t('weekly_revenue'),
-      field: 'weekly_orders_money',
-      cellRenderer: WeeklyRevenueCellRenderer,
+      headerName: t('revenue_90days'),
+      field: 'revenue_90_days',
+      cellRenderer: MonthlyRevenueCellRenderer,
       sortable: true,
       filter: false,
 
@@ -3995,7 +4075,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         fontSize: '14px',
       } as CellStyle,
-      headerTooltip: t('weekly_revenue.tooltip'),
+      headerTooltip: t('revenue_90days.tooltip'),
     },
     {
       headerName: t('reviews'),

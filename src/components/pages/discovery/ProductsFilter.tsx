@@ -27,6 +27,7 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
   const { t, i18n } = useTranslation('tableColumns');
   const { state } = useContextState();
   const setFilter = (type: string, min: number | null, max: number | null) => {
+    console.log(type, min, max);
     const newFilters = filters.filter((filter) => filter.type !== type);
     if (min || max) {
       newFilters.push({ type, min, max });
@@ -68,9 +69,9 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
         </div>
         <div className='flex py-6 pl-5'>
           <Filter
-            min={getFilter(filters, 'diff_orders_amount')[0]}
-            type='diff_orders_amount'
-            max={getFilter(filters, 'diff_orders_amount')[1]}
+            min={getFilter(filters, 'monthly_orders')[0]}
+            type='monthly_orders'
+            max={getFilter(filters, 'monthly_orders')[1]}
             title={
               i18n.language === 'uz'
                 ? 'Oxirgi 30 kundagi sotuvlar soni'
@@ -87,12 +88,14 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
           />
           <Filter
             title={
-              i18n.language === 'uz' ? 'Jami sotuvlar soni' : 'Всего продаж'
+              i18n.language === 'uz'
+                ? 'Sotuvlar soni(90kun)'
+                : 'Кол-во продаж(90дней)'
             }
             setValues={setFilter}
-            type='orders_amount'
-            min={getFilter(filters, 'orders_amount')[0]}
-            max={getFilter(filters, 'orders_amount')[1]}
+            type='orders_90_days'
+            min={getFilter(filters, 'orders_90_days')[0]}
+            max={getFilter(filters, 'orders_90_days')[1]}
           />
         </div>
       </div>
@@ -114,9 +117,9 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
                 : 'Объем дохода за последние 30 дней'
             }
             setValues={setFilter}
-            type='diff_orders_money'
-            min={getFilter(filters, 'diff_orders_money')[0]}
-            max={getFilter(filters, 'diff_orders_money')[1]}
+            type='monthly_revenue'
+            min={getFilter(filters, 'monthly_revenue')[0]}
+            max={getFilter(filters, 'monthly_revenue')[1]}
             isDisabled={
               state.user?.tariff === 'free'
                 ? true
@@ -128,13 +131,13 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
           <Filter
             title={
               i18n.language === 'uz'
-                ? 'Jami tushum miqdori'
-                : 'Общий объем дохода'
+                ? 'Tushum miqdori(90kun)'
+                : 'Объем дохода(90дней)'
             }
             setValues={setFilter}
-            type='orders_money'
-            min={getFilter(filters, 'orders_money')[0]}
-            max={getFilter(filters, 'orders_money')[1]}
+            type='revenue_90_days'
+            min={getFilter(filters, 'revenue_90_days')[0]}
+            max={getFilter(filters, 'revenue_90_days')[1]}
           />
         </div>
       </div>
@@ -148,17 +151,6 @@ function ProductsFilter({ filters, setFilters }: HomeStatisticsContainerProps) {
           </p>
         </div>
         <div className='flex py-6 pl-5'>
-          <Filter
-            title={
-              i18n.language === 'uz'
-                ? 'Oxirgi 30 kundagi izohlar soni'
-                : 'Кол-во отзывов за последние 30 дней'
-            }
-            setValues={setFilter}
-            type='diff_reviews_amount'
-            min={getFilter(filters, 'diff_reviews_amount')[0]}
-            max={getFilter(filters, 'diff_reviews_amount')[1]}
-          />
           <Filter
             title={
               i18n.language === 'uz' ? 'Jami izohlar soni' : 'Всего отзывов'
