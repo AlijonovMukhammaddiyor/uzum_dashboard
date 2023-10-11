@@ -62,7 +62,7 @@ const CountingDown = ({ discountEndDate }: any) => {
           'absolute -right-10 top-10 z-[10] flex h-[150px] flex-col items-center justify-center  space-y-4 rounded-lg bg-purple-300 px-4 shadow-2xl transition-all duration-500',
           !isCenter
             ? 'right-1/3 top-1/3 scale-150  px-20'
-            : 'h-[100px] scale-75 bg-transparent shadow-none'
+            : 'h-[80px] scale-50 bg-transparent shadow-none'
         )}
       >
         <p className={clsxm('text-white', isCenter ? 'hidden' : '')}>

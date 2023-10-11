@@ -25,7 +25,6 @@ function Pricing({ className }: { className?: string }) {
   );
   const [months, setMonths] = React.useState<number>(1);
   const [popupOpen, setPopupOpen] = useState(false);
-  const [businessCode, setBusinessCode] = useState('');
   const [zoomLevel, setZoomLevel] = React.useState(1);
 
   React.useEffect(() => {
@@ -73,7 +72,12 @@ function Pricing({ className }: { className?: string }) {
       }
     >
       <CountingDown discountEndDate={new Date('2023-10-17T23:59:59')} />
-      <div className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'>
+      <div
+        className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'
+        style={{
+          zoom: zoomLevel,
+        }}
+      >
         {/* 1. Our Promise */}
         <div className='relative mb-20 rounded-md bg-blue-50 p-6 shadow-md'>
           <h2 className='text-primary base:text-3xl mb-4 text-center text-xl font-bold'>
@@ -253,9 +257,7 @@ function Pricing({ className }: { className?: string }) {
               months={months}
               color='primary'
               isEnterprise
-              buttonTitle={
-                i18n.language === 'uz' ? 'Aloqaga chiqish' : 'Связаться с нами'
-              }
+              buttonTitle={t('tariffs.select')}
               sendToRegister={sendToRegister}
               isFreeTrial={true}
             />
@@ -487,13 +489,7 @@ function Tarif({
       </h3>
 
       <div className='flex flex-col items-center space-y-2'>
-        {isBusiness ? (
-          <span className='text-primary text-sm'>
-            {i18n.language === 'uz'
-              ? "Biz bilan bog'laning"
-              : 'Свяжитесь с нами'}
-          </span>
-        ) : (
+        {!isBusiness && (
           <div className='flex items-center space-x-2'>
             <span className='text-lg text-gray-500 line-through'>
               $
@@ -532,6 +528,7 @@ function Tarif({
             </span>
           </div>
         )}
+
         {!isBusiness && !isFree && (
           <span className='bg-primary inline-block rounded-full px-3 py-1 text-sm text-white'>
             {months} {t('tariffs.month')}
@@ -551,11 +548,7 @@ function Tarif({
           isLoading={loading}
           onClick={() => {
             if (!isCurrentPlan) {
-              if (isEnterprise) {
-                setPopupOpen(true);
-              } else {
-                handlePayment();
-              }
+              handlePayment();
             }
           }}
           className={clsxm(
