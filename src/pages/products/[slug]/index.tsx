@@ -139,11 +139,7 @@ function Product({ user, product_id }: ProductProps) {
         ]}
         setNotAllowedTab={setNotAllowedTab}
         premiumTabs={[t('tabs.position'), t('tabs.sku_analytics')]}
-        disbaledTabs={
-          isPaid
-            ? [t('tabs.sku_analytics')]
-            : [t('tabs.position'), t('tabs.sku_analytics')]
-        }
+        disbaledTabs={isPaid ? [] : [t('tabs.position')]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         className='mb-6 mt-4 '

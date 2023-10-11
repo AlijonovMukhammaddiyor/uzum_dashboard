@@ -26,6 +26,7 @@ interface SkuAnalyticsProps {
       purchase_price: number;
       date_pretty: string;
       orders_amount: number;
+      orders_money: number;
     }[];
   }[];
   product_id: string;
@@ -62,7 +63,7 @@ function SkuAnalytics({
     // Initialize selectedTypes with the first value of each characteristic for the default SKU
     const defaultSkuDetails = data.find((sku) => sku.sku === defaultSku);
     const defaultTypes = defaultSkuDetails
-      ? JSON.parse(defaultSkuDetails.characteristics ?? '[]').reduce(
+      ? JSON.parse(defaultSkuDetails.characteristics ?? characteristics).reduce(
           (
             acc: { [key: string]: string },
             char: { title: string; value: string }
@@ -73,7 +74,7 @@ function SkuAnalytics({
     setSelectedTypes(defaultTypes);
   }, [characteristics, data]);
 
-  const preparePieData = () => {
+  const preparePieData = (index: 'orders_amount' | 'orders_money') => {
     // for each of the sku, calculate total orders in the last {days} days
     // and return a list of objects with proper characteristics and total orders
 
@@ -93,7 +94,7 @@ function SkuAnalytics({
 
       for (let j = 0; j < analytics.length; j++) {
         const order = analytics[j];
-        totalOrders += order.orders_amount;
+        totalOrders += order[index];
       }
       dataset.push({ name: charac, value: totalOrders });
     }
@@ -306,7 +307,7 @@ function SkuAnalytics({
               {i18n.language === 'uz' ? 'Buyurtmalar' : 'Продажи'}
             </p>
             <DoughnutEcharts
-              data={preparePieData()}
+              data={preparePieData('orders_amount')}
               loading={false}
               style={{}}
             />
@@ -316,7 +317,7 @@ function SkuAnalytics({
               {i18n.language === 'uz' ? 'Buyurtmalar' : 'Продажи'}
             </p>
             <DoughnutEcharts
-              data={preparePieData()}
+              data={preparePieData('orders_money')}
               loading={false}
               style={{}}
             />
@@ -447,9 +448,9 @@ function getLabels(
 ) {
   if (!data) return [];
 
-  const sku = data?.find((sku) => sku.sku === selectedSku);
+  let sku = data?.find((sku) => sku.sku === selectedSku);
 
-  if (!sku) return [];
+  if (!sku) sku = data[0];
   const analytics = sku.recent_analytics;
 
   const analytics_ = analytics.sort(
@@ -485,9 +486,10 @@ function prepareSkusDataset(
   const available = [];
   const orders = [];
   const realPrice = [];
+  const revenue = [];
 
-  const sku = data.find((sku) => sku.sku === selectedSku);
-
+  let sku = data.find((sku) => sku.sku === selectedSku);
+  if (!sku) sku = data[0];
   if (sku) {
     const analytics_ = sku.recent_analytics;
 
@@ -508,6 +510,11 @@ function prepareSkusDataset(
       orders.push({
         x: item.date_pretty,
         y: item.orders_amount,
+        label: sku.sku.toString(),
+      });
+      revenue.push({
+        x: item.date_pretty,
+        y: item.orders_amount * item.full_price,
         label: sku.sku.toString(),
       });
       price.push({
@@ -567,6 +574,19 @@ function prepareSkusDataset(
     pointBackgroundColor: 'rgba(255, 0, 0, 1)',
   });
 
+  dataset.push({
+    data: revenue,
+    fill: true,
+    hidden: false,
+    borderColor: 'rgba(0, 0, 0, 1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    label: lang === 'uz' ? 'Daromad' : 'Доход',
+    pointRadius: 3,
+    pointBackgroundColor: 'rgba(0, 0, 0, 1)',
+  });
+
+  console.log(dataset, data);
+
   return dataset;
 }
 
@@ -585,10 +605,12 @@ function preapreTableData(
   selectedSku: number,
   days: number
 ) {
-  const sku = data.find((sku) => sku.sku === selectedSku);
-  if (!sku) return [];
+  let sku = data.find((sku) => sku.sku === selectedSku);
+  if (!sku) sku = data[0];
 
-  const analytics = sku.recent_analytics;
+  const analytics = sku?.recent_analytics;
+
+  if (!analytics) return [];
 
   const analyt = analytics
     .sort(
