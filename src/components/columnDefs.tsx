@@ -1097,6 +1097,39 @@ export const WeeklyRevenueCellRenderer = ({ value }: { value: number }) => {
   );
 };
 
+export const RevenueCellRenderer2 = ({ value }: { value: number }) => {
+  if (!value)
+    return (
+      <div className='flex h-full w-full items-center justify-center'>0</div>
+    );
+  const value_ = value;
+  // check if it is int billion
+  if (value_ > 1000000000)
+    return (
+      <div className='flex h-full flex-col items-center justify-center gap-1'>
+        <p className=''>
+          {(Math.round(value_) / 1000000000).toFixed(1)} mlrd so'm
+        </p>
+      </div>
+    );
+
+  // check if it is int million
+  if (value_ > 1000000)
+    return (
+      <div className='flex h-full flex-col items-center justify-center gap-1'>
+        <p className=''>{(Math.round(value_) / 1000000).toFixed(1)} mln so'm</p>
+      </div>
+    );
+
+  return (
+    <div className='flex h-full flex-col items-center justify-center gap-1'>
+      <p className=''>
+        {Math.floor(Math.floor(value_ / 1000) * 1000)?.toLocaleString()} so'm
+      </p>
+    </div>
+  );
+};
+
 export const MonthlyRevenueCellRenderer = ({ value }: { value: number }) => {
   const { state } = useContextState();
 
@@ -5349,23 +5382,8 @@ export const getShopOverallColumnDefs = (t: any) => {
 export const getShopTableColumnDefs = (t: any, lang: string) => {
   return [
     {
-      headerName: t('position'),
-      field: 'position',
-      cellRenderer: BasicCellRenderer,
-      sortable: true,
-      filter: false,
-      maxWidth: 100,
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip:
-        lang === 'uz' ? "Daromadiga ko'ra o'rni." : 'Позиция по доходу.',
-    },
-
-    {
       headerName: t('shop_name'),
-      field: 'shop_title',
+      field: 'title',
       filter: 'agTextColumnFilter',
       floatingFilter: true,
       sortable: false,
@@ -5380,7 +5398,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
     },
     {
       headerName: lang === 'uz' ? 'Kuzatish' : 'Просмотр',
-      field: 'shop_title',
+      field: 'title',
       filter: false,
       floatingFilter: false,
       sortable: false,
@@ -5398,7 +5416,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
     },
     {
       headerName: t('monthly_orders'),
-      field: 'monthly_total_orders',
+      field: 'monthly_orders',
       sortable: true,
       filter: false,
       cellRenderer: LocaleNumberCellRenderer,
@@ -5412,8 +5430,8 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip: t('monthly_orders.tooltip'),
     },
     {
-      headerName: t('orders'),
-      field: 'total_orders',
+      headerName: t('orders_90days'),
+      field: 'quarterly_orders',
       sortable: true,
       filter: false,
       cellRenderer: LocaleNumberCellRenderer,
@@ -5429,13 +5447,29 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
           ? "Do'konning jami buyurtmalar soni"
           : 'Кол-во заказов магазина.',
     },
-
     {
-      headerName: t('monthly_revenue'),
-      field: 'monthly_total_revenue',
+      headerName: t('products_count'),
+      field: 'total_products',
+      cellRenderer: LocaleNumberCellRenderer,
       sortable: true,
       filter: false,
-      cellRenderer: RevenueCellRenderer,
+      flex: 1,
+      cellStyle: {
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip:
+        lang === 'uz'
+          ? "Do'konning mahsulotlari soni"
+          : 'Кол-во товаров магазина.',
+    },
+    {
+      headerName: t('monthly_revenue'),
+      field: 'monthly_revenue',
+      sortable: true,
+      filter: false,
+      cellRenderer: RevenueCellRenderer2,
 
       flex: 1,
       cellStyle: {
@@ -5447,11 +5481,11 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
     },
 
     {
-      headerName: t('revenue'),
-      field: 'total_revenue',
+      headerName: t('revenue_90days'),
+      field: 'quarterly_revenue',
       sortable: true,
       filter: false,
-      cellRenderer: RevenueCellRenderer,
+      cellRenderer: RevenueCellRenderer2,
 
       flex: 1,
       cellStyle: {
@@ -5462,37 +5496,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
       headerTooltip:
         lang === 'uz' ? "Do'konning barcha daromadi" : 'Доход магазина.',
     },
-    {
-      headerName: t('products_count'),
-      field: 'total_products',
-      cellRenderer: LocaleNumberCellRenderer,
-      sortable: true,
-      filter: false,
-      flex: 1,
-      cellStyle: {
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip:
-        lang === 'uz'
-          ? "Do'konning mahsulotlari soni"
-          : 'Кол-во товаров магазина.',
-    },
-    {
-      headerName: t('categories_count'),
-      field: 'num_categories',
-      cellRenderer: LocaleNumberCellRenderer,
-      sortable: true,
-      filter: false,
-      flex: 1,
-      cellStyle: {
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('tooltip.categories_count'),
-    },
+
     {
       headerName: t('rating'),
       field: 'rating',

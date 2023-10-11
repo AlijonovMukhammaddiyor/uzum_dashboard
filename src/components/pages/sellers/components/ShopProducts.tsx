@@ -7,12 +7,12 @@ import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
 import {
-  getShopProductTableColumnDefs,
+  getCategoryProductTableForProductsColumnDefs,
   getShopStoppedProductTableColumnDefs,
 } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
+import DoughnutEcharts from '@/components/shared/DoughnutEcharts';
 import InfiniteTable from '@/components/shared/InfiniteTable';
-import PieChart from '@/components/shared/PieChart';
 import Table from '@/components/shared/Table';
 import Tabs from '@/components/shared/Tabs';
 
@@ -41,6 +41,8 @@ interface ProductType {
   shop_title: string;
   sku_analytics: string;
   categiry_title: string;
+  monthly_orders: number;
+  monthly_revenue: number;
 }
 
 function ShopProducts({ sellerId, className }: Props) {
@@ -52,28 +54,22 @@ function ShopProducts({ sellerId, className }: Props) {
   );
   const [ordersData, setOrdersData] = React.useState<
     {
-      type: string;
+      name: string;
       value: number;
     }[]
   >([]);
   const [revenueData, setRevenueData] = React.useState<
     {
-      type: string;
+      name: string;
       value: number;
     }[]
   >([]);
-  const [reviewsData, setReviewsData] = React.useState<
-    {
-      type: string;
-      value: number;
-    }[]
-  >([]);
+  const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
   const [stoppedProductsData, setStoppedProductsData] = React.useState<
     ProductType[]
   >([]);
   const [stoopedProductsLoading, setStoppedProductsLoading] =
     React.useState<boolean>(false);
-  const [notAllowedTab, setNotAllowedTab] = React.useState<string>('');
 
   const [loadingTopProducts, setLoadingTopProducts] =
     React.useState<boolean>(false);
@@ -117,20 +113,20 @@ function ShopProducts({ sellerId, className }: Props) {
         const products = res.data.orders_products;
         let sum = 0;
         const data = products
-          .filter((product) => product.orders_amount > 0)
+          .filter((product) => product.monthly_orders > 0)
           .map((product) => {
-            sum += product.orders_amount;
+            sum += product.monthly_orders;
             return {
-              type:
+              name:
                 i18n.language === 'uz'
                   ? product.product_title.split('((')[0]
                   : product.product_title_ru.split('((')[0],
-              value: product.orders_amount,
+              value: product.monthly_orders,
             };
           });
         if (res.data.total_orders - sum > 0)
           data.push({
-            type: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
+            name: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
             value: res.data.total_orders - sum,
           });
 
@@ -139,48 +135,25 @@ function ShopProducts({ sellerId, className }: Props) {
         const revenue = res.data.revenue_products;
         sum = 0;
         const data2 = revenue
-          .filter((product) => product.orders_money > 0)
+          .filter((product) => product.monthly_revenue > 0)
           .map((product) => {
-            sum += product.orders_money;
+            sum += product.monthly_revenue;
             return {
-              type:
+              name:
                 i18n.language === 'uz'
                   ? product.product_title.split('((')[0]
                   : product.product_title_ru.split('((')[0],
-              value: Math.round(product.orders_money * 1000),
+              value: product.monthly_revenue,
             };
           });
         if (res.data.total_revenue - sum > 0)
           data2.push({
-            type: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
-            value:
-              Math.round(
-                Math.round((res.data.total_revenue - sum) * 1000) / 1000
-              ) * 1000,
+            name: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
+            value: res.data.total_revenue - sum,
           });
 
         setRevenueData(data2);
 
-        const reviews = res.data.reviews_products;
-        let sumReviews = 0;
-        const dataReviews = reviews.map((product) => {
-          sumReviews += product.reviews_amount;
-          return {
-            type:
-              i18n.language === 'uz'
-                ? product.product_title.split('((')[0]
-                : product.product_title_ru.split('((')[0],
-            value: product.reviews_amount,
-          };
-        });
-        if (res.data.total_reviews - sumReviews > 0)
-          dataReviews.push({
-            type: i18n.language === 'uz' ? 'Boshqa Mahsulotlar' : 'Другие',
-            value: res.data.total_reviews - sumReviews,
-          });
-
-        setReviewsData(dataReviews);
-        // setTotalOrders(res.data.total_orders);
         setLoadingTopProducts(false);
       })
       .catch((err) => {
@@ -254,18 +227,19 @@ function ShopProducts({ sellerId, className }: Props) {
     <div
       className={clsxm('h-full w-full min-w-[1200px] gap-5 pb-12', className)}
     >
-      <div className='flex w-full items-start justify-start gap-5 overflow-scroll '>
+      <div className='flex w-full items-start justify-start gap-5'>
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'min-h-[500px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
+            'min-h-[500px] w-1/2 rounded-md border-none bg-white p-6 shadow-none'
           )}
         >
-          <PieChart
-            innerRadius={0.6}
+          <p className='w-full text-center font-bold text-slate-600'>
+            {t('most_profitable_products')}
+            {i18n.language === 'uz' ? '(30 kunlik)' : '(за 30 дней)'}
+          </p>
+          <DoughnutEcharts
             data={revenueData}
-            title={t('most_profitable_products')}
-            labelType='outer'
             style={{
               width: '100%',
               height: zoomLevel === 0.8 ? '400px' : '500px',
@@ -276,32 +250,15 @@ function ShopProducts({ sellerId, className }: Props) {
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'min-h-[500px]  min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
+            'min-h-[500px]  w-1/2 rounded-md border-none bg-white p-6 shadow-none'
           )}
         >
-          <PieChart
-            innerRadius={0.6}
+          <p className='w-full text-center font-bold text-slate-600'>
+            {t('most_sold_products')}
+            {i18n.language === 'uz' ? '(30 kunlik)' : '(за 30 дней)'}
+          </p>
+          <DoughnutEcharts
             data={ordersData}
-            title={t('most_sold_products')}
-            labelType='outer'
-            style={{
-              width: '100%',
-              height: zoomLevel === 0.8 ? '400px' : '500px',
-              maxHeight: zoomLevel === 0.8 ? '400px' : '500px',
-            }}
-          />
-        </Container>
-        <Container
-          loading={loadingTopProducts}
-          className={clsxm(
-            'min-h-[500px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
-          )}
-        >
-          <PieChart
-            innerRadius={0.6}
-            data={reviewsData}
-            title={t('most_reviewed_products')}
-            labelType='outer'
             style={{
               width: '100%',
               height: zoomLevel === 0.8 ? '400px' : '500px',
@@ -331,7 +288,12 @@ function ShopProducts({ sellerId, className }: Props) {
         <InfiniteTable
           rowHeight={70}
           headerHeight={60}
-          columnDefs={getShopProductTableColumnDefs(t2, i18n.language)}
+          columnDefs={
+            getCategoryProductTableForProductsColumnDefs(
+              t2,
+              i18n.language
+            ) as any
+          }
           className={clsxm(
             'h-[1536px] min-w-full',
             activeProducts === t('sellers_current_products') ? '' : 'hidden'
