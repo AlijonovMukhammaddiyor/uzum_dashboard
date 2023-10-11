@@ -4101,56 +4101,7 @@ export const getCategoryProductTableColumnDefs = (t: any, lang: string) => {
         fontSize: '14px',
       } as CellStyle,
     },
-    {
-      headerName: t('monthly_reviews'),
-      field: 'diff_reviews_amount',
-      // floatingFilter: true,
-      cellRenderer: LocaleNumberCellRenderer,
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      minWidth: 150,
-      filter: false,
 
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('monthly_reviews.tooltip'),
-    },
-    {
-      headerName: t('weekly_reviews'),
-      field: 'weekly_reviews_amount',
-      // floatingFilter: true,
-      cellRenderer: LocaleNumberCellRenderer,
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      // filterParams: {
-      //   alwaysShowBothConditions: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      // flloatingFilterComponentParams: {
-      //   suppressFilterButton: true,
-      //   buttons: ['reset', 'apply'],
-      // },
-      minWidth: 150,
-      filter: false,
-
-      cellStyle: {
-        textAlign: 'center',
-        fontSize: '14px',
-      } as CellStyle,
-      headerTooltip: t('weekly_reviews.tooltip'),
-    },
     {
       headerName: t('average_price'),
       field: 'sku_analytics',
