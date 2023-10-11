@@ -8,11 +8,6 @@ import logger from '@/lib/logger';
 
 import { getCategoryShopsTableColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
-import {
-  getActiveDateRangeHandler,
-  getDateRangeString,
-} from '@/components/pages/category/slug/components/CategoryTrends';
-import { RenderAlert } from '@/components/shared/AlertComponent';
 import DoughnutEcharts from '@/components/shared/DoughnutEcharts';
 import HorizontalColumnChartHistogram from '@/components/shared/HorizontalBarchartHistogram';
 import Table from '@/components/shared/Table';
@@ -117,7 +112,7 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
             </button>
           ))}
         </div>
-        <div className='flex w-full items-center justify-end gap-0'>
+        {/* <div className='flex w-full items-center justify-end gap-0'>
           {[
             i18n.language === 'ru' ? '3 дня' : '3 kun',
             i18n.language === 'ru' ? '7 дней' : '7 kun',
@@ -182,7 +177,7 @@ function CategoryShops({ className, categoryId, activeTab }: Props) {
               {dateRange}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div
