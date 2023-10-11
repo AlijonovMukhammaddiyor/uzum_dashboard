@@ -258,7 +258,7 @@ function ShopProducts({ sellerId, className }: Props) {
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
+            'min-h-[500px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
           )}
         >
           <PieChart
@@ -276,7 +276,7 @@ function ShopProducts({ sellerId, className }: Props) {
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
+            'min-h-[500px]  min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
           )}
         >
           <PieChart
@@ -294,7 +294,7 @@ function ShopProducts({ sellerId, className }: Props) {
         <Container
           loading={loadingTopProducts}
           className={clsxm(
-            'white min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
+            'min-h-[500px] min-w-[1100px] overflow-scroll rounded-md bg-white p-6'
           )}
         >
           <PieChart
