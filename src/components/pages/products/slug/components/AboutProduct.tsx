@@ -246,7 +246,7 @@ function AboutProduct({ product_id, className }: AboutProductProps) {
                       </span>
                       <span className='text-gray-500'>
                         {product.analytics[0].orders_amount}{' '}
-                        {t('orders').toLowerCase()}
+                        {i18n.language === 'uz' ? 'transaksiya' : 'транзакции'}
                       </span>
 
                       <span className='text-gray-500'>

@@ -4596,7 +4596,10 @@ export const getProductAnalyticssColDefs = (t: any, lang: string) => {
       filter: false,
       minWidth: 150,
       maxWidth: 250,
-      headerTooltip: lang === "uz" ? "Mahsulotning UZUMdagi pozitsiyasi": "Позиция товара в UZUM",
+      headerTooltip:
+        lang === 'uz'
+          ? 'Mahsulotning UZUMdagi pozitsiyasi'
+          : 'Позиция товара в UZUM',
       cellStyle: {
         textAlign: 'center',
         fontSize: '14px',
