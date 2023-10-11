@@ -51,6 +51,7 @@ export interface ProductAnalyticsType {
     characteristics: string;
     recent_analytics: {
       orders_amount: number;
+      orders_money: number;
       date_pretty: string;
       available_amount: number;
       created_at: string;
