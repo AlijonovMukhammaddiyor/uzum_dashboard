@@ -26,6 +26,8 @@ function Pricing({ className }: { className?: string }) {
   const [months, setMonths] = React.useState<number>(1);
   const [popupOpen, setPopupOpen] = useState(false);
   const [zoomLevel, setZoomLevel] = React.useState(1);
+  const [promocode, setPromocode] = useState('');
+  const [isPromo, setIsPromo] = useState(false);
 
   React.useEffect(() => {
     function handleResize() {
@@ -64,13 +66,21 @@ function Pricing({ className }: { className?: string }) {
   return (
     <div
       id="ta'riflar"
-      className={clsxm('mt-8 flex w-full justify-center', className)}
+      className={clsxm('w-full justify-center', className)}
       style={
         {
           // zoom: zoomLevel,
         }
       }
     >
+      <div className='flex w-full items-center justify-end'>
+        <PromoCodeContainer
+          setPromoCode={setPromocode}
+          setIsPromo={setIsPromo}
+          promoCode={promocode}
+        />
+      </div>
+
       <CountingDown discountEndDate={new Date('2023-10-17T23:59:59')} />
       <div
         className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'
@@ -190,6 +200,7 @@ function Pricing({ className }: { className?: string }) {
               color='primary'
               buttonTitle={t('tariffs.select')}
               sendToRegister={sendToRegister}
+              isPromo={isPromo}
             />
           </div>
           <div className='flex items-center justify-center'>
@@ -205,6 +216,7 @@ function Pricing({ className }: { className?: string }) {
                   : 19.0
               }
               months={months}
+              isPromo={isPromo}
               features={[
                 t('tariffs.1_dukon'),
                 t('tariffs.60_kunlik'),
@@ -235,6 +247,7 @@ function Pricing({ className }: { className?: string }) {
                 t('tariffs.90_kunlik'),
                 t('tariffs.24/7_doimiy_yordam'),
               ]}
+              isPromo={isPromo}
               color='primary'
               buttonTitle={t('tariffs.select')}
               isProPlus
@@ -260,6 +273,7 @@ function Pricing({ className }: { className?: string }) {
               buttonTitle={t('tariffs.select')}
               sendToRegister={sendToRegister}
               isFreeTrial={true}
+              isPromo={isPromo}
             />
           </div>
         </div>
@@ -299,6 +313,7 @@ function Tarif({
   months = 1,
   isEnterprise,
   isFreeTrial,
+  isPromo,
 }: {
   isCurrentPlan?: boolean;
   title: string;
@@ -315,6 +330,7 @@ function Tarif({
   months?: number;
   setPopupOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   popupOpen?: boolean;
+  isPromo?: boolean;
 }) {
   const { t, i18n } = useTranslation('landing');
   const [loading, setLoading] = useState(false);
@@ -384,8 +400,8 @@ function Tarif({
       business: 70,
       free: 0,
     };
-
-    // isKomiljon = true;
+    console.log(isPromo);
+    isKomiljon = isPromo ? true : isKomiljon;
     // isReferred = true;
 
     // Price multipliers
@@ -637,6 +653,58 @@ function Tarif({
     </div>
   );
 }
+
+const PromoCodeContainer = ({
+  promoCode,
+  setPromoCode,
+  setIsPromo,
+}: {
+  promoCode: string;
+  setPromoCode: React.Dispatch<React.SetStateAction<string>>;
+  setIsPromo: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPromoCode(e.target.value);
+  };
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const { i18n } = useTranslation('common');
+
+  const handleApplyClick = () => {
+    setIsPromo(promoCode === 'Ajoyib');
+    setIsConfirmed(promoCode === 'Ajoyib');
+  };
+
+  return (
+    <div className='mr-10 flex flex-col items-center justify-center gap-3 rounded-lg bg-white pt-6'>
+      <input
+        type='text'
+        value={promoCode}
+        onChange={handleInputChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleApplyClick();
+          }
+        }}
+        placeholder={i18n.language === 'uz' ? 'Promo kod' : 'Промо код'}
+        className={`h-10 w-52 rounded border-2 px-2 text-sm transition-colors duration-200 focus:outline-none ${
+          isConfirmed
+            ? 'border-green-500'
+            : 'border-purple-200 focus:border-purple-500'
+        }`}
+      />
+      <button
+        onClick={handleApplyClick}
+        className='w-52 rounded-lg bg-purple-500 py-2 text-white transition-colors duration-200 hover:bg-purple-600 focus:outline-none'
+      >
+        {isConfirmed
+          ? '✓'
+          : i18n.language === 'uz'
+          ? 'Kodni tasdiqlash'
+          : 'Подтвердить код'}
+      </button>
+    </div>
+  );
+};
 
 export default Pricing;
 
