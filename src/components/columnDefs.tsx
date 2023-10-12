@@ -5464,7 +5464,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
     },
     {
       headerName:
-        lang === 'uz' ? 'Oylik Transaksiyalar' : 'Ежемесячные транзакции',
+        lang === 'uz' ? 'Transaksiyalar(30 kun)' : 'Транзакции(30 дней)',
       field: 'monthly_transactions',
       sortable: true,
       filter: false,
