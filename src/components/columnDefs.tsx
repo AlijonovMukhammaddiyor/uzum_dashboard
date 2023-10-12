@@ -5443,6 +5443,7 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
         fontSize: '14px',
       } as CellStyle,
     },
+
     {
       headerName: lang === 'uz' ? 'Kuzatish' : 'Просмотр',
       field: 'title',
@@ -5460,6 +5461,22 @@ export const getShopTableColumnDefs = (t: any, lang: string) => {
         lang === 'uz'
           ? "Telegram bot orqali do'konni kuzatish"
           : 'Просмотр магазина через Telegram бот.',
+    },
+    {
+      headerName:
+        lang === 'uz' ? 'Oylik Transaksiyalar' : 'Ежемесячные транзакции',
+      field: 'monthly_transactions',
+      sortable: true,
+      filter: false,
+      cellRenderer: LocaleNumberCellRenderer,
+
+      flex: 1,
+      cellStyle: {
+        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        textAlign: 'center',
+        fontSize: '14px',
+      } as CellStyle,
+      headerTooltip: t('monthly_orders.tooltip'),
     },
     {
       headerName: t('monthly_orders'),

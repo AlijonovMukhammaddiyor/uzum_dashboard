@@ -28,12 +28,15 @@ interface SellerType {
   date_pretty: string;
   id: string;
   num_categories: number;
-  position: number;
   rating: number;
-  shop_link: string;
+  link: string;
   total_revenue: number;
-  shop_title: string;
-  total_orders: number;
+  title: string;
+  monthly_orders: number;
+  monthly_revenue: number;
+  monthly_transactions: number;
+  quarterly_revenue: number;
+  quarterly_orders: number;
   total_products: number;
   total_reviews: number;
 }
@@ -292,16 +295,15 @@ export function downloadExcel(data: any) {
 
   // Filter data to include only the required columns
   const filteredData = data.map((item: any) => ({
-    position: item.position,
-    shop_title: item.shop_title.split('((')[0],
-    total_revenue: Math.round((item.total_revenue * 1000) / 1000) * 1000,
-    rating: item.rating,
-    // make total revenue divisable by 1000
-    total_orders: item.total_orders,
-    total_reviews: item.total_reviews,
-    num_categories: item.num_categories,
-    average_purchase_price: item.average_purchase_price,
+    shop_title: item.title.split('((')[0],
+    monthly_transactions: item.monthly_transactions,
+    monthly_orders: item.monthly_orders,
+    quarterly_orders: item.quarterly_orders,
     total_products: item.total_products,
+    monthly_revenue: item.monthly_revenue,
+    quarterly_revenue: item.quarterly_revenue,
+    total_reviews: item.total_reviews,
+    rating: item.rating,
   }));
 
   // Convert the filtered data to a sheet
@@ -309,15 +311,15 @@ export function downloadExcel(data: any) {
 
   // Define custom column headers in Russian
   const customHeaders = {
-    A1: 'Позиция',
-    B1: 'Название магазина',
-    C1: 'Выручка',
-    D1: 'Рейтинг',
-    E1: 'Заказы',
-    F1: 'Отзывы',
-    G1: 'Кол-во категорий',
-    H1: 'Средняя цена покупки',
-    I1: 'Всего товаров',
+    A1: 'Название магазина',
+    B1: 'Ежемесячные транзакции',
+    C1: 'Продажи (30 дней)',
+    D1: 'Продажи (90 дней)',
+    I1: 'Кол-во товаров',
+    E1: 'Выручка (30 дней)',
+    F1: 'Выручка (90 дней)',
+    H1: 'Кол-во Отзывы',
+    G1: 'Рейтинг',
   };
 
   // Map custom headers to the sheet
@@ -384,24 +386,19 @@ export function downloadExcel(data: any) {
   };
 
   applyGradient(
+    'C',
+    data.map((item: any) => item.monthly_orders),
+    greenGradient
+  );
+  applyGradient(
     'I',
     data.map((item: any) => item.total_products),
-    greenGradient
-  );
-  applyGradient(
-    'G',
-    data.map((item: any) => item.num_categories),
     orangeGradient
-  );
-  applyGradient(
-    'C',
-    data.map((item: any) => item.total_revenue),
-    greenGradient
   );
   applyGradient(
     'E',
-    data.map((item: any) => item.total_orders),
-    orangeGradient
+    data.map((item: any) => item.monthly_revenue),
+    greenGradient
   );
 
   // Set row heights
