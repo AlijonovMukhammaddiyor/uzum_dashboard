@@ -1394,6 +1394,37 @@ export function DailyOrdersCellRenderer(props: { value: any }) {
     </div>
   );
 }
+
+export function DailyOrdersCellRenderer2(props: { value: any }) {
+  const { value } = props;
+
+  const color = value < 0 ? 'red' : 'green';
+  const ChangeIcon = value < 0 ? HiMinusSm : HiOutlinePlusSm;
+
+  return (
+    <div className='flex h-full items-center justify-center'>
+      {value?.change !== 0 && (
+        <div className='flex  items-center justify-start'>
+          <ChangeIcon
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          />
+          <p
+            className={clsxm(
+              'text-sm',
+              color === 'red' ? 'text-red-500' : 'text-green-500'
+            )}
+          >
+            {value?.toLocaleString()}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function DailyRatingCellRenderer(props: { value: any }) {
   const { value } = props;
 
@@ -4462,13 +4493,42 @@ export const getShopDailySaleColumnDefs = (t: any, lang: string) => {
       maxWidth: 300,
     },
     {
-      headerName: t('orders'),
+      headerName: t('transactions'),
       field: 'orders',
       cellRenderer: DailyOrdersCellRenderer,
       sortable: true,
       flex: 1,
       filter: false,
       minWidth: 150,
+    },
+    {
+      headerName: t('orders'),
+      field: 'real_orders_amount',
+      cellRenderer: DailyOrdersCellRenderer2,
+      sortable: true,
+      flex: 1,
+      filter: false,
+      minWidth: 150,
+    },
+    {
+      headerName: lang === 'uz' ? 'Kunlik Tushum' : 'Ежедневная выручка',
+      field: 'daily_revenue',
+      cellRenderer: TrendPriceCellRenderer,
+      sortable: true,
+      flex: 1,
+      filter: false,
+      minWidth: 150,
+    },
+    {
+      headerName: t('available_amount'),
+      field: 'available_amount',
+      // filter: 'agNumberColumnFilter',
+      // floatingFilter: true,
+      flex: 1,
+      filter: false,
+      minWidth: 150,
+      headerTooltip: 'Mahsulot izohlarining umumiy soni.',
+      cellRenderer: DailyOrdersCellRenderer,
     },
     {
       headerName: t('average_price'),
@@ -4493,17 +4553,7 @@ export const getShopDailySaleColumnDefs = (t: any, lang: string) => {
       headerTooltip: 'Mahsulot izohlarining umumiy soni.',
       cellRenderer: DailyOrdersCellRenderer,
     },
-    {
-      headerName: t('available_amount'),
-      field: 'available_amount',
-      // filter: 'agNumberColumnFilter',
-      // floatingFilter: true,
-      flex: 1,
-      filter: false,
-      minWidth: 150,
-      headerTooltip: 'Mahsulot izohlarining umumiy soni.',
-      cellRenderer: DailyOrdersCellRenderer,
-    },
+
     {
       headerName: t('rating'),
       field: 'rating',
