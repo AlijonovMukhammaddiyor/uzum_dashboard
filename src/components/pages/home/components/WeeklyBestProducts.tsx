@@ -6,7 +6,7 @@ import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
 import logger from '@/lib/logger';
 
-import { getWeeklyBestProductsColDefs } from '@/components/columnDefs';
+import { getCategoryProductTableForProductsColumnDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
 import Table from '@/components/shared/Table';
 
@@ -98,7 +98,10 @@ function WeeklyBestProducts({ className }: HomeStatisticsContainerProps) {
             : 'В таблице ниже представлен список 100 продуктов, которые за последние 7 дней принесли наибольший доход'}
         </p>
         <Table
-          columnDefs={getWeeklyBestProductsColDefs(t, i18n.language)}
+          columnDefs={getCategoryProductTableForProductsColumnDefs(
+            t,
+            i18n.language
+          )}
           className='h-[1520px] min-w-full'
           setLoading={setLoading}
           headerHeight={60}
