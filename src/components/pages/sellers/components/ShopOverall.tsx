@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios';
 import { ChartType } from 'chart.js';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Select from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
@@ -31,6 +30,8 @@ interface SellerType {
   total_products: number;
   total_reviews: number;
   total_revenue: number;
+  daily_revenue: number;
+  daily_orders: number;
 }
 
 function ShopOverall({ className, sellerId, isActive }: Props) {
@@ -39,11 +40,6 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
   const [data, setData] = React.useState<SellerType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [tab, setTab] = React.useState<string>(t('revenue'));
-
-  const [totalOrders, setTotalOrders] = React.useState<number>(0);
-  const [totalProducts, setTotalProducts] = React.useState<number>(0);
-  const [reviewsAmount, setReviewsAmount] = React.useState<number>(0);
-  const [revenue, setRevenue] = React.useState<number>(0);
 
   useEffect(() => {
     const api = new API(null);
@@ -54,11 +50,6 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
       )
       .then((res) => {
         setData(res.data.slice(0));
-
-        setTotalOrders(res.data[res.data.length - 1]?.total_orders ?? 0);
-        setTotalProducts(res.data[res.data.length - 1]?.total_products ?? 0);
-        setReviewsAmount(res.data[res.data.length - 1]?.total_reviews ?? 0);
-        setRevenue(res.data[res.data.length - 1]?.total_revenue ?? 0);
 
         setLoading(false);
       })
@@ -73,104 +64,27 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
     <div
       className={clsxm('flex min-w-[1200px] flex-col gap-6 pb-12', className)}
     >
-      {' '}
-      <div className='flex items-center justify-between gap-3'>
-        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-          <p className='font-semibold'>
-            {i18n.language === 'uz' ? 'Daromad' : 'Выручка'}:
-          </p>
-          <p className='text-primary font-semibold'>
-            {revenue / 1000000 > 1 ? (
-              <span>{(revenue / 1000000).toFixed(1)} mlrd so'm</span>
-            ) : revenue / 1000 > 1 ? (
-              <span>{(revenue / 1000).toFixed(1)} mln so'm</span>
-            ) : (
-              <span>{Number(revenue.toFixed(1)).toLocaleString()} so'm</span>
-            )}
-          </p>
-        </div>
-        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-          <p className='font-semibold'>
-            {i18n.language === 'uz' ? 'Mahsulotlar' : 'Продукты'}:
-          </p>
-          <p className='text-primary font-semibold'>
-            {totalProducts?.toLocaleString()}
-          </p>
-        </div>
-        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-          <p className='font-semibold'>
-            {i18n.language === 'uz' ? 'Buyurtmalar' : 'Продажи'}:
-          </p>
-          <p className='text-primary font-semibold'>
-            {totalOrders?.toLocaleString()}
-          </p>
+      <div className='flex items-center  justify-between gap-5'>
+        <div className='flex gap-0'>
+          {[t2('revenue'), t2('orders'), t('products')].map((tab_) => (
+            <button
+              className={clsxm(
+                'border border-gray-300 px-4 py-1 transition-colors',
+                tab === tab_ ? 'bg-primary text-white' : 'bg-white'
+              )}
+              key={tab_}
+              onClick={() => setTab(tab_)}
+            >
+              {tab_}
+            </button>
+          ))}
         </div>
 
-        <div className='flex h-full flex-1 items-center justify-between gap-4 rounded-md bg-white p-5 shadow-md'>
-          <p className='font-semibold'>
-            {' '}
-            {i18n.language === 'uz' ? 'Izohlar' : 'Отзывы'}:
-          </p>
-          <p className='text-primary font-semibold'>
-            {reviewsAmount?.toLocaleString()}
-          </p>
-        </div>
-      </div>
-      <div className='flex items-center justify-start gap-5'>
-        <Select
-          // components={{ DropdownIndicator }}
-          className='basic-single w-[300px] cursor-pointer rounded-md focus:outline-none focus:ring-0'
-          classNamePrefix='select'
-          defaultValue={{ value: t('revenue'), label: t('revenue') }}
-          isDisabled={false}
-          isLoading={false}
-          isClearable={false}
-          isRtl={false}
-          isSearchable={false}
-          styles={{
-            dropdownIndicator: (provided) => ({
-              ...provided,
-              svg: {
-                fill: 'rgba(97, 75, 195, 1)',
-              },
-            }),
-            control: (provided) => ({
-              ...provided,
-              borderColor: 'rgba(97, 75, 195, 1)',
-            }),
-            singleValue: (provided) => ({
-              ...provided,
-              color: 'rgba(97, 75, 195, 1)', // This changes the text color of the selected value
-            }),
-            option: (provided) => ({
-              ...provided,
-              color: 'black', // This changes the text color of the options
-            }),
-          }}
-          onChange={(e) => {
-            setTab(e?.value ?? t('revenue'));
-          }}
-          name='color'
-          options={[
-            { value: t('revenue'), label: t('revenue') },
-            { value: t('orders'), label: t('orders') },
-            { value: t('products'), label: t('products') },
-            {
-              value: t('avarage_selling_price'),
-              label: t('avarage_selling_price'),
-            },
-            { value: t('reviews'), label: t('reviews') },
-          ]}
-        />
-        <p className='text-xl font-bold'>
-          {i18n.language === 'uz'
-            ? " - Qaysi ma'lumotlar ko'rsatilsin? "
-            : ' - Какие данные показывать? '}
-        </p>
+        {/* Date range options on the top-right */}
         {/* <p className='text-sm text-blue-500'>{t('select_graph_type')}</p> */}
       </div>
       <Container
-        className='flex h-[480px] w-full flex-col items-end justify-end rounded-md bg-white px-5 py-2 pt-5'
+        className='bg-whit flex h-[480px] w-full flex-col items-end justify-end rounded-md border-none px-5 py-2 pt-5 shadow-none'
         loading={loading}
         // title="Sotuvchining kunlik daromadi, buyurtmalari, izohlari, va mahsulotlari soni, hamda o'rtacha mahsulot narxi"
         titleContainerStyle={{
@@ -225,13 +139,8 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           </>
         </Container>
       )}
-      <p className='mt-5 w-full text-center text-lg font-semibold'>
-        {i18n.language === 'uz'
-          ? "Ushbu jadvalda yuqoridagi grafikdagi ma'lumotlar batafsil ko'rsatilgan"
-          : 'В этой таблице подробно показаны данные из графика выше'}
-      </p>
       <Container
-        className=' flex h-[1000px] w-full flex-col gap-6 rounded-md bg-white'
+        className=' flex h-[1000px] w-full flex-col gap-6 rounded-md border-none shadow-none'
         loading={loading}
       >
         <Table
@@ -284,38 +193,19 @@ function prepareDataset(data: SellerType[], type = 'Daromad', lang = 'uz') {
  * @param orders
  */
 function _prepareOrders(orders: SellerType[], lang: string) {
-  const allOrders: {
-    y: number;
-    x: string;
-  }[] = [];
   const dailyOrders: {
     y: number;
     x: string;
   }[] = [];
 
-  let prevOrders = orders[0]?.total_orders || 0;
-
   orders.slice(1).forEach((item) => {
-    allOrders.push({ y: item.total_orders, x: item.date_pretty });
     dailyOrders.push({
-      y: item.total_orders - prevOrders,
+      y: item.daily_orders,
       x: item.date_pretty,
     });
-    prevOrders = item.total_orders;
   });
 
   return [
-    {
-      data: allOrders,
-      type: 'line' as ChartType,
-      fill: false,
-      borderColor: '#FF5733',
-      backgroundColor: '#FF5733',
-      label: lang === 'uz' ? 'Jami buyurtmalar' : 'Общее количество продаж',
-      hidden: false,
-      pointRadius: 3,
-      pointBackgroundColor: '#FF5733',
-    },
     {
       data: dailyOrders,
       type: 'bar' as ChartType,
@@ -332,41 +222,19 @@ function _prepareOrders(orders: SellerType[], lang: string) {
 }
 
 function _prepareRevenue(revenue: SellerType[], lang: string) {
-  const allRevenue: {
-    y: number;
-    x: string;
-  }[] = [];
   const dailyRevenue: {
     y: number;
     x: string;
   }[] = [];
 
-  let prevRevenue = revenue[0]?.total_revenue || 0;
-
   revenue.slice(1).forEach((item) => {
-    allRevenue.push({
-      y: Math.round((item.total_revenue * 1000) / 1000) * 1000,
-      x: item.date_pretty,
-    });
     dailyRevenue.push({
-      y: Math.round(((item.total_revenue - prevRevenue) * 1000) / 1000) * 1000,
+      y: item.daily_revenue,
       x: item.date_pretty,
     });
-    prevRevenue = item.total_revenue;
   });
 
   return [
-    {
-      data: allRevenue,
-      type: 'line' as ChartType,
-      fill: false,
-      borderColor: '#0D1282',
-      backgroundColor: '#0D1282',
-      label: lang === 'uz' ? 'Jami daromad' : 'Общая выручка',
-      hidden: false,
-      pointRadius: 3,
-      pointBackgroundColor: '#0D1282',
-    },
     {
       data: dailyRevenue,
       type: 'bar' as ChartType,

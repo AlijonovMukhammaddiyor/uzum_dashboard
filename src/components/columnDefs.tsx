@@ -5298,7 +5298,7 @@ export const getShopOverallColumnDefs = (t: any) => {
     {
       headerName: t('orders'),
 
-      field: 'total_orders',
+      field: 'daily_orders',
       sortable: false,
       cellRenderer: LocaleNumberCellRenderer,
       minWidth: 150,
@@ -5307,14 +5307,13 @@ export const getShopOverallColumnDefs = (t: any) => {
         backgroundColor: 'rgba(119, 67, 219, 0.1)',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
     },
     {
       headerName: t('revenue'),
-      field: 'total_revenue',
+      field: 'daily_revenue',
       sortable: true,
       filter: false,
-      cellRenderer: RevenueCellRenderer,
+      cellRenderer: RevenueCellRenderer2,
       flex: 1,
       minWidth: 200,
       cellStyle: {
@@ -5322,7 +5321,6 @@ export const getShopOverallColumnDefs = (t: any) => {
         textAlign: 'center',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
     },
     {
       headerName: t('products_count'),
@@ -5332,10 +5330,9 @@ export const getShopOverallColumnDefs = (t: any) => {
       cellRenderer: LocaleNumberCellRenderer,
       minWidth: 150,
       cellStyle: {
-        backgroundColor: 'rgba(119, 67, 219, 0.1)',
+        // backgroundColor: 'rgba(119, 67, 219, 0.1)',
         fontSize: '14px',
       } as CellStyle,
-      headerClass: 'bg-purple-100',
     },
     {
       headerName: t('categories_count'),
