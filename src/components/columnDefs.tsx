@@ -5307,7 +5307,7 @@ export const getSubcategoriesTableColumnDefs = (t: any, lang: string) => {
     {
       headerName: t('revenue'),
       field: 'revenue',
-      cellRenderer: RevenueCellRenderer,
+      cellRenderer: RevenueCellRenderer2,
       flex: 1,
       filter: false,
       minWidth: 100,
