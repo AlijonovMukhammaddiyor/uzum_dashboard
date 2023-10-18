@@ -73,7 +73,15 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
       // check if it is after 9 am in Tashkent
       // in Asia/Tashkent timezone it is 5 hours ahead of UTC
       const date = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
-      date.setDate(date.getDate() - j);
+
+      // if it is before noon, then we need to subtract 1 day more
+      if (date.getHours() < 12) {
+        date.setDate(date.getDate() - j - 1);
+      } else {
+        date.setDate(date.getDate() - j);
+      }
+
+      // date.setDate(date.getDate() - j);
       const d = date.toISOString().split('T')[0];
       return d;
     })
