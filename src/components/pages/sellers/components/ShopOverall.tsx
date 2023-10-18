@@ -176,23 +176,30 @@ function getData(data: SellerType[]) {
 }
 
 function prepareDataset(data: SellerType[], type = 'Daromad', lang = 'uz') {
+  if (!data) return [];
+
+  const data_ = data.sort((a, b) => {
+    return (
+      new Date(a.date_pretty).getTime() - new Date(b.date_pretty).getTime()
+    );
+  });
   switch (type) {
     case 'Daromad':
     case 'Tushum':
     case 'Выручка':
-      return _prepareRevenue(data, lang);
+      return _prepareRevenue(data_, lang);
     case 'Buyurtmalar':
     case 'Продаж':
-      return _prepareOrders(data, lang);
+      return _prepareOrders(data_, lang);
     case 'Mahsulotlar':
     case 'Продукты':
-      return _prepareProducts(data, lang);
+      return _prepareProducts(data_, lang);
     case 'O`rtacha sotuv narxi':
     case 'Средняя цена продажи':
-      return _preparePrice(data, lang);
+      return _preparePrice(data_, lang);
 
     default:
-      return _prepareReviews(data, lang);
+      return _prepareReviews(data_, lang);
   }
 }
 
