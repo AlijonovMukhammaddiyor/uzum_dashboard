@@ -188,7 +188,7 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
           rowHeight={80}
           headerHeight={60}
           isBalham={true}
-          className='h-[1000px] min-h-full'
+          className={zoomLevel === 1 ? 'h-[120vh]' : ' h-[90vh] min-h-full'}
           columnDefs={getShopDailySaleColumnDefs(t2, i18n.language)}
         />
       </Container>
