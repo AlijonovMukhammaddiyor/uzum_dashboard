@@ -68,21 +68,15 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
   }, []);
 
   const [dates, setDates] = useState<string[]>(
-    Array.from(Array(60).keys())
-      .map((i) => {
-        let j = i + 1;
-        // check if it is after 9 am in Tashkent
-        const date_in_tashkent = new Date().getUTCHours() + 5;
-        const after = date_in_tashkent >= 7;
-
-        if (!after) j++;
-        // in Asia/Tashkent timezone it is 5 hours ahead of UTC
-        const date = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
-        date.setDate(date.getDate() - j);
-        const d = date.toISOString().split('T')[0];
-        return d;
-      })
-      .filter((d) => d !== '2023-07-22')
+    Array.from(Array(60).keys()).map((i) => {
+      const j = i + 1;
+      // check if it is after 9 am in Tashkent
+      // in Asia/Tashkent timezone it is 5 hours ahead of UTC
+      const date = new Date(new Date().getTime() + 5 * 60 * 60 * 1000);
+      date.setDate(date.getDate() - j);
+      const d = date.toISOString().split('T')[0];
+      return d;
+    })
   );
   // get list of past 30 days as yyyy-mm-dd in string. do not add today
   const [date, setDate] = useState<number>(1);
