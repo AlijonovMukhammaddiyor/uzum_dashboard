@@ -50,7 +50,12 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
         `/shop/analytics/` + sellerId + '?range=60'
       )
       .then((res) => {
-        setData(res.data.slice(0));
+        setData(
+          res.data?.map((item) => ({
+            ...item,
+            date_pretty: getDayBefore(item.date_pretty),
+          })) || []
+        );
 
         setLoading(false);
       })
@@ -96,9 +101,7 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           {isActive && (
             <MixedChartSeller
               data={prepareDataset(data, tab, i18n.language) as any}
-              labels={data
-                .slice(1)
-                .map((item) => getDayBefore(item.date_pretty))}
+              labels={data.map((item) => item.date_pretty)}
               style={{
                 height: '440px',
                 maxHeight: '440px',
@@ -163,10 +166,6 @@ export default ShopOverall;
 
 function getData(data: SellerType[]) {
   const temp = [...data];
-  // change date_pretty to getDayBefore(date_pretty)
-  temp.forEach((item) => {
-    item.date_pretty = getDayBefore(item.date_pretty);
-  });
 
   return temp.sort((b, a) => {
     return (
@@ -216,7 +215,7 @@ function _prepareOrders(orders: SellerType[], lang: string) {
   orders.slice(1).forEach((item) => {
     dailyOrders.push({
       y: item.daily_orders,
-      x: getDayBefore(item.date_pretty),
+      x: item.date_pretty,
     });
   });
 
@@ -245,7 +244,7 @@ function _prepareRevenue(revenue: SellerType[], lang: string) {
   revenue.slice(1).forEach((item) => {
     dailyRevenue.push({
       y: item.daily_revenue,
-      x: getDayBefore(item.date_pretty),
+      x: item.date_pretty,
     });
   });
 
@@ -279,11 +278,11 @@ function _prepareProducts(products: SellerType[], lang: string) {
   products.slice(1).forEach((item) => {
     allProducts.push({
       y: item.total_products,
-      x: getDayBefore(item.date_pretty),
+      x: item.date_pretty,
     });
     dailyProducts.push({
       y: item.total_products - prevProducts,
-      x: getDayBefore(item.date_pretty),
+      x: item.date_pretty,
     });
     prevProducts = item.total_products;
   });
@@ -332,11 +331,11 @@ function _prepareReviews(reviews: SellerType[], lang: string) {
   reviews.slice(1).forEach((item) => {
     allReviews.push({
       y: item.total_reviews,
-      x: getDayBefore(item.date_pretty),
+      x: item.date_pretty,
     });
     dailyReviews.push({
       y: item.total_reviews - prevReviews,
-      x: getDayBefore(item.date_pretty),
+      x: item.date_pretty,
     });
     prevReviews = item.total_reviews;
   });
@@ -379,7 +378,7 @@ function _preparePrice(price: SellerType[], lang: string) {
   price.slice(1).forEach((item) => {
     allPrice.push({
       y: item.average_purchase_price,
-      x: getDayBefore(item.date_pretty),
+      x: item.date_pretty,
     });
   });
 
