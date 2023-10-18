@@ -39,3 +39,9 @@ export function getFromSessionStorage(key: string): string | null {
   }
   return null;
 }
+
+export function getDayBefore(day: string /* 2023-10-23 */): string {
+  const date = new Date(day);
+  date.setDate(date.getDate() - 1);
+  return date.toISOString().split('T')[0];
+}

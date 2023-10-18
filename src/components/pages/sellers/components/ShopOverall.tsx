@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import { getDayBefore } from '@/lib/helper';
 import logger from '@/lib/logger';
 
 import { getShopOverallColumnDefs } from '@/components/columnDefs';
@@ -160,6 +161,11 @@ export default ShopOverall;
 
 function getData(data: SellerType[]) {
   const temp = [...data];
+  // change date_pretty to getDayBefore(date_pretty)
+  temp.forEach((item) => {
+    item.date_pretty = getDayBefore(item.date_pretty);
+  });
+
   return temp.sort((b, a) => {
     return (
       new Date(a.date_pretty).getTime() - new Date(b.date_pretty).getTime()
@@ -201,7 +207,7 @@ function _prepareOrders(orders: SellerType[], lang: string) {
   orders.slice(1).forEach((item) => {
     dailyOrders.push({
       y: item.daily_orders,
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
     });
   });
 
@@ -230,7 +236,7 @@ function _prepareRevenue(revenue: SellerType[], lang: string) {
   revenue.slice(1).forEach((item) => {
     dailyRevenue.push({
       y: item.daily_revenue,
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
     });
   });
 
@@ -262,10 +268,13 @@ function _prepareProducts(products: SellerType[], lang: string) {
   let prevProducts = products[0]?.total_products || 0;
 
   products.slice(1).forEach((item) => {
-    allProducts.push({ y: item.total_products, x: item.date_pretty });
+    allProducts.push({
+      y: item.total_products,
+      x: getDayBefore(item.date_pretty),
+    });
     dailyProducts.push({
       y: item.total_products - prevProducts,
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
     });
     prevProducts = item.total_products;
   });
@@ -312,10 +321,13 @@ function _prepareReviews(reviews: SellerType[], lang: string) {
   let prevReviews = reviews[0]?.total_reviews || 0;
 
   reviews.slice(1).forEach((item) => {
-    allReviews.push({ y: item.total_reviews, x: item.date_pretty });
+    allReviews.push({
+      y: item.total_reviews,
+      x: getDayBefore(item.date_pretty),
+    });
     dailyReviews.push({
       y: item.total_reviews - prevReviews,
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
     });
     prevReviews = item.total_reviews;
   });
@@ -356,7 +368,10 @@ function _preparePrice(price: SellerType[], lang: string) {
   }[] = [];
 
   price.slice(1).forEach((item) => {
-    allPrice.push({ y: item.average_purchase_price, x: item.date_pretty });
+    allPrice.push({
+      y: item.average_purchase_price,
+      x: getDayBefore(item.date_pretty),
+    });
   });
 
   return [
