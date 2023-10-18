@@ -82,10 +82,10 @@ const ShopDailySales: React.FC<ShopDailySalesProps> = ({
         const d = date.toISOString().split('T')[0];
         return d;
       })
-      .filter((d) => d !== '2023-07-22  ')
+      .filter((d) => d !== '2023-07-22')
   );
   // get list of past 30 days as yyyy-mm-dd in string. do not add today
-  const [date, setDate] = useState<number>(0);
+  const [date, setDate] = useState<number>(1);
   const { t } = useTranslation('sellers');
   useEffect(() => {
     const api = new API(null);
