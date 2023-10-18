@@ -1398,7 +1398,7 @@ export function DailyOrdersCellRenderer(props: { value: any }) {
 export function DailyOrdersCellRenderer2(props: { value: any }) {
   const { value } = props;
 
-  const color = value < 0 ? 'red' : 'green';
+  const color = value < 0 ? 'red' : value > 0 ? 'green' : 'gray';
   const ChangeIcon = value < 0 ? HiMinusSm : HiOutlinePlusSm;
 
   return (
@@ -1408,7 +1408,11 @@ export function DailyOrdersCellRenderer2(props: { value: any }) {
           <ChangeIcon
             className={clsxm(
               'text-sm',
-              color === 'red' ? 'text-red-500' : 'text-green-500'
+              color === 'red'
+                ? 'text-red-500'
+                : color === 'green'
+                ? 'text-green-500'
+                : 'text-gray-500'
             )}
           />
           <p
