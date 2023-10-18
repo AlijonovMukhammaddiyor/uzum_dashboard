@@ -96,7 +96,9 @@ function ShopOverall({ className, sellerId, isActive }: Props) {
           {isActive && (
             <MixedChartSeller
               data={prepareDataset(data, tab, i18n.language) as any}
-              labels={data.slice(1).map((item) => item.date_pretty)}
+              labels={data
+                .slice(1)
+                .map((item) => getDayBefore(item.date_pretty))}
               style={{
                 height: '440px',
                 maxHeight: '440px',
