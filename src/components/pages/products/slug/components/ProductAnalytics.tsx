@@ -5,6 +5,7 @@ import { FaFileExcel } from 'react-icons/fa';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import { getDayBefore } from '@/lib/helper';
 import logger from '@/lib/logger';
 
 import { getProductAnalyticssColDefs } from '@/components/columnDefs';
@@ -288,7 +289,7 @@ function getLabels(
   if (!data) return [];
   const labels =
     data?.recent_analytics
-      .map((item) => item.date_pretty)
+      .map((item) => getDayBefore(item.date_pretty))
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) ?? [];
 
   if (iscreatedAfter) {
@@ -447,26 +448,26 @@ function prepareAllOrdersDataset(
   for (let i = 0; i < analytics.length; i++) {
     const item = analytics[i];
     orders2.push({
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
       y: item.orders_amount,
     });
     orders.push({
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
       y: item.real_orders_amount,
     });
     reviews.push({
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
       y: item.reviews_amount,
     });
 
     available.push({
-      x: item.date_pretty,
+      x: getDayBefore(item.date_pretty),
       y: item.available_amount,
     });
 
     if (item.date_pretty !== '2023-07-23')
       revenue.push({
-        x: item.date_pretty,
+        x: getDayBefore(item.date_pretty),
         y: item.daily_revenue,
       });
   }

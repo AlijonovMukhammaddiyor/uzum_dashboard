@@ -7,6 +7,7 @@ import Select from 'react-select';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import { getDayBefore } from '@/lib/helper';
 import logger from '@/lib/logger';
 
 import Container from '@/components/layout/Container';
@@ -109,7 +110,12 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
           `/shop/category/${competitor.shop_id}/${Number(categoryId.trim())}/`
         )
         .then((res) => {
-          setCompetitorData(res.data);
+          setCompetitorData(
+            res.data.map((item) => ({
+              ...item,
+              date_pretty: getDayBefore(item.date_pretty),
+            }))
+          );
           setLoading(false);
         })
         .catch((err) => {
@@ -123,7 +129,12 @@ function ShopCompetitors({ className, sellerId, title, isActive }: Props) {
         )
         .then((res) => {
           // setCompetitorData(res.data);
-          setShopData(res.data);
+          setShopData(
+            res.data.map((item) => ({
+              ...item,
+              date_pretty: getDayBefore(item.date_pretty),
+            }))
+          );
           setLoading(false);
         })
         .catch((err) => {

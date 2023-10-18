@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaFileExcel } from 'react-icons/fa';
 
 import clsxm from '@/lib/clsxm';
+import { getDayBefore } from '@/lib/helper';
 
 import { getSkuAnalyticssColDefs } from '@/components/columnDefs';
 import Container from '@/components/layout/Container';
@@ -458,7 +459,7 @@ function getLabels(
       new Date(a.date_pretty).getTime() - new Date(b.date_pretty).getTime()
   );
 
-  const labels = analytics_.map((item) => item.date_pretty);
+  const labels = analytics_.map((item) => getDayBefore(item.date_pretty));
 
   // slice from the start, end should stay
 
@@ -503,28 +504,28 @@ function prepareSkusDataset(
     for (let j = 0; j < analytics.length; j++) {
       const item = analytics[j];
       available.push({
-        x: item.date_pretty,
+        x: getDayBefore(item.date_pretty),
         y: item.available_amount,
         label: sku.sku.toString(),
       });
       orders.push({
-        x: item.date_pretty,
+        x: getDayBefore(item.date_pretty),
         y: item.orders_amount,
         label: sku.sku.toString(),
       });
       revenue.push({
-        x: item.date_pretty,
+        x: getDayBefore(item.date_pretty),
         y: item.orders_amount * item.full_price,
         label: sku.sku.toString(),
       });
       price.push({
-        x: item.date_pretty,
+        x: getDayBefore(item.date_pretty),
         y: item.purchase_price,
         label: sku.sku.toString(),
       });
 
       realPrice.push({
-        x: item.date_pretty,
+        x: getDayBefore(item.date_pretty),
         y: item.full_price,
         label: sku.sku.toString(),
       });
@@ -615,7 +616,11 @@ function preapreTableData(
       (b, a) =>
         new Date(a.date_pretty).getTime() - new Date(b.date_pretty).getTime()
     )
-    .slice(0, days);
+    .slice(0, days)
+    .map((item) => ({
+      ...item,
+      date_pretty: getDayBefore(item.date_pretty),
+    }));
 
   return analyt;
 }

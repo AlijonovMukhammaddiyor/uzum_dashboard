@@ -6,6 +6,7 @@ import { VscDebugBreakpointData } from 'react-icons/vsc';
 
 import API from '@/lib/api';
 import clsxm from '@/lib/clsxm';
+import { getDayBefore } from '@/lib/helper';
 import logger from '@/lib/logger';
 
 import { getCategoryProductsColDefs } from '@/components/columnDefs';
@@ -106,7 +107,12 @@ function ShopCategories({ className, sellerId, isActive }: Props) {
       )
       .then((res) => {
         // logger(res.data, 'Category');
-        setCategoryData(res.data);
+        setCategoryData(
+          res.data?.map((d) => ({
+            ...d,
+            date_pretty: getDayBefore(d.date_pretty),
+          }))
+        );
         const category_id = res.data[0].category_id;
         if (category_id === categoryId) setLoadingCategory(false);
       })
@@ -363,7 +369,7 @@ function getAllProductsData(data: CategoryDataType[], label: string) {
   for (let i = 0; i < data.length; i++) {
     const element = data[i];
     let products = element.total_products;
-    if (element.date_pretty === '2023-06-22') {
+    if (element.date_pretty === '2023-06-21') {
       if (i !== 0) products = data[i - 1].total_products;
       else products = data[i + 1].total_products;
     }
