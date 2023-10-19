@@ -408,7 +408,6 @@ function Tarif({
       business: 70,
       free: 0,
     };
-    console.log(isPromo);
     isKomiljon = isPromo ? true : isKomiljon;
     // isReferred = true;
 
@@ -426,6 +425,7 @@ function Tarif({
 
     if (productType === 'business')
       if (months === 3) return 170;
+      else if (isPromo) return 65;
       else return 70;
 
     // Calculate the show price
@@ -471,12 +471,10 @@ function Tarif({
         open={popupOpen}
         setOpen={setPopupOpen}
         closeModal={() => {
-          console.log(businessCode);
           setPopupOpen(false);
           if (businessCode === '777777') {
             handlePayment();
           } else if (businessCode === 'ajoyib') {
-            console.log('ajoyib22');
             handlePayment(16);
           } else {
             RenderAlert({
