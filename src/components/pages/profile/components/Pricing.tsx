@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Router from 'next/router';
 import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +16,7 @@ import CountingDown from '@/components/pages/profile/components/CountingDown';
 import { RenderAlert } from '@/components/shared/AlertComponent';
 import Button from '@/components/shared/buttons/Button';
 
+import payme from '@/assets/payme.png';
 import { useContextState } from '@/context/Context';
 
 function Pricing({ className }: { className?: string }) {
@@ -578,7 +580,19 @@ function Tarif({
             isCurrentPlan ? 'bg-gray-400' : `bg-${color} hover:bg-${color}-700`
           )}
         >
-          <>{isCurrentPlan ? t('tariffs.current') : buttonTitle}</>
+          <div className='flex items-center justify-center gap-2'>
+            <Image
+              src={payme}
+              alt='payme'
+              className='rounded-md'
+              width={30}
+              height={30}
+              style={{
+                display: isCurrentPlan ? 'none' : 'flex',
+              }}
+            />
+            {isCurrentPlan ? t('tariffs.current') : buttonTitle}
+          </div>
         </Button>
       )}
 
