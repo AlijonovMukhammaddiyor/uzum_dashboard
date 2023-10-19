@@ -34,7 +34,7 @@ function Pricing({ className }: { className?: string }) {
   React.useEffect(() => {
     function handleResize() {
       if (window.innerWidth < 1500) {
-        setZoomLevel(0.75); // 90% zoom for windows less than 600px wide
+        setZoomLevel(0.85); // 90% zoom for windows less than 600px wide
       } else {
         setZoomLevel(1); // 100% zoom otherwise
       }
@@ -83,53 +83,13 @@ function Pricing({ className }: { className?: string }) {
         />
       </div>
 
-      <CountingDown discountEndDate={new Date('2023-10-17T23:59:59')} />
+      <CountingDown discountEndDate={new Date('2023-10-24T23:59:59')} />
       <div
-        className='container mx-auto w-full rounded-md bg-transparent px-4 py-8'
+        className='mx-auto w-full rounded-md bg-transparent px-4 py-8'
         style={{
           zoom: zoomLevel,
         }}
       >
-        {/* 1. Our Promise */}
-        <div className='relative mb-20 rounded-md bg-blue-50 p-6 shadow-md'>
-          <h2 className='text-primary base:text-3xl mb-4 text-center text-xl font-bold'>
-            {i18n.language === 'uz'
-              ? "Bizning va'damiz"
-              : i18n.language === 'ru'
-              ? 'Наше обещание вам'
-              : 'Our Promise to You'}
-          </h2>
-          <ul className='list-inside list-disc space-y-2 text-gray-700'>
-            <li>
-              <strong className='mr-2'>
-                {i18n.language === 'uz'
-                  ? 'Doimiy yordam:'
-                  : i18n.language === 'ru'
-                  ? 'Посвященная поддержка:'
-                  : 'Dedicated Support:'}
-              </strong>
-              {i18n.language === 'uz'
-                ? 'Bizning mutaxassislar jamoamiz sizga har qanday qadamda yordam beradi - 24/7'
-                : i18n.language === 'ru'
-                ? 'Наша команда специалистов готова помочь вам на каждом этапе - 24/7'
-                : 'Our expert team is here to help you at every step.'}
-            </li>
-            <li>
-              <strong className='mr-2'>
-                {i18n.language === 'uz'
-                  ? 'Davomli yangiliklar:'
-                  : i18n.language === 'ru'
-                  ? 'Постоянные обновления:'
-                  : 'Continuous Updates:'}
-              </strong>
-              {i18n.language === 'uz'
-                ? "Muntazam yangilanish va yaxshilanishlar qo'shib boramiz."
-                : i18n.language === 'ru'
-                ? 'Мы регулярно обновляем и улучшаем наш сервис.'
-                : 'Benefit from regular feature updates and enhancements.'}
-            </li>
-          </ul>
-        </div>
         {state.user?.tariff === 'trial' && (
           <div className='mb-8 flex items-center space-x-4 rounded-md border border-yellow-500 bg-yellow-100 p-4 shadow-md'>
             <IoWarningOutline className='text-2xl text-yellow-500' />
@@ -574,8 +534,10 @@ function Tarif({
             }
           }}
           className={clsxm(
-            'w-full transform rounded-md py-2 text-white transition-transform duration-300 hover:scale-105',
-            isCurrentPlan ? 'bg-gray-400' : `bg-${color} hover:bg-${color}-700`
+            'w-full transform rounded-md py-2 text-white transition-transform duration-300 ',
+            isCurrentPlan
+              ? 'bg-gray-400'
+              : `bg-${color} hover:bg-${color}-700 transition-colors hover:bg-purple-900`
           )}
         >
           <div className='flex items-center justify-center gap-2'>
