@@ -250,6 +250,9 @@ function Sidebar({
           <SidebarItem
             href='/profile'
             label={t('sidebar.profile')}
+            className={clsxm(
+              activeTab !== 'Profile' && 'rounded-md border border-slate-500'
+            )}
             icon={
               <BsPerson
                 className={clsxm(
