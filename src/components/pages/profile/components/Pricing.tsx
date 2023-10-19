@@ -339,52 +339,6 @@ function Tarif({
 
   const handlePayment = (discount = 0) => {
     const api = new API(null);
-    alert(
-      i18n.language === 'uz'
-        ? "Hozirda to'lovlar qabul qilish malum muddatga to'xtatilgan"
-        : 'Прием платежей временно приостановлен'
-    );
-    return;
-    // if (isCurrentPlan) return;
-    // if (price === 0) return;
-    // const price_ =
-    //   getPrice(
-    //     isPro
-    //       ? 'base'
-    //       : isProPlus
-    //       ? 'seller'
-    //       : isBusiness
-    //       ? 'business'
-    //       : 'free',
-    //     months,
-    //     state.user?.referred_by === '0746b5' && !state.user?.is_paid, // isReferre
-    //     true, // isReal
-    //     false, // isShow,
-    //     state.user?.referred_by === '280cf3' && !state.user?.is_paid
-    //   ) - discount;
-    // setLoading(true);
-    // api
-    //   .post('/payments/paylink/', {
-    //     amount: Math.floor(price_ * 12000),
-    //     months,
-    //     tariff:
-    //       title === t('tariffs.free')
-    //         ? 'free'
-    //         : title === t('tariffs.beginner')
-    //         ? 'base'
-    //         : title === t('tariffs.seller')
-    //         ? 'seller'
-    //         : 'business',
-    //   })
-    //   .then((res) => {
-    //     logger(res.data, 'res');
-    //     setLoading(false);
-    //     window.location.href = res.data.pay_link;
-    //   })
-    //   .catch((err) => {
-    //     logger(err, 'err');
-    //     setLoading(false);
-    //   });
   };
 
   const isBusiness = title === t('tariffs.business');
