@@ -226,7 +226,7 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       url += `?instant_filter=${instantFilter}`;
     } else {
       const params = makeUrlParams();
-      url += '?';
+      if (params) url += '?';
       url += params;
     }
     api
@@ -245,59 +245,78 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
   };
 
   function downloadExcel(data_: any) {
-    // console.log(data_);
+    console.log(data_);
     // return false;
     const fileType =
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const fileExtension = '.xlsx';
     const data = data_.slice(0, 10000);
     // Filter data to include only the required columns
-    const filteredData = data.map((item: any) => ({
-      product_id: item.product_id,
-      title_ru: item.product_title_ru,
-      title: item.product_title,
-      category_title_ru: item.category_title_ru ?? item.category_title,
-      shop_title: item.shop_title,
-      revenue: Math.round((item.orders_money * 1000) / 1000) * 1000,
-      monthly_revenue:
-        Math.round((item.diff_orders_money * 1000) / 1000) * 1000,
-      weekly_revenue:
-        Math.round((item.weekly_orders_money * 1000) / 1000) * 1000,
-      orders: item.orders_amount,
-      monthly_orders_amount: item.diff_orders_amount,
-      weekly_orders_amount: item.weekly_orders_amount,
-      reviews_amount: item.reviews_amount,
-      monthly_reviews_amount: item.diff_reviews_amount,
-      weekly_reviews_amount: item.weekly_reviews_amount,
-      position_in_subcategory: item.position_in_category,
-      available_in_stock: item.product_available_amount,
-      rating: item.rating,
-      average_purchase_price: Math.round(item.avg_purchase_price / 1000) * 1000,
-    }));
+    const filteredData = data.map((item: any) => {
+      return {
+        product_id: item.product_id,
+        product_title: item.product_title,
+        product_title_ru: item.product_title_ru,
+        category_title: item.category_title,
+        category_title_ru: item.category_title_ru,
+        shop_title: item.shop_title,
+        rating: item.rating,
+        orders_3_days: item.orders_3_days,
+        orders_30_days: item.monthly_orders,
+        orders_90_days: item.orders_90_days,
+        revenue_3_days: item.revenue_3_days,
+        revenue_30_days: item.monthly_revenue,
+        revenue_90_days: item.revenue_90_days,
+        reviews: item.reviews_amount,
+        available_amount: item.product_available_amount,
+        position_in_category: item.position_in_category,
+        avg_purchase_price: item.avg_purchase_price,
+      };
+    });
 
     // Convert the filtered data to a sheet
     const ws = XLSX.utils.json_to_sheet(filteredData);
 
     // Define custom column headers in Russian
     const customHeaders = {
-      A1: 'ID товара',
-      B1: 'Название товара',
-      C1: 'Mahsulot nomi',
-      D1: 'Название категории',
-      E1: 'Название магазина',
-      F1: 'Выручка',
-      G1: 'Выручка (месяц)',
-      H1: 'Выручка (неделя)',
-      I1: 'Заказы',
-      J1: 'Заказы (месяц)',
-      K1: 'Заказы (неделя)',
-      L1: 'Отзывы',
-      M1: 'Отзывы (месяц)',
-      N1: 'Отзывы (неделя)',
-      O1: 'Позиция в подкатегории',
-      P1: 'Кол-во в наличии',
-      Q1: 'Рейтинг',
-      R1: 'Средняя цена покупки',
+      A1: i18n.language === 'uz' ? 'Mahsulot ID' : 'ID товара',
+      B1:
+        i18n.language === 'uz' ? 'Mahsulot nomi - uz' : 'Название товара - uz',
+      C1:
+        i18n.language === 'uz' ? 'Mahsulot nomi - ru' : 'Название товара - ru',
+      D1:
+        i18n.language === 'uz'
+          ? 'Kategoriya nomi - uz'
+          : 'Название категории - uz',
+      E1:
+        i18n.language === 'uz'
+          ? 'Kategoriya nomi - ru'
+          : 'Название категории - ru',
+      F1: i18n.language === 'uz' ? 'Magazin nomi' : 'Название магазина',
+      G1: i18n.language === 'uz' ? 'Reyting' : 'Рейтинг',
+      H1:
+        i18n.language === 'uz'
+          ? '3 kunlik zakazlar soni'
+          : 'Количество заказов за 3 дня',
+      I1:
+        i18n.language === 'uz'
+          ? '30 kunlik zakazlar soni'
+          : 'Количество заказов за 30 дней',
+      J1:
+        i18n.language === 'uz'
+          ? '90 kunlik zakazlar soni'
+          : 'Количество заказов за 90 дней',
+      K1: i18n.language === 'uz' ? '3 kunlik daromad' : 'Выручка за 3 дня',
+      L1: i18n.language === 'uz' ? '30 kunlik daromad' : 'Выручка за 30 дней',
+      M1: i18n.language === 'uz' ? '90 kunlik daromad' : 'Выручка за 90 дней',
+      N1: i18n.language === 'uz' ? 'Izohlar soni' : 'Количество отзывов',
+      O1: i18n.language === 'uz' ? 'Mavjud miqdor' : 'Количество в наличии',
+      P1:
+        i18n.language === 'uz' ? "Kategoriyadagi o'rni" : 'Позиция в категории',
+      Q1:
+        i18n.language === 'uz'
+          ? "O'rtacha sotib olish narxi"
+          : 'Средняя цена покупки',
     };
 
     // Map custom headers to the sheet
@@ -319,27 +338,34 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       { wch: 12 }, // A: ID товара
       { wch: 60 }, // B: Название товара
       { wch: 60 }, // C: Mahsulot nomi
-      { wch: 40 }, // D: Название категории
-      { wch: 30 }, // E: Название магазина
-      { wch: 20 }, // F: Выручка
-      { wch: 20 }, // G: Выручка (месяц)
-      { wch: 20 }, // H: Выручка (неделя)
-      { wch: 20 }, // I: Заказы
-      { wch: 20 }, // J: Заказы (месяц)
-      { wch: 20 }, // K: Заказы (неделя)
-      { wch: 20 }, // L: Отзывы
-      { wch: 20 }, // M: Отзывы (месяц)
-      { wch: 20 }, // N: Отзывы (неделя)
-      { wch: 30 }, // O: Позиция в категории
-      { wch: 30 }, // P: Количество в наличии
-      { wch: 15 }, // Q: Рейтинг
-      { wch: 25 }, // R: Средняя цена покупки
+      { wch: 20 }, // D: Kategoriya nomi
+      { wch: 20 }, // E: Kategoriya nomi
+      { wch: 20 }, // F: Magazin nomi
+      { wch: 20 }, // G: Reyting
+      { wch: 20 }, // H: 3 kunlik zakazlar soni
+      { wch: 20 }, // I: 30 kunlik zakazlar soni
+      { wch: 20 }, // J: 90 kunlik zakazlar soni
+      { wch: 20 }, // K: 3 kunlik daromad
+      { wch: 20 }, // L: 30 kunlik daromad
+      { wch: 20 }, // M: 90 kunlik daromad
+      { wch: 20 }, // N: Izohlar soni
+      { wch: 20 }, // O: Mavjud miqdor
+      { wch: 20 }, // P: Kategoriyadagi o'rni
+      { wch: 30 }, // Q: O'rtacha sotib olish narxi
     ];
 
     ws['!rows'] = [
       { hpx: 40 },
       ...Array(filteredData.length).fill({ hpx: 30 }),
     ];
+
+    // make shop title column bold
+    for (let i = 0; i < filteredData.length; i++) {
+      const cell = `F${i + 2}`;
+      ws[cell].s = {
+        font: { bold: true },
+      };
+    }
 
     const greenGradient = (value: number, min: number, max: number) => {
       if (value === 0) return 'FFFFFF'; // Return white for 0 value
@@ -405,41 +431,24 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
     };
 
     applyGradient(
-      'J',
-      filteredData.map((item: any) => item.monthly_orders_amount),
+      'I',
+      filteredData.map((item: any) => item.orders_30_days),
       greenGradient
     );
     applyGradient(
-      'K',
-      filteredData.map((item: any) => item.weekly_orders_amount),
+      'L',
+      filteredData.map((item: any) => item.revenue_30_days),
       orangeGradient
     );
 
     applyGradient(
-      'L',
-      filteredData.map((item: any) => item.reviews_amount),
+      'Q',
+      filteredData.map((item: any) => item.avg_purchase_price),
       greenGradient
     );
 
     applyGradient(
       'G',
-      filteredData.map((item: any) => item.monthly_revenue),
-      greenGradient
-    );
-    applyGradient(
-      'H',
-      filteredData.map((item: any) => item.weekly_revenue),
-      orangeGradient
-    );
-
-    applyGradient(
-      'R',
-      filteredData.map((item: any) => item.average_purchase_price),
-      greenGradient
-    );
-
-    applyGradient(
-      'Q',
       filteredData.map((item: any) => item.rating),
       orangeGradient
     );
