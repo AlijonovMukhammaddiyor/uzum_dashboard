@@ -338,9 +338,9 @@ function CategoryProductsTable({ categoryId, className, activeTab }: Props) {
       { wch: 12 }, // A: ID товара
       { wch: 60 }, // B: Название товара
       { wch: 60 }, // C: Mahsulot nomi
-      { wch: 20 }, // D: Kategoriya nomi
-      { wch: 20 }, // E: Kategoriya nomi
-      { wch: 20 }, // F: Magazin nomi
+      { wch: 30 }, // D: Kategoriya nomi
+      { wch: 30 }, // E: Kategoriya nomi
+      { wch: 30 }, // F: Magazin nomi
       { wch: 20 }, // G: Reyting
       { wch: 20 }, // H: 3 kunlik zakazlar soni
       { wch: 20 }, // I: 30 kunlik zakazlar soni
