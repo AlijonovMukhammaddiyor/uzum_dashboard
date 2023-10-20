@@ -56,7 +56,7 @@ function HomeStatisticsContainer({
   const [tree, setTree] = React.useState<TreeType | null>();
   const [monthlyTree, setMonthlyTree] = React.useState<TreeType | null>();
   const [weeklyTree, setWeeklyTree] = React.useState<TreeType | null>();
-  const [data, setData] = React.useState<TreeType | null>();
+
   const { t, i18n } = useTranslation('common');
 
   const [loading, setLoading] = React.useState<{
@@ -88,8 +88,9 @@ function HomeStatisticsContainer({
     i18n.language === 'ru' ? 'Заказы' : 'Buyurtmalar'
   );
   const [activeDateRange, setActiveDateRange] = useState(
-    i18n.language === 'ru' ? '30 дней' : '30 kun'
+    i18n.language === 'ru' ? '7 дней' : '7 kun'
   );
+  const [data, setData] = React.useState<TreeType | null>();
   const [depth, setDepth] = React.useState(1);
 
   const [zoomLevel, setZoomLevel] = React.useState(1);
@@ -125,7 +126,6 @@ function HomeStatisticsContainer({
       .then((res) => {
         // logger(res.data, 'Segmentation');
         setMonthlyTree(res.data);
-        setData(res.data);
         setLoading((prev) => ({ ...prev, monthlySegments: false }));
       })
       .catch((err) => {
@@ -139,6 +139,7 @@ function HomeStatisticsContainer({
       .then((res) => {
         // logger(res.data, 'Segmentation');
         setWeeklyTree(res.data);
+        setData(res.data);
         setLoading((prev) => ({ ...prev, weeklySegments: false }));
       })
       .catch((err) => {
@@ -163,22 +164,6 @@ function HomeStatisticsContainer({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language]);
-
-  const getData = () => {
-    if (activeTab === 'Выручка' || activeTab === 'Tushum') {
-      return data?.revenue?.data;
-    }
-    if (activeTab === 'Заказы' || activeTab === 'Buyurtmalar') {
-      return data?.orders?.data;
-    }
-    if (activeTab === 'Продукты' || activeTab === 'Mahsulotlar') {
-      return data?.products?.data;
-    }
-    if (activeTab === 'Магазины' || activeTab === "Do'konlar") {
-      return data?.shops?.data;
-    }
-    return data?.orders?.data;
-  };
 
   return (
     <div
@@ -249,6 +234,11 @@ function HomeStatisticsContainer({
             i18n.language === 'ru' ? 'Все' : 'Hammasi',
           ].map((dateRange) => (
             <button
+              disabled={
+                loading.segments ||
+                loading.monthlySegments ||
+                loading.weeklySegments
+              }
               key={dateRange}
               className={clsxm(
                 'border border-gray-300 px-4 py-1 transition-colors',
