@@ -167,7 +167,10 @@ function HomeStatisticsContainer({
 
   return (
     <div
-      className={clsxm('relative flex h-full w-full flex-col gap-4', className)}
+      className={clsxm(
+        'relative flex h-full w-full flex-col gap-4 pt-6',
+        className
+      )}
       style={
         {
           // zoom: zoomLevel,
